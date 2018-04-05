@@ -1,0 +1,1045 @@
+<Type Name="MessageEnumerator" FullName="System.Messaging.MessageEnumerator">
+  <Metadata>
+    <Meta Name="ms.openlocfilehash" Value="6a3039a11d941cd3db611cb997eb17835525e4da" />
+    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
+    <Meta Name="ms.translationtype" Value="HT" />
+    <Meta Name="ms.contentlocale" Value="zh-CN" />
+    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
+  </Metadata>
+  <TypeSignature Language="C#" Value="public class MessageEnumerator : MarshalByRefObject, IDisposable, System.Collections.IEnumerator" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit MessageEnumerator extends System.MarshalByRefObject implements class System.Collections.IEnumerator, class System.IDisposable" />
+  <TypeSignature Language="DocId" Value="T:System.Messaging.MessageEnumerator" />
+  <TypeSignature Language="VB.NET" Value="Public Class MessageEnumerator&#xA;Inherits MarshalByRefObject&#xA;Implements IDisposable, IEnumerator" />
+  <TypeSignature Language="C++ CLI" Value="public ref class MessageEnumerator : MarshalByRefObject, IDisposable, System::Collections::IEnumerator" />
+  <AssemblyInfo>
+    <AssemblyName>System.Messaging</AssemblyName>
+    <AssemblyVersion>4.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.MarshalByRefObject</BaseTypeName>
+  </Base>
+  <Interfaces>
+    <Interface>
+      <InterfaceName>System.Collections.IEnumerator</InterfaceName>
+    </Interface>
+    <Interface>
+      <InterfaceName>System.IDisposable</InterfaceName>
+    </Interface>
+  </Interfaces>
+  <Docs>
+    <summary>
+      <span data-ttu-id="d52ff-101">提供一个只进游标，用于枚举消息队列中的消息。</span>
+      <span class="sxs-lookup">
+        <span data-stu-id="d52ff-101">Provides a forward-only cursor to enumerate through messages in a message queue.</span>
+      </span>
+    </summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="d52ff-102">使用<xref:System.Messaging.MessageEnumerator>与队列中的消息进行动态交互。</span><span class="sxs-lookup"><span data-stu-id="d52ff-102">Use <xref:System.Messaging.MessageEnumerator> for dynamic interaction with messages in a queue.</span></span> <span data-ttu-id="d52ff-103">方法可通过<xref:System.Messaging.MessageQueue>类可以返回<xref:System.Messaging.MessageEnumerator>指向的消息队列或在给定时刻的快照的队列时包含副本的数组中的动态列表指定的方法调用。</span><span class="sxs-lookup"><span data-stu-id="d52ff-103">Methods available through the <xref:System.Messaging.MessageQueue> class can return either a <xref:System.Messaging.MessageEnumerator> pointing to a dynamic list of messages in the queue, or an array that contains a copy at a given instant - a snapshot - of the queue at the time the specified method was called.</span></span>  
+  
+ <span data-ttu-id="d52ff-104">与不同的是静态的快照，枚举数可以修改该集合。</span><span class="sxs-lookup"><span data-stu-id="d52ff-104">Unlike a static snapshot, an enumerator allows you to modify the collection.</span></span> <span data-ttu-id="d52ff-105">使用<xref:System.Messaging.MessageEnumerator>、 可以从队列中删除消息和更改会立即反映在队列中。</span><span class="sxs-lookup"><span data-stu-id="d52ff-105">Using a <xref:System.Messaging.MessageEnumerator>, you can remove messages from the queue, and the change is immediately reflected in the queue.</span></span>  
+  
+ <span data-ttu-id="d52ff-106">一个枚举器不会从队列删除消息，当它查询队列时。</span><span class="sxs-lookup"><span data-stu-id="d52ff-106">An enumerator does not remove the messages from the queue when it queries the queue.</span></span> <span data-ttu-id="d52ff-107">它将返回有关在当前光标位置，消息的信息，但它消息仍会保留在队列中。</span><span class="sxs-lookup"><span data-stu-id="d52ff-107">It returns information about the message at the current cursor position, but it leaves the message in the queue.</span></span>  
+  
+ <span data-ttu-id="d52ff-108">A<xref:System.Messaging.MessageEnumerator>是光标，初始化为动态列表的开头。</span><span class="sxs-lookup"><span data-stu-id="d52ff-108">A <xref:System.Messaging.MessageEnumerator> is a cursor, initialized to the head of a dynamic list.</span></span> <span data-ttu-id="d52ff-109">列表顺序操作在队列中，消息的顺序相同根据消息优先级。</span><span class="sxs-lookup"><span data-stu-id="d52ff-109">The list order is the same as the order of the messages in the queue, according to message priority.</span></span> <span data-ttu-id="d52ff-110">你可以将光标移到队列中的第一个消息中通过调用<xref:System.Messaging.MessageEnumerator.MoveNext%2A>。</span><span class="sxs-lookup"><span data-stu-id="d52ff-110">You can move the cursor to the first message in the queue by calling <xref:System.Messaging.MessageEnumerator.MoveNext%2A>.</span></span> <span data-ttu-id="d52ff-111">枚举数已初始化后，你可以使用<xref:System.Messaging.MessageEnumerator.MoveNext%2A>转发逐步执行其余的消息。</span><span class="sxs-lookup"><span data-stu-id="d52ff-111">After the enumerator has been initialized, you can use <xref:System.Messaging.MessageEnumerator.MoveNext%2A> to step forward through the remaining messages.</span></span> <span data-ttu-id="d52ff-112">你可以指定是否要等待的消息变得可用，通过将传递到超时<xref:System.Messaging.MessageEnumerator.MoveNext%2A>方法。</span><span class="sxs-lookup"><span data-stu-id="d52ff-112">You can specify whether to wait for a message to become available by passing a timeout into the <xref:System.Messaging.MessageEnumerator.MoveNext%2A> method.</span></span>  
+  
+ <span data-ttu-id="d52ff-113">枚举数是动态的因为可以通过枚举器访问光标的当前位置 （例如，由于低优先级），之后追加一条消息。</span><span class="sxs-lookup"><span data-stu-id="d52ff-113">Because the enumerator is dynamic, a message that is appended beyond the cursor's current position (for example, due to low priority), can be accessed by the enumerator.</span></span> <span data-ttu-id="d52ff-114">无法访问光标的当前位置之前插入一条消息。</span><span class="sxs-lookup"><span data-stu-id="d52ff-114">A message that is inserted before the cursor's current position cannot be accessed.</span></span> <span data-ttu-id="d52ff-115">不能逐步向后与<xref:System.Messaging.MessageEnumerator>。</span><span class="sxs-lookup"><span data-stu-id="d52ff-115">It is not possible to step backward with a <xref:System.Messaging.MessageEnumerator>.</span></span> <span data-ttu-id="d52ff-116">游标允许仅向前移动。</span><span class="sxs-lookup"><span data-stu-id="d52ff-116">A cursor allows forward-only movement.</span></span> <span data-ttu-id="d52ff-117"><xref:System.Messaging.MessageEnumerator.Reset%2A>方法使你能够将光标放回队列的开头。</span><span class="sxs-lookup"><span data-stu-id="d52ff-117">The <xref:System.Messaging.MessageEnumerator.Reset%2A> method enables you to place the cursor back at the beginning of the queue.</span></span>  
+  
+ <span data-ttu-id="d52ff-118">实例<xref:System.Messaging.MessageEnumerator>为给定队列中独立工作。</span><span class="sxs-lookup"><span data-stu-id="d52ff-118">Instances of <xref:System.Messaging.MessageEnumerator> for a given queue work independently.</span></span> <span data-ttu-id="d52ff-119">你可以创建两个<xref:System.Messaging.MessageEnumerator>将应用于同一个队列的实例。</span><span class="sxs-lookup"><span data-stu-id="d52ff-119">You can create two <xref:System.Messaging.MessageEnumerator> instances that apply to the same queue.</span></span> <span data-ttu-id="d52ff-120">所做的更改，其中一个<xref:System.Messaging.MessageEnumerator>人员对队列中的消息将会立即反映在第二个枚举器中如果第二个枚举数定位早于第一个。</span><span class="sxs-lookup"><span data-stu-id="d52ff-120">The changes that one <xref:System.Messaging.MessageEnumerator> makes to the messages in the queue will be reflected immediately in a second enumerator if the second enumerator is positioned before the first.</span></span> <span data-ttu-id="d52ff-121">但是，如果两个枚举器具有相同的位置，并且其中之一中删除该位置的消息，将引发异常如果其他枚举器尝试获取的值<xref:System.Messaging.MessageEnumerator.Current%2A>属性，现已删除消息。</span><span class="sxs-lookup"><span data-stu-id="d52ff-121">However, if two enumerators have the same position and one of them removes the message at that position, an exception is thrown if the other enumerator attempts to get the value of the <xref:System.Messaging.MessageEnumerator.Current%2A> property on the now-deleted message.</span></span>  
+  
+> [!NOTE]
+>  <span data-ttu-id="d52ff-122">如果你创建的实例<xref:System.Messaging.MessageQueue>与<xref:System.Messaging.MessageQueue.DenySharedReceive%2A?displayProperty=nameWithType>设置为`true`，没有其他应用程序可以修改你的枚举器中的消息，虽然有与队列连接。</span><span class="sxs-lookup"><span data-stu-id="d52ff-122">If you create an instance of <xref:System.Messaging.MessageQueue> with <xref:System.Messaging.MessageQueue.DenySharedReceive%2A?displayProperty=nameWithType> set to `true`, no other application can modify the messages in your enumerator while you have the connection to the queue.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="d52ff-123">下面的示例获取队列中的动态列表的消息，并使用的所有消息进行都计数<xref:System.Messaging.Message.Priority%2A>属性设置为<xref:System.Messaging.MessagePriority.Lowest?displayProperty=nameWithType>。</span><span class="sxs-lookup"><span data-stu-id="d52ff-123">The following example gets a dynamic list of messages in a queue and counts all messages with the <xref:System.Messaging.Message.Priority%2A> property set to <xref:System.Messaging.MessagePriority.Lowest?displayProperty=nameWithType>.</span></span>  
+  
+ [!code-cpp[MessageQueue.GetMessageEnumerator#1](~/samples/snippets/cpp/VS_Snippets_Remoting/MessageQueue.GetMessageEnumerator/CPP/mqgetmessageenumerator.cpp#1)]
+ [!code-csharp[MessageQueue.GetMessageEnumerator#1](~/samples/snippets/csharp/VS_Snippets_Remoting/MessageQueue.GetMessageEnumerator/CS/mqgetmessageenumerator.cs#1)]
+ [!code-vb[MessageQueue.GetMessageEnumerator#1](~/samples/snippets/visualbasic/VS_Snippets_Remoting/MessageQueue.GetMessageEnumerator/VB/mqgetmessageenumerator.vb#1)]  
+  
+ ]]></format>
+    </remarks>
+    <altmember cref="T:System.Messaging.Message" />
+    <altmember cref="M:System.Messaging.MessageQueue.GetMessageEnumerator2" />
+  </Docs>
+  <Members>
+    <Member MemberName="Close">
+      <MemberSignature Language="C#" Value="public void Close ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void Close() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Messaging.MessageEnumerator.Close" />
+      <MemberSignature Language="VB.NET" Value="Public Sub Close ()" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void Close();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Messaging</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="d52ff-124">释放与枚举数关联的资源。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d52ff-124">Frees the resources associated with the enumerator.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="d52ff-125">光标的生命周期内，操作系统会保留到队列的打开句柄。</span><span class="sxs-lookup"><span data-stu-id="d52ff-125">The operating system retains an open handle to the queue during the lifetime of the cursor.</span></span> <span data-ttu-id="d52ff-126">当你完成有关使用枚举器时，调用<xref:System.Messaging.MessageEnumerator.Close%2A>以释放与句柄关联的资源。</span><span class="sxs-lookup"><span data-stu-id="d52ff-126">When you have finished working with the enumerator, call <xref:System.Messaging.MessageEnumerator.Close%2A> to release the resources associated with the handle.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="M:System.Messaging.MessageEnumerator.MoveNext" />
+      </Docs>
+    </Member>
+    <Member MemberName="Current">
+      <MemberSignature Language="C#" Value="public System.Messaging.Message Current { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class System.Messaging.Message Current" />
+      <MemberSignature Language="DocId" Value="P:System.Messaging.MessageEnumerator.Current" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property Current As Message" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::Messaging::Message ^ Current { System::Messaging::Message ^ get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Messaging</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Messaging.Message</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="d52ff-127">获取该枚举数指向的当前 <see cref="T:System.Messaging.Message" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d52ff-127">Gets the current <see cref="T:System.Messaging.Message" /> that this enumerator points to.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="d52ff-128">当前消息。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d52ff-128">The current message.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="d52ff-129">创建枚举器时，它指向上第一条消息之前的位置的队列的开头。</span><span class="sxs-lookup"><span data-stu-id="d52ff-129">When the enumerator is created, it points to the head of the queue, at a location before the first message.</span></span> <span data-ttu-id="d52ff-130">在这种情况下，<xref:System.Messaging.MessageEnumerator.Current%2A>无效，将引发异常，如果访问它。</span><span class="sxs-lookup"><span data-stu-id="d52ff-130">In this case, <xref:System.Messaging.MessageEnumerator.Current%2A> is not valid and will throw an exception if it is accessed.</span></span> <span data-ttu-id="d52ff-131">必须调用<xref:System.Messaging.MessageEnumerator.MoveNext%2A>将光标定位在队列中的第一个消息。</span><span class="sxs-lookup"><span data-stu-id="d52ff-131">You must call <xref:System.Messaging.MessageEnumerator.MoveNext%2A> to position the cursor at the first message in the queue.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.InvalidOperationException">
+          <span data-ttu-id="d52ff-132">您在第一次调用 <see cref="P:System.Messaging.MessageEnumerator.Current" /> 之前调用了 <see cref="M:System.Messaging.MessageEnumerator.MoveNext" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d52ff-132">You called <see cref="P:System.Messaging.MessageEnumerator.Current" /> before the first call to <see cref="M:System.Messaging.MessageEnumerator.MoveNext" />.</span>
+          </span>
+          <span data-ttu-id="d52ff-133">游标位于消息枚举的第一个元素之前。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d52ff-133">The cursor is located before the first element of the message enumeration.</span>
+          </span>
+          <span data-ttu-id="d52ff-134">或</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d52ff-134">-or-</span>
+          </span>
+          <span data-ttu-id="d52ff-135">您在对 <see cref="P:System.Messaging.MessageEnumerator.Current" /> 的调用返回 <see langword="false" />（指示游标位于消息枚举中的最后一个元素之后）之后调用了 <see cref="M:System.Messaging.MessageEnumerator.MoveNext" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d52ff-135">You called <see cref="P:System.Messaging.MessageEnumerator.Current" /> after a call to <see cref="M:System.Messaging.MessageEnumerator.MoveNext" /> had returned <see langword="false" /> (indicating the cursor is located after the last element of the message enumeration.)</span>
+          </span>
+        </exception>
+        <exception cref="T:System.Messaging.MessageQueueException">
+          <span data-ttu-id="d52ff-136">枚举数当前所指向的消息不再存在。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d52ff-136">The message the enumerator is currently pointing to no longer exists.</span>
+          </span>
+          <span data-ttu-id="d52ff-137">可能已将其删除。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d52ff-137">It might have been deleted.</span>
+          </span>
+        </exception>
+        <altmember cref="M:System.Messaging.MessageEnumerator.MoveNext" />
+        <altmember cref="M:System.Messaging.MessageEnumerator.Reset" />
+        <altmember cref="M:System.Messaging.MessageQueue.GetMessageEnumerator" />
+      </Docs>
+    </Member>
+    <Member MemberName="CursorHandle">
+      <MemberSignature Language="C#" Value="public IntPtr CursorHandle { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance native int CursorHandle" />
+      <MemberSignature Language="DocId" Value="P:System.Messaging.MessageEnumerator.CursorHandle" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property CursorHandle As IntPtr" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property IntPtr CursorHandle { IntPtr get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Messaging</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.IntPtr</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="d52ff-138">获取用于浏览队列消息的本机消息队列游标句柄。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d52ff-138">Gets the native Message Queuing cursor handle used to browse messages in the queue.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="d52ff-139">本机游标句柄。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d52ff-139">The native cursor handle.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="d52ff-140">此属性包含在枚举的本机句柄。</span><span class="sxs-lookup"><span data-stu-id="d52ff-140">This property contains the native handle to the enumeration.</span></span> <span data-ttu-id="d52ff-141">当你完成有关使用枚举器时，调用<xref:System.Messaging.MessageEnumerator.Close%2A>以释放此资源。</span><span class="sxs-lookup"><span data-stu-id="d52ff-141">When you have finished working with the enumerator, call <xref:System.Messaging.MessageEnumerator.Close%2A> to release this resource.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.Messaging.MessageQueueException">
+          <span data-ttu-id="d52ff-142">此句柄不存在。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d52ff-142">The handle does not exist.</span>
+          </span>
+        </exception>
+        <altmember cref="P:System.Messaging.MessageEnumerator.Current" />
+      </Docs>
+    </Member>
+    <MemberGroup MemberName="Dispose">
+      <AssemblyInfo>
+        <AssemblyName>System.Messaging</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Docs>
+        <summary>
+          <span data-ttu-id="d52ff-143">释放由 <see cref="T:System.Messaging.MessageEnumerator" /> 占用的资源。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d52ff-143">Releases the resources used by the <see cref="T:System.Messaging.MessageEnumerator" />.</span>
+          </span>
+        </summary>
+      </Docs>
+    </MemberGroup>
+    <Member MemberName="Dispose">
+      <MemberSignature Language="C#" Value="public void Dispose ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void Dispose() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Messaging.MessageEnumerator.Dispose" />
+      <MemberSignature Language="VB.NET" Value="Public Sub Dispose ()" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual void Dispose();" />
+      <MemberType>Method</MemberType>
+      <Implements>
+        <InterfaceMember>M:System.IDisposable.Dispose</InterfaceMember>
+      </Implements>
+      <AssemblyInfo>
+        <AssemblyName>System.Messaging</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="d52ff-144">释放由 <see cref="T:System.Messaging.MessageEnumerator" /> 使用的所有资源。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d52ff-144">Releases all resources used by the <see cref="T:System.Messaging.MessageEnumerator" />.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="d52ff-145">调用<xref:System.Messaging.MessageEnumerator.Dispose%2A>允许使用的资源<xref:System.Messaging.MessageEnumerator>可以重新分配用于其他目的。</span><span class="sxs-lookup"><span data-stu-id="d52ff-145">Calling <xref:System.Messaging.MessageEnumerator.Dispose%2A> allows the resources used by the <xref:System.Messaging.MessageEnumerator> to be reallocated for other purposes.</span></span> <span data-ttu-id="d52ff-146">有关详细信息<xref:System.Messaging.MessageEnumerator.Dispose%2A>，请参阅[清洗向上非托管资源](~/docs/standard/garbage-collection/unmanaged.md)。</span><span class="sxs-lookup"><span data-stu-id="d52ff-146">For more information about <xref:System.Messaging.MessageEnumerator.Dispose%2A>, see [Cleaning Up Unmanaged Resources](~/docs/standard/garbage-collection/unmanaged.md).</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Dispose">
+      <MemberSignature Language="C#" Value="protected virtual void Dispose (bool disposing);" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig newslot virtual instance void Dispose(bool disposing) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Messaging.MessageEnumerator.Dispose(System.Boolean)" />
+      <MemberSignature Language="VB.NET" Value="Protected Overridable Sub Dispose (disposing As Boolean)" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; virtual void Dispose(bool disposing);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Messaging</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="disposing" Type="System.Boolean" />
+      </Parameters>
+      <Docs>
+        <param name="disposing">
+          <span data-ttu-id="d52ff-147">若要释放托管资源和非托管资源，则为 <see langword="true" />；若仅释放非托管资源，则为 <see langword="false" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d52ff-147">
+              <see langword="true" /> to release both managed and unmanaged resources; <see langword="false" /> to release only unmanaged resources.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="d52ff-148">释放由 <see cref="T:System.Messaging.MessageEnumerator" /> 占用的非托管资源，还可以另外再释放托管资源。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d52ff-148">Releases the unmanaged resources used by the <see cref="T:System.Messaging.MessageEnumerator" /> and optionally releases the managed resources.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="d52ff-149">此方法称为由公共<xref:System.Messaging.MessageEnumerator.Dispose%2A>方法和<xref:System.Object.Finalize%2A>方法。</span><span class="sxs-lookup"><span data-stu-id="d52ff-149">This method is called by the public <xref:System.Messaging.MessageEnumerator.Dispose%2A> method and the <xref:System.Object.Finalize%2A> method.</span></span> <span data-ttu-id="d52ff-150">`Dispose()` 调用受保护`Dispose(Boolean)`方法替换`disposing`参数设置为`true`。</span><span class="sxs-lookup"><span data-stu-id="d52ff-150">`Dispose()` invokes the protected `Dispose(Boolean)` method with the `disposing` parameter set to `true`.</span></span> <span data-ttu-id="d52ff-151"><xref:System.Object.Finalize%2A> 调用`Dispose`与`disposing`设置为`false`。</span><span class="sxs-lookup"><span data-stu-id="d52ff-151"><xref:System.Object.Finalize%2A> invokes `Dispose` with `disposing` set to `false`.</span></span>  
+  
+ <span data-ttu-id="d52ff-152">当 `disposing` 参数为 `true` 时，此方法释放该 <xref:System.Messaging.MessageEnumerator> 引用的、由任何托管对象持有的全部资源。</span><span class="sxs-lookup"><span data-stu-id="d52ff-152">When the `disposing` parameter is `true`, this method releases all resources held by any managed objects that this <xref:System.Messaging.MessageEnumerator> references.</span></span> <span data-ttu-id="d52ff-153">此方法调用每个引用对象的 `Dispose()` 方法。</span><span class="sxs-lookup"><span data-stu-id="d52ff-153">This method invokes the `Dispose()` method of each referenced object.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <block subset="none" type="overrides">
+          <para>
+            <span data-ttu-id="d52ff-154">
+              <see langword="Dispose" /> 可以由其他对象多次调用。</span>
+            <span class="sxs-lookup">
+              <span data-stu-id="d52ff-154">
+                <see langword="Dispose" /> can be called multiple times by other objects.</span>
+            </span>
+            <span data-ttu-id="d52ff-155">重写 <see langword="Dispose(Boolean)" /> 时，请注意不要引用在以前调用 <see langword="Dispose" /> 时已释放的对象。</span>
+            <span class="sxs-lookup">
+              <span data-stu-id="d52ff-155">When overriding <see langword="Dispose(Boolean)" />, be careful not to reference objects that have been previously disposed of in an earlier call to <see langword="Dispose" />.</span>
+            </span>
+            <span data-ttu-id="d52ff-156">有关如何实现详细信息<see langword="Dispose" />，请参阅[实现 Dispose 方法](~/docs/standard/garbage-collection/implementing-dispose.md)。</span>
+            <span class="sxs-lookup">
+              <span data-stu-id="d52ff-156">For more information about how to implement <see langword="Dispose" />, see [Implementing a Dispose Method](~/docs/standard/garbage-collection/implementing-dispose.md).</span>
+            </span>
+            <span data-ttu-id="d52ff-157">有关详细信息<see langword="Dispose" />和<see langword="Finalize" />，请参阅[清洗向上非托管资源](~/docs/standard/garbage-collection/unmanaged.md)和[重写 Finalize 方法](http://msdn.microsoft.com/library/8026cb68-fe93-43fc-96c1-c09ad7d64cd3)。</span>
+            <span class="sxs-lookup">
+              <span data-stu-id="d52ff-157">For more information about <see langword="Dispose" /> and <see langword="Finalize" />, see [Cleaning Up Unmanaged Resources](~/docs/standard/garbage-collection/unmanaged.md) and [Overriding the Finalize Method](http://msdn.microsoft.com/library/8026cb68-fe93-43fc-96c1-c09ad7d64cd3).</span>
+            </span>
+          </para>
+        </block>
+      </Docs>
+    </Member>
+    <Member MemberName="Finalize">
+      <MemberSignature Language="C#" Value="~MessageEnumerator ();" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig virtual instance void Finalize() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Messaging.MessageEnumerator.Finalize" />
+      <MemberSignature Language="VB.NET" Value="Finalize ()" />
+      <MemberSignature Language="C++ CLI" Value="!MessageEnumerator ()" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Messaging</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <MemberGroup MemberName="MoveNext">
+      <AssemblyInfo>
+        <AssemblyName>System.Messaging</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Docs>
+        <summary>
+          <span data-ttu-id="d52ff-158">使枚举数前进到队列中的下一条消息。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d52ff-158">Advances the enumerator to the next message in the queue.</span>
+          </span>
+        </summary>
+      </Docs>
+    </MemberGroup>
+    <Member MemberName="MoveNext">
+      <MemberSignature Language="C#" Value="public bool MoveNext ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance bool MoveNext() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Messaging.MessageEnumerator.MoveNext" />
+      <MemberSignature Language="VB.NET" Value="Public Function MoveNext () As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual bool MoveNext();" />
+      <MemberType>Method</MemberType>
+      <Implements>
+        <InterfaceMember>M:System.Collections.IEnumerator.MoveNext</InterfaceMember>
+      </Implements>
+      <AssemblyInfo>
+        <AssemblyName>System.Messaging</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="d52ff-159">如果当前队列中有下一条可用的消息，则使枚举数前进到该消息。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d52ff-159">Advances the enumerator to the next message in the queue, if one is currently available.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="d52ff-160">枚举数成功地前进到下一条消息时为 <see langword="true" />；枚举数已经到达队列的末尾时为 <see langword="false" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d52ff-160">
+              <see langword="true" /> if the enumerator was succesfully advanced to the next message; <see langword="false" /> if the enumerator has reached the end of the queue.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="d52ff-161">此重载立即返回队列中是否存在任何消息。</span><span class="sxs-lookup"><span data-stu-id="d52ff-161">This overload returns immediately if there is no message in the queue.</span></span> <span data-ttu-id="d52ff-162">没有等待指定的另一个重载<xref:System.TimeSpan>到达的消息。</span><span class="sxs-lookup"><span data-stu-id="d52ff-162">There is another overload that waits a specified <xref:System.TimeSpan> for a message to arrive.</span></span>  
+  
+ <span data-ttu-id="d52ff-163">如果因为队列为空，或者已经移动到集合中的最后一个元素以外，一条消息不是当前可用<xref:System.Messaging.MessageEnumerator.MoveNext%2A>返回`false`到调用方法。</span><span class="sxs-lookup"><span data-stu-id="d52ff-163">If a message is not currently available because the queue is empty or because you have moved beyond the last element in the collection, <xref:System.Messaging.MessageEnumerator.MoveNext%2A> returns `false` to the calling method.</span></span>  
+  
+ <span data-ttu-id="d52ff-164">创建后，枚举数从概念上讲位于之前的队列和首次调用的第一条<xref:System.Messaging.MessageEnumerator.MoveNext%2A>带入视图您第一条消息的队列。</span><span class="sxs-lookup"><span data-stu-id="d52ff-164">Upon creation, an enumerator is conceptually positioned before the first message of the queue, and the first call to <xref:System.Messaging.MessageEnumerator.MoveNext%2A> brings the first message of the queue into view.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.Messaging.MessageQueueException">
+          <span data-ttu-id="d52ff-165">引发了消息队列特定的异常。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d52ff-165">An exception specific to Message Queuing was thrown.</span>
+          </span>
+        </exception>
+        <altmember cref="P:System.Messaging.MessageEnumerator.Current" />
+        <altmember cref="M:System.Messaging.MessageEnumerator.Reset" />
+        <altmember cref="T:System.Messaging.Message" />
+      </Docs>
+    </Member>
+    <Member MemberName="MoveNext">
+      <MemberSignature Language="C#" Value="public bool MoveNext (TimeSpan timeout);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance bool MoveNext(valuetype System.TimeSpan timeout) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Messaging.MessageEnumerator.MoveNext(System.TimeSpan)" />
+      <MemberSignature Language="VB.NET" Value="Public Function MoveNext (timeout As TimeSpan) As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; bool MoveNext(TimeSpan timeout);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Messaging</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="timeout" Type="System.TimeSpan" />
+      </Parameters>
+      <Docs>
+        <param name="timeout">
+          <span data-ttu-id="d52ff-166">枚举数位于队列的末尾时，等待消息变得可用的 <see cref="T:System.TimeSpan" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d52ff-166">The <see cref="T:System.TimeSpan" /> to wait for a message to be available if the enumerator is positioned at the end of the queue.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="d52ff-167">使枚举数前进到队列中的下一条消息。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d52ff-167">Advances the enumerator to the next message in the queue.</span>
+          </span>
+          <span data-ttu-id="d52ff-168">如果枚举数位于队列的末尾，则 <see cref="M:System.Messaging.MessageEnumerator.MoveNext" /> 将一直等到消息可用或给定 timeout 到期为止。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d52ff-168">If the enumerator is positioned at the end of the queue, <see cref="M:System.Messaging.MessageEnumerator.MoveNext" /> waits until a message is available or the given timeout expires.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="d52ff-169">如果枚举数成功地前进到下一条消息，为 <see langword="true" />；如果枚举数已经到达队列的末尾，并且在 <paramref name="timeout" /> 参数所指定的时间内没有消息变得可用，则为 <see langword="false" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d52ff-169">
+              <see langword="true" /> if the enumerator successfully advanced to the next message; <see langword="false" /> if the enumerator has reached the end of the queue and a message does not become available within the time specified by the <paramref name="timeout" /> parameter.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="d52ff-170">此重载等待队列中没有消息时或如果游标到达队列的末尾。</span><span class="sxs-lookup"><span data-stu-id="d52ff-170">This overload waits if there is no message in the queue or if the cursor has reached the end of the queue.</span></span> <span data-ttu-id="d52ff-171">如果因为队列为空，或者已经移动到集合中的最后一个元素以外，一条消息不是当前可用<xref:System.Messaging.MessageEnumerator.MoveNext%2A>等待指定的超时。</span><span class="sxs-lookup"><span data-stu-id="d52ff-171">If a message is not currently available because the queue is empty or because you have moved beyond the last element in the collection, <xref:System.Messaging.MessageEnumerator.MoveNext%2A> waits the specified timeout.</span></span>  
+  
+ <span data-ttu-id="d52ff-172">如果游标已在队列末尾<xref:System.Messaging.MessageEnumerator.MoveNext%2A>仅返回`true`新消息到达时指定的时间间隔内，如果队列中当前的所有消息比优先级较低且位于队列的末尾。</span><span class="sxs-lookup"><span data-stu-id="d52ff-172">If the cursor is already at the end of the queue, <xref:System.Messaging.MessageEnumerator.MoveNext%2A> only returns `true` if the new message arrives within the specified time interval, has lower priority than all messages currently in the queue and is placed at the end of the queue.</span></span> <span data-ttu-id="d52ff-173">在队列中是否有其他消息，不带参数的重载将立即返回。</span><span class="sxs-lookup"><span data-stu-id="d52ff-173">An overload with no parameter returns immediately if no further messages are in the queue.</span></span>  
+  
+ <span data-ttu-id="d52ff-174">创建后，枚举数从概念上讲定位枚举，以及首次调用的第一个消息之前<xref:System.Messaging.MessageEnumerator.MoveNext%2A>使到视图枚举第一条消息。</span><span class="sxs-lookup"><span data-stu-id="d52ff-174">Upon creation, an enumerator is conceptually positioned before the first message of the enumeration, and the first call to <xref:System.Messaging.MessageEnumerator.MoveNext%2A> brings the first message of the enumeration into view.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentException">
+          <span data-ttu-id="d52ff-175">为 timeout 参数指定的值无效。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d52ff-175">The value specified for the timeout parameter is invalid.</span>
+          </span>
+          <span data-ttu-id="d52ff-176">它可能表示负数。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d52ff-176">It might represent a negative number.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.Messaging.MessageQueueException">
+          <span data-ttu-id="d52ff-177">引发了消息队列特定的异常。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d52ff-177">An exception specific to Message Queuing was thrown.</span>
+          </span>
+          <span data-ttu-id="d52ff-178">或</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d52ff-178">-or-</span>
+          </span>
+          <span data-ttu-id="d52ff-179">超时已过期。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d52ff-179">The timeout has expired.</span>
+          </span>
+        </exception>
+        <altmember cref="P:System.Messaging.MessageEnumerator.Current" />
+        <altmember cref="M:System.Messaging.MessageEnumerator.Reset" />
+        <altmember cref="T:System.Messaging.Message" />
+      </Docs>
+    </Member>
+    <MemberGroup MemberName="RemoveCurrent">
+      <AssemblyInfo>
+        <AssemblyName>System.Messaging</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Docs>
+        <summary>
+          <span data-ttu-id="d52ff-180">从队列中移除当前消息并将该消息返回给调用应用程序。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d52ff-180">Removes the current message from the queue and returns the message to the calling application.</span>
+          </span>
+          <span data-ttu-id="d52ff-181">移除消息即从队列中删除该消息。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d52ff-181">Removing the message deletes it from the queue.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="d52ff-182">这些重载的描述的行为是适用才<xref:System.Messaging.MessageEnumerator>实例检索使用<xref:System.Messaging.MessageQueue.GetMessageEnumerator2%2A>。</span><span class="sxs-lookup"><span data-stu-id="d52ff-182">The behavior described for these overloads is applicable only if the <xref:System.Messaging.MessageEnumerator> instance is retrieved by using the <xref:System.Messaging.MessageQueue.GetMessageEnumerator2%2A>.</span></span> <span data-ttu-id="d52ff-183">不要使用<xref:System.Messaging.MessageQueue.GetMessageEnumerator%2A>若要检索的实例<xref:System.Messaging.MessageEnumerator>为此方法已弃用。</span><span class="sxs-lookup"><span data-stu-id="d52ff-183">Do not use <xref:System.Messaging.MessageQueue.GetMessageEnumerator%2A> to retrieve an instance of <xref:System.Messaging.MessageEnumerator> as this method has been deprecated.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </MemberGroup>
+    <Member MemberName="RemoveCurrent">
+      <MemberSignature Language="C#" Value="public System.Messaging.Message RemoveCurrent ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class System.Messaging.Message RemoveCurrent() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Messaging.MessageEnumerator.RemoveCurrent" />
+      <MemberSignature Language="VB.NET" Value="Public Function RemoveCurrent () As Message" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; System::Messaging::Message ^ RemoveCurrent();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Messaging</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Messaging.Message</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="d52ff-184">从事务性或非事务性队列中移除当前消息，并将该消息返回给调用应用程序。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d52ff-184">Removes the current message from a transactional or non-transactional queue and returns the message to the calling application.</span>
+          </span>
+          <span data-ttu-id="d52ff-185">对于消息到达队列的用时没有超时指定。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d52ff-185">There is no timeout specified for a message to arrive in the queue.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="d52ff-186">
+            <see cref="T:System.Messaging.Message" />，它引用队列中可用的第一条消息。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d52ff-186">A <see cref="T:System.Messaging.Message" /> that references the first message available in the queue.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="d52ff-187"><xref:System.Messaging.MessageEnumerator.RemoveCurrent%2A> 移除并返回消息在光标的当前位置。</span><span class="sxs-lookup"><span data-stu-id="d52ff-187"><xref:System.Messaging.MessageEnumerator.RemoveCurrent%2A> removes and returns the message at the cursor's current location.</span></span>  
+  
+ <span data-ttu-id="d52ff-188">如果你使用的队列日志记录，删除消息会导致副本要保留在日记队列中，就像<xref:System.Messaging.MessageQueue>类的<xref:System.Messaging.MessageQueue.Receive%2A>方法执行。</span><span class="sxs-lookup"><span data-stu-id="d52ff-188">If you are using queue journaling, removing the message causes a copy to be kept in the journal queue, just as the <xref:System.Messaging.MessageQueue> class's <xref:System.Messaging.MessageQueue.Receive%2A> method does.</span></span>  
+  
+ <span data-ttu-id="d52ff-189">当删除当前消息时，光标将移到下一条消息。</span><span class="sxs-lookup"><span data-stu-id="d52ff-189">When you remove the current message, the cursor is moved to the next message.</span></span> <span data-ttu-id="d52ff-190">无需调用<xref:System.Messaging.MessageEnumerator.MoveNext%2A>之后调用<xref:System.Messaging.MessageEnumerator.RemoveCurrent%2A>。</span><span class="sxs-lookup"><span data-stu-id="d52ff-190">You do not have to call <xref:System.Messaging.MessageEnumerator.MoveNext%2A> after calling <xref:System.Messaging.MessageEnumerator.RemoveCurrent%2A>.</span></span>  
+  
+ <span data-ttu-id="d52ff-191">如果你对事务性队列中调用此重载，消息队列将创建单个内部事务。</span><span class="sxs-lookup"><span data-stu-id="d52ff-191">If you call this overload on a transactional queue, Message Queuing creates a single internal transaction.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="M:System.Messaging.MessageEnumerator.MoveNext" />
+        <altmember cref="P:System.Messaging.MessageEnumerator.Current" />
+      </Docs>
+    </Member>
+    <Member MemberName="RemoveCurrent">
+      <MemberSignature Language="C#" Value="public System.Messaging.Message RemoveCurrent (System.Messaging.MessageQueueTransaction transaction);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class System.Messaging.Message RemoveCurrent(class System.Messaging.MessageQueueTransaction transaction) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Messaging.MessageEnumerator.RemoveCurrent(System.Messaging.MessageQueueTransaction)" />
+      <MemberSignature Language="VB.NET" Value="Public Function RemoveCurrent (transaction As MessageQueueTransaction) As Message" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; System::Messaging::Message ^ RemoveCurrent(System::Messaging::MessageQueueTransaction ^ transaction);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Messaging</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Messaging.Message</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="transaction" Type="System.Messaging.MessageQueueTransaction" />
+      </Parameters>
+      <Docs>
+        <param name="transaction">
+          <span data-ttu-id="d52ff-192">指定从中移除消息的事务的 <see cref="T:System.Messaging.MessageQueueTransaction" /> 对象。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d52ff-192">The <see cref="T:System.Messaging.MessageQueueTransaction" /> object that specifies the transaction in which the message will be removed.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="d52ff-193">从事务性队列中移除当前消息，并将该消息返回给调用应用程序。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d52ff-193">Removes the current message from a transactional queue and returns the message to the calling application.</span>
+          </span>
+          <span data-ttu-id="d52ff-194">对于消息到达队列的用时没有超时指定。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d52ff-194">There is no timeout specified for a message to arrive in the queue.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="d52ff-195">
+            <see cref="T:System.Messaging.Message" />，它引用队列中可用的第一条消息。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d52ff-195">A <see cref="T:System.Messaging.Message" /> that references the first message available in the queue.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="d52ff-196"><xref:System.Messaging.MessageEnumerator.RemoveCurrent%2A> 移除并返回位于光标的当前位置，使用由定义的内部事务上下文的消息`transaction`参数。</span><span class="sxs-lookup"><span data-stu-id="d52ff-196"><xref:System.Messaging.MessageEnumerator.RemoveCurrent%2A> removes and returns the message at the cursor's current location, using the internal transaction context defined by the `transaction` parameter.</span></span>  
+  
+ <span data-ttu-id="d52ff-197">如果你使用的队列日志记录，删除消息会导致副本要保留在日记队列中，就像<xref:System.Messaging.MessageQueue>类的<xref:System.Messaging.MessageQueue.Receive%2A>方法执行。</span><span class="sxs-lookup"><span data-stu-id="d52ff-197">If you are using queue journaling, removing the message causes a copy to be kept in the journal queue, just as the <xref:System.Messaging.MessageQueue> class's <xref:System.Messaging.MessageQueue.Receive%2A> method does.</span></span>  
+  
+ <span data-ttu-id="d52ff-198">当使用事务性队列时，事务的回滚会导致通过调用中删除任何消息<xref:System.Messaging.MessageEnumerator.RemoveCurrent%2A>要返回到队列。</span><span class="sxs-lookup"><span data-stu-id="d52ff-198">When working with transactional queues, a rollback of a transaction causes any messages removed by a call to <xref:System.Messaging.MessageEnumerator.RemoveCurrent%2A> to be returned to the queue.</span></span> <span data-ttu-id="d52ff-199">删除不是不可逆的直到提交事务。</span><span class="sxs-lookup"><span data-stu-id="d52ff-199">The removal is not irreversible until the transaction is committed.</span></span>  
+  
+ <span data-ttu-id="d52ff-200">当删除当前消息时，光标将移到下一条消息。</span><span class="sxs-lookup"><span data-stu-id="d52ff-200">When you remove the current message, the cursor is moved to the next message.</span></span> <span data-ttu-id="d52ff-201">无需调用<xref:System.Messaging.MessageEnumerator.MoveNext%2A>之后调用<xref:System.Messaging.MessageEnumerator.RemoveCurrent%2A>。</span><span class="sxs-lookup"><span data-stu-id="d52ff-201">You do not have to call <xref:System.Messaging.MessageEnumerator.MoveNext%2A> after calling <xref:System.Messaging.MessageEnumerator.RemoveCurrent%2A>.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentNullException">
+          <span data-ttu-id="d52ff-202">
+            <paramref name="transaction" /> 参数为 <see langword="null" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d52ff-202">The <paramref name="transaction" /> parameter is <see langword="null" />.</span>
+          </span>
+        </exception>
+        <altmember cref="M:System.Messaging.MessageEnumerator.MoveNext" />
+        <altmember cref="P:System.Messaging.MessageEnumerator.Current" />
+        <altmember cref="T:System.Messaging.MessageQueueTransaction" />
+      </Docs>
+    </Member>
+    <Member MemberName="RemoveCurrent">
+      <MemberSignature Language="C#" Value="public System.Messaging.Message RemoveCurrent (System.Messaging.MessageQueueTransactionType transactionType);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class System.Messaging.Message RemoveCurrent(valuetype System.Messaging.MessageQueueTransactionType transactionType) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Messaging.MessageEnumerator.RemoveCurrent(System.Messaging.MessageQueueTransactionType)" />
+      <MemberSignature Language="VB.NET" Value="Public Function RemoveCurrent (transactionType As MessageQueueTransactionType) As Message" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; System::Messaging::Message ^ RemoveCurrent(System::Messaging::MessageQueueTransactionType transactionType);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Messaging</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Messaging.Message</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="transactionType" Type="System.Messaging.MessageQueueTransactionType" />
+      </Parameters>
+      <Docs>
+        <param name="transactionType">
+          <span data-ttu-id="d52ff-203">
+            <see cref="T:System.Messaging.MessageQueueTransactionType" /> 值之一，它描述与消息关联的事务上下文的类型。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d52ff-203">One of the <see cref="T:System.Messaging.MessageQueueTransactionType" /> values, describing the type of transaction context to associate with the message.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="d52ff-204">从队列中移除当前消息并将该消息返回给调用应用程序。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d52ff-204">Removes the current message from a queue and returns the message to the calling application.</span>
+          </span>
+          <span data-ttu-id="d52ff-205">对于消息到达队列的用时没有超时指定。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d52ff-205">There is no timeout specified for a message to arrive in the queue.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="d52ff-206">
+            <see cref="T:System.Messaging.Message" />，它引用队列中可用的第一条消息。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d52ff-206">A <see cref="T:System.Messaging.Message" /> that references the first message available in the queue.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="d52ff-207"><xref:System.Messaging.MessageEnumerator.RemoveCurrent%2A> 移除并返回位于光标的当前位置，使用定义的事务上下文的消息`transactionType`参数。</span><span class="sxs-lookup"><span data-stu-id="d52ff-207"><xref:System.Messaging.MessageEnumerator.RemoveCurrent%2A> removes and returns the message at the cursor's current location, using a transaction context defined by the `transactionType` parameter.</span></span>  
+  
+ <span data-ttu-id="d52ff-208">指定`Automatic`为`transactionType`参数，如果已存在外部事务上下文附加到你想要用于接收消息的线程。</span><span class="sxs-lookup"><span data-stu-id="d52ff-208">Specify `Automatic` for the `transactionType` parameter if there is already an external transaction context attached to the thread that you want to use to receive the message.</span></span> <span data-ttu-id="d52ff-209">指定`Single`如果你想要接收的消息作为单个内部事务。</span><span class="sxs-lookup"><span data-stu-id="d52ff-209">Specify `Single` if you want to receive the message as a single internal transaction.</span></span> <span data-ttu-id="d52ff-210">你可以指定`None`如果你想要接收来自外部事务上下文事务性队列的消息。</span><span class="sxs-lookup"><span data-stu-id="d52ff-210">You can specify `None` if you want to receive a message from a transactional queue outside of a transaction context.</span></span>  
+  
+ <span data-ttu-id="d52ff-211">如果你使用的队列日志记录，删除消息会导致副本要保留在日记队列中，就像<xref:System.Messaging.MessageQueue>类的<xref:System.Messaging.MessageQueue.Receive%2A>方法执行。</span><span class="sxs-lookup"><span data-stu-id="d52ff-211">If you are using queue journaling, removing the message causes a copy to be kept in the journal queue, just as the <xref:System.Messaging.MessageQueue> class's <xref:System.Messaging.MessageQueue.Receive%2A> method does.</span></span>  
+  
+ <span data-ttu-id="d52ff-212">当使用事务性队列时，事务的回滚会导致通过调用中删除任何消息<xref:System.Messaging.MessageEnumerator.RemoveCurrent%2A>要返回到队列。</span><span class="sxs-lookup"><span data-stu-id="d52ff-212">When working with transactional queues, a rollback of a transaction causes any messages removed by a call to <xref:System.Messaging.MessageEnumerator.RemoveCurrent%2A> to be returned to the queue.</span></span> <span data-ttu-id="d52ff-213">删除不是不可逆的直到提交事务。</span><span class="sxs-lookup"><span data-stu-id="d52ff-213">The removal is not irreversible until the transaction is committed.</span></span>  
+  
+ <span data-ttu-id="d52ff-214">当删除当前消息时，光标将移到下一条消息。</span><span class="sxs-lookup"><span data-stu-id="d52ff-214">When you remove the current message, the cursor is moved to the next message.</span></span> <span data-ttu-id="d52ff-215">无需调用<xref:System.Messaging.MessageEnumerator.MoveNext%2A>之后调用<xref:System.Messaging.MessageEnumerator.RemoveCurrent%2A>。</span><span class="sxs-lookup"><span data-stu-id="d52ff-215">You do not have to call <xref:System.Messaging.MessageEnumerator.MoveNext%2A> after calling <xref:System.Messaging.MessageEnumerator.RemoveCurrent%2A>.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ComponentModel.InvalidEnumArgumentException">
+          <span data-ttu-id="d52ff-216">
+            <paramref name="transactionType" /> 参数不是 <see cref="T:System.Messaging.MessageQueueTransactionType" /> 成员之一。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d52ff-216">The <paramref name="transactionType" /> parameter is not one of the <see cref="T:System.Messaging.MessageQueueTransactionType" /> members.</span>
+          </span>
+        </exception>
+        <altmember cref="M:System.Messaging.MessageEnumerator.MoveNext" />
+        <altmember cref="P:System.Messaging.MessageEnumerator.Current" />
+        <altmember cref="T:System.Messaging.MessageQueueTransactionType" />
+      </Docs>
+    </Member>
+    <Member MemberName="RemoveCurrent">
+      <MemberSignature Language="C#" Value="public System.Messaging.Message RemoveCurrent (TimeSpan timeout);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class System.Messaging.Message RemoveCurrent(valuetype System.TimeSpan timeout) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Messaging.MessageEnumerator.RemoveCurrent(System.TimeSpan)" />
+      <MemberSignature Language="VB.NET" Value="Public Function RemoveCurrent (timeout As TimeSpan) As Message" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; System::Messaging::Message ^ RemoveCurrent(TimeSpan timeout);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Messaging</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Messaging.Message</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="timeout" Type="System.TimeSpan" />
+      </Parameters>
+      <Docs>
+        <param name="timeout">
+          <span data-ttu-id="d52ff-217">等待消息到达队列的时间间隔。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d52ff-217">The interval of time to wait for a message to arrive in the queue.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="d52ff-218">从队列中移除当前消息并将该消息返回给调用应用程序。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d52ff-218">Removes the current message from the queue and returns the message to the calling application.</span>
+          </span>
+          <span data-ttu-id="d52ff-219">如果有要移除的消息，该方法将立即返回该消息。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d52ff-219">If there is a message to remove, the method returns it immediately.</span>
+          </span>
+          <span data-ttu-id="d52ff-220">否则，该方法在指定的超时内等待新消息到达。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d52ff-220">Otherwise, the method waits the specified timeout for a new message to arrive.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="d52ff-221">
+            <see cref="T:System.Messaging.Message" />，它引用队列中可用的第一条消息。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d52ff-221">A <see cref="T:System.Messaging.Message" /> that references the first message available in the queue.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="d52ff-222"><xref:System.Messaging.MessageEnumerator.RemoveCurrent%2A> 移除并返回消息在光标的当前位置。</span><span class="sxs-lookup"><span data-stu-id="d52ff-222"><xref:System.Messaging.MessageEnumerator.RemoveCurrent%2A> removes and returns the message at the cursor's current location.</span></span> <span data-ttu-id="d52ff-223">如果光标位于队列的末尾，该方法的此重载会一直等到有可用消息或指定的间隔`timeout`参数已过期。</span><span class="sxs-lookup"><span data-stu-id="d52ff-223">If the cursor is at the end of the queue, this overload of the method waits until a message is available or the interval specified by the `timeout` parameter has expired.</span></span>  
+  
+ <span data-ttu-id="d52ff-224">如果你使用的队列日志记录，删除消息会导致副本要保留在日记队列中，就像<xref:System.Messaging.MessageQueue>类的<xref:System.Messaging.MessageQueue.Receive%2A>方法执行。</span><span class="sxs-lookup"><span data-stu-id="d52ff-224">If you are using queue journaling, removing the message causes a copy to be kept in the journal queue, just as the <xref:System.Messaging.MessageQueue> class's <xref:System.Messaging.MessageQueue.Receive%2A> method does.</span></span>  
+  
+ <span data-ttu-id="d52ff-225">当删除当前消息时，光标将移到下一条消息。</span><span class="sxs-lookup"><span data-stu-id="d52ff-225">When you remove the current message, the cursor is moved to the next message.</span></span> <span data-ttu-id="d52ff-226">无需调用<xref:System.Messaging.MessageEnumerator.MoveNext%2A>之后调用<xref:System.Messaging.MessageEnumerator.RemoveCurrent%2A>。</span><span class="sxs-lookup"><span data-stu-id="d52ff-226">You do not have to call <xref:System.Messaging.MessageEnumerator.MoveNext%2A> after calling <xref:System.Messaging.MessageEnumerator.RemoveCurrent%2A>.</span></span>  
+  
+ <span data-ttu-id="d52ff-227">如果你对事务性队列中调用此重载，消息队列将创建单个内部事务。</span><span class="sxs-lookup"><span data-stu-id="d52ff-227">If you call this overload on a transactional queue, Message Queuing creates a single internal transaction.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentException">
+          <span data-ttu-id="d52ff-228">为 <paramref name="timeout" /> 参数指定的值无效。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d52ff-228">The value specified for the <paramref name="timeout" /> parameter is invalid.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.Messaging.MessageQueueException">
+          <span data-ttu-id="d52ff-229">超时已过期。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d52ff-229">The timeout has expired.</span>
+          </span>
+        </exception>
+        <altmember cref="M:System.Messaging.MessageEnumerator.MoveNext" />
+        <altmember cref="P:System.Messaging.MessageEnumerator.Current" />
+      </Docs>
+    </Member>
+    <Member MemberName="RemoveCurrent">
+      <MemberSignature Language="C#" Value="public System.Messaging.Message RemoveCurrent (TimeSpan timeout, System.Messaging.MessageQueueTransaction transaction);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class System.Messaging.Message RemoveCurrent(valuetype System.TimeSpan timeout, class System.Messaging.MessageQueueTransaction transaction) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Messaging.MessageEnumerator.RemoveCurrent(System.TimeSpan,System.Messaging.MessageQueueTransaction)" />
+      <MemberSignature Language="VB.NET" Value="Public Function RemoveCurrent (timeout As TimeSpan, transaction As MessageQueueTransaction) As Message" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; System::Messaging::Message ^ RemoveCurrent(TimeSpan timeout, System::Messaging::MessageQueueTransaction ^ transaction);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Messaging</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Messaging.Message</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="timeout" Type="System.TimeSpan" />
+        <Parameter Name="transaction" Type="System.Messaging.MessageQueueTransaction" />
+      </Parameters>
+      <Docs>
+        <param name="timeout">
+          <span data-ttu-id="d52ff-230">等待消息被移除的时间间隔。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d52ff-230">The interval of time to wait for the message to be removed.</span>
+          </span>
+        </param>
+        <param name="transaction">
+          <span data-ttu-id="d52ff-231">为消息指定事务上下文的 <see cref="T:System.Messaging.MessageQueueTransaction" /> 对象。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d52ff-231">The <see cref="T:System.Messaging.MessageQueueTransaction" /> object that specifies the transaction context for the message.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="d52ff-232">从事务性队列中移除当前消息，并将该消息返回给调用应用程序。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d52ff-232">Removes the current message from a transactional queue and returns the message to the calling application.</span>
+          </span>
+          <span data-ttu-id="d52ff-233">如果有要移除的消息，该方法将立即返回该消息。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d52ff-233">If there is a message to remove, the method returns it immediately.</span>
+          </span>
+          <span data-ttu-id="d52ff-234">否则，该方法在指定的超时内等待新消息到达。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d52ff-234">Otherwise, the method waits the specified timeout for a new message to arrive.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="d52ff-235">
+            <see cref="T:System.Messaging.Message" />，它引用队列中可用的第一条消息。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d52ff-235">A <see cref="T:System.Messaging.Message" /> that references the first message available in the queue.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="d52ff-236"><xref:System.Messaging.MessageEnumerator.RemoveCurrent%2A> 移除并返回消息在光标的当前位置。</span><span class="sxs-lookup"><span data-stu-id="d52ff-236"><xref:System.Messaging.MessageEnumerator.RemoveCurrent%2A> removes and returns the message at the cursor's current location.</span></span> <span data-ttu-id="d52ff-237">如果光标位于队列的末尾，该方法的此重载会一直等到有可用消息或指定的间隔`timeout`参数已过期。</span><span class="sxs-lookup"><span data-stu-id="d52ff-237">If the cursor is at the end of the queue, this overload of the method waits until a message is available or the interval specified by the `timeout` parameter has expired.</span></span>  
+  
+ <span data-ttu-id="d52ff-238">当使用事务性队列时，事务的回滚会导致通过调用中删除任何消息<xref:System.Messaging.MessageEnumerator.RemoveCurrent%2A>要返回到队列。</span><span class="sxs-lookup"><span data-stu-id="d52ff-238">When working with transactional queues, a rollback of a transaction causes any messages removed by a call to <xref:System.Messaging.MessageEnumerator.RemoveCurrent%2A> to be returned to the queue.</span></span> <span data-ttu-id="d52ff-239">删除不是不可逆的直到提交事务。</span><span class="sxs-lookup"><span data-stu-id="d52ff-239">The removal is not irreversible until the transaction is committed.</span></span>  
+  
+ <span data-ttu-id="d52ff-240">如果你使用的队列日志记录，删除消息会导致副本要保留在日记队列中，就像<xref:System.Messaging.MessageQueue>类的<xref:System.Messaging.MessageQueue.Receive%2A>方法执行。</span><span class="sxs-lookup"><span data-stu-id="d52ff-240">If you are using queue journaling, removing the message causes a copy to be kept in the journal queue, just as the <xref:System.Messaging.MessageQueue> class's <xref:System.Messaging.MessageQueue.Receive%2A> method does.</span></span>  
+  
+ <span data-ttu-id="d52ff-241">当删除当前消息时，光标将移到下一条消息。</span><span class="sxs-lookup"><span data-stu-id="d52ff-241">When you remove the current message, the cursor is moved to the next message.</span></span> <span data-ttu-id="d52ff-242">无需调用<xref:System.Messaging.MessageEnumerator.MoveNext%2A>之后调用<xref:System.Messaging.MessageEnumerator.RemoveCurrent%2A>。</span><span class="sxs-lookup"><span data-stu-id="d52ff-242">You do not have to call <xref:System.Messaging.MessageEnumerator.MoveNext%2A> after calling <xref:System.Messaging.MessageEnumerator.RemoveCurrent%2A>.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentException">
+          <span data-ttu-id="d52ff-243">为 <paramref name="timeout" /> 参数指定的值无效。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d52ff-243">The value specified for the <paramref name="timeout" /> parameter is invalid.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.ArgumentNullException">
+          <span data-ttu-id="d52ff-244">
+            <paramref name="transaction" /> 参数为 <see langword="null" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d52ff-244">The <paramref name="transaction" /> parameter is <see langword="null" />.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.Messaging.MessageQueueException">
+          <span data-ttu-id="d52ff-245">超时已过期。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d52ff-245">The timeout has expired.</span>
+          </span>
+        </exception>
+        <altmember cref="M:System.Messaging.MessageEnumerator.MoveNext" />
+        <altmember cref="P:System.Messaging.MessageEnumerator.Current" />
+        <altmember cref="T:System.Messaging.MessageQueueTransaction" />
+      </Docs>
+    </Member>
+    <Member MemberName="RemoveCurrent">
+      <MemberSignature Language="C#" Value="public System.Messaging.Message RemoveCurrent (TimeSpan timeout, System.Messaging.MessageQueueTransactionType transactionType);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class System.Messaging.Message RemoveCurrent(valuetype System.TimeSpan timeout, valuetype System.Messaging.MessageQueueTransactionType transactionType) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Messaging.MessageEnumerator.RemoveCurrent(System.TimeSpan,System.Messaging.MessageQueueTransactionType)" />
+      <MemberSignature Language="VB.NET" Value="Public Function RemoveCurrent (timeout As TimeSpan, transactionType As MessageQueueTransactionType) As Message" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; System::Messaging::Message ^ RemoveCurrent(TimeSpan timeout, System::Messaging::MessageQueueTransactionType transactionType);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Messaging</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Messaging.Message</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="timeout" Type="System.TimeSpan" />
+        <Parameter Name="transactionType" Type="System.Messaging.MessageQueueTransactionType" />
+      </Parameters>
+      <Docs>
+        <param name="timeout">
+          <span data-ttu-id="d52ff-246">等待消息被移除的时间间隔。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d52ff-246">The interval of time to wait for the message to be removed.</span>
+          </span>
+        </param>
+        <param name="transactionType">
+          <span data-ttu-id="d52ff-247">
+            <see cref="T:System.Messaging.MessageQueueTransactionType" /> 值之一，它描述与消息关联的事务上下文的类型。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d52ff-247">One of the <see cref="T:System.Messaging.MessageQueueTransactionType" /> values, describing the type of transaction context to associate with the message.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="d52ff-248">从队列中移除当前消息并将该消息返回给调用应用程序。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d52ff-248">Removes the current message from a queue and returns the message to the calling application.</span>
+          </span>
+          <span data-ttu-id="d52ff-249">如果有要移除的消息，该方法将立即返回该消息。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d52ff-249">If there is a message to remove, the method returns it immediately.</span>
+          </span>
+          <span data-ttu-id="d52ff-250">否则，该方法在指定的超时内等待新消息到达。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d52ff-250">Otherwise, the method waits the specified timeout for a new message to arrive.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="d52ff-251">
+            <see cref="T:System.Messaging.Message" />，它引用队列中可用的第一条消息。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d52ff-251">A <see cref="T:System.Messaging.Message" /> that references the first message available in the queue.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="d52ff-252"><xref:System.Messaging.MessageEnumerator.RemoveCurrent%2A> 移除并返回位于光标的当前位置，使用定义的事务上下文的消息`transactionType`参数。</span><span class="sxs-lookup"><span data-stu-id="d52ff-252"><xref:System.Messaging.MessageEnumerator.RemoveCurrent%2A> removes and returns the message at the cursor's current location, using a transaction context defined by the `transactionType` parameter.</span></span> <span data-ttu-id="d52ff-253">如果光标位于队列的末尾，该方法的此重载会一直等到有可用消息或指定的间隔`timeout`参数已过期。</span><span class="sxs-lookup"><span data-stu-id="d52ff-253">If the cursor is at the end of the queue, this overload of the method waits until a message is available or the interval specified by the `timeout` parameter has expired.</span></span>  
+  
+ <span data-ttu-id="d52ff-254">指定`Automatic`为`transactionType`参数，如果已存在外部事务上下文附加到你想要用于接收消息的线程。</span><span class="sxs-lookup"><span data-stu-id="d52ff-254">Specify `Automatic` for the `transactionType` parameter if there is already an external transaction context attached to the thread that you want to use to receive the message.</span></span> <span data-ttu-id="d52ff-255">指定`Single`如果你想要接收的消息作为单个内部事务。</span><span class="sxs-lookup"><span data-stu-id="d52ff-255">Specify `Single` if you want to receive the message as a single internal transaction.</span></span> <span data-ttu-id="d52ff-256">你可以指定`None`如果你想要接收来自外部事务上下文事务性队列的消息。</span><span class="sxs-lookup"><span data-stu-id="d52ff-256">You can specify `None` if you want to receive a message from a transactional queue outside of a transaction context.</span></span>  
+  
+ <span data-ttu-id="d52ff-257">如果你使用的队列日志记录，删除消息会导致副本要保留在日记队列中，就像<xref:System.Messaging.MessageQueue>类的<xref:System.Messaging.MessageQueue.Receive%2A>方法执行。</span><span class="sxs-lookup"><span data-stu-id="d52ff-257">If you are using queue journaling, removing the message causes a copy to be kept in the journal queue, just as the <xref:System.Messaging.MessageQueue> class's <xref:System.Messaging.MessageQueue.Receive%2A> method does.</span></span>  
+  
+ <span data-ttu-id="d52ff-258">当使用事务性队列时，事务的回滚会导致通过调用中删除任何消息<xref:System.Messaging.MessageEnumerator.RemoveCurrent%2A>要返回到队列。</span><span class="sxs-lookup"><span data-stu-id="d52ff-258">When working with transactional queues, a rollback of a transaction causes any messages removed by a call to <xref:System.Messaging.MessageEnumerator.RemoveCurrent%2A> to be returned to the queue.</span></span> <span data-ttu-id="d52ff-259">删除不是不可逆的直到提交事务。</span><span class="sxs-lookup"><span data-stu-id="d52ff-259">The removal is not irreversible until the transaction is committed.</span></span>  
+  
+ <span data-ttu-id="d52ff-260">当删除当前消息时，光标将移到下一条消息。</span><span class="sxs-lookup"><span data-stu-id="d52ff-260">When you remove the current message, the cursor is moved to the next message.</span></span> <span data-ttu-id="d52ff-261">无需调用<xref:System.Messaging.MessageEnumerator.MoveNext%2A>之后调用<xref:System.Messaging.MessageEnumerator.RemoveCurrent%2A>。</span><span class="sxs-lookup"><span data-stu-id="d52ff-261">You do not have to call <xref:System.Messaging.MessageEnumerator.MoveNext%2A> after calling <xref:System.Messaging.MessageEnumerator.RemoveCurrent%2A>.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentException">
+          <span data-ttu-id="d52ff-262">为 <paramref name="timeout" /> 参数指定的值无效。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d52ff-262">The value specified for the <paramref name="timeout" /> parameter is invalid.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.Messaging.MessageQueueException">
+          <span data-ttu-id="d52ff-263">超时已过期。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d52ff-263">The timeout has expired.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.ComponentModel.InvalidEnumArgumentException">
+          <span data-ttu-id="d52ff-264">
+            <paramref name="transactionType" /> 参数不是 <see cref="T:System.Messaging.MessageQueueTransactionType" /> 成员之一。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d52ff-264">The <paramref name="transactionType" /> parameter is not one of the <see cref="T:System.Messaging.MessageQueueTransactionType" /> members.</span>
+          </span>
+        </exception>
+        <altmember cref="M:System.Messaging.MessageEnumerator.MoveNext" />
+        <altmember cref="P:System.Messaging.MessageEnumerator.Current" />
+        <altmember cref="T:System.Messaging.MessageQueueTransactionType" />
+      </Docs>
+    </Member>
+    <Member MemberName="Reset">
+      <MemberSignature Language="C#" Value="public void Reset ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void Reset() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Messaging.MessageEnumerator.Reset" />
+      <MemberSignature Language="VB.NET" Value="Public Sub Reset ()" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual void Reset();" />
+      <MemberType>Method</MemberType>
+      <Implements>
+        <InterfaceMember>M:System.Collections.IEnumerator.Reset</InterfaceMember>
+      </Implements>
+      <AssemblyInfo>
+        <AssemblyName>System.Messaging</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="d52ff-265">重置当前枚举数，使其指向队列开头。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d52ff-265">Resets the current enumerator so it points to the head of the queue.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="d52ff-266">一个枚举器只能在一个向前方向移动。</span><span class="sxs-lookup"><span data-stu-id="d52ff-266">An enumerator can only move in a forward direction.</span></span> <span data-ttu-id="d52ff-267">使用此方法重新开始在队列的开头。</span><span class="sxs-lookup"><span data-stu-id="d52ff-267">Use this method to start over at the beginning of the queue.</span></span>  
+  
+ <span data-ttu-id="d52ff-268">在调用<xref:System.Messaging.MessageEnumerator.Reset%2A>，游标将指向第一条消息。</span><span class="sxs-lookup"><span data-stu-id="d52ff-268">After calling <xref:System.Messaging.MessageEnumerator.Reset%2A>, the cursor points to the first message.</span></span> <span data-ttu-id="d52ff-269">不需要调用<xref:System.Messaging.MessageEnumerator.MoveNext%2A>之后调用<xref:System.Messaging.MessageEnumerator.Reset%2A>将光标向前移动到队列中的第一个消息。</span><span class="sxs-lookup"><span data-stu-id="d52ff-269">You do not need to call <xref:System.Messaging.MessageEnumerator.MoveNext%2A> after calling <xref:System.Messaging.MessageEnumerator.Reset%2A> to move the cursor forward to the first message in the queue.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="M:System.Messaging.MessageEnumerator.MoveNext" />
+        <altmember cref="P:System.Messaging.MessageEnumerator.Current" />
+      </Docs>
+    </Member>
+    <Member MemberName="System.Collections.IEnumerator.Current">
+      <MemberSignature Language="C#" Value="object System.Collections.IEnumerator.Current { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance object System.Collections.IEnumerator.Current" />
+      <MemberSignature Language="DocId" Value="P:System.Messaging.MessageEnumerator.System#Collections#IEnumerator#Current" />
+      <MemberSignature Language="VB.NET" Value=" ReadOnly Property Current As Object Implements IEnumerator.Current" />
+      <MemberSignature Language="C++ CLI" Value="property System::Object ^ System.Collections.IEnumerator.Current { System::Object ^ get(); };" />
+      <MemberType>Property</MemberType>
+      <Implements>
+        <InterfaceMember>P:System.Collections.IEnumerator.Current</InterfaceMember>
+      </Implements>
+      <AssemblyInfo>
+        <AssemblyName>System.Messaging</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Object</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="d52ff-270">返回引用当前游标位置的消息的 <see cref="T:System.Messaging.Message" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d52ff-270">Returns a <see cref="T:System.Messaging.Message" /> that references the message at the current cursor position.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="d52ff-271">引用当前游标位置的消息的 <see cref="T:System.Messaging.Message" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d52ff-271">A <see cref="T:System.Messaging.Message" /> that references the message at the current cursor position.</span>
+          </span>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

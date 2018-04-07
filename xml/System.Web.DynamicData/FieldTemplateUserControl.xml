@@ -1,0 +1,1389 @@
+<Type Name="FieldTemplateUserControl" FullName="System.Web.DynamicData.FieldTemplateUserControl">
+  <Metadata>
+    <Meta Name="ms.openlocfilehash" Value="604b2bdb67c38233b52e649cda58f9165dcc66ef" />
+    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
+    <Meta Name="ms.translationtype" Value="HT" />
+    <Meta Name="ms.contentlocale" Value="zh-CN" />
+    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
+  </Metadata>
+  <TypeSignature Language="C#" Value="public class FieldTemplateUserControl : System.Web.UI.UserControl, System.Web.DynamicData.IFieldTemplate, System.Web.UI.IBindableControl" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit FieldTemplateUserControl extends System.Web.UI.UserControl implements class System.Web.DynamicData.IFieldTemplate, class System.Web.UI.IBindableControl" />
+  <TypeSignature Language="DocId" Value="T:System.Web.DynamicData.FieldTemplateUserControl" />
+  <TypeSignature Language="VB.NET" Value="Public Class FieldTemplateUserControl&#xA;Inherits UserControl&#xA;Implements IBindableControl, IFieldTemplate" />
+  <TypeSignature Language="C++ CLI" Value="public ref class FieldTemplateUserControl : System::Web::UI::UserControl, System::Web::DynamicData::IFieldTemplate, System::Web::UI::IBindableControl" />
+  <AssemblyInfo>
+    <AssemblyName>System.Web.DynamicData</AssemblyName>
+    <AssemblyVersion>4.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Web.UI.UserControl</BaseTypeName>
+  </Base>
+  <Interfaces>
+    <Interface>
+      <InterfaceName>System.Web.DynamicData.IFieldTemplate</InterfaceName>
+    </Interface>
+    <Interface>
+      <InterfaceName>System.Web.UI.IBindableControl</InterfaceName>
+    </Interface>
+  </Interfaces>
+  <Docs>
+    <summary>
+      <span data-ttu-id="fec91-101">表示所有字段模板控件的基类。</span>
+      <span class="sxs-lookup">
+        <span data-stu-id="fec91-101">Represents the base class for all field template controls.</span>
+      </span>
+    </summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="fec91-102">ASP.NET 动态数据字段模板是映射到数据模型中的数据类型的数据控件的 ASP.NET 用户控件。</span><span class="sxs-lookup"><span data-stu-id="fec91-102">ASP.NET Dynamic Data field templates are ASP.NET user controls that map data controls to data types in a data model.</span></span> <span data-ttu-id="fec91-103">字段模板派生自<xref:System.Web.DynamicData.FieldTemplateUserControl>，使用户可以访问数据字段、 数据列和数据模型中的元数据的类。</span><span class="sxs-lookup"><span data-stu-id="fec91-103">Field templates derive from <xref:System.Web.DynamicData.FieldTemplateUserControl>, the class that enables access to data fields, data columns, and metadata in data models.</span></span> <span data-ttu-id="fec91-104">默认情况下，动态数据项目提供的字段模板。</span><span class="sxs-lookup"><span data-stu-id="fec91-104">Dynamic Data projects provide field templates by default.</span></span> <span data-ttu-id="fec91-105">你可以修改默认情况下提供的字段模板或创建自定义字段模板。</span><span class="sxs-lookup"><span data-stu-id="fec91-105">You can modify the field templates provided by default or create custom field templates.</span></span>  
+  
+ <span data-ttu-id="fec91-106">此类继承自<xref:System.Web.UI.UserControl>类。</span><span class="sxs-lookup"><span data-stu-id="fec91-106">This class inherits from the <xref:System.Web.UI.UserControl> Class.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="fec91-107">下面的代码示例创建具有多对一关系和呈现的数据字段显示的字段模板<xref:System.Web.UI.WebControls.HyperLink>将用户重定向到关系页上的控件。</span><span class="sxs-lookup"><span data-stu-id="fec91-107">The following code example creates a field template that displays data fields that have a many-to-one relationship and renders a <xref:System.Web.UI.WebControls.HyperLink> control that redirects the user to the relationship page.</span></span>  
+  
+ <span data-ttu-id="fec91-108">下面的示例演示 ForeignKey.ascx 用户控件的代码文件。</span><span class="sxs-lookup"><span data-stu-id="fec91-108">The following example shows the code file for the ForeignKey.ascx user control.</span></span>  
+  
+```vb  
+Public Partial Class ForeignKeyField   
+    Inherits System.Web.DynamicData.FieldTemplateUserControl   
+  
+    Protected Function GetDisplayString() As String   
+        Return FormatFieldValue( _  
+            ForeignKeyColumn.ParentTable.GetDisplayString(FieldValue))   
+    End Function   
+  
+    Public Overloads Overrides ReadOnly Property DataControl() As Control   
+        Get   
+            Return HyperLink1   
+        End Get   
+    End Property   
+End Class   
+```  
+  
+```csharp  
+public partial class ForeignKeyField :   
+                        System.Web.DynamicData.FieldTemplateUserControl   
+{  
+    protected string GetDisplayString()   
+    {  
+       Return         FormatFieldValue(ForeignKeyColumn.ParentTable.GetDisplayString(FieldValue));  
+  
+    public override Control DataControl   
+    {  
+        get   
+        {  
+          return HyperLink1;  
+    }  
+}  
+```  
+  
+ <span data-ttu-id="fec91-109">下面的示例演示 ForeignKey.aspx 文件。</span><span class="sxs-lookup"><span data-stu-id="fec91-109">The following example shows the ForeignKey.aspx file.</span></span>  
+  
+```vb  
+<%@ Control Language="VB" CodeFile="ForeignKey.ascx.vb" Inherits="ForeignKeyField" %>  
+  
+<asp:HyperLink ID="HyperLink1" runat="server"  
+    Text="<%# GetDisplayString() %>" />  
+```  
+  
+```csharp  
+<%@ Control Language="C#" CodeFile="ForeignKey.ascx.cs" Inherits="ForeignKeyField" %>  
+  
+<asp:HyperLink ID="HyperLink1" runat="server"  
+    Text="<%# GetDisplayString() %>" />  
+```  
+  
+ <span data-ttu-id="fec91-110">若要编译该示例代码，你需要以下各项：</span><span class="sxs-lookup"><span data-stu-id="fec91-110">To compile the example code, you need the following:</span></span>  
+  
+-   [!INCLUDE[vs_dev10_long](~/includes/vs-dev10-long-md.md)]<span data-ttu-id="fec91-111"> 或 [!INCLUDE[vwd_exp_dev10_long](~/includes/vwd-exp-dev10-long-md.md)]。</span><span class="sxs-lookup"><span data-stu-id="fec91-111"> or [!INCLUDE[vwd_exp_dev10_long](~/includes/vwd-exp-dev10-long-md.md)].</span></span>  
+  
+-   <span data-ttu-id="fec91-112">动态数据网站。</span><span class="sxs-lookup"><span data-stu-id="fec91-112">A Dynamic Data Web site.</span></span> <span data-ttu-id="fec91-113">有关详细信息，请参阅[演练： 创建一个新动态数据网站使用基架](http://msdn.microsoft.com/library/1564aef2-9103-436a-9806-c8ad7abd616a)。</span><span class="sxs-lookup"><span data-stu-id="fec91-113">For more information, see [Walkthrough: Creating a New Dynamic Data Web Site Using Scaffolding](http://msdn.microsoft.com/library/1564aef2-9103-436a-9806-c8ad7abd616a).</span></span>  
+  
+ ]]></format>
+    </remarks>
+  </Docs>
+  <Members>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public FieldTemplateUserControl ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Web.DynamicData.FieldTemplateUserControl.#ctor" />
+      <MemberSignature Language="VB.NET" Value="Public Sub New ()" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; FieldTemplateUserControl();" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web.DynamicData</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="fec91-114">初始化 <see cref="T:System.Web.DynamicData.FieldTemplateUserControl" /> 类的新实例。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fec91-114">Initializes a new instance of the <see cref="T:System.Web.DynamicData.FieldTemplateUserControl" /> class.</span>
+          </span>
+        </summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="BuildChildrenPath">
+      <MemberSignature Language="C#" Value="protected string BuildChildrenPath (string path);" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig instance string BuildChildrenPath(string path) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Web.DynamicData.FieldTemplateUserControl.BuildChildrenPath(System.String)" />
+      <MemberSignature Language="VB.NET" Value="Protected Function BuildChildrenPath (path As String) As String" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; System::String ^ BuildChildrenPath(System::String ^ path);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web.DynamicData</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="path" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="path">
+          <span data-ttu-id="fec91-115">要重写的路径。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fec91-115">The path to override.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="fec91-116">获取链接到显示子实体列表的页面并允许重写路径的 URL。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fec91-116">Gets the URL that links to the page that displays the list of children entities and allows the path to be overridden.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="fec91-117">将显示页面链接到子页面的 URL。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fec91-117">The URL that links the displayed page to the children page.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="fec91-118">此方法类似于是<xref:System.Web.DynamicData.FieldTemplateUserControl.ChildrenPath%2A>，只不过它允许重写 URL 的路径部分。</span><span class="sxs-lookup"><span data-stu-id="fec91-118">This method is similar to <xref:System.Web.DynamicData.FieldTemplateUserControl.ChildrenPath%2A>, except that it allows the path part of the URL to be overridden.</span></span> <span data-ttu-id="fec91-119">如果页不位于 DynamicData\CustomPages 文件夹中的动态数据项目，则使用此方法。</span><span class="sxs-lookup"><span data-stu-id="fec91-119">This method is used if the pages are not located in the DynamicData\CustomPages folder of the Dynamic Data project.</span></span> <span data-ttu-id="fec91-120">此方法仅适用于子级列。</span><span class="sxs-lookup"><span data-stu-id="fec91-120">This method applies to Children columns only.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="BuildForeignKeyPath">
+      <MemberSignature Language="C#" Value="protected string BuildForeignKeyPath (string path);" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig instance string BuildForeignKeyPath(string path) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Web.DynamicData.FieldTemplateUserControl.BuildForeignKeyPath(System.String)" />
+      <MemberSignature Language="VB.NET" Value="Protected Function BuildForeignKeyPath (path As String) As String" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; System::String ^ BuildForeignKeyPath(System::String ^ path);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web.DynamicData</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="path" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="path">
+          <span data-ttu-id="fec91-121">要重写的路径。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fec91-121">The path to override.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="fec91-122">获取将当前页面链接到显示外键实体详细信息的页面并允许重写路径的 URL。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fec91-122">Get the URL that links the current page to the page that displays the details of the foreign key entity and allows the path to be overridden.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="fec91-123">链接到显示外键页面详细信息的页面的 URL。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fec91-123">The URL that links to the page that displays the details of the foreign key page.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="fec91-124">此方法类似于是<xref:System.Web.DynamicData.FieldTemplateUserControl.ForeignKeyPath%2A>区别在于，它允许的 URL 中重写路径。</span><span class="sxs-lookup"><span data-stu-id="fec91-124">This method is similar to <xref:System.Web.DynamicData.FieldTemplateUserControl.ForeignKeyPath%2A> except that it allows the path of the URL to be overridden.</span></span> <span data-ttu-id="fec91-125">如果未找到页面时使用此属性在 DynamicData\CustomPages 文件夹中，你是动态的数据项目。</span><span class="sxs-lookup"><span data-stu-id="fec91-125">This property is used if the page is not located in the DynamicData\CustomPages folder your the Dynamic Data project.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ChildrenColumn">
+      <MemberSignature Language="C#" Value="public System.Web.DynamicData.MetaChildrenColumn ChildrenColumn { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class System.Web.DynamicData.MetaChildrenColumn ChildrenColumn" />
+      <MemberSignature Language="DocId" Value="P:System.Web.DynamicData.FieldTemplateUserControl.ChildrenColumn" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property ChildrenColumn As MetaChildrenColumn" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::Web::DynamicData::MetaChildrenColumn ^ ChildrenColumn { System::Web::DynamicData::MetaChildrenColumn ^ get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web.DynamicData</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.ComponentModel.Browsable(false)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Web.DynamicData.MetaChildrenColumn</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="fec91-126">获取与某个字段模板关联的 <see cref="T:System.Web.DynamicData.MetaChildrenColumn" /> 对象。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fec91-126">Gets the <see cref="T:System.Web.DynamicData.MetaChildrenColumn" /> object associated with a field template.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="fec91-127">表示一对多关系的列。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fec91-127">A column that represents a one-to-many relationship.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="fec91-128">此属性将强制转换<xref:System.Web.DynamicData.MetaColumn>到<xref:System.Web.DynamicData.MetaChildrenColumn>。</span><span class="sxs-lookup"><span data-stu-id="fec91-128">This property casts a <xref:System.Web.DynamicData.MetaColumn> to a <xref:System.Web.DynamicData.MetaChildrenColumn>.</span></span> <span data-ttu-id="fec91-129">如果<xref:System.Web.DynamicData.MetaColumn>类不是子列，则此属性将引发异常。</span><span class="sxs-lookup"><span data-stu-id="fec91-129">If the <xref:System.Web.DynamicData.MetaColumn> class is not a children column, this property throws an exception.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentNullException">
+          <span data-ttu-id="fec91-130">
+            <see cref="P:System.Web.DynamicData.FieldTemplateUserControl.ChildrenColumn" /> 为 <see langword="null" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fec91-130">
+              <see cref="P:System.Web.DynamicData.FieldTemplateUserControl.ChildrenColumn" /> is <see langword="null" />.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="ChildrenPath">
+      <MemberSignature Language="C#" Value="protected string ChildrenPath { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance string ChildrenPath" />
+      <MemberSignature Language="DocId" Value="P:System.Web.DynamicData.FieldTemplateUserControl.ChildrenPath" />
+      <MemberSignature Language="VB.NET" Value="Protected ReadOnly Property ChildrenPath As String" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; property System::String ^ ChildrenPath { System::String ^ get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web.DynamicData</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="fec91-131">获取链接到显示子实体列表的页面的 URL。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fec91-131">Gets the URL that links to a page that displays a list of children entities.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="fec91-132">将显示页面链接到子实体的 URL。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fec91-132">The URL that links the displayed page to the children entities.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="fec91-133">此方法返回的 URL 链接到的页面中显示子实体的列表。</span><span class="sxs-lookup"><span data-stu-id="fec91-133">This method returns a URL that links to a page that displays a list of children entities.</span></span> <span data-ttu-id="fec91-134">例如，AdventureWorksLT 示例数据库中 ProductCategories 表中的产品列具有链接到产品的列表中所选类别的 Url。</span><span class="sxs-lookup"><span data-stu-id="fec91-134">For example, the products column in the ProductCategories table in the AdventureWorksLT sample database has URLs that link to the list of product that are in the selected category.</span></span> <span data-ttu-id="fec91-135">此属性仅适用于子列。</span><span class="sxs-lookup"><span data-stu-id="fec91-135">This property only applies to children columns.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Column">
+      <MemberSignature Language="C#" Value="public System.Web.DynamicData.MetaColumn Column { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class System.Web.DynamicData.MetaColumn Column" />
+      <MemberSignature Language="DocId" Value="P:System.Web.DynamicData.FieldTemplateUserControl.Column" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property Column As MetaColumn" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::Web::DynamicData::MetaColumn ^ Column { System::Web::DynamicData::MetaColumn ^ get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web.DynamicData</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.ComponentModel.Browsable(false)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Web.DynamicData.MetaColumn</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="fec91-136">获取与某个字段模板关联的 <see cref="T:System.Web.DynamicData.MetaColumn" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fec91-136">Gets the <see cref="T:System.Web.DynamicData.MetaColumn" /> associated with a field template.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="fec91-137">表示数据库列的对象。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fec91-137">An object that represents a database column.</span>
+          </span>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ContainerType">
+      <MemberSignature Language="C#" Value="public virtual System.Web.DynamicData.ContainerType ContainerType { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance valuetype System.Web.DynamicData.ContainerType ContainerType" />
+      <MemberSignature Language="DocId" Value="P:System.Web.DynamicData.FieldTemplateUserControl.ContainerType" />
+      <MemberSignature Language="VB.NET" Value="Public Overridable ReadOnly Property ContainerType As ContainerType" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual property System::Web::DynamicData::ContainerType ContainerType { System::Web::DynamicData::ContainerType get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web.DynamicData</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.ComponentModel.Browsable(false)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Web.DynamicData.ContainerType</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="fec91-138">获取包含 <see cref="T:System.Web.DynamicData.FieldTemplateUserControl" /> 类的数据绑定控件的类型。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fec91-138">Gets the type of the data-bound control that contains the <see cref="T:System.Web.DynamicData.FieldTemplateUserControl" /> class.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="fec91-139">容器控件类型。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fec91-139">The container control type.</span>
+          </span>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ConvertEditedValue">
+      <MemberSignature Language="C#" Value="protected virtual object ConvertEditedValue (string value);" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig newslot virtual instance object ConvertEditedValue(string value) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Web.DynamicData.FieldTemplateUserControl.ConvertEditedValue(System.String)" />
+      <MemberSignature Language="VB.NET" Value="Protected Overridable Function ConvertEditedValue (value As String) As Object" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; virtual System::Object ^ ConvertEditedValue(System::String ^ value);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web.DynamicData</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Object</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="value" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="value">
+          <span data-ttu-id="fec91-140">输入值。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fec91-140">The input value.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="fec91-141">基于 <see cref="P:System.Web.DynamicData.MetaColumn.ConvertEmptyStringToNull" /> 和 <see cref="P:System.Web.DynamicData.DynamicField.NullDisplayText" /> 获取输入值或 <see langword="null" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fec91-141">Gets either an input value or <see langword="null" /> based on <see cref="P:System.Web.DynamicData.MetaColumn.ConvertEmptyStringToNull" /> and <see cref="P:System.Web.DynamicData.DynamicField.NullDisplayText" />.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="fec91-142">转换后的值。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fec91-142">The converted value.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="fec91-143">此方法返回<xref:System.Web.DynamicData.DynamicControl.ConvertEmptyStringToNull%2A>属性和<xref:System.Web.DynamicData.DynamicField.NullDisplayText%2A>可以通过元数据设置的属性或<xref:System.Web.DynamicData.DynamicField>类或<xref:System.Web.DynamicData.DynamicControl>。</span><span class="sxs-lookup"><span data-stu-id="fec91-143">This method returns <xref:System.Web.DynamicData.DynamicControl.ConvertEmptyStringToNull%2A> property and <xref:System.Web.DynamicData.DynamicField.NullDisplayText%2A> property which can be set via metadata or the <xref:System.Web.DynamicData.DynamicField> class or <xref:System.Web.DynamicData.DynamicControl>.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="DataControl">
+      <MemberSignature Language="C#" Value="public virtual System.Web.UI.Control DataControl { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class System.Web.UI.Control DataControl" />
+      <MemberSignature Language="DocId" Value="P:System.Web.DynamicData.FieldTemplateUserControl.DataControl" />
+      <MemberSignature Language="VB.NET" Value="Public Overridable ReadOnly Property DataControl As Control" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual property System::Web::UI::Control ^ DataControl { System::Web::UI::Control ^ get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web.DynamicData</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.ComponentModel.Browsable(false)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Web.UI.Control</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="fec91-144">获取处理字段模板中数据字段的数据控件。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fec91-144">Gets the data control that handles the data field in a field template.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="fec91-145">处理字段模板中数据字段的数据控件。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fec91-145">A data control that handles the data field in a field template.</span>
+          </span>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ExtractForeignKey">
+      <MemberSignature Language="C#" Value="protected virtual void ExtractForeignKey (System.Collections.IDictionary dictionary, string selectedValue);" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig newslot virtual instance void ExtractForeignKey(class System.Collections.IDictionary dictionary, string selectedValue) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Web.DynamicData.FieldTemplateUserControl.ExtractForeignKey(System.Collections.IDictionary,System.String)" />
+      <MemberSignature Language="VB.NET" Value="Protected Overridable Sub ExtractForeignKey (dictionary As IDictionary, selectedValue As String)" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; virtual void ExtractForeignKey(System::Collections::IDictionary ^ dictionary, System::String ^ selectedValue);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web.DynamicData</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="dictionary" Type="System.Collections.IDictionary" />
+        <Parameter Name="selectedValue" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="dictionary">
+          <span data-ttu-id="fec91-146">包含所有新值的词典。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fec91-146">The dictionary that contains all the new values.</span>
+          </span>
+        </param>
+        <param name="selectedValue">
+          <span data-ttu-id="fec91-147">要保存的值。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fec91-147">The value to save.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="fec91-148">保存外键的值。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fec91-148">Saves the value of foreign keys.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="fec91-149">保存外键列时使用此方法。</span><span class="sxs-lookup"><span data-stu-id="fec91-149">This method is used when saving foreign key columns.</span></span> <span data-ttu-id="fec91-150">外键的值选择从<xref:System.Web.UI.WebControls.ListControl.SelectedValue%2A>的下拉列表的属性。</span><span class="sxs-lookup"><span data-stu-id="fec91-150">The value of the foreign key is selected from the <xref:System.Web.UI.WebControls.ListControl.SelectedValue%2A> property of a drop down list.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ExtractValues">
+      <MemberSignature Language="C#" Value="protected virtual void ExtractValues (System.Collections.Specialized.IOrderedDictionary dictionary);" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig newslot virtual instance void ExtractValues(class System.Collections.Specialized.IOrderedDictionary dictionary) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Web.DynamicData.FieldTemplateUserControl.ExtractValues(System.Collections.Specialized.IOrderedDictionary)" />
+      <MemberSignature Language="VB.NET" Value="Protected Overridable Sub ExtractValues (dictionary As IOrderedDictionary)" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; virtual void ExtractValues(System::Collections::Specialized::IOrderedDictionary ^ dictionary);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web.DynamicData</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="dictionary" Type="System.Collections.Specialized.IOrderedDictionary" />
+      </Parameters>
+      <Docs>
+        <param name="dictionary">
+          <span data-ttu-id="fec91-151">包含所有新值的词典。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fec91-151">The dictionary that contains all the new values.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="fec91-152">为当前行中的所有数据提供词典访问。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fec91-152">Provides dictionary access to all data in the current row.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="fec91-153">此方法实现 <xref:System.Web.UI.IBindableControl.ExtractValues%2A> 方法。</span><span class="sxs-lookup"><span data-stu-id="fec91-153">This method implements the <xref:System.Web.UI.IBindableControl.ExtractValues%2A> method.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="FieldValue">
+      <MemberSignature Language="C#" Value="public virtual object FieldValue { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance object FieldValue" />
+      <MemberSignature Language="DocId" Value="P:System.Web.DynamicData.FieldTemplateUserControl.FieldValue" />
+      <MemberSignature Language="VB.NET" Value="Public Overridable Property FieldValue As Object" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual property System::Object ^ FieldValue { System::Object ^ get(); void set(System::Object ^ value); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web.DynamicData</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.ComponentModel.Browsable(false)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Object</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="fec91-154">获取或设置当前行中列的值。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fec91-154">Gets or sets the value of a column in a current row.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="fec91-155">表示当前行中列的值的对象。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fec91-155">An object that represents the value of the column in the current row.</span>
+          </span>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="FieldValueEditString">
+      <MemberSignature Language="C#" Value="public virtual string FieldValueEditString { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance string FieldValueEditString" />
+      <MemberSignature Language="DocId" Value="P:System.Web.DynamicData.FieldTemplateUserControl.FieldValueEditString" />
+      <MemberSignature Language="VB.NET" Value="Public Overridable ReadOnly Property FieldValueEditString As String" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual property System::String ^ FieldValueEditString { System::String ^ get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web.DynamicData</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.ComponentModel.Browsable(false)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="fec91-156">获取当前行处于编辑模式时其中列值的字符串表示形式。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fec91-156">Gets the string representation of the value of a column in the current row when the row is in edit mode.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="fec91-157">所编辑行中列的值。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fec91-157">The value of the column in the row that is edited.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="fec91-158">如果启用了格式设置字符串格式编辑后。</span><span class="sxs-lookup"><span data-stu-id="fec91-158">If formatting is enabled the string is formatted after editing.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="FieldValueString">
+      <MemberSignature Language="C#" Value="public virtual string FieldValueString { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance string FieldValueString" />
+      <MemberSignature Language="DocId" Value="P:System.Web.DynamicData.FieldTemplateUserControl.FieldValueString" />
+      <MemberSignature Language="VB.NET" Value="Public Overridable ReadOnly Property FieldValueString As String" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual property System::String ^ FieldValueString { System::String ^ get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web.DynamicData</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.ComponentModel.Browsable(false)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="fec91-159">获取当前行中列值的带格式字符串表示形式。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fec91-159">Gets the formatted string representation of the value of a column in the current row.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="fec91-160">当前行中的带格式列值。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fec91-160">The formatted value of the column in the current row.</span>
+          </span>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="FindOtherFieldTemplate">
+      <MemberSignature Language="C#" Value="protected System.Web.DynamicData.FieldTemplateUserControl FindOtherFieldTemplate (string columnName);" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig instance class System.Web.DynamicData.FieldTemplateUserControl FindOtherFieldTemplate(string columnName) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Web.DynamicData.FieldTemplateUserControl.FindOtherFieldTemplate(System.String)" />
+      <MemberSignature Language="VB.NET" Value="Protected Function FindOtherFieldTemplate (columnName As String) As FieldTemplateUserControl" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; System::Web::DynamicData::FieldTemplateUserControl ^ FindOtherFieldTemplate(System::String ^ columnName);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web.DynamicData</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Web.DynamicData.FieldTemplateUserControl</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="columnName" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="columnName">
+          <span data-ttu-id="fec91-161">字段模板呈现的数据列。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fec91-161">The data column the field template renders.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="fec91-162">确定用于呈现指定数据列的字段模板。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fec91-162">Determines the field template that is used to render a specified data column.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="fec91-163">用于呈现指定数据列的字段模板。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fec91-163">The field template that is used to render a specified data column.</span>
+          </span>
+        </returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ForeignKeyColumn">
+      <MemberSignature Language="C#" Value="public System.Web.DynamicData.MetaForeignKeyColumn ForeignKeyColumn { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class System.Web.DynamicData.MetaForeignKeyColumn ForeignKeyColumn" />
+      <MemberSignature Language="DocId" Value="P:System.Web.DynamicData.FieldTemplateUserControl.ForeignKeyColumn" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property ForeignKeyColumn As MetaForeignKeyColumn" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::Web::DynamicData::MetaForeignKeyColumn ^ ForeignKeyColumn { System::Web::DynamicData::MetaForeignKeyColumn ^ get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web.DynamicData</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.ComponentModel.Browsable(false)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Web.DynamicData.MetaForeignKeyColumn</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="fec91-164">获取与外键列关联的 <see cref="T:System.Web.DynamicData.MetaForeignKeyColumn" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fec91-164">Gets the <see cref="T:System.Web.DynamicData.MetaForeignKeyColumn" /> that is associated with a foreign key column.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="fec91-165">表示多对一关系的列。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fec91-165">A column that represents a many-to-one relationship.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="fec91-166">此类将转换<xref:System.Web.DynamicData.MetaColumn>到<xref:System.Web.DynamicData.MetaForeignKeyColumn>。</span><span class="sxs-lookup"><span data-stu-id="fec91-166">This class converts the <xref:System.Web.DynamicData.MetaColumn> to a <xref:System.Web.DynamicData.MetaForeignKeyColumn>.</span></span> <span data-ttu-id="fec91-167">此类将引发异常，如果<xref:System.Web.DynamicData.MetaColumn>不是外键列。</span><span class="sxs-lookup"><span data-stu-id="fec91-167">The class throws an exception if <xref:System.Web.DynamicData.MetaColumn> is not a foreign key column.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.Exception">
+          <span data-ttu-id="fec91-168">如果 <see cref="T:System.Web.DynamicData.MetaForeignKeyColumn" /> 不是外键列。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fec91-168">If the <see cref="T:System.Web.DynamicData.MetaForeignKeyColumn" /> is not a foreign key column.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="ForeignKeyPath">
+      <MemberSignature Language="C#" Value="protected string ForeignKeyPath { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance string ForeignKeyPath" />
+      <MemberSignature Language="DocId" Value="P:System.Web.DynamicData.FieldTemplateUserControl.ForeignKeyPath" />
+      <MemberSignature Language="VB.NET" Value="Protected ReadOnly Property ForeignKeyPath As String" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; property System::String ^ ForeignKeyPath { System::String ^ get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web.DynamicData</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="fec91-169">获取将当前页面与显示外键实体详细信息的页面链接的 URL。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fec91-169">Get the URL that links the current page to the page that displays the details of the foreign key entity.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="fec91-170">链接到外键数据详细信息的 URL。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fec91-170">The URL that links to the details of the foreign key data.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="fec91-171">如果数据列具有多对一关系，此属性返回的 URL 链接到显示外键的实体的详细信息页。</span><span class="sxs-lookup"><span data-stu-id="fec91-171">If the data column has a many-to-one relationship, this property returns a URL that links to the page that displays the details of the foreign key entity.</span></span> <span data-ttu-id="fec91-172">例如，在 Northwind 数据库中的产品表类别列中，此方法可以返回将转到产品所属的类别的详细信息的链接。</span><span class="sxs-lookup"><span data-stu-id="fec91-172">For example, in the Category column of the Product table in the Northwind Database, this method can return a link that goes to the details of the category that the product belongs to.</span></span> <span data-ttu-id="fec91-173">此属性仅适用于外键列。</span><span class="sxs-lookup"><span data-stu-id="fec91-173">This property applies to foreign key columns only.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="FormatFieldValue">
+      <MemberSignature Language="C#" Value="public virtual string FormatFieldValue (object fieldValue);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance string FormatFieldValue(object fieldValue) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Web.DynamicData.FieldTemplateUserControl.FormatFieldValue(System.Object)" />
+      <MemberSignature Language="VB.NET" Value="Public Overridable Function FormatFieldValue (fieldValue As Object) As String" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual System::String ^ FormatFieldValue(System::Object ^ fieldValue);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web.DynamicData</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="fieldValue" Type="System.Object" />
+      </Parameters>
+      <Docs>
+        <param name="fieldValue">
+          <span data-ttu-id="fec91-174">要设置格式的数据字段值。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fec91-174">The value from the data field to format.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="fec91-175">将 HTML 编码和格式设置应用于将显示的字符串。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fec91-175">Applies HTML encoding and formatting to a string that will be displayed.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="fec91-176">带格式的值。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fec91-176">The formatted value.</span>
+          </span>
+        </returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="FormattingOptions">
+      <MemberSignature Language="C#" Value="public System.Web.DynamicData.IFieldFormattingOptions FormattingOptions { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class System.Web.DynamicData.IFieldFormattingOptions FormattingOptions" />
+      <MemberSignature Language="DocId" Value="P:System.Web.DynamicData.FieldTemplateUserControl.FormattingOptions" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property FormattingOptions As IFieldFormattingOptions" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::Web::DynamicData::IFieldFormattingOptions ^ FormattingOptions { System::Web::DynamicData::IFieldFormattingOptions ^ get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web.DynamicData</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.ComponentModel.Browsable(false)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Web.DynamicData.IFieldFormattingOptions</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="fec91-177">获取或设置要应用于字段模板的 HTML 编码和格式设置选项。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fec91-177">Gets or sets the HTML encoding and formatting options to apply to a field template.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="fec91-178">公开要应用于字段模板的 HTML 编码和格式设置选项的接口。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fec91-178">The interface that exposes the HTML encoding and formatting options to apply to a field template.</span>
+          </span>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetColumnValue">
+      <MemberSignature Language="C#" Value="protected virtual object GetColumnValue (System.Web.DynamicData.MetaColumn column);" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig newslot virtual instance object GetColumnValue(class System.Web.DynamicData.MetaColumn column) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Web.DynamicData.FieldTemplateUserControl.GetColumnValue(System.Web.DynamicData.MetaColumn)" />
+      <MemberSignature Language="VB.NET" Value="Protected Overridable Function GetColumnValue (column As MetaColumn) As Object" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; virtual System::Object ^ GetColumnValue(System::Web::DynamicData::MetaColumn ^ column);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web.DynamicData</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Object</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="column" Type="System.Web.DynamicData.MetaColumn" />
+      </Parameters>
+      <Docs>
+        <param name="column">
+          <span data-ttu-id="fec91-179">从其中获取值的列。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fec91-179">The column to get the value from.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="fec91-180">获取当前行中指定列的值。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fec91-180">Gets the value of a specified column in the current row.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="fec91-181">一个表示当前行中指定列的值的对象。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fec91-181">An object that represents the value of a specified column in the current row.</span>
+          </span>
+        </returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetSelectedValueString">
+      <MemberSignature Language="C#" Value="protected string GetSelectedValueString ();" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig instance string GetSelectedValueString() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Web.DynamicData.FieldTemplateUserControl.GetSelectedValueString" />
+      <MemberSignature Language="VB.NET" Value="Protected Function GetSelectedValueString () As String" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; System::String ^ GetSelectedValueString();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web.DynamicData</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="fec91-182">返回列值的字符串表示形式。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fec91-182">Returns the string representation of the column's value.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="fec91-183">如果列的当前值是外键列或枚举列，则为所选值的字符串表示形式；否则为 <see langword="null" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fec91-183">If the column's current value is a foreign-key column or an enumeration column, a string representation of the selected value; otherwise, <see langword="null" />.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="fec91-184"><xref:System.Web.DynamicData.FieldTemplateUserControl.GetSelectedValueString%2A>方法用于返回的字符串表示形式外键或枚举列类型。</span><span class="sxs-lookup"><span data-stu-id="fec91-184">The <xref:System.Web.DynamicData.FieldTemplateUserControl.GetSelectedValueString%2A> method is used to return a string representation of foreign-key or enumeration column types.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Host">
+      <MemberSignature Language="C#" Value="public System.Web.DynamicData.IFieldTemplateHost Host { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class System.Web.DynamicData.IFieldTemplateHost Host" />
+      <MemberSignature Language="DocId" Value="P:System.Web.DynamicData.FieldTemplateUserControl.Host" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property Host As IFieldTemplateHost" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::Web::DynamicData::IFieldTemplateHost ^ Host { System::Web::DynamicData::IFieldTemplateHost ^ get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web.DynamicData</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.ComponentModel.Browsable(false)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Web.DynamicData.IFieldTemplateHost</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="fec91-185">获取或设置为此 <see cref="T:System.Web.DynamicData.FieldTemplateUserControl" /> 类提供上下文的主机。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fec91-185">Gets or sets the host that provides context to this <see cref="T:System.Web.DynamicData.FieldTemplateUserControl" /> class.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="fec91-186">为此字段模板类提供上下文的对象。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fec91-186">The object that provides context to this field template class.</span>
+          </span>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="IgnoreModelValidationAttribute">
+      <MemberSignature Language="C#" Value="protected void IgnoreModelValidationAttribute (Type attributeType);" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig instance void IgnoreModelValidationAttribute(class System.Type attributeType) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Web.DynamicData.FieldTemplateUserControl.IgnoreModelValidationAttribute(System.Type)" />
+      <MemberSignature Language="VB.NET" Value="Protected Sub IgnoreModelValidationAttribute (attributeType As Type)" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; void IgnoreModelValidationAttribute(Type ^ attributeType);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web.DynamicData</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="attributeType" Type="System.Type" />
+      </Parameters>
+      <Docs>
+        <param name="attributeType">
+          <span data-ttu-id="fec91-187">要忽略的特性。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fec91-187">The attribute to ignore.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="fec91-188">允许 <see cref="T:System.Web.DynamicData.DynamicValidator" /> 忽略特定类型的模型验证特性。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fec91-188">Allows a <see cref="T:System.Web.DynamicData.DynamicValidator" /> to ignore a specific type of model validation attribute.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="fec91-189">此方法允许<xref:System.Web.DynamicData.DynamicValidator>若要忽略特定类型的模型验证特性。</span><span class="sxs-lookup"><span data-stu-id="fec91-189">This method allows a <xref:System.Web.DynamicData.DynamicValidator> to ignore a specific type of model Validation attributes.</span></span> <span data-ttu-id="fec91-190">此方法称为时属性类型已由 ASP.NET 验证控件。</span><span class="sxs-lookup"><span data-stu-id="fec91-190">This method is called when the attribute type is already handled by an ASP.NET validation controls.</span></span> <span data-ttu-id="fec91-191">如果不调用此，可以进行验证两次，从而导致重复的错误消息。</span><span class="sxs-lookup"><span data-stu-id="fec91-191">Without this call, the validation can occur two times, resulting in a duplicate error message.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="MetadataAttributes">
+      <MemberSignature Language="C#" Value="public System.ComponentModel.AttributeCollection MetadataAttributes { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class System.ComponentModel.AttributeCollection MetadataAttributes" />
+      <MemberSignature Language="DocId" Value="P:System.Web.DynamicData.FieldTemplateUserControl.MetadataAttributes" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property MetadataAttributes As AttributeCollection" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::ComponentModel::AttributeCollection ^ MetadataAttributes { System::ComponentModel::AttributeCollection ^ get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web.DynamicData</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.ComponentModel.Browsable(false)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.ComponentModel.AttributeCollection</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="fec91-192">获取应用于当前列的元数据特性的集合。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fec91-192">Gets the collection of metadata attributes that apply to the current column.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="fec91-193">应用于列的元数据特性的集合。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fec91-193">The collection of metadata attributes that apply to the column.</span>
+          </span>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Mode">
+      <MemberSignature Language="C#" Value="public System.Web.UI.WebControls.DataBoundControlMode Mode { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance valuetype System.Web.UI.WebControls.DataBoundControlMode Mode" />
+      <MemberSignature Language="DocId" Value="P:System.Web.DynamicData.FieldTemplateUserControl.Mode" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property Mode As DataBoundControlMode" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::Web::UI::WebControls::DataBoundControlMode Mode { System::Web::UI::WebControls::DataBoundControlMode get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web.DynamicData</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.ComponentModel.Browsable(false)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Web.UI.WebControls.DataBoundControlMode</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="fec91-194">获取字段模板使用的模式。 </span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fec91-194">Gets the mode a field template uses.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="fec91-195">字段模板的当前模式。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fec91-195">The current mode of the field template.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="fec91-196"><xref:System.Web.UI.WebControls.DataBoundControlMode>字段模板用途包括`Insert`， `Edit`，和`ReadOnly`。</span><span class="sxs-lookup"><span data-stu-id="fec91-196">The <xref:System.Web.UI.WebControls.DataBoundControlMode> that field templates uses include `Insert`, `Edit`, and `ReadOnly`.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="PopulateListControl">
+      <MemberSignature Language="C#" Value="protected void PopulateListControl (System.Web.UI.WebControls.ListControl listControl);" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig instance void PopulateListControl(class System.Web.UI.WebControls.ListControl listControl) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Web.DynamicData.FieldTemplateUserControl.PopulateListControl(System.Web.UI.WebControls.ListControl)" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; void PopulateListControl(System::Web::UI::WebControls::ListControl ^ listControl);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web.DynamicData</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="listControl" Type="System.Web.UI.WebControls.ListControl" />
+      </Parameters>
+      <Docs>
+        <param name="listControl">
+          <span data-ttu-id="fec91-197">要填充的列表控件。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fec91-197">The list control to populate.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="fec91-198">用父表中的所有值填充列表控件。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fec91-198">Populates a list control with all the values from a parent table.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="fec91-199">此方法适用于仅外键列。</span><span class="sxs-lookup"><span data-stu-id="fec91-199">This method works with only foreign key columns.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Row">
+      <MemberSignature Language="C#" Value="public virtual object Row { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance object Row" />
+      <MemberSignature Language="DocId" Value="P:System.Web.DynamicData.FieldTemplateUserControl.Row" />
+      <MemberSignature Language="VB.NET" Value="Public Overridable ReadOnly Property Row As Object" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual property System::Object ^ Row { System::Object ^ get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web.DynamicData</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.ComponentModel.Browsable(false)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Object</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="fec91-200">获取当前数据行对象。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fec91-200">Gets the current data row object.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="fec91-201">当前数据行对象。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fec91-201">The current data row object.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="fec91-202">此属性返回的对象和<xref:System.Web.UI.Page.GetDataItem%2A>是等效的方法。</span><span class="sxs-lookup"><span data-stu-id="fec91-202">The object returned by this the property and the <xref:System.Web.UI.Page.GetDataItem%2A> method are equivalent.</span></span> <span data-ttu-id="fec91-203">此属性使用`Page.GetDataItem`方法以返回数据行对象。</span><span class="sxs-lookup"><span data-stu-id="fec91-203">This property uses the `Page.GetDataItem` method to return the data row object.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <MemberGroup MemberName="SetUpValidator">
+      <AssemblyInfo>
+        <AssemblyName>System.Web.DynamicData</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Docs>
+        <summary>
+          <span data-ttu-id="fec91-204">为要使用的字段模板设置 <see cref="T:System.Web.DynamicData.DynamicValidator" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fec91-204">Sets up a <see cref="T:System.Web.DynamicData.DynamicValidator" /> for field templates to use.</span>
+          </span>
+        </summary>
+      </Docs>
+    </MemberGroup>
+    <Member MemberName="SetUpValidator">
+      <MemberSignature Language="C#" Value="protected virtual void SetUpValidator (System.Web.UI.WebControls.BaseValidator validator);" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig newslot virtual instance void SetUpValidator(class System.Web.UI.WebControls.BaseValidator validator) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Web.DynamicData.FieldTemplateUserControl.SetUpValidator(System.Web.UI.WebControls.BaseValidator)" />
+      <MemberSignature Language="VB.NET" Value="Protected Overridable Sub SetUpValidator (validator As BaseValidator)" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; virtual void SetUpValidator(System::Web::UI::WebControls::BaseValidator ^ validator);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web.DynamicData</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="validator" Type="System.Web.UI.WebControls.BaseValidator" />
+      </Parameters>
+      <Docs>
+        <param name="validator">
+          <span data-ttu-id="fec91-205">要设置的验证控件。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fec91-205">The validation control to set up.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="fec91-206">对所有验证控件设置 <see cref="P:System.Web.DynamicData.IFieldTemplateHost.ValidationGroup" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fec91-206">Sets up a <see cref="P:System.Web.DynamicData.IFieldTemplateHost.ValidationGroup" /> on all validation controls.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="fec91-207">此方法为特定的验证控件执行其他逻辑如<xref:System.Web.UI.WebControls.RangeValidator>并设置<xref:System.Web.DynamicData.DynamicControl.ValidationGroup%2A>上所有验证控件。</span><span class="sxs-lookup"><span data-stu-id="fec91-207">This method performs additional logic for specific validation control such as the <xref:System.Web.UI.WebControls.RangeValidator> and sets up a <xref:System.Web.DynamicData.DynamicControl.ValidationGroup%2A> on all validation controls.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="SetUpValidator">
+      <MemberSignature Language="C#" Value="protected virtual void SetUpValidator (System.Web.UI.WebControls.BaseValidator validator, System.Web.DynamicData.MetaColumn column);" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig newslot virtual instance void SetUpValidator(class System.Web.UI.WebControls.BaseValidator validator, class System.Web.DynamicData.MetaColumn column) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Web.DynamicData.FieldTemplateUserControl.SetUpValidator(System.Web.UI.WebControls.BaseValidator,System.Web.DynamicData.MetaColumn)" />
+      <MemberSignature Language="VB.NET" Value="Protected Overridable Sub SetUpValidator (validator As BaseValidator, column As MetaColumn)" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; virtual void SetUpValidator(System::Web::UI::WebControls::BaseValidator ^ validator, System::Web::DynamicData::MetaColumn ^ column);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web.DynamicData</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="validator" Type="System.Web.UI.WebControls.BaseValidator" />
+        <Parameter Name="column" Type="System.Web.DynamicData.MetaColumn" />
+      </Parameters>
+      <Docs>
+        <param name="validator">
+          <span data-ttu-id="fec91-208">要设置的验证程序类型。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fec91-208">The type of validator to set up.</span>
+          </span>
+        </param>
+        <param name="column">
+          <span data-ttu-id="fec91-209">要为其设置验证程序的列。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fec91-209">The column for which to validator is set.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="fec91-210">使用此类型验证程序和要验证的列设置 <see cref="T:System.Web.DynamicData.DynamicValidator" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fec91-210">Sets up a <see cref="T:System.Web.DynamicData.DynamicValidator" /> using the type of validator and the column to validate.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="fec91-211">此方法用于设置<xref:System.Web.DynamicData.DynamicControl.ValidationGroup%2A>上所有的验证程序。</span><span class="sxs-lookup"><span data-stu-id="fec91-211">This method used to set up <xref:System.Web.DynamicData.DynamicControl.ValidationGroup%2A> on all validators.</span></span>  
+  
+ <span data-ttu-id="fec91-212">它将为特定的验证程序类型，此方法中执行其他逻辑。</span><span class="sxs-lookup"><span data-stu-id="fec91-212">It performs additional logic for specific validator types in this method.</span></span> <span data-ttu-id="fec91-213">例如，如果数据模型中的范围值退出此方法设置<xref:System.Web.UI.WebControls.RangeValidator>。</span><span class="sxs-lookup"><span data-stu-id="fec91-213">For example, if range values exit in the data model this method sets up <xref:System.Web.UI.WebControls.RangeValidator>.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="System.Web.DynamicData.IFieldTemplate.SetHost">
+      <MemberSignature Language="C#" Value="void IFieldTemplate.SetHost (System.Web.DynamicData.IFieldTemplateHost host);" />
+      <MemberSignature Language="ILAsm" Value=".method hidebysig newslot virtual instance void System.Web.DynamicData.IFieldTemplate.SetHost(class System.Web.DynamicData.IFieldTemplateHost host) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Web.DynamicData.FieldTemplateUserControl.System#Web#DynamicData#IFieldTemplate#SetHost(System.Web.DynamicData.IFieldTemplateHost)" />
+      <MemberSignature Language="VB.NET" Value="Sub SetHost (host As IFieldTemplateHost) Implements IFieldTemplate.SetHost" />
+      <MemberSignature Language="C++ CLI" Value=" virtual void System.Web.DynamicData.IFieldTemplate.SetHost(System::Web::DynamicData::IFieldTemplateHost ^ host) = System::Web::DynamicData::IFieldTemplate::SetHost;" />
+      <MemberType>Method</MemberType>
+      <Implements>
+        <InterfaceMember>M:System.Web.DynamicData.IFieldTemplate.SetHost(System.Web.DynamicData.IFieldTemplateHost)</InterfaceMember>
+      </Implements>
+      <AssemblyInfo>
+        <AssemblyName>System.Web.DynamicData</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="host" Type="System.Web.DynamicData.IFieldTemplateHost" />
+      </Parameters>
+      <Docs>
+        <param name="host">
+          <span data-ttu-id="fec91-214">承载字段模板类的对象。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fec91-214">The object that hosts the field template class.</span>
+          </span>
+          <span data-ttu-id="fec91-215">控制对字段模板的使用。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fec91-215">Controls the use of the field template.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="fec91-216">将字段模板与控制该模板使用方式的对象关联。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fec91-216">Associates a field template with the object that controls how the field template is used.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="fec91-217">此方法实现<xref:System.Web.DynamicData.IFieldTemplate.SetHost%2A>接口。</span><span class="sxs-lookup"><span data-stu-id="fec91-217">This method implements the <xref:System.Web.DynamicData.IFieldTemplate.SetHost%2A> interface.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="System.Web.UI.IBindableControl.ExtractValues">
+      <MemberSignature Language="C#" Value="void IBindableControl.ExtractValues (System.Collections.Specialized.IOrderedDictionary dictionary);" />
+      <MemberSignature Language="ILAsm" Value=".method hidebysig newslot virtual instance void System.Web.UI.IBindableControl.ExtractValues(class System.Collections.Specialized.IOrderedDictionary dictionary) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Web.DynamicData.FieldTemplateUserControl.System#Web#UI#IBindableControl#ExtractValues(System.Collections.Specialized.IOrderedDictionary)" />
+      <MemberSignature Language="VB.NET" Value="Sub ExtractValues (dictionary As IOrderedDictionary) Implements IBindableControl.ExtractValues" />
+      <MemberSignature Language="C++ CLI" Value=" virtual void System.Web.UI.IBindableControl.ExtractValues(System::Collections::Specialized::IOrderedDictionary ^ dictionary) = System::Web::UI::IBindableControl::ExtractValues;" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web.DynamicData</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="dictionary" Type="System.Collections.Specialized.IOrderedDictionary" />
+      </Parameters>
+      <Docs>
+        <param name="dictionary">
+          <span data-ttu-id="fec91-218">包含名称/值对的词典。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fec91-218">The dictionary that contains name/values pairs.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="fec91-219">检索一组名称/值对，以便在字段模板控件中实现双向数据绑定。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fec91-219">Retrieves a set of name/value pairs to implement two-way data-binding in field template controls.</span>
+          </span>
+        </summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Table">
+      <MemberSignature Language="C#" Value="public System.Web.DynamicData.MetaTable Table { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class System.Web.DynamicData.MetaTable Table" />
+      <MemberSignature Language="DocId" Value="P:System.Web.DynamicData.FieldTemplateUserControl.Table" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property Table As MetaTable" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::Web::DynamicData::MetaTable ^ Table { System::Web::DynamicData::MetaTable ^ get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web.DynamicData</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.ComponentModel.Browsable(false)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Web.DynamicData.MetaTable</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="fec91-220">获取字段模板的列所属的 <see cref="T:System.Web.DynamicData.MetaTable" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fec91-220">Gets the <see cref="T:System.Web.DynamicData.MetaTable" /> that a column of a field template belongs to.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="fec91-221">与字段模板关联的列所属的表格。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fec91-221">The table that the column that is associated with the field template belongs to.</span>
+          </span>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

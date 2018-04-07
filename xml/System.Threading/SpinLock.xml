@@ -1,0 +1,805 @@
+<Type Name="SpinLock" FullName="System.Threading.SpinLock">
+  <Metadata>
+    <Meta Name="ms.openlocfilehash" Value="2e23183129f62f63c4589bc805d4ebc7b8b87041" />
+    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
+    <Meta Name="ms.translationtype" Value="HT" />
+    <Meta Name="ms.contentlocale" Value="zh-CN" />
+    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
+  </Metadata>
+  <TypeSignature Language="C#" Value="public struct SpinLock" />
+  <TypeSignature Language="ILAsm" Value=".class public sequential ansi sealed beforefieldinit SpinLock extends System.ValueType" />
+  <TypeSignature Language="DocId" Value="T:System.Threading.SpinLock" />
+  <TypeSignature Language="VB.NET" Value="Public Structure SpinLock" />
+  <TypeSignature Language="C++ CLI" Value="public value class SpinLock" />
+  <AssemblyInfo>
+    <AssemblyName>System.Threading</AssemblyName>
+    <AssemblyVersion>4.0.0.0</AssemblyVersion>
+    <AssemblyVersion>4.0.10.0</AssemblyVersion>
+    <AssemblyVersion>4.1.0.0</AssemblyVersion>
+    <AssemblyVersion>4.1.1.0</AssemblyVersion>
+  </AssemblyInfo>
+  <AssemblyInfo>
+    <AssemblyName>mscorlib</AssemblyName>
+    <AssemblyVersion>2.0.5.0</AssemblyVersion>
+    <AssemblyVersion>4.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <AssemblyInfo>
+    <AssemblyName>netstandard</AssemblyName>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.ValueType</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Attributes>
+    <Attribute>
+      <AttributeName>System.Diagnostics.DebuggerDisplay("IsHeld = {IsHeld}")</AttributeName>
+    </Attribute>
+    <Attribute>
+      <AttributeName>System.Diagnostics.DebuggerTypeProxy(typeof(System.Threading.SpinLock/SystemThreading_SpinLockDebugView))</AttributeName>
+    </Attribute>
+    <Attribute>
+      <AttributeName>System.Runtime.InteropServices.ComVisible(false)</AttributeName>
+    </Attribute>
+  </Attributes>
+  <Docs>
+    <summary>
+      <span data-ttu-id="de490-101">提供一个相互排斥锁基元，在该基元中，尝试获取锁的线程将在重复检查的循环中等待，直至该锁变为可用为止。</span>
+      <span class="sxs-lookup">
+        <span data-stu-id="de490-101">Provides a mutual exclusion lock primitive where a thread trying to acquire the lock waits in a loop repeatedly checking until the lock becomes available.</span>
+      </span>
+    </summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="de490-102">有关如何使用旋转锁的示例，请参阅[如何： 使用 SpinLock 进行低级别同步](~/docs/standard/threading/how-to-use-spinlock-for-low-level-synchronization.md)。</span><span class="sxs-lookup"><span data-stu-id="de490-102">For an example of how to use a Spin Lock, see [How to: Use SpinLock for Low-Level Synchronization](~/docs/standard/threading/how-to-use-spinlock-for-low-level-synchronization.md).</span></span>  
+  
+ <span data-ttu-id="de490-103">自旋锁可用于叶级别的锁使用隐含的对象分配<xref:System.Threading.Monitor>、 大小或由于垃圾回收压力，消耗过多。</span><span class="sxs-lookup"><span data-stu-id="de490-103">Spin locks can be used for leaf-level locks where the object allocation implied by using a <xref:System.Threading.Monitor>, in size or due to garbage collection pressure, is overly expensive.</span></span> <span data-ttu-id="de490-104">自旋锁可以在若要避免妨碍;但是，如果你预计占用大量的阻止，你可能不应使用自旋锁由于过多的旋转。</span><span class="sxs-lookup"><span data-stu-id="de490-104">A spin lock can be useful in to avoid blocking; however, if you expect a significant amount of blocking, you should probably not use spin locks due to excessive spinning.</span></span> <span data-ttu-id="de490-105">当锁是细粒度的并且大数量 （例如，每个节点在链接列表中的锁） 以及锁保持时间都很短，旋转可能很有利。</span><span class="sxs-lookup"><span data-stu-id="de490-105">Spinning can be beneficial when locks are fine-grained and large in number (for example, a lock per node in a linked list) and also when lock hold-times are always extremely short.</span></span> <span data-ttu-id="de490-106">一般情况下，同时保留自旋锁，应避免任何这些操作：</span><span class="sxs-lookup"><span data-stu-id="de490-106">In general, while holding a spin lock, one should avoid any of these actions:</span></span>  
+  
+-   <span data-ttu-id="de490-107">阻止，</span><span class="sxs-lookup"><span data-stu-id="de490-107">blocking,</span></span>  
+  
+-   <span data-ttu-id="de490-108">调用的任何内容本身可能会阻止，</span><span class="sxs-lookup"><span data-stu-id="de490-108">calling anything that itself may block,</span></span>  
+  
+-   <span data-ttu-id="de490-109">同时，保持多个数值调节钮锁</span><span class="sxs-lookup"><span data-stu-id="de490-109">holding more than one spin lock at once,</span></span>  
+  
+-   <span data-ttu-id="de490-110">动态进行调度的调用 （接口和虚方法）</span><span class="sxs-lookup"><span data-stu-id="de490-110">making dynamically dispatched calls (interface and virtuals),</span></span>  
+  
+-   <span data-ttu-id="de490-111">以静态方式进行调度到一个不拥有任何代码的调用或</span><span class="sxs-lookup"><span data-stu-id="de490-111">making statically dispatched calls into any code one doesn't own, or</span></span>  
+  
+-   <span data-ttu-id="de490-112">分配内存。</span><span class="sxs-lookup"><span data-stu-id="de490-112">allocating memory.</span></span>  
+  
+ <span data-ttu-id="de490-113"><xref:System.Threading.SpinLock> 应仅用于你，这样做可以改进应用程序的性能确定后。</span><span class="sxs-lookup"><span data-stu-id="de490-113"><xref:System.Threading.SpinLock> should only be used after you have been determined that doing so will improve an application's performance.</span></span> <span data-ttu-id="de490-114">还有一点需要注意<xref:System.Threading.SpinLock>是值类型，出于性能原因。</span><span class="sxs-lookup"><span data-stu-id="de490-114">It is also important to note that <xref:System.Threading.SpinLock> is a value type, for performance reasons.</span></span> <span data-ttu-id="de490-115">为此，你必须非常小心，以免意外复制<xref:System.Threading.SpinLock>实例，如两个实例 （原始和复制），若要完全相互独立的这可能会导致应用程序的错误行为。</span><span class="sxs-lookup"><span data-stu-id="de490-115">For this reason, you must be very careful not to accidentally copy a <xref:System.Threading.SpinLock> instance, as the two instances (the original and the copy) would then be completely independent of one another, which would likely lead to erroneous behavior of the application.</span></span> <span data-ttu-id="de490-116">如果<xref:System.Threading.SpinLock>必须围绕传递实例时，它应按引用而不是按值传递。</span><span class="sxs-lookup"><span data-stu-id="de490-116">If a <xref:System.Threading.SpinLock> instance must be passed around, it should be passed by reference rather than by value.</span></span>  
+  
+ <span data-ttu-id="de490-117">将不会存储<xref:System.Threading.SpinLock>readonly 字段中的实例。</span><span class="sxs-lookup"><span data-stu-id="de490-117">Do not store <xref:System.Threading.SpinLock> instances in readonly fields.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="de490-118">下面的示例演示如何使用<xref:System.Threading.SpinLock>:</span><span class="sxs-lookup"><span data-stu-id="de490-118">The following example shows how to use a <xref:System.Threading.SpinLock>:</span></span>  
+  
+ [!code-csharp[System.Threading.SpinLock#01](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.threading.spinlock/cs/spinlock.cs#01)]
+ [!code-vb[System.Threading.SpinLock#01](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.threading.spinlock/vb/spinlock.vb#01)]  
+  
+ ]]></format>
+    </remarks>
+    <threadsafe>
+      <span data-ttu-id="de490-119">所有成员<see cref="T:System.Threading.SpinLock" />是线程安全的可从多个线程同时使用。</span>
+      <span class="sxs-lookup">
+        <span data-stu-id="de490-119">All members of <see cref="T:System.Threading.SpinLock" /> are thread-safe and may be used from multiple threads concurrently.</span>
+      </span>
+    </threadsafe>
+  </Docs>
+  <Members>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public SpinLock (bool enableThreadOwnerTracking);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(bool enableThreadOwnerTracking) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Threading.SpinLock.#ctor(System.Boolean)" />
+      <MemberSignature Language="VB.NET" Value="Public Sub New (enableThreadOwnerTracking As Boolean)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; SpinLock(bool enableThreadOwnerTracking);" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Threading</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="enableThreadOwnerTracking" Type="System.Boolean" />
+      </Parameters>
+      <Docs>
+        <param name="enableThreadOwnerTracking">
+          <span data-ttu-id="de490-120">是否捕获线程 ID 并将其用于调试目的。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="de490-120">Whether to capture and use thread IDs for debugging purposes.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="de490-121">使用用于跟踪线程 ID 以改善调试的选项初始化 <see cref="T:System.Threading.SpinLock" /> 结构的新实例。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="de490-121">Initializes a new instance of the <see cref="T:System.Threading.SpinLock" /> structure with the option to track thread IDs to improve debugging.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="de490-122">默认构造函数<xref:System.Threading.SpinLock>跟踪线程所有权。</span><span class="sxs-lookup"><span data-stu-id="de490-122">The default constructor for <xref:System.Threading.SpinLock> tracks thread ownership.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="de490-123">下面的示例演示如何可能使用旋转锁。</span><span class="sxs-lookup"><span data-stu-id="de490-123">The following example demonstrates how a SpinLock may be used.</span></span>  
+  
+```  
+// C#  
+public class MyType  
+{  
+    private SpinLock _spinLock = new SpinLock();  
+  
+    public void DoWork()  
+    {  
+        bool lockTaken = false;   
+        try  
+        {  
+           _spinLock.Enter(ref lockTaken);  
+           // do work here protected by the lock  
+        }  
+        finally  
+        {  
+            if (lockTaken) _spinLock.Exit();  
+        }  
+    }  
+}  
+```  
+  
+```  
+' Visual Basic  
+  
+Class MyType  
+   Private _spinLock As New SpinLock()  
+  
+   Public Sub DoWork()  
+      Dim lockTaken As Boolean = False  
+      Try  
+         _spinLock.Enter(lockTaken)  
+         ' do work here protected by the lock  
+      Finally  
+         If lockTaken Then _spinLock.Exit()  
+      End Try  
+   End Sub  
+End Class  
+```  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Enter">
+      <MemberSignature Language="C#" Value="public void Enter (ref bool lockTaken);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void Enter(bool&amp; lockTaken) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Threading.SpinLock.Enter(System.Boolean@)" />
+      <MemberSignature Language="VB.NET" Value="Public Sub Enter (ByRef lockTaken As Boolean)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void Enter(bool % lockTaken);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Threading</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="lockTaken" Type="System.Boolean&amp;" RefType="ref" />
+      </Parameters>
+      <Docs>
+        <param name="lockTaken">
+          <span data-ttu-id="de490-124">如果已获取锁，则为 true，否则为 false。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="de490-124">True if the lock is acquired; otherwise, false.</span>
+          </span>
+          <span data-ttu-id="de490-125">调用此方法前，必须将 <c>lockTaken</c> 初始化为 false。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="de490-125">
+              <c>lockTaken</c> must be initialized to false prior to calling this method.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="de490-126">采用可靠的方式获取锁，这样，即使在方法调用中发生异常的情况下，都能采用可靠的方式检查 <paramref name="lockTaken" /> 以确定是否已获取锁。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="de490-126">Acquires the lock in a reliable manner, such that even if an exception occurs within the method call, <paramref name="lockTaken" /> can be examined reliably to determine whether the lock was acquired.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="de490-127"><xref:System.Threading.SpinLock> 是一个非可重入锁，这意味着，如果一个线程保持锁定，它不允许重新进入锁定。</span><span class="sxs-lookup"><span data-stu-id="de490-127"><xref:System.Threading.SpinLock> is a non-reentrant lock, meaning that if a thread holds the lock, it is not allowed to enter the lock again.</span></span> <span data-ttu-id="de490-128">如果启用了跟踪的线程所有权 (是否启用它是可通过<xref:System.Threading.SpinLock.IsThreadOwnerTrackingEnabled%2A>)，当一个线程尝试重新输入已持有的锁时，将引发异常。</span><span class="sxs-lookup"><span data-stu-id="de490-128">If thread ownership tracking is enabled (whether it's enabled is available through <xref:System.Threading.SpinLock.IsThreadOwnerTrackingEnabled%2A>), an exception will be thrown when a thread tries to re-enter a lock it already holds.</span></span> <span data-ttu-id="de490-129">但是，如果禁用跟踪的线程所有权，则尝试输入已持有的锁将导致死锁。</span><span class="sxs-lookup"><span data-stu-id="de490-129">However, if thread ownership tracking is disabled, attempting to enter a lock already held will result in deadlock.</span></span>  
+  
+ <span data-ttu-id="de490-130">如果调用<xref:System.Threading.SpinLock.Exit%2A>没有首先调用<xref:System.Threading.SpinLock.Enter%2A>的内部状态<xref:System.Threading.SpinLock>可能会损坏。</span><span class="sxs-lookup"><span data-stu-id="de490-130">If you call <xref:System.Threading.SpinLock.Exit%2A> without having first called <xref:System.Threading.SpinLock.Enter%2A> the internal state of the <xref:System.Threading.SpinLock> can become corrupted.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentException">
+          <span data-ttu-id="de490-131">在调用 Enter 之前，<paramref name="lockTaken" /> 参数必须初始化为 false。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="de490-131">The <paramref name="lockTaken" /> argument must be initialized to false prior to calling Enter.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.Threading.LockRecursionException">
+          <span data-ttu-id="de490-132">线程所有权跟踪已启用，当前线程已获取此锁定。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="de490-132">Thread ownership tracking is enabled, and the current thread has already acquired this lock.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <MemberGroup MemberName="Exit">
+      <AssemblyInfo>
+        <AssemblyName>System.Threading</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Docs>
+        <summary>
+          <span data-ttu-id="de490-133">释放锁。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="de490-133">Releases the lock.</span>
+          </span>
+        </summary>
+      </Docs>
+    </MemberGroup>
+    <Member MemberName="Exit">
+      <MemberSignature Language="C#" Value="public void Exit ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void Exit() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Threading.SpinLock.Exit" />
+      <MemberSignature Language="VB.NET" Value="Public Sub Exit ()" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void Exit();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Threading</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.Runtime.ConstrainedExecution.ReliabilityContract(System.Runtime.ConstrainedExecution.Consistency.WillNotCorruptState, System.Runtime.ConstrainedExecution.Cer.Success)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="de490-134">释放锁。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="de490-134">Releases the lock.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="de490-135">默认重载<xref:System.Threading.SpinLock.Exit%2A>提供相同的行为就像调用<xref:System.Threading.SpinLock.Exit%2A>true 使用作为参数。</span><span class="sxs-lookup"><span data-stu-id="de490-135">The default overload of <xref:System.Threading.SpinLock.Exit%2A> provides the same behavior as if calling <xref:System.Threading.SpinLock.Exit%2A> using true as the argument.</span></span>  
+  
+ <span data-ttu-id="de490-136">如果调用<xref:System.Threading.SpinLock.Exit%2A>没有首先调用<xref:System.Threading.SpinLock.Enter%2A>的内部状态<xref:System.Threading.SpinLock>可能会损坏。</span><span class="sxs-lookup"><span data-stu-id="de490-136">If you call <xref:System.Threading.SpinLock.Exit%2A> without having first called <xref:System.Threading.SpinLock.Enter%2A> the internal state of the <xref:System.Threading.SpinLock> can become corrupted.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.Threading.SynchronizationLockException">
+          <span data-ttu-id="de490-137">启用线程所有权跟踪，当前线程不是此锁的所有者。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="de490-137">Thread ownership tracking is enabled, and the current thread is not the owner of this lock.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="Exit">
+      <MemberSignature Language="C#" Value="public void Exit (bool useMemoryBarrier);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void Exit(bool useMemoryBarrier) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Threading.SpinLock.Exit(System.Boolean)" />
+      <MemberSignature Language="VB.NET" Value="Public Sub Exit (useMemoryBarrier As Boolean)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void Exit(bool useMemoryBarrier);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Threading</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.Runtime.ConstrainedExecution.ReliabilityContract(System.Runtime.ConstrainedExecution.Consistency.WillNotCorruptState, System.Runtime.ConstrainedExecution.Cer.Success)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="useMemoryBarrier" Type="System.Boolean" />
+      </Parameters>
+      <Docs>
+        <param name="useMemoryBarrier">
+          <span data-ttu-id="de490-138">一个布尔值，该值指示是否应发出内存界定，以便将退出操作立即发布到其他线程。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="de490-138">A Boolean value that indicates whether a memory fence should be issued in order to immediately publish the exit operation to other threads.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="de490-139">释放锁。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="de490-139">Releases the lock.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="de490-140">调用<xref:System.Threading.SpinLock.Exit%2A>与`useMemoryBarrier`设置为 true 将提高这会降低某些性能的锁公平性的自变量。</span><span class="sxs-lookup"><span data-stu-id="de490-140">Calling <xref:System.Threading.SpinLock.Exit%2A> with the `useMemoryBarrier` argument set to true will improve the fairness of the lock at the expense of some performance.</span></span> <span data-ttu-id="de490-141">默认值<xref:System.Threading.SpinLock.Exit%2A>重载的行为方式好像指定时为 true， `useMemoryBarrier`。</span><span class="sxs-lookup"><span data-stu-id="de490-141">The default <xref:System.Threading.SpinLock.Exit%2A> overload behaves as if specifying true for `useMemoryBarrier`.</span></span>  
+  
+ <span data-ttu-id="de490-142">如果调用<xref:System.Threading.SpinLock.Exit%2A>没有首先调用<xref:System.Threading.SpinLock.Enter%2A>的内部状态<xref:System.Threading.SpinLock>可能会损坏。</span><span class="sxs-lookup"><span data-stu-id="de490-142">If you call <xref:System.Threading.SpinLock.Exit%2A> without having first called <xref:System.Threading.SpinLock.Enter%2A> the internal state of the <xref:System.Threading.SpinLock> can become corrupted.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.Threading.SynchronizationLockException">
+          <span data-ttu-id="de490-143">启用线程所有权跟踪，当前线程不是此锁的所有者。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="de490-143">Thread ownership tracking is enabled, and the current thread is not the owner of this lock.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="IsHeld">
+      <MemberSignature Language="C#" Value="public bool IsHeld { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance bool IsHeld" />
+      <MemberSignature Language="DocId" Value="P:System.Threading.SpinLock.IsHeld" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property IsHeld As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property bool IsHeld { bool get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Threading</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>get: System.Runtime.ConstrainedExecution.ReliabilityContract(System.Runtime.ConstrainedExecution.Consistency.WillNotCorruptState, System.Runtime.ConstrainedExecution.Cer.Success)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="de490-144">获取锁当前是否已由任何线程占用。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="de490-144">Gets whether the lock is currently held by any thread.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="de490-145">如果锁当前已由任何线程占用，则为 true；否则为 false。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="de490-145">true if the lock is currently held by any thread; otherwise false.</span>
+          </span>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="IsHeldByCurrentThread">
+      <MemberSignature Language="C#" Value="public bool IsHeldByCurrentThread { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance bool IsHeldByCurrentThread" />
+      <MemberSignature Language="DocId" Value="P:System.Threading.SpinLock.IsHeldByCurrentThread" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property IsHeldByCurrentThread As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property bool IsHeldByCurrentThread { bool get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Threading</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>get: System.Runtime.ConstrainedExecution.ReliabilityContract(System.Runtime.ConstrainedExecution.Consistency.WillNotCorruptState, System.Runtime.ConstrainedExecution.Cer.Success)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="de490-146">获取锁是否已由当前线程占用。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="de490-146">Gets whether the lock is held by the current thread.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="de490-147">如果锁已由当前线程占用，则为 true；否则为 false。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="de490-147">true if the lock is held by the current thread; otherwise false.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="de490-148">如果锁被初始化，以跟踪所有者线程，这将返回当前线程是否已获取锁。</span><span class="sxs-lookup"><span data-stu-id="de490-148">If the lock was initialized to track owner threads, this will return whether the lock is acquired by the current thread.</span></span> <span data-ttu-id="de490-149">要锁定初始化不跟踪线程所有权时使用此属性无效。</span><span class="sxs-lookup"><span data-stu-id="de490-149">It is invalid to use this property when the lock was initialized to not track thread ownership.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.InvalidOperationException">
+          <span data-ttu-id="de490-150">禁用线程所有权跟踪。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="de490-150">Thread ownership tracking is disabled.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="IsThreadOwnerTrackingEnabled">
+      <MemberSignature Language="C#" Value="public bool IsThreadOwnerTrackingEnabled { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance bool IsThreadOwnerTrackingEnabled" />
+      <MemberSignature Language="DocId" Value="P:System.Threading.SpinLock.IsThreadOwnerTrackingEnabled" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property IsThreadOwnerTrackingEnabled As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property bool IsThreadOwnerTrackingEnabled { bool get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Threading</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>get: System.Runtime.ConstrainedExecution.ReliabilityContract(System.Runtime.ConstrainedExecution.Consistency.WillNotCorruptState, System.Runtime.ConstrainedExecution.Cer.Success)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="de490-151">获取是否已为此实例启用了线程所有权跟踪。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="de490-151">Gets whether thread ownership tracking is enabled for this instance.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="de490-152">如果已为此实例启用了线程所有权跟踪，则为 true；否则为 false。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="de490-152">true if thread ownership tracking is enabled for this instance; otherwise false.</span>
+          </span>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <MemberGroup MemberName="TryEnter">
+      <AssemblyInfo>
+        <AssemblyName>System.Threading</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Docs>
+        <summary>
+          <span data-ttu-id="de490-153">尝试采用可靠的方式获取锁，这样，即使在方法调用中发生异常的情况下，都能采用可靠的方式检查  <paramref name="lockTaken" /> 以确定是否已获取锁。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="de490-153">Attempts to acquire the lock in a reliable manner, such that even if an exception occurs within the method call, <paramref name="lockTaken" /> can be examined reliably to determine whether the lock was acquired.</span>
+          </span>
+        </summary>
+      </Docs>
+    </MemberGroup>
+    <Member MemberName="TryEnter">
+      <MemberSignature Language="C#" Value="public void TryEnter (ref bool lockTaken);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void TryEnter(bool&amp; lockTaken) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Threading.SpinLock.TryEnter(System.Boolean@)" />
+      <MemberSignature Language="VB.NET" Value="Public Sub TryEnter (ByRef lockTaken As Boolean)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void TryEnter(bool % lockTaken);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Threading</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="lockTaken" Type="System.Boolean&amp;" RefType="ref" />
+      </Parameters>
+      <Docs>
+        <param name="lockTaken">
+          <span data-ttu-id="de490-154">如果已获取锁，则为 true，否则为 false。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="de490-154">True if the lock is acquired; otherwise, false.</span>
+          </span>
+          <span data-ttu-id="de490-155">调用此方法前，必须将 <c>lockTaken</c> 初始化为 false。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="de490-155">
+              <c>lockTaken</c> must be initialized to false prior to calling this method.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="de490-156">尝试采用可靠的方式获取锁，这样，即使在方法调用中发生异常的情况下，都能采用可靠的方式检查  <paramref name="lockTaken" /> 以确定是否已获取锁。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="de490-156">Attempts to acquire the lock in a reliable manner, such that even if an exception occurs within the method call, <paramref name="lockTaken" /> can be examined reliably to determine whether the lock was acquired.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="de490-157">与不同<xref:System.Threading.SpinLock.Enter%2A>，TryEnter 不会阻止等待可用的锁。</span><span class="sxs-lookup"><span data-stu-id="de490-157">Unlike <xref:System.Threading.SpinLock.Enter%2A>, TryEnter will not block waiting for the lock to be available.</span></span> <span data-ttu-id="de490-158">如果在调用 tryenter 时，锁定不可用，则会立即返回而无需任何进一步旋转。</span><span class="sxs-lookup"><span data-stu-id="de490-158">If the lock is not available when TryEnter is called, it will return immediately without any further spinning.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentException">
+          <span data-ttu-id="de490-159">在调用 TryEnter 之前，<paramref name="lockTaken" /> 参数必须在初始化为 false。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="de490-159">The <paramref name="lockTaken" /> argument must be initialized to false prior to calling TryEnter.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.Threading.LockRecursionException">
+          <span data-ttu-id="de490-160">线程所有权跟踪已启用，当前线程已获取此锁定。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="de490-160">Thread ownership tracking is enabled, and the current thread has already acquired this lock.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="TryEnter">
+      <MemberSignature Language="C#" Value="public void TryEnter (int millisecondsTimeout, ref bool lockTaken);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void TryEnter(int32 millisecondsTimeout, bool&amp; lockTaken) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Threading.SpinLock.TryEnter(System.Int32,System.Boolean@)" />
+      <MemberSignature Language="VB.NET" Value="Public Sub TryEnter (millisecondsTimeout As Integer, ByRef lockTaken As Boolean)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void TryEnter(int millisecondsTimeout, bool % lockTaken);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Threading</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="millisecondsTimeout" Type="System.Int32" />
+        <Parameter Name="lockTaken" Type="System.Boolean&amp;" RefType="ref" />
+      </Parameters>
+      <Docs>
+        <param name="millisecondsTimeout">
+          <span data-ttu-id="de490-161">等待的毫秒数，或为 <see cref="F:System.Threading.Timeout.Infinite" /> (-1)，表示无限期等待。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="de490-161">The number of milliseconds to wait, or <see cref="F:System.Threading.Timeout.Infinite" /> (-1) to wait indefinitely.</span>
+          </span>
+        </param>
+        <param name="lockTaken">
+          <span data-ttu-id="de490-162">如果已获取锁，则为 true，否则为 false。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="de490-162">True if the lock is acquired; otherwise, false.</span>
+          </span>
+          <span data-ttu-id="de490-163">调用此方法前，必须将 <c>lockTaken</c> 初始化为 false。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="de490-163">
+              <c>lockTaken</c> must be initialized to false prior to calling this method.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="de490-164">尝试采用可靠的方式获取锁，这样，即使在方法调用中发生异常的情况下，都能采用可靠的方式检查  <paramref name="lockTaken" /> 以确定是否已获取锁。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="de490-164">Attempts to acquire the lock in a reliable manner, such that even if an exception occurs within the method call, <paramref name="lockTaken" /> can be examined reliably to determine whether the lock was acquired.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="de490-165">与不同<xref:System.Threading.SpinLock.Enter%2A>，TryEnter 不会阻止无限期地等待锁可用。</span><span class="sxs-lookup"><span data-stu-id="de490-165">Unlike <xref:System.Threading.SpinLock.Enter%2A>, TryEnter will not block indefinitely waiting for the lock to be available.</span></span> <span data-ttu-id="de490-166">它将阻止任一锁可用之前，或者直到`millisecondsTimeout`已过期。</span><span class="sxs-lookup"><span data-stu-id="de490-166">It will block until either the lock is available or until the `millisecondsTimeout` has expired.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentOutOfRangeException">
+          <span data-ttu-id="de490-167">
+            <paramref name="millisecondsTimeout" /> 是一个非 -1 的负数，而 -1 表示无限期超时。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="de490-167">
+              <paramref name="millisecondsTimeout" /> is a negative number other than -1, which represents an infinite time-out.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.ArgumentException">
+          <span data-ttu-id="de490-168">在调用 TryEnter 之前，<paramref name="lockTaken" /> 参数必须在初始化为 false。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="de490-168">The <paramref name="lockTaken" /> argument must be initialized to false prior to calling TryEnter.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.Threading.LockRecursionException">
+          <span data-ttu-id="de490-169">线程所有权跟踪已启用，当前线程已获取此锁定。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="de490-169">Thread ownership tracking is enabled, and the current thread has already acquired this lock.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="TryEnter">
+      <MemberSignature Language="C#" Value="public void TryEnter (TimeSpan timeout, ref bool lockTaken);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void TryEnter(valuetype System.TimeSpan timeout, bool&amp; lockTaken) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Threading.SpinLock.TryEnter(System.TimeSpan,System.Boolean@)" />
+      <MemberSignature Language="VB.NET" Value="Public Sub TryEnter (timeout As TimeSpan, ByRef lockTaken As Boolean)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void TryEnter(TimeSpan timeout, bool % lockTaken);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Threading</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="timeout" Type="System.TimeSpan" />
+        <Parameter Name="lockTaken" Type="System.Boolean&amp;" RefType="ref" />
+      </Parameters>
+      <Docs>
+        <param name="timeout">
+          <span data-ttu-id="de490-170">表示等待毫秒数的 <see cref="T:System.TimeSpan" />，或表示 -1 毫秒（无限期等待）的 <see cref="T:System.TimeSpan" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="de490-170">A <see cref="T:System.TimeSpan" /> that represents the number of milliseconds to wait, or a <see cref="T:System.TimeSpan" /> that represents -1 milliseconds to wait indefinitely.</span>
+          </span>
+        </param>
+        <param name="lockTaken">
+          <span data-ttu-id="de490-171">如果已获取锁，则为 true，否则为 false。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="de490-171">True if the lock is acquired; otherwise, false.</span>
+          </span>
+          <span data-ttu-id="de490-172">调用此方法前，必须将 <c>lockTaken</c> 初始化为 false。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="de490-172">
+              <c>lockTaken</c> must be initialized to false prior to calling this method.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="de490-173">尝试采用可靠的方式获取锁，这样，即使在方法调用中发生异常的情况下，都能采用可靠的方式检查  <paramref name="lockTaken" /> 以确定是否已获取锁。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="de490-173">Attempts to acquire the lock in a reliable manner, such that even if an exception occurs within the method call, <paramref name="lockTaken" /> can be examined reliably to determine whether the lock was acquired.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="de490-174">与不同<xref:System.Threading.SpinLock.Enter%2A>，TryEnter 不会阻止无限期地等待锁可用。</span><span class="sxs-lookup"><span data-stu-id="de490-174">Unlike <xref:System.Threading.SpinLock.Enter%2A>, TryEnter will not block indefinitely waiting for the lock to be available.</span></span> <span data-ttu-id="de490-175">它将阻止任一锁可用之前，或者直到`timeout`已过期。</span><span class="sxs-lookup"><span data-stu-id="de490-175">It will block until either the lock is available or until the `timeout` has expired.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentOutOfRangeException">
+          <span data-ttu-id="de490-176">
+            <paramref name="timeout" /> 是 -1 毫秒之外的负数，表示无限超时或者超时大于 <see cref="F:System.Int32.MaxValue" /> 毫秒。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="de490-176">
+              <paramref name="timeout" /> is a negative number other than -1 milliseconds, which represents an infinite time-out -or- timeout is greater than <see cref="F:System.Int32.MaxValue" /> milliseconds.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.ArgumentException">
+          <span data-ttu-id="de490-177">在调用 TryEnter 之前，<paramref name="lockTaken" /> 参数必须在初始化为 false。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="de490-177">The <paramref name="lockTaken" /> argument must be initialized to false prior to calling TryEnter.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.Threading.LockRecursionException">
+          <span data-ttu-id="de490-178">线程所有权跟踪已启用，当前线程已获取此锁定。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="de490-178">Thread ownership tracking is enabled, and the current thread has already acquired this lock.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

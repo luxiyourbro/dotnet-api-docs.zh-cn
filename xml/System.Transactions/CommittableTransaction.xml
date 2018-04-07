@@ -1,0 +1,647 @@
+<Type Name="CommittableTransaction" FullName="System.Transactions.CommittableTransaction">
+  <Metadata>
+    <Meta Name="ms.openlocfilehash" Value="e29b4ca4f99af2e899c40f7e2588bbeb984e5e4a" />
+    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
+    <Meta Name="ms.translationtype" Value="HT" />
+    <Meta Name="ms.contentlocale" Value="zh-CN" />
+    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
+  </Metadata>
+  <TypeSignature Language="C#" Value="public sealed class CommittableTransaction : System.Transactions.Transaction, IAsyncResult, IDisposable, System.Runtime.Serialization.ISerializable" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi serializable sealed beforefieldinit CommittableTransaction extends System.Transactions.Transaction implements class System.IAsyncResult, class System.IDisposable, class System.Runtime.Serialization.ISerializable" />
+  <TypeSignature Language="DocId" Value="T:System.Transactions.CommittableTransaction" />
+  <TypeSignature Language="VB.NET" Value="Public NotInheritable Class CommittableTransaction&#xA;Inherits Transaction&#xA;Implements IAsyncResult, IDisposable, ISerializable" />
+  <TypeSignature Language="C++ CLI" Value="public ref class CommittableTransaction sealed : System::Transactions::Transaction, IAsyncResult, IDisposable, System::Runtime::Serialization::ISerializable" />
+  <AssemblyInfo>
+    <AssemblyName>System.Transactions</AssemblyName>
+    <AssemblyVersion>2.0.5.0</AssemblyVersion>
+    <AssemblyVersion>4.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <AssemblyInfo>
+    <AssemblyName>netstandard</AssemblyName>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <AssemblyInfo>
+    <AssemblyName>System.Transactions.Local</AssemblyName>
+    <AssemblyVersion>4.0.0.0</AssemblyVersion>
+    <AssemblyVersion>4.0.1.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Transactions.Transaction</BaseTypeName>
+  </Base>
+  <Interfaces>
+    <Interface>
+      <InterfaceName>System.IAsyncResult</InterfaceName>
+    </Interface>
+    <Interface>
+      <InterfaceName>System.IDisposable</InterfaceName>
+    </Interface>
+    <Interface>
+      <InterfaceName>System.Runtime.Serialization.ISerializable</InterfaceName>
+    </Interface>
+  </Interfaces>
+  <Docs>
+    <summary>
+      <span data-ttu-id="f6d67-101">描述可提交的事务。</span>
+      <span class="sxs-lookup">
+        <span data-stu-id="f6d67-101">Describes a committable transaction.</span>
+      </span>
+    </summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="f6d67-102"><xref:System.Transactions.CommittableTransaction> 类为应用程序使用事务提供了一种显式方法，而不是隐式地使用 <xref:System.Transactions.TransactionScope> 类。</span><span class="sxs-lookup"><span data-stu-id="f6d67-102">The <xref:System.Transactions.CommittableTransaction> class provides an explicit way for applications to use a transaction, as opposed to using the <xref:System.Transactions.TransactionScope> class implicitly.</span></span> <span data-ttu-id="f6d67-103">与 <xref:System.Transactions.TransactionScope> 类不同，应用程序编写器需要明确调用 <xref:System.Transactions.CommittableTransaction.Commit%2A> 和 <xref:System.Transactions.Transaction.Rollback%2A> 方法以提交或中止事务。</span><span class="sxs-lookup"><span data-stu-id="f6d67-103">Unlike the <xref:System.Transactions.TransactionScope> class, the application writer needs to specifically call the <xref:System.Transactions.CommittableTransaction.Commit%2A> and <xref:System.Transactions.Transaction.Rollback%2A> methods in order to commit or abort the transaction.</span></span> <span data-ttu-id="f6d67-104">但是，只有一个事务的创建者可以提交事务。</span><span class="sxs-lookup"><span data-stu-id="f6d67-104">However, only the creator of a transaction can commit the transaction.</span></span> <span data-ttu-id="f6d67-105">副本可提交的事务，因此，通过获取<xref:System.Transactions.Transaction.Clone%2A>方法不是可提交。</span><span class="sxs-lookup"><span data-stu-id="f6d67-105">Therefore, copies of a committable transaction, obtained through the <xref:System.Transactions.Transaction.Clone%2A> method are not committable.</span></span>  
+  
+> [!NOTE]
+>  <span data-ttu-id="f6d67-106">我们建议你创建使用隐式事务<xref:System.Transactions.TransactionScope>类，以便为你自动管理的环境事务上下文。</span><span class="sxs-lookup"><span data-stu-id="f6d67-106">We recommend that you create implicit transactions using the <xref:System.Transactions.TransactionScope> class, so that the ambient transaction context is automatically managed for you.</span></span> <span data-ttu-id="f6d67-107">你还应使用<xref:System.Transactions.TransactionScope>和<xref:System.Transactions.DependentTransaction>跨多个函数调用或多个线程调用需要在同一事务的使用的应用程序的类。</span><span class="sxs-lookup"><span data-stu-id="f6d67-107">You should also use the <xref:System.Transactions.TransactionScope> and <xref:System.Transactions.DependentTransaction> class for applications that require the use of the same transaction across multiple function calls or multiple thread calls.</span></span> <span data-ttu-id="f6d67-108">在此模型上的详细信息，请参阅[实现隐式事务使用事务范围](~/docs/framework/data/transactions/implementing-an-implicit-transaction-using-transaction-scope.md)主题。</span><span class="sxs-lookup"><span data-stu-id="f6d67-108">For more information on this model, see the [Implementing An Implicit Transaction Using Transaction Scope](~/docs/framework/data/transactions/implementing-an-implicit-transaction-using-transaction-scope.md) topic.</span></span>  
+  
+ <span data-ttu-id="f6d67-109">创建<xref:System.Transactions.CommittableTransaction>不会自动设置环境事务，这是你的代码中执行的事务。</span><span class="sxs-lookup"><span data-stu-id="f6d67-109">Creating a <xref:System.Transactions.CommittableTransaction> does not automatically set the ambient transaction, which is the transaction your code executes in.</span></span> <span data-ttu-id="f6d67-110">你可以获取或设置通过调用静态的环境事务<xref:System.Transactions.Transaction.Current%2A?displayProperty=nameWithType>的全局属性<xref:System.Transactions.Transaction>对象。</span><span class="sxs-lookup"><span data-stu-id="f6d67-110">You can get or set the ambient transaction by calling the static <xref:System.Transactions.Transaction.Current%2A?displayProperty=nameWithType> property of the global <xref:System.Transactions.Transaction> object.</span></span> <span data-ttu-id="f6d67-111">有关环境事务的详细信息，请参阅的"使用 TransactionScopeOption 管理事务流"部分[实现隐式事务使用事务范围](~/docs/framework/data/transactions/implementing-an-implicit-transaction-using-transaction-scope.md)主题。</span><span class="sxs-lookup"><span data-stu-id="f6d67-111">For more information on ambient transactions, see the " Managing Transaction Flow using TransactionScopeOption" section of the [Implementing An Implicit Transaction Using Transaction Scope](~/docs/framework/data/transactions/implementing-an-implicit-transaction-using-transaction-scope.md) topic.</span></span> <span data-ttu-id="f6d67-112">如果未设置环境事务，在资源管理器上的任何操作不是该事务的一部分。</span><span class="sxs-lookup"><span data-stu-id="f6d67-112">If the ambient transaction is not set, any operation on a resource manager is not part of that transaction.</span></span> <span data-ttu-id="f6d67-113">你需要显式设置或重置以确保在正确的事务上下文下运行资源管理器的环境事务。</span><span class="sxs-lookup"><span data-stu-id="f6d67-113">You need to explicitly set and reset the ambient transaction to ensure that resource managers operate under the right transaction context.</span></span>  
+  
+ <span data-ttu-id="f6d67-114">直到<xref:System.Transactions.CommittableTransaction>具有已提交，仍锁定事务所涉及的所有资源。</span><span class="sxs-lookup"><span data-stu-id="f6d67-114">Until a <xref:System.Transactions.CommittableTransaction> has been committed, all the resources involved with the transaction are still locked.</span></span>  
+  
+ <span data-ttu-id="f6d67-115"><xref:System.Transactions.CommittableTransaction> 对象不能被重用。</span><span class="sxs-lookup"><span data-stu-id="f6d67-115">A <xref:System.Transactions.CommittableTransaction> object cannot be reused.</span></span> <span data-ttu-id="f6d67-116">一旦具有已提交或回滚，不能在事务中再次使用或设置为当前的环境事务上下文。</span><span class="sxs-lookup"><span data-stu-id="f6d67-116">Once it has been committed or rolled back, it cannot be used again in a transaction or set as the current ambient transaction context.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="f6d67-117">下面的示例创建两个新实例<xref:System.Transactions.CommittableTransaction>、 提交和汇总分别返回它们。</span><span class="sxs-lookup"><span data-stu-id="f6d67-117">The following sample creates two new instances of <xref:System.Transactions.CommittableTransaction>, commits and rolls back them respectively.</span></span>  
+  
+  
+  
+ ]]></format>
+    </remarks>
+    <threadsafe>
+      <span data-ttu-id="f6d67-118">此类型是线程安全的。</span>
+      <span class="sxs-lookup">
+        <span data-stu-id="f6d67-118">This type is thread safe.</span>
+      </span>
+    </threadsafe>
+  </Docs>
+  <Members>
+    <MemberGroup MemberName=".ctor">
+      <AssemblyInfo>
+        <AssemblyName>System.Transactions</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Docs>
+        <summary>
+          <span data-ttu-id="f6d67-119">初始化 <see cref="T:System.Transactions.CommittableTransaction" /> 类的新实例。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f6d67-119">Initializes a new instance of the <see cref="T:System.Transactions.CommittableTransaction" /> class.</span>
+          </span>
+        </summary>
+      </Docs>
+    </MemberGroup>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public CommittableTransaction ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Transactions.CommittableTransaction.#ctor" />
+      <MemberSignature Language="VB.NET" Value="Public Sub New ()" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; CommittableTransaction();" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Transactions</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Transactions.Local</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="f6d67-120">初始化 <see cref="T:System.Transactions.CommittableTransaction" /> 类的新实例。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f6d67-120">Initializes a new instance of the <see cref="T:System.Transactions.CommittableTransaction" /> class.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ <span data-ttu-id="f6d67-121">下面的示例创建的新实例<xref:System.Transactions.CommittableTransaction>并将它提交。</span><span class="sxs-lookup"><span data-stu-id="f6d67-121">The following sample creates a new instance of <xref:System.Transactions.CommittableTransaction> and commits it.</span></span>  
+  
+ [!code-csharp[Tx_CommittableTx#1](~/samples/snippets/csharp/VS_Snippets_CFX/tx_committabletx/cs/committabletxwithsql.cs#1)]
+ [!code-vb[Tx_CommittableTx#1](~/samples/snippets/visualbasic/VS_Snippets_CFX/tx_committabletx/vb/committabletxwithsql.vb#1)]  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.PlatformNotSupportedException">
+          <span data-ttu-id="f6d67-122">尝试在 Windows 98、Windows 98 Second Edition 或 Windows Millennium Edition 下创建事务。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f6d67-122">An attempt to create a transaction under Windows 98, Windows 98 Second Edition or Windows Millennium Edition.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public CommittableTransaction (TimeSpan timeout);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(valuetype System.TimeSpan timeout) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Transactions.CommittableTransaction.#ctor(System.TimeSpan)" />
+      <MemberSignature Language="VB.NET" Value="Public Sub New (timeout As TimeSpan)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; CommittableTransaction(TimeSpan timeout);" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Transactions</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Transactions.Local</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="timeout" Type="System.TimeSpan" />
+      </Parameters>
+      <Docs>
+        <param name="timeout">
+          <span data-ttu-id="f6d67-123">事务在中止之前能够存在的最长时间。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f6d67-123">The maximum amount of time the transaction can exist, before it is aborted.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="f6d67-124">使用指定的 <paramref name="timeout" /> 值初始化 <see cref="T:System.Transactions.CommittableTransaction" /> 类的新实例。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f6d67-124">Initializes a new instance of the <see cref="T:System.Transactions.CommittableTransaction" /> class with the specified <paramref name="timeout" /> value.</span>
+          </span>
+        </summary>
+        <remarks>To be added.</remarks>
+        <exception cref="T:System.PlatformNotSupportedException">
+          <span data-ttu-id="f6d67-125">尝试在 Windows 98、Windows 98 Second Edition 或 Windows Millennium Edition 下创建事务。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f6d67-125">An attempt to create a transaction under Windows 98, Windows 98 Second Edition or Windows Millennium Edition.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public CommittableTransaction (System.Transactions.TransactionOptions options);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(valuetype System.Transactions.TransactionOptions options) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Transactions.CommittableTransaction.#ctor(System.Transactions.TransactionOptions)" />
+      <MemberSignature Language="VB.NET" Value="Public Sub New (options As TransactionOptions)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; CommittableTransaction(System::Transactions::TransactionOptions options);" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Transactions</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Transactions.Local</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="options" Type="System.Transactions.TransactionOptions" />
+      </Parameters>
+      <Docs>
+        <param name="options">
+          <span data-ttu-id="f6d67-126">一个 <see cref="T:System.Transactions.TransactionOptions" /> 结构，描述用于新事务的事务选项。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f6d67-126">A <see cref="T:System.Transactions.TransactionOptions" /> structure that describes the transaction options to use for the new transaction.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="f6d67-127">使用指定的事务选项初始化 <see cref="T:System.Transactions.CommittableTransaction" /> 类的新实例。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f6d67-127">Initializes a new instance of the <see cref="T:System.Transactions.CommittableTransaction" /> class with the specified transaction options.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ <span data-ttu-id="f6d67-128">下面的示例创建的新实例<xref:System.Transactions.CommittableTransaction>使用选项，并中止它。</span><span class="sxs-lookup"><span data-stu-id="f6d67-128">The following sample creates a new instance of <xref:System.Transactions.CommittableTransaction> with options, and aborts it.</span></span>  
+  
+  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.PlatformNotSupportedException">
+          <span data-ttu-id="f6d67-129">尝试在 Windows 98、Windows 98 Second Edition 或 Windows Millennium Edition 下创建事务。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f6d67-129">An attempt to create a transaction under Windows 98, Windows 98 Second Edition or Windows Millennium Edition.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.ArgumentException">
+          <span data-ttu-id="f6d67-130">
+            <paramref name="options" /> 无效。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f6d67-130">
+              <paramref name="options" /> is invalid.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="BeginCommit">
+      <MemberSignature Language="C#" Value="public IAsyncResult BeginCommit (AsyncCallback asyncCallback, object asyncState);" FrameworkAlternate="netcore-2.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netstandard-2.0" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class System.IAsyncResult BeginCommit(class System.AsyncCallback asyncCallback, object asyncState) cil managed" FrameworkAlternate="netcore-2.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netstandard-2.0" />
+      <MemberSignature Language="DocId" Value="M:System.Transactions.CommittableTransaction.BeginCommit(System.AsyncCallback,System.Object)" FrameworkAlternate="netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netstandard-2.0;netcore-2.0" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; IAsyncResult ^ BeginCommit(AsyncCallback ^ asyncCallback, System::Object ^ asyncState);" FrameworkAlternate="netcore-2.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netstandard-2.0" />
+      <MemberSignature Language="C#" Value="public IAsyncResult BeginCommit (AsyncCallback callback, object user_defined_state);" FrameworkAlternate="xamarinandroid-7.1" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class System.IAsyncResult BeginCommit(class System.AsyncCallback callback, object user_defined_state) cil managed" FrameworkAlternate="xamarinandroid-7.1" />
+      <MemberSignature Language="DocId" Value="M:System.Transactions.CommittableTransaction.BeginCommit(System.AsyncCallback,System.Object)" FrameworkAlternate="xamarinandroid-7.1" />
+      <MemberSignature Language="VB.NET" Value="Public Function BeginCommit (callback As AsyncCallback, user_defined_state As Object) As IAsyncResult" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; IAsyncResult ^ BeginCommit(AsyncCallback ^ callback, System::Object ^ user_defined_state);" FrameworkAlternate="xamarinandroid-7.1" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Transactions</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Transactions.Local</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.IAsyncResult</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="asyncCallback" Type="System.AsyncCallback" Index="0" FrameworkAlternate="netcore-2.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netstandard-2.0" />
+        <Parameter Name="callback" Type="System.AsyncCallback" Index="0" FrameworkAlternate="xamarinandroid-7.1" />
+        <Parameter Name="asyncState" Type="System.Object" Index="1" FrameworkAlternate="netcore-2.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netstandard-2.0" />
+        <Parameter Name="user_defined_state" Type="System.Object" Index="1" FrameworkAlternate="xamarinandroid-7.1" />
+      </Parameters>
+      <Docs>
+        <param name="asyncCallback">To be added.</param>
+        <param name="callback">To be added.</param>
+        <param name="asyncState">To be added.</param>
+        <param name="user_defined_state">To be added.</param>
+        <summary>
+          <span data-ttu-id="f6d67-131">开始异步提交事务的尝试。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f6d67-131">Begins an attempt to commit the transaction asynchronously.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="f6d67-132">一个 <see cref="T:System.IAsyncResult" /> 接口，该接口可由调用方用于检查异步操作的状态，或用于等待操作完成。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f6d67-132">An <see cref="T:System.IAsyncResult" /> interface that can be used by the caller to check the status of the asynchronous operation, or to wait for the operation to complete.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="f6d67-133">完成事务之前，此方法将立即返回。</span><span class="sxs-lookup"><span data-stu-id="f6d67-133">This method returns immediately, before the transaction has been completed.</span></span> <span data-ttu-id="f6d67-134">然后，在另一个线程，提交此事务和`asyncCallback`完成后调用委托。</span><span class="sxs-lookup"><span data-stu-id="f6d67-134">The transaction then commits on a different thread, and the `asyncCallback` delegate is invoked when it has completed.</span></span> <span data-ttu-id="f6d67-135">调用此方法后，你不会收到事务的结果直到你调用<xref:System.Transactions.CommittableTransaction.EndCommit%2A>。</span><span class="sxs-lookup"><span data-stu-id="f6d67-135">After this method is called, you do not receive the outcome of the transaction until you call <xref:System.Transactions.CommittableTransaction.EndCommit%2A>.</span></span>  
+  
+> [!NOTE]
+>  <span data-ttu-id="f6d67-136">提交进程可能会同步完成，此方法调用中。</span><span class="sxs-lookup"><span data-stu-id="f6d67-136">The commit process may complete synchronously inside this method call.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="M:System.Transactions.CommittableTransaction.EndCommit(System.IAsyncResult)" />
+      </Docs>
+    </Member>
+    <Member MemberName="Commit">
+      <MemberSignature Language="C#" Value="public void Commit ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void Commit() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Transactions.CommittableTransaction.Commit" />
+      <MemberSignature Language="VB.NET" Value="Public Sub Commit ()" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void Commit();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Transactions</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Transactions.Local</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="f6d67-137">尝试提交事务。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f6d67-137">Attempts to commit the transaction.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="f6d67-138">当调用此方法时，参与该事务已注册的所有对象进行轮询，并能够独立地指示它们对提交或回滚事务的投票。</span><span class="sxs-lookup"><span data-stu-id="f6d67-138">When this method is called, all objects that have registered to participate in the transaction are polled and can independently indicate their vote to either commit or roll back the transaction.</span></span> <span data-ttu-id="f6d67-139">如果任何参与者投票回滚事务，将回滚，此方法将引发<xref:System.Transactions.TransactionException>异常。</span><span class="sxs-lookup"><span data-stu-id="f6d67-139">If any participant votes to roll back the transaction, it is rolled back and this method throws a <xref:System.Transactions.TransactionException> exception.</span></span> <span data-ttu-id="f6d67-140">为事务正常出现这种情况，你的代码应捕获和处理此类异常。</span><span class="sxs-lookup"><span data-stu-id="f6d67-140">This is a normal occurrence for a transaction and your code should catch and process such exceptions.</span></span>  
+  
+ <span data-ttu-id="f6d67-141"><xref:System.Transactions.CommittableTransaction.Commit%2A> 和<xref:System.Transactions.CommittableTransaction.EndCommit%2A>阻止，直到事务处理的第一阶段已完成。</span><span class="sxs-lookup"><span data-stu-id="f6d67-141"><xref:System.Transactions.CommittableTransaction.Commit%2A> and <xref:System.Transactions.CommittableTransaction.EndCommit%2A> block until the first phase of transaction processing is complete.</span></span> <span data-ttu-id="f6d67-142">第一阶段结束后所有的资源管理器并在事务中的登记具有投票事务结果和<xref:System.Transactions.TransactionManager>持久决定提交或中止事务。</span><span class="sxs-lookup"><span data-stu-id="f6d67-142">The first phase ends after all resource managers and enlistments in the transaction have voted on the transaction outcome and the <xref:System.Transactions.TransactionManager> has durably decided to commit or abort the transaction.</span></span> <span data-ttu-id="f6d67-143">处理的第二阶段始终是异步的。</span><span class="sxs-lookup"><span data-stu-id="f6d67-143">The second phase of processing is always asynchronous.</span></span> <span data-ttu-id="f6d67-144">因此，没有能保证数据在给定的事务中提交从将立即可用之后时使用另一个事务来查看此数据。</span><span class="sxs-lookup"><span data-stu-id="f6d67-144">Therefore, there is no guarantee that data just committed from within a given transaction will be immediately available afterwards when not using another transaction to view this data.</span></span>  
+  
+ <span data-ttu-id="f6d67-145">因为此方法阻止事务处理的第一阶段完成之前，应格外小心使用此方法在 Windows 窗体 (WinForm) 应用程序或死锁时可能会发生。</span><span class="sxs-lookup"><span data-stu-id="f6d67-145">Because this method blocks until the first phase of transaction processing is complete, you should be extremely careful when using this method in a Windows Form (WinForm) application, or a deadlock can occur.</span></span> <span data-ttu-id="f6d67-146">如果调用中一个 WinForm 控件事件 （例如，单击的按钮），此方法，并且使用同步<xref:System.Windows.Forms.Control.Invoke%2A>方法来指示要执行中间处理事务，一些 UI 任务 （例如，不断变化的颜色） 的控件死锁将发生这种情况。</span><span class="sxs-lookup"><span data-stu-id="f6d67-146">If you call this method inside one WinForm Control event (for example, clicking a button), and use the synchronous <xref:System.Windows.Forms.Control.Invoke%2A> method to direct the control to perform some UI tasks (for example, changing colors) in the middle of processing the transaction, a deadlock will happen.</span></span> <span data-ttu-id="f6d67-147">这是因为<xref:System.Windows.Forms.Control.Invoke%2A>方法是同步方法，并阻止工作线程，直到用户界面线程完成其作业。</span><span class="sxs-lookup"><span data-stu-id="f6d67-147">This is because the <xref:System.Windows.Forms.Control.Invoke%2A> method is synchronous and blocks the worker thread until the UI thread finishes its job.</span></span> <span data-ttu-id="f6d67-148">但是，在我们的方案，UI 线程正在还等待工作线程以提交事务。</span><span class="sxs-lookup"><span data-stu-id="f6d67-148">However, in our scenario, the UI thread is also waiting for the worker thread to commit the transaction.</span></span> <span data-ttu-id="f6d67-149">结果是，所有线程都无法继续并且作用域将无限期等待完成的提交。</span><span class="sxs-lookup"><span data-stu-id="f6d67-149">The result is that none is able to proceed and the scope waits indefinitely for the Commit to finish.</span></span> <span data-ttu-id="f6d67-150">应使用<xref:System.Windows.Forms.Control.BeginInvoke%2A>而非<xref:System.Windows.Forms.Control.Invoke%2A>只要有可能，因为它是异步的因此不太容易发生死锁。</span><span class="sxs-lookup"><span data-stu-id="f6d67-150">You should use <xref:System.Windows.Forms.Control.BeginInvoke%2A> rather than <xref:System.Windows.Forms.Control.Invoke%2A> wherever possible, because it is asynchronous and thus less prone to deadlock.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.Transactions.TransactionInDoubtException">
+          <span data-ttu-id="f6d67-151">在事务上调用了 <see cref="M:System.Transactions.CommittableTransaction.Commit" />，并且该事务变为 <see cref="F:System.Transactions.TransactionStatus.InDoubt" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f6d67-151">
+              <see cref="M:System.Transactions.CommittableTransaction.Commit" /> is called on a transaction and the transaction becomes <see cref="F:System.Transactions.TransactionStatus.InDoubt" />.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.Transactions.TransactionAbortedException">
+          <span data-ttu-id="f6d67-152">调用了 <see cref="M:System.Transactions.CommittableTransaction.Commit" />，并且该事务第一次回滚。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f6d67-152">
+              <see cref="M:System.Transactions.CommittableTransaction.Commit" /> is called and the transaction rolls back for the first time.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="EndCommit">
+      <MemberSignature Language="C#" Value="public void EndCommit (IAsyncResult asyncResult);" FrameworkAlternate="netcore-2.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netstandard-2.0" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void EndCommit(class System.IAsyncResult asyncResult) cil managed" FrameworkAlternate="netcore-2.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netstandard-2.0" />
+      <MemberSignature Language="DocId" Value="M:System.Transactions.CommittableTransaction.EndCommit(System.IAsyncResult)" FrameworkAlternate="netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netstandard-2.0;netcore-2.0" />
+      <MemberSignature Language="VB.NET" Value="Public Sub EndCommit (asyncResult As IAsyncResult)" FrameworkAlternate="netcore-2.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netstandard-2.0" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void EndCommit(IAsyncResult ^ asyncResult);" FrameworkAlternate="netcore-2.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netstandard-2.0" />
+      <MemberSignature Language="C#" Value="public void EndCommit (IAsyncResult ar);" FrameworkAlternate="xamarinandroid-7.1" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void EndCommit(class System.IAsyncResult ar) cil managed" FrameworkAlternate="xamarinandroid-7.1" />
+      <MemberSignature Language="DocId" Value="M:System.Transactions.CommittableTransaction.EndCommit(System.IAsyncResult)" FrameworkAlternate="xamarinandroid-7.1" />
+      <MemberSignature Language="VB.NET" Value="Public Sub EndCommit (ar As IAsyncResult)" FrameworkAlternate="xamarinandroid-7.1" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void EndCommit(IAsyncResult ^ ar);" FrameworkAlternate="xamarinandroid-7.1" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Transactions</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Transactions.Local</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="asyncResult" Type="System.IAsyncResult" Index="0" FrameworkAlternate="netcore-2.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netstandard-2.0" />
+        <Parameter Name="ar" Type="System.IAsyncResult" Index="0" FrameworkAlternate="xamarinandroid-7.1" />
+      </Parameters>
+      <Docs>
+        <param name="asyncResult">To be added.</param>
+        <summary>
+          <span data-ttu-id="f6d67-153">结束异步提交事务的尝试。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f6d67-153">Ends an attempt to commit the transaction asynchronously.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="f6d67-154">在作为参数传递给指定的回调委托，应调用此方法<xref:System.Transactions.CommittableTransaction.BeginCommit%2A>方法，在完成后与异步提交关联的任何清理工作。</span><span class="sxs-lookup"><span data-stu-id="f6d67-154">You should call this method in the callback delegate specified as a parameter to the <xref:System.Transactions.CommittableTransaction.BeginCommit%2A> method, when you have finished any cleanup work associated with the asynchronous commitment.</span></span> <span data-ttu-id="f6d67-155">你可以提前调用此方法，而无需等待委托。</span><span class="sxs-lookup"><span data-stu-id="f6d67-155">You can also call this method early without waiting for the delegate.</span></span> <span data-ttu-id="f6d67-156">如果调用此方法时，事务未完成，此方法将等待它完成。</span><span class="sxs-lookup"><span data-stu-id="f6d67-156">If, by the time you call this method, the transaction has not completed, this method waits for its completion.</span></span>  
+  
+> [!CAUTION]
+>  <span data-ttu-id="f6d67-157"><xref:System.IAsyncResult.CompletedSynchronously%2A>属性返回`asyncResult`始终`false`，即使该操作同步完成。</span><span class="sxs-lookup"><span data-stu-id="f6d67-157">The <xref:System.IAsyncResult.CompletedSynchronously%2A> property returned by `asyncResult` is always `false`, even if the operation completed synchronously.</span></span>  
+  
+ <span data-ttu-id="f6d67-158"><xref:System.Transactions.CommittableTransaction.Commit%2A> 和<xref:System.Transactions.CommittableTransaction.EndCommit%2A>阻止，直到事务处理的第一阶段已完成。</span><span class="sxs-lookup"><span data-stu-id="f6d67-158"><xref:System.Transactions.CommittableTransaction.Commit%2A> and <xref:System.Transactions.CommittableTransaction.EndCommit%2A> block until the first phase of transaction processing is complete.</span></span> <span data-ttu-id="f6d67-159">第一阶段结束后所有的资源管理器并在事务中的登记具有投票事务结果和<xref:System.Transactions.TransactionManager>持久决定提交或中止事务。</span><span class="sxs-lookup"><span data-stu-id="f6d67-159">The first phase ends after all resource managers and enlistments in the transaction have voted on the transaction outcome and the <xref:System.Transactions.TransactionManager> has durably decided to commit or abort the transaction.</span></span> <span data-ttu-id="f6d67-160">处理的第二阶段始终是异步的。</span><span class="sxs-lookup"><span data-stu-id="f6d67-160">The second phase of processing is always asynchronous.</span></span> <span data-ttu-id="f6d67-161">因此，没有能保证数据在给定的事务中提交从将立即可用之后时使用另一个事务来查看此数据。</span><span class="sxs-lookup"><span data-stu-id="f6d67-161">Therefore, there is no guarantee that data just committed from within a given transaction will be immediately available afterwards when not using another transaction to view this data.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.Transactions.TransactionAbortedException">
+          <span data-ttu-id="f6d67-162">调用了 <see cref="M:System.Transactions.CommittableTransaction.BeginCommit(System.AsyncCallback,System.Object)" />，并且该事务第一次回滚。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f6d67-162">
+              <see cref="M:System.Transactions.CommittableTransaction.BeginCommit(System.AsyncCallback,System.Object)" /> is called and the transaction rolls back for the first time.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="System.IAsyncResult.AsyncState">
+      <MemberSignature Language="C#" Value="object System.IAsyncResult.AsyncState { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance object System.IAsyncResult.AsyncState" />
+      <MemberSignature Language="DocId" Value="P:System.Transactions.CommittableTransaction.System#IAsyncResult#AsyncState" />
+      <MemberSignature Language="VB.NET" Value=" ReadOnly Property AsyncState As Object Implements IAsyncResult.AsyncState" />
+      <MemberSignature Language="C++ CLI" Value="property System::Object ^ System.IAsyncResult.AsyncState { System::Object ^ get(); };" />
+      <MemberType>Property</MemberType>
+      <Implements>
+        <InterfaceMember>P:System.IAsyncResult.AsyncState</InterfaceMember>
+      </Implements>
+      <AssemblyInfo>
+        <AssemblyName>System.Transactions</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Transactions.Local</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Object</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="f6d67-163">获取作为 <see cref="M:System.Transactions.CommittableTransaction.BeginCommit(System.AsyncCallback,System.Object)" /> 方法调用的最后一个参数而提供的对象。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f6d67-163">Gets the object provided as the last parameter of the <see cref="M:System.Transactions.CommittableTransaction.BeginCommit(System.AsyncCallback,System.Object)" /> method call.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="f6d67-164">作为 <see cref="M:System.Transactions.CommittableTransaction.BeginCommit(System.AsyncCallback,System.Object)" /> 方法调用的最后一个参数而提供的对象。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f6d67-164">The object provided as the last parameter of the <see cref="M:System.Transactions.CommittableTransaction.BeginCommit(System.AsyncCallback,System.Object)" /> method call.</span>
+          </span>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="System.IAsyncResult.AsyncWaitHandle">
+      <MemberSignature Language="C#" Value="System.Threading.WaitHandle System.IAsyncResult.AsyncWaitHandle { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class System.Threading.WaitHandle System.IAsyncResult.AsyncWaitHandle" />
+      <MemberSignature Language="DocId" Value="P:System.Transactions.CommittableTransaction.System#IAsyncResult#AsyncWaitHandle" />
+      <MemberSignature Language="VB.NET" Value=" ReadOnly Property AsyncWaitHandle As WaitHandle Implements IAsyncResult.AsyncWaitHandle" />
+      <MemberSignature Language="C++ CLI" Value="property System::Threading::WaitHandle ^ System.IAsyncResult.AsyncWaitHandle { System::Threading::WaitHandle ^ get(); };" />
+      <MemberType>Property</MemberType>
+      <Implements>
+        <InterfaceMember>P:System.IAsyncResult.AsyncWaitHandle</InterfaceMember>
+      </Implements>
+      <AssemblyInfo>
+        <AssemblyName>System.Transactions</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Transactions.Local</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Threading.WaitHandle</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="f6d67-165">获取用于等待异步操作完成的 <see cref="T:System.Threading.WaitHandle" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f6d67-165">Gets a <see cref="T:System.Threading.WaitHandle" /> that is used to wait for an asynchronous operation to complete.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="f6d67-166">用于等待异步操作完成的 <see cref="T:System.Threading.WaitHandle" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f6d67-166">A <see cref="T:System.Threading.WaitHandle" /> that is used to wait for an asynchronous operation to complete.</span>
+          </span>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="System.IAsyncResult.CompletedSynchronously">
+      <MemberSignature Language="C#" Value="bool System.IAsyncResult.CompletedSynchronously { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance bool System.IAsyncResult.CompletedSynchronously" />
+      <MemberSignature Language="DocId" Value="P:System.Transactions.CommittableTransaction.System#IAsyncResult#CompletedSynchronously" />
+      <MemberSignature Language="VB.NET" Value=" ReadOnly Property CompletedSynchronously As Boolean Implements IAsyncResult.CompletedSynchronously" />
+      <MemberSignature Language="C++ CLI" Value="property bool System.IAsyncResult.CompletedSynchronously { bool get(); };" />
+      <MemberType>Property</MemberType>
+      <Implements>
+        <InterfaceMember>P:System.IAsyncResult.CompletedSynchronously</InterfaceMember>
+      </Implements>
+      <AssemblyInfo>
+        <AssemblyName>System.Transactions</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Transactions.Local</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="f6d67-167">获取异步提交操作是否同步完成的指示。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f6d67-167">Gets an indication of whether the asynchronous commit operation completed synchronously.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="f6d67-168">如果异步提交操作同步完成，则为 <see langword="true" />；否则为 <see langword="false" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f6d67-168">
+              <see langword="true" /> if the asynchronous commit operation completed synchronously; otherwise, <see langword="false" />.</span>
+          </span>
+          <span data-ttu-id="f6d67-169">即使该操作同步完成，此属性也始终返回 <see langword="false" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f6d67-169">This property always returns <see langword="false" /> even if the operation completed synchronously.</span>
+          </span>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="System.IAsyncResult.IsCompleted">
+      <MemberSignature Language="C#" Value="bool System.IAsyncResult.IsCompleted { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance bool System.IAsyncResult.IsCompleted" />
+      <MemberSignature Language="DocId" Value="P:System.Transactions.CommittableTransaction.System#IAsyncResult#IsCompleted" />
+      <MemberSignature Language="VB.NET" Value=" ReadOnly Property IsCompleted As Boolean Implements IAsyncResult.IsCompleted" />
+      <MemberSignature Language="C++ CLI" Value="property bool System.IAsyncResult.IsCompleted { bool get(); };" />
+      <MemberType>Property</MemberType>
+      <Implements>
+        <InterfaceMember>P:System.IAsyncResult.IsCompleted</InterfaceMember>
+      </Implements>
+      <AssemblyInfo>
+        <AssemblyName>System.Transactions</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Transactions.Local</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="f6d67-170">获取异步提交操作是否已完成的指示。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f6d67-170">Gets an indication whether the asynchronous commit operation has completed.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="f6d67-171">如果操作完成则为 <see langword="true" />，否则为 <see langword="false" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f6d67-171">
+              <see langword="true" /> if the operation is complete; otherwise, <see langword="false" />.</span>
+          </span>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="System.Runtime.Serialization.ISerializable.GetObjectData">
+      <MemberSignature Language="C#" Value="void ISerializable.GetObjectData (System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context);" />
+      <MemberSignature Language="ILAsm" Value=".method hidebysig newslot virtual instance void System.Runtime.Serialization.ISerializable.GetObjectData(class System.Runtime.Serialization.SerializationInfo info, valuetype System.Runtime.Serialization.StreamingContext context) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Transactions.CommittableTransaction.System#Runtime#Serialization#ISerializable#GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)" />
+      <MemberSignature Language="VB.NET" Value="Sub GetObjectData (info As SerializationInfo, context As StreamingContext) Implements ISerializable.GetObjectData" />
+      <MemberSignature Language="C++ CLI" Value=" virtual void System.Runtime.Serialization.ISerializable.GetObjectData(System::Runtime::Serialization::SerializationInfo ^ info, System::Runtime::Serialization::StreamingContext context) = System::Runtime::Serialization::ISerializable::GetObjectData;" />
+      <MemberType>Method</MemberType>
+      <Implements>
+        <InterfaceMember>M:System.Runtime.Serialization.ISerializable.GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)</InterfaceMember>
+      </Implements>
+      <AssemblyInfo>
+        <AssemblyName>System.Transactions</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="info" Type="System.Runtime.Serialization.SerializationInfo" />
+        <Parameter Name="context" Type="System.Runtime.Serialization.StreamingContext" />
+      </Parameters>
+      <Docs>
+        <param name="info">To be added.</param>
+        <param name="context">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

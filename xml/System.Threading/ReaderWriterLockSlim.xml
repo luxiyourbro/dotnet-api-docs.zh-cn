@@ -1,0 +1,2276 @@
+<Type Name="ReaderWriterLockSlim" FullName="System.Threading.ReaderWriterLockSlim">
+  <Metadata>
+    <Meta Name="ms.openlocfilehash" Value="2ff770bb9446d6ebe71649784ebe115f60734cc0" />
+    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
+    <Meta Name="ms.translationtype" Value="HT" />
+    <Meta Name="ms.contentlocale" Value="zh-CN" />
+    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
+  </Metadata>
+  <TypeSignature Language="C#" Value="public class ReaderWriterLockSlim : IDisposable" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit ReaderWriterLockSlim extends System.Object implements class System.IDisposable" />
+  <TypeSignature Language="DocId" Value="T:System.Threading.ReaderWriterLockSlim" />
+  <TypeSignature Language="VB.NET" Value="Public Class ReaderWriterLockSlim&#xA;Implements IDisposable" />
+  <TypeSignature Language="C++ CLI" Value="public ref class ReaderWriterLockSlim : IDisposable" />
+  <AssemblyInfo>
+    <AssemblyName>System.Threading</AssemblyName>
+    <AssemblyVersion>4.0.0.0</AssemblyVersion>
+    <AssemblyVersion>4.0.10.0</AssemblyVersion>
+    <AssemblyVersion>4.1.0.0</AssemblyVersion>
+    <AssemblyVersion>4.1.1.0</AssemblyVersion>
+  </AssemblyInfo>
+  <AssemblyInfo>
+    <AssemblyName>System.Core</AssemblyName>
+    <AssemblyVersion>2.0.5.0</AssemblyVersion>
+    <AssemblyVersion>4.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <AssemblyInfo>
+    <AssemblyName>netstandard</AssemblyName>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Object</BaseTypeName>
+  </Base>
+  <Interfaces>
+    <Interface>
+      <InterfaceName>System.IDisposable</InterfaceName>
+    </Interface>
+  </Interfaces>
+  <Docs>
+    <summary>
+      <span data-ttu-id="9d917-101">表示用于管理资源访问的锁定状态，可实现多线程读取或进行独占式写入访问。</span>
+      <span class="sxs-lookup">
+        <span data-stu-id="9d917-101">Represents a lock that is used to manage access to a resource, allowing multiple threads for reading or exclusive access for writing.</span>
+      </span>
+    </summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="9d917-102">使用<xref:System.Threading.ReaderWriterLockSlim>来保护是由多个线程读取，并一次通过某个线程写入到的资源。</span><span class="sxs-lookup"><span data-stu-id="9d917-102">Use <xref:System.Threading.ReaderWriterLockSlim> to protect a resource that is read by multiple threads and written to by one thread at a time.</span></span> <span data-ttu-id="9d917-103"><xref:System.Threading.ReaderWriterLockSlim> 允许多个线程能够在读取模式下，允许一个线程必须处于与独占所有权的锁写模式并允许具有读取访问权限要升级的读取模式，线程可以升级为写入模式，而无需放弃它的一个线程s 读取资源的访问权限。</span><span class="sxs-lookup"><span data-stu-id="9d917-103"><xref:System.Threading.ReaderWriterLockSlim> allows multiple threads to be in read mode, allows one thread to be in write mode with exclusive ownership of the lock, and allows one thread that has read access to be in upgradeable read mode, from which the thread can upgrade to write mode without having to relinquish its read access to the resource.</span></span>  
+  
+> [!NOTE]
+>  <span data-ttu-id="9d917-104">虽然 <xref:System.Threading.ReaderWriterLockSlim> 类似于 <xref:System.Threading.ReaderWriterLock>，但不同之处在于，前者简化了递归规则以及锁状态的升级和降级规则。</span><span class="sxs-lookup"><span data-stu-id="9d917-104"><xref:System.Threading.ReaderWriterLockSlim> is similar to <xref:System.Threading.ReaderWriterLock>, but it has simplified rules for recursion and for upgrading and downgrading lock state.</span></span> <span data-ttu-id="9d917-105"><xref:System.Threading.ReaderWriterLockSlim> 避免了许多潜在的死锁情况。</span><span class="sxs-lookup"><span data-stu-id="9d917-105"><xref:System.Threading.ReaderWriterLockSlim> avoids many cases of potential deadlock.</span></span> <span data-ttu-id="9d917-106">另外，<xref:System.Threading.ReaderWriterLockSlim> 的性能显著优于 <xref:System.Threading.ReaderWriterLock>。</span><span class="sxs-lookup"><span data-stu-id="9d917-106">In addition, the performance of <xref:System.Threading.ReaderWriterLockSlim> is significantly better than <xref:System.Threading.ReaderWriterLock>.</span></span> <span data-ttu-id="9d917-107">建议对所有新开发的项目使用 <xref:System.Threading.ReaderWriterLockSlim>。</span><span class="sxs-lookup"><span data-stu-id="9d917-107"><xref:System.Threading.ReaderWriterLockSlim> is recommended for all new development.</span></span>  
+  
+ <span data-ttu-id="9d917-108">默认情况下的新实例<xref:System.Threading.ReaderWriterLockSlim>使用创建<xref:System.Threading.LockRecursionPolicy.NoRecursion?displayProperty=nameWithType>标志，并不允许递归。</span><span class="sxs-lookup"><span data-stu-id="9d917-108">By default, new instances of <xref:System.Threading.ReaderWriterLockSlim> are created with the <xref:System.Threading.LockRecursionPolicy.NoRecursion?displayProperty=nameWithType> flag and do not allow recursion.</span></span> <span data-ttu-id="9d917-109">对于所有新开发，建议，此默认策略，因为递归带来不必要的复杂情况，从而使代码更容易出现死锁。</span><span class="sxs-lookup"><span data-stu-id="9d917-109">This default policy is recommended for all new development, because recursion introduces unnecessary complications and makes your code more prone to deadlocks.</span></span> <span data-ttu-id="9d917-110">若要简化从现有项目使用<xref:System.Threading.Monitor>或<xref:System.Threading.ReaderWriterLock>，你可以使用<xref:System.Threading.LockRecursionPolicy.SupportsRecursion?displayProperty=nameWithType>标志来创建的实例<xref:System.Threading.ReaderWriterLockSlim>，允许使用递归。</span><span class="sxs-lookup"><span data-stu-id="9d917-110">To simplify migration from existing projects that use <xref:System.Threading.Monitor> or <xref:System.Threading.ReaderWriterLock>, you can use the <xref:System.Threading.LockRecursionPolicy.SupportsRecursion?displayProperty=nameWithType> flag to create instances of <xref:System.Threading.ReaderWriterLockSlim> that allow recursion.</span></span>  
+  
+ <span data-ttu-id="9d917-111">线程可以在三种模式中输入该锁： 读取模式、 写入模式和升级的读取的模式。</span><span class="sxs-lookup"><span data-stu-id="9d917-111">A thread can enter the lock in three modes: read mode, write mode, and upgradeable read mode.</span></span> <span data-ttu-id="9d917-112">(在本主题的其余部分，"读取进入可升级模式"称为"可升级模式"，并且短语"输入`x`模式"较长的短语优先使用"输入中的锁定`x`模式"。)</span><span class="sxs-lookup"><span data-stu-id="9d917-112">(In the rest of this topic, "upgradeable read mode" is referred to as "upgradeable mode", and the phrase "enter `x` mode" is used in preference to the longer phrase "enter the lock in `x` mode".)</span></span>  
+  
+ <span data-ttu-id="9d917-113">无论递归策略只有一个线程可以在任何时间是在写入模式下。</span><span class="sxs-lookup"><span data-stu-id="9d917-113">Regardless of recursion policy, only one thread can be in write mode at any time.</span></span> <span data-ttu-id="9d917-114">当线程在写入模式下，没有其他线程可以在任何模式下输入该锁。</span><span class="sxs-lookup"><span data-stu-id="9d917-114">When a thread is in write mode, no other thread can enter the lock in any mode.</span></span> <span data-ttu-id="9d917-115">在任何时候，只有一个线程可以在进入可升级模式。</span><span class="sxs-lookup"><span data-stu-id="9d917-115">Only one thread can be in upgradeable mode at any time.</span></span> <span data-ttu-id="9d917-116">在读取模式下，可以具有任意数量的线程和中可以有一个线程进入可升级模式时其他线程处于读取模式。</span><span class="sxs-lookup"><span data-stu-id="9d917-116">Any number of threads can be in read mode, and there can be one thread in upgradeable mode while other threads are in read mode.</span></span>  
+  
+> [!IMPORTANT]
+>  <span data-ttu-id="9d917-117">此类型实现<xref:System.IDisposable>接口。</span><span class="sxs-lookup"><span data-stu-id="9d917-117">This type implements the <xref:System.IDisposable> interface.</span></span> <span data-ttu-id="9d917-118">在使用完类型后，您应直接或间接释放类型。</span><span class="sxs-lookup"><span data-stu-id="9d917-118">When you have finished using the type, you should dispose of it either directly or indirectly.</span></span> <span data-ttu-id="9d917-119">若要直接释放类型，调用其<xref:System.IDisposable.Dispose%2A>中的方法`try` / `catch`块。</span><span class="sxs-lookup"><span data-stu-id="9d917-119">To dispose of the type directly, call its <xref:System.IDisposable.Dispose%2A> method in a `try`/`catch` block.</span></span> <span data-ttu-id="9d917-120">若要间接释放类型，请使用 `using`（在 C# 中）或 `Using`（在 Visual Basic 中）等语言构造。</span><span class="sxs-lookup"><span data-stu-id="9d917-120">To dispose of it indirectly, use a language construct such as `using` (in C#) or `Using` (in Visual Basic).</span></span> <span data-ttu-id="9d917-121">有关详细信息，请参阅中的"使用实现 IDisposable 的对象"部分<xref:System.IDisposable>接口主题。</span><span class="sxs-lookup"><span data-stu-id="9d917-121">For more information, see the "Using an Object that Implements IDisposable" section in the <xref:System.IDisposable> interface topic.</span></span>  
+  
+ <span data-ttu-id="9d917-122"><xref:System.Threading.ReaderWriterLockSlim> 具有托管线程关联;也就是说，每个<xref:System.Threading.Thread>对象必须使其自己的方法调用进入和退出的锁模式。</span><span class="sxs-lookup"><span data-stu-id="9d917-122"><xref:System.Threading.ReaderWriterLockSlim> has managed thread affinity; that is, each <xref:System.Threading.Thread> object must make its own method calls to enter and exit lock modes.</span></span> <span data-ttu-id="9d917-123">无需对线程可以更改另一个线程的模式。</span><span class="sxs-lookup"><span data-stu-id="9d917-123">No thread can change the mode of another thread.</span></span>  
+  
+ <span data-ttu-id="9d917-124">如果<xref:System.Threading.ReaderWriterLockSlim>不允许使用递归，线程尝试输入锁可以阻止的原因：</span><span class="sxs-lookup"><span data-stu-id="9d917-124">If a <xref:System.Threading.ReaderWriterLockSlim> does not allow recursion, a thread that tries to enter the lock can block for several reasons:</span></span>  
+  
+-   <span data-ttu-id="9d917-125">尝试进入读取的模式块，如果有多个线程等待进入写入模式或写入模式中是否存在单个线程的线程。</span><span class="sxs-lookup"><span data-stu-id="9d917-125">A thread that tries to enter read mode blocks if there are threads waiting to enter write mode or if there is a single thread in write mode.</span></span>  
+  
+    > [!NOTE]
+    >  <span data-ttu-id="9d917-126">阻止新的读取器时编写器将排队等待的锁的公平性策略时，倾向于编写器。</span><span class="sxs-lookup"><span data-stu-id="9d917-126">Blocking new readers when writers are queued is a lock fairness policy that favors writers.</span></span> <span data-ttu-id="9d917-127">当前的公平策略均衡的公平性到读取器和编写器，提升中最常见的方案的吞吐量。</span><span class="sxs-lookup"><span data-stu-id="9d917-127">The current fairness policy balances fairness to readers and writers, to promote throughput in the most common scenarios.</span></span> <span data-ttu-id="9d917-128">未来版本[!INCLUDE[dnprdnshort](~/includes/dnprdnshort-md.md)]可能引入新的公平策略。</span><span class="sxs-lookup"><span data-stu-id="9d917-128">Future versions of the [!INCLUDE[dnprdnshort](~/includes/dnprdnshort-md.md)] may introduce new fairness policies.</span></span>  
+  
+-   <span data-ttu-id="9d917-129">尝试进入可升级模式块是否存在一个线程正在进入可升级模式，如果有多个线程等待进入写入模式，或如果在写入模式下没有单个线程的线程。</span><span class="sxs-lookup"><span data-stu-id="9d917-129">A thread that tries to enter upgradeable mode blocks if there is already a thread in upgradeable mode, if there are threads waiting to enter write mode, or if there is a single thread in write mode.</span></span>  
+  
+-   <span data-ttu-id="9d917-130">尝试进入写入模式块，如果没有任何的三种模式中的线程的线程。</span><span class="sxs-lookup"><span data-stu-id="9d917-130">A thread that tries to enter write mode blocks if there is a thread in any of the three modes.</span></span>  
+  
+## <a name="upgrading-and-downgrading-locks"></a><span data-ttu-id="9d917-131">升级和降级锁定</span><span class="sxs-lookup"><span data-stu-id="9d917-131">Upgrading and Downgrading Locks</span></span>  
+ <span data-ttu-id="9d917-132">进入可升级模式适用于在其中一个线程通常读取从受保护的资源，但可能需要向其写入，如果满足某个条件。</span><span class="sxs-lookup"><span data-stu-id="9d917-132">Upgradeable mode is intended for cases where a thread usually reads from the protected resource, but might need to write to it if some condition is met.</span></span> <span data-ttu-id="9d917-133">线程已进入<xref:System.Threading.ReaderWriterLockSlim>在进入可升级模式具有读取访问受保护的资源，并可以升级为通过调用写入模式<xref:System.Threading.ReaderWriterLockSlim.EnterWriteLock%2A>或<xref:System.Threading.ReaderWriterLockSlim.TryEnterWriteLock%2A>方法。</span><span class="sxs-lookup"><span data-stu-id="9d917-133">A thread that has entered a <xref:System.Threading.ReaderWriterLockSlim> in upgradeable mode has read access to the protected resource, and can upgrade to write mode by calling the <xref:System.Threading.ReaderWriterLockSlim.EnterWriteLock%2A> or <xref:System.Threading.ReaderWriterLockSlim.TryEnterWriteLock%2A> methods.</span></span> <span data-ttu-id="9d917-134">中可能存在只有一个线程进入可升级模式一次，因为升级为写入模式不能发生死锁时不允许递归，这是默认策略。</span><span class="sxs-lookup"><span data-stu-id="9d917-134">Because there can be only one thread in upgradeable mode at a time, upgrading to write mode cannot deadlock when recursion is not allowed, which is the default policy.</span></span>  
+  
+> [!IMPORTANT]
+>  <span data-ttu-id="9d917-135">无论递归策略，最初输入线程读取模式下不允许升级到进入可升级模式或写入模式，因为这种方式导致的死锁的概率较强。</span><span class="sxs-lookup"><span data-stu-id="9d917-135">Regardless of recursion policy, a thread that initially entered read mode is not allowed to upgrade to upgradeable mode or write mode, because that pattern creates a strong probability of deadlocks.</span></span> <span data-ttu-id="9d917-136">例如，如果两个线程在读取模式下都尝试进入写入模式，它们将死锁。</span><span class="sxs-lookup"><span data-stu-id="9d917-136">For example, if two threads in read mode both try to enter write mode, they will deadlock.</span></span> <span data-ttu-id="9d917-137">进入可升级模式旨在来避免这类死锁。</span><span class="sxs-lookup"><span data-stu-id="9d917-137">Upgradeable mode is designed to avoid such deadlocks.</span></span>  
+  
+ <span data-ttu-id="9d917-138">如果在读取模式下，升级块的线程有其他线程。</span><span class="sxs-lookup"><span data-stu-id="9d917-138">If there are other threads in read mode, the thread that is upgrading blocks.</span></span> <span data-ttu-id="9d917-139">当线程被阻止时, 尝试进入读取的模式的其他线程被阻止。</span><span class="sxs-lookup"><span data-stu-id="9d917-139">While the thread is blocked, other threads that try to enter read mode are blocked.</span></span> <span data-ttu-id="9d917-140">当所有线程均都退出读取模式时，被阻止进入可升级线程进入写入模式。</span><span class="sxs-lookup"><span data-stu-id="9d917-140">When all threads have exited from read mode, the blocked upgradeable thread enters write mode.</span></span> <span data-ttu-id="9d917-141">如果没有其他线程等待进入写入模式，则它们保持被阻止，因为处于可升级模式的单一线程将阻止它们获取对该资源独占访问权。</span><span class="sxs-lookup"><span data-stu-id="9d917-141">If there are other threads waiting to enter write mode, they remain blocked, because the single thread that is in upgradeable mode prevents them from gaining exclusive access to the resource.</span></span>  
+  
+ <span data-ttu-id="9d917-142">在进入可升级模式中的线程时退出写入模式，因此除非有线程正等待进入写入模式，可以执行其他线程等待进入读取的模式。</span><span class="sxs-lookup"><span data-stu-id="9d917-142">When the thread in upgradeable mode exits write mode, other threads that are waiting to enter read mode can do so, unless there are threads waiting to enter write mode.</span></span> <span data-ttu-id="9d917-143">进入可升级模式中的线程可以升级和降级无限期，只要它是将写入到受保护资源的唯一线程。</span><span class="sxs-lookup"><span data-stu-id="9d917-143">The thread in upgradeable mode can upgrade and downgrade indefinitely, as long as it is the only thread that writes to the protected resource.</span></span>  
+  
+> [!IMPORTANT]
+>  <span data-ttu-id="9d917-144">如果允许多个线程进入写入模式或进入可升级模式，则不能允许一个线程独占进入可升级模式。</span><span class="sxs-lookup"><span data-stu-id="9d917-144">If you allow multiple threads to enter write mode or upgradeable mode, you must not allow one thread to monopolize upgradeable mode.</span></span> <span data-ttu-id="9d917-145">否则，尝试输入的线程写入模式直接将被阻止无限期，其他线程时其阻止，将不能进入读取的模式。</span><span class="sxs-lookup"><span data-stu-id="9d917-145">Otherwise, threads that try to enter write mode directly will be blocked indefinitely, and while they are blocked, other threads will be unable to enter read mode.</span></span>  
+  
+ <span data-ttu-id="9d917-146">进入可升级模式中的线程可以降级为通过首先调用读取模式<xref:System.Threading.ReaderWriterLockSlim.EnterReadLock%2A>方法，然后再调用<xref:System.Threading.ReaderWriterLockSlim.ExitUpgradeableReadLock%2A>方法。</span><span class="sxs-lookup"><span data-stu-id="9d917-146">A thread in upgradeable mode can downgrade to read mode by first calling the <xref:System.Threading.ReaderWriterLockSlim.EnterReadLock%2A> method and then calling the <xref:System.Threading.ReaderWriterLockSlim.ExitUpgradeableReadLock%2A> method.</span></span> <span data-ttu-id="9d917-147">此降级模式可用于所有的锁定递归策略，即使<xref:System.Threading.LockRecursionPolicy.NoRecursion>。</span><span class="sxs-lookup"><span data-stu-id="9d917-147">This downgrade pattern is allowed for all lock recursion policies, even <xref:System.Threading.LockRecursionPolicy.NoRecursion>.</span></span>  
+  
+ <span data-ttu-id="9d917-148">在将降级为读取模式之后, 线程将不能重新进入可升级模式直到它已退出读取模式。</span><span class="sxs-lookup"><span data-stu-id="9d917-148">After downgrading to read mode, a thread cannot reenter upgradeable mode until it has exited from read mode.</span></span>  
+  
+## <a name="entering-the-lock-recursively"></a><span data-ttu-id="9d917-149">输入锁以递归方式</span><span class="sxs-lookup"><span data-stu-id="9d917-149">Entering the Lock Recursively</span></span>  
+ <span data-ttu-id="9d917-150">你可以创建<xref:System.Threading.ReaderWriterLockSlim>通过使用支持递归锁定项<xref:System.Threading.ReaderWriterLockSlim.%23ctor%28System.Threading.LockRecursionPolicy%29>构造函数来指定锁定策略，并指定<xref:System.Threading.LockRecursionPolicy.SupportsRecursion?displayProperty=nameWithType>。</span><span class="sxs-lookup"><span data-stu-id="9d917-150">You can create a <xref:System.Threading.ReaderWriterLockSlim> that supports recursive lock entry by using the <xref:System.Threading.ReaderWriterLockSlim.%23ctor%28System.Threading.LockRecursionPolicy%29> constructor that specifies lock policy, and specifying <xref:System.Threading.LockRecursionPolicy.SupportsRecursion?displayProperty=nameWithType>.</span></span>  
+  
+> [!NOTE]
+>  <span data-ttu-id="9d917-151">对于新开发，不建议使用递归的因为它带来不必要的复杂情况，从而使代码更容易出现死锁。</span><span class="sxs-lookup"><span data-stu-id="9d917-151">The use of recursion is not recommended for new development, because it introduces unnecessary complications and makes your code more prone to deadlocks.</span></span>  
+  
+ <span data-ttu-id="9d917-152">有关<xref:System.Threading.ReaderWriterLockSlim>，允许使用递归，以下可以认为线程可以输入的模式：</span><span class="sxs-lookup"><span data-stu-id="9d917-152">For a <xref:System.Threading.ReaderWriterLockSlim> that allows recursion, the following can be said about the modes a thread can enter:</span></span>  
+  
+-   <span data-ttu-id="9d917-153">处于读取模式的线程可以输入以递归方式读取的模式，但不能进入写入模式或进入可升级模式。</span><span class="sxs-lookup"><span data-stu-id="9d917-153">A thread in read mode can enter read mode recursively, but cannot enter write mode or upgradeable mode.</span></span> <span data-ttu-id="9d917-154">如果它尝试这样做，请<xref:System.Threading.LockRecursionException>引发。</span><span class="sxs-lookup"><span data-stu-id="9d917-154">If it tries to do this, a <xref:System.Threading.LockRecursionException> is thrown.</span></span> <span data-ttu-id="9d917-155">进入读取模式后再进入写入模式，或进入可升级模式是带的死锁，概率较强的模式，因此不允许。</span><span class="sxs-lookup"><span data-stu-id="9d917-155">Entering read mode and then entering write mode or upgradeable mode is a pattern with a strong probability of deadlocks, so it is not allowed.</span></span> <span data-ttu-id="9d917-156">如前面所述，需升级锁的情况提供进入可升级模式。</span><span class="sxs-lookup"><span data-stu-id="9d917-156">As discussed earlier, upgradeable mode is provided for cases where it is necessary to upgrade a lock.</span></span>  
+  
+-   <span data-ttu-id="9d917-157">进入可升级模式中的线程可以进入写入模式和/或读取的模式，并且可以输入任何以下三种模式以递归方式。</span><span class="sxs-lookup"><span data-stu-id="9d917-157">A thread in upgradeable mode can enter write mode and/or read mode, and can enter any of the three modes recursively.</span></span> <span data-ttu-id="9d917-158">但是，尝试进入写入模式块读取模式中是否有其他线程。</span><span class="sxs-lookup"><span data-stu-id="9d917-158">However, an attempt to enter write mode blocks if there are other threads in read mode.</span></span>  
+  
+-   <span data-ttu-id="9d917-159">写入模式中的线程可以进入读取的模式和/或进入可升级模式，并且可以输入任何以下三种模式以递归方式。</span><span class="sxs-lookup"><span data-stu-id="9d917-159">A thread in write mode can enter read mode and/or upgradeable mode, and can enter any of the three modes recursively.</span></span>  
+  
+-   <span data-ttu-id="9d917-160">不进入锁定状态的线程可以输入任何模式。</span><span class="sxs-lookup"><span data-stu-id="9d917-160">A thread that has not entered the lock can enter any mode.</span></span> <span data-ttu-id="9d917-161">出于相同原因，因为尝试输入非递归锁可以阻止此尝试。</span><span class="sxs-lookup"><span data-stu-id="9d917-161">This attempt can block for the same reasons as an attempt to enter a non-recursive lock.</span></span>  
+  
+ <span data-ttu-id="9d917-162">线程可以退出其已进入按任意顺序模式，只要它退出它进入该模式的次数完全相同的每种模式。</span><span class="sxs-lookup"><span data-stu-id="9d917-162">A thread can exit the modes it has entered in any order, as long as it exits each mode exactly as many times as it entered that mode.</span></span> <span data-ttu-id="9d917-163">如果线程尝试退出模式的次数过多，或者尝试退出它并未进入，模式<xref:System.Threading.SynchronizationLockException>引发。</span><span class="sxs-lookup"><span data-stu-id="9d917-163">If a thread tries to exit a mode too many times, or to exit a mode it has not entered, a <xref:System.Threading.SynchronizationLockException> is thrown.</span></span>  
+  
+## <a name="lock-states"></a><span data-ttu-id="9d917-164">锁定状态</span><span class="sxs-lookup"><span data-stu-id="9d917-164">Lock States</span></span>  
+ <span data-ttu-id="9d917-165">你可能会发现其状态的锁将很有用。</span><span class="sxs-lookup"><span data-stu-id="9d917-165">You may find it useful to think of the lock in terms of its states.</span></span> <span data-ttu-id="9d917-166">A<xref:System.Threading.ReaderWriterLockSlim>可以是四种状态之一： 不进入、 读取、 升级和写入。</span><span class="sxs-lookup"><span data-stu-id="9d917-166">A <xref:System.Threading.ReaderWriterLockSlim> can be in one of four states: not entered, read, upgrade, and write.</span></span>  
+  
+-   <span data-ttu-id="9d917-167">未输入： 在此状态下，没有线程进入锁定 （或所有线程均已都退出锁）。</span><span class="sxs-lookup"><span data-stu-id="9d917-167">Not entered: In this state, no threads have entered the lock (or all threads have exited the lock).</span></span>  
+  
+-   <span data-ttu-id="9d917-168">阅读： 在此状态下，一个或多个线程进入锁定用于读访问到受保护的资源。</span><span class="sxs-lookup"><span data-stu-id="9d917-168">Read: In this state, one or more threads have entered the lock for read access to the protected resource.</span></span>  
+  
+    > [!NOTE]
+    >  <span data-ttu-id="9d917-169">线程可以通过使用在读取模式中输入该锁<xref:System.Threading.ReaderWriterLockSlim.EnterReadLock%2A>或<xref:System.Threading.ReaderWriterLockSlim.TryEnterReadLock%2A>方法，或通过进入可升级模式从其降级。</span><span class="sxs-lookup"><span data-stu-id="9d917-169">A thread can enter the lock in read mode by using the <xref:System.Threading.ReaderWriterLockSlim.EnterReadLock%2A> or <xref:System.Threading.ReaderWriterLockSlim.TryEnterReadLock%2A> methods, or by downgrading from upgradeable mode.</span></span>  
+  
+-   <span data-ttu-id="9d917-170">升级： 在此状态下，一个线程已进入锁定用于读访问升级的写权限的选项 （即，在进入可升级模式下），和零个或多个线程已进入锁定用于读访问。</span><span class="sxs-lookup"><span data-stu-id="9d917-170">Upgrade: In this state, one thread has entered the lock for read access with the option to upgrade to write access (that is, in upgradeable mode), and zero or more threads have entered the lock for read access.</span></span> <span data-ttu-id="9d917-171">一次不能超过一个线程可以进入并可以升级; 锁尝试进入可升级模式的其他线程被阻止。</span><span class="sxs-lookup"><span data-stu-id="9d917-171">No more than one thread at a time can enter the lock with the option to upgrade; additional threads that try to enter upgradeable mode are blocked.</span></span>  
+  
+-   <span data-ttu-id="9d917-172">写入： 在此状态下，一个线程已进入锁定以进行写访问到受保护的资源。</span><span class="sxs-lookup"><span data-stu-id="9d917-172">Write: In this state, one thread has entered the lock for write access to the protected resource.</span></span> <span data-ttu-id="9d917-173">该线程拥有独占锁。</span><span class="sxs-lookup"><span data-stu-id="9d917-173">That thread has exclusive possession of the lock.</span></span> <span data-ttu-id="9d917-174">尝试进入锁定状态出于任何原因的其他任何线程被阻止。</span><span class="sxs-lookup"><span data-stu-id="9d917-174">Any other thread that tries to enter the lock for any reason is blocked.</span></span>  
+  
+ <span data-ttu-id="9d917-175">下表描述了锁定状态，不允许递归，当一个线程的锁之间的转换`t`采用最左边的列中所述的操作。</span><span class="sxs-lookup"><span data-stu-id="9d917-175">The following table describes the transitions between lock states, for locks that do not allow recursion, when a thread `t` takes the action described in the leftmost column.</span></span> <span data-ttu-id="9d917-176">在时它不执行操作，`t`具有无模式。</span><span class="sxs-lookup"><span data-stu-id="9d917-176">At the time it takes the action, `t` has no mode.</span></span> <span data-ttu-id="9d917-177">(的特殊情况下其中`t`处于表批注中介绍了可升级模式。)最上面一行描述锁的起始状态。</span><span class="sxs-lookup"><span data-stu-id="9d917-177">(The special case where `t` is in upgradeable mode is described in the table footnotes.) The top row describes the starting state of the lock.</span></span> <span data-ttu-id="9d917-178">单元格描述线程，会发生什么情况，并在括号中显示的锁定状态的更改。</span><span class="sxs-lookup"><span data-stu-id="9d917-178">The cells describe what happens to the thread, and show changes to the lock state in parentheses.</span></span>  
+  
+||<span data-ttu-id="9d917-179">未输入 (N)</span><span class="sxs-lookup"><span data-stu-id="9d917-179">Not entered (N)</span></span>|<span data-ttu-id="9d917-180">Read (R)</span><span class="sxs-lookup"><span data-stu-id="9d917-180">Read (R)</span></span>|<span data-ttu-id="9d917-181">升级 (U)</span><span class="sxs-lookup"><span data-stu-id="9d917-181">Upgrade (U)</span></span>|<span data-ttu-id="9d917-182">写入 (W)</span><span class="sxs-lookup"><span data-stu-id="9d917-182">Write (W)</span></span>|  
+|-|-----------------------|----------------|-------------------|-----------------|  
+|<span data-ttu-id="9d917-183">`t` 进入读取的模式</span><span class="sxs-lookup"><span data-stu-id="9d917-183">`t` enters read mode</span></span>|<span data-ttu-id="9d917-184">`t` 进入 (R)。</span><span class="sxs-lookup"><span data-stu-id="9d917-184">`t` enters (R).</span></span>|<span data-ttu-id="9d917-185">`t` 如果多个线程正在等待写入模式，则，阻塞否则为`t`进入。</span><span class="sxs-lookup"><span data-stu-id="9d917-185">`t` blocks if threads are waiting for write mode; otherwise, `t` enters.</span></span>|<span data-ttu-id="9d917-186">`t` 如果多个线程正在等待写入模式，则，阻塞否则为`t`进入。<sup>1</sup></span><span class="sxs-lookup"><span data-stu-id="9d917-186">`t` blocks if threads are waiting for write mode; otherwise, `t` enters.<sup>1</sup></span></span>|<span data-ttu-id="9d917-187">`t` 块。</span><span class="sxs-lookup"><span data-stu-id="9d917-187">`t` blocks.</span></span>|  
+|<span data-ttu-id="9d917-188">`t` 进入可升级模式</span><span class="sxs-lookup"><span data-stu-id="9d917-188">`t` enters upgradeable mode</span></span>|<span data-ttu-id="9d917-189">`t` 进入 (U)。</span><span class="sxs-lookup"><span data-stu-id="9d917-189">`t` enters (U).</span></span>|<span data-ttu-id="9d917-190">`t` 如果多个线程正在等待阻塞进入写入模式或升级模式;否则为`t`进入 (U)。</span><span class="sxs-lookup"><span data-stu-id="9d917-190">`t` blocks if threads are waiting for write mode or upgrade mode; otherwise, `t` enters (U).</span></span>|<span data-ttu-id="9d917-191">`t` 块。</span><span class="sxs-lookup"><span data-stu-id="9d917-191">`t` blocks.</span></span>|<span data-ttu-id="9d917-192">`t` 块。</span><span class="sxs-lookup"><span data-stu-id="9d917-192">`t` blocks.</span></span>|  
+|<span data-ttu-id="9d917-193">`t` 进入写入模式</span><span class="sxs-lookup"><span data-stu-id="9d917-193">`t` enters write mode</span></span>|<span data-ttu-id="9d917-194">`t` 进入 (W)。</span><span class="sxs-lookup"><span data-stu-id="9d917-194">`t` enters (W).</span></span>|<span data-ttu-id="9d917-195">`t` 块。</span><span class="sxs-lookup"><span data-stu-id="9d917-195">`t` blocks.</span></span>|<span data-ttu-id="9d917-196">`t` 块。<sup>2</sup></span><span class="sxs-lookup"><span data-stu-id="9d917-196">`t` blocks.<sup>2</sup></span></span>|<span data-ttu-id="9d917-197">`t` 块。</span><span class="sxs-lookup"><span data-stu-id="9d917-197">`t` blocks.</span></span>|  
+  
+ <span data-ttu-id="9d917-198"><sup>1</sup>如果`t`启动注销进入可升级模式，在进入读取的模式。</span><span class="sxs-lookup"><span data-stu-id="9d917-198"><sup>1</sup> If `t` starts out in upgradeable mode, it enters read mode.</span></span> <span data-ttu-id="9d917-199">此操作永远不会阻止。</span><span class="sxs-lookup"><span data-stu-id="9d917-199">This action never blocks.</span></span> <span data-ttu-id="9d917-200">锁定状态不会更改。</span><span class="sxs-lookup"><span data-stu-id="9d917-200">The lock state does not change.</span></span> <span data-ttu-id="9d917-201">（在线程可以完成降级为通过退出可升级模式来读取模式）。</span><span class="sxs-lookup"><span data-stu-id="9d917-201">(The thread can then complete a downgrade to read mode by exiting upgradeable mode.)</span></span>  
+  
+ <span data-ttu-id="9d917-202"><sup>2</sup>如果`t`初始进入可升级模式，它会阻止如果多个线程处于读取模式。</span><span class="sxs-lookup"><span data-stu-id="9d917-202"><sup>2</sup> If `t` starts out in upgradeable mode, it blocks if there are threads in read mode.</span></span> <span data-ttu-id="9d917-203">否则它将升级为写入模式。</span><span class="sxs-lookup"><span data-stu-id="9d917-203">Otherwise it upgrades to write mode.</span></span> <span data-ttu-id="9d917-204">锁定状态更改为写入 (W)。</span><span class="sxs-lookup"><span data-stu-id="9d917-204">The lock state changes to Write (W).</span></span> <span data-ttu-id="9d917-205">如果`t`块中，在多个线程处于读取模式，因为最后一个线程时退出读取的模式时，就会立即进入写入模式，即使有线程正等待进入写入模式。</span><span class="sxs-lookup"><span data-stu-id="9d917-205">If `t` blocks because there are threads in read mode, it enters write mode as soon as the last thread exits read mode, even if there are threads waiting to enter write mode.</span></span>  
+  
+ <span data-ttu-id="9d917-206">因为线程退出锁状态更改时下, 一个线程被唤醒，选择，如下所示：</span><span class="sxs-lookup"><span data-stu-id="9d917-206">When a state change occurs because a thread exits the lock, the next thread to be awakened is selected as follows:</span></span>  
+  
+-   <span data-ttu-id="9d917-207">首先，正在等待的线程写入模式，并已在进入可升级模式 （可以有最多一个此类线程）。</span><span class="sxs-lookup"><span data-stu-id="9d917-207">First, a thread that is waiting for write mode and is already in upgradeable mode (there can be at most one such thread).</span></span>  
+  
+-   <span data-ttu-id="9d917-208">失败，正在等待写入模式的线程。</span><span class="sxs-lookup"><span data-stu-id="9d917-208">Failing that, a thread that is waiting for write mode.</span></span>  
+  
+-   <span data-ttu-id="9d917-209">失败，正在等待进入可升级模式的线程。</span><span class="sxs-lookup"><span data-stu-id="9d917-209">Failing that, a thread that is waiting for upgradeable mode.</span></span>  
+  
+-   <span data-ttu-id="9d917-210">如果没有，正在等待读取模式的所有线程。</span><span class="sxs-lookup"><span data-stu-id="9d917-210">Failing that, all threads that are waiting for read mode.</span></span>  
+  
+ <span data-ttu-id="9d917-211">后续状态的锁始终是写入 (W) 中的第一个的两种情况下和升级 (U) 在第三个情况下，而无论锁定正在退出的线程触发状态更改时的状态。</span><span class="sxs-lookup"><span data-stu-id="9d917-211">The subsequent state of the lock is always Write (W) in the first two cases and Upgrade (U) in the third case, regardless of the state of the lock when the exiting thread triggered the state change.</span></span> <span data-ttu-id="9d917-212">在最后一种情况，锁定状态是升级 (U)，如果一个线程中没有进入可升级模式后的状态更改和 Read (R) 否则，而不考虑以前的状态。</span><span class="sxs-lookup"><span data-stu-id="9d917-212">In the last case, the state of the lock is Upgrade (U) if there is a thread in upgradeable mode after the state change, and Read (R) otherwise, regardless of the prior state.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="9d917-213">下面的示例演示了简单的同步的缓存包含具有整数键的字符串。</span><span class="sxs-lookup"><span data-stu-id="9d917-213">The following example shows a simple synchronized cache that holds strings with integer keys.</span></span> <span data-ttu-id="9d917-214">实例<xref:System.Threading.ReaderWriterLockSlim>使用对访问进行同步<xref:System.Collections.Generic.Dictionary%602>用作内部缓存。</span><span class="sxs-lookup"><span data-stu-id="9d917-214">An instance of <xref:System.Threading.ReaderWriterLockSlim> is used to synchronize access to the <xref:System.Collections.Generic.Dictionary%602> that serves as the inner cache.</span></span>  
+  
+ <span data-ttu-id="9d917-215">该示例包括简单的方法，用于向缓存中添加、 删除从缓存中，和从缓存中读取。</span><span class="sxs-lookup"><span data-stu-id="9d917-215">The example includes simple methods to add to the cache, delete from the cache, and read from the cache.</span></span> <span data-ttu-id="9d917-216">为了演示超时，该示例包括仅当它可以在指定的超时时间内执行此操作将添加到缓存的方法。</span><span class="sxs-lookup"><span data-stu-id="9d917-216">To demonstrate time-outs, the example includes a method that adds to the cache only if it can do so within a specified time-out.</span></span>  
+  
+ <span data-ttu-id="9d917-217">为了演示可升级模式，该示例包括检索与键关联的值的方法，并将其替换为新值进行比较。</span><span class="sxs-lookup"><span data-stu-id="9d917-217">To demonstrate upgradeable mode, the example includes a method that retrieves the value associated with a key and compares it with a new value.</span></span> <span data-ttu-id="9d917-218">如果值保持不变，该方法将返回状态指示无更改。</span><span class="sxs-lookup"><span data-stu-id="9d917-218">If the value is unchanged, the method returns a status indicating no change.</span></span> <span data-ttu-id="9d917-219">它没有值找不到键，插入的键/值对。</span><span class="sxs-lookup"><span data-stu-id="9d917-219">It no value is found for the key, the key/value pair is inserted.</span></span> <span data-ttu-id="9d917-220">如果值已更改，将它更新。</span><span class="sxs-lookup"><span data-stu-id="9d917-220">If the value has changed, it is updated.</span></span> <span data-ttu-id="9d917-221">进入可升级模式允许线程从读取访问权限，根据需要而没有死锁的风险的写权限升级。</span><span class="sxs-lookup"><span data-stu-id="9d917-221">Upgradeable mode allows the thread to upgrade from read access to write access as needed, without the risk of deadlocks.</span></span>  
+  
+ <span data-ttu-id="9d917-222">该示例包括指定演示进入可升级模式的方法的返回值的嵌套的枚举。</span><span class="sxs-lookup"><span data-stu-id="9d917-222">The example includes a nested enumeration that specifies the return values for the method that demonstrates upgradeable mode.</span></span>  
+  
+ <span data-ttu-id="9d917-223">该示例使用默认构造函数创建锁，因此不允许递归。</span><span class="sxs-lookup"><span data-stu-id="9d917-223">The example uses the default constructor to create the lock, so recursion is not allowed.</span></span> <span data-ttu-id="9d917-224">编程<xref:System.Threading.ReaderWriterLockSlim>当锁不允许递归是更简单且更不易出错。</span><span class="sxs-lookup"><span data-stu-id="9d917-224">Programming the <xref:System.Threading.ReaderWriterLockSlim> is simpler and less prone to error when the lock does not allow recursion.</span></span>  
+  
+ [!code-csharp[System.Threading.ReaderWriterLockSlim_Shadow#11](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow/cs/classexample1.cs#11)]
+ [!code-vb[System.Threading.ReaderWriterLockSlim_Shadow#11](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow/vb/classexample1.vb#11)]  
+[!code-csharp[System.Threading.ReaderWriterLockSlim_Shadow#12](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow/cs/classexample1.cs#12)]
+[!code-vb[System.Threading.ReaderWriterLockSlim_Shadow#12](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow/vb/classexample1.vb#12)]  
+  
+ <span data-ttu-id="9d917-225">下面的代码然后使用`SynchronizedCache`要存储蔬菜名称的字典对象。</span><span class="sxs-lookup"><span data-stu-id="9d917-225">The following code then uses the `SynchronizedCache` object to store a dictionary of vegetable names.</span></span> <span data-ttu-id="9d917-226">它将创建三个任务。</span><span class="sxs-lookup"><span data-stu-id="9d917-226">It creates three tasks.</span></span> <span data-ttu-id="9d917-227">第一个写入的名称数组中存储的蔬菜`SynchronizedCache`实例。</span><span class="sxs-lookup"><span data-stu-id="9d917-227">The first writes the names of vegetables stored in an array to a `SynchronizedCache` instance.</span></span> <span data-ttu-id="9d917-228">第二个和第三个任务显示蔬菜中 （从低到高的索引的索引） 以降序顺序的第二个升序排序, 的第一个的名称。</span><span class="sxs-lookup"><span data-stu-id="9d917-228">The second and third task display the names of the vegetables, the first in ascending order (from low index to high index), the second in descending order.</span></span> <span data-ttu-id="9d917-229">最后一项任务搜索字符串"黄瓜"，并当它找到它，将调用<xref:System.Threading.ReaderWriterLockSlim.EnterUpgradeableReadLock%2A>方法要替换的字符串"绿色 bean"。</span><span class="sxs-lookup"><span data-stu-id="9d917-229">The final task searches for the string "cucumber" and, when it finds it, calls the <xref:System.Threading.ReaderWriterLockSlim.EnterUpgradeableReadLock%2A> method  to substitute the string "green bean".</span></span>  
+  
+ [!code-csharp[System.Threading.ReaderWriterLockSlim_Shadow#11](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow/cs/classexample1.cs#11)]
+ [!code-vb[System.Threading.ReaderWriterLockSlim_Shadow#11](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow/vb/classexample1.vb#11)]  
+[!code-csharp[System.Threading.ReaderWriterLockSlim_Shadow#13](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow/cs/classexample1.cs#13)]
+[!code-vb[System.Threading.ReaderWriterLockSlim_Shadow#13](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow/vb/classexample1.vb#13)]  
+  
+ ]]></format>
+    </remarks>
+    <threadsafe>
+      <span data-ttu-id="9d917-230">此类型是线程安全的。</span>
+      <span class="sxs-lookup">
+        <span data-stu-id="9d917-230">This type is thread safe.</span>
+      </span>
+    </threadsafe>
+  </Docs>
+  <Members>
+    <MemberGroup MemberName=".ctor">
+      <AssemblyInfo>
+        <AssemblyName>System.Threading</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Docs>
+        <summary>
+          <span data-ttu-id="9d917-231">初始化 <see cref="T:System.Threading.ReaderWriterLockSlim" /> 类的新实例。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-231">Initializes a new instance of the <see cref="T:System.Threading.ReaderWriterLockSlim" /> class.</span>
+          </span>
+        </summary>
+      </Docs>
+    </MemberGroup>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public ReaderWriterLockSlim ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Threading.ReaderWriterLockSlim.#ctor" />
+      <MemberSignature Language="VB.NET" Value="Public Sub New ()" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; ReaderWriterLockSlim();" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Threading</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Core</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="9d917-232">使用默认属性值初始化 <see cref="T:System.Threading.ReaderWriterLockSlim" /> 类的新实例。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-232">Initializes a new instance of the <see cref="T:System.Threading.ReaderWriterLockSlim" /> class with default property values.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="9d917-233">A<xref:System.Threading.ReaderWriterLockSlim>初始化与此构造函数不允许使用递归。</span><span class="sxs-lookup"><span data-stu-id="9d917-233">A <xref:System.Threading.ReaderWriterLockSlim> that is initialized with this constructor does not allow recursion.</span></span> <span data-ttu-id="9d917-234">也就是说，<xref:System.Threading.ReaderWriterLockSlim.RecursionPolicy%2A> 属性将返回 <xref:System.Threading.LockRecursionPolicy.NoRecursion?displayProperty=nameWithType>。</span><span class="sxs-lookup"><span data-stu-id="9d917-234">That is, the <xref:System.Threading.ReaderWriterLockSlim.RecursionPolicy%2A> property returns <xref:System.Threading.LockRecursionPolicy.NoRecursion?displayProperty=nameWithType>.</span></span>  
+  
+ <span data-ttu-id="9d917-235">关于递归策略和其效果的详细信息，请参阅<xref:System.Threading.LockRecursionPolicy>枚举和<xref:System.Threading.ReaderWriterLockSlim>类。</span><span class="sxs-lookup"><span data-stu-id="9d917-235">For more information about recursion policy and its effects, see the <xref:System.Threading.LockRecursionPolicy> enumeration and the <xref:System.Threading.ReaderWriterLockSlim> class.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="9d917-236">下面的示例演示了简单的同步的缓存包含具有整数键的字符串。</span><span class="sxs-lookup"><span data-stu-id="9d917-236">The following example shows a simple synchronized cache that holds strings with integer keys.</span></span> <span data-ttu-id="9d917-237">实例<xref:System.Threading.ReaderWriterLockSlim>使用对访问进行同步<xref:System.Collections.Generic.Dictionary%602>用作内部缓存。</span><span class="sxs-lookup"><span data-stu-id="9d917-237">An instance of <xref:System.Threading.ReaderWriterLockSlim> is used to synchronize access to the <xref:System.Collections.Generic.Dictionary%602> that serves as the inner cache.</span></span> <span data-ttu-id="9d917-238">无参数构造函数用于创建该锁。</span><span class="sxs-lookup"><span data-stu-id="9d917-238">The parameterless constructor is used to create the lock.</span></span>  
+  
+ <span data-ttu-id="9d917-239">该示例包括简单的方法，用于向缓存中添加、 删除从缓存中，和从缓存中读取。</span><span class="sxs-lookup"><span data-stu-id="9d917-239">The example includes simple methods to add to the cache, delete from the cache, and read from the cache.</span></span> <span data-ttu-id="9d917-240">为了演示超时，该示例包括仅当它可以在指定的超时时间内执行此操作将添加到缓存的方法。</span><span class="sxs-lookup"><span data-stu-id="9d917-240">To demonstrate time-outs, the example includes a method that adds to the cache only if it can do so within a specified time-out.</span></span>  
+  
+ <span data-ttu-id="9d917-241">为了演示可升级模式，该示例包括检索与键关联的值的方法，并将其替换为新值进行比较。</span><span class="sxs-lookup"><span data-stu-id="9d917-241">To demonstrate upgradeable mode, the example includes a method that retrieves the value associated with a key and compares it with a new value.</span></span> <span data-ttu-id="9d917-242">如果值保持不变，该方法将返回状态指示无更改。</span><span class="sxs-lookup"><span data-stu-id="9d917-242">If the value is unchanged, the method returns a status indicating no change.</span></span> <span data-ttu-id="9d917-243">它没有值找不到键，插入的键/值对。</span><span class="sxs-lookup"><span data-stu-id="9d917-243">It no value is found for the key, the key/value pair is inserted.</span></span> <span data-ttu-id="9d917-244">如果值已更改，将它更新。</span><span class="sxs-lookup"><span data-stu-id="9d917-244">If the value has changed, it is updated.</span></span> <span data-ttu-id="9d917-245">进入可升级模式允许线程从读取访问权限，根据需要而没有死锁的风险的写权限升级。</span><span class="sxs-lookup"><span data-stu-id="9d917-245">Upgradeable mode allows the thread to upgrade from read access to write access as needed, without the risk of deadlocks.</span></span>  
+  
+ <span data-ttu-id="9d917-246">该示例包括指定演示进入可升级模式的方法的返回值的嵌套的枚举。</span><span class="sxs-lookup"><span data-stu-id="9d917-246">The example includes a nested enumeration that specifies the return values for the method that demonstrates upgradeable mode.</span></span>  
+  
+ <span data-ttu-id="9d917-247">该示例使用默认构造函数创建锁，因此不允许递归。</span><span class="sxs-lookup"><span data-stu-id="9d917-247">The example uses the default constructor to create the lock, so recursion is not allowed.</span></span> <span data-ttu-id="9d917-248">编程<xref:System.Threading.ReaderWriterLockSlim>当锁不允许递归是更简单且更不易出错。</span><span class="sxs-lookup"><span data-stu-id="9d917-248">Programming the <xref:System.Threading.ReaderWriterLockSlim> is simpler and less prone to error when the lock does not allow recursion.</span></span>  
+  
+ [!code-csharp[System.Threading.ReaderWriterLockSlim_Shadow#11](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow/cs/classexample1.cs#11)]
+ [!code-vb[System.Threading.ReaderWriterLockSlim_Shadow#11](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow/vb/classexample1.vb#11)]  
+[!code-csharp[System.Threading.ReaderWriterLockSlim_Shadow#12](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow/cs/classexample1.cs#12)]
+[!code-vb[System.Threading.ReaderWriterLockSlim_Shadow#12](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow/vb/classexample1.vb#12)]  
+  
+ <span data-ttu-id="9d917-249">下面的代码然后使用`SynchronizedCache`要存储蔬菜名称的字典对象。</span><span class="sxs-lookup"><span data-stu-id="9d917-249">The following code then uses the `SynchronizedCache` object to store a dictionary of vegetable names.</span></span> <span data-ttu-id="9d917-250">它将创建三个任务。</span><span class="sxs-lookup"><span data-stu-id="9d917-250">It creates three tasks.</span></span> <span data-ttu-id="9d917-251">第一个写入的名称数组中存储的蔬菜`SynchronizedCache`实例。</span><span class="sxs-lookup"><span data-stu-id="9d917-251">The first writes the names of vegetables stored in an array to a `SynchronizedCache` instance.</span></span> <span data-ttu-id="9d917-252">第二个和第三个任务显示蔬菜中 （从低到高的索引的索引） 以降序顺序的第二个升序排序, 的第一个的名称。</span><span class="sxs-lookup"><span data-stu-id="9d917-252">The second and third task display the names of the vegetables, the first in ascending order (from low index to high index), the second in descending order.</span></span> <span data-ttu-id="9d917-253">最后一项任务搜索字符串"黄瓜"，并当它找到它，将调用<xref:System.Threading.ReaderWriterLockSlim.EnterUpgradeableReadLock%2A>方法要替换的字符串"绿色 bean"。</span><span class="sxs-lookup"><span data-stu-id="9d917-253">The final task searches for the string "cucumber" and, when it finds it, calls the <xref:System.Threading.ReaderWriterLockSlim.EnterUpgradeableReadLock%2A> method  to substitute the string "green bean".</span></span>  
+  
+ [!code-csharp[System.Threading.ReaderWriterLockSlim_Shadow#11](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow/cs/classexample1.cs#11)]
+ [!code-vb[System.Threading.ReaderWriterLockSlim_Shadow#11](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow/vb/classexample1.vb#11)]  
+[!code-csharp[System.Threading.ReaderWriterLockSlim_Shadow#13](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow/cs/classexample1.cs#13)]
+[!code-vb[System.Threading.ReaderWriterLockSlim_Shadow#13](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow/vb/classexample1.vb#13)]  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="T:System.Threading.LockRecursionPolicy" />
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public ReaderWriterLockSlim (System.Threading.LockRecursionPolicy recursionPolicy);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(valuetype System.Threading.LockRecursionPolicy recursionPolicy) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Threading.ReaderWriterLockSlim.#ctor(System.Threading.LockRecursionPolicy)" />
+      <MemberSignature Language="VB.NET" Value="Public Sub New (recursionPolicy As LockRecursionPolicy)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; ReaderWriterLockSlim(System::Threading::LockRecursionPolicy recursionPolicy);" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Threading</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Core</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="recursionPolicy" Type="System.Threading.LockRecursionPolicy" />
+      </Parameters>
+      <Docs>
+        <param name="recursionPolicy">
+          <span data-ttu-id="9d917-254">枚举值之一，用于指定锁定递归策略。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-254">One of the enumeration values that specifies the lock recursion policy.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="9d917-255">在指定锁定递归策略的情况下初始化 <see cref="T:System.Threading.ReaderWriterLockSlim" /> 类的新实例。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-255">Initializes a new instance of the <see cref="T:System.Threading.ReaderWriterLockSlim" /> class, specifying the lock recursion policy.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="9d917-256">递归策略将确定在多次输入锁的线程上的限制。</span><span class="sxs-lookup"><span data-stu-id="9d917-256">Recursion policy determines the restrictions on threads that enter the lock more than once.</span></span> <span data-ttu-id="9d917-257">例如，如果使用锁创建了<xref:System.Threading.LockRecursionPolicy.NoRecursion?displayProperty=nameWithType>和线程已进入读取模式锁定<xref:System.Threading.LockRecursionException>如果线程尝试重新输入中读取模式锁定，则引发。</span><span class="sxs-lookup"><span data-stu-id="9d917-257">For example, if a lock was created with <xref:System.Threading.LockRecursionPolicy.NoRecursion?displayProperty=nameWithType> and a thread has entered the lock in read mode, <xref:System.Threading.LockRecursionException> is thrown if the thread tries to reenter the lock in read mode.</span></span> <span data-ttu-id="9d917-258">同样，如果线程已进入写入模式锁定<xref:System.Threading.LockRecursionException>如果线程尝试重新输入在任何模式下锁定，则引发。</span><span class="sxs-lookup"><span data-stu-id="9d917-258">Similarly, if a thread has entered the lock in write mode, <xref:System.Threading.LockRecursionException> is thrown if the thread tries to reenter the lock in any mode.</span></span>  
+  
+> [!NOTE]
+>  <span data-ttu-id="9d917-259">进入可升级模式中的线程可以升级为写入模式，或降级为读取而不考虑锁定递归策略设置的模式。</span><span class="sxs-lookup"><span data-stu-id="9d917-259">A thread in upgradeable mode can upgrade to write mode or downgrade to read mode regardless of the lock recursion policy setting.</span></span>  
+  
+ <span data-ttu-id="9d917-260">无论递归策略，最初输入线程读取模式下不允许升级到进入可升级模式或写入模式，因为这种方式导致的死锁的概率较强。</span><span class="sxs-lookup"><span data-stu-id="9d917-260">Regardless of recursion policy, a thread that initially entered read mode is not allowed to upgrade to upgradeable mode or write mode, because that pattern creates a strong probability of deadlocks.</span></span>  
+  
+ <span data-ttu-id="9d917-261">关于递归策略和其效果的详细信息，请参阅<xref:System.Threading.LockRecursionPolicy>枚举和<xref:System.Threading.ReaderWriterLockSlim>类。</span><span class="sxs-lookup"><span data-stu-id="9d917-261">For more information about recursion policy and its effects, see the <xref:System.Threading.LockRecursionPolicy> enumeration and the <xref:System.Threading.ReaderWriterLockSlim> class.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="9d917-262">下面的示例演示两个异常情况，一种依赖于<xref:System.Threading.LockRecursionPolicy>设置，另一个没有。</span><span class="sxs-lookup"><span data-stu-id="9d917-262">The following example shows two exception scenarios, one that depends on the <xref:System.Threading.LockRecursionPolicy> setting and one that does not.</span></span>  
+  
+ <span data-ttu-id="9d917-263">在第一个方案中，线程进入读取的模式，并尝试以递归方式进入读取的模式。</span><span class="sxs-lookup"><span data-stu-id="9d917-263">In the first scenario, the thread enters read mode and then tries to enter read mode recursively.</span></span> <span data-ttu-id="9d917-264">如果<xref:System.Threading.ReaderWriterLockSlim>使用默认构造函数，它将递归策略设置为创建<xref:System.Threading.LockRecursionPolicy.NoRecursion?displayProperty=nameWithType>，将引发异常。</span><span class="sxs-lookup"><span data-stu-id="9d917-264">If the <xref:System.Threading.ReaderWriterLockSlim> is created by using the default constructor, which sets recursion policy to <xref:System.Threading.LockRecursionPolicy.NoRecursion?displayProperty=nameWithType>, an exception is thrown.</span></span> <span data-ttu-id="9d917-265">如果<xref:System.Threading.LockRecursionPolicy.SupportsRecursion?displayProperty=nameWithType>用于创建<xref:System.Threading.ReaderWriterLockSlim>，不会引发异常。</span><span class="sxs-lookup"><span data-stu-id="9d917-265">If <xref:System.Threading.LockRecursionPolicy.SupportsRecursion?displayProperty=nameWithType> is used to create the <xref:System.Threading.ReaderWriterLockSlim>, no exception is thrown.</span></span>  
+  
+ <span data-ttu-id="9d917-266">在第二个方案中，则线程进入读取的模式，然后尝试进入写入模式。</span><span class="sxs-lookup"><span data-stu-id="9d917-266">In the second scenario, the thread enters read mode and then tries to enter write mode.</span></span> <span data-ttu-id="9d917-267"><xref:System.Threading.LockRecursionException> 是引发而不考虑锁定递归策略。</span><span class="sxs-lookup"><span data-stu-id="9d917-267"><xref:System.Threading.LockRecursionException> is thrown regardless of the lock recursion policy.</span></span>  
+  
+[!code-csharp[System.Threading.LockRecursionPolicy#11](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.LockRecursionPolicy/cs/ClassExample1.cs#11)] 
+[!code-vb[System.Threading.LockRecursionPolicy#11](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.LockRecursionPolicy/vb/ClassExample1.vb#11)]   
+[!code-csharp[System.Threading.LockRecursionPolicy#12](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.LockRecursionPolicy/cs/ClassExample1.cs#12)] 
+[!code-vb[System.Threading.LockRecursionPolicy#12](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.LockRecursionPolicy/vb/ClassExample1.vb#12)]  
+  
+ <span data-ttu-id="9d917-268">下面的代码然后使用`SynchronizedCache`要存储蔬菜名称的字典对象。</span><span class="sxs-lookup"><span data-stu-id="9d917-268">The following code then uses the `SynchronizedCache` object to store a dictionary of vegetable names.</span></span> <span data-ttu-id="9d917-269">它将创建三个任务。</span><span class="sxs-lookup"><span data-stu-id="9d917-269">It creates three tasks.</span></span> <span data-ttu-id="9d917-270">第一个写入的名称数组中存储的蔬菜`SynchronizedCache`实例。</span><span class="sxs-lookup"><span data-stu-id="9d917-270">The first writes the names of vegetables stored in an array to a `SynchronizedCache` instance.</span></span> <span data-ttu-id="9d917-271">第二个和第三个任务显示蔬菜中 （从低到高的索引的索引） 以降序顺序的第二个升序排序, 的第一个的名称。</span><span class="sxs-lookup"><span data-stu-id="9d917-271">The second and third task display the names of the vegetables, the first in ascending order (from low index to high index), the second in descending order.</span></span> <span data-ttu-id="9d917-272">最后一项任务搜索字符串"黄瓜"，并当它找到它，将调用<xref:System.Threading.ReaderWriterLockSlim.EnterUpgradeableReadLock%2A>方法要替换的字符串"绿色 bean"。</span><span class="sxs-lookup"><span data-stu-id="9d917-272">The final task searches for the string "cucumber" and, when it finds it, calls the <xref:System.Threading.ReaderWriterLockSlim.EnterUpgradeableReadLock%2A> method  to substitute the string "green bean".</span></span>  
+  
+[!code-csharp[System.Threading.LockRecursionPolicy#11](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.LockRecursionPolicy/cs/ClassExample1.cs#11)] 
+[!code-vb[System.Threading.LockRecursionPolicy#11](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.LockRecursionPolicy/vb/ClassExample1.vb#11)]   
+[!code-csharp[System.Threading.LockRecursionPolicy#13](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.LockRecursionPolicy/cs/ClassExample1.cs#13)] 
+[!code-vb[System.Threading.LockRecursionPolicy#13](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.LockRecursionPolicy/vb/ClassExample1.vb#13)]  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="T:System.Threading.LockRecursionPolicy" />
+        <altmember cref="P:System.Threading.ReaderWriterLockSlim.RecursionPolicy" />
+      </Docs>
+    </Member>
+    <Member MemberName="CurrentReadCount">
+      <MemberSignature Language="C#" Value="public int CurrentReadCount { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance int32 CurrentReadCount" />
+      <MemberSignature Language="DocId" Value="P:System.Threading.ReaderWriterLockSlim.CurrentReadCount" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property CurrentReadCount As Integer" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property int CurrentReadCount { int get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Threading</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Core</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="9d917-273">获取已进入读取模式锁定状态的独有线程的总数。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-273">Gets the total number of unique threads that have entered the lock in read mode.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="9d917-274">已进入读取模式锁定状态的独有线程的数量。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-274">The number of unique threads that have entered the lock in read mode.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="9d917-275">线程只计算一次，即使锁定允许使用递归和线程已进入读取的模式多次。</span><span class="sxs-lookup"><span data-stu-id="9d917-275">A thread is counted only once, even if the lock allows recursion and the thread has entered read mode multiple times.</span></span>  
+  
+ <span data-ttu-id="9d917-276">仅用于调试、 分析和记录等目的，而不适用于控制算法的行为，请使用此属性。</span><span class="sxs-lookup"><span data-stu-id="9d917-276">Use this property only for debugging, profiling, and logging purposes, and not to control the behavior of an algorithm.</span></span> <span data-ttu-id="9d917-277">只要在已计算，可以更改结果。</span><span class="sxs-lookup"><span data-stu-id="9d917-277">The results can change as soon as they have been calculated.</span></span> <span data-ttu-id="9d917-278">因此，它是不安全决定根据此属性。</span><span class="sxs-lookup"><span data-stu-id="9d917-278">Therefore, it is not safe to make decisions based on this property.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="9d917-279">下面的示例演示如何使用<xref:System.Threading.ReaderWriterLockSlim.CurrentReadCount%2A>属性中读取模式的线程数超过阈值会生成一个事件日志条目。</span><span class="sxs-lookup"><span data-stu-id="9d917-279">The following example shows how to use the <xref:System.Threading.ReaderWriterLockSlim.CurrentReadCount%2A> property to generate an event log entry if the number of threads in read mode exceeds a threshold.</span></span>  
+  
+ [!code-csharp[System.Threading.ReaderWriterLockSlim_Aux#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Aux/cs/source.cs#1)]
+ [!code-vb[System.Threading.ReaderWriterLockSlim_Aux#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Aux/vb/source.vb#1)]  
+[!code-csharp[System.Threading.ReaderWriterLockSlim_Aux#2](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Aux/cs/source.cs#2)]
+[!code-vb[System.Threading.ReaderWriterLockSlim_Aux#2](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Aux/vb/source.vb#2)]  
+[!code-csharp[System.Threading.ReaderWriterLockSlim_Aux#11](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Aux/cs/source.cs#11)]
+[!code-vb[System.Threading.ReaderWriterLockSlim_Aux#11](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Aux/vb/source.vb#11)]  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Dispose">
+      <MemberSignature Language="C#" Value="public void Dispose ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void Dispose() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Threading.ReaderWriterLockSlim.Dispose" />
+      <MemberSignature Language="VB.NET" Value="Public Sub Dispose ()" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual void Dispose();" />
+      <MemberType>Method</MemberType>
+      <Implements>
+        <InterfaceMember>M:System.IDisposable.Dispose</InterfaceMember>
+      </Implements>
+      <AssemblyInfo>
+        <AssemblyName>System.Threading</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Core</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="9d917-280">释放 <see cref="T:System.Threading.ReaderWriterLockSlim" /> 类的当前实例所使用的所有资源。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-280">Releases all resources used by the current instance of the <see cref="T:System.Threading.ReaderWriterLockSlim" /> class.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="9d917-281">在完成使用 <xref:System.Threading.ReaderWriterLockSlim.Dispose%2A> 后，应调用 <xref:System.Threading.ReaderWriterLockSlim>。</span><span class="sxs-lookup"><span data-stu-id="9d917-281">Call <xref:System.Threading.ReaderWriterLockSlim.Dispose%2A> when you are finished using the <xref:System.Threading.ReaderWriterLockSlim>.</span></span> <span data-ttu-id="9d917-282"><xref:System.Threading.ReaderWriterLockSlim.Dispose%2A> 方法使 <xref:System.Threading.ReaderWriterLockSlim> 处于不可用状态。</span><span class="sxs-lookup"><span data-stu-id="9d917-282">The <xref:System.Threading.ReaderWriterLockSlim.Dispose%2A> method leaves the <xref:System.Threading.ReaderWriterLockSlim> in an unusable state.</span></span> <span data-ttu-id="9d917-283">在调用<xref:System.Threading.ReaderWriterLockSlim.Dispose%2A>，必须释放对所有引用<xref:System.Threading.ReaderWriterLockSlim>以便垃圾回收器才能回收的内存，<xref:System.Threading.ReaderWriterLockSlim>占用。</span><span class="sxs-lookup"><span data-stu-id="9d917-283">After calling <xref:System.Threading.ReaderWriterLockSlim.Dispose%2A>, you must release all references to the <xref:System.Threading.ReaderWriterLockSlim> so the garbage collector can reclaim the memory that the <xref:System.Threading.ReaderWriterLockSlim> was occupying.</span></span> <span data-ttu-id="9d917-284">有关详细信息，请参阅[清洗向上非托管资源](~/docs/standard/garbage-collection/unmanaged.md)和[实现 Dispose 方法](~/docs/standard/garbage-collection/implementing-dispose.md)。</span><span class="sxs-lookup"><span data-stu-id="9d917-284">For more information, see [Cleaning Up Unmanaged Resources](~/docs/standard/garbage-collection/unmanaged.md) and [Implementing a Dispose Method](~/docs/standard/garbage-collection/implementing-dispose.md).</span></span>  
+  
+> [!NOTE]
+>  <span data-ttu-id="9d917-285">始终调用<xref:System.Threading.ReaderWriterLockSlim.Dispose%2A>在发布到最后一个引用之前<xref:System.Threading.ReaderWriterLockSlim>对象。</span><span class="sxs-lookup"><span data-stu-id="9d917-285">Always call <xref:System.Threading.ReaderWriterLockSlim.Dispose%2A> before you release your last reference to the <xref:System.Threading.ReaderWriterLockSlim> object.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.Threading.SynchronizationLockException">
+          <span data-ttu-id="9d917-286">
+            <see cref="P:System.Threading.ReaderWriterLockSlim.WaitingReadCount" /> 大于零。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-286">
+              <see cref="P:System.Threading.ReaderWriterLockSlim.WaitingReadCount" /> is greater than zero.</span>
+          </span>
+          <span data-ttu-id="9d917-287">或</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-287">-or-</span>
+          </span>
+          <span data-ttu-id="9d917-288">
+            <see cref="P:System.Threading.ReaderWriterLockSlim.WaitingUpgradeCount" /> 大于零。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-288">
+              <see cref="P:System.Threading.ReaderWriterLockSlim.WaitingUpgradeCount" /> is greater than zero.</span>
+          </span>
+          <span data-ttu-id="9d917-289">或</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-289">-or-</span>
+          </span>
+          <span data-ttu-id="9d917-290">
+            <see cref="P:System.Threading.ReaderWriterLockSlim.WaitingWriteCount" /> 大于零。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-290">
+              <see cref="P:System.Threading.ReaderWriterLockSlim.WaitingWriteCount" /> is greater than zero.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="EnterReadLock">
+      <MemberSignature Language="C#" Value="public void EnterReadLock ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void EnterReadLock() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Threading.ReaderWriterLockSlim.EnterReadLock" />
+      <MemberSignature Language="VB.NET" Value="Public Sub EnterReadLock ()" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void EnterReadLock();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Threading</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Core</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="9d917-291">尝试进入读取模式锁定状态。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-291">Tries to enter the lock in read mode.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="9d917-292">此方法受到阻止，直到调用线程进入锁定，并因此可能永远不会返回。</span><span class="sxs-lookup"><span data-stu-id="9d917-292">This method blocks until the calling thread enters the lock, and therefore might never return.</span></span> <span data-ttu-id="9d917-293">使用<xref:System.Threading.ReaderWriterLockSlim.TryEnterReadLock%2A>方法指定的间隔时间，阻止，然后返回调用线程不具有已进入读取模式，在此间隔期间。</span><span class="sxs-lookup"><span data-stu-id="9d917-293">Use the <xref:System.Threading.ReaderWriterLockSlim.TryEnterReadLock%2A> method to block for a specified interval, and then return if the calling thread has not entered read mode during that interval.</span></span>  
+  
+ <span data-ttu-id="9d917-294">多个线程可以在同一时间进入读取的模式。</span><span class="sxs-lookup"><span data-stu-id="9d917-294">Multiple threads can enter read mode at the same time.</span></span>  
+  
+ <span data-ttu-id="9d917-295">如果一个或多个线程在等待进入写入模式，线程的调用<xref:System.Threading.ReaderWriterLockSlim.EnterReadLock%2A>方法受到阻止，直到这些线程操作已超时或已进入写入模式和从它然后退出。</span><span class="sxs-lookup"><span data-stu-id="9d917-295">If one or more threads are waiting to enter write mode, a thread that calls the <xref:System.Threading.ReaderWriterLockSlim.EnterReadLock%2A> method blocks until those threads have either timed out or entered write mode and then exited from it.</span></span>  
+  
+> [!NOTE]
+>  <span data-ttu-id="9d917-296">如果锁定允许使用递归，线程已进入读取模式锁定可以递归方式进入读取的模式，即使其他线程等待进入写入模式。</span><span class="sxs-lookup"><span data-stu-id="9d917-296">If a lock allows recursion, a thread that has entered the lock in read mode can enter read mode recursively, even if other threads are waiting to enter write mode.</span></span>  
+  
+ <span data-ttu-id="9d917-297">当其他线程处于读取模式时，最多一个线程可以处于进入可升级模式。</span><span class="sxs-lookup"><span data-stu-id="9d917-297">At most one thread can be in upgradeable mode while other threads are in read mode.</span></span> <span data-ttu-id="9d917-298">如果其他线程正在等待进入可升级模式，且没有等待进入写入模式的线程，线程该调用<xref:System.Threading.ReaderWriterLockSlim.EnterReadLock%2A>方法立即进入读取的模式，不会阻止。</span><span class="sxs-lookup"><span data-stu-id="9d917-298">If additional threads are waiting to enter upgradeable mode, and there are no threads waiting to enter write mode, threads that call the <xref:System.Threading.ReaderWriterLockSlim.EnterReadLock%2A> method enter read mode immediately and do not block.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="9d917-299">下面的示例演示如何使用<xref:System.Threading.ReaderWriterLockSlim.EnterReadLock%2A>方法进入读取模式锁定。</span><span class="sxs-lookup"><span data-stu-id="9d917-299">The following example shows how to use the <xref:System.Threading.ReaderWriterLockSlim.EnterReadLock%2A> method to enter the lock in read mode.</span></span> <span data-ttu-id="9d917-300">在示例中所示的方法检索与键关联的值。</span><span class="sxs-lookup"><span data-stu-id="9d917-300">The method shown in the example retrieves the value associated with a key.</span></span> <span data-ttu-id="9d917-301">如果未找到键，由内部引发的异常<xref:System.Collections.Generic.Dictionary%602>允许 terminate 方法。</span><span class="sxs-lookup"><span data-stu-id="9d917-301">If the key is not found, the exception thrown by the inner <xref:System.Collections.Generic.Dictionary%602> is allowed to terminate the method.</span></span> <span data-ttu-id="9d917-302">A`finally`块用于执行<xref:System.Threading.ReaderWriterLockSlim.ExitReadLock%2A>方法，从而确保调用方退出读取的模式。</span><span class="sxs-lookup"><span data-stu-id="9d917-302">A `finally` block is used to execute the <xref:System.Threading.ReaderWriterLockSlim.ExitReadLock%2A> method, ensuring that the caller exits read mode.</span></span>  
+  
+ <span data-ttu-id="9d917-303">此代码摘自更大的示例为提供<xref:System.Threading.ReaderWriterLockSlim>类。</span><span class="sxs-lookup"><span data-stu-id="9d917-303">This code is part of a larger example provided for the <xref:System.Threading.ReaderWriterLockSlim> class.</span></span>  
+  
+ [!code-csharp[System.Threading.ReaderWriterLockSlim_Shadow#2](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow/cs/source.cs#2)]
+ [!code-vb[System.Threading.ReaderWriterLockSlim_Shadow#2](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow/vb/source.vb#2)]  
+[!code-csharp[System.Threading.ReaderWriterLockSlim_Shadow#3](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow/cs/source.cs#3)]
+[!code-vb[System.Threading.ReaderWriterLockSlim_Shadow#3](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow/vb/source.vb#3)]  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.Threading.LockRecursionException">
+          <span data-ttu-id="9d917-304">当前线程持有读取锁时将无法获取写入锁。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-304">The current thread cannot acquire the write lock when it holds the read lock.</span>
+          </span>
+          <span data-ttu-id="9d917-305">或</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-305">-or-</span>
+          </span>
+          <span data-ttu-id="9d917-306">
+            <see cref="P:System.Threading.ReaderWriterLockSlim.RecursionPolicy" /> 属性为 <see cref="F:System.Threading.LockRecursionPolicy.NoRecursion" />，并且当前线程在已持有读取锁时已尝试获取读取锁。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-306">The <see cref="P:System.Threading.ReaderWriterLockSlim.RecursionPolicy" /> property is <see cref="F:System.Threading.LockRecursionPolicy.NoRecursion" />, and the current thread has attempted to acquire the read lock when it already holds the read lock.</span>
+          </span>
+          <span data-ttu-id="9d917-307">或</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-307">-or-</span>
+          </span>
+          <span data-ttu-id="9d917-308">
+            <see cref="P:System.Threading.ReaderWriterLockSlim.RecursionPolicy" /> 属性为 <see cref="F:System.Threading.LockRecursionPolicy.NoRecursion" />，并且当前线程在已持有写入锁时已尝试获取读取锁。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-308">The <see cref="P:System.Threading.ReaderWriterLockSlim.RecursionPolicy" /> property is <see cref="F:System.Threading.LockRecursionPolicy.NoRecursion" />, and the current thread has attempted to acquire the read lock when it already holds the write lock.</span>
+          </span>
+          <span data-ttu-id="9d917-309">或</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-309">-or-</span>
+          </span>
+          <span data-ttu-id="9d917-310">递归数将超出该计数器的容量。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-310">The recursion number would exceed the capacity of the counter.</span>
+          </span>
+          <span data-ttu-id="9d917-311">此限值很大，因此应用程序永远不会遇到此异常。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-311">This limit is so large that applications should never encounter this exception.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.ObjectDisposedException">
+          <span data-ttu-id="9d917-312">
+            <see cref="T:System.Threading.ReaderWriterLockSlim" /> 对象已释放。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-312">The <see cref="T:System.Threading.ReaderWriterLockSlim" /> object has been disposed.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="EnterUpgradeableReadLock">
+      <MemberSignature Language="C#" Value="public void EnterUpgradeableReadLock ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void EnterUpgradeableReadLock() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Threading.ReaderWriterLockSlim.EnterUpgradeableReadLock" />
+      <MemberSignature Language="VB.NET" Value="Public Sub EnterUpgradeableReadLock ()" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void EnterUpgradeableReadLock();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Threading</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Core</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="9d917-313">尝试进入可升级模式锁定状态。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-313">Tries to enter the lock in upgradeable mode.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="9d917-314">此方法受到阻止，直到调用线程进入锁定，并因此可能永远不会返回。</span><span class="sxs-lookup"><span data-stu-id="9d917-314">This method blocks until the calling thread enters the lock, and therefore might never return.</span></span> <span data-ttu-id="9d917-315">使用<xref:System.Threading.ReaderWriterLockSlim.TryEnterUpgradeableReadLock%2A>方法指定的间隔时间，阻止，然后返回如果调用线程在此间隔期间未进入可升级模式。</span><span class="sxs-lookup"><span data-stu-id="9d917-315">Use the <xref:System.Threading.ReaderWriterLockSlim.TryEnterUpgradeableReadLock%2A> method to block for a specified interval, and then return if the calling thread has not entered upgradeable mode during that interval.</span></span>  
+  
+ <span data-ttu-id="9d917-316">当一个线程通常访问受保护的资源时使用进入可升级模式<xref:System.Threading.ReaderWriterLockSlim>在读取模式，但可能需要等待进入写入模式，如果符合特定的条件。</span><span class="sxs-lookup"><span data-stu-id="9d917-316">Use upgradeable mode when a thread usually accesses the resource that is protected by the <xref:System.Threading.ReaderWriterLockSlim> in read mode, but may need to enter write mode if certain conditions are met.</span></span> <span data-ttu-id="9d917-317">进入可升级模式中的线程可以降级为读取模式，或升级为写入模式。</span><span class="sxs-lookup"><span data-stu-id="9d917-317">A thread in upgradeable mode can downgrade to read mode or upgrade to write mode.</span></span>  
+  
+ <span data-ttu-id="9d917-318">只有一个线程可以在任何给定时间进入可升级模式。</span><span class="sxs-lookup"><span data-stu-id="9d917-318">Only one thread can enter upgradeable mode at any given time.</span></span> <span data-ttu-id="9d917-319">如果某个线程处于进入可升级模式，并且有没有线程在等待进入写入模式，任意数量的其他线程可以进入读取的模式，即使有线程在等待进入可升级模式。</span><span class="sxs-lookup"><span data-stu-id="9d917-319">If a thread is in upgradeable mode, and there are no threads waiting to enter write mode, any number of other threads can enter read mode, even if there are threads waiting to enter upgradeable mode.</span></span>  
+  
+ <span data-ttu-id="9d917-320">如果一个或多个线程在等待进入写入模式，线程的调用<xref:System.Threading.ReaderWriterLockSlim.EnterUpgradeableReadLock%2A>方法受到阻止，直到这些线程操作已超时或已进入写入模式和从它然后退出。</span><span class="sxs-lookup"><span data-stu-id="9d917-320">If one or more threads are waiting to enter write mode, a thread that calls the <xref:System.Threading.ReaderWriterLockSlim.EnterUpgradeableReadLock%2A> method blocks until those threads have either timed out or entered write mode and then exited from it.</span></span>  
+  
+> [!NOTE]
+>  <span data-ttu-id="9d917-321">如果锁定允许使用递归，已进入可升级模式锁定的线程可以输入以递归方式进入可升级模式，即使其他线程等待进入写入模式。</span><span class="sxs-lookup"><span data-stu-id="9d917-321">If a lock allows recursion, a thread that has entered the lock in upgradeable mode can enter upgradeable mode recursively, even if other threads are waiting to enter write mode.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="9d917-322">下面的示例演示如何使用<xref:System.Threading.ReaderWriterLockSlim.EnterUpgradeableReadLock%2A>方法进入可升级模式锁定。</span><span class="sxs-lookup"><span data-stu-id="9d917-322">The following example shows how to use the <xref:System.Threading.ReaderWriterLockSlim.EnterUpgradeableReadLock%2A> method to enter the lock in upgradeable mode.</span></span> <span data-ttu-id="9d917-323">A`finally`块用于执行<xref:System.Threading.ReaderWriterLockSlim.ExitUpgradeableReadLock%2A>方法，从而确保调用方退出可升级模式。</span><span class="sxs-lookup"><span data-stu-id="9d917-323">A `finally` block is used to execute the <xref:System.Threading.ReaderWriterLockSlim.ExitUpgradeableReadLock%2A> method, ensuring that the caller exits upgradeable mode.</span></span>  
+  
+ <span data-ttu-id="9d917-324">在示例中所示的方法检索与键关联的值，并将其替换为新值进行比较。</span><span class="sxs-lookup"><span data-stu-id="9d917-324">The method shown in the example retrieves the value associated with a key and compares it with a new value.</span></span> <span data-ttu-id="9d917-325">如果值保持不变，该方法将返回状态指示无更改。</span><span class="sxs-lookup"><span data-stu-id="9d917-325">If the value is unchanged, the method returns a status indicating no change.</span></span> <span data-ttu-id="9d917-326">它没有值找不到键，插入的键/值对。</span><span class="sxs-lookup"><span data-stu-id="9d917-326">It no value is found for the key, the key/value pair is inserted.</span></span> <span data-ttu-id="9d917-327">如果值已更改，将它更新。</span><span class="sxs-lookup"><span data-stu-id="9d917-327">If the value has changed, it is updated.</span></span> <span data-ttu-id="9d917-328">进入可升级模式允许根据需要在不死锁风险的情况下升级读取的锁定的线程。</span><span class="sxs-lookup"><span data-stu-id="9d917-328">Upgradeable mode allows the thread to upgrade the read lock as needed, without risk of deadlocks.</span></span>  
+  
+ <span data-ttu-id="9d917-329">该示例使用默认构造函数创建锁，因此不允许递归。</span><span class="sxs-lookup"><span data-stu-id="9d917-329">The example uses the default constructor to create the lock, so recursion is not allowed.</span></span> <span data-ttu-id="9d917-330">编程<xref:System.Threading.ReaderWriterLockSlim>当锁不允许递归是更简单且更不易出错。</span><span class="sxs-lookup"><span data-stu-id="9d917-330">Programming the <xref:System.Threading.ReaderWriterLockSlim> is simpler and less prone to error when the lock does not allow recursion.</span></span>  
+  
+ <span data-ttu-id="9d917-331">此代码摘自更大的示例为提供<xref:System.Threading.ReaderWriterLockSlim>类。</span><span class="sxs-lookup"><span data-stu-id="9d917-331">This code is part of a larger example provided for the <xref:System.Threading.ReaderWriterLockSlim> class.</span></span>  
+  
+ [!code-csharp[System.Threading.ReaderWriterLockSlim_Shadow#2](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow/cs/source.cs#2)]
+ [!code-vb[System.Threading.ReaderWriterLockSlim_Shadow#2](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow/vb/source.vb#2)]  
+[!code-csharp[System.Threading.ReaderWriterLockSlim_Shadow#6](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow/cs/source.cs#6)]
+[!code-vb[System.Threading.ReaderWriterLockSlim_Shadow#6](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow/vb/source.vb#6)]  
+[!code-csharp[System.Threading.ReaderWriterLockSlim_Shadow#10](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow/cs/source.cs#10)]
+[!code-vb[System.Threading.ReaderWriterLockSlim_Shadow#10](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow/vb/source.vb#10)]  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.Threading.LockRecursionException">
+          <span data-ttu-id="9d917-332">
+            <see cref="P:System.Threading.ReaderWriterLockSlim.RecursionPolicy" /> 属性为 <see cref="F:System.Threading.LockRecursionPolicy.NoRecursion" />，而且当前线程已进入任意模式的锁定状态。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-332">The <see cref="P:System.Threading.ReaderWriterLockSlim.RecursionPolicy" /> property is <see cref="F:System.Threading.LockRecursionPolicy.NoRecursion" /> and the current thread has already entered the lock in any mode.</span>
+          </span>
+          <span data-ttu-id="9d917-333">或</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-333">-or-</span>
+          </span>
+          <span data-ttu-id="9d917-334">当前线程已进入读取模式，因此尝试进入可升级模式将有可能导致死锁。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-334">The current thread has entered read mode, so trying to enter upgradeable mode would create the possibility of a deadlock.</span>
+          </span>
+          <span data-ttu-id="9d917-335">或</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-335">-or-</span>
+          </span>
+          <span data-ttu-id="9d917-336">递归数将超出该计数器的容量。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-336">The recursion number would exceed the capacity of the counter.</span>
+          </span>
+          <span data-ttu-id="9d917-337">此限制数值很大，因此任何情况下应用程序都不应遇到此情况。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-337">The limit is so large that applications should never encounter it.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.ObjectDisposedException">
+          <span data-ttu-id="9d917-338">
+            <see cref="T:System.Threading.ReaderWriterLockSlim" /> 对象已释放。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-338">The <see cref="T:System.Threading.ReaderWriterLockSlim" /> object has been disposed.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="EnterWriteLock">
+      <MemberSignature Language="C#" Value="public void EnterWriteLock ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void EnterWriteLock() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Threading.ReaderWriterLockSlim.EnterWriteLock" />
+      <MemberSignature Language="VB.NET" Value="Public Sub EnterWriteLock ()" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void EnterWriteLock();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Threading</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Core</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="9d917-339">尝试进入写入模式锁定状态。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-339">Tries to enter the lock in write mode.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="9d917-340">此方法受到阻止，直到调用线程进入锁定，并因此可能永远不会返回。</span><span class="sxs-lookup"><span data-stu-id="9d917-340">This method blocks until the calling thread enters the lock, and therefore might never return.</span></span> <span data-ttu-id="9d917-341">使用<xref:System.Threading.ReaderWriterLockSlim.TryEnterWriteLock%2A>方法指定的间隔时间，阻止，然后返回如果调用线程在此间隔期间未进入写入模式。</span><span class="sxs-lookup"><span data-stu-id="9d917-341">Use the <xref:System.Threading.ReaderWriterLockSlim.TryEnterWriteLock%2A> method to block for a specified interval, and then return if the calling thread has not entered write mode during that interval.</span></span>  
+  
+ <span data-ttu-id="9d917-342">如果其他线程已进入读取模式锁定调用线程<xref:System.Threading.ReaderWriterLockSlim.EnterWriteLock%2A>方法受到阻止，直到这些线程均已退出读取模式。</span><span class="sxs-lookup"><span data-stu-id="9d917-342">If other threads have entered the lock in read mode, a thread that calls the <xref:System.Threading.ReaderWriterLockSlim.EnterWriteLock%2A> method blocks until those threads have exited read mode.</span></span> <span data-ttu-id="9d917-343">当线程在等待进入写入模式，尝试之前等待进入写入模式的所有线程进入读取的模式或进入可升级模式块的更多线程操作已超时或已进入写入模式和从它然后退出。</span><span class="sxs-lookup"><span data-stu-id="9d917-343">When there are threads waiting to enter write mode, additional threads that try to enter read mode or upgradeable mode block until all the threads waiting to enter write mode have either timed out or entered write mode and then exited from it.</span></span>  
+  
+> [!NOTE]
+>  <span data-ttu-id="9d917-344">如果锁定允许使用递归，线程已进入写入模式锁定可以写入递归方式进入模式，即使其他线程等待进入写入模式。</span><span class="sxs-lookup"><span data-stu-id="9d917-344">If a lock allows recursion, a thread that has entered the lock in write mode can enter write mode recursively, even if other threads are waiting to enter write mode.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="9d917-345">下面的示例演示如何使用<xref:System.Threading.ReaderWriterLockSlim.EnterWriteLock%2A>方法进入写入模式锁定。</span><span class="sxs-lookup"><span data-stu-id="9d917-345">The following example shows how to use the <xref:System.Threading.ReaderWriterLockSlim.EnterWriteLock%2A> method to enter the lock in write mode.</span></span> <span data-ttu-id="9d917-346">在示例中所示的方法将新的键/值对添加到同步的缓存。</span><span class="sxs-lookup"><span data-stu-id="9d917-346">The method shown in the example adds a new key/value pair to the synchronized cache.</span></span> <span data-ttu-id="9d917-347">如果密钥已在缓存中，由内部引发的异常<xref:System.Collections.Generic.Dictionary%602>允许 terminate 方法。</span><span class="sxs-lookup"><span data-stu-id="9d917-347">If the key is already in the cache, the exception thrown by the inner <xref:System.Collections.Generic.Dictionary%602> is allowed to terminate the method.</span></span> <span data-ttu-id="9d917-348">A`finally`块用于执行<xref:System.Threading.ReaderWriterLockSlim.ExitWriteLock%2A>方法，从而确保调用方退出写入模式。</span><span class="sxs-lookup"><span data-stu-id="9d917-348">A `finally` block is used to execute the <xref:System.Threading.ReaderWriterLockSlim.ExitWriteLock%2A> method, ensuring that the caller exits write mode.</span></span>  
+  
+ <span data-ttu-id="9d917-349">此代码摘自更大的示例为提供<xref:System.Threading.ReaderWriterLockSlim>类。</span><span class="sxs-lookup"><span data-stu-id="9d917-349">This code is part of a larger example provided for the <xref:System.Threading.ReaderWriterLockSlim> class.</span></span>  
+  
+ [!code-csharp[System.Threading.ReaderWriterLockSlim_Shadow#2](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow/cs/source.cs#2)]
+ [!code-vb[System.Threading.ReaderWriterLockSlim_Shadow#2](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow/vb/source.vb#2)]  
+[!code-csharp[System.Threading.ReaderWriterLockSlim_Shadow#4](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow/cs/source.cs#4)]
+[!code-vb[System.Threading.ReaderWriterLockSlim_Shadow#4](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow/vb/source.vb#4)]  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.Threading.LockRecursionException">
+          <span data-ttu-id="9d917-350">
+            <see cref="P:System.Threading.ReaderWriterLockSlim.RecursionPolicy" /> 属性为 <see cref="F:System.Threading.LockRecursionPolicy.NoRecursion" />，而且当前线程已进入任意模式的锁定状态。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-350">The <see cref="P:System.Threading.ReaderWriterLockSlim.RecursionPolicy" /> property is <see cref="F:System.Threading.LockRecursionPolicy.NoRecursion" /> and the current thread has already entered the lock in any mode.</span>
+          </span>
+          <span data-ttu-id="9d917-351">或</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-351">-or-</span>
+          </span>
+          <span data-ttu-id="9d917-352">当前线程已进入读取模式，因此尝试进入写入模式锁定状态将有可能导致死锁。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-352">The current thread has entered read mode, so trying to enter the lock in write mode would create the possibility of a deadlock.</span>
+          </span>
+          <span data-ttu-id="9d917-353">或</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-353">-or-</span>
+          </span>
+          <span data-ttu-id="9d917-354">递归数将超出该计数器的容量。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-354">The recursion number would exceed the capacity of the counter.</span>
+          </span>
+          <span data-ttu-id="9d917-355">此限制数值很大，因此任何情况下应用程序都不应遇到此情况。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-355">The limit is so large that applications should never encounter it.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.ObjectDisposedException">
+          <span data-ttu-id="9d917-356">
+            <see cref="T:System.Threading.ReaderWriterLockSlim" /> 对象已释放。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-356">The <see cref="T:System.Threading.ReaderWriterLockSlim" /> object has been disposed.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="ExitReadLock">
+      <MemberSignature Language="C#" Value="public void ExitReadLock ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void ExitReadLock() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Threading.ReaderWriterLockSlim.ExitReadLock" />
+      <MemberSignature Language="VB.NET" Value="Public Sub ExitReadLock ()" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void ExitReadLock();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Threading</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Core</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="9d917-357">减少读取模式的递归计数，并在生成的计数为 0（零）时退出读取模式。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-357">Reduces the recursion count for read mode, and exits read mode if the resulting count is 0 (zero).</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="9d917-358">此方法不是递归顺序对敏感的。</span><span class="sxs-lookup"><span data-stu-id="9d917-358">This method is not sensitive to recursion order.</span></span> <span data-ttu-id="9d917-359">例如，如果一个线程进入可升级模式锁定，然后进入读取模式锁定顺序在线程退出两种模式下的顺序并不重要。</span><span class="sxs-lookup"><span data-stu-id="9d917-359">For example, if a thread enters a lock in upgradeable mode and then enters the lock in read mode, the order in which the thread exits the two modes does not matter.</span></span> <span data-ttu-id="9d917-360">如果锁定允许使用递归，线程可以进入写入模式锁定状态，然后输入密码以递归方式以读取模式;在线程退出在其中的顺序读取模式，写入模式并不重要。</span><span class="sxs-lookup"><span data-stu-id="9d917-360">If a lock allows recursion, a thread can enter the lock in write mode and then enter it recursively in read mode; the order in which the thread exits read mode and write mode does not matter.</span></span>  
+  
+ <span data-ttu-id="9d917-361">退出锁可能向其他正在等待的线程的信号。</span><span class="sxs-lookup"><span data-stu-id="9d917-361">Exiting the lock might signal other waiting threads.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="9d917-362">下面的示例演示如何使用`finally`块执行<xref:System.Threading.ReaderWriterLockSlim.ExitReadLock%2A>方法，从而确保调用方退出读取的模式。</span><span class="sxs-lookup"><span data-stu-id="9d917-362">The following example shows how to use a `finally` block to execute the <xref:System.Threading.ReaderWriterLockSlim.ExitReadLock%2A> method, ensuring that the caller exits read mode.</span></span> <span data-ttu-id="9d917-363">在示例中所示的方法检索与键关联的值。</span><span class="sxs-lookup"><span data-stu-id="9d917-363">The method shown in the example retrieves the value associated with a key.</span></span> <span data-ttu-id="9d917-364">如果未找到键，由内部引发的异常<xref:System.Collections.Generic.Dictionary%602>允许 terminate 方法。</span><span class="sxs-lookup"><span data-stu-id="9d917-364">If the key is not found, the exception thrown by the inner <xref:System.Collections.Generic.Dictionary%602> is allowed to terminate the method.</span></span> <span data-ttu-id="9d917-365"><xref:System.Threading.ReaderWriterLockSlim.EnterReadLock%2A>方法用于进入读取的模式。</span><span class="sxs-lookup"><span data-stu-id="9d917-365">The <xref:System.Threading.ReaderWriterLockSlim.EnterReadLock%2A> method is used to enter read mode.</span></span>  
+  
+ <span data-ttu-id="9d917-366">此代码摘自更大的示例为提供<xref:System.Threading.ReaderWriterLockSlim>类。</span><span class="sxs-lookup"><span data-stu-id="9d917-366">This code is part of a larger example provided for the <xref:System.Threading.ReaderWriterLockSlim> class.</span></span>  
+  
+ [!code-csharp[System.Threading.ReaderWriterLockSlim_Shadow#2](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow/cs/source.cs#2)]
+ [!code-vb[System.Threading.ReaderWriterLockSlim_Shadow#2](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow/vb/source.vb#2)]  
+[!code-csharp[System.Threading.ReaderWriterLockSlim_Shadow#3](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow/cs/source.cs#3)]
+[!code-vb[System.Threading.ReaderWriterLockSlim_Shadow#3](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow/vb/source.vb#3)]  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.Threading.SynchronizationLockException">
+          <span data-ttu-id="9d917-367">当前线程未进入读取模式锁定状态。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-367">The current thread has not entered the lock in read mode.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="ExitUpgradeableReadLock">
+      <MemberSignature Language="C#" Value="public void ExitUpgradeableReadLock ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void ExitUpgradeableReadLock() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Threading.ReaderWriterLockSlim.ExitUpgradeableReadLock" />
+      <MemberSignature Language="VB.NET" Value="Public Sub ExitUpgradeableReadLock ()" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void ExitUpgradeableReadLock();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Threading</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Core</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="9d917-368">减少可升级模式的递归计数，并在生成的计数为 0（零）时退出可升级模式。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-368">Reduces the recursion count for upgradeable mode, and exits upgradeable mode if the resulting count is 0 (zero).</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="9d917-369">此方法不是递归顺序对敏感的。</span><span class="sxs-lookup"><span data-stu-id="9d917-369">This method is not sensitive to recursion order.</span></span> <span data-ttu-id="9d917-370">例如，如果一个线程进入可升级模式锁定，然后进入写入模式锁定顺序在线程退出两种模式下的顺序并不重要。</span><span class="sxs-lookup"><span data-stu-id="9d917-370">For example, if a thread enters a lock in upgradeable mode and then enters the lock in write mode, the order in which the thread exits the two modes does not matter.</span></span> <span data-ttu-id="9d917-371">如果锁定允许使用递归，线程可以进入写入模式锁定，然后输入密码以递归方式进入可升级模式; 中在其中在线程退出可升级模式和写入模式的顺序并不重要。</span><span class="sxs-lookup"><span data-stu-id="9d917-371">If a lock allows recursion, a thread can enter the lock in write mode and then enter it recursively in upgradeable mode; the order in which the thread exits upgradeable mode and write mode does not matter.</span></span>  
+  
+ <span data-ttu-id="9d917-372">退出锁可能向其他正在等待的线程的信号。</span><span class="sxs-lookup"><span data-stu-id="9d917-372">Exiting the lock might signal other waiting threads.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="9d917-373">下面的示例演示如何使用`finally`块执行<xref:System.Threading.ReaderWriterLockSlim.ExitUpgradeableReadLock%2A>方法，从而确保调用方退出可升级模式。</span><span class="sxs-lookup"><span data-stu-id="9d917-373">The following example shows how to use a `finally` block to execute the <xref:System.Threading.ReaderWriterLockSlim.ExitUpgradeableReadLock%2A> method, ensuring that the caller exits upgradeable mode.</span></span>  
+  
+ <span data-ttu-id="9d917-374">在示例中所示的方法检索与键关联的值，并将其替换为新值进行比较。</span><span class="sxs-lookup"><span data-stu-id="9d917-374">The method shown in the example retrieves the value associated with a key and compares it with a new value.</span></span> <span data-ttu-id="9d917-375">如果值保持不变，该方法将返回状态指示无更改。</span><span class="sxs-lookup"><span data-stu-id="9d917-375">If the value is unchanged, the method returns a status indicating no change.</span></span> <span data-ttu-id="9d917-376">它没有值找不到键，插入的键/值对。</span><span class="sxs-lookup"><span data-stu-id="9d917-376">It no value is found for the key, the key/value pair is inserted.</span></span> <span data-ttu-id="9d917-377">如果值已更改，将它更新。</span><span class="sxs-lookup"><span data-stu-id="9d917-377">If the value has changed, it is updated.</span></span> <span data-ttu-id="9d917-378">进入可升级模式允许根据需要在不死锁风险的情况下升级读取的锁定的线程。</span><span class="sxs-lookup"><span data-stu-id="9d917-378">Upgradeable mode allows the thread to upgrade the read lock as needed, without risk of deadlocks.</span></span>  
+  
+ <span data-ttu-id="9d917-379">该示例使用默认构造函数创建锁，因此不允许递归。</span><span class="sxs-lookup"><span data-stu-id="9d917-379">The example uses the default constructor to create the lock, so recursion is not allowed.</span></span> <span data-ttu-id="9d917-380">编程<xref:System.Threading.ReaderWriterLockSlim>当锁不允许递归是更简单且更不易出错。</span><span class="sxs-lookup"><span data-stu-id="9d917-380">Programming the <xref:System.Threading.ReaderWriterLockSlim> is simpler and less prone to error when the lock does not allow recursion.</span></span>  
+  
+ <span data-ttu-id="9d917-381">此代码摘自更大的示例为提供<xref:System.Threading.ReaderWriterLockSlim>类。</span><span class="sxs-lookup"><span data-stu-id="9d917-381">This code is part of a larger example provided for the <xref:System.Threading.ReaderWriterLockSlim> class.</span></span>  
+  
+ [!code-csharp[System.Threading.ReaderWriterLockSlim_Shadow#2](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow/cs/source.cs#2)]
+ [!code-vb[System.Threading.ReaderWriterLockSlim_Shadow#2](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow/vb/source.vb#2)]  
+[!code-csharp[System.Threading.ReaderWriterLockSlim_Shadow#6](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow/cs/source.cs#6)]
+[!code-vb[System.Threading.ReaderWriterLockSlim_Shadow#6](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow/vb/source.vb#6)]  
+[!code-csharp[System.Threading.ReaderWriterLockSlim_Shadow#10](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow/cs/source.cs#10)]
+[!code-vb[System.Threading.ReaderWriterLockSlim_Shadow#10](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow/vb/source.vb#10)]  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.Threading.SynchronizationLockException">
+          <span data-ttu-id="9d917-382">当前线程未进入可升级模式锁定状态。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-382">The current thread has not entered the lock in upgradeable mode.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="ExitWriteLock">
+      <MemberSignature Language="C#" Value="public void ExitWriteLock ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void ExitWriteLock() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Threading.ReaderWriterLockSlim.ExitWriteLock" />
+      <MemberSignature Language="VB.NET" Value="Public Sub ExitWriteLock ()" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void ExitWriteLock();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Threading</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Core</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="9d917-383">减少写入模式的递归计数，并在生成的计数为 0（零）时退出写入模式。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-383">Reduces the recursion count for write mode, and exits write mode if the resulting count is 0 (zero).</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="9d917-384">此方法不是递归顺序对敏感的。</span><span class="sxs-lookup"><span data-stu-id="9d917-384">This method is not sensitive to recursion order.</span></span> <span data-ttu-id="9d917-385">例如，如果一个线程进入可升级模式锁定，然后进入写入模式锁定顺序在线程退出两种模式下的顺序并不重要。</span><span class="sxs-lookup"><span data-stu-id="9d917-385">For example, if a thread enters a lock in upgradeable mode and then enters the lock in write mode, the order in which the thread exits the two modes does not matter.</span></span> <span data-ttu-id="9d917-386">如果锁定允许使用递归，线程可以进入写入模式锁定状态，然后输入密码以递归方式以读取模式;在线程退出在其中的顺序读取模式，写入模式并不重要。</span><span class="sxs-lookup"><span data-stu-id="9d917-386">If a lock allows recursion, a thread can enter the lock in write mode and then enter it recursively in read mode; the order in which the thread exits read mode and write mode does not matter.</span></span>  
+  
+ <span data-ttu-id="9d917-387">退出锁可能向其他正在等待的线程的信号。</span><span class="sxs-lookup"><span data-stu-id="9d917-387">Exiting the lock might signal other waiting threads.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="9d917-388">下面的示例演示如何使用`finally`块执行<xref:System.Threading.ReaderWriterLockSlim.ExitWriteLock%2A>方法，从而确保调用方退出写入模式。</span><span class="sxs-lookup"><span data-stu-id="9d917-388">The following example shows how to use a `finally` block to execute the <xref:System.Threading.ReaderWriterLockSlim.ExitWriteLock%2A> method, ensuring that the caller exits write mode.</span></span> <span data-ttu-id="9d917-389">在示例中所示的方法将新的键/值对添加到同步的缓存。</span><span class="sxs-lookup"><span data-stu-id="9d917-389">The method shown in the example adds a new key/value pair to the synchronized cache.</span></span> <span data-ttu-id="9d917-390">如果密钥已在缓存中，由内部引发的异常<xref:System.Collections.Generic.Dictionary%602>允许 terminate 方法。</span><span class="sxs-lookup"><span data-stu-id="9d917-390">If the key is already in the cache, the exception thrown by the inner <xref:System.Collections.Generic.Dictionary%602> is allowed to terminate the method.</span></span> <span data-ttu-id="9d917-391"><xref:System.Threading.ReaderWriterLockSlim.EnterWriteLock%2A>方法用于进入写入模式锁定。</span><span class="sxs-lookup"><span data-stu-id="9d917-391">The <xref:System.Threading.ReaderWriterLockSlim.EnterWriteLock%2A> method is used to enter the lock in write mode.</span></span>  
+  
+ <span data-ttu-id="9d917-392">此代码摘自更大的示例为提供<xref:System.Threading.ReaderWriterLockSlim>类。</span><span class="sxs-lookup"><span data-stu-id="9d917-392">This code is part of a larger example provided for the <xref:System.Threading.ReaderWriterLockSlim> class.</span></span>  
+  
+ [!code-csharp[System.Threading.ReaderWriterLockSlim_Shadow#2](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow/cs/source.cs#2)]
+ [!code-vb[System.Threading.ReaderWriterLockSlim_Shadow#2](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow/vb/source.vb#2)]  
+[!code-csharp[System.Threading.ReaderWriterLockSlim_Shadow#4](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow/cs/source.cs#4)]
+[!code-vb[System.Threading.ReaderWriterLockSlim_Shadow#4](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow/vb/source.vb#4)]  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.Threading.SynchronizationLockException">
+          <span data-ttu-id="9d917-393">当前线程未进入写入模式锁定状态。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-393">The current thread has not entered the lock in write mode.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="IsReadLockHeld">
+      <MemberSignature Language="C#" Value="public bool IsReadLockHeld { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance bool IsReadLockHeld" />
+      <MemberSignature Language="DocId" Value="P:System.Threading.ReaderWriterLockSlim.IsReadLockHeld" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property IsReadLockHeld As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property bool IsReadLockHeld { bool get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Threading</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Core</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="9d917-394">获取一个值，该值指示当前线程是否已进入读取模式的锁定状态。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-394">Gets a value that indicates whether the current thread has entered the lock in read mode.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="9d917-395">如果当前线程已进入读取模式，则为 <see langword="true" />；否则为 <see langword="false" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-395">
+              <see langword="true" /> if the current thread has entered read mode; otherwise, <see langword="false" />.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="9d917-396">此属性被旨在用于断言或其他调试目的。</span><span class="sxs-lookup"><span data-stu-id="9d917-396">This property is intended for use in asserts or for other debugging purposes.</span></span> <span data-ttu-id="9d917-397">不要使用它来控制控制程序执行流程。</span><span class="sxs-lookup"><span data-stu-id="9d917-397">Do not use it to control the flow of program execution.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="9d917-398">下面的示例演示如何使用<xref:System.Threading.ReaderWriterLockSlim.IsReadLockHeld%2A>属性生成断言，如果当前线程已进入读取模式意外。</span><span class="sxs-lookup"><span data-stu-id="9d917-398">The following example shows how to use the <xref:System.Threading.ReaderWriterLockSlim.IsReadLockHeld%2A> property to generate an assert if the current thread has entered read mode unexpectedly.</span></span>  
+  
+ [!code-csharp[System.Threading.ReaderWriterLockSlim_Aux#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Aux/cs/source.cs#1)]
+ [!code-vb[System.Threading.ReaderWriterLockSlim_Aux#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Aux/vb/source.vb#1)]  
+[!code-csharp[System.Threading.ReaderWriterLockSlim_Aux#21](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Aux/cs/source.cs#21)]
+[!code-vb[System.Threading.ReaderWriterLockSlim_Aux#21](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Aux/vb/source.vb#21)]  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="IsUpgradeableReadLockHeld">
+      <MemberSignature Language="C#" Value="public bool IsUpgradeableReadLockHeld { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance bool IsUpgradeableReadLockHeld" />
+      <MemberSignature Language="DocId" Value="P:System.Threading.ReaderWriterLockSlim.IsUpgradeableReadLockHeld" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property IsUpgradeableReadLockHeld As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property bool IsUpgradeableReadLockHeld { bool get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Threading</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Core</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="9d917-399">获取一个值，该值指示当前线程是否已进入可升级模式的锁定状态。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-399">Gets a value that indicates whether the current thread has entered the lock in upgradeable mode.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="9d917-400">如果当前线程已进入可升级模式，则为 <see langword="true" />；否则为 <see langword="false" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-400">
+              <see langword="true" /> if the current thread has entered upgradeable mode; otherwise, <see langword="false" />.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="9d917-401">此属性被旨在用于断言或其他调试目的。</span><span class="sxs-lookup"><span data-stu-id="9d917-401">This property is intended for use in asserts or for other debugging purposes.</span></span> <span data-ttu-id="9d917-402">不要使用它来控制控制程序执行流程。</span><span class="sxs-lookup"><span data-stu-id="9d917-402">Do not use it to control the flow of program execution.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="9d917-403">下面的示例演示如何使用<xref:System.Threading.ReaderWriterLockSlim.IsUpgradeableReadLockHeld%2A>生成断言，如果当前线程已进入可升级模式意外的属性。</span><span class="sxs-lookup"><span data-stu-id="9d917-403">The following example shows how to use the <xref:System.Threading.ReaderWriterLockSlim.IsUpgradeableReadLockHeld%2A> property to generate an assert if the current thread has entered upgradeable mode unexpectedly.</span></span>  
+  
+ [!code-csharp[System.Threading.ReaderWriterLockSlim_Aux#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Aux/cs/source.cs#1)]
+ [!code-vb[System.Threading.ReaderWriterLockSlim_Aux#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Aux/vb/source.vb#1)]  
+[!code-csharp[System.Threading.ReaderWriterLockSlim_Aux#22](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Aux/cs/source.cs#22)]
+[!code-vb[System.Threading.ReaderWriterLockSlim_Aux#22](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Aux/vb/source.vb#22)]  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="IsWriteLockHeld">
+      <MemberSignature Language="C#" Value="public bool IsWriteLockHeld { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance bool IsWriteLockHeld" />
+      <MemberSignature Language="DocId" Value="P:System.Threading.ReaderWriterLockSlim.IsWriteLockHeld" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property IsWriteLockHeld As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property bool IsWriteLockHeld { bool get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Threading</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Core</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="9d917-404">获取一个值，该值指示当前线程是否已进入写入模式的锁定状态。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-404">Gets a value that indicates whether the current thread has entered the lock in write mode.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="9d917-405">如果当前线程已进入写入模式，则为 <see langword="true" />；否则为 <see langword="false" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-405">
+              <see langword="true" /> if the current thread has entered write mode; otherwise, <see langword="false" />.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="9d917-406">此属性被旨在用于断言或其他调试目的。</span><span class="sxs-lookup"><span data-stu-id="9d917-406">This property is intended for use in asserts or for other debugging purposes.</span></span> <span data-ttu-id="9d917-407">不要使用它来控制控制程序执行流程。</span><span class="sxs-lookup"><span data-stu-id="9d917-407">Do not use it to control the flow of program execution.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="9d917-408">下面的示例演示如何使用<xref:System.Threading.ReaderWriterLockSlim.IsWriteLockHeld%2A>生成断言，如果当前线程已进入写入模式意外的属性。</span><span class="sxs-lookup"><span data-stu-id="9d917-408">The following example shows how to use the <xref:System.Threading.ReaderWriterLockSlim.IsWriteLockHeld%2A> property to generate an assert if the current thread has entered write mode unexpectedly.</span></span>  
+  
+ [!code-csharp[System.Threading.ReaderWriterLockSlim_Aux#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Aux/cs/source.cs#1)]
+ [!code-vb[System.Threading.ReaderWriterLockSlim_Aux#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Aux/vb/source.vb#1)]  
+[!code-csharp[System.Threading.ReaderWriterLockSlim_Aux#23](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Aux/cs/source.cs#23)]
+[!code-vb[System.Threading.ReaderWriterLockSlim_Aux#23](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Aux/vb/source.vb#23)]  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="RecursionPolicy">
+      <MemberSignature Language="C#" Value="public System.Threading.LockRecursionPolicy RecursionPolicy { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance valuetype System.Threading.LockRecursionPolicy RecursionPolicy" />
+      <MemberSignature Language="DocId" Value="P:System.Threading.ReaderWriterLockSlim.RecursionPolicy" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property RecursionPolicy As LockRecursionPolicy" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::Threading::LockRecursionPolicy RecursionPolicy { System::Threading::LockRecursionPolicy get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Threading</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Core</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Threading.LockRecursionPolicy</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="9d917-409">获取一个值，该值指示当前 <see cref="T:System.Threading.ReaderWriterLockSlim" /> 对象的递归策略。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-409">Gets a value that indicates the recursion policy for the current <see cref="T:System.Threading.ReaderWriterLockSlim" /> object.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="9d917-410">枚举值之一，用于指定锁定递归策略。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-410">One of the enumeration values that specifies the lock recursion policy.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="9d917-411">递归策略将确定在多次输入锁的线程上的限制。</span><span class="sxs-lookup"><span data-stu-id="9d917-411">Recursion policy determines the restrictions on threads that enter the lock more than once.</span></span> <span data-ttu-id="9d917-412">例如，如果使用锁创建了<xref:System.Threading.LockRecursionPolicy.NoRecursion?displayProperty=nameWithType>和线程已进入读取模式锁定<xref:System.Threading.LockRecursionException>如果线程尝试重新输入中读取模式锁定，则引发。</span><span class="sxs-lookup"><span data-stu-id="9d917-412">For example, if a lock was created with <xref:System.Threading.LockRecursionPolicy.NoRecursion?displayProperty=nameWithType> and a thread has entered the lock in read mode, <xref:System.Threading.LockRecursionException> is thrown if the thread tries to reenter the lock in read mode.</span></span>  
+  
+> [!NOTE]
+>  <span data-ttu-id="9d917-413">进入可升级模式中的线程可以升级为写入模式，或降级为读取而不考虑锁定递归策略设置的模式。</span><span class="sxs-lookup"><span data-stu-id="9d917-413">A thread in upgradeable mode can upgrade to write mode or downgrade to read mode regardless of the lock recursion policy setting.</span></span>  
+  
+ <span data-ttu-id="9d917-414">无论递归策略，最初输入线程读取模式下不允许升级到进入可升级模式或写入模式，因为这种方式导致的死锁的概率较强。</span><span class="sxs-lookup"><span data-stu-id="9d917-414">Regardless of recursion policy, a thread that initially entered read mode is not allowed to upgrade to upgradeable mode or write mode, because that pattern creates a strong probability of deadlocks.</span></span>  
+  
+ <span data-ttu-id="9d917-415">关于递归策略和其效果的详细信息，请参阅<xref:System.Threading.LockRecursionPolicy>枚举和<xref:System.Threading.ReaderWriterLockSlim>类。</span><span class="sxs-lookup"><span data-stu-id="9d917-415">For more information about recursion policy and its effects, see the <xref:System.Threading.LockRecursionPolicy> enumeration and the <xref:System.Threading.ReaderWriterLockSlim> class.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="T:System.Threading.LockRecursionException" />
+      </Docs>
+    </Member>
+    <Member MemberName="RecursiveReadCount">
+      <MemberSignature Language="C#" Value="public int RecursiveReadCount { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance int32 RecursiveReadCount" />
+      <MemberSignature Language="DocId" Value="P:System.Threading.ReaderWriterLockSlim.RecursiveReadCount" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property RecursiveReadCount As Integer" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property int RecursiveReadCount { int get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Threading</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Core</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="9d917-416">获取当前线程进入读取模式锁定状态的次数，用于指示递归。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-416">Gets the number of times the current thread has entered the lock in read mode, as an indication of recursion.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="9d917-417">0 （零），如果当前线程没有进入读取模式，它以递归方式，1，如果线程已进入读取的模式但却不进入或*n*如果线程已进入锁定以递归方式*n* -1 次。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-417">0 (zero) if the current thread has not entered read mode, 1 if the thread has entered read mode but has not entered it recursively, or *n* if the thread has entered the lock recursively *n* - 1 times.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="9d917-418">仅用于调试、 分析和记录等目的，而不适用于控制算法的行为，请使用此属性。</span><span class="sxs-lookup"><span data-stu-id="9d917-418">Use this property only for debugging, profiling, and logging purposes, and not to control the behavior of an algorithm.</span></span> <span data-ttu-id="9d917-419">只要在已计算，可以更改结果。</span><span class="sxs-lookup"><span data-stu-id="9d917-419">The results can change as soon as they have been calculated.</span></span> <span data-ttu-id="9d917-420">因此，它是不安全决定根据此属性。</span><span class="sxs-lookup"><span data-stu-id="9d917-420">Therefore, it is not safe to make decisions based on this property.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="RecursiveUpgradeCount">
+      <MemberSignature Language="C#" Value="public int RecursiveUpgradeCount { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance int32 RecursiveUpgradeCount" />
+      <MemberSignature Language="DocId" Value="P:System.Threading.ReaderWriterLockSlim.RecursiveUpgradeCount" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property RecursiveUpgradeCount As Integer" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property int RecursiveUpgradeCount { int get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Threading</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Core</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="9d917-421">获取当前线程进入可升级模式锁定状态的次数，用于指示递归。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-421">Gets the number of times the current thread has entered the lock in upgradeable mode, as an indication of recursion.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="9d917-422">如果当前线程没有进入可升级模式，如果线程已进入可升级模式，但没有进入它以递归方式，则为 1 的 0 或*n*如果线程已进入可升级模式以递归方式*n* -1时间。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-422">0 if the current thread has not entered upgradeable mode, 1 if the thread has entered upgradeable mode but has not entered it recursively, or *n* if the thread has entered upgradeable mode recursively *n* - 1 times.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="9d917-423">仅用于调试、 分析和记录等目的，而不适用于控制算法的行为，请使用此属性。</span><span class="sxs-lookup"><span data-stu-id="9d917-423">Use this property only for debugging, profiling, and logging purposes, and not to control the behavior of an algorithm.</span></span> <span data-ttu-id="9d917-424">只要在已计算，可以更改结果。</span><span class="sxs-lookup"><span data-stu-id="9d917-424">The results can change as soon as they have been calculated.</span></span> <span data-ttu-id="9d917-425">因此，它是不安全决定根据此属性。</span><span class="sxs-lookup"><span data-stu-id="9d917-425">Therefore, it is not safe to make decisions based on this property.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="RecursiveWriteCount">
+      <MemberSignature Language="C#" Value="public int RecursiveWriteCount { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance int32 RecursiveWriteCount" />
+      <MemberSignature Language="DocId" Value="P:System.Threading.ReaderWriterLockSlim.RecursiveWriteCount" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property RecursiveWriteCount As Integer" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property int RecursiveWriteCount { int get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Threading</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Core</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="9d917-426">获取当前线程进入写入模式锁定状态的次数，用于指示递归。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-426">Gets the number of times the current thread has entered the lock in write mode, as an indication of recursion.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="9d917-427">如果当前线程没有进入写入模式 0，1 如果线程已进入写入模式却不它以递归方式进入，或*n*如果线程已进入写入模式下以递归方式*n* -1 次。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-427">0 if the current thread has not entered write mode, 1 if the thread has entered write mode but has not entered it recursively, or *n* if the thread has entered write mode recursively *n* - 1 times.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="9d917-428">仅用于调试、 分析和记录等目的，而不适用于控制算法的行为，请使用此属性。</span><span class="sxs-lookup"><span data-stu-id="9d917-428">Use this property only for debugging, profiling, and logging purposes, and not to control the behavior of an algorithm.</span></span> <span data-ttu-id="9d917-429">只要在已计算，可以更改结果。</span><span class="sxs-lookup"><span data-stu-id="9d917-429">The results can change as soon as they have been calculated.</span></span> <span data-ttu-id="9d917-430">因此，它是不安全决定根据此属性。</span><span class="sxs-lookup"><span data-stu-id="9d917-430">Therefore, it is not safe to make decisions based on this property.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <MemberGroup MemberName="TryEnterReadLock">
+      <AssemblyInfo>
+        <AssemblyName>System.Threading</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Docs>
+        <summary>
+          <span data-ttu-id="9d917-431">尝试进入读取模式锁定状态，可以选择超时时间。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-431">Tries to enter the lock in read mode, with an optional time-out.</span>
+          </span>
+        </summary>
+      </Docs>
+    </MemberGroup>
+    <Member MemberName="TryEnterReadLock">
+      <MemberSignature Language="C#" Value="public bool TryEnterReadLock (int millisecondsTimeout);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance bool TryEnterReadLock(int32 millisecondsTimeout) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Threading.ReaderWriterLockSlim.TryEnterReadLock(System.Int32)" />
+      <MemberSignature Language="VB.NET" Value="Public Function TryEnterReadLock (millisecondsTimeout As Integer) As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; bool TryEnterReadLock(int millisecondsTimeout);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Threading</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Core</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="millisecondsTimeout" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="millisecondsTimeout">
+          <span data-ttu-id="9d917-432">等待的毫秒数，或为 -1 (<see cref="F:System.Threading.Timeout.Infinite" />)，表示无限期等待。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-432">The number of milliseconds to wait, or -1 (<see cref="F:System.Threading.Timeout.Infinite" />) to wait indefinitely.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="9d917-433">尝试进入读取模式锁定状态，可以选择整数超时时间。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-433">Tries to enter the lock in read mode, with an optional integer time-out.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="9d917-434">如果调用线程已进入读取模式，则为 <see langword="true" />；否则为 <see langword="false" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-434">
+              <see langword="true" /> if the calling thread entered read mode, otherwise, <see langword="false" />.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="9d917-435">如果`millisecondsTimeout`为 0 （零），此方法检查的锁定状态，并返回`false`立即如果所需的状态不可用。</span><span class="sxs-lookup"><span data-stu-id="9d917-435">If `millisecondsTimeout` is 0 (zero), this method checks the lock state and returns `false` immediately if the desired state is unavailable.</span></span>  
+  
+ <span data-ttu-id="9d917-436">多个线程可以在同一时间进入读取的模式。</span><span class="sxs-lookup"><span data-stu-id="9d917-436">Multiple threads can enter read mode at the same time.</span></span>  
+  
+ <span data-ttu-id="9d917-437">如果一个或多个线程在等待进入写入模式，线程的调用<xref:System.Threading.ReaderWriterLockSlim.TryEnterReadLock%2A>方法阻止，直到这些线程具有是操作已超时或已进入写入模式和从它，然后退出，或直到调用线程的自己的超时间隔过期。</span><span class="sxs-lookup"><span data-stu-id="9d917-437">If one or more threads are waiting to enter write mode, a thread that calls the <xref:System.Threading.ReaderWriterLockSlim.TryEnterReadLock%2A> method blocks until those threads have either timed out or entered write mode and then exited from it, or until the calling thread's own time-out interval expires.</span></span>  
+  
+> [!NOTE]
+>  <span data-ttu-id="9d917-438">如果锁定允许使用递归，线程已进入读取模式锁定可以递归方式进入读取的模式，即使其他线程等待进入写入模式。</span><span class="sxs-lookup"><span data-stu-id="9d917-438">If a lock allows recursion, a thread that has entered the lock in read mode can enter read mode recursively, even if other threads are waiting to enter write mode.</span></span>  
+  
+ <span data-ttu-id="9d917-439">当其他线程处于读取模式时，一个线程可以处于进入可升级模式。</span><span class="sxs-lookup"><span data-stu-id="9d917-439">One thread can be in upgradeable mode while other threads are in read mode.</span></span> <span data-ttu-id="9d917-440">如果其他线程正在等待进入可升级模式，且没有等待进入写入模式的线程，线程该调用<xref:System.Threading.ReaderWriterLockSlim.TryEnterReadLock%2A>方法立即进入读取的模式，不会阻止。</span><span class="sxs-lookup"><span data-stu-id="9d917-440">If additional threads are waiting to enter upgradeable mode, and there are no threads waiting to enter write mode, threads that call the <xref:System.Threading.ReaderWriterLockSlim.TryEnterReadLock%2A> method enter read mode immediately and do not block.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.Threading.LockRecursionException">
+          <span data-ttu-id="9d917-441">
+            <see cref="P:System.Threading.ReaderWriterLockSlim.RecursionPolicy" /> 属性为 <see cref="F:System.Threading.LockRecursionPolicy.NoRecursion" />，而且当前线程已进入锁定状态。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-441">The <see cref="P:System.Threading.ReaderWriterLockSlim.RecursionPolicy" /> property is <see cref="F:System.Threading.LockRecursionPolicy.NoRecursion" /> and the current thread has already entered the lock.</span>
+          </span>
+          <span data-ttu-id="9d917-442">或</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-442">-or-</span>
+          </span>
+          <span data-ttu-id="9d917-443">递归数将超出该计数器的容量。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-443">The recursion number would exceed the capacity of the counter.</span>
+          </span>
+          <span data-ttu-id="9d917-444">此限制数值很大，因此任何情况下应用程序都不应遇到此情况。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-444">The limit is so large that applications should never encounter it.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.ArgumentOutOfRangeException">
+          <span data-ttu-id="9d917-445">
+            <paramref name="millisecondsTimeout" /> 的值为负，但不等于 <see cref="F:System.Threading.Timeout.Infinite" /> (-1)，这是唯一允许使用的负值。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-445">The value of <paramref name="millisecondsTimeout" /> is negative, but it is not equal to <see cref="F:System.Threading.Timeout.Infinite" /> (-1), which is the only negative value allowed.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.ObjectDisposedException">
+          <span data-ttu-id="9d917-446">
+            <see cref="T:System.Threading.ReaderWriterLockSlim" /> 对象已释放。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-446">The <see cref="T:System.Threading.ReaderWriterLockSlim" /> object has been disposed.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="TryEnterReadLock">
+      <MemberSignature Language="C#" Value="public bool TryEnterReadLock (TimeSpan timeout);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance bool TryEnterReadLock(valuetype System.TimeSpan timeout) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Threading.ReaderWriterLockSlim.TryEnterReadLock(System.TimeSpan)" />
+      <MemberSignature Language="VB.NET" Value="Public Function TryEnterReadLock (timeout As TimeSpan) As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; bool TryEnterReadLock(TimeSpan timeout);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Threading</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Core</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="timeout" Type="System.TimeSpan" />
+      </Parameters>
+      <Docs>
+        <param name="timeout">
+          <span data-ttu-id="9d917-447">等待的间隔；或为 -1 毫秒，表示无限期等待。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-447">The interval to wait, or -1 milliseconds to wait indefinitely.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="9d917-448">尝试进入读取模式锁定状态，可以选择超时时间。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-448">Tries to enter the lock in read mode, with an optional time-out.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="9d917-449">如果调用线程已进入读取模式，则为 <see langword="true" />；否则为 <see langword="false" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-449">
+              <see langword="true" /> if the calling thread entered read mode, otherwise, <see langword="false" />.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="9d917-450">如果`timeout`为 0 （零），此方法检查的锁定状态，并返回`false`立即如果所需的状态不可用。</span><span class="sxs-lookup"><span data-stu-id="9d917-450">If `timeout` is 0 (zero), this method checks the lock state and returns `false` immediately if the desired state is unavailable.</span></span>  
+  
+ <span data-ttu-id="9d917-451">多个线程可以进入读取模式锁定在同一时间。</span><span class="sxs-lookup"><span data-stu-id="9d917-451">Multiple threads can enter the lock in read mode at the same time.</span></span>  
+  
+ <span data-ttu-id="9d917-452">如果一个或多个线程排队等待进入写入模式，线程的调用<xref:System.Threading.ReaderWriterLockSlim.TryEnterReadLock%2A>方法阻止，直到这些线程具有是操作已超时或已进入写入模式和从它，然后退出，或直到调用线程的自己的超时间隔过期。</span><span class="sxs-lookup"><span data-stu-id="9d917-452">If one or more threads are queued to enter write mode, a thread that calls the <xref:System.Threading.ReaderWriterLockSlim.TryEnterReadLock%2A> method blocks until those threads have either timed out or entered write mode and then exited from it, or until the calling thread's own time-out interval expires.</span></span>  
+  
+> [!NOTE]
+>  <span data-ttu-id="9d917-453">如果锁定允许使用递归，线程已进入读取模式锁定可以递归方式进入读取的模式，即使其他线程等待进入写入模式。</span><span class="sxs-lookup"><span data-stu-id="9d917-453">If a lock allows recursion, a thread that has entered the lock in read mode can enter read mode recursively, even if other threads are waiting to enter write mode.</span></span>  
+  
+ <span data-ttu-id="9d917-454">当其他线程处于读取模式时，一个线程可以处于进入可升级模式。</span><span class="sxs-lookup"><span data-stu-id="9d917-454">One thread can be in upgradeable mode while other threads are in read mode.</span></span> <span data-ttu-id="9d917-455">如果其他线程正在等待进入可升级模式，且没有等待进入写入模式的线程，线程该调用<xref:System.Threading.ReaderWriterLockSlim.TryEnterReadLock%2A>方法立即进入读取的模式，不会阻止。</span><span class="sxs-lookup"><span data-stu-id="9d917-455">If additional threads are waiting to enter upgradeable mode, and there are no threads waiting to enter write mode, threads that call the <xref:System.Threading.ReaderWriterLockSlim.TryEnterReadLock%2A> method enter read mode immediately and do not block.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.Threading.LockRecursionException">
+          <span data-ttu-id="9d917-456">
+            <see cref="P:System.Threading.ReaderWriterLockSlim.RecursionPolicy" /> 属性为 <see cref="F:System.Threading.LockRecursionPolicy.NoRecursion" />，而且当前线程已进入锁定状态。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-456">The <see cref="P:System.Threading.ReaderWriterLockSlim.RecursionPolicy" /> property is <see cref="F:System.Threading.LockRecursionPolicy.NoRecursion" /> and the current thread has already entered the lock.</span>
+          </span>
+          <span data-ttu-id="9d917-457">或</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-457">-or-</span>
+          </span>
+          <span data-ttu-id="9d917-458">递归数将超出该计数器的容量。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-458">The recursion number would exceed the capacity of the counter.</span>
+          </span>
+          <span data-ttu-id="9d917-459">此限制数值很大，因此任何情况下应用程序都不应遇到此情况。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-459">The limit is so large that applications should never encounter it.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.ArgumentOutOfRangeException">
+          <span data-ttu-id="9d917-460">
+            <paramref name="timeout" /> 的值为负，但不等于 -1 毫秒，这是唯一允许使用的负值。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-460">The value of <paramref name="timeout" /> is negative, but it is not equal to -1 milliseconds, which is the only negative value allowed.</span>
+          </span>
+          <span data-ttu-id="9d917-461">或</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-461">-or-</span>
+          </span>
+          <span data-ttu-id="9d917-462">
+            <paramref name="timeout" /> 的值大于 <see cref="F:System.Int32.MaxValue" /> 毫秒。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-462">The value of <paramref name="timeout" /> is greater than <see cref="F:System.Int32.MaxValue" /> milliseconds.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.ObjectDisposedException">
+          <span data-ttu-id="9d917-463">
+            <see cref="T:System.Threading.ReaderWriterLockSlim" /> 对象已释放。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-463">The <see cref="T:System.Threading.ReaderWriterLockSlim" /> object has been disposed.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <MemberGroup MemberName="TryEnterUpgradeableReadLock">
+      <AssemblyInfo>
+        <AssemblyName>System.Threading</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Docs>
+        <summary>
+          <span data-ttu-id="9d917-464">尝试进入可升级模式锁定状态，可以选择超时时间。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-464">Tries to enter the lock in upgradeable mode, with an optional time-out.</span>
+          </span>
+        </summary>
+      </Docs>
+    </MemberGroup>
+    <Member MemberName="TryEnterUpgradeableReadLock">
+      <MemberSignature Language="C#" Value="public bool TryEnterUpgradeableReadLock (int millisecondsTimeout);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance bool TryEnterUpgradeableReadLock(int32 millisecondsTimeout) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Threading.ReaderWriterLockSlim.TryEnterUpgradeableReadLock(System.Int32)" />
+      <MemberSignature Language="VB.NET" Value="Public Function TryEnterUpgradeableReadLock (millisecondsTimeout As Integer) As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; bool TryEnterUpgradeableReadLock(int millisecondsTimeout);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Threading</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Core</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="millisecondsTimeout" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="millisecondsTimeout">
+          <span data-ttu-id="9d917-465">等待的毫秒数，或为 -1 (<see cref="F:System.Threading.Timeout.Infinite" />)，表示无限期等待。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-465">The number of milliseconds to wait, or -1 (<see cref="F:System.Threading.Timeout.Infinite" />) to wait indefinitely.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="9d917-466">尝试进入可升级模式锁定状态，可以选择超时时间。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-466">Tries to enter the lock in upgradeable mode, with an optional time-out.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="9d917-467">如果调用线程已进入可升级模式，则为 <see langword="true" />；否则为 <see langword="false" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-467">
+              <see langword="true" /> if the calling thread entered upgradeable mode, otherwise, <see langword="false" />.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="9d917-468">如果`millisecondsTimeout`为 0 （零），此方法检查的锁定状态，并返回`false`立即如果所需的状态不可用。</span><span class="sxs-lookup"><span data-stu-id="9d917-468">If `millisecondsTimeout` is 0 (zero), this method checks the lock state and returns `false` immediately if the desired state is unavailable.</span></span>  
+  
+ <span data-ttu-id="9d917-469">当一个线程通常访问受保护的资源时使用进入可升级模式<xref:System.Threading.ReaderWriterLockSlim>在读取模式，但可能需要等待进入写入模式，如果符合特定的条件。</span><span class="sxs-lookup"><span data-stu-id="9d917-469">Use upgradeable mode when a thread usually accesses the resource that is protected by the <xref:System.Threading.ReaderWriterLockSlim> in read mode, but may need to enter write mode if certain conditions are met.</span></span> <span data-ttu-id="9d917-470">进入可升级模式中的线程可以升级为写入模式，或降级为读取模式。</span><span class="sxs-lookup"><span data-stu-id="9d917-470">A thread in upgradeable mode can upgrade to write mode or downgrade to read mode.</span></span>  
+  
+ <span data-ttu-id="9d917-471">在任何给定时间，只有一个线程可以在进入可升级模式中输入锁。</span><span class="sxs-lookup"><span data-stu-id="9d917-471">Only one thread can enter a lock in upgradeable mode at any given time.</span></span> <span data-ttu-id="9d917-472">如果某个线程处于进入可升级模式，并且有没有线程在等待进入写入模式，任意数量的其他线程可以进入读取的模式，即使有线程在等待进入可升级模式。</span><span class="sxs-lookup"><span data-stu-id="9d917-472">If a thread is in upgradeable mode, and there are no threads waiting to enter write mode, any number of other threads can enter read mode, even if there are threads waiting to enter upgradeable mode.</span></span>  
+  
+ <span data-ttu-id="9d917-473">如果一个或多个线程在等待进入写入模式，线程的调用<xref:System.Threading.ReaderWriterLockSlim.TryEnterUpgradeableReadLock%2A>方法阻止，直到这些线程具有是操作已超时或已进入写入模式和从它，然后退出，或直到调用线程的自己的超时间隔过期。</span><span class="sxs-lookup"><span data-stu-id="9d917-473">If one or more threads are waiting to enter write mode, a thread that calls the <xref:System.Threading.ReaderWriterLockSlim.TryEnterUpgradeableReadLock%2A> method blocks until those threads have either timed out or entered write mode and then exited from it, or until the calling thread's own time-out interval expires.</span></span>  
+  
+> [!NOTE]
+>  <span data-ttu-id="9d917-474">如果锁定允许使用递归，已进入可升级模式锁定的线程可以输入以递归方式进入可升级模式，即使其他线程等待进入写入模式。</span><span class="sxs-lookup"><span data-stu-id="9d917-474">If a lock allows recursion, a thread that has entered the lock in upgradeable mode can enter upgradeable mode recursively, even if other threads are waiting to enter write mode.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.Threading.LockRecursionException">
+          <span data-ttu-id="9d917-475">
+            <see cref="P:System.Threading.ReaderWriterLockSlim.RecursionPolicy" /> 属性为 <see cref="F:System.Threading.LockRecursionPolicy.NoRecursion" />，而且当前线程已进入锁定状态。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-475">The <see cref="P:System.Threading.ReaderWriterLockSlim.RecursionPolicy" /> property is <see cref="F:System.Threading.LockRecursionPolicy.NoRecursion" /> and the current thread has already entered the lock.</span>
+          </span>
+          <span data-ttu-id="9d917-476">或</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-476">-or-</span>
+          </span>
+          <span data-ttu-id="9d917-477">初始状态下，当前线程进入读取模式锁定状态，因此尝试进入可升级模式将有可能导致死锁。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-477">The current thread initially entered the lock in read mode, and therefore trying to enter upgradeable mode would create the possibility of a deadlock.</span>
+          </span>
+          <span data-ttu-id="9d917-478">或</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-478">-or-</span>
+          </span>
+          <span data-ttu-id="9d917-479">递归数将超出该计数器的容量。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-479">The recursion number would exceed the capacity of the counter.</span>
+          </span>
+          <span data-ttu-id="9d917-480">此限制数值很大，因此任何情况下应用程序都不应遇到此情况。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-480">The limit is so large that applications should never encounter it.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.ArgumentOutOfRangeException">
+          <span data-ttu-id="9d917-481">
+            <paramref name="millisecondsTimeout" /> 的值为负，但不等于 <see cref="F:System.Threading.Timeout.Infinite" /> (-1)，这是唯一允许使用的负值。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-481">The value of <paramref name="millisecondsTimeout" /> is negative, but it is not equal to <see cref="F:System.Threading.Timeout.Infinite" /> (-1), which is the only negative value allowed.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.ObjectDisposedException">
+          <span data-ttu-id="9d917-482">
+            <see cref="T:System.Threading.ReaderWriterLockSlim" /> 对象已释放。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-482">The <see cref="T:System.Threading.ReaderWriterLockSlim" /> object has been disposed.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="TryEnterUpgradeableReadLock">
+      <MemberSignature Language="C#" Value="public bool TryEnterUpgradeableReadLock (TimeSpan timeout);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance bool TryEnterUpgradeableReadLock(valuetype System.TimeSpan timeout) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Threading.ReaderWriterLockSlim.TryEnterUpgradeableReadLock(System.TimeSpan)" />
+      <MemberSignature Language="VB.NET" Value="Public Function TryEnterUpgradeableReadLock (timeout As TimeSpan) As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; bool TryEnterUpgradeableReadLock(TimeSpan timeout);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Threading</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Core</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="timeout" Type="System.TimeSpan" />
+      </Parameters>
+      <Docs>
+        <param name="timeout">
+          <span data-ttu-id="9d917-483">等待的间隔；或为 -1 毫秒，表示无限期等待。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-483">The interval to wait, or -1 milliseconds to wait indefinitely.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="9d917-484">尝试进入可升级模式锁定状态，可以选择超时时间。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-484">Tries to enter the lock in upgradeable mode, with an optional time-out.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="9d917-485">如果调用线程已进入可升级模式，则为 <see langword="true" />；否则为 <see langword="false" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-485">
+              <see langword="true" /> if the calling thread entered upgradeable mode, otherwise, <see langword="false" />.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="9d917-486">如果`timeout`为 0 （零），此方法检查的锁定状态，并返回`false`立即如果所需的状态不可用。</span><span class="sxs-lookup"><span data-stu-id="9d917-486">If `timeout` is 0 (zero), this method checks the lock state and returns `false` immediately if the desired state is unavailable.</span></span>  
+  
+ <span data-ttu-id="9d917-487">当一个线程通常访问保护的资源时使用进入可升级模式<xref:System.Threading.ReaderWriterLockSlim>在读取模式，但可能需要等待进入写入模式，如果符合特定的条件。</span><span class="sxs-lookup"><span data-stu-id="9d917-487">Use upgradeable mode when a thread usually accesses the resource protected by the <xref:System.Threading.ReaderWriterLockSlim> in read mode, but may need to enter write mode if certain conditions are met.</span></span> <span data-ttu-id="9d917-488">进入可升级模式中的线程可以升级为写入模式，或降级为读取模式。</span><span class="sxs-lookup"><span data-stu-id="9d917-488">A thread in upgradeable mode can upgrade to write mode or downgrade to read mode.</span></span>  
+  
+ <span data-ttu-id="9d917-489">在任何给定时间，只有一个线程可以在进入可升级模式中输入锁。</span><span class="sxs-lookup"><span data-stu-id="9d917-489">Only one thread can enter a lock in upgradeable mode at any given time.</span></span> <span data-ttu-id="9d917-490">如果某个线程处于进入可升级模式，并且有没有线程在等待进入写入模式，任意数量的其他线程可以进入读取的模式，即使有线程在等待进入可升级模式。</span><span class="sxs-lookup"><span data-stu-id="9d917-490">If a thread is in upgradeable mode, and there are no threads waiting to enter write mode, any number of other threads can enter read mode, even if there are threads waiting to enter upgradeable mode.</span></span>  
+  
+ <span data-ttu-id="9d917-491">如果一个或多个线程在等待进入写入模式，线程的调用<xref:System.Threading.ReaderWriterLockSlim.TryEnterUpgradeableReadLock%2A>方法阻止，直到这些线程具有是操作已超时或已进入写入模式和从它，然后退出，或直到调用线程的自己的超时间隔过期。</span><span class="sxs-lookup"><span data-stu-id="9d917-491">If one or more threads are waiting to enter write mode, a thread that calls the <xref:System.Threading.ReaderWriterLockSlim.TryEnterUpgradeableReadLock%2A> method blocks until those threads have either timed out or entered write mode and then exited from it, or until the calling thread's own time-out interval expires.</span></span>  
+  
+> [!NOTE]
+>  <span data-ttu-id="9d917-492">如果锁定允许使用递归，已进入可升级模式锁定的线程可以输入以递归方式进入可升级模式，即使其他线程等待进入写入模式。</span><span class="sxs-lookup"><span data-stu-id="9d917-492">If a lock allows recursion, a thread that has entered the lock in upgradeable mode can enter upgradeable mode recursively, even if other threads are waiting to enter write mode.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.Threading.LockRecursionException">
+          <span data-ttu-id="9d917-493">
+            <see cref="P:System.Threading.ReaderWriterLockSlim.RecursionPolicy" /> 属性为 <see cref="F:System.Threading.LockRecursionPolicy.NoRecursion" />，而且当前线程已进入锁定状态。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-493">The <see cref="P:System.Threading.ReaderWriterLockSlim.RecursionPolicy" /> property is <see cref="F:System.Threading.LockRecursionPolicy.NoRecursion" /> and the current thread has already entered the lock.</span>
+          </span>
+          <span data-ttu-id="9d917-494">或</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-494">-or-</span>
+          </span>
+          <span data-ttu-id="9d917-495">初始状态下，当前线程进入读取模式锁定状态，因此尝试进入可升级模式将有可能导致死锁。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-495">The current thread initially entered the lock in read mode, and therefore trying to enter upgradeable mode would create the possibility of a deadlock.</span>
+          </span>
+          <span data-ttu-id="9d917-496">或</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-496">-or-</span>
+          </span>
+          <span data-ttu-id="9d917-497">递归数将超出该计数器的容量。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-497">The recursion number would exceed the capacity of the counter.</span>
+          </span>
+          <span data-ttu-id="9d917-498">此限制数值很大，因此任何情况下应用程序都不应遇到此情况。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-498">The limit is so large that applications should never encounter it.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.ArgumentOutOfRangeException">
+          <span data-ttu-id="9d917-499">
+            <paramref name="timeout" /> 的值为负，但不等于 -1 毫秒，这是唯一允许使用的负值。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-499">The value of <paramref name="timeout" /> is negative, but it is not equal to -1 milliseconds, which is the only negative value allowed.</span>
+          </span>
+          <span data-ttu-id="9d917-500">或</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-500">-or-</span>
+          </span>
+          <span data-ttu-id="9d917-501">
+            <paramref name="timeout" /> 的值大于 <see cref="F:System.Int32.MaxValue" /> 毫秒。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-501">The value of <paramref name="timeout" /> is greater than <see cref="F:System.Int32.MaxValue" /> milliseconds.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.ObjectDisposedException">
+          <span data-ttu-id="9d917-502">
+            <see cref="T:System.Threading.ReaderWriterLockSlim" /> 对象已释放。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-502">The <see cref="T:System.Threading.ReaderWriterLockSlim" /> object has been disposed.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <MemberGroup MemberName="TryEnterWriteLock">
+      <AssemblyInfo>
+        <AssemblyName>System.Threading</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Docs>
+        <summary>
+          <span data-ttu-id="9d917-503">尝试进入写入模式锁定状态，可以选择超时时间。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-503">Tries to enter the lock in write mode, with an optional time-out.</span>
+          </span>
+        </summary>
+      </Docs>
+    </MemberGroup>
+    <Member MemberName="TryEnterWriteLock">
+      <MemberSignature Language="C#" Value="public bool TryEnterWriteLock (int millisecondsTimeout);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance bool TryEnterWriteLock(int32 millisecondsTimeout) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Threading.ReaderWriterLockSlim.TryEnterWriteLock(System.Int32)" />
+      <MemberSignature Language="VB.NET" Value="Public Function TryEnterWriteLock (millisecondsTimeout As Integer) As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; bool TryEnterWriteLock(int millisecondsTimeout);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Threading</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Core</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="millisecondsTimeout" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="millisecondsTimeout">
+          <span data-ttu-id="9d917-504">等待的毫秒数，或为 -1 (<see cref="F:System.Threading.Timeout.Infinite" />)，表示无限期等待。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-504">The number of milliseconds to wait, or -1 (<see cref="F:System.Threading.Timeout.Infinite" />) to wait indefinitely.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="9d917-505">尝试进入写入模式锁定状态，可以选择超时时间。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-505">Tries to enter the lock in write mode, with an optional time-out.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="9d917-506">如果调用线程已进入写入模式，则为 <see langword="true" />；否则为 <see langword="false" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-506">
+              <see langword="true" /> if the calling thread entered write mode, otherwise, <see langword="false" />.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="9d917-507">如果`millisecondsTimeout`为 0 （零），此方法检查的锁定状态，并返回`false`立即如果所需的状态不可用。</span><span class="sxs-lookup"><span data-stu-id="9d917-507">If `millisecondsTimeout` is 0 (zero), this method checks the lock state and returns `false` immediately if the desired state is unavailable.</span></span>  
+  
+ <span data-ttu-id="9d917-508">如果其他线程已进入读取模式锁定调用线程<xref:System.Threading.ReaderWriterLockSlim.TryEnterWriteLock%2A>方法将一直阻塞直到这些线程均已退出读取的模式或超时间隔已过去。</span><span class="sxs-lookup"><span data-stu-id="9d917-508">If other threads have entered the lock in read mode, a thread that calls the <xref:System.Threading.ReaderWriterLockSlim.TryEnterWriteLock%2A> method blocks until those threads have exited read mode or until the time-out interval has elapsed.</span></span> <span data-ttu-id="9d917-509">而线程被阻止等待进入写入模式，尝试进入读取的模式或进入可升级模式的其他线程阻塞，直到所有线程正等待进入都写入模式，具有可以操作已超时或已进入都写入模式，然后又从中退出。</span><span class="sxs-lookup"><span data-stu-id="9d917-509">While threads are blocked waiting to enter write mode, additional threads that try to enter read mode or upgradeable mode block until all the threads waiting to enter write mode have either timed out or entered write mode and then exited from it.</span></span>  
+  
+> [!NOTE]
+>  <span data-ttu-id="9d917-510">如果锁定允许使用递归，线程已进入写入模式锁定可以写入递归方式进入模式，即使其他线程等待进入写入模式。</span><span class="sxs-lookup"><span data-stu-id="9d917-510">If a lock allows recursion, a thread that has entered the lock in write mode can enter write mode recursively, even if other threads are waiting to enter write mode.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="9d917-511">下面的示例演示如何使用<xref:System.Threading.ReaderWriterLockSlim.TryEnterWriteLock%2A>方法进入锁定状态在写入模式下，超时时间。在示例中所示的方法将新的键/值对添加到同步的缓存。</span><span class="sxs-lookup"><span data-stu-id="9d917-511">The following example shows how to use the <xref:System.Threading.ReaderWriterLockSlim.TryEnterWriteLock%2A> method to enter the lock in write mode, with a time-out. The method shown in the example adds a new key/value pair to the synchronized cache.</span></span> <span data-ttu-id="9d917-512">如果指定的超时间隔过后线程进入锁之前，该方法返回`false`。</span><span class="sxs-lookup"><span data-stu-id="9d917-512">If the specified time-out interval elapses before the thread enters the lock, the method returns `false`.</span></span> <span data-ttu-id="9d917-513">该方法返回`true`如果添加的键/值对。</span><span class="sxs-lookup"><span data-stu-id="9d917-513">The method returns `true` if the key/value pair is added.</span></span>  
+  
+ <span data-ttu-id="9d917-514">如果密钥已在缓存中，由内部引发的异常<xref:System.Collections.Generic.Dictionary%602>允许 terminate 方法。</span><span class="sxs-lookup"><span data-stu-id="9d917-514">If the key is already in the cache, the exception thrown by the inner <xref:System.Collections.Generic.Dictionary%602> is allowed to terminate the method.</span></span> <span data-ttu-id="9d917-515">A`finally`块用于执行<xref:System.Threading.ReaderWriterLockSlim.ExitWriteLock%2A>方法，从而确保调用方退出锁。</span><span class="sxs-lookup"><span data-stu-id="9d917-515">A `finally` block is used to execute the <xref:System.Threading.ReaderWriterLockSlim.ExitWriteLock%2A> method, ensuring that the caller exits the lock.</span></span>  
+  
+ <span data-ttu-id="9d917-516">此代码摘自更大的示例为提供<xref:System.Threading.ReaderWriterLockSlim>类。</span><span class="sxs-lookup"><span data-stu-id="9d917-516">This code is part of a larger example provided for the <xref:System.Threading.ReaderWriterLockSlim> class.</span></span>  
+  
+ [!code-csharp[System.Threading.ReaderWriterLockSlim_Shadow#2](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow/cs/source.cs#2)]
+ [!code-vb[System.Threading.ReaderWriterLockSlim_Shadow#2](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow/vb/source.vb#2)]  
+[!code-csharp[System.Threading.ReaderWriterLockSlim_Shadow#5](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow/cs/source.cs#5)]
+[!code-vb[System.Threading.ReaderWriterLockSlim_Shadow#5](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow/vb/source.vb#5)]  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.Threading.LockRecursionException">
+          <span data-ttu-id="9d917-517">
+            <see cref="P:System.Threading.ReaderWriterLockSlim.RecursionPolicy" /> 属性为 <see cref="F:System.Threading.LockRecursionPolicy.NoRecursion" />，而且当前线程已进入锁定状态。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-517">The <see cref="P:System.Threading.ReaderWriterLockSlim.RecursionPolicy" /> property is <see cref="F:System.Threading.LockRecursionPolicy.NoRecursion" /> and the current thread has already entered the lock.</span>
+          </span>
+          <span data-ttu-id="9d917-518">或</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-518">-or-</span>
+          </span>
+          <span data-ttu-id="9d917-519">初始状态下，当前线程进入读取模式锁定状态，因此尝试进入写入模式将有可能导致死锁。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-519">The current thread initially entered the lock in read mode, and therefore trying to enter write mode would create the possibility of a deadlock.</span>
+          </span>
+          <span data-ttu-id="9d917-520">或</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-520">-or-</span>
+          </span>
+          <span data-ttu-id="9d917-521">递归数将超出该计数器的容量。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-521">The recursion number would exceed the capacity of the counter.</span>
+          </span>
+          <span data-ttu-id="9d917-522">此限制数值很大，因此任何情况下应用程序都不应遇到此情况。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-522">The limit is so large that applications should never encounter it.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.ArgumentOutOfRangeException">
+          <span data-ttu-id="9d917-523">
+            <paramref name="millisecondsTimeout" /> 的值为负，但不等于 <see cref="F:System.Threading.Timeout.Infinite" /> (-1)，这是唯一允许使用的负值。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-523">The value of <paramref name="millisecondsTimeout" /> is negative, but it is not equal to <see cref="F:System.Threading.Timeout.Infinite" /> (-1), which is the only negative value allowed.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.ObjectDisposedException">
+          <span data-ttu-id="9d917-524">
+            <see cref="T:System.Threading.ReaderWriterLockSlim" /> 对象已释放。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-524">The <see cref="T:System.Threading.ReaderWriterLockSlim" /> object has been disposed.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="TryEnterWriteLock">
+      <MemberSignature Language="C#" Value="public bool TryEnterWriteLock (TimeSpan timeout);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance bool TryEnterWriteLock(valuetype System.TimeSpan timeout) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Threading.ReaderWriterLockSlim.TryEnterWriteLock(System.TimeSpan)" />
+      <MemberSignature Language="VB.NET" Value="Public Function TryEnterWriteLock (timeout As TimeSpan) As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; bool TryEnterWriteLock(TimeSpan timeout);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Threading</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Core</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="timeout" Type="System.TimeSpan" />
+      </Parameters>
+      <Docs>
+        <param name="timeout">
+          <span data-ttu-id="9d917-525">等待的间隔；或为 -1 毫秒，表示无限期等待。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-525">The interval to wait, or -1 milliseconds to wait indefinitely.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="9d917-526">尝试进入写入模式锁定状态，可以选择超时时间。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-526">Tries to enter the lock in write mode, with an optional time-out.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="9d917-527">如果调用线程已进入写入模式，则为 <see langword="true" />；否则为 <see langword="false" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-527">
+              <see langword="true" /> if the calling thread entered write mode, otherwise, <see langword="false" />.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="9d917-528">如果`timeout`为 0 （零），此方法检查的锁定状态，并返回`false`立即如果所需的状态不可用。</span><span class="sxs-lookup"><span data-stu-id="9d917-528">If `timeout` is 0 (zero), this method checks the lock state and returns `false` immediately if the desired state is unavailable.</span></span>  
+  
+ <span data-ttu-id="9d917-529">如果其他线程已进入读取模式锁定调用线程<xref:System.Threading.ReaderWriterLockSlim.TryEnterWriteLock%2A>方法将一直阻塞直到这些线程均已退出读取的模式或超时间隔已过去。</span><span class="sxs-lookup"><span data-stu-id="9d917-529">If other threads have entered the lock in read mode, a thread that calls the <xref:System.Threading.ReaderWriterLockSlim.TryEnterWriteLock%2A> method blocks until those threads have exited read mode or until the time-out interval has elapsed.</span></span> <span data-ttu-id="9d917-530">而线程被阻止等待进入写入模式，尝试进入读取的模式或进入可升级模式的其他线程阻塞，直到所有线程正等待进入都写入模式，具有可以操作已超时或已进入都写入模式，然后又从中退出。</span><span class="sxs-lookup"><span data-stu-id="9d917-530">While threads are blocked waiting to enter write mode, additional threads that try to enter read mode or upgradeable mode block until all the threads waiting to enter write mode have either timed out or entered write mode and then exited from it.</span></span>  
+  
+> [!NOTE]
+>  <span data-ttu-id="9d917-531">如果锁定允许使用递归，线程已进入写入模式锁定可以写入递归方式进入模式，即使其他线程等待进入写入模式。</span><span class="sxs-lookup"><span data-stu-id="9d917-531">If a lock allows recursion, a thread that has entered the lock in write mode can enter write mode recursively, even if other threads are waiting to enter write mode.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.Threading.LockRecursionException">
+          <span data-ttu-id="9d917-532">
+            <see cref="P:System.Threading.ReaderWriterLockSlim.RecursionPolicy" /> 属性为 <see cref="F:System.Threading.LockRecursionPolicy.NoRecursion" />，而且当前线程已进入锁定状态。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-532">The <see cref="P:System.Threading.ReaderWriterLockSlim.RecursionPolicy" /> property is <see cref="F:System.Threading.LockRecursionPolicy.NoRecursion" /> and the current thread has already entered the lock.</span>
+          </span>
+          <span data-ttu-id="9d917-533">或</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-533">-or-</span>
+          </span>
+          <span data-ttu-id="9d917-534">初始状态下，当前线程进入读取模式锁定状态，因此尝试进入写入模式将有可能导致死锁。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-534">The current thread initially entered the lock in read mode, and therefore trying to enter write mode would create the possibility of a deadlock.</span>
+          </span>
+          <span data-ttu-id="9d917-535">或</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-535">-or-</span>
+          </span>
+          <span data-ttu-id="9d917-536">递归数将超出该计数器的容量。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-536">The recursion number would exceed the capacity of the counter.</span>
+          </span>
+          <span data-ttu-id="9d917-537">此限制数值很大，因此任何情况下应用程序都不应遇到此情况。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-537">The limit is so large that applications should never encounter it.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.ArgumentOutOfRangeException">
+          <span data-ttu-id="9d917-538">
+            <paramref name="timeout" /> 的值为负，但不等于 -1 毫秒，这是唯一允许使用的负值。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-538">The value of <paramref name="timeout" /> is negative, but it is not equal to -1 milliseconds, which is the only negative value allowed.</span>
+          </span>
+          <span data-ttu-id="9d917-539">或</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-539">-or-</span>
+          </span>
+          <span data-ttu-id="9d917-540">
+            <paramref name="timeout" /> 的值大于 <see cref="F:System.Int32.MaxValue" /> 毫秒。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-540">The value of <paramref name="timeout" /> is greater than <see cref="F:System.Int32.MaxValue" /> milliseconds.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.ObjectDisposedException">
+          <span data-ttu-id="9d917-541">
+            <see cref="T:System.Threading.ReaderWriterLockSlim" /> 对象已释放。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-541">The <see cref="T:System.Threading.ReaderWriterLockSlim" /> object has been disposed.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="WaitingReadCount">
+      <MemberSignature Language="C#" Value="public int WaitingReadCount { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance int32 WaitingReadCount" />
+      <MemberSignature Language="DocId" Value="P:System.Threading.ReaderWriterLockSlim.WaitingReadCount" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property WaitingReadCount As Integer" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property int WaitingReadCount { int get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Threading</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Core</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="9d917-542">获取等待进入读取模式锁定状态的线程总数。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-542">Gets the total number of threads that are waiting to enter the lock in read mode.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="9d917-543">等待进入读取模式的线程总数。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-543">The total number of threads that are waiting to enter read mode.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="9d917-544">仅用于调试、 分析和记录等目的，而不适用于控制算法的行为，请使用此属性。</span><span class="sxs-lookup"><span data-stu-id="9d917-544">Use this property only for debugging, profiling, and logging purposes, and not to control the behavior of an algorithm.</span></span> <span data-ttu-id="9d917-545">只要在已计算，可以更改结果。</span><span class="sxs-lookup"><span data-stu-id="9d917-545">The results can change as soon as they have been calculated.</span></span> <span data-ttu-id="9d917-546">因此，它是不安全决定根据此属性。</span><span class="sxs-lookup"><span data-stu-id="9d917-546">Therefore, it is not safe to make decisions based on this property.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="9d917-547">下面的示例演示如何使用<xref:System.Threading.ReaderWriterLockSlim.WaitingReadCount%2A>属性生成一个事件日志条目，如果被阻止，等待进入读取的模式的线程数超过阈值。</span><span class="sxs-lookup"><span data-stu-id="9d917-547">The following example shows how to use the <xref:System.Threading.ReaderWriterLockSlim.WaitingReadCount%2A> property to generate an event log entry if the number of threads that are blocked, waiting to enter read mode, exceeds a threshold.</span></span>  
+  
+ [!code-csharp[System.Threading.ReaderWriterLockSlim_Aux#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Aux/cs/source.cs#1)]
+ [!code-vb[System.Threading.ReaderWriterLockSlim_Aux#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Aux/vb/source.vb#1)]  
+[!code-csharp[System.Threading.ReaderWriterLockSlim_Aux#31](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Aux/cs/source.cs#31)]
+[!code-vb[System.Threading.ReaderWriterLockSlim_Aux#31](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Aux/vb/source.vb#31)]  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="WaitingUpgradeCount">
+      <MemberSignature Language="C#" Value="public int WaitingUpgradeCount { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance int32 WaitingUpgradeCount" />
+      <MemberSignature Language="DocId" Value="P:System.Threading.ReaderWriterLockSlim.WaitingUpgradeCount" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property WaitingUpgradeCount As Integer" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property int WaitingUpgradeCount { int get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Threading</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Core</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="9d917-548">获取等待进入可升级模式锁定状态的线程总数。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-548">Gets the total number of threads that are waiting to enter the lock in upgradeable mode.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="9d917-549">等待进入可升级模式的线程总数。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-549">The total number of threads that are waiting to enter upgradeable mode.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="9d917-550">仅用于调试、 分析和记录等目的，而不适用于控制算法的行为，请使用此属性。</span><span class="sxs-lookup"><span data-stu-id="9d917-550">Use this property only for debugging, profiling, and logging purposes, and not to control the behavior of an algorithm.</span></span> <span data-ttu-id="9d917-551">只要在已计算，可以更改结果。</span><span class="sxs-lookup"><span data-stu-id="9d917-551">The results can change as soon as they have been calculated.</span></span> <span data-ttu-id="9d917-552">因此，它是不安全决定根据此属性。</span><span class="sxs-lookup"><span data-stu-id="9d917-552">Therefore, it is not safe to make decisions based on this property.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="9d917-553">下面的示例演示如何使用<xref:System.Threading.ReaderWriterLockSlim.WaitingUpgradeCount%2A>属性生成一个事件日志条目，如果被阻止，等待进入可升级模式的线程数超过阈值。</span><span class="sxs-lookup"><span data-stu-id="9d917-553">The following example shows how to use the <xref:System.Threading.ReaderWriterLockSlim.WaitingUpgradeCount%2A> property to generate an event log entry if the number of threads that are blocked, waiting to enter upgradeable mode, exceeds a threshold.</span></span>  
+  
+ [!code-csharp[System.Threading.ReaderWriterLockSlim_Aux#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Aux/cs/source.cs#1)]
+ [!code-vb[System.Threading.ReaderWriterLockSlim_Aux#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Aux/vb/source.vb#1)]  
+[!code-csharp[System.Threading.ReaderWriterLockSlim_Aux#33](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Aux/cs/source.cs#33)]
+[!code-vb[System.Threading.ReaderWriterLockSlim_Aux#33](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Aux/vb/source.vb#33)]  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="WaitingWriteCount">
+      <MemberSignature Language="C#" Value="public int WaitingWriteCount { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance int32 WaitingWriteCount" />
+      <MemberSignature Language="DocId" Value="P:System.Threading.ReaderWriterLockSlim.WaitingWriteCount" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property WaitingWriteCount As Integer" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property int WaitingWriteCount { int get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Threading</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Core</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="9d917-554">获取等待进入写入模式锁定状态的线程总数。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-554">Gets the total number of threads that are waiting to enter the lock in write mode.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="9d917-555">等待进入写入模式的线程总数。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9d917-555">The total number of threads that are waiting to enter write mode.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="9d917-556">仅用于调试、 分析和记录等目的，而不适用于控制算法的行为，请使用此属性。</span><span class="sxs-lookup"><span data-stu-id="9d917-556">Use this property only for debugging, profiling, and logging purposes, and not to control the behavior of an algorithm.</span></span> <span data-ttu-id="9d917-557">只要在已计算，可以更改结果。</span><span class="sxs-lookup"><span data-stu-id="9d917-557">The results can change as soon as they have been calculated.</span></span> <span data-ttu-id="9d917-558">因此，它是不安全决定根据此属性。</span><span class="sxs-lookup"><span data-stu-id="9d917-558">Therefore, it is not safe to make decisions based on this property.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="9d917-559">下面的示例演示如何使用<xref:System.Threading.ReaderWriterLockSlim.WaitingWriteCount%2A>属性生成一个事件日志条目，如果被阻止，等待进入写入模式的线程数超过阈值。</span><span class="sxs-lookup"><span data-stu-id="9d917-559">The following example shows how to use the <xref:System.Threading.ReaderWriterLockSlim.WaitingWriteCount%2A> property to generate an event log entry if the number of threads that are blocked, waiting to enter write mode, exceeds a threshold.</span></span>  
+  
+ [!code-csharp[System.Threading.ReaderWriterLockSlim_Aux#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Aux/cs/source.cs#1)]
+ [!code-vb[System.Threading.ReaderWriterLockSlim_Aux#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Aux/vb/source.vb#1)]  
+[!code-csharp[System.Threading.ReaderWriterLockSlim_Aux#32](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Aux/cs/source.cs#32)]
+[!code-vb[System.Threading.ReaderWriterLockSlim_Aux#32](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Aux/vb/source.vb#32)]  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

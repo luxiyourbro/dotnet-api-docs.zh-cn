@@ -1,0 +1,1814 @@
+<Type Name="TextFieldParser" FullName="Microsoft.VisualBasic.FileIO.TextFieldParser">
+  <Metadata>
+    <Meta Name="ms.openlocfilehash" Value="34fefd8e673d5edb9c2fb81e0c3d6c92c4fe6c0b" />
+    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
+    <Meta Name="ms.translationtype" Value="HT" />
+    <Meta Name="ms.contentlocale" Value="zh-CN" />
+    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
+  </Metadata>
+  <TypeSignature Language="C#" Value="public class TextFieldParser : IDisposable" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi TextFieldParser extends System.Object implements class System.IDisposable" />
+  <TypeSignature Language="DocId" Value="T:Microsoft.VisualBasic.FileIO.TextFieldParser" />
+  <TypeSignature Language="VB.NET" Value="Public Class TextFieldParser&#xA;Implements IDisposable" />
+  <TypeSignature Language="C++ CLI" Value="public ref class TextFieldParser : IDisposable" />
+  <AssemblyInfo>
+    <AssemblyName>Microsoft.VisualBasic</AssemblyName>
+    <AssemblyVersion>10.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Object</BaseTypeName>
+  </Base>
+  <Interfaces>
+    <Interface>
+      <InterfaceName>System.IDisposable</InterfaceName>
+    </Interface>
+  </Interfaces>
+  <Docs>
+    <summary>
+      <span data-ttu-id="8dc93-101">提供分析结构化文本文件的方法和属性。</span>
+      <span class="sxs-lookup">
+        <span data-stu-id="8dc93-101">Provides methods and properties for parsing structured text files.</span>
+      </span>
+    </summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="8dc93-102">`TextFieldParser`对象提供的方法和属性，用于分析结构化文本文件。</span><span class="sxs-lookup"><span data-stu-id="8dc93-102">The `TextFieldParser` object provides methods and properties for parsing structured text files.</span></span> <span data-ttu-id="8dc93-103">分析的文本文件`TextFieldParser`类似于循环访问一个文本文件，而`ReadFields`要提取文本字段的方法是类似于拆分字符串。</span><span class="sxs-lookup"><span data-stu-id="8dc93-103">Parsing a text file with the `TextFieldParser` is similar to iterating over a text file, while the `ReadFields` method to extract fields of text is similar to splitting the strings.</span></span>  
+  
+ <span data-ttu-id="8dc93-104">`TextFieldParser`可以分析两种类型的文件： 分隔或固定宽度。</span><span class="sxs-lookup"><span data-stu-id="8dc93-104">The `TextFieldParser` can parse two types of files: delimited or fixed-width.</span></span> <span data-ttu-id="8dc93-105">某些属性，如`Delimiters`和`HasFieldsEnclosedInQuotes`才有意义时使用带分隔符的文件，而`FieldWidths`属性才有意义的仅当使用固定宽度文件时。</span><span class="sxs-lookup"><span data-stu-id="8dc93-105">Some properties, such as `Delimiters` and `HasFieldsEnclosedInQuotes` are meaningful only when working with delimited files, while the `FieldWidths` property is meaningful only when working with fixed-width files.</span></span>  
+  
+ <span data-ttu-id="8dc93-106">下表列出了所涉及的任务的示例`Microsoft.VisualBasic.FileIO.TextFieldParser`对象。</span><span class="sxs-lookup"><span data-stu-id="8dc93-106">The following table lists examples of tasks involving the `Microsoft.VisualBasic.FileIO.TextFieldParser` object.</span></span>  
+  
+|<span data-ttu-id="8dc93-107">到</span><span class="sxs-lookup"><span data-stu-id="8dc93-107">To</span></span>|<span data-ttu-id="8dc93-108">查看</span><span class="sxs-lookup"><span data-stu-id="8dc93-108">See</span></span>|  
+|--------|---------|  
+|<span data-ttu-id="8dc93-109">从带分隔符的文本文件读取</span><span class="sxs-lookup"><span data-stu-id="8dc93-109">Read from a delimited text file</span></span>|[<span data-ttu-id="8dc93-110">如何：读取逗号分隔的文本文件</span><span class="sxs-lookup"><span data-stu-id="8dc93-110">How to: Read From Comma-Delimited Text Files</span></span>](~/docs/visual-basic/developing-apps/programming/drives-directories-files/how-to-read-from-comma-delimited-text-files.md)|  
+|<span data-ttu-id="8dc93-111">从固定宽度的文本文件读取</span><span class="sxs-lookup"><span data-stu-id="8dc93-111">Read from a fixed-width text file</span></span>|[<span data-ttu-id="8dc93-112">如何：读取固定宽度的文本文件</span><span class="sxs-lookup"><span data-stu-id="8dc93-112">How to: Read From Fixed-width Text Files</span></span>](~/docs/visual-basic/developing-apps/programming/drives-directories-files/how-to-read-from-fixed-width-text-files.md)|  
+|<span data-ttu-id="8dc93-113">从具有多种格式的文本文件读取</span><span class="sxs-lookup"><span data-stu-id="8dc93-113">Read from a text file with multiple formats</span></span>|[<span data-ttu-id="8dc93-114">如何：读取具有多种格式的文本文件</span><span class="sxs-lookup"><span data-stu-id="8dc93-114">How to: Read From Text Files with Multiple Formats</span></span>](~/docs/visual-basic/developing-apps/programming/drives-directories-files/how-to-read-from-text-files-with-multiple-formats.md)|  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="8dc93-115">本示例分析以制表符分隔的文本文件， `Bigfile`。</span><span class="sxs-lookup"><span data-stu-id="8dc93-115">This example parses through a tab-delimited text file, `Bigfile`.</span></span>  
+  
+ [!code-vb[VbVbalrTextFieldParser#17](~/samples/snippets/visualbasic/VS_Snippets_VBCSharp/VbVbalrTextFieldParser/VB/Class1.vb#17)]  
+  
+ ]]></format>
+    </remarks>
+    <altmember cref="M:Microsoft.VisualBasic.FileIO.FileSystem.OpenTextFieldParser(System.String)" />
+  </Docs>
+  <Members>
+    <MemberGroup MemberName=".ctor">
+      <AssemblyInfo>
+        <AssemblyName>Microsoft.VisualBasic</AssemblyName>
+        <AssemblyVersion>10.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Docs>
+        <summary>
+          <span data-ttu-id="8dc93-116">初始化 <see langword="TextFieldParser" /> 类的新实例。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8dc93-116">Initializes a new instance of the <see langword="TextFieldParser" /> class.</span>
+          </span>
+        </summary>
+        <altmember cref="M:Microsoft.VisualBasic.FileIO.FileSystem.OpenTextFieldParser(System.String)" />
+      </Docs>
+    </MemberGroup>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public TextFieldParser (System.IO.Stream stream);" />
+      <MemberSignature Language="ILAsm" Value=".method public specialname rtspecialname instance void .ctor(class System.IO.Stream stream) cil managed" />
+      <MemberSignature Language="DocId" Value="M:Microsoft.VisualBasic.FileIO.TextFieldParser.#ctor(System.IO.Stream)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; TextFieldParser(System::IO::Stream ^ stream);" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>Microsoft.VisualBasic</AssemblyName>
+        <AssemblyVersion>10.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="stream" Type="System.IO.Stream" />
+      </Parameters>
+      <Docs>
+        <param name="stream">
+          <span data-ttu-id="8dc93-117">
+            <see cref="T:System.IO.Stream" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8dc93-117">
+              <see cref="T:System.IO.Stream" />.</span>
+          </span>
+          <span data-ttu-id="8dc93-118">要分析的流。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8dc93-118">The stream to be parsed.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="8dc93-119">初始化 <see langword="TextFieldParser" /> 类的新实例。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8dc93-119">Initializes a new instance of the <see langword="TextFieldParser" /> class.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="8dc93-120">创建一个新`TextFieldParser`对象，以分析文件或流中所表示`stream`参数。</span><span class="sxs-lookup"><span data-stu-id="8dc93-120">Creates a new `TextFieldParser` object to parse the file or stream that is represented by the `stream` parameter.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentNullException">
+          <span data-ttu-id="8dc93-121">
+            <paramref name="stream" /> 为 <see langword="Nothing" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8dc93-121">
+              <paramref name="stream" /> is <see langword="Nothing" />.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.ArgumentException">
+          <span data-ttu-id="8dc93-122">无法读取 <paramref name="stream" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8dc93-122">
+              <paramref name="stream" /> cannot be read from.</span>
+          </span>
+        </exception>
+        <altmember cref="M:Microsoft.VisualBasic.FileIO.FileSystem.OpenTextFieldParser(System.String)" />
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public TextFieldParser (System.IO.TextReader reader);" />
+      <MemberSignature Language="ILAsm" Value=".method public specialname rtspecialname instance void .ctor(class System.IO.TextReader reader) cil managed" />
+      <MemberSignature Language="DocId" Value="M:Microsoft.VisualBasic.FileIO.TextFieldParser.#ctor(System.IO.TextReader)" />
+      <MemberSignature Language="VB.NET" Value="Public Sub New (reader As TextReader)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; TextFieldParser(System::IO::TextReader ^ reader);" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>Microsoft.VisualBasic</AssemblyName>
+        <AssemblyVersion>10.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="reader" Type="System.IO.TextReader" />
+      </Parameters>
+      <Docs>
+        <param name="reader">
+          <span data-ttu-id="8dc93-123">
+            <see cref="T:System.IO.TextReader" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8dc93-123">
+              <see cref="T:System.IO.TextReader" />.</span>
+          </span>
+          <span data-ttu-id="8dc93-124">要分析的 <see cref="T:System.IO.TextReader" /> 流。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8dc93-124">The <see cref="T:System.IO.TextReader" /> stream to be parsed.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="8dc93-125">初始化 <see langword="TextFieldParser" /> 类的新实例。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8dc93-125">Initializes a new instance of the <see langword="TextFieldParser" /> class.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="8dc93-126">创建一个新`TextFieldParser`对象，以分析文件或流中所表示`reader`参数。</span><span class="sxs-lookup"><span data-stu-id="8dc93-126">Creates a new `TextFieldParser` object to parse the file or stream that is represented by the `reader` parameter.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentNullException">
+          <span data-ttu-id="8dc93-127">
+            <paramref name="reader" /> 为 <see langword="Nothing" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8dc93-127">
+              <paramref name="reader" /> is <see langword="Nothing" />.</span>
+          </span>
+        </exception>
+        <altmember cref="M:Microsoft.VisualBasic.FileIO.FileSystem.OpenTextFieldParser(System.String)" />
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public TextFieldParser (string path);" />
+      <MemberSignature Language="ILAsm" Value=".method public specialname rtspecialname instance void .ctor(string path) cil managed" />
+      <MemberSignature Language="DocId" Value="M:Microsoft.VisualBasic.FileIO.TextFieldParser.#ctor(System.String)" />
+      <MemberSignature Language="VB.NET" Value="Public Sub New (path As String)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; TextFieldParser(System::String ^ path);" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>Microsoft.VisualBasic</AssemblyName>
+        <AssemblyVersion>10.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="path" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="path">
+          <span data-ttu-id="8dc93-128">
+            <see langword="String" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8dc93-128">
+              <see langword="String" />.</span>
+          </span>
+          <span data-ttu-id="8dc93-129">要分析的文件的完整路径。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8dc93-129">The complete path of the file to be parsed.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="8dc93-130">初始化 <see langword="TextFieldParser" /> 类的新实例。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8dc93-130">Initializes a new instance of the <see langword="TextFieldParser" /> class.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="8dc93-131">创建一个新`TextFieldParser`要分析指定的文件对象`path`参数。</span><span class="sxs-lookup"><span data-stu-id="8dc93-131">Creates a new `TextFieldParser` object to parse the file specified by the `path` parameter.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentNullException">
+          <span data-ttu-id="8dc93-132">
+            <paramref name="path" /> 是一个空字符串。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8dc93-132">
+              <paramref name="path" /> is an empty string.</span>
+          </span>
+        </exception>
+        <altmember cref="M:Microsoft.VisualBasic.FileIO.FileSystem.OpenTextFieldParser(System.String)" />
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public TextFieldParser (System.IO.Stream stream, System.Text.Encoding defaultEncoding);" />
+      <MemberSignature Language="ILAsm" Value=".method public specialname rtspecialname instance void .ctor(class System.IO.Stream stream, class System.Text.Encoding defaultEncoding) cil managed" />
+      <MemberSignature Language="DocId" Value="M:Microsoft.VisualBasic.FileIO.TextFieldParser.#ctor(System.IO.Stream,System.Text.Encoding)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; TextFieldParser(System::IO::Stream ^ stream, System::Text::Encoding ^ defaultEncoding);" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>Microsoft.VisualBasic</AssemblyName>
+        <AssemblyVersion>10.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="stream" Type="System.IO.Stream" />
+        <Parameter Name="defaultEncoding" Type="System.Text.Encoding" />
+      </Parameters>
+      <Docs>
+        <param name="stream">
+          <span data-ttu-id="8dc93-133">
+            <see cref="T:System.IO.Stream" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8dc93-133">
+              <see cref="T:System.IO.Stream" />.</span>
+          </span>
+          <span data-ttu-id="8dc93-134">要分析的流。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8dc93-134">The stream to be parsed.</span>
+          </span>
+        </param>
+        <param name="defaultEncoding">
+          <span data-ttu-id="8dc93-135">
+            <see cref="T:System.Text.Encoding" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8dc93-135">
+              <see cref="T:System.Text.Encoding" />.</span>
+          </span>
+          <span data-ttu-id="8dc93-136">在无法从文件确定编码时要使用的字符编码。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8dc93-136">The character encoding to use if encoding is not determined from file.</span>
+          </span>
+          <span data-ttu-id="8dc93-137">默认值为 <see cref="P:System.Text.Encoding.UTF8" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8dc93-137">Default is <see cref="P:System.Text.Encoding.UTF8" />.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="8dc93-138">初始化 <see langword="TextFieldParser" /> 类的新实例。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8dc93-138">Initializes a new instance of the <see langword="TextFieldParser" /> class.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="8dc93-139">创建一个新`TextFieldParser`对象，以分析文件或流中所表示`stream`参数。</span><span class="sxs-lookup"><span data-stu-id="8dc93-139">Creates a new `TextFieldParser` object to parse the file or stream that is represented by the `stream` parameter.</span></span>  
+  
+> [!CAUTION]
+>  <span data-ttu-id="8dc93-140">当你使用特定的区域性设置进行编译的一组字符，并检索这些具有不同的区域性设置的相同字符时，字符可能无法解释，并可能会导致引发异常。</span><span class="sxs-lookup"><span data-stu-id="8dc93-140">When you compile a set of characters with a particular cultural setting and retrieve those same characters with a different cultural setting, the characters might not be interpretable and could cause an exception to be thrown.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentNullException">
+          <span data-ttu-id="8dc93-141">
+            <paramref name="stream" /> 或 <paramref name="defaultEncoding" /> 为 <see langword="Nothing" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8dc93-141">
+              <paramref name="stream" /> or <paramref name="defaultEncoding" /> is <see langword="Nothing" />.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.ArgumentException">
+          <span data-ttu-id="8dc93-142">无法读取 <paramref name="stream" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8dc93-142">
+              <paramref name="stream" /> cannot be read from.</span>
+          </span>
+        </exception>
+        <altmember cref="M:Microsoft.VisualBasic.FileIO.FileSystem.OpenTextFieldParser(System.String)" />
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public TextFieldParser (string path, System.Text.Encoding defaultEncoding);" />
+      <MemberSignature Language="ILAsm" Value=".method public specialname rtspecialname instance void .ctor(string path, class System.Text.Encoding defaultEncoding) cil managed" />
+      <MemberSignature Language="DocId" Value="M:Microsoft.VisualBasic.FileIO.TextFieldParser.#ctor(System.String,System.Text.Encoding)" />
+      <MemberSignature Language="VB.NET" Value="Public Sub New (path As String, defaultEncoding As Encoding)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; TextFieldParser(System::String ^ path, System::Text::Encoding ^ defaultEncoding);" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>Microsoft.VisualBasic</AssemblyName>
+        <AssemblyVersion>10.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="path" Type="System.String" />
+        <Parameter Name="defaultEncoding" Type="System.Text.Encoding" />
+      </Parameters>
+      <Docs>
+        <param name="path">
+          <span data-ttu-id="8dc93-143">
+            <see langword="String" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8dc93-143">
+              <see langword="String" />.</span>
+          </span>
+          <span data-ttu-id="8dc93-144">要分析的文件的完整路径。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8dc93-144">The complete path of the file to be parsed.</span>
+          </span>
+        </param>
+        <param name="defaultEncoding">
+          <span data-ttu-id="8dc93-145">
+            <see cref="T:System.Text.Encoding" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8dc93-145">
+              <see cref="T:System.Text.Encoding" />.</span>
+          </span>
+          <span data-ttu-id="8dc93-146">在无法从文件确定编码时要使用的字符编码。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8dc93-146">The character encoding to use if encoding is not determined from file.</span>
+          </span>
+          <span data-ttu-id="8dc93-147">默认值为 <see cref="P:System.Text.Encoding.UTF8" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8dc93-147">Default is <see cref="P:System.Text.Encoding.UTF8" />.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="8dc93-148">初始化 <see langword="TextFieldParser" /> 类的新实例。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8dc93-148">Initializes a new instance of the <see langword="TextFieldParser" /> class.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="8dc93-149">创建一个新`TextFieldParser`要分析指定的文件对象`path`参数。</span><span class="sxs-lookup"><span data-stu-id="8dc93-149">Creates a new `TextFieldParser` object to parse the file specified by the `path` parameter.</span></span>  
+  
+> [!CAUTION]
+>  <span data-ttu-id="8dc93-150">当你使用特定的区域性设置进行编译的一组字符，并检索这些具有不同的区域性设置的相同字符时，字符可能无法解释，并可能会导致引发异常。</span><span class="sxs-lookup"><span data-stu-id="8dc93-150">When you compile a set of characters with a particular cultural setting and retrieve those same characters with a different cultural setting, the characters might not be interpretable and could cause an exception to be thrown.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentNullException">
+          <span data-ttu-id="8dc93-151">
+            <paramref name="path" /> 是一个空字符串，或 <paramref name="defaultEncoding" /> 为<see langword="Nothing" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8dc93-151">
+              <paramref name="path" /> is an empty string or <paramref name="defaultEncoding" /> is <see langword="Nothing" />.</span>
+          </span>
+        </exception>
+        <altmember cref="M:Microsoft.VisualBasic.FileIO.FileSystem.OpenTextFieldParser(System.String)" />
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public TextFieldParser (System.IO.Stream stream, System.Text.Encoding defaultEncoding, bool detectEncoding);" />
+      <MemberSignature Language="ILAsm" Value=".method public specialname rtspecialname instance void .ctor(class System.IO.Stream stream, class System.Text.Encoding defaultEncoding, bool detectEncoding) cil managed" />
+      <MemberSignature Language="DocId" Value="M:Microsoft.VisualBasic.FileIO.TextFieldParser.#ctor(System.IO.Stream,System.Text.Encoding,System.Boolean)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; TextFieldParser(System::IO::Stream ^ stream, System::Text::Encoding ^ defaultEncoding, bool detectEncoding);" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>Microsoft.VisualBasic</AssemblyName>
+        <AssemblyVersion>10.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="stream" Type="System.IO.Stream" />
+        <Parameter Name="defaultEncoding" Type="System.Text.Encoding" />
+        <Parameter Name="detectEncoding" Type="System.Boolean" />
+      </Parameters>
+      <Docs>
+        <param name="stream">
+          <span data-ttu-id="8dc93-152">
+            <see cref="T:System.IO.Stream" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8dc93-152">
+              <see cref="T:System.IO.Stream" />.</span>
+          </span>
+          <span data-ttu-id="8dc93-153">要分析的流。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8dc93-153">The stream to be parsed.</span>
+          </span>
+        </param>
+        <param name="defaultEncoding">
+          <span data-ttu-id="8dc93-154">
+            <see cref="T:System.Text.Encoding" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8dc93-154">
+              <see cref="T:System.Text.Encoding" />.</span>
+          </span>
+          <span data-ttu-id="8dc93-155">在无法从文件确定编码时要使用的字符编码。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8dc93-155">The character encoding to use if encoding is not determined from file.</span>
+          </span>
+          <span data-ttu-id="8dc93-156">默认值为 <see cref="P:System.Text.Encoding.UTF8" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8dc93-156">Default is <see cref="P:System.Text.Encoding.UTF8" />.</span>
+          </span>
+        </param>
+        <param name="detectEncoding">
+          <span data-ttu-id="8dc93-157">
+            <see langword="Boolean" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8dc93-157">
+              <see langword="Boolean" />.</span>
+          </span>
+          <span data-ttu-id="8dc93-158">指示是否在文件头查找字节顺序标记。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8dc93-158">Indicates whether to look for byte order marks at the beginning of the file.</span>
+          </span>
+          <span data-ttu-id="8dc93-159">默认值为 <see langword="True" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8dc93-159">Default is <see langword="True" />.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="8dc93-160">初始化 <see langword="TextFieldParser" /> 类的新实例。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8dc93-160">Initializes a new instance of the <see langword="TextFieldParser" /> class.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="8dc93-161">创建一个新`TextFieldParser`对象，以分析文件或流中所表示`stream`参数。</span><span class="sxs-lookup"><span data-stu-id="8dc93-161">Creates a new `TextFieldParser` object to parse the file or stream that is represented by the `stream` parameter.</span></span>  
+  
+ <span data-ttu-id="8dc93-162">如果`detectEncoding`参数是`True`，此构造函数将尝试检测通过查看的前三个字节的文件或流的编码。</span><span class="sxs-lookup"><span data-stu-id="8dc93-162">If the `detectEncoding` parameter is `True`, this constructor attempts to detect the encoding by looking at the first three bytes of the file or stream.</span></span> <span data-ttu-id="8dc93-163">它自动识别 utf-8、 little-endian Unicode 和 big endian Unicode 文本如果文件开头的适当的字节顺序标记。</span><span class="sxs-lookup"><span data-stu-id="8dc93-163">It automatically recognizes UTF-8, little-endian Unicode, and big-endian Unicode text if the file starts with the appropriate byte-order marks.</span></span> <span data-ttu-id="8dc93-164">否则，通过编码指定`defaultEncoding`使用。</span><span class="sxs-lookup"><span data-stu-id="8dc93-164">Otherwise, the encoding specified by `defaultEncoding` is used.</span></span>  
+  
+> [!CAUTION]
+>  <span data-ttu-id="8dc93-165">当你使用特定的区域性设置进行编译的一组字符，并检索这些具有不同的区域性设置的相同字符时，字符可能无法解释，并可能会导致引发异常。</span><span class="sxs-lookup"><span data-stu-id="8dc93-165">When you compile a set of characters with a particular cultural setting and retrieve those same characters with a different cultural setting, the characters might not be interpretable and could cause an exception to be thrown.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentNullException">
+          <span data-ttu-id="8dc93-166">
+            <paramref name="stream" /> 或 <paramref name="defaultEncoding" /> 为 <see langword="Nothing" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8dc93-166">
+              <paramref name="stream" /> or <paramref name="defaultEncoding" /> is <see langword="Nothing" />.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.ArgumentException">
+          <span data-ttu-id="8dc93-167">无法读取 <paramref name="stream" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8dc93-167">
+              <paramref name="stream" /> cannot be read from.</span>
+          </span>
+        </exception>
+        <altmember cref="M:Microsoft.VisualBasic.FileIO.FileSystem.OpenTextFieldParser(System.String)" />
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public TextFieldParser (string path, System.Text.Encoding defaultEncoding, bool detectEncoding);" />
+      <MemberSignature Language="ILAsm" Value=".method public specialname rtspecialname instance void .ctor(string path, class System.Text.Encoding defaultEncoding, bool detectEncoding) cil managed" />
+      <MemberSignature Language="DocId" Value="M:Microsoft.VisualBasic.FileIO.TextFieldParser.#ctor(System.String,System.Text.Encoding,System.Boolean)" />
+      <MemberSignature Language="VB.NET" Value="Public Sub New (path As String, defaultEncoding As Encoding, detectEncoding As Boolean)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; TextFieldParser(System::String ^ path, System::Text::Encoding ^ defaultEncoding, bool detectEncoding);" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>Microsoft.VisualBasic</AssemblyName>
+        <AssemblyVersion>10.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="path" Type="System.String" />
+        <Parameter Name="defaultEncoding" Type="System.Text.Encoding" />
+        <Parameter Name="detectEncoding" Type="System.Boolean" />
+      </Parameters>
+      <Docs>
+        <param name="path">
+          <span data-ttu-id="8dc93-168">
+            <see langword="String" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8dc93-168">
+              <see langword="String" />.</span>
+          </span>
+          <span data-ttu-id="8dc93-169">要分析的文件的完整路径。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8dc93-169">The complete path of the file to be parsed.</span>
+          </span>
+        </param>
+        <param name="defaultEncoding">
+          <span data-ttu-id="8dc93-170">
+            <see cref="T:System.Text.Encoding" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8dc93-170">
+              <see cref="T:System.Text.Encoding" />.</span>
+          </span>
+          <span data-ttu-id="8dc93-171">在无法从文件确定编码时要使用的字符编码。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8dc93-171">The character encoding to use if encoding is not determined from file.</span>
+          </span>
+          <span data-ttu-id="8dc93-172">默认值为 <see cref="P:System.Text.Encoding.UTF8" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8dc93-172">Default is <see cref="P:System.Text.Encoding.UTF8" />.</span>
+          </span>
+        </param>
+        <param name="detectEncoding">
+          <span data-ttu-id="8dc93-173">
+            <see langword="Boolean" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8dc93-173">
+              <see langword="Boolean" />.</span>
+          </span>
+          <span data-ttu-id="8dc93-174">指示是否在文件头查找字节顺序标记。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8dc93-174">Indicates whether to look for byte order marks at the beginning of the file.</span>
+          </span>
+          <span data-ttu-id="8dc93-175">默认值为 <see langword="True" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8dc93-175">Default is <see langword="True" />.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="8dc93-176">初始化 <see langword="TextFieldParser" /> 类的新实例。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8dc93-176">Initializes a new instance of the <see langword="TextFieldParser" /> class.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="8dc93-177">创建一个新`TextFieldParser`要分析指定的文件对象`path`参数。</span><span class="sxs-lookup"><span data-stu-id="8dc93-177">Creates a new `TextFieldParser` object to parse the file specified by the `path` parameter.</span></span>  
+  
+ <span data-ttu-id="8dc93-178">如果`detectEncoding`参数是`True`，此构造函数将尝试检测通过查看的前三个字节的文件或流的编码。</span><span class="sxs-lookup"><span data-stu-id="8dc93-178">If the `detectEncoding` parameter is `True`, this constructor attempts to detect the encoding by looking at the first three bytes of the file or stream.</span></span> <span data-ttu-id="8dc93-179">它自动识别 utf-8、 little-endian Unicode 和 big endian Unicode 文本如果文件开头的适当的字节顺序标记。</span><span class="sxs-lookup"><span data-stu-id="8dc93-179">It automatically recognizes UTF-8, little-endian Unicode, and big-endian Unicode text if the file starts with the appropriate byte-order marks.</span></span> <span data-ttu-id="8dc93-180">否则，通过编码指定`defaultEncoding`使用。</span><span class="sxs-lookup"><span data-stu-id="8dc93-180">Otherwise, the encoding specified by `defaultEncoding` is used.</span></span>  
+  
+> [!CAUTION]
+>  <span data-ttu-id="8dc93-181">当你使用特定的区域性设置进行编译的一组字符，并检索这些具有不同的区域性设置的相同字符时，字符可能无法解释，并可能会导致引发异常。</span><span class="sxs-lookup"><span data-stu-id="8dc93-181">When you compile a set of characters with a particular cultural setting and retrieve those same characters with a different cultural setting, the characters might not be interpretable and could cause an exception to be thrown.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentNullException">
+          <span data-ttu-id="8dc93-182">
+            <paramref name="path" /> 是一个空字符串，或 <paramref name="defaultEncoding" /> 为<see langword="Nothing" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8dc93-182">
+              <paramref name="path" /> is an empty string or <paramref name="defaultEncoding" /> is <see langword="Nothing" />.</span>
+          </span>
+        </exception>
+        <altmember cref="M:Microsoft.VisualBasic.FileIO.FileSystem.OpenTextFieldParser(System.String)" />
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public TextFieldParser (System.IO.Stream stream, System.Text.Encoding defaultEncoding, bool detectEncoding, bool leaveOpen);" />
+      <MemberSignature Language="ILAsm" Value=".method public specialname rtspecialname instance void .ctor(class System.IO.Stream stream, class System.Text.Encoding defaultEncoding, bool detectEncoding, bool leaveOpen) cil managed" />
+      <MemberSignature Language="DocId" Value="M:Microsoft.VisualBasic.FileIO.TextFieldParser.#ctor(System.IO.Stream,System.Text.Encoding,System.Boolean,System.Boolean)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; TextFieldParser(System::IO::Stream ^ stream, System::Text::Encoding ^ defaultEncoding, bool detectEncoding, bool leaveOpen);" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>Microsoft.VisualBasic</AssemblyName>
+        <AssemblyVersion>10.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="stream" Type="System.IO.Stream" />
+        <Parameter Name="defaultEncoding" Type="System.Text.Encoding" />
+        <Parameter Name="detectEncoding" Type="System.Boolean" />
+        <Parameter Name="leaveOpen" Type="System.Boolean" />
+      </Parameters>
+      <Docs>
+        <param name="stream">
+          <span data-ttu-id="8dc93-183">
+            <see cref="T:System.IO.Stream" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8dc93-183">
+              <see cref="T:System.IO.Stream" />.</span>
+          </span>
+          <span data-ttu-id="8dc93-184">要分析的流。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8dc93-184">The stream to be parsed.</span>
+          </span>
+        </param>
+        <param name="defaultEncoding">
+          <span data-ttu-id="8dc93-185">
+            <see cref="T:System.Text.Encoding" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8dc93-185">
+              <see cref="T:System.Text.Encoding" />.</span>
+          </span>
+          <span data-ttu-id="8dc93-186">在无法从文件确定编码时要使用的字符编码。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8dc93-186">The character encoding to use if encoding is not determined from file.</span>
+          </span>
+          <span data-ttu-id="8dc93-187">默认值为 <see cref="P:System.Text.Encoding.UTF8" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8dc93-187">Default is <see cref="P:System.Text.Encoding.UTF8" />.</span>
+          </span>
+        </param>
+        <param name="detectEncoding">
+          <span data-ttu-id="8dc93-188">
+            <see langword="Boolean" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8dc93-188">
+              <see langword="Boolean" />.</span>
+          </span>
+          <span data-ttu-id="8dc93-189">指示是否在文件头查找字节顺序标记。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8dc93-189">Indicates whether to look for byte order marks at the beginning of the file.</span>
+          </span>
+          <span data-ttu-id="8dc93-190">默认值为 <see langword="True" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8dc93-190">Default is <see langword="True" />.</span>
+          </span>
+        </param>
+        <param name="leaveOpen">
+          <span data-ttu-id="8dc93-191">
+            <see langword="Boolean" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8dc93-191">
+              <see langword="Boolean" />.</span>
+          </span>
+          <span data-ttu-id="8dc93-192">指示在 <see langword="TextFieldParser" /> 对象关闭时，是否将 <c>stream</c> 保留为打开状态。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8dc93-192">Indicates whether to leave <c>stream</c> open when the <see langword="TextFieldParser" /> object is closed.</span>
+          </span>
+          <span data-ttu-id="8dc93-193">默认值为 <see langword="False" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8dc93-193">Default is <see langword="False" />.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="8dc93-194">初始化 <see langword="TextFieldParser" /> 类的新实例。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8dc93-194">Initializes a new instance of the <see langword="TextFieldParser" /> class.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="8dc93-195">创建一个新`TextFieldParser`对象，以分析文件或流中所表示`stream`参数。</span><span class="sxs-lookup"><span data-stu-id="8dc93-195">Creates a new `TextFieldParser` object to parse the file or stream that is represented by the `stream` parameter.</span></span>  
+  
+ <span data-ttu-id="8dc93-196">如果`detectEncoding`参数是`True`，此构造函数将尝试检测通过查看的前三个字节的文件或流的编码。</span><span class="sxs-lookup"><span data-stu-id="8dc93-196">If the `detectEncoding` parameter is `True`, this constructor attempts to detect the encoding by looking at the first three bytes of the file or stream.</span></span> <span data-ttu-id="8dc93-197">它自动识别 utf-8、 little-endian Unicode 和 big endian Unicode 文本如果文件开头的适当的字节顺序标记。</span><span class="sxs-lookup"><span data-stu-id="8dc93-197">It automatically recognizes UTF-8, little-endian Unicode, and big-endian Unicode text if the file starts with the appropriate byte-order marks.</span></span> <span data-ttu-id="8dc93-198">否则，通过编码指定`defaultEncoding`使用。</span><span class="sxs-lookup"><span data-stu-id="8dc93-198">Otherwise, the encoding specified by `defaultEncoding` is used.</span></span>  
+  
+> [!CAUTION]
+>  <span data-ttu-id="8dc93-199">当你使用特定的区域性设置进行编译的一组字符，并检索这些具有不同的区域性设置的相同字符时，字符可能无法解释，并可能会导致引发异常。</span><span class="sxs-lookup"><span data-stu-id="8dc93-199">When you compile a set of characters with a particular cultural setting and retrieve those same characters with a different cultural setting, the characters might not be interpretable and could cause an exception to be thrown.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentNullException">
+          <span data-ttu-id="8dc93-200">
+            <paramref name="stream" /> 或 <paramref name="defaultEncoding" /> 为 <see langword="Nothing" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8dc93-200">
+              <paramref name="stream" /> or <paramref name="defaultEncoding" /> is <see langword="Nothing" />.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.ArgumentException">
+          <span data-ttu-id="8dc93-201">无法读取 <paramref name="stream" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8dc93-201">
+              <paramref name="stream" /> cannot be read from.</span>
+          </span>
+        </exception>
+        <altmember cref="M:Microsoft.VisualBasic.FileIO.FileSystem.OpenTextFieldParser(System.String)" />
+      </Docs>
+    </Member>
+    <Member MemberName="Close">
+      <MemberSignature Language="C#" Value="public void Close ();" />
+      <MemberSignature Language="ILAsm" Value=".method public instance void Close() cil managed" />
+      <MemberSignature Language="DocId" Value="M:Microsoft.VisualBasic.FileIO.TextFieldParser.Close" />
+      <MemberSignature Language="VB.NET" Value="Public Sub Close ()" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void Close();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>Microsoft.VisualBasic</AssemblyName>
+        <AssemblyVersion>10.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="8dc93-202">关闭当前的 <see langword="TextFieldParser" /> 对象。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8dc93-202">Closes the current <see langword="TextFieldParser" /> object.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ <span data-ttu-id="8dc93-203">此示例将关闭`TextFieldParser.FileReader`。</span><span class="sxs-lookup"><span data-stu-id="8dc93-203">This example closes the `TextFieldParser.FileReader`.</span></span>  
+  
+ [!code-vb[VbVbalrTextFieldParser#14](~/samples/snippets/visualbasic/VS_Snippets_VBCSharp/VbVbalrTextFieldParser/VB/Class1.vb#14)]  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="M:Microsoft.VisualBasic.FileIO.FileSystem.OpenTextFieldParser(System.String)" />
+      </Docs>
+    </Member>
+    <Member MemberName="CommentTokens">
+      <MemberSignature Language="C#" Value="public string[] CommentTokens { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance string[] CommentTokens" />
+      <MemberSignature Language="DocId" Value="P:Microsoft.VisualBasic.FileIO.TextFieldParser.CommentTokens" />
+      <MemberSignature Language="VB.NET" Value="Public Property CommentTokens As String()" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property cli::array &lt;System::String ^&gt; ^ CommentTokens { cli::array &lt;System::String ^&gt; ^ get(); void set(cli::array &lt;System::String ^&gt; ^ value); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>Microsoft.VisualBasic</AssemblyName>
+        <AssemblyVersion>10.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Advanced)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.String[]</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="8dc93-204">定义注释标记。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8dc93-204">Defines comment tokens.</span>
+          </span>
+          <span data-ttu-id="8dc93-205">注释标记是一个字符串，当位于行首时，指示该行是一个注释并且分析器应该忽略该行。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8dc93-205">A comment token is a string that, when placed at the beginning of a line, indicates that the line is a comment and should be ignored by the parser.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="8dc93-206">一个字符串数组，它包含 <see cref="T:Microsoft.VisualBasic.FileIO.TextFieldParser" /> 对象的所有注释标记。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8dc93-206">A string array that contains all of the comment tokens for the <see cref="T:Microsoft.VisualBasic.FileIO.TextFieldParser" /> object.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="8dc93-207">这是一个高级的成员;除非你单击不显示在 IntelliSense 中**所有**选项卡。</span><span class="sxs-lookup"><span data-stu-id="8dc93-207">This is an advanced member; it does not show in IntelliSense unless you click the **All** tab.</span></span>  
+  
+ <span data-ttu-id="8dc93-208">零长度注释标记将被忽略。</span><span class="sxs-lookup"><span data-stu-id="8dc93-208">Zero-length comment tokens are ignored.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="8dc93-209">此示例指定，对于`TextFieldParser`，`FileReader`应忽略以单引号 （'） 开头的行。</span><span class="sxs-lookup"><span data-stu-id="8dc93-209">This example specifies that for the `TextFieldParser`, `FileReader` lines beginning with a single quotation mark (') should be ignored.</span></span>  
+  
+ [!code-vb[VbVbalrTextFieldParser#5](~/samples/snippets/visualbasic/VS_Snippets_VBCSharp/VbVbalrTextFieldParser/VB/Class1.vb#5)]  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentException">
+          <span data-ttu-id="8dc93-210">注释标记包含空白。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8dc93-210">A comment token includes white space.</span>
+          </span>
+        </exception>
+        <altmember cref="M:Microsoft.VisualBasic.FileIO.FileSystem.OpenTextFieldParser(System.String)" />
+      </Docs>
+    </Member>
+    <Member MemberName="Delimiters">
+      <MemberSignature Language="C#" Value="public string[] Delimiters { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance string[] Delimiters" />
+      <MemberSignature Language="DocId" Value="P:Microsoft.VisualBasic.FileIO.TextFieldParser.Delimiters" />
+      <MemberSignature Language="VB.NET" Value="Public Property Delimiters As String()" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property cli::array &lt;System::String ^&gt; ^ Delimiters { cli::array &lt;System::String ^&gt; ^ get(); void set(cli::array &lt;System::String ^&gt; ^ value); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>Microsoft.VisualBasic</AssemblyName>
+        <AssemblyVersion>10.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String[]</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="8dc93-211">定义文本文件的分隔符。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8dc93-211">Defines the delimiters for a text file.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="8dc93-212">一个字符串数组，它包含 <see cref="T:Microsoft.VisualBasic.FileIO.TextFieldParser" /> 对象的所有字段分隔符。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8dc93-212">A string array that contains all of the field delimiters for the <see cref="T:Microsoft.VisualBasic.FileIO.TextFieldParser" /> object.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="8dc93-213">此属性是有意义才<xref:Microsoft.VisualBasic.FileIO.TextFieldParser.TextFieldType%2A>属性设置为`FieldType.Delimited`。</span><span class="sxs-lookup"><span data-stu-id="8dc93-213">This property is meaningful only if the <xref:Microsoft.VisualBasic.FileIO.TextFieldParser.TextFieldType%2A> property is set to `FieldType.Delimited`.</span></span>  
+  
+ <span data-ttu-id="8dc93-214">定义分隔符的文本文件还可以使用<xref:Microsoft.VisualBasic.FileIO.TextFieldParser.SetDelimiters%2A>方法。</span><span class="sxs-lookup"><span data-stu-id="8dc93-214">Defining the delimiters for a text file can also be accomplished with the <xref:Microsoft.VisualBasic.FileIO.TextFieldParser.SetDelimiters%2A> method.</span></span>  
+  
+ <span data-ttu-id="8dc93-215">下表列出的任务涉及示例`Delimiters`属性。</span><span class="sxs-lookup"><span data-stu-id="8dc93-215">The following table lists an example of a task involving the `Delimiters` property.</span></span>  
+  
+|<span data-ttu-id="8dc93-216">到</span><span class="sxs-lookup"><span data-stu-id="8dc93-216">To</span></span>|<span data-ttu-id="8dc93-217">查看</span><span class="sxs-lookup"><span data-stu-id="8dc93-217">See</span></span>|  
+|--------|---------|  
+|<span data-ttu-id="8dc93-218">从带分隔符的文本文件读取</span><span class="sxs-lookup"><span data-stu-id="8dc93-218">Read from a delimited text file</span></span>|[<span data-ttu-id="8dc93-219">如何：读取逗号分隔的文本文件</span><span class="sxs-lookup"><span data-stu-id="8dc93-219">How to: Read From Comma-Delimited Text Files</span></span>](~/docs/visual-basic/developing-apps/programming/drives-directories-files/how-to-read-from-comma-delimited-text-files.md)|  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="8dc93-220">此示例指定的分隔符`TextFieldParser`对象， `FileReader`，为逗号 （，）。</span><span class="sxs-lookup"><span data-stu-id="8dc93-220">This example specifies that the delimiter for the `TextFieldParser` object, `FileReader`, is a comma (,).</span></span>  
+  
+ [!code-vb[VbVbalrTextFieldParser#9](~/samples/snippets/visualbasic/VS_Snippets_VBCSharp/VbVbalrTextFieldParser/VB/Class1.vb#9)]  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentException">
+          <span data-ttu-id="8dc93-221">分隔符值设置为换行符、空字符串或 <see langword="Nothing" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8dc93-221">A delimiter value is set to a newline character, an empty string, or <see langword="Nothing" />.</span>
+          </span>
+        </exception>
+        <altmember cref="M:Microsoft.VisualBasic.FileIO.FileSystem.OpenTextFieldParser(System.String)" />
+        <altmember cref="M:Microsoft.VisualBasic.FileIO.TextFieldParser.SetDelimiters(System.String[])" />
+      </Docs>
+    </Member>
+    <MemberGroup MemberName="Dispose">
+      <AssemblyInfo>
+        <AssemblyName>Microsoft.VisualBasic</AssemblyName>
+        <AssemblyVersion>10.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Docs>
+        <summary>
+          <span data-ttu-id="8dc93-222">释放由 <see cref="T:Microsoft.VisualBasic.FileIO.TextFieldParser" /> 对象使用的资源。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8dc93-222">Releases resources used by the <see cref="T:Microsoft.VisualBasic.FileIO.TextFieldParser" /> object.</span>
+          </span>
+        </summary>
+        <altmember cref="M:Microsoft.VisualBasic.FileIO.FileSystem.OpenTextFieldParser(System.String)" />
+      </Docs>
+    </MemberGroup>
+    <Member MemberName="Dispose">
+      <MemberSignature Language="C#" Value="public void Dispose ();" />
+      <MemberSignature Language="ILAsm" Value=".method public newslot virtual instance void Dispose() cil managed" />
+      <MemberSignature Language="DocId" Value="M:Microsoft.VisualBasic.FileIO.TextFieldParser.Dispose" />
+      <MemberSignature Language="VB.NET" Value="Public Sub Dispose ()" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual void Dispose() = IDisposable::Dispose;" />
+      <MemberType>Method</MemberType>
+      <Implements>
+        <InterfaceMember>M:System.IDisposable.Dispose</InterfaceMember>
+      </Implements>
+      <AssemblyInfo>
+        <AssemblyName>Microsoft.VisualBasic</AssemblyName>
+        <AssemblyVersion>10.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="8dc93-223">释放由 <see cref="T:Microsoft.VisualBasic.FileIO.TextFieldParser" /> 对象使用的资源。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8dc93-223">Releases resources used by the <see cref="T:Microsoft.VisualBasic.FileIO.TextFieldParser" /> object.</span>
+          </span>
+        </summary>
+        <remarks>To be added.</remarks>
+        <altmember cref="M:Microsoft.VisualBasic.FileIO.FileSystem.OpenTextFieldParser(System.String)" />
+      </Docs>
+    </Member>
+    <Member MemberName="Dispose">
+      <MemberSignature Language="C#" Value="protected virtual void Dispose (bool disposing);" />
+      <MemberSignature Language="ILAsm" Value=".method familynewslot virtual instance void Dispose(bool disposing) cil managed" />
+      <MemberSignature Language="DocId" Value="M:Microsoft.VisualBasic.FileIO.TextFieldParser.Dispose(System.Boolean)" />
+      <MemberSignature Language="VB.NET" Value="Protected Overridable Sub Dispose (disposing As Boolean)" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; virtual void Dispose(bool disposing);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>Microsoft.VisualBasic</AssemblyName>
+        <AssemblyVersion>10.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="disposing" Type="System.Boolean" />
+      </Parameters>
+      <Docs>
+        <param name="disposing">
+          <span data-ttu-id="8dc93-224">布尔值。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8dc93-224">Boolean.</span>
+          </span>
+          <span data-ttu-id="8dc93-225">若为 <see langword="True" />，释放托管资源和非托管资源；若为 <see langword="False" />，则只释放非托管资源。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8dc93-225">
+              <see langword="True" /> releases both managed and unmanaged resources; <see langword="False" /> releases only unmanaged resources.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="8dc93-226">释放由 <see cref="T:Microsoft.VisualBasic.FileIO.TextFieldParser" /> 对象使用的资源。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8dc93-226">Releases resources used by the <see cref="T:Microsoft.VisualBasic.FileIO.TextFieldParser" /> object.</span>
+          </span>
+        </summary>
+        <remarks>To be added.</remarks>
+        <altmember cref="M:Microsoft.VisualBasic.FileIO.FileSystem.OpenTextFieldParser(System.String)" />
+      </Docs>
+    </Member>
+    <Member MemberName="EndOfData">
+      <MemberSignature Language="C#" Value="public bool EndOfData { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance bool EndOfData" />
+      <MemberSignature Language="DocId" Value="P:Microsoft.VisualBasic.FileIO.TextFieldParser.EndOfData" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property EndOfData As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property bool EndOfData { bool get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>Microsoft.VisualBasic</AssemblyName>
+        <AssemblyVersion>10.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="8dc93-227">如果在当前光标位置到文件末尾之间没有非空、非注释行，则返回 <see langword="True" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8dc93-227">Returns <see langword="True" /> if there are no non-blank, non-comment lines between the current cursor position and the end of the file.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="8dc93-228">如果没有更多可供读取的数据，则为 <see langword="True" />；否则为 <see langword="False" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8dc93-228">
+              <see langword="True" /> if there is no more data to read; otherwise, <see langword="False" />.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="8dc93-229">此属性可以用于从文件读取数据时确定所读取的数据的末尾。</span><span class="sxs-lookup"><span data-stu-id="8dc93-229">This property can be used when reading from files to determine the end of the data being read.</span></span>  
+  
+ <span data-ttu-id="8dc93-230">下表列出了所涉及的任务的示例`EndOfData`属性。</span><span class="sxs-lookup"><span data-stu-id="8dc93-230">The following table lists examples of tasks involving the `EndOfData` property.</span></span>  
+  
+|<span data-ttu-id="8dc93-231">到</span><span class="sxs-lookup"><span data-stu-id="8dc93-231">To</span></span>|<span data-ttu-id="8dc93-232">查看</span><span class="sxs-lookup"><span data-stu-id="8dc93-232">See</span></span>|  
+|--------|---------|  
+|<span data-ttu-id="8dc93-233">从带分隔符的文件中读取</span><span class="sxs-lookup"><span data-stu-id="8dc93-233">Read from a delimited file</span></span>|[<span data-ttu-id="8dc93-234">如何：读取逗号分隔的文本文件</span><span class="sxs-lookup"><span data-stu-id="8dc93-234">How to: Read From Comma-Delimited Text Files</span></span>](~/docs/visual-basic/developing-apps/programming/drives-directories-files/how-to-read-from-comma-delimited-text-files.md)|  
+|<span data-ttu-id="8dc93-235">从固定宽度文件中读取</span><span class="sxs-lookup"><span data-stu-id="8dc93-235">Read from a fixed-width file</span></span>|[<span data-ttu-id="8dc93-236">如何：读取固定宽度的文本文件</span><span class="sxs-lookup"><span data-stu-id="8dc93-236">How to: Read From Fixed-width Text Files</span></span>](~/docs/visual-basic/developing-apps/programming/drives-directories-files/how-to-read-from-fixed-width-text-files.md)|  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="8dc93-237">此示例使用`EndofData`属性循环访问的文件中的所有字段`TextFieldReader`， `FileReader`。</span><span class="sxs-lookup"><span data-stu-id="8dc93-237">This example uses the `EndofData` property to loop through all the fields in the file with the `TextFieldReader`, `FileReader`.</span></span>  
+  
+ [!code-vb[VbVbalrTextFieldParser#6](~/samples/snippets/visualbasic/VS_Snippets_VBCSharp/VbVbalrTextFieldParser/VB/Class1.vb#6)]  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="M:Microsoft.VisualBasic.FileIO.FileSystem.OpenTextFieldParser(System.String)" />
+      </Docs>
+    </Member>
+    <Member MemberName="ErrorLine">
+      <MemberSignature Language="C#" Value="public string ErrorLine { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance string ErrorLine" />
+      <MemberSignature Language="DocId" Value="P:Microsoft.VisualBasic.FileIO.TextFieldParser.ErrorLine" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property ErrorLine As String" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::String ^ ErrorLine { System::String ^ get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>Microsoft.VisualBasic</AssemblyName>
+        <AssemblyVersion>10.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="8dc93-238">返回导致最近发生的 <see cref="T:Microsoft.VisualBasic.FileIO.MalformedLineException" /> 异常的行。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8dc93-238">Returns the line that caused the most recent <see cref="T:Microsoft.VisualBasic.FileIO.MalformedLineException" /> exception.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="8dc93-239">导致最近发生的 <see cref="T:Microsoft.VisualBasic.FileIO.MalformedLineException" /> 异常的行。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8dc93-239">The line that caused the most recent <see cref="T:Microsoft.VisualBasic.FileIO.MalformedLineException" /> exception.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="8dc93-240">如果没有<xref:Microsoft.VisualBasic.FileIO.MalformedLineException>引发的异常，则返回一个空字符串。</span><span class="sxs-lookup"><span data-stu-id="8dc93-240">If no <xref:Microsoft.VisualBasic.FileIO.MalformedLineException> exceptions have been thrown, an empty string is returned.</span></span>  
+  
+ <span data-ttu-id="8dc93-241"><xref:Microsoft.VisualBasic.FileIO.TextFieldParser.ErrorLineNumber%2A>属性可以用于显示引起异常的行数。</span><span class="sxs-lookup"><span data-stu-id="8dc93-241">The <xref:Microsoft.VisualBasic.FileIO.TextFieldParser.ErrorLineNumber%2A> property can be used to display the number of the line that caused the exception.</span></span>  
+  
+ <span data-ttu-id="8dc93-242">下表列出了所涉及的任务的示例`ErrorLine`属性。</span><span class="sxs-lookup"><span data-stu-id="8dc93-242">The following table lists examples of tasks involving the `ErrorLine` property.</span></span>  
+  
+|<span data-ttu-id="8dc93-243">到</span><span class="sxs-lookup"><span data-stu-id="8dc93-243">To</span></span>|<span data-ttu-id="8dc93-244">查看</span><span class="sxs-lookup"><span data-stu-id="8dc93-244">See</span></span>|  
+|--------|---------|  
+|<span data-ttu-id="8dc93-245">从带分隔符的文件中读取</span><span class="sxs-lookup"><span data-stu-id="8dc93-245">Read from a delimited file</span></span>|[<span data-ttu-id="8dc93-246">如何：读取逗号分隔的文本文件</span><span class="sxs-lookup"><span data-stu-id="8dc93-246">How to: Read From Comma-Delimited Text Files</span></span>](~/docs/visual-basic/developing-apps/programming/drives-directories-files/how-to-read-from-comma-delimited-text-files.md)|  
+|<span data-ttu-id="8dc93-247">从固定宽度文件中读取</span><span class="sxs-lookup"><span data-stu-id="8dc93-247">Read from a fixed-width file</span></span>|[<span data-ttu-id="8dc93-248">如何：读取固定宽度的文本文件</span><span class="sxs-lookup"><span data-stu-id="8dc93-248">How to: Read From Fixed-width Text Files</span></span>](~/docs/visual-basic/developing-apps/programming/drives-directories-files/how-to-read-from-fixed-width-text-files.md)|  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="8dc93-249">此示例使用`ErrorLine`属性显示导致当前的行<xref:Microsoft.VisualBasic.FileIO.MalformedLineException>异常。</span><span class="sxs-lookup"><span data-stu-id="8dc93-249">This example uses the `ErrorLine` property to display the line causing the current <xref:Microsoft.VisualBasic.FileIO.MalformedLineException> exception.</span></span>  
+  
+ [!code-vb[VbVbalrTextFieldParser#1](~/samples/snippets/visualbasic/VS_Snippets_VBCSharp/VbVbalrTextFieldParser/VB/Class1.vb#1)]  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="M:Microsoft.VisualBasic.FileIO.FileSystem.OpenTextFieldParser(System.String)" />
+      </Docs>
+    </Member>
+    <Member MemberName="ErrorLineNumber">
+      <MemberSignature Language="C#" Value="public long ErrorLineNumber { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance int64 ErrorLineNumber" />
+      <MemberSignature Language="DocId" Value="P:Microsoft.VisualBasic.FileIO.TextFieldParser.ErrorLineNumber" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property ErrorLineNumber As Long" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property long ErrorLineNumber { long get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>Microsoft.VisualBasic</AssemblyName>
+        <AssemblyVersion>10.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int64</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="8dc93-250">返回导致最近发生的 <see cref="T:Microsoft.VisualBasic.FileIO.MalformedLineException" /> 异常的行的行号。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8dc93-250">Returns the number of the line that caused the most recent <see cref="T:Microsoft.VisualBasic.FileIO.MalformedLineException" /> exception.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="8dc93-251">导致最近发生的 <see cref="T:Microsoft.VisualBasic.FileIO.MalformedLineException" /> 异常的行的行号。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8dc93-251">The number of the line that caused the most recent <see cref="T:Microsoft.VisualBasic.FileIO.MalformedLineException" /> exception.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="8dc93-252">如果没有<xref:Microsoft.VisualBasic.FileIO.MalformedLineException>引发异常，则返回-1。</span><span class="sxs-lookup"><span data-stu-id="8dc93-252">If no <xref:Microsoft.VisualBasic.FileIO.MalformedLineException> exceptions have been thrown, -1 is returned.</span></span>  
+  
+ <span data-ttu-id="8dc93-253"><xref:Microsoft.VisualBasic.FileIO.TextFieldParser.ErrorLine%2A>属性可以用于显示引起异常的行数。</span><span class="sxs-lookup"><span data-stu-id="8dc93-253">The <xref:Microsoft.VisualBasic.FileIO.TextFieldParser.ErrorLine%2A> property can be used to display the number of the line that caused the exception.</span></span> <span data-ttu-id="8dc93-254">确定的行号时，不忽略空行和注释。</span><span class="sxs-lookup"><span data-stu-id="8dc93-254">Blank lines and comments are not ignored when determining the line number.</span></span>  
+  
+ <span data-ttu-id="8dc93-255">下表列出了所涉及的任务的示例`ErrorLineNumber`属性。</span><span class="sxs-lookup"><span data-stu-id="8dc93-255">The following table lists examples of tasks involving the `ErrorLineNumber` property.</span></span>  
+  
+|<span data-ttu-id="8dc93-256">到</span><span class="sxs-lookup"><span data-stu-id="8dc93-256">To</span></span>|<span data-ttu-id="8dc93-257">查看</span><span class="sxs-lookup"><span data-stu-id="8dc93-257">See</span></span>|  
+|--------|---------|  
+|<span data-ttu-id="8dc93-258">从带分隔符的文件中读取</span><span class="sxs-lookup"><span data-stu-id="8dc93-258">Read from a delimited file</span></span>|[<span data-ttu-id="8dc93-259">如何：读取逗号分隔的文本文件</span><span class="sxs-lookup"><span data-stu-id="8dc93-259">How to: Read From Comma-Delimited Text Files</span></span>](~/docs/visual-basic/developing-apps/programming/drives-directories-files/how-to-read-from-comma-delimited-text-files.md)|  
+|<span data-ttu-id="8dc93-260">从固定宽度文件中读取</span><span class="sxs-lookup"><span data-stu-id="8dc93-260">Read from a fixed-width file</span></span>|[<span data-ttu-id="8dc93-261">如何：读取固定宽度的文本文件</span><span class="sxs-lookup"><span data-stu-id="8dc93-261">How to: Read From Fixed-width Text Files</span></span>](~/docs/visual-basic/developing-apps/programming/drives-directories-files/how-to-read-from-fixed-width-text-files.md)|  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="8dc93-262">此示例使用`ErrorLineNumber`属性显示导致当前行位置<xref:Microsoft.VisualBasic.FileIO.MalformedLineException>异常。</span><span class="sxs-lookup"><span data-stu-id="8dc93-262">This example uses the `ErrorLineNumber` property to display the location of the line causing the current <xref:Microsoft.VisualBasic.FileIO.MalformedLineException> exception.</span></span>  
+  
+ [!code-vb[VbVbalrTextFieldParser#3](~/samples/snippets/visualbasic/VS_Snippets_VBCSharp/VbVbalrTextFieldParser/VB/Class1.vb#3)]  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="M:Microsoft.VisualBasic.FileIO.FileSystem.OpenTextFieldParser(System.String)" />
+      </Docs>
+    </Member>
+    <Member MemberName="FieldWidths">
+      <MemberSignature Language="C#" Value="public int[] FieldWidths { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance int32[] FieldWidths" />
+      <MemberSignature Language="DocId" Value="P:Microsoft.VisualBasic.FileIO.TextFieldParser.FieldWidths" />
+      <MemberSignature Language="VB.NET" Value="Public Property FieldWidths As Integer()" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property cli::array &lt;int&gt; ^ FieldWidths { cli::array &lt;int&gt; ^ get(); void set(cli::array &lt;int&gt; ^ value); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>Microsoft.VisualBasic</AssemblyName>
+        <AssemblyVersion>10.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32[]</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="8dc93-263">表示正在分析的文本文件中每一列的宽度。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8dc93-263">Denotes the width of each column in the text file being parsed.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="8dc93-264">一个整数数组，它包含正在分析的文本文件中每一列的宽度。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8dc93-264">An integer array that contains the width of each column in the text file that is being parsed.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="8dc93-265">此属性是有意义才<xref:Microsoft.VisualBasic.FileIO.TextFieldParser.TextFieldType%2A>属性设置为`FieldType.FixedWidth`。</span><span class="sxs-lookup"><span data-stu-id="8dc93-265">This property is meaningful only if the <xref:Microsoft.VisualBasic.FileIO.TextFieldParser.TextFieldType%2A> property is set to `FieldType.FixedWidth`.</span></span> <span data-ttu-id="8dc93-266">如果数组中的最后一项小于或等于零，则假定字段为可变宽度。</span><span class="sxs-lookup"><span data-stu-id="8dc93-266">If the last entry in the array is less than or equal to zero, the field is assumed to be of variable width.</span></span>  
+  
+ <span data-ttu-id="8dc93-267"><xref:Microsoft.VisualBasic.FileIO.TextFieldParser.SetFieldWidths%2A>方法还可以用于设置字段宽度。</span><span class="sxs-lookup"><span data-stu-id="8dc93-267">The <xref:Microsoft.VisualBasic.FileIO.TextFieldParser.SetFieldWidths%2A> method can also be used to set field widths.</span></span>  
+  
+ <span data-ttu-id="8dc93-268">下表列出了所涉及的任务的示例`FieldWidths`属性。</span><span class="sxs-lookup"><span data-stu-id="8dc93-268">The following table lists examples of tasks involving the `FieldWidths` property.</span></span>  
+  
+|<span data-ttu-id="8dc93-269">到</span><span class="sxs-lookup"><span data-stu-id="8dc93-269">To</span></span>|<span data-ttu-id="8dc93-270">查看</span><span class="sxs-lookup"><span data-stu-id="8dc93-270">See</span></span>|  
+|--------|---------|  
+|<span data-ttu-id="8dc93-271">从固定宽度的文本文件读取</span><span class="sxs-lookup"><span data-stu-id="8dc93-271">Read from a fixed-width text file</span></span>|[<span data-ttu-id="8dc93-272">如何：读取固定宽度的文本文件</span><span class="sxs-lookup"><span data-stu-id="8dc93-272">How to: Read From Fixed-width Text Files</span></span>](~/docs/visual-basic/developing-apps/programming/drives-directories-files/how-to-read-from-fixed-width-text-files.md)|  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="8dc93-273">此示例将读取该文件`ParserText.txt`，指定宽度; 第一列是 5 个字符宽、 第二个是 10、 第三个是 11 中，和第四个是可变宽度</span><span class="sxs-lookup"><span data-stu-id="8dc93-273">This example reads the file `ParserText.txt`, specifying the widths; the first column is 5 characters wide, the second is 10, the third is 11, and the fourth is of variable width</span></span>  
+  
+ [!code-vb[VbVbalrTextFieldParser#16](~/samples/snippets/visualbasic/VS_Snippets_VBCSharp/VbVbalrTextFieldParser/VB/Class1.vb#16)]  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentException">
+          <span data-ttu-id="8dc93-274">除数组最后一个条目外的任意位置中的宽度值小于或等于零。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8dc93-274">A width value in any location other than the last entry of the array is less than or equal to zero.</span>
+          </span>
+        </exception>
+        <altmember cref="M:Microsoft.VisualBasic.FileIO.FileSystem.OpenTextFieldParser(System.String)" />
+        <altmember cref="T:Microsoft.VisualBasic.FileIO.FieldType" />
+      </Docs>
+    </Member>
+    <Member MemberName="Finalize">
+      <MemberSignature Language="C#" Value="~TextFieldParser ();" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig virtual instance void Finalize() cil managed" />
+      <MemberSignature Language="DocId" Value="M:Microsoft.VisualBasic.FileIO.TextFieldParser.Finalize" />
+      <MemberSignature Language="VB.NET" Value="Finalize ()" />
+      <MemberSignature Language="C++ CLI" Value="!TextFieldParser ()" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>Microsoft.VisualBasic</AssemblyName>
+        <AssemblyVersion>10.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="8dc93-275">允许 <see cref="T:Microsoft.VisualBasic.FileIO.TextFieldParser" /> 对象在由垃圾回收功能回收之前尝试释放资源并执行其他清理操作。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8dc93-275">Allows the <see cref="T:Microsoft.VisualBasic.FileIO.TextFieldParser" /> object to attempt to free resources and perform other cleanup operations before it is reclaimed by garbage collection.</span>
+          </span>
+        </summary>
+        <remarks>To be added.</remarks>
+        <altmember cref="M:Microsoft.VisualBasic.FileIO.FileSystem.OpenTextFieldParser(System.String)" />
+      </Docs>
+    </Member>
+    <Member MemberName="HasFieldsEnclosedInQuotes">
+      <MemberSignature Language="C#" Value="public bool HasFieldsEnclosedInQuotes { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance bool HasFieldsEnclosedInQuotes" />
+      <MemberSignature Language="DocId" Value="P:Microsoft.VisualBasic.FileIO.TextFieldParser.HasFieldsEnclosedInQuotes" />
+      <MemberSignature Language="VB.NET" Value="Public Property HasFieldsEnclosedInQuotes As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property bool HasFieldsEnclosedInQuotes { bool get(); void set(bool value); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>Microsoft.VisualBasic</AssemblyName>
+        <AssemblyVersion>10.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Advanced)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="8dc93-276">指示在分析分隔的文件时是否用引号将字段括起来。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8dc93-276">Denotes whether fields are enclosed in quotation marks when a delimited file is being parsed.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="8dc93-277">如果将字段用引号括起来，则为 <see langword="True" />；否则为 <see langword="False" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8dc93-277">
+              <see langword="True" /> if fields are enclosed in quotation marks; otherwise, <see langword="False" />.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="8dc93-278">这是一个高级的成员;除非你单击不显示在 IntelliSense 中**所有**选项卡。</span><span class="sxs-lookup"><span data-stu-id="8dc93-278">This is an advanced member; it does not show in IntelliSense unless you click the **All** tab.</span></span>  
+  
+ <span data-ttu-id="8dc93-279">如果属性是`True`，则分析器认为，将字段括在引号 ("")，并且可能包含行尾。</span><span class="sxs-lookup"><span data-stu-id="8dc93-279">If the property is `True`, the parser assumes that fields are enclosed in quotation marks (" ") and may contain line endings.</span></span>  
+  
+ <span data-ttu-id="8dc93-280">如果字段括在引号中，例如，`abc, "field2a,field2b", field3`并且此属性是`True`，然后将返回用引号引起来的所有文本，原样; 此示例将返回`abc|field2a,field2b|field3`。</span><span class="sxs-lookup"><span data-stu-id="8dc93-280">If a field is enclosed in quotation marks, for example, `abc, "field2a,field2b", field3` and this property is `True`, then all text enclosed in quotation marks will be returned as is; this example would return `abc|field2a,field2b|field3`.</span></span> <span data-ttu-id="8dc93-281">此属性设置为`False`会使此示例返回`abc|"field2a|field2b"|field3`。</span><span class="sxs-lookup"><span data-stu-id="8dc93-281">Setting this property to `False` would make this example return `abc|"field2a|field2b"|field3`.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="8dc93-282">此示例将设置`HasFieldsEnclosedInQuotes`属性`True`为`myReader`。</span><span class="sxs-lookup"><span data-stu-id="8dc93-282">This example sets the `HasFieldsEnclosedInQuotes` property to `True` for `myReader`.</span></span>  
+  
+ [!code-vb[VbVbalrTextFieldParser#18](~/samples/snippets/visualbasic/VS_Snippets_VBCSharp/VbVbalrTextFieldParser/VB/Class1.vb#18)]  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="M:Microsoft.VisualBasic.FileIO.FileSystem.OpenTextFieldParser(System.String)" />
+      </Docs>
+    </Member>
+    <Member MemberName="LineNumber">
+      <MemberSignature Language="C#" Value="public long LineNumber { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance int64 LineNumber" />
+      <MemberSignature Language="DocId" Value="P:Microsoft.VisualBasic.FileIO.TextFieldParser.LineNumber" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property LineNumber As Long" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property long LineNumber { long get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>Microsoft.VisualBasic</AssemblyName>
+        <AssemblyVersion>10.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Advanced)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Int64</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="8dc93-283">返回当前行号，如果流中没有更多字符，则返回 -1。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8dc93-283">Returns the current line number, or returns -1 if no more characters are available in the stream.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="8dc93-284">当前行号。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8dc93-284">The current line number.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="8dc93-285">这是一个高级的成员;除非你单击不显示在 IntelliSense 中**所有**选项卡。</span><span class="sxs-lookup"><span data-stu-id="8dc93-285">This is an advanced member; it does not show in IntelliSense unless you click the **All** tab.</span></span>  
+  
+ <span data-ttu-id="8dc93-286">确定的行号时，不忽略空行和注释。</span><span class="sxs-lookup"><span data-stu-id="8dc93-286">Blank lines and comments are not ignored when determining the line number.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="8dc93-287">此示例在文本文件中搜索"Jones"的名称，并报告它所在的行。</span><span class="sxs-lookup"><span data-stu-id="8dc93-287">This example searches for the name "Jones" in the text file and reports what line(s) it occurs on.</span></span>  
+  
+ [!code-vb[VbVbalrTextFieldParser#11](~/samples/snippets/visualbasic/VS_Snippets_VBCSharp/VbVbalrTextFieldParser/VB/Class1.vb#11)]  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="M:Microsoft.VisualBasic.FileIO.FileSystem.OpenTextFieldParser(System.String)" />
+      </Docs>
+    </Member>
+    <Member MemberName="PeekChars">
+      <MemberSignature Language="C#" Value="public string PeekChars (int numberOfChars);" />
+      <MemberSignature Language="ILAsm" Value=".method public instance string PeekChars(int32 numberOfChars) cil managed" />
+      <MemberSignature Language="DocId" Value="M:Microsoft.VisualBasic.FileIO.TextFieldParser.PeekChars(System.Int32)" />
+      <MemberSignature Language="VB.NET" Value="Public Function PeekChars (numberOfChars As Integer) As String" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; System::String ^ PeekChars(int numberOfChars);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>Microsoft.VisualBasic</AssemblyName>
+        <AssemblyVersion>10.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="numberOfChars" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="numberOfChars">
+          <span data-ttu-id="8dc93-288">
+            <see langword="Int32" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8dc93-288">
+              <see langword="Int32" />.</span>
+          </span>
+          <span data-ttu-id="8dc93-289">要读取的字符数。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8dc93-289">Number of characters to read.</span>
+          </span>
+          <span data-ttu-id="8dc93-290">必须的。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8dc93-290">Required.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="8dc93-291">读取指定数目的字符但不前移光标。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8dc93-291">Reads the specified number of characters without advancing the cursor.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="8dc93-292">包含读取的指定数量的字符的字符串。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8dc93-292">A string that contains the specified number of characters read.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="8dc93-293">`numberOfChars`值必须是一行中的字符总数小于。</span><span class="sxs-lookup"><span data-stu-id="8dc93-293">The `numberOfChars` value must be less than the total number of characters in the line.</span></span> <span data-ttu-id="8dc93-294">如果不是，通过返回的字符串`PeekChars`将截断为行的长度。</span><span class="sxs-lookup"><span data-stu-id="8dc93-294">If it is not, the string returned by `PeekChars` will be truncated to the length of the line.</span></span>  
+  
+ <span data-ttu-id="8dc93-295">将忽略空行。</span><span class="sxs-lookup"><span data-stu-id="8dc93-295">Blank lines are ignored.</span></span>  
+  
+ <span data-ttu-id="8dc93-296">不返回行尾字符。</span><span class="sxs-lookup"><span data-stu-id="8dc93-296">End-of-line characters are not returned.</span></span>  
+  
+ <span data-ttu-id="8dc93-297">`PeekChars`方法执行不分析; 分隔字段中的行尾字符解释为行的实际末尾。</span><span class="sxs-lookup"><span data-stu-id="8dc93-297">The `PeekChars` method performs no parsing; an end-of- line character within a delimited field is interpreted as the actual end of the line.</span></span>  
+  
+ <span data-ttu-id="8dc93-298">下表列出了所涉及的任务的示例`PeekChars`方法。</span><span class="sxs-lookup"><span data-stu-id="8dc93-298">The following table lists examples of tasks involving the `PeekChars` method.</span></span>  
+  
+|<span data-ttu-id="8dc93-299">到</span><span class="sxs-lookup"><span data-stu-id="8dc93-299">To</span></span>|<span data-ttu-id="8dc93-300">查看</span><span class="sxs-lookup"><span data-stu-id="8dc93-300">See</span></span>|  
+|--------|---------|  
+|<span data-ttu-id="8dc93-301">在解析它之前确定字段的格式</span><span class="sxs-lookup"><span data-stu-id="8dc93-301">Determine the format of a field before parsing it</span></span>|[<span data-ttu-id="8dc93-302">如何：读取具有多种格式的文本文件</span><span class="sxs-lookup"><span data-stu-id="8dc93-302">How to: Read From Text Files with Multiple Formats</span></span>](~/docs/visual-basic/developing-apps/programming/drives-directories-files/how-to-read-from-text-files-with-multiple-formats.md)|  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="8dc93-303">此示例使用`PeekChars`查找数据的结束和停止分析文件在该点。</span><span class="sxs-lookup"><span data-stu-id="8dc93-303">This example uses `PeekChars` to find the end of the data and stop parsing the file at that point.</span></span>  
+  
+ [!code-vb[VbVbalrTextFieldParser#8](~/samples/snippets/visualbasic/VS_Snippets_VBCSharp/VbVbalrTextFieldParser/VB/Class1.vb#8)]  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentException">
+          <span data-ttu-id="8dc93-304">
+            <paramref name="numberOfChars" /> 小于 0。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8dc93-304">
+              <paramref name="numberOfChars" /> is less than 0.</span>
+          </span>
+        </exception>
+        <altmember cref="M:Microsoft.VisualBasic.FileIO.FileSystem.OpenTextFieldParser(System.String)" />
+      </Docs>
+    </Member>
+    <Member MemberName="ReadFields">
+      <MemberSignature Language="C#" Value="public string[] ReadFields ();" />
+      <MemberSignature Language="ILAsm" Value=".method public instance string[] ReadFields() cil managed" />
+      <MemberSignature Language="DocId" Value="M:Microsoft.VisualBasic.FileIO.TextFieldParser.ReadFields" />
+      <MemberSignature Language="VB.NET" Value="Public Function ReadFields () As String()" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; cli::array &lt;System::String ^&gt; ^ ReadFields();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>Microsoft.VisualBasic</AssemblyName>
+        <AssemblyVersion>10.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String[]</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="8dc93-305">读取当前行的所有字段，以字符串数组的形式返回这些字段，并将光标前进到包含数据的下一行。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8dc93-305">Reads all fields on the current line, returns them as an array of strings, and advances the cursor to the next line containing data.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="8dc93-306">包含当前行的字段值的字符串数组。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8dc93-306">An array of strings that contains field values for the current line.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="8dc93-307">为了使用户能够分析以多种格式的文本文件`ReadFields`方法检查的值`TextFieldType`， `Delimiters`，和`FieldWidths`，如果指定，每次调用时。</span><span class="sxs-lookup"><span data-stu-id="8dc93-307">In order to allow users to parse text files in multiple formats, the `ReadFields` method examines the values of `TextFieldType`, `Delimiters`, and `FieldWidths`, if they are specified, each time it is called.</span></span> <span data-ttu-id="8dc93-308">用户需要正确配置`TextFieldType`和`FieldWidths`或`Delimiters`属性，根据需要。</span><span class="sxs-lookup"><span data-stu-id="8dc93-308">Users need to correctly configure the `TextFieldType` and `FieldWidths` or `Delimiters` properties, as appropriate.</span></span> <span data-ttu-id="8dc93-309">如果`TextFieldType`设置为`Delimited`，和`Delimiters`未设置，或者如果`TextFieldType`设置为`FixedWidth`和`FieldWidths`，将引发异常。</span><span class="sxs-lookup"><span data-stu-id="8dc93-309">If `TextFieldType` is set to `Delimited`, and `Delimiters` is not set, or if `TextFieldType` is set to `FixedWidth` and `FieldWidths`, an exception is thrown.</span></span>  
+  
+ <span data-ttu-id="8dc93-310">如果`ReadFields`遇到空行，它们将跳过，并且返回的下一步的非空行。</span><span class="sxs-lookup"><span data-stu-id="8dc93-310">If `ReadFields` encounters blank lines, they are skipped and the next non-blank line is returned.</span></span>  
+  
+ <span data-ttu-id="8dc93-311">如果`ReadFields`方法无法分析当前行，它会引发异常，并不会移动到下一行。</span><span class="sxs-lookup"><span data-stu-id="8dc93-311">If the `ReadFields` method cannot parse the current line, it raises an exception and does not move to the next line.</span></span> <span data-ttu-id="8dc93-312">这使你的应用程序，以尝试再次分析行。</span><span class="sxs-lookup"><span data-stu-id="8dc93-312">This enables your application to attempt to parse the line again.</span></span>  
+  
+ <span data-ttu-id="8dc93-313">下表列出了所涉及的任务的示例`ReadFields`方法。</span><span class="sxs-lookup"><span data-stu-id="8dc93-313">The following table lists examples of tasks involving the `ReadFields` method.</span></span>  
+  
+|<span data-ttu-id="8dc93-314">到</span><span class="sxs-lookup"><span data-stu-id="8dc93-314">To</span></span>|<span data-ttu-id="8dc93-315">查看</span><span class="sxs-lookup"><span data-stu-id="8dc93-315">See</span></span>|  
+|--------|---------|  
+|<span data-ttu-id="8dc93-316">从带分隔符的文件中读取</span><span class="sxs-lookup"><span data-stu-id="8dc93-316">Read from a delimited file</span></span>|[<span data-ttu-id="8dc93-317">如何：读取逗号分隔的文本文件</span><span class="sxs-lookup"><span data-stu-id="8dc93-317">How to: Read From Comma-Delimited Text Files</span></span>](~/docs/visual-basic/developing-apps/programming/drives-directories-files/how-to-read-from-comma-delimited-text-files.md)|  
+|<span data-ttu-id="8dc93-318">从固定宽度文件中读取</span><span class="sxs-lookup"><span data-stu-id="8dc93-318">Read from a fixed-width file</span></span>|[<span data-ttu-id="8dc93-319">如何：读取固定宽度的文本文件</span><span class="sxs-lookup"><span data-stu-id="8dc93-319">How to: Read From Fixed-width Text Files</span></span>](~/docs/visual-basic/developing-apps/programming/drives-directories-files/how-to-read-from-fixed-width-text-files.md)|  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="8dc93-320">此示例使用`ReadFields`方法从逗号分隔文件中读取`ParserText.txt`。</span><span class="sxs-lookup"><span data-stu-id="8dc93-320">This example uses the `ReadFields` method to read from the comma-delimited file `ParserText.txt`.</span></span> <span data-ttu-id="8dc93-321">此示例将字段写入 `Testfile.txt`。</span><span class="sxs-lookup"><span data-stu-id="8dc93-321">The example writes the fields to `Testfile.txt`.</span></span>  
+  
+ [!code-vb[VbVbalrTextFieldParser#2](~/samples/snippets/visualbasic/VS_Snippets_VBCSharp/VbVbalrTextFieldParser/VB/Class1.vb#2)]  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:Microsoft.VisualBasic.FileIO.MalformedLineException">
+          <span data-ttu-id="8dc93-322">不能使用指定格式分析字段。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8dc93-322">A field cannot be parsed by using the specified format.</span>
+          </span>
+        </exception>
+        <permission cref="T:System.Security.Permissions.FileIOPermission">
+          <span data-ttu-id="8dc93-323">关联枚举：<see cref="F:System.Security.Permissions.PermissionState.Unrestricted" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8dc93-323">Associated enumeration: <see cref="F:System.Security.Permissions.PermissionState.Unrestricted" />.</span>
+          </span>
+        </permission>
+        <permission cref="T:System.Security.Permissions.SecurityPermission">
+          <span data-ttu-id="8dc93-324">关联枚举：<see cref="F:System.Security.Permissions.SecurityPermissionFlag.ControlEvidence" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8dc93-324">Associated enumeration: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.ControlEvidence" />.</span>
+          </span>
+        </permission>
+        <altmember cref="M:Microsoft.VisualBasic.FileIO.FileSystem.OpenTextFieldParser(System.String)" />
+        <altmember cref="P:Microsoft.VisualBasic.FileIO.TextFieldParser.TextFieldType" />
+        <altmember cref="P:Microsoft.VisualBasic.FileIO.TextFieldParser.FieldWidths" />
+        <altmember cref="P:Microsoft.VisualBasic.FileIO.TextFieldParser.Delimiters" />
+        <altmember cref="M:Microsoft.VisualBasic.FileIO.TextFieldParser.ReadLine" />
+      </Docs>
+    </Member>
+    <Member MemberName="ReadLine">
+      <MemberSignature Language="C#" Value="public string ReadLine ();" />
+      <MemberSignature Language="ILAsm" Value=".method public instance string ReadLine() cil managed" />
+      <MemberSignature Language="DocId" Value="M:Microsoft.VisualBasic.FileIO.TextFieldParser.ReadLine" />
+      <MemberSignature Language="VB.NET" Value="Public Function ReadLine () As String" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; System::String ^ ReadLine();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>Microsoft.VisualBasic</AssemblyName>
+        <AssemblyVersion>10.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Advanced)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="8dc93-325">将当前行作为字符串返回，并将光标前进到下一行。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8dc93-325">Returns the current line as a string and advances the cursor to the next line.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="8dc93-326">文件或流中的当前行。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8dc93-326">The current line from the file or stream.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="8dc93-327">`ReadLine`方法执行不分析; 分隔字段中的行尾字符解释为行的实际末尾。</span><span class="sxs-lookup"><span data-stu-id="8dc93-327">The `ReadLine` method performs no parsing; an end-of-line character within a delimited field is interpreted as the actual end of the line.</span></span>  
+  
+ <span data-ttu-id="8dc93-328">`Nothing` 返回已到达文件结尾。</span><span class="sxs-lookup"><span data-stu-id="8dc93-328">`Nothing` is returned if the end of the file is reached.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="8dc93-329">此示例将读取通过文件`ParserText.txt`并将其写入`Testfile.txt`。</span><span class="sxs-lookup"><span data-stu-id="8dc93-329">This example reads through the file `ParserText.txt` and writes it to `Testfile.txt`.</span></span>  
+  
+ [!code-vb[VbVbalrTextFieldParser#15](~/samples/snippets/visualbasic/VS_Snippets_VBCSharp/VbVbalrTextFieldParser/VB/Class1.vb#15)]  
+  
+ <span data-ttu-id="8dc93-330">如果`Testfile.txt`不存在，则将创建`WriteAllText`方法。</span><span class="sxs-lookup"><span data-stu-id="8dc93-330">If `Testfile.txt` does not exist, it is created by the `WriteAllText` method.</span></span>  
+  
+ <span data-ttu-id="8dc93-331">此示例将作为单个字符串; 字段能够在目标文件中各占一行上显示每个行`VbCrLf`应在每个行的末尾追加字符。</span><span class="sxs-lookup"><span data-stu-id="8dc93-331">This example writes the fields as a single string; to have each line display on its own line in the destination file, a `VbCrLf` character should be appended at the end of each line.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="M:Microsoft.VisualBasic.FileIO.FileSystem.OpenTextFieldParser(System.String)" />
+        <altmember cref="M:Microsoft.VisualBasic.FileIO.TextFieldParser.ReadFields" />
+        <altmember cref="M:Microsoft.VisualBasic.FileIO.TextFieldParser.ReadToEnd" />
+      </Docs>
+    </Member>
+    <Member MemberName="ReadToEnd">
+      <MemberSignature Language="C#" Value="public string ReadToEnd ();" />
+      <MemberSignature Language="ILAsm" Value=".method public instance string ReadToEnd() cil managed" />
+      <MemberSignature Language="DocId" Value="M:Microsoft.VisualBasic.FileIO.TextFieldParser.ReadToEnd" />
+      <MemberSignature Language="VB.NET" Value="Public Function ReadToEnd () As String" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; System::String ^ ReadToEnd();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>Microsoft.VisualBasic</AssemblyName>
+        <AssemblyVersion>10.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Advanced)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="8dc93-332">读取文本文件的其余部分并作为一个字符串返回。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8dc93-332">Reads the remainder of the text file and returns it as a string.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="8dc93-333">文件或流中的其余文本。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8dc93-333">The remaining text from the file or stream.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="8dc93-334">这是一个高级的成员;除非你单击不显示在 IntelliSense 中**所有**选项卡。</span><span class="sxs-lookup"><span data-stu-id="8dc93-334">This is an advanced member; it does not show in IntelliSense unless you click the **All** tab.</span></span>  
+  
+ <span data-ttu-id="8dc93-335">如果没有更多要读取，因为已达到文件末尾，`Nothing`返回。</span><span class="sxs-lookup"><span data-stu-id="8dc93-335">If there is nothing more to read because the end of the file has been reached, `Nothing` is returned.</span></span>  
+  
+ <span data-ttu-id="8dc93-336">`ReadToEnd`方法不会忽略空行和注释。</span><span class="sxs-lookup"><span data-stu-id="8dc93-336">The `ReadToEnd` method does not ignore blank lines and comments.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="8dc93-337">此示例使用`ReadToEnd`方法来读取整个文件`ParserText.txt`并将其写入到文件`Testfile.txt`。</span><span class="sxs-lookup"><span data-stu-id="8dc93-337">This example uses the `ReadToEnd` method to read the entire file `ParserText.txt` and write it to the file `Testfile.txt`.</span></span>  
+  
+ [!code-vb[VbVbalrTextFieldParser#10](~/samples/snippets/visualbasic/VS_Snippets_VBCSharp/VbVbalrTextFieldParser/VB/Class1.vb#10)]  
+  
+ <span data-ttu-id="8dc93-338">如果`Testfile.txt`不存在，则将创建`WriteAllText`方法。</span><span class="sxs-lookup"><span data-stu-id="8dc93-338">If `Testfile.txt` does not exist, it is created by the `WriteAllText` method.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="M:Microsoft.VisualBasic.FileIO.FileSystem.OpenTextFieldParser(System.String)" />
+        <altmember cref="M:Microsoft.VisualBasic.FileIO.TextFieldParser.ReadFields" />
+        <altmember cref="M:Microsoft.VisualBasic.FileIO.TextFieldParser.ReadLine" />
+      </Docs>
+    </Member>
+    <Member MemberName="SetDelimiters">
+      <MemberSignature Language="C#" Value="public void SetDelimiters (params string[] delimiters);" />
+      <MemberSignature Language="ILAsm" Value=".method public instance void SetDelimiters(string[] delimiters) cil managed" />
+      <MemberSignature Language="DocId" Value="M:Microsoft.VisualBasic.FileIO.TextFieldParser.SetDelimiters(System.String[])" />
+      <MemberSignature Language="VB.NET" Value="Public Sub SetDelimiters (ParamArray delimiters As String())" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void SetDelimiters(... cli::array &lt;System::String ^&gt; ^ delimiters);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>Microsoft.VisualBasic</AssemblyName>
+        <AssemblyVersion>10.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="delimiters" Type="System.String[]">
+          <Attributes>
+            <Attribute>
+              <AttributeName>System.ParamArray</AttributeName>
+            </Attribute>
+          </Attributes>
+        </Parameter>
+      </Parameters>
+      <Docs>
+        <param name="delimiters">
+          <span data-ttu-id="8dc93-339">
+            <see langword="String" /> 类型的数组。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8dc93-339">Array of type <see langword="String" />.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="8dc93-340">将读取器的分隔符设为指定的值，并将字段类型设为 <see langword="Delimited" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8dc93-340">Sets the delimiters for the reader to the specified values, and sets the field type to <see langword="Delimited" />.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="8dc93-341">现有内容`Delimiters`属性会清除时设置此方法。</span><span class="sxs-lookup"><span data-stu-id="8dc93-341">The existing contents of the `Delimiters` property are cleared when this method is set.</span></span>  
+  
+ <span data-ttu-id="8dc93-342">此方法提供了如何设置分隔符，而无需创建数组。</span><span class="sxs-lookup"><span data-stu-id="8dc93-342">This method provides a way to set delimiters without creating an array.</span></span>  
+  
+ <span data-ttu-id="8dc93-343">下表列出的任务涉及示例`SetDelimiters`方法。</span><span class="sxs-lookup"><span data-stu-id="8dc93-343">The following table lists an example of a task involving the `SetDelimiters` method.</span></span>  
+  
+|<span data-ttu-id="8dc93-344">到</span><span class="sxs-lookup"><span data-stu-id="8dc93-344">To</span></span>|<span data-ttu-id="8dc93-345">查看</span><span class="sxs-lookup"><span data-stu-id="8dc93-345">See</span></span>|  
+|--------|---------|  
+|<span data-ttu-id="8dc93-346">分析文本文件</span><span class="sxs-lookup"><span data-stu-id="8dc93-346">Parse a text file</span></span>|[<span data-ttu-id="8dc93-347">使用 TextFieldParser 对象分析文本文件</span><span class="sxs-lookup"><span data-stu-id="8dc93-347">Parsing Text Files with the TextFieldParser Object</span></span>](~/docs/visual-basic/developing-apps/programming/drives-directories-files/parsing-text-files-with-the-textfieldparser-object.md)|  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="8dc93-348">此示例打开一个文本字段分析器并定义作为分隔符`vbTab`。</span><span class="sxs-lookup"><span data-stu-id="8dc93-348">This example opens a text field parser and defines the delimiter as `vbTab`.</span></span>  
+  
+ [!code-vb[VbVbalrTextFieldParser#4](~/samples/snippets/visualbasic/VS_Snippets_VBCSharp/VbVbalrTextFieldParser/VB/Class1.vb#4)]  
+  
+ <span data-ttu-id="8dc93-349">将路径`C:\logs\test.log`使用的路径和你想要分析的文件的名称。</span><span class="sxs-lookup"><span data-stu-id="8dc93-349">Replace the path `C:\logs\test.log` with the path and name of the file you wish to parse.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentException">
+          <span data-ttu-id="8dc93-350">分隔符为零长度 ()。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8dc93-350">A delimiter is zero-length.</span>
+          </span>
+        </exception>
+        <altmember cref="M:Microsoft.VisualBasic.FileIO.FileSystem.OpenTextFieldParser(System.String)" />
+        <altmember cref="M:Microsoft.VisualBasic.FileIO.TextFieldParser.SetFieldWidths(System.Int32[])" />
+      </Docs>
+    </Member>
+    <Member MemberName="SetFieldWidths">
+      <MemberSignature Language="C#" Value="public void SetFieldWidths (params int[] fieldWidths);" />
+      <MemberSignature Language="ILAsm" Value=".method public instance void SetFieldWidths(int32[] fieldWidths) cil managed" />
+      <MemberSignature Language="DocId" Value="M:Microsoft.VisualBasic.FileIO.TextFieldParser.SetFieldWidths(System.Int32[])" />
+      <MemberSignature Language="VB.NET" Value="Public Sub SetFieldWidths (ParamArray fieldWidths As Integer())" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void SetFieldWidths(... cli::array &lt;int&gt; ^ fieldWidths);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>Microsoft.VisualBasic</AssemblyName>
+        <AssemblyVersion>10.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="fieldWidths" Type="System.Int32[]">
+          <Attributes>
+            <Attribute>
+              <AttributeName>System.ParamArray</AttributeName>
+            </Attribute>
+          </Attributes>
+        </Parameter>
+      </Parameters>
+      <Docs>
+        <param name="fieldWidths">
+          <span data-ttu-id="8dc93-351">
+            <see langword="Integer" /> 数组。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8dc93-351">Array of <see langword="Integer" />.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="8dc93-352">将读取器的分隔符设置为指定值。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8dc93-352">Sets the delimiters for the reader to the specified values.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="8dc93-353">现有内容`Delimiters`属性会清除此设置时。</span><span class="sxs-lookup"><span data-stu-id="8dc93-353">The existing contents of the `Delimiters` property are cleared when this is set.</span></span>  
+  
+ <span data-ttu-id="8dc93-354">此方法提供了如何设置分隔符，而无需创建数组。</span><span class="sxs-lookup"><span data-stu-id="8dc93-354">This method provides a way to set delimiters without creating an array.</span></span>  
+  
+ <span data-ttu-id="8dc93-355">下表列出了所涉及的任务的示例`SetFieldWidths`方法。</span><span class="sxs-lookup"><span data-stu-id="8dc93-355">The following table lists example of tasks involving the `SetFieldWidths` method.</span></span>  
+  
+|<span data-ttu-id="8dc93-356">到</span><span class="sxs-lookup"><span data-stu-id="8dc93-356">To</span></span>|<span data-ttu-id="8dc93-357">查看</span><span class="sxs-lookup"><span data-stu-id="8dc93-357">See</span></span>|  
+|--------|---------|  
+|<span data-ttu-id="8dc93-358">分析的文本文件。</span><span class="sxs-lookup"><span data-stu-id="8dc93-358">Parse a text file.</span></span>|[<span data-ttu-id="8dc93-359">使用 TextFieldParser 对象分析文本文件</span><span class="sxs-lookup"><span data-stu-id="8dc93-359">Parsing Text Files with the TextFieldParser Object</span></span>](~/docs/visual-basic/developing-apps/programming/drives-directories-files/parsing-text-files-with-the-textfieldparser-object.md)|  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="8dc93-360">此示例打开一个文本字段分析器并定义为字段宽度`5`。</span><span class="sxs-lookup"><span data-stu-id="8dc93-360">This example opens a text-field parser and defines the field width as `5`.</span></span>  
+  
+ [!code-vb[VbVbalrTextFieldParser#12](~/samples/snippets/visualbasic/VS_Snippets_VBCSharp/VbVbalrTextFieldParser/VB/Class1.vb#12)]  
+  
+ <span data-ttu-id="8dc93-361">将路径`C:\logs\test.log`使用的路径和你想要分析的文件的名称。</span><span class="sxs-lookup"><span data-stu-id="8dc93-361">Replace the path `C:\logs\test.log` with the path and name of the file you wish to parse.</span></span>  
+  
+ <span data-ttu-id="8dc93-362">下面的示例打开一个文本字段分析器，并定义为字段宽度`5`， `10`，和变量。</span><span class="sxs-lookup"><span data-stu-id="8dc93-362">The following example opens a text-field parser and defines the field widths as `5`, `10`, and variable.</span></span>  
+  
+ [!code-vb[VbVbalrTextFieldParser#13](~/samples/snippets/visualbasic/VS_Snippets_VBCSharp/VbVbalrTextFieldParser/VB/Class1.vb#13)]  
+  
+ <span data-ttu-id="8dc93-363">将路径`C:\logs\test.log`使用的路径和你想要分析的文件的名称。</span><span class="sxs-lookup"><span data-stu-id="8dc93-363">Replace the path `C:\logs\test.log` with the path and name of the file you wish to parse.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="M:Microsoft.VisualBasic.FileIO.FileSystem.OpenTextFieldParser(System.String)" />
+        <altmember cref="M:Microsoft.VisualBasic.FileIO.TextFieldParser.SetDelimiters(System.String[])" />
+      </Docs>
+    </Member>
+    <Member MemberName="TextFieldType">
+      <MemberSignature Language="C#" Value="public Microsoft.VisualBasic.FileIO.FieldType TextFieldType { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance valuetype Microsoft.VisualBasic.FileIO.FieldType TextFieldType" />
+      <MemberSignature Language="DocId" Value="P:Microsoft.VisualBasic.FileIO.TextFieldParser.TextFieldType" />
+      <MemberSignature Language="VB.NET" Value="Public Property TextFieldType As FieldType" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property Microsoft::VisualBasic::FileIO::FieldType TextFieldType { Microsoft::VisualBasic::FileIO::FieldType get(); void set(Microsoft::VisualBasic::FileIO::FieldType value); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>Microsoft.VisualBasic</AssemblyName>
+        <AssemblyVersion>10.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>Microsoft.VisualBasic.FileIO.FieldType</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="8dc93-364">指定要分析的文件是分隔的还是固定宽度的。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8dc93-364">Indicates whether the file to be parsed is delimited or fixed-width.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="8dc93-365">一个 <see cref="P:Microsoft.VisualBasic.FileIO.TextFieldParser.TextFieldType" /> 值，它指示要分析的文件是分隔的还是固定宽度的。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8dc93-365">A <see cref="P:Microsoft.VisualBasic.FileIO.TextFieldParser.TextFieldType" /> value that indicates whether the file to be parsed is delimited or fixed-width.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="8dc93-366">分隔此属性的默认值。</span><span class="sxs-lookup"><span data-stu-id="8dc93-366">The default value of this property is delimited.</span></span>  
+  
+ <span data-ttu-id="8dc93-367">下表列出了所涉及的任务的示例`TextFieldType`属性。</span><span class="sxs-lookup"><span data-stu-id="8dc93-367">The following table lists examples of tasks involving the `TextFieldType` property.</span></span>  
+  
+|<span data-ttu-id="8dc93-368">到</span><span class="sxs-lookup"><span data-stu-id="8dc93-368">To</span></span>|<span data-ttu-id="8dc93-369">查看</span><span class="sxs-lookup"><span data-stu-id="8dc93-369">See</span></span>|  
+|--------|---------|  
+|<span data-ttu-id="8dc93-370">从带分隔符的文本文件读取</span><span class="sxs-lookup"><span data-stu-id="8dc93-370">Read from a delimited text file</span></span>|[<span data-ttu-id="8dc93-371">如何：读取逗号分隔的文本文件</span><span class="sxs-lookup"><span data-stu-id="8dc93-371">How to: Read From Comma-Delimited Text Files</span></span>](~/docs/visual-basic/developing-apps/programming/drives-directories-files/how-to-read-from-comma-delimited-text-files.md)|  
+|<span data-ttu-id="8dc93-372">从固定宽度的文本文件读取</span><span class="sxs-lookup"><span data-stu-id="8dc93-372">Read from a fixed-width text file</span></span>|[<span data-ttu-id="8dc93-373">如何：读取固定宽度的文本文件</span><span class="sxs-lookup"><span data-stu-id="8dc93-373">How to: Read From Fixed-width Text Files</span></span>](~/docs/visual-basic/developing-apps/programming/drives-directories-files/how-to-read-from-fixed-width-text-files.md)|  
+|<span data-ttu-id="8dc93-374">从具有多种格式的文本文件读取</span><span class="sxs-lookup"><span data-stu-id="8dc93-374">Read from a text file with multiple formats</span></span>|[<span data-ttu-id="8dc93-375">如何：读取具有多种格式的文本文件</span><span class="sxs-lookup"><span data-stu-id="8dc93-375">How to: Read From Text Files with Multiple Formats</span></span>](~/docs/visual-basic/developing-apps/programming/drives-directories-files/how-to-read-from-text-files-with-multiple-formats.md)|  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="8dc93-376">此示例将创建`TextFieldParser`， `FileReader`，并指定它分隔。</span><span class="sxs-lookup"><span data-stu-id="8dc93-376">This example creates a `TextFieldParser`, `FileReader`, and specifies that it is delimited.</span></span>  
+  
+ [!code-vb[VbVbalrTextFieldParser#19](~/samples/snippets/visualbasic/VS_Snippets_VBCSharp/VbVbalrTextFieldParser/VB/Class1.vb#19)]  
+  
+ <span data-ttu-id="8dc93-377">此示例将创建`TextFieldParser`， `FileReader`，并指定它是固定宽度。</span><span class="sxs-lookup"><span data-stu-id="8dc93-377">This example creates a `TextFieldParser`, `FileReader`, and specifies that it is fixed-width.</span></span>  
+  
+ [!code-vb[VbVbalrTextFieldParser#20](~/samples/snippets/visualbasic/VS_Snippets_VBCSharp/VbVbalrTextFieldParser/VB/Class1.vb#20)]  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="M:Microsoft.VisualBasic.FileIO.FileSystem.OpenTextFieldParser(System.String)" />
+        <altmember cref="T:Microsoft.VisualBasic.FileIO.FieldType" />
+      </Docs>
+    </Member>
+    <Member MemberName="TrimWhiteSpace">
+      <MemberSignature Language="C#" Value="public bool TrimWhiteSpace { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance bool TrimWhiteSpace" />
+      <MemberSignature Language="DocId" Value="P:Microsoft.VisualBasic.FileIO.TextFieldParser.TrimWhiteSpace" />
+      <MemberSignature Language="VB.NET" Value="Public Property TrimWhiteSpace As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property bool TrimWhiteSpace { bool get(); void set(bool value); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>Microsoft.VisualBasic</AssemblyName>
+        <AssemblyVersion>10.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="8dc93-378">指示是否应移除字段值中的前导和尾随空白。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8dc93-378">Indicates whether leading and trailing white space should be trimmed from field values.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="8dc93-379">如果应移除字段值中的前导和尾随空白，则为 <see langword="True" />；否则为 <see langword="False" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8dc93-379">
+              <see langword="True" /> if leading and trailing white space should be trimmed from field values; otherwise, <see langword="False" />.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="8dc93-380">此属性的默认值为 `True`。</span><span class="sxs-lookup"><span data-stu-id="8dc93-380">The default value for this property is `True`.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="8dc93-381">此示例将创建`TextFieldParser`， `FileReader`，并将设置`TrimWhiteSpace`属性`True`。</span><span class="sxs-lookup"><span data-stu-id="8dc93-381">This example creates a `TextFieldParser`, `FileReader`, and sets the `TrimWhiteSpace` property to `True`.</span></span>  
+  
+ [!code-vb[VbVbalrTextFieldParser#7](~/samples/snippets/visualbasic/VS_Snippets_VBCSharp/VbVbalrTextFieldParser/VB/Class1.vb#7)]  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="M:Microsoft.VisualBasic.FileIO.FileSystem.OpenTextFieldParser(System.String)" />
+      </Docs>
+    </Member>
+  </Members>
+</Type>

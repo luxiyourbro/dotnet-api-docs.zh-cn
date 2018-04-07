@@ -1,0 +1,919 @@
+<Type Name="MulticastDelegate" FullName="System.MulticastDelegate">
+  <Metadata>
+    <Meta Name="ms.openlocfilehash" Value="68fe57d35963ff07229ce4e905392ba33a08e1b2" />
+    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
+    <Meta Name="ms.translationtype" Value="HT" />
+    <Meta Name="ms.contentlocale" Value="zh-CN" />
+    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
+  </Metadata>
+  <TypeSignature Language="C#" Value="public abstract class MulticastDelegate : Delegate" />
+  <TypeSignature Language="ILAsm" Value=".class public sequential ansi abstract serializable beforefieldinit MulticastDelegate extends System.Delegate" />
+  <TypeSignature Language="DocId" Value="T:System.MulticastDelegate" />
+  <TypeSignature Language="VB.NET" Value="Public MustInherit Class MulticastDelegate&#xA;Inherits Delegate" />
+  <TypeSignature Language="C++ CLI" Value="public ref class MulticastDelegate abstract : Delegate" />
+  <AssemblyInfo>
+    <AssemblyName>System.Runtime</AssemblyName>
+    <AssemblyVersion>4.0.0.0</AssemblyVersion>
+    <AssemblyVersion>4.0.10.0</AssemblyVersion>
+    <AssemblyVersion>4.0.20.0</AssemblyVersion>
+    <AssemblyVersion>4.1.0.0</AssemblyVersion>
+    <AssemblyVersion>4.2.0.0</AssemblyVersion>
+    <AssemblyVersion>4.2.1.0</AssemblyVersion>
+  </AssemblyInfo>
+  <AssemblyInfo>
+    <AssemblyName>mscorlib</AssemblyName>
+    <AssemblyVersion>2.0.5.0</AssemblyVersion>
+    <AssemblyVersion>4.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <AssemblyInfo>
+    <AssemblyName>netstandard</AssemblyName>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Delegate</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Attributes>
+    <Attribute>
+      <AttributeName>System.Runtime.InteropServices.ComVisible(true)</AttributeName>
+    </Attribute>
+  </Attributes>
+  <Docs>
+    <summary>
+      <span data-ttu-id="f89ee-101">表示多路广播委托；即，其调用列表中可以拥有多个元素的委托。</span>
+      <span class="sxs-lookup">
+        <span data-stu-id="f89ee-101">Represents a multicast delegate; that is, a delegate that can have more than one element in its invocation list.</span>
+      </span>
+    </summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="f89ee-102"><xref:System.MulticastDelegate> 是一个特殊的类。</span><span class="sxs-lookup"><span data-stu-id="f89ee-102"><xref:System.MulticastDelegate> is a special class.</span></span> <span data-ttu-id="f89ee-103">编译器和其他工具可以派生自此类，但不能从它派生显式。</span><span class="sxs-lookup"><span data-stu-id="f89ee-103">Compilers and other tools can derive from this class, but you cannot derive from it explicitly.</span></span> <span data-ttu-id="f89ee-104">这同样适用的<xref:System.Delegate>类。</span><span class="sxs-lookup"><span data-stu-id="f89ee-104">The same is true of the <xref:System.Delegate> class.</span></span>  
+  
+ <span data-ttu-id="f89ee-105">除了委托类型的方法继承<xref:System.MulticastDelegate>，公共语言运行时提供两种特殊的方法：`BeginInvoke`和`EndInvoke`。</span><span class="sxs-lookup"><span data-stu-id="f89ee-105">In addition to the methods that delegate types inherit from <xref:System.MulticastDelegate>, the common language runtime provides two special methods: `BeginInvoke` and `EndInvoke`.</span></span> <span data-ttu-id="f89ee-106">有关这些方法的详细信息，请参阅[异步调用同步方法](~/docs/standard/asynchronous-programming-patterns/calling-synchronous-methods-asynchronously.md)。</span><span class="sxs-lookup"><span data-stu-id="f89ee-106">For more information about these methods, see [Calling Synchronous Methods Asynchronously](~/docs/standard/asynchronous-programming-patterns/calling-synchronous-methods-asynchronously.md).</span></span>  
+  
+ <span data-ttu-id="f89ee-107">A<xref:System.MulticastDelegate>具有的委托，调用的调用列表，其中包含的一个或多个元素的链接的列表。</span><span class="sxs-lookup"><span data-stu-id="f89ee-107">A <xref:System.MulticastDelegate> has a linked list of delegates, called an invocation list, consisting of one or more elements.</span></span> <span data-ttu-id="f89ee-108">调用多路广播的委托时，调用列表中的委托是同步调用它们的出现顺序。</span><span class="sxs-lookup"><span data-stu-id="f89ee-108">When a multicast delegate is invoked, the delegates in the invocation list are called synchronously in the order in which they appear.</span></span> <span data-ttu-id="f89ee-109">如果该列表的执行过程中发生错误将引发异常。</span><span class="sxs-lookup"><span data-stu-id="f89ee-109">If an error occurs during execution of the list then an exception is thrown.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="f89ee-110">下面的示例定义了一个类`StringContainer`，其中包括一个字符串集合。</span><span class="sxs-lookup"><span data-stu-id="f89ee-110">The following example defines a class, `StringContainer`, which includes a collection of strings.</span></span> <span data-ttu-id="f89ee-111">其成员之一是`CheckAndDisplayDelegate`委托，用于显示字符串存储在`StringContainer`满足特定条件的对象。</span><span class="sxs-lookup"><span data-stu-id="f89ee-111">One of its members is the `CheckAndDisplayDelegate` delegate, which is used to display strings stored in a `StringContainer` object that satisfy particular criteria.</span></span> <span data-ttu-id="f89ee-112">委托采用单个字符串作为参数并返回`void`(或在 Visual Basic 中，它是`Sub`过程)。</span><span class="sxs-lookup"><span data-stu-id="f89ee-112">The delegate takes a single string as a parameter and returns `void` (or, in Visual Basic, it's a `Sub` procedure).</span></span> <span data-ttu-id="f89ee-113">它还包括一种方法， `DisplayAllQualified`，具有单个参数，`CheckAndDisplayDelegate`委托。</span><span class="sxs-lookup"><span data-stu-id="f89ee-113">It also includes a method, `DisplayAllQualified`, that has a single parameter, a `CheckAndDisplayDelegate` delegate.</span></span> <span data-ttu-id="f89ee-114">这使被调用的方法，并且根据委托中包含的方法来显示一组进行筛选的字符串。</span><span class="sxs-lookup"><span data-stu-id="f89ee-114">This allows the method to be called and to display a set of strings that are filtered based on the methods that the delegate contains.</span></span>  
+  
+ <span data-ttu-id="f89ee-115">该示例还定义了一个实用工具类`StringExtensions`，有两种方法：</span><span class="sxs-lookup"><span data-stu-id="f89ee-115">The example also defines a utility class, `StringExtensions`, that has two methods:</span></span>  
+  
+-   <span data-ttu-id="f89ee-116">`ConStart`它会显示以辅音字母开头的字符串。</span><span class="sxs-lookup"><span data-stu-id="f89ee-116">`ConStart`, which displays strings that begin with a consonant.</span></span>  
+  
+-   <span data-ttu-id="f89ee-117">`VowelStart`它会显示开头元音的字符串。</span><span class="sxs-lookup"><span data-stu-id="f89ee-117">`VowelStart`, which displays strings that begin with a vowel.</span></span>  
+  
+ <span data-ttu-id="f89ee-118">请注意，这两种方法包括单个字符串参数，并且返回`void`。</span><span class="sxs-lookup"><span data-stu-id="f89ee-118">Note that both methods include a single string parameter and return `void`.</span></span> <span data-ttu-id="f89ee-119">换而言之，这两种方法可以分配给`CheckAndDisplayDelegate`委托。</span><span class="sxs-lookup"><span data-stu-id="f89ee-119">In other words, both methods can be assigned to the  `CheckAndDisplayDelegate` delegate.</span></span>  
+  
+ <span data-ttu-id="f89ee-120">`Test.Main`方法是应用程序入口点。</span><span class="sxs-lookup"><span data-stu-id="f89ee-120">The `Test.Main` method is the application entry point.</span></span> <span data-ttu-id="f89ee-121">它实例化`StringContainer`对象，其中填充字符串，并创建两个`CheckAndDisplayDelegate`委托，`conStart`和`vowelStart`，调用单个方法。</span><span class="sxs-lookup"><span data-stu-id="f89ee-121">It instantiates a `StringContainer` object, populates it with strings, and creates two `CheckAndDisplayDelegate` delegates, `conStart` and `vowelStart`, that invoke a single method.</span></span> <span data-ttu-id="f89ee-122">然后，它调用<xref:System.Delegate.Combine%2A?displayProperty=nameWithType>方法来创建`multipleDelegates`委托，它最初包含`ConStart`和`VowelStart`委托。</span><span class="sxs-lookup"><span data-stu-id="f89ee-122">It then calls the <xref:System.Delegate.Combine%2A?displayProperty=nameWithType> method to create the `multipleDelegates` delegate, which initially contains the `ConStart` and  `VowelStart` delegates.</span></span> <span data-ttu-id="f89ee-123">请注意，当`multipleDelegates`调用委托，它显示在其原始顺序集合中的所有字符串。</span><span class="sxs-lookup"><span data-stu-id="f89ee-123">Note that when the `multipleDelegates` delegate is invoked, it displays all the strings in the collection in their original order.</span></span> <span data-ttu-id="f89ee-124">这是因为每个字母单独传递给每个委托，并且每个字母满足筛选条件的两个委托之一。</span><span class="sxs-lookup"><span data-stu-id="f89ee-124">This is because each letter is passed separately to each delegate, and each letter meets the filtering criteria of only one of the two delegates.</span></span> <span data-ttu-id="f89ee-125">最后，在调用后<xref:System.Delegate.Remove%2A?displayProperty=nameWithType>和<xref:System.Delegate.Combine%2A?displayProperty=nameWithType>，`multipleDelegates`包含两个`conStart`委托。</span><span class="sxs-lookup"><span data-stu-id="f89ee-125">Finally, after calls to <xref:System.Delegate.Remove%2A?displayProperty=nameWithType> and <xref:System.Delegate.Combine%2A?displayProperty=nameWithType>, `multipleDelegates` contains two `conStart` delegates.</span></span> <span data-ttu-id="f89ee-126">调用时，在每个字符串`StringContainer`两次显示对象。</span><span class="sxs-lookup"><span data-stu-id="f89ee-126">When it is invoked, each string in the `StringContainer` object is displayed twice.</span></span>  
+  
+ [!code-cpp[Multicast Delegate Introduction#1](~/samples/snippets/cpp/VS_Snippets_CLR/Multicast Delegate Introduction/CPP/delegatestring.cpp#1)]
+ [!code-csharp[Multicast Delegate Introduction#1](~/samples/snippets/csharp/VS_Snippets_CLR/Multicast Delegate Introduction/CS/delegatestring.cs#1)]
+ [!code-vb[Multicast Delegate Introduction#1](~/samples/snippets/visualbasic/VS_Snippets_CLR/Multicast Delegate Introduction/VB/delegatestring.vb#1)]  
+  
+ ]]></format>
+    </remarks>
+  </Docs>
+  <Members>
+    <MemberGroup MemberName=".ctor">
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Docs>
+        <summary>
+          <span data-ttu-id="f89ee-127">初始化 <see cref="T:System.MulticastDelegate" /> 类的新实例。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f89ee-127">Initializes a new instance of the <see cref="T:System.MulticastDelegate" /> class.</span>
+          </span>
+        </summary>
+      </Docs>
+    </MemberGroup>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="protected MulticastDelegate (object target, string method);" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig specialname rtspecialname instance void .ctor(object target, string method) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.MulticastDelegate.#ctor(System.Object,System.String)" />
+      <MemberSignature Language="VB.NET" Value="Protected Sub New (target As Object, method As String)" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; MulticastDelegate(System::Object ^ target, System::String ^ method);" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Runtime</AssemblyName>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="target" Type="System.Object" />
+        <Parameter Name="method" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="target">
+          <span data-ttu-id="f89ee-128">在其上定义 <c>method</c> 的对象。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f89ee-128">The object on which <c>method</c> is defined.</span>
+          </span>
+        </param>
+        <param name="method">
+          <span data-ttu-id="f89ee-129">为其创建委托的方法的名称。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f89ee-129">The name of the method for which a delegate is created.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="f89ee-130">初始化 <see cref="T:System.MulticastDelegate" /> 类的新实例。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f89ee-130">Initializes a new instance of the <see cref="T:System.MulticastDelegate" /> class.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="f89ee-131">此构造函数不能在应用程序代码。</span><span class="sxs-lookup"><span data-stu-id="f89ee-131">This constructor cannot be used in application code.</span></span> <span data-ttu-id="f89ee-132">若要通过指定实例方法的名称创建委托，使用的重载<xref:System.Delegate.CreateDelegate%2A?displayProperty=nameWithType>指定方法名称和目标对象的方法。</span><span class="sxs-lookup"><span data-stu-id="f89ee-132">To create a delegate by specifying the name of an instance method, use an overload of the <xref:System.Delegate.CreateDelegate%2A?displayProperty=nameWithType> method that specifies a method name and a target object.</span></span> <span data-ttu-id="f89ee-133">例如，<xref:System.Delegate.CreateDelegate%28System.Type%2CSystem.Object%2CSystem.String%29?displayProperty=nameWithType>方法重载具有指定名称创建的实例方法的委托。</span><span class="sxs-lookup"><span data-stu-id="f89ee-133">For example, the <xref:System.Delegate.CreateDelegate%28System.Type%2CSystem.Object%2CSystem.String%29?displayProperty=nameWithType> method overload creates a delegate for an instance method with a specified name.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.MemberAccessException">
+          <span data-ttu-id="f89ee-134">无法创建抽象类的实例，或者此成员是使用晚期绑定机制调用的。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f89ee-134">Cannot create an instance of an abstract class, or this member was invoked with a late-binding mechanism.</span>
+          </span>
+        </exception>
+        <permission cref="T:System.Security.Permissions.ReflectionPermission">
+          <span data-ttu-id="f89ee-135">调用时后期绑定通过机制如<see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f89ee-135">when invoked late-bound through mechanisms such as <see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" />.</span>
+          </span>
+          <span data-ttu-id="f89ee-136">关联枚举：<see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f89ee-136">Associated enumeration: <see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess" />.</span>
+          </span>
+        </permission>
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="protected MulticastDelegate (Type target, string method);" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig specialname rtspecialname instance void .ctor(class System.Type target, string method) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.MulticastDelegate.#ctor(System.Type,System.String)" />
+      <MemberSignature Language="VB.NET" Value="Protected Sub New (target As Type, method As String)" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; MulticastDelegate(Type ^ target, System::String ^ method);" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Runtime</AssemblyName>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="target" Type="System.Type" />
+        <Parameter Name="method" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="target">
+          <span data-ttu-id="f89ee-137">在其上定义 <c>method</c> 的对象的类型。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f89ee-137">The type of object on which <c>method</c> is defined.</span>
+          </span>
+        </param>
+        <param name="method">
+          <span data-ttu-id="f89ee-138">为其创建委托的静态方法的名称。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f89ee-138">The name of the static method for which a delegate is created.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="f89ee-139">初始化 <see cref="T:System.MulticastDelegate" /> 类的新实例。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f89ee-139">Initializes a new instance of the <see cref="T:System.MulticastDelegate" /> class.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="f89ee-140">此构造函数不能在应用程序代码。</span><span class="sxs-lookup"><span data-stu-id="f89ee-140">This constructor cannot be used in application code.</span></span> <span data-ttu-id="f89ee-141">若要通过指定静态方法的名称创建委托，使用的重载<xref:System.Delegate.CreateDelegate%2A?displayProperty=nameWithType>指定方法名称，但未指定目标对象的方法。</span><span class="sxs-lookup"><span data-stu-id="f89ee-141">To create a delegate by specifying the name of a static method, use an overload of the <xref:System.Delegate.CreateDelegate%2A?displayProperty=nameWithType> method that specifies a method name but does not specify a target object.</span></span> <span data-ttu-id="f89ee-142">例如，<xref:System.Delegate.CreateDelegate%28System.Type%2CSystem.Type%2CSystem.String%29?displayProperty=nameWithType>方法重载具有指定名称创建静态委托方法。</span><span class="sxs-lookup"><span data-stu-id="f89ee-142">For example, the <xref:System.Delegate.CreateDelegate%28System.Type%2CSystem.Type%2CSystem.String%29?displayProperty=nameWithType> method overload creates a static delegate for a method with a specified name.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.MemberAccessException">
+          <span data-ttu-id="f89ee-143">无法创建抽象类的实例，或者此成员是使用晚期绑定机制调用的。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f89ee-143">Cannot create an instance of an abstract class, or this member was invoked with a late-binding mechanism.</span>
+          </span>
+        </exception>
+        <permission cref="T:System.Security.Permissions.ReflectionPermission">
+          <span data-ttu-id="f89ee-144">调用时后期绑定通过机制如<see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f89ee-144">when invoked late-bound through mechanisms such as <see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" />.</span>
+          </span>
+          <span data-ttu-id="f89ee-145">关联的枚举： <see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess" /></span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f89ee-145">Associated enumeration: <see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess" /></span>
+          </span>
+        </permission>
+      </Docs>
+    </Member>
+    <Member MemberName="CombineImpl">
+      <MemberSignature Language="C#" Value="protected override sealed Delegate CombineImpl (Delegate follow);" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig virtual instance class System.Delegate CombineImpl(class System.Delegate follow) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.MulticastDelegate.CombineImpl(System.Delegate)" />
+      <MemberSignature Language="VB.NET" Value="Protected Overrides NotOverridable Function CombineImpl (follow As Delegate) As Delegate" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; override Delegate ^ CombineImpl(Delegate ^ follow);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Runtime</AssemblyName>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Delegate</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="follow" Type="System.Delegate" />
+      </Parameters>
+      <Docs>
+        <param name="follow">
+          <span data-ttu-id="f89ee-146">将与此委托进行合并的委托。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f89ee-146">The delegate to combine with this delegate.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="f89ee-147">将此 <see cref="T:System.Delegate" /> 与指定的 <see cref="T:System.Delegate" /> 合并，以形成一个新委托。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f89ee-147">Combines this <see cref="T:System.Delegate" /> with the specified <see cref="T:System.Delegate" /> to form a new delegate.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="f89ee-148">一个委托，它是 <see cref="T:System.MulticastDelegate" /> 调用列表的新根。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f89ee-148">A delegate that is the new root of the <see cref="T:System.MulticastDelegate" /> invocation list.</span>
+          </span>
+        </returns>
+        <remarks>To be added.</remarks>
+        <exception cref="T:System.ArgumentException">
+          <span data-ttu-id="f89ee-149">
+            <paramref name="follow" /> 没有与此实例相同的类型。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f89ee-149">
+              <paramref name="follow" /> does not have the same type as this instance.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.MemberAccessException">
+          <span data-ttu-id="f89ee-150">无法创建抽象类的实例，或者此成员是使用晚期绑定机制调用的。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f89ee-150">Cannot create an instance of an abstract class, or this member was invoked with a late-binding mechanism.</span>
+          </span>
+        </exception>
+        <permission cref="T:System.Security.Permissions.ReflectionPermission">
+          <span data-ttu-id="f89ee-151">调用时后期绑定通过机制如<see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f89ee-151">when invoked late-bound through mechanisms such as <see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" />.</span>
+          </span>
+          <span data-ttu-id="f89ee-152">关联的枚举： <see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess" /></span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f89ee-152">Associated enumeration: <see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess" /></span>
+          </span>
+        </permission>
+      </Docs>
+    </Member>
+    <Member MemberName="DynamicInvokeImpl">
+      <MemberSignature Language="C#" Value="protected override sealed object DynamicInvokeImpl (object[] args);" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig virtual instance object DynamicInvokeImpl(object[] args) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.MulticastDelegate.DynamicInvokeImpl(System.Object[])" />
+      <MemberSignature Language="VB.NET" Value="Protected Overrides NotOverridable Function DynamicInvokeImpl (args As Object()) As Object" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; override System::Object ^ DynamicInvokeImpl(cli::array &lt;System::Object ^&gt; ^ args);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Object</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="args" Type="System.Object[]" />
+      </Parameters>
+      <Docs>
+        <param name="args">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Equals">
+      <MemberSignature Language="C#" Value="public override sealed bool Equals (object obj);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance bool Equals(object obj) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.MulticastDelegate.Equals(System.Object)" />
+      <MemberSignature Language="VB.NET" Value="Public Overrides NotOverridable Function Equals (obj As Object) As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; override bool Equals(System::Object ^ obj);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Runtime</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+        <AssemblyVersion>4.0.20.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="obj" Type="System.Object" />
+      </Parameters>
+      <Docs>
+        <param name="obj">
+          <span data-ttu-id="f89ee-153">与该实例进行比较的对象。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f89ee-153">The object to compare with this instance.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="f89ee-154">确定此多路广播委托和指定的对象是否相等。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f89ee-154">Determines whether this multicast delegate and the specified object are equal.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="f89ee-155">如果 <paramref name="obj" /> 和此实例具有相同的调用列表，则为 <see langword="true" />；否则为 <see langword="false" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f89ee-155">
+              <see langword="true" /> if <paramref name="obj" /> and this instance have the same invocation lists; otherwise, <see langword="false" />.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="f89ee-156">两个委托是否相等，如果它们不`null`且的完全相同的类型，其调用列表中包含相同数量的元素，且第一个委托的调用列表中每个元素等于在调用中的相应元素第二个委托的列表。</span><span class="sxs-lookup"><span data-stu-id="f89ee-156">Two delegates are equal if they are not `null` and are of exactly the same type, their invocation lists contain the same number of elements, and every element in the invocation list of the first delegate is equal to the corresponding element in the invocation list of the second delegate.</span></span>  
+  
+ <span data-ttu-id="f89ee-157">如果它们调用的相同的目标实例上的同一实例方法或它们调用相同的静态方法，两个调用列表的元素相等。</span><span class="sxs-lookup"><span data-stu-id="f89ee-157">Two invocation list elements are equal if they invoke the same instance method on the same target instance, or they invoke the same static method.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.MemberAccessException">
+          <span data-ttu-id="f89ee-158">无法创建抽象类的实例，或者此成员是使用晚期绑定机制调用的。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f89ee-158">Cannot create an instance of an abstract class, or this member was invoked with a late-binding mechanism.</span>
+          </span>
+        </exception>
+        <permission cref="T:System.Security.Permissions.ReflectionPermission">
+          <span data-ttu-id="f89ee-159">调用时后期绑定通过机制如<see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f89ee-159">when invoked late-bound through mechanisms such as <see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" />.</span>
+          </span>
+          <span data-ttu-id="f89ee-160">关联的枚举： <see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess" /></span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f89ee-160">Associated enumeration: <see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess" /></span>
+          </span>
+        </permission>
+      </Docs>
+    </Member>
+    <Member MemberName="GetHashCode">
+      <MemberSignature Language="C#" Value="public override sealed int GetHashCode ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance int32 GetHashCode() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.MulticastDelegate.GetHashCode" />
+      <MemberSignature Language="VB.NET" Value="Public Overrides NotOverridable Function GetHashCode () As Integer" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; override int GetHashCode();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Runtime</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+        <AssemblyVersion>4.0.20.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="f89ee-161">返回此实例的哈希代码。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f89ee-161">Returns the hash code for this instance.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="f89ee-162">32 位有符号整数哈希代码。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f89ee-162">A 32-bit signed integer hash code.</span>
+          </span>
+        </returns>
+        <remarks>To be added.</remarks>
+        <exception cref="T:System.MemberAccessException">
+          <span data-ttu-id="f89ee-163">无法创建抽象类的实例，或者此成员是使用晚期绑定机制调用的。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f89ee-163">Cannot create an instance of an abstract class, or this member was invoked with a late-binding mechanism.</span>
+          </span>
+        </exception>
+        <permission cref="T:System.Security.Permissions.ReflectionPermission">
+          <span data-ttu-id="f89ee-164">调用时后期绑定通过机制如<see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f89ee-164">when invoked late-bound through mechanisms such as <see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" />.</span>
+          </span>
+          <span data-ttu-id="f89ee-165">关联的枚举： <see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess" /></span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f89ee-165">Associated enumeration: <see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess" /></span>
+          </span>
+        </permission>
+      </Docs>
+    </Member>
+    <Member MemberName="GetInvocationList">
+      <MemberSignature Language="C#" Value="public override sealed Delegate[] GetInvocationList ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance class System.Delegate[] GetInvocationList() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.MulticastDelegate.GetInvocationList" />
+      <MemberSignature Language="VB.NET" Value="Public Overrides NotOverridable Function GetInvocationList () As Delegate()" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; override cli::array &lt;Delegate ^&gt; ^ GetInvocationList();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Runtime</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+        <AssemblyVersion>4.0.20.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Delegate[]</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="f89ee-166">按照调用顺序返回此多路广播委托的调用列表。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f89ee-166">Returns the invocation list of this multicast delegate, in invocation order.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="f89ee-167">一个委托数组，这些委托的调用列表合起来与此实例的调用列表一致。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f89ee-167">An array of delegates whose invocation lists collectively match the invocation list of this instance.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="f89ee-168">该数组包含一组的代理，而每个都有一个条目的调用列表。</span><span class="sxs-lookup"><span data-stu-id="f89ee-168">The array contains a set of delegates, each with an invocation list of one entry.</span></span> <span data-ttu-id="f89ee-169">按顺序，该数组中显示的顺序调用这些委托生成与调用当前实例相同的结果。</span><span class="sxs-lookup"><span data-stu-id="f89ee-169">Invoking these delegates sequentially, in the order they appear in the array, produces the same results as invoking the current instance.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.MemberAccessException">
+          <span data-ttu-id="f89ee-170">无法创建抽象类的实例，或者此成员是使用晚期绑定机制调用的。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f89ee-170">Cannot create an instance of an abstract class, or this member was invoked with a late-binding mechanism.</span>
+          </span>
+        </exception>
+        <permission cref="T:System.Security.Permissions.ReflectionPermission">
+          <span data-ttu-id="f89ee-171">调用时后期绑定通过机制如<see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f89ee-171">when invoked late-bound through mechanisms such as <see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" />.</span>
+          </span>
+          <span data-ttu-id="f89ee-172">关联的枚举： <see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess" /></span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f89ee-172">Associated enumeration: <see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess" /></span>
+          </span>
+        </permission>
+      </Docs>
+    </Member>
+    <Member MemberName="GetMethodImpl">
+      <MemberSignature Language="C#" Value="protected override System.Reflection.MethodInfo GetMethodImpl ();" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig virtual instance class System.Reflection.MethodInfo GetMethodImpl() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.MulticastDelegate.GetMethodImpl" />
+      <MemberSignature Language="VB.NET" Value="Protected Overrides Function GetMethodImpl () As MethodInfo" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; override System::Reflection::MethodInfo ^ GetMethodImpl();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Runtime</AssemblyName>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Reflection.MethodInfo</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="f89ee-173">返回由当前的 <see cref="T:System.MulticastDelegate" /> 表示的静态方法。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f89ee-173">Returns a static method represented by the current <see cref="T:System.MulticastDelegate" />.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="f89ee-174">由当前的 <see cref="T:System.MulticastDelegate" /> 表示的静态方法。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f89ee-174">A static method represented by the current <see cref="T:System.MulticastDelegate" />.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="f89ee-175">如果<xref:System.MulticastDelegate>表示多个方法，返回只有一个方法。</span><span class="sxs-lookup"><span data-stu-id="f89ee-175">If the <xref:System.MulticastDelegate> represents multiple methods, only one method is returned.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetObjectData">
+      <MemberSignature Language="C#" Value="public override void GetObjectData (System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance void GetObjectData(class System.Runtime.Serialization.SerializationInfo info, valuetype System.Runtime.Serialization.StreamingContext context) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.MulticastDelegate.GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)" />
+      <MemberSignature Language="VB.NET" Value="Public Overrides Sub GetObjectData (info As SerializationInfo, context As StreamingContext)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; override void GetObjectData(System::Runtime::Serialization::SerializationInfo ^ info, System::Runtime::Serialization::StreamingContext context);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Runtime</AssemblyName>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="info" Type="System.Runtime.Serialization.SerializationInfo" />
+        <Parameter Name="context" Type="System.Runtime.Serialization.StreamingContext" />
+      </Parameters>
+      <Docs>
+        <param name="info">
+          <span data-ttu-id="f89ee-176">一个对象，它保存将此实例序列化或反序列化所需的全部数据。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f89ee-176">An object that holds all the data needed to serialize or deserialize this instance.</span>
+          </span>
+        </param>
+        <param name="context">
+          <span data-ttu-id="f89ee-177">（保留）存储和检索序列化数据的位置。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f89ee-177">(Reserved) The location where serialized data is stored and retrieved.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="f89ee-178">用序列化该实例所需的所有数据填充 <see cref="T:System.Runtime.Serialization.SerializationInfo" /> 对象。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f89ee-178">Populates a <see cref="T:System.Runtime.Serialization.SerializationInfo" /> object with all the data needed to serialize this instance.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="f89ee-179">此方法将存储中的所有信息`info`序列化此实例所需。</span><span class="sxs-lookup"><span data-stu-id="f89ee-179">This method stores all the information in `info` necessary to serialize this instance.</span></span>  
+  
+ <span data-ttu-id="f89ee-180">`context`参数是保留的当前未使用此方法执行过程中。</span><span class="sxs-lookup"><span data-stu-id="f89ee-180">The `context` parameter is reserved and is not currently used in the execution of this method.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentNullException">
+          <span data-ttu-id="f89ee-181">
+            <paramref name="info" /> 为 <see langword="null" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f89ee-181">
+              <paramref name="info" /> is <see langword="null" />.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.MemberAccessException">
+          <span data-ttu-id="f89ee-182">无法创建抽象类的实例，或者此成员是使用晚期绑定机制调用的。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f89ee-182">Cannot create an instance of an abstract class, or this member was invoked with a late-binding mechanism.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.Runtime.Serialization.SerializationException">
+          <span data-ttu-id="f89ee-183">发生了序列化错误。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f89ee-183">A serialization error occurred.</span>
+          </span>
+        </exception>
+        <permission cref="T:System.Security.SecurityCriticalAttribute">
+          <span data-ttu-id="f89ee-184">需要完全信任直接调用方。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f89ee-184">Requires full trust for the immediate caller.</span>
+          </span>
+          <span data-ttu-id="f89ee-185">此成员不能由部分受信任或不透明的代码。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f89ee-185">This member cannot be used by partially trusted or transparent code.</span>
+          </span>
+        </permission>
+        <altmember cref="T:System.Object" />
+        <altmember cref="T:System.Runtime.Serialization.SerializationInfo" />
+      </Docs>
+    </Member>
+    <Member MemberName="op_Equality">
+      <MemberSignature Language="C#" Value="public static bool operator == (MulticastDelegate d1, MulticastDelegate d2);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig specialname bool op_Equality(class System.MulticastDelegate d1, class System.MulticastDelegate d2) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.MulticastDelegate.op_Equality(System.MulticastDelegate,System.MulticastDelegate)" />
+      <MemberSignature Language="VB.NET" Value="Public Shared Operator == (d1 As MulticastDelegate, d2 As MulticastDelegate) As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static bool operator ==(MulticastDelegate ^ d1, MulticastDelegate ^ d2);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Runtime</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+        <AssemblyVersion>4.0.20.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="d1" Type="System.MulticastDelegate" />
+        <Parameter Name="d2" Type="System.MulticastDelegate" />
+      </Parameters>
+      <Docs>
+        <param name="d1">
+          <span data-ttu-id="f89ee-186">左操作数。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f89ee-186">The left operand.</span>
+          </span>
+        </param>
+        <param name="d2">
+          <span data-ttu-id="f89ee-187">右操作数。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f89ee-187">The right operand.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="f89ee-188">确定两个 <see cref="T:System.MulticastDelegate" /> 对象是否相等。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f89ee-188">Determines whether two <see cref="T:System.MulticastDelegate" /> objects are equal.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="f89ee-189">如果 <paramref name="d1" /> 和 <paramref name="d2" /> 具有相同的调用列表，则为 <see langword="true" />；否则为 <see langword="false" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f89ee-189">
+              <see langword="true" /> if <paramref name="d1" /> and <paramref name="d2" /> have the same invocation lists; otherwise, <see langword="false" />.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="f89ee-190">两个委托是否相等，如果它们不`null`且的完全相同的类型，其调用列表中包含相同数量的元素，且第一个委托的调用列表中每个元素等于在调用中的相应元素第二个委托的列表。</span><span class="sxs-lookup"><span data-stu-id="f89ee-190">Two delegates are equal if they are not `null` and are of exactly the same type, their invocation lists contain the same number of elements, and every element in the invocation list of the first delegate is equal to the corresponding element in the invocation list of the second delegate.</span></span>  
+  
+ <span data-ttu-id="f89ee-191">如果它们调用的相同的目标实例上的同一实例方法或它们调用相同的静态方法，两个调用列表的元素相等。</span><span class="sxs-lookup"><span data-stu-id="f89ee-191">Two invocation list elements are equal if they invoke the same instance method on the same target instance, or they invoke the same static method.</span></span>  
+  
+ <span data-ttu-id="f89ee-192">此运算符的等效方法是 <xref:System.MulticastDelegate.Equals%28System.Object%29?displayProperty=nameWithType></span><span class="sxs-lookup"><span data-stu-id="f89ee-192">The equivalent method for this operator is <xref:System.MulticastDelegate.Equals%28System.Object%29?displayProperty=nameWithType></span></span>]]></format>
+        </remarks>
+        <exception cref="T:System.MemberAccessException">
+          <span data-ttu-id="f89ee-193">无法创建抽象类的实例，或者此成员是使用晚期绑定机制调用的。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f89ee-193">Cannot create an instance of an abstract class, or this member was invoked with a late-binding mechanism.</span>
+          </span>
+        </exception>
+        <permission cref="T:System.Security.Permissions.ReflectionPermission">
+          <span data-ttu-id="f89ee-194">调用时后期绑定通过机制如<see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f89ee-194">when invoked late-bound through mechanisms such as <see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" />.</span>
+          </span>
+          <span data-ttu-id="f89ee-195">关联的枚举： <see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess" /></span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f89ee-195">Associated enumeration: <see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess" /></span>
+          </span>
+        </permission>
+      </Docs>
+    </Member>
+    <Member MemberName="op_Inequality">
+      <MemberSignature Language="C#" Value="public static bool operator != (MulticastDelegate d1, MulticastDelegate d2);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig specialname bool op_Inequality(class System.MulticastDelegate d1, class System.MulticastDelegate d2) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.MulticastDelegate.op_Inequality(System.MulticastDelegate,System.MulticastDelegate)" />
+      <MemberSignature Language="VB.NET" Value="Public Shared Operator != (d1 As MulticastDelegate, d2 As MulticastDelegate) As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static bool operator !=(MulticastDelegate ^ d1, MulticastDelegate ^ d2);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Runtime</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+        <AssemblyVersion>4.0.20.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="d1" Type="System.MulticastDelegate" />
+        <Parameter Name="d2" Type="System.MulticastDelegate" />
+      </Parameters>
+      <Docs>
+        <param name="d1">
+          <span data-ttu-id="f89ee-196">左操作数。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f89ee-196">The left operand.</span>
+          </span>
+        </param>
+        <param name="d2">
+          <span data-ttu-id="f89ee-197">右操作数。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f89ee-197">The right operand.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="f89ee-198">确定两个 <see cref="T:System.MulticastDelegate" /> 对象是否相等。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f89ee-198">Determines whether two <see cref="T:System.MulticastDelegate" /> objects are not equal.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="f89ee-199">如果 <paramref name="d1" /> 和 <paramref name="d2" /> 没有相同的调用列表，则为 <see langword="true" />；否则为 <see langword="false" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f89ee-199">
+              <see langword="true" /> if <paramref name="d1" /> and <paramref name="d2" /> do not have the same invocation lists; otherwise, <see langword="false" />.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="f89ee-200">两个委托是否相等，如果它们不`null`且的完全相同的类型，其调用列表中包含相同数量的元素，且第一个委托的调用列表中每个元素等于在调用中的相应元素第二个委托的列表。</span><span class="sxs-lookup"><span data-stu-id="f89ee-200">Two delegates are equal if they are not `null` and are of exactly the same type, their invocation lists contain the same number of elements, and every element in the invocation list of the first delegate is equal to the corresponding element in the invocation list of the second delegate.</span></span>  
+  
+ <span data-ttu-id="f89ee-201">如果它们调用的相同的目标实例上的同一实例方法或它们调用相同的静态方法，两个调用列表的元素相等。</span><span class="sxs-lookup"><span data-stu-id="f89ee-201">Two invocation list elements are equal if they invoke the same instance method on the same target instance, or they invoke the same static method.</span></span>  
+  
+ <span data-ttu-id="f89ee-202">此运算符的等效方法是 <xref:System.MulticastDelegate.Equals%28System.Object%29?displayProperty=nameWithType></span><span class="sxs-lookup"><span data-stu-id="f89ee-202">The equivalent method for this operator is <xref:System.MulticastDelegate.Equals%28System.Object%29?displayProperty=nameWithType></span></span>]]></format>
+        </remarks>
+        <exception cref="T:System.MemberAccessException">
+          <span data-ttu-id="f89ee-203">无法创建抽象类的实例，或者此成员是使用晚期绑定机制调用的。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f89ee-203">Cannot create an instance of an abstract class, or this member was invoked with a late-binding mechanism.</span>
+          </span>
+        </exception>
+        <permission cref="T:System.Security.Permissions.ReflectionPermission">
+          <span data-ttu-id="f89ee-204">调用时后期绑定通过机制如<see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f89ee-204">when invoked late-bound through mechanisms such as <see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" />.</span>
+          </span>
+          <span data-ttu-id="f89ee-205">关联的枚举： <see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess" /></span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f89ee-205">Associated enumeration: <see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess" /></span>
+          </span>
+        </permission>
+      </Docs>
+    </Member>
+    <Member MemberName="RemoveImpl">
+      <MemberSignature Language="C#" Value="protected override sealed Delegate RemoveImpl (Delegate value);" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig virtual instance class System.Delegate RemoveImpl(class System.Delegate value) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.MulticastDelegate.RemoveImpl(System.Delegate)" />
+      <MemberSignature Language="VB.NET" Value="Protected Overrides NotOverridable Function RemoveImpl (value As Delegate) As Delegate" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; override Delegate ^ RemoveImpl(Delegate ^ value);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Runtime</AssemblyName>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Delegate</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="value" Type="System.Delegate" />
+      </Parameters>
+      <Docs>
+        <param name="value">
+          <span data-ttu-id="f89ee-206">要在调用列表中搜索的委托。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f89ee-206">The delegate to search for in the invocation list.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="f89ee-207">从此 <see cref="T:System.MulticastDelegate" /> 的调用列表中移除与指定委托相等的元素。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f89ee-207">Removes an element from the invocation list of this <see cref="T:System.MulticastDelegate" /> that is equal to the specified delegate.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="f89ee-208">如果在此实例的调用列表中找到 <paramref name="value" />，则为其调用列表中没有 <paramref name="value" /> 的新 <see cref="T:System.Delegate" />；否则为此实例（带有其原始调用列表）。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f89ee-208">If <paramref name="value" /> is found in the invocation list for this instance, then a new <see cref="T:System.Delegate" /> without <paramref name="value" /> in its invocation list; otherwise, this instance with its original invocation list.</span>
+          </span>
+        </returns>
+        <remarks>To be added.</remarks>
+        <exception cref="T:System.MemberAccessException">
+          <span data-ttu-id="f89ee-209">无法创建抽象类的实例，或者此成员是使用晚期绑定机制调用的。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f89ee-209">Cannot create an instance of an abstract class, or this member was invoked with a late-binding mechanism.</span>
+          </span>
+        </exception>
+        <permission cref="T:System.Security.Permissions.ReflectionPermission">
+          <span data-ttu-id="f89ee-210">调用时后期绑定通过机制如<see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f89ee-210">when invoked late-bound through mechanisms such as <see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" />.</span>
+          </span>
+          <span data-ttu-id="f89ee-211">关联的枚举： <see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess" /></span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f89ee-211">Associated enumeration: <see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess" /></span>
+          </span>
+        </permission>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

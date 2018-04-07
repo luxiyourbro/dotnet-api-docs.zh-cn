@@ -1,0 +1,1131 @@
+<Type Name="GCHandle" FullName="System.Runtime.InteropServices.GCHandle">
+  <Metadata>
+    <Meta Name="ms.openlocfilehash" Value="946c1ad89f5a538ac3d94bc1906117001ed964b3" />
+    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
+    <Meta Name="ms.translationtype" Value="HT" />
+    <Meta Name="ms.contentlocale" Value="zh-CN" />
+    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
+  </Metadata>
+  <TypeSignature Language="C#" Value="public struct GCHandle" />
+  <TypeSignature Language="ILAsm" Value=".class public sequential ansi sealed beforefieldinit GCHandle extends System.ValueType" />
+  <TypeSignature Language="DocId" Value="T:System.Runtime.InteropServices.GCHandle" />
+  <TypeSignature Language="VB.NET" Value="Public Structure GCHandle" />
+  <TypeSignature Language="C++ CLI" Value="public value class GCHandle" />
+  <AssemblyInfo>
+    <AssemblyName>System.Runtime.InteropServices</AssemblyName>
+    <AssemblyVersion>4.0.0.0</AssemblyVersion>
+    <AssemblyVersion>4.0.10.0</AssemblyVersion>
+    <AssemblyVersion>4.0.20.0</AssemblyVersion>
+    <AssemblyVersion>4.1.0.0</AssemblyVersion>
+    <AssemblyVersion>4.1.1.0</AssemblyVersion>
+    <AssemblyVersion>4.2.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <AssemblyInfo>
+    <AssemblyName>mscorlib</AssemblyName>
+    <AssemblyVersion>2.0.5.0</AssemblyVersion>
+    <AssemblyVersion>4.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <AssemblyInfo>
+    <AssemblyName>netstandard</AssemblyName>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <AssemblyInfo>
+    <AssemblyName>System.Runtime</AssemblyName>
+    <AssemblyVersion>4.2.1.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.ValueType</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Attributes>
+    <Attribute>
+      <AttributeName>System.Runtime.InteropServices.ComVisible(true)</AttributeName>
+    </Attribute>
+  </Attributes>
+  <Docs>
+    <summary>
+      <span data-ttu-id="9a3f8-101">提供用于从非托管内存访问托管对象的方法。</span>
+      <span class="sxs-lookup">
+        <span data-stu-id="9a3f8-101">Provides a way to access a managed object from unmanaged memory.</span>
+      </span>
+    </summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="9a3f8-102"><xref:System.Runtime.InteropServices.GCHandle>结构用于<xref:System.Runtime.InteropServices.GCHandleType>枚举，以创建对应于任何托管对象的句柄。</span><span class="sxs-lookup"><span data-stu-id="9a3f8-102">The <xref:System.Runtime.InteropServices.GCHandle> structure is used with the <xref:System.Runtime.InteropServices.GCHandleType> enumeration to create a handle corresponding to any managed object.</span></span> <span data-ttu-id="9a3f8-103">此句柄可以是四种类型之一： `Weak`， `WeakTrackResurrection`， `Normal`，或`Pinned`。</span><span class="sxs-lookup"><span data-stu-id="9a3f8-103">This handle can be one of four types: `Weak`, `WeakTrackResurrection`, `Normal`, or `Pinned`.</span></span> <span data-ttu-id="9a3f8-104">当已分配了句柄时，可用于防止在非托管客户端保留唯一的引用时，垃圾回收器正在收集托管的对象。</span><span class="sxs-lookup"><span data-stu-id="9a3f8-104">When the handle has been allocated, you can use it to prevent the managed object from being collected by the garbage collector when an unmanaged client holds the only reference.</span></span> <span data-ttu-id="9a3f8-105">没有这样的句柄，该对象可以在收集垃圾回收器在完成其工作代表非托管客户端之前。</span><span class="sxs-lookup"><span data-stu-id="9a3f8-105">Without such a handle, the object can be collected by the garbage collector before completing its work on behalf of the unmanaged client.</span></span>  
+  
+ <span data-ttu-id="9a3f8-106">你还可以使用<xref:System.Runtime.InteropServices.GCHandle>创建钉住的对象返回的内存地址可防止垃圾回收器移动对象在内存中。</span><span class="sxs-lookup"><span data-stu-id="9a3f8-106">You can also use <xref:System.Runtime.InteropServices.GCHandle> to create a pinned object that returns a memory address to prevent the garbage collector from moving the object in memory.</span></span>  
+  
+ <span data-ttu-id="9a3f8-107">当该句柄超出范围时您必须显式释放它通过调用<xref:System.Runtime.InteropServices.GCHandle.Free%2A>方法; 否则为内存泄漏可能会出现。</span><span class="sxs-lookup"><span data-stu-id="9a3f8-107">When the handle goes out of scope you must explicitly release it by calling the <xref:System.Runtime.InteropServices.GCHandle.Free%2A> method; otherwise, memory leaks may occur.</span></span> <span data-ttu-id="9a3f8-108">当释放固定句柄时，关联的对象将解除固定，并且将成为适合进行垃圾回收，如果不有任何其他引用了它。</span><span class="sxs-lookup"><span data-stu-id="9a3f8-108">When you free a pinned handle, the associated object will be unpinned and will become eligible for garbage collection, if there are no other references to it.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="9a3f8-109">下面的示例演示`App`创建托管的对象使用的句柄类`GCHandle.Alloc`方法，以防止将托管的对象收集。</span><span class="sxs-lookup"><span data-stu-id="9a3f8-109">The following example shows an `App` class that creates a handle to a managed object using the `GCHandle.Alloc` method, which prevents the managed object from being collected.</span></span> <span data-ttu-id="9a3f8-110">调用`EnumWindows`方法将传递委托与托管的对象 （两者都声明为托管类型，但不是显示），并将强制转换的句柄<xref:System.IntPtr>。</span><span class="sxs-lookup"><span data-stu-id="9a3f8-110">A call to the `EnumWindows` method passes a delegate and a managed object (both declared as managed types, but not shown), and casts the handle to an <xref:System.IntPtr>.</span></span> <span data-ttu-id="9a3f8-111">非托管的函数将类型作为回调函数的参数传递回调用方。</span><span class="sxs-lookup"><span data-stu-id="9a3f8-111">The unmanaged function passes the type back to the caller as a parameter of the callback function.</span></span>  
+  
+ [!code-csharp[System.Runtime.InteropServices.GCHandle#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Runtime.InteropServices.GCHandle/cs/sample.cs#1)]
+ [!code-vb[System.Runtime.InteropServices.GCHandle#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Runtime.InteropServices.GCHandle/vb/sample.vb#1)]  
+  
+ ]]></format>
+    </remarks>
+    <altmember cref="T:System.Runtime.InteropServices.GCHandleType" />
+  </Docs>
+  <Members>
+    <Member MemberName="AddrOfPinnedObject">
+      <MemberSignature Language="C#" Value="public IntPtr AddrOfPinnedObject ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance native int AddrOfPinnedObject() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Runtime.InteropServices.GCHandle.AddrOfPinnedObject" />
+      <MemberSignature Language="VB.NET" Value="Public Function AddrOfPinnedObject () As IntPtr" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; IntPtr AddrOfPinnedObject();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Runtime.InteropServices</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+        <AssemblyVersion>4.0.20.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Runtime</AssemblyName>
+        <AssemblyVersion>4.2.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.IntPtr</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="9a3f8-112">在 <see cref="F:System.Runtime.InteropServices.GCHandleType.Pinned" /> 句柄中检索对象的地址。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9a3f8-112">Retrieves the address of an object in a <see cref="F:System.Runtime.InteropServices.GCHandleType.Pinned" /> handle.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="9a3f8-113">
+            <see cref="T:System.IntPtr" /> 形式的固定对象的地址。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9a3f8-113">The address of the pinned object as an <see cref="T:System.IntPtr" />.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="9a3f8-114">此方法用于获取指向对象的稳定的指针。</span><span class="sxs-lookup"><span data-stu-id="9a3f8-114">This method is used to get a stable pointer to the object.</span></span> <span data-ttu-id="9a3f8-115">固定对象可防止垃圾回收器在内存中，从而减少垃圾回收器的效率移动它。</span><span class="sxs-lookup"><span data-stu-id="9a3f8-115">Pinning an object prevents the garbage collector from moving it around in memory, thereby reducing the efficiency of the garbage collector.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.InvalidOperationException">
+          <span data-ttu-id="9a3f8-116">该句柄是 <see cref="F:System.Runtime.InteropServices.GCHandleType.Pinned" /> 以外的任何类型。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9a3f8-116">The handle is any type other than <see cref="F:System.Runtime.InteropServices.GCHandleType.Pinned" />.</span>
+          </span>
+        </exception>
+        <permission cref="T:System.Security.SecurityCriticalAttribute">
+          <span data-ttu-id="9a3f8-117">需要完全信任直接调用方。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9a3f8-117">requires full trust for the immediate caller.</span>
+          </span>
+          <span data-ttu-id="9a3f8-118">此成员不能由部分受信任或不透明的代码。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9a3f8-118">This member cannot be used by partially trusted or transparent code.</span>
+          </span>
+        </permission>
+        <altmember cref="T:System.Runtime.InteropServices.GCHandleType" />
+      </Docs>
+    </Member>
+    <MemberGroup MemberName="Alloc">
+      <AssemblyInfo>
+        <AssemblyName>System.Runtime.InteropServices</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+        <AssemblyVersion>4.0.20.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Docs>
+        <summary>
+          <span data-ttu-id="9a3f8-119">为指定的对象分配句柄。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9a3f8-119">Allocates a handle for the specified object.</span>
+          </span>
+        </summary>
+      </Docs>
+    </MemberGroup>
+    <Member MemberName="Alloc">
+      <MemberSignature Language="C#" Value="public static System.Runtime.InteropServices.GCHandle Alloc (object value);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig valuetype System.Runtime.InteropServices.GCHandle Alloc(object value) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Runtime.InteropServices.GCHandle.Alloc(System.Object)" />
+      <MemberSignature Language="VB.NET" Value="Public Shared Function Alloc (value As Object) As GCHandle" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static System::Runtime::InteropServices::GCHandle Alloc(System::Object ^ value);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Runtime.InteropServices</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+        <AssemblyVersion>4.0.20.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Runtime</AssemblyName>
+        <AssemblyVersion>4.2.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Runtime.InteropServices.GCHandle</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="value" Type="System.Object" />
+      </Parameters>
+      <Docs>
+        <param name="value">
+          <span data-ttu-id="9a3f8-120">使用 <see cref="T:System.Runtime.InteropServices.GCHandle" /> 的对象。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9a3f8-120">The object that uses the <see cref="T:System.Runtime.InteropServices.GCHandle" />.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="9a3f8-121">为指定的对象分配 <see cref="F:System.Runtime.InteropServices.GCHandleType.Normal" /> 句柄。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9a3f8-121">Allocates a <see cref="F:System.Runtime.InteropServices.GCHandleType.Normal" /> handle for the specified object.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="9a3f8-122">一个新的 <see cref="T:System.Runtime.InteropServices.GCHandle" />，它保护对象不被垃圾回收。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9a3f8-122">A new <see cref="T:System.Runtime.InteropServices.GCHandle" /> that protects the object from garbage collection.</span>
+          </span>
+          <span data-ttu-id="9a3f8-123">当不再需要 <see cref="T:System.Runtime.InteropServices.GCHandle" /> 时，必须通过 <see cref="M:System.Runtime.InteropServices.GCHandle.Free" /> 将其释放。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9a3f8-123">This <see cref="T:System.Runtime.InteropServices.GCHandle" /> must be released with <see cref="M:System.Runtime.InteropServices.GCHandle.Free" /> when it is no longer needed.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="9a3f8-124"><xref:System.Runtime.InteropServices.GCHandleType.Normal> 句柄是对象的不透明的这意味着你无法解析它包含通过该句柄的地址。</span><span class="sxs-lookup"><span data-stu-id="9a3f8-124"><xref:System.Runtime.InteropServices.GCHandleType.Normal> handles are opaque, which means that you cannot resolve the address of the object it contains through the handle.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="9a3f8-125">下面的示例演示`App`创建托管的对象使用的句柄类`GCHandle.Alloc`方法，以防止将托管的对象收集。</span><span class="sxs-lookup"><span data-stu-id="9a3f8-125">The following example shows an `App` class that creates a handle to a managed object using the `GCHandle.Alloc` method, which prevents the managed object from being collected.</span></span> <span data-ttu-id="9a3f8-126">调用`EnumWindows`方法将传递委托与托管的对象 （两者都声明为托管类型，但不是显示），并将强制转换的句柄<xref:System.IntPtr>。</span><span class="sxs-lookup"><span data-stu-id="9a3f8-126">A call to the `EnumWindows` method passes a delegate and a managed object (both declared as managed types, but not shown), and casts the handle to an <xref:System.IntPtr>.</span></span> <span data-ttu-id="9a3f8-127">非托管的函数将类型作为回调函数的参数传递回调用方。</span><span class="sxs-lookup"><span data-stu-id="9a3f8-127">The unmanaged function passes the type back to the caller as a parameter of the callback function.</span></span>  
+  
+ [!code-csharp[System.Runtime.InteropServices.GCHandle#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Runtime.InteropServices.GCHandle/cs/sample.cs#1)]
+ [!code-vb[System.Runtime.InteropServices.GCHandle#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Runtime.InteropServices.GCHandle/vb/sample.vb#1)]  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentException">
+          <span data-ttu-id="9a3f8-128">具有非基元（非直接复制到本机结构中的）成员的实例不能被固定。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9a3f8-128">An instance with nonprimitive (non-blittable) members cannot be pinned.</span>
+          </span>
+        </exception>
+        <permission cref="T:System.Security.SecurityCriticalAttribute">
+          <span data-ttu-id="9a3f8-129">需要完全信任直接调用方。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9a3f8-129">requires full trust for the immediate caller.</span>
+          </span>
+          <span data-ttu-id="9a3f8-130">此成员不能由部分受信任或不透明的代码。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9a3f8-130">This member cannot be used by partially trusted or transparent code.</span>
+          </span>
+        </permission>
+        <altmember cref="T:System.Runtime.InteropServices.GCHandleType" />
+      </Docs>
+    </Member>
+    <Member MemberName="Alloc">
+      <MemberSignature Language="C#" Value="public static System.Runtime.InteropServices.GCHandle Alloc (object value, System.Runtime.InteropServices.GCHandleType type);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig valuetype System.Runtime.InteropServices.GCHandle Alloc(object value, valuetype System.Runtime.InteropServices.GCHandleType type) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Runtime.InteropServices.GCHandle.Alloc(System.Object,System.Runtime.InteropServices.GCHandleType)" />
+      <MemberSignature Language="VB.NET" Value="Public Shared Function Alloc (value As Object, type As GCHandleType) As GCHandle" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static System::Runtime::InteropServices::GCHandle Alloc(System::Object ^ value, System::Runtime::InteropServices::GCHandleType type);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Runtime.InteropServices</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+        <AssemblyVersion>4.0.20.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Runtime</AssemblyName>
+        <AssemblyVersion>4.2.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Runtime.InteropServices.GCHandle</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="value" Type="System.Object" />
+        <Parameter Name="type" Type="System.Runtime.InteropServices.GCHandleType" />
+      </Parameters>
+      <Docs>
+        <param name="value">
+          <span data-ttu-id="9a3f8-131">使用 <see cref="T:System.Runtime.InteropServices.GCHandle" /> 的对象。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9a3f8-131">The object that uses the <see cref="T:System.Runtime.InteropServices.GCHandle" />.</span>
+          </span>
+        </param>
+        <param name="type">
+          <span data-ttu-id="9a3f8-132">
+            <see cref="T:System.Runtime.InteropServices.GCHandleType" /> 值之一，指示要创建的 <see cref="T:System.Runtime.InteropServices.GCHandle" /> 的类型。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9a3f8-132">One of the <see cref="T:System.Runtime.InteropServices.GCHandleType" /> values, indicating the type of <see cref="T:System.Runtime.InteropServices.GCHandle" /> to create.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="9a3f8-133">为指定的对象分配指定类型的句柄。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9a3f8-133">Allocates a handle of the specified type for the specified object.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="9a3f8-134">指定的类型的新 <see cref="T:System.Runtime.InteropServices.GCHandle" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9a3f8-134">A new <see cref="T:System.Runtime.InteropServices.GCHandle" /> of the specified type.</span>
+          </span>
+          <span data-ttu-id="9a3f8-135">当不再需要 <see cref="T:System.Runtime.InteropServices.GCHandle" /> 时，必须通过 <see cref="M:System.Runtime.InteropServices.GCHandle.Free" /> 将其释放。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9a3f8-135">This <see cref="T:System.Runtime.InteropServices.GCHandle" /> must be released with <see cref="M:System.Runtime.InteropServices.GCHandle.Free" /> when it is no longer needed.</span>
+          </span>
+        </returns>
+        <remarks>To be added.</remarks>
+        <exception cref="T:System.ArgumentException">
+          <span data-ttu-id="9a3f8-136">具有非基元（非直接复制到本机结构中的）成员的实例不能被固定。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9a3f8-136">An instance with nonprimitive (non-blittable) members cannot be pinned.</span>
+          </span>
+        </exception>
+        <permission cref="T:System.Security.SecurityCriticalAttribute">
+          <span data-ttu-id="9a3f8-137">需要完全信任直接调用方。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9a3f8-137">requires full trust for the immediate caller.</span>
+          </span>
+          <span data-ttu-id="9a3f8-138">此成员不能由部分受信任或不透明的代码。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9a3f8-138">This member cannot be used by partially trusted or transparent code.</span>
+          </span>
+        </permission>
+        <altmember cref="T:System.Runtime.InteropServices.GCHandleType" />
+      </Docs>
+    </Member>
+    <Member MemberName="Equals">
+      <MemberSignature Language="C#" Value="public override bool Equals (object o);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance bool Equals(object o) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Runtime.InteropServices.GCHandle.Equals(System.Object)" />
+      <MemberSignature Language="VB.NET" Value="Public Overrides Function Equals (o As Object) As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; override bool Equals(System::Object ^ o);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Runtime.InteropServices</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+        <AssemblyVersion>4.0.20.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Runtime</AssemblyName>
+        <AssemblyVersion>4.2.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="o" Type="System.Object" />
+      </Parameters>
+      <Docs>
+        <param name="o">
+          <span data-ttu-id="9a3f8-139">要与当前 <see cref="T:System.Runtime.InteropServices.GCHandle" /> 对象进行比较的 <see cref="T:System.Runtime.InteropServices.GCHandle" /> 对象。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9a3f8-139">The <see cref="T:System.Runtime.InteropServices.GCHandle" /> object to compare with the current <see cref="T:System.Runtime.InteropServices.GCHandle" /> object.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="9a3f8-140">确定指定的 <see cref="T:System.Runtime.InteropServices.GCHandle" /> 对象是否等同于当前的 <see cref="T:System.Runtime.InteropServices.GCHandle" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9a3f8-140">Determines whether the specified <see cref="T:System.Runtime.InteropServices.GCHandle" /> object is equal to the current <see cref="T:System.Runtime.InteropServices.GCHandle" /> object.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="9a3f8-141">如果指定的 <see cref="T:System.Runtime.InteropServices.GCHandle" /> 对象等于当前的 <see cref="T:System.Runtime.InteropServices.GCHandle" /> 对象，则为 <see langword="true" />；否则为 <see langword="false" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9a3f8-141">
+              <see langword="true" /> if the specified <see cref="T:System.Runtime.InteropServices.GCHandle" /> object is equal to the current <see cref="T:System.Runtime.InteropServices.GCHandle" /> object; otherwise, <see langword="false" />.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="9a3f8-142">两个<xref:System.Runtime.InteropServices.GCHandle>对象是否相等，如果它们指向同一内存句柄。</span><span class="sxs-lookup"><span data-stu-id="9a3f8-142">Two <xref:System.Runtime.InteropServices.GCHandle> objects are equal if they point to the same memory handle.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Free">
+      <MemberSignature Language="C#" Value="public void Free ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void Free() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Runtime.InteropServices.GCHandle.Free" />
+      <MemberSignature Language="VB.NET" Value="Public Sub Free ()" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void Free();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Runtime.InteropServices</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+        <AssemblyVersion>4.0.20.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Runtime</AssemblyName>
+        <AssemblyVersion>4.2.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="9a3f8-143">释放 <see cref="T:System.Runtime.InteropServices.GCHandle" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9a3f8-143">Releases a <see cref="T:System.Runtime.InteropServices.GCHandle" />.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="9a3f8-144">调用方必须确保为给定句柄<xref:System.Runtime.InteropServices.GCHandle.Free%2A>只能调用一次。</span><span class="sxs-lookup"><span data-stu-id="9a3f8-144">The caller must ensure that for a given handle, <xref:System.Runtime.InteropServices.GCHandle.Free%2A> is called only once.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="9a3f8-145">下面的示例演示`App`创建托管的对象使用的句柄类`GCHandle.Alloc`方法，以防止将托管的对象收集。</span><span class="sxs-lookup"><span data-stu-id="9a3f8-145">The following example shows an `App` class that creates a handle to a managed object using the `GCHandle.Alloc` method, which prevents the managed object from being collected.</span></span> <span data-ttu-id="9a3f8-146">调用`EnumWindows`方法将传递委托与托管的对象 （两者都声明为托管类型，但不是显示），并将强制转换的句柄<xref:System.IntPtr>。</span><span class="sxs-lookup"><span data-stu-id="9a3f8-146">A call to the `EnumWindows` method passes a delegate and a managed object (both declared as managed types, but not shown), and casts the handle to an <xref:System.IntPtr>.</span></span> <span data-ttu-id="9a3f8-147">非托管的函数将类型作为回调函数的参数传递回调用方。</span><span class="sxs-lookup"><span data-stu-id="9a3f8-147">The unmanaged function passes the type back to the caller as a parameter of the callback function.</span></span>  
+  
+ [!code-csharp[System.Runtime.InteropServices.GCHandle#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Runtime.InteropServices.GCHandle/cs/sample.cs#1)]
+ [!code-vb[System.Runtime.InteropServices.GCHandle#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Runtime.InteropServices.GCHandle/vb/sample.vb#1)]  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.InvalidOperationException">
+          <span data-ttu-id="9a3f8-148">该句柄已被释放或从未初始化。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9a3f8-148">The handle was freed or never initialized.</span>
+          </span>
+        </exception>
+        <permission cref="T:System.Security.SecurityCriticalAttribute">
+          <span data-ttu-id="9a3f8-149">需要完全信任直接调用方。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9a3f8-149">requires full trust for the immediate caller.</span>
+          </span>
+          <span data-ttu-id="9a3f8-150">此成员不能由部分受信任或不透明的代码。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9a3f8-150">This member cannot be used by partially trusted or transparent code.</span>
+          </span>
+        </permission>
+      </Docs>
+    </Member>
+    <Member MemberName="FromIntPtr">
+      <MemberSignature Language="C#" Value="public static System.Runtime.InteropServices.GCHandle FromIntPtr (IntPtr value);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig valuetype System.Runtime.InteropServices.GCHandle FromIntPtr(native int value) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Runtime.InteropServices.GCHandle.FromIntPtr(System.IntPtr)" />
+      <MemberSignature Language="VB.NET" Value="Public Shared Function FromIntPtr (value As IntPtr) As GCHandle" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static System::Runtime::InteropServices::GCHandle FromIntPtr(IntPtr value);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Runtime.InteropServices</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+        <AssemblyVersion>4.0.20.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Runtime</AssemblyName>
+        <AssemblyVersion>4.2.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Runtime.InteropServices.GCHandle</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="value" Type="System.IntPtr" />
+      </Parameters>
+      <Docs>
+        <param name="value">
+          <span data-ttu-id="9a3f8-151">某个托管对象的 <see cref="T:System.IntPtr" /> 句柄，将从该句柄创建 <see cref="T:System.Runtime.InteropServices.GCHandle" /> 对象。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9a3f8-151">An <see cref="T:System.IntPtr" /> handle to a managed object to create a <see cref="T:System.Runtime.InteropServices.GCHandle" /> object from.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="9a3f8-152">返回从某个托管对象的句柄创建的新 <see cref="T:System.Runtime.InteropServices.GCHandle" /> 对象。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9a3f8-152">Returns a new <see cref="T:System.Runtime.InteropServices.GCHandle" /> object created from a handle to a managed object.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="9a3f8-153">对应于值参数的新的 <see cref="T:System.Runtime.InteropServices.GCHandle" /> 对象。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9a3f8-153">A new <see cref="T:System.Runtime.InteropServices.GCHandle" /> object that corresponds to the value parameter.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ <span data-ttu-id="9a3f8-154">下面的代码示例演示`App`创建托管的对象使用的句柄类`GCHandle.Alloc`方法，以防止将托管的对象收集。</span><span class="sxs-lookup"><span data-stu-id="9a3f8-154">The following code example shows an `App` class that creates a handle to a managed object using the `GCHandle.Alloc` method, which prevents the managed object from being collected.</span></span> <span data-ttu-id="9a3f8-155">调用`EnumWindows`方法将传递委托与托管的对象 （两者都声明为托管类型，但不是显示），并将强制转换的句柄<xref:System.IntPtr>对象。</span><span class="sxs-lookup"><span data-stu-id="9a3f8-155">A call to the `EnumWindows` method passes a delegate and a managed object (both declared as managed types, but not shown), and casts the handle to an <xref:System.IntPtr> object.</span></span> <span data-ttu-id="9a3f8-156">非托管的函数将类型作为回调函数的参数传递回调用方。</span><span class="sxs-lookup"><span data-stu-id="9a3f8-156">The unmanaged function passes the type back to the caller as a parameter of the callback function.</span></span>  
+  
+ [!code-csharp[System.Runtime.InteropServices.GCHandle#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Runtime.InteropServices.GCHandle/cs/sample.cs#1)]
+ [!code-vb[System.Runtime.InteropServices.GCHandle#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Runtime.InteropServices.GCHandle/vb/sample.vb#1)]  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.InvalidOperationException">
+          <span data-ttu-id="9a3f8-157">
+            <paramref name="value" /> 参数的值为 <see cref="F:System.IntPtr.Zero" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9a3f8-157">The value of the <paramref name="value" /> parameter is <see cref="F:System.IntPtr.Zero" />.</span>
+          </span>
+        </exception>
+        <permission cref="T:System.Security.SecurityCriticalAttribute">
+          <span data-ttu-id="9a3f8-158">需要完全信任直接调用方。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9a3f8-158">requires full trust for the immediate caller.</span>
+          </span>
+          <span data-ttu-id="9a3f8-159">此成员不能由部分受信任或不透明的代码。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9a3f8-159">This member cannot be used by partially trusted or transparent code.</span>
+          </span>
+        </permission>
+      </Docs>
+    </Member>
+    <Member MemberName="GetHashCode">
+      <MemberSignature Language="C#" Value="public override int GetHashCode ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance int32 GetHashCode() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Runtime.InteropServices.GCHandle.GetHashCode" />
+      <MemberSignature Language="VB.NET" Value="Public Overrides Function GetHashCode () As Integer" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; override int GetHashCode();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Runtime.InteropServices</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+        <AssemblyVersion>4.0.20.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Runtime</AssemblyName>
+        <AssemblyVersion>4.2.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="9a3f8-160">返回当前 <see cref="T:System.Runtime.InteropServices.GCHandle" /> 对象的标识符。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9a3f8-160">Returns an identifier for the current <see cref="T:System.Runtime.InteropServices.GCHandle" /> object.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="9a3f8-161">当前 <see cref="T:System.Runtime.InteropServices.GCHandle" /> 对象的标识符。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9a3f8-161">An identifier for the current <see cref="T:System.Runtime.InteropServices.GCHandle" /> object.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="9a3f8-162"><xref:System.Runtime.InteropServices.GCHandle.GetHashCode%2A>方法返回的整数表示形式封装的内部内存句柄<xref:System.Runtime.InteropServices.GCHandle>结构。</span><span class="sxs-lookup"><span data-stu-id="9a3f8-162">The <xref:System.Runtime.InteropServices.GCHandle.GetHashCode%2A> method returns an integer representation of the internal memory handle encapsulated by the <xref:System.Runtime.InteropServices.GCHandle> structure.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="IsAllocated">
+      <MemberSignature Language="C#" Value="public bool IsAllocated { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance bool IsAllocated" />
+      <MemberSignature Language="DocId" Value="P:System.Runtime.InteropServices.GCHandle.IsAllocated" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property IsAllocated As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property bool IsAllocated { bool get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Runtime.InteropServices</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+        <AssemblyVersion>4.0.20.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Runtime</AssemblyName>
+        <AssemblyVersion>4.2.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="9a3f8-163">获取一个值，该值指示是否分配了句柄。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9a3f8-163">Gets a value indicating whether the handle is allocated.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="9a3f8-164">如果分配了句柄，则为 <see langword="true" />；否则为 <see langword="false" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9a3f8-164">
+              <see langword="true" /> if the handle is allocated; otherwise, <see langword="false" />.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="9a3f8-165">使用此属性时使用<xref:System.Runtime.InteropServices.GCHandleType.Weak>句柄来确定如果<xref:System.Runtime.InteropServices.GCHandle>仍然可用。</span><span class="sxs-lookup"><span data-stu-id="9a3f8-165">Use this property when using <xref:System.Runtime.InteropServices.GCHandleType.Weak> handles to determine if the <xref:System.Runtime.InteropServices.GCHandle> is still available.</span></span> <span data-ttu-id="9a3f8-166">当垃圾回收器收集对象，<xref:System.Runtime.InteropServices.GCHandleType.Weak>仍在终结器中重新恢复句柄。</span><span class="sxs-lookup"><span data-stu-id="9a3f8-166">When the garbage collector collects the object, the <xref:System.Runtime.InteropServices.GCHandleType.Weak> handle can still be resurrected in the finalizer.</span></span> <span data-ttu-id="9a3f8-167">在这种情况下，不分配了句柄 （它位于丢失垃圾回收器尝试回收该对象时），即使目标对象是否有效。</span><span class="sxs-lookup"><span data-stu-id="9a3f8-167">In that case, the handle is not allocated (it is lost when the garbage collector attempts to collect the object), even though the target object is valid.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="T:System.Runtime.InteropServices.GCHandleType" />
+      </Docs>
+    </Member>
+    <Member MemberName="op_Equality">
+      <MemberSignature Language="C#" Value="public static bool operator == (System.Runtime.InteropServices.GCHandle a, System.Runtime.InteropServices.GCHandle b);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig specialname bool op_Equality(valuetype System.Runtime.InteropServices.GCHandle a, valuetype System.Runtime.InteropServices.GCHandle b) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Runtime.InteropServices.GCHandle.op_Equality(System.Runtime.InteropServices.GCHandle,System.Runtime.InteropServices.GCHandle)" />
+      <MemberSignature Language="VB.NET" Value="Public Shared Operator == (a As GCHandle, b As GCHandle) As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static bool operator ==(System::Runtime::InteropServices::GCHandle a, System::Runtime::InteropServices::GCHandle b);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Runtime.InteropServices</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+        <AssemblyVersion>4.0.20.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Runtime</AssemblyName>
+        <AssemblyVersion>4.2.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="a" Type="System.Runtime.InteropServices.GCHandle" />
+        <Parameter Name="b" Type="System.Runtime.InteropServices.GCHandle" />
+      </Parameters>
+      <Docs>
+        <param name="a">
+          <span data-ttu-id="9a3f8-168">与 <c>b</c> 参数进行比较的 <see cref="T:System.Runtime.InteropServices.GCHandle" /> 对象。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9a3f8-168">A <see cref="T:System.Runtime.InteropServices.GCHandle" /> object to compare with the <c>b</c> parameter.</span>
+          </span>
+        </param>
+        <param name="b">
+          <span data-ttu-id="9a3f8-169">与 <c>a</c> 参数进行比较的 <see cref="T:System.Runtime.InteropServices.GCHandle" /> 对象。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9a3f8-169">A <see cref="T:System.Runtime.InteropServices.GCHandle" /> object to compare with the <c>a</c> parameter.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="9a3f8-170">返回一个值，该值指示两个 <see cref="T:System.Runtime.InteropServices.GCHandle" /> 对象是否相等。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9a3f8-170">Returns a value indicating whether two <see cref="T:System.Runtime.InteropServices.GCHandle" /> objects are equal.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="9a3f8-171">如果 <paramref name="a" /> 和 <paramref name="b" /> 参数相等，则为 <see langword="true" />；否则为 <see langword="false" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9a3f8-171">
+              <see langword="true" /> if the <paramref name="a" /> and <paramref name="b" /> parameters are equal; otherwise, <see langword="false" />.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[<span data-ttu-id="9a3f8-172">此运算符的等效方法是<xref:System.Runtime.InteropServices.GCHandle.Equals%2A?displayProperty=nameWithType>。</span><span class="sxs-lookup"><span data-stu-id="9a3f8-172">The equivalent method for this operator is <xref:System.Runtime.InteropServices.GCHandle.Equals%2A?displayProperty=nameWithType>.</span></span>]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <MemberGroup MemberName="op_Explicit">
+      <AssemblyInfo>
+        <AssemblyName>System.Runtime.InteropServices</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+        <AssemblyVersion>4.0.20.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Docs>
+        <summary>
+          <span data-ttu-id="9a3f8-173">将 <see cref="T:System.Runtime.InteropServices.GCHandle" /> 对象的值转换为其他类型。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9a3f8-173">Converts the value of a <see cref="T:System.Runtime.InteropServices.GCHandle" /> object to another type.</span>
+          </span>
+        </summary>
+      </Docs>
+    </MemberGroup>
+    <Member MemberName="op_Explicit">
+      <MemberSignature Language="C#" Value="public static explicit operator System.Runtime.InteropServices.GCHandle (IntPtr value);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig specialname valuetype System.Runtime.InteropServices.GCHandle op_Explicit(native int value) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Runtime.InteropServices.GCHandle.op_Explicit(System.IntPtr)~System.Runtime.InteropServices.GCHandle" />
+      <MemberSignature Language="VB.NET" Value="Public Shared Narrowing Operator CType (value As IntPtr) As GCHandle" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static explicit operator System::Runtime::InteropServices::GCHandle(IntPtr value);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Runtime.InteropServices</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+        <AssemblyVersion>4.0.20.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Runtime</AssemblyName>
+        <AssemblyVersion>4.2.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Runtime.InteropServices.GCHandle</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="value" Type="System.IntPtr" />
+      </Parameters>
+      <Docs>
+        <param name="value">
+          <span data-ttu-id="9a3f8-174">一个 <see cref="T:System.IntPtr" />，它指示需要该转换的句柄。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9a3f8-174">An <see cref="T:System.IntPtr" /> that indicates the handle for which the conversion is required.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="9a3f8-175">
+            <see cref="T:System.Runtime.InteropServices.GCHandle" /> 以内部整数表示形式存储。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9a3f8-175">A <see cref="T:System.Runtime.InteropServices.GCHandle" /> is stored using an internal integer representation.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="9a3f8-176">使用内部整数表示形式的已存储 <see cref="T:System.Runtime.InteropServices.GCHandle" /> 对象。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9a3f8-176">The stored <see cref="T:System.Runtime.InteropServices.GCHandle" /> object using an internal integer representation.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="9a3f8-177">此方法允许您检索<xref:System.Runtime.InteropServices.GCHandle>从整数值。</span><span class="sxs-lookup"><span data-stu-id="9a3f8-177">This method allows you to retrieve a <xref:System.Runtime.InteropServices.GCHandle> from an integer value.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <permission cref="T:System.Security.SecurityCriticalAttribute">
+          <span data-ttu-id="9a3f8-178">需要完全信任直接调用方。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9a3f8-178">requires full trust for the immediate caller.</span>
+          </span>
+          <span data-ttu-id="9a3f8-179">此成员不能由部分受信任或不透明的代码。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9a3f8-179">This member cannot be used by partially trusted or transparent code.</span>
+          </span>
+        </permission>
+        <altmember cref="T:System.Runtime.InteropServices.GCHandleType" />
+      </Docs>
+    </Member>
+    <Member MemberName="op_Explicit">
+      <MemberSignature Language="C#" Value="public static explicit operator IntPtr (System.Runtime.InteropServices.GCHandle value);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig specialname native int op_Explicit(valuetype System.Runtime.InteropServices.GCHandle value) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Runtime.InteropServices.GCHandle.op_Explicit(System.Runtime.InteropServices.GCHandle)~System.IntPtr" />
+      <MemberSignature Language="VB.NET" Value="Public Shared Narrowing Operator CType (value As GCHandle) As IntPtr" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static explicit operator IntPtr(System::Runtime::InteropServices::GCHandle value);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Runtime.InteropServices</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+        <AssemblyVersion>4.0.20.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Runtime</AssemblyName>
+        <AssemblyVersion>4.2.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.IntPtr</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="value" Type="System.Runtime.InteropServices.GCHandle" />
+      </Parameters>
+      <Docs>
+        <param name="value">
+          <span data-ttu-id="9a3f8-180">需要该整数的 <see cref="T:System.Runtime.InteropServices.GCHandle" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9a3f8-180">The <see cref="T:System.Runtime.InteropServices.GCHandle" /> for which the integer is required.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="9a3f8-181">
+            <see cref="T:System.Runtime.InteropServices.GCHandle" /> 以内部整数表示形式存储。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9a3f8-181">A <see cref="T:System.Runtime.InteropServices.GCHandle" /> is stored using an internal integer representation.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="9a3f8-182">整数值。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9a3f8-182">The integer value.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="9a3f8-183">此方法可以用于检索从整数值<xref:System.Runtime.InteropServices.GCHandle>。</span><span class="sxs-lookup"><span data-stu-id="9a3f8-183">This method can be used to retrieve the integer value from a <xref:System.Runtime.InteropServices.GCHandle>.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <permission cref="T:System.Security.SecurityCriticalAttribute">
+          <span data-ttu-id="9a3f8-184">需要完全信任直接调用方。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9a3f8-184">requires full trust for the immediate caller.</span>
+          </span>
+          <span data-ttu-id="9a3f8-185">此成员不能由部分受信任或不透明的代码。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9a3f8-185">This member cannot be used by partially trusted or transparent code.</span>
+          </span>
+        </permission>
+        <altmember cref="T:System.Runtime.InteropServices.GCHandleType" />
+      </Docs>
+    </Member>
+    <Member MemberName="op_Inequality">
+      <MemberSignature Language="C#" Value="public static bool operator != (System.Runtime.InteropServices.GCHandle a, System.Runtime.InteropServices.GCHandle b);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig specialname bool op_Inequality(valuetype System.Runtime.InteropServices.GCHandle a, valuetype System.Runtime.InteropServices.GCHandle b) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Runtime.InteropServices.GCHandle.op_Inequality(System.Runtime.InteropServices.GCHandle,System.Runtime.InteropServices.GCHandle)" />
+      <MemberSignature Language="VB.NET" Value="Public Shared Operator != (a As GCHandle, b As GCHandle) As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static bool operator !=(System::Runtime::InteropServices::GCHandle a, System::Runtime::InteropServices::GCHandle b);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Runtime.InteropServices</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+        <AssemblyVersion>4.0.20.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Runtime</AssemblyName>
+        <AssemblyVersion>4.2.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="a" Type="System.Runtime.InteropServices.GCHandle" />
+        <Parameter Name="b" Type="System.Runtime.InteropServices.GCHandle" />
+      </Parameters>
+      <Docs>
+        <param name="a">
+          <span data-ttu-id="9a3f8-186">与 <c>b</c> 参数进行比较的 <see cref="T:System.Runtime.InteropServices.GCHandle" /> 对象。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9a3f8-186">A <see cref="T:System.Runtime.InteropServices.GCHandle" /> object to compare with the <c>b</c> parameter.</span>
+          </span>
+        </param>
+        <param name="b">
+          <span data-ttu-id="9a3f8-187">与 <c>a</c> 参数进行比较的 <see cref="T:System.Runtime.InteropServices.GCHandle" /> 对象。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9a3f8-187">A <see cref="T:System.Runtime.InteropServices.GCHandle" /> object to compare with the <c>a</c> parameter.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="9a3f8-188">返回一个值，该值指示两个 <see cref="T:System.Runtime.InteropServices.GCHandle" /> 对象是否不相等。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9a3f8-188">Returns a value indicating whether two <see cref="T:System.Runtime.InteropServices.GCHandle" /> objects are not equal.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="9a3f8-189">如果 <paramref name="a" /> 和 <paramref name="b" /> 参数相等，则为 <see langword="true" />；否则为 <see langword="false" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9a3f8-189">
+              <see langword="true" /> if the <paramref name="a" /> and <paramref name="b" /> parameters are not equal; otherwise, <see langword="false" />.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[<span data-ttu-id="9a3f8-190">此运算符的等效方法是<xref:System.Runtime.InteropServices.GCHandle.Equals%2A?displayProperty=nameWithType>。</span><span class="sxs-lookup"><span data-stu-id="9a3f8-190">The equivalent method for this operator is <xref:System.Runtime.InteropServices.GCHandle.Equals%2A?displayProperty=nameWithType>.</span></span>]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Target">
+      <MemberSignature Language="C#" Value="public object Target { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance object Target" />
+      <MemberSignature Language="DocId" Value="P:System.Runtime.InteropServices.GCHandle.Target" />
+      <MemberSignature Language="VB.NET" Value="Public Property Target As Object" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::Object ^ Target { System::Object ^ get(); void set(System::Object ^ value); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Runtime.InteropServices</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+        <AssemblyVersion>4.0.20.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Runtime</AssemblyName>
+        <AssemblyVersion>4.2.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Object</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="9a3f8-191">获取或设置该句柄表示的对象。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9a3f8-191">Gets or sets the object this handle represents.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="9a3f8-192">该句柄表示的对象。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9a3f8-192">The object this handle represents.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ <span data-ttu-id="9a3f8-193">下面的示例演示`App`创建托管的对象使用的句柄类`GCHandle.Alloc`方法，以防止将托管的对象收集。</span><span class="sxs-lookup"><span data-stu-id="9a3f8-193">The following example shows an `App` class that creates a handle to a managed object using the `GCHandle.Alloc` method, which prevents the managed object from being collected.</span></span> <span data-ttu-id="9a3f8-194">调用`EnumWindows`方法将传递委托与托管的对象 （两者都声明为托管类型，但不是显示），并将强制转换的句柄<xref:System.IntPtr>。</span><span class="sxs-lookup"><span data-stu-id="9a3f8-194">A call to the `EnumWindows` method passes a delegate and a managed object (both declared as managed types, but not shown), and casts the handle to an <xref:System.IntPtr>.</span></span> <span data-ttu-id="9a3f8-195">非托管的函数将类型作为回调函数的参数传递回调用方。</span><span class="sxs-lookup"><span data-stu-id="9a3f8-195">The unmanaged function passes the type back to the caller as a parameter of the callback function.</span></span>  
+  
+ [!code-csharp[System.Runtime.InteropServices.GCHandle#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Runtime.InteropServices.GCHandle/cs/sample.cs#1)]
+ [!code-vb[System.Runtime.InteropServices.GCHandle#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Runtime.InteropServices.GCHandle/vb/sample.vb#1)]  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.InvalidOperationException">
+          <span data-ttu-id="9a3f8-196">该句柄被释放，或从未初始化。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9a3f8-196">The handle was freed, or never initialized.</span>
+          </span>
+        </exception>
+        <permission cref="T:System.Security.SecurityCriticalAttribute">
+          <span data-ttu-id="9a3f8-197">需要完全信任直接调用方。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9a3f8-197">requires full trust for the immediate caller.</span>
+          </span>
+          <span data-ttu-id="9a3f8-198">此成员不能由部分受信任或不透明的代码。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9a3f8-198">This member cannot be used by partially trusted or transparent code.</span>
+          </span>
+        </permission>
+        <altmember cref="T:System.Runtime.InteropServices.GCHandleType" />
+      </Docs>
+    </Member>
+    <Member MemberName="ToIntPtr">
+      <MemberSignature Language="C#" Value="public static IntPtr ToIntPtr (System.Runtime.InteropServices.GCHandle value);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig native int ToIntPtr(valuetype System.Runtime.InteropServices.GCHandle value) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Runtime.InteropServices.GCHandle.ToIntPtr(System.Runtime.InteropServices.GCHandle)" />
+      <MemberSignature Language="VB.NET" Value="Public Shared Function ToIntPtr (value As GCHandle) As IntPtr" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static IntPtr ToIntPtr(System::Runtime::InteropServices::GCHandle value);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Runtime.InteropServices</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+        <AssemblyVersion>4.0.20.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Runtime</AssemblyName>
+        <AssemblyVersion>4.2.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.IntPtr</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="value" Type="System.Runtime.InteropServices.GCHandle" />
+      </Parameters>
+      <Docs>
+        <param name="value">
+          <span data-ttu-id="9a3f8-199">要从中检索内部整数表示形式的 <see cref="T:System.Runtime.InteropServices.GCHandle" /> 对象。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9a3f8-199">A <see cref="T:System.Runtime.InteropServices.GCHandle" /> object to retrieve an internal integer representation from.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="9a3f8-200">返回 <see cref="T:System.Runtime.InteropServices.GCHandle" /> 对象的内部整数表示形式。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9a3f8-200">Returns the internal integer representation of a <see cref="T:System.Runtime.InteropServices.GCHandle" /> object.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="9a3f8-201">表示 <see cref="T:System.Runtime.InteropServices.GCHandle" /> 对象的 <see cref="T:System.IntPtr" /> 对象。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9a3f8-201">An <see cref="T:System.IntPtr" /> object that represents a <see cref="T:System.Runtime.InteropServices.GCHandle" /> object.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ <span data-ttu-id="9a3f8-202">下面的代码示例演示`App`创建托管的对象使用的句柄类`GCHandle.Alloc`方法，以防止将托管的对象收集。</span><span class="sxs-lookup"><span data-stu-id="9a3f8-202">The following code example shows an `App` class that creates a handle to a managed object using the `GCHandle.Alloc` method, which prevents the managed object from being collected.</span></span> <span data-ttu-id="9a3f8-203">调用`EnumWindows`方法将传递委托与托管的对象 （两者都声明为托管类型，但不是显示），并将强制转换的句柄<xref:System.IntPtr>对象。</span><span class="sxs-lookup"><span data-stu-id="9a3f8-203">A call to the `EnumWindows` method passes a delegate and a managed object (both declared as managed types, but not shown), and casts the handle to an <xref:System.IntPtr> object.</span></span> <span data-ttu-id="9a3f8-204">非托管的函数将类型作为回调函数的参数传递回调用方。</span><span class="sxs-lookup"><span data-stu-id="9a3f8-204">The unmanaged function passes the type back to the caller as a parameter of the callback function.</span></span>  
+  
+ [!code-csharp[System.Runtime.InteropServices.GCHandle#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Runtime.InteropServices.GCHandle/cs/sample.cs#1)]
+ [!code-vb[System.Runtime.InteropServices.GCHandle#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Runtime.InteropServices.GCHandle/vb/sample.vb#1)]  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

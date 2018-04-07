@@ -1,0 +1,1784 @@
+<Type Name="ControlBuilder" FullName="System.Web.UI.ControlBuilder">
+  <Metadata>
+    <Meta Name="ms.openlocfilehash" Value="f9f189e34352a9bc82c2ac71e575d4e05ef76238" />
+    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
+    <Meta Name="ms.translationtype" Value="HT" />
+    <Meta Name="ms.contentlocale" Value="zh-CN" />
+    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
+  </Metadata>
+  <TypeSignature Language="C#" Value="public class ControlBuilder" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit ControlBuilder extends System.Object" />
+  <TypeSignature Language="DocId" Value="T:System.Web.UI.ControlBuilder" />
+  <TypeSignature Language="VB.NET" Value="Public Class ControlBuilder" />
+  <TypeSignature Language="C++ CLI" Value="public ref class ControlBuilder" />
+  <AssemblyInfo>
+    <AssemblyName>System.Web</AssemblyName>
+    <AssemblyVersion>4.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Object</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Docs>
+    <summary>
+      <span data-ttu-id="87c6a-101">支持页分析器生成控件及其包含的子控件。</span>
+      <span class="sxs-lookup">
+        <span data-stu-id="87c6a-101">Supports the page parser in building a control and the child controls it contains.</span>
+      </span>
+    </summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="87c6a-102">默认情况下，在页面上的每个控件都与默认关联<xref:System.Web.UI.ControlBuilder>类。</span><span class="sxs-lookup"><span data-stu-id="87c6a-102">By default, every control on a page is associated with a default <xref:System.Web.UI.ControlBuilder> class.</span></span> <span data-ttu-id="87c6a-103">分析过程中，ASP.NET 页框架生成的树<xref:System.Web.UI.ControlBuilder>对应于页的控件的树的对象。</span><span class="sxs-lookup"><span data-stu-id="87c6a-103">During parsing, the ASP.NET page framework builds a tree of <xref:System.Web.UI.ControlBuilder> objects corresponding to the tree of controls for the page.</span></span> <span data-ttu-id="87c6a-104"><xref:System.Web.UI.ControlBuilder>树然后用于生成页代码以创建管理树。</span><span class="sxs-lookup"><span data-stu-id="87c6a-104">The <xref:System.Web.UI.ControlBuilder> tree is then used to generate page code to create the control tree.</span></span> <span data-ttu-id="87c6a-105">子控件，除了<xref:System.Web.UI.ControlBuilder>定义如何分析控件标记中的内容的行为。</span><span class="sxs-lookup"><span data-stu-id="87c6a-105">In addition to child controls, the <xref:System.Web.UI.ControlBuilder> defines the behavior of how the content within control tags is parsed.</span></span> <span data-ttu-id="87c6a-106">可以通过定义您自己的自定义控件生成器类来覆盖此默认行为。</span><span class="sxs-lookup"><span data-stu-id="87c6a-106">You can override this default behavior by defining your own custom control builder class.</span></span> <span data-ttu-id="87c6a-107">这通过应用<xref:System.Web.UI.ControlBuilderAttribute>属性设为你的控件生成器类，如下所示：</span><span class="sxs-lookup"><span data-stu-id="87c6a-107">This is done by applying a <xref:System.Web.UI.ControlBuilderAttribute> attribute to your control builder class as follows:</span></span>  
+  
+ `[ControlBuilderAttribute(typeof(ControlBuilderType))]`  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="87c6a-108">下面的代码示例创建<xref:System.Web.UI.WebControls.Table>生成表时定义其属性和内容的控件。</span><span class="sxs-lookup"><span data-stu-id="87c6a-108">The following code example creates a <xref:System.Web.UI.WebControls.Table> control whose attributes and content are defined at the time the table is built.</span></span> <span data-ttu-id="87c6a-109">下面是命令行要用于生成可执行文件。</span><span class="sxs-lookup"><span data-stu-id="87c6a-109">The following is the command line to use to build the executable.</span></span>  
+  
+```vb  
+vbc /r:System.dll /r:System.Web.dll /r:System.Drawing.dll /t:library /out:myWebAppPath/Bin/vb_mycontrolbuilder.dll myControlBuilder.vb  
+```  
+  
+```csharp  
+csc /t:library /out:myWebAppPath/Bin/cs_mycontrolbuilder.dll myControlBuilder.cs  
+```  
+  
+ [!code-csharp[SystemWebUI_ControlBuilder_2#1](~/samples/snippets/csharp/VS_Snippets_WebNet/SystemWebUI_ControlBuilder_2/CS/controlbuilder.cs#1)]
+ [!code-vb[SystemWebUI_ControlBuilder_2#1](~/samples/snippets/visualbasic/VS_Snippets_WebNet/SystemWebUI_ControlBuilder_2/VB/controlbuilder.vb#1)]  
+  
+ <span data-ttu-id="87c6a-110">下面的代码示例使用上一个自定义控件。</span><span class="sxs-lookup"><span data-stu-id="87c6a-110">The following code example uses the previous custom control.</span></span> <span data-ttu-id="87c6a-111">具体而言，它生成表其属性和内容都在运行时定义。</span><span class="sxs-lookup"><span data-stu-id="87c6a-111">In particular, it builds a table whose attributes and content are defined at run time.</span></span> <span data-ttu-id="87c6a-112">请注意在指令中显示的值反映在上述命令行。</span><span class="sxs-lookup"><span data-stu-id="87c6a-112">Notice that the values shown in the  directive reflect the previous command line.</span></span>  
+  
+ [!code-aspx-csharp[SystemWebUI_ControlBuilder_2#2](~/samples/snippets/csharp/VS_Snippets_WebNet/SystemWebUI_ControlBuilder_2/CS/controlbuilder.aspx#2)]
+ [!code-aspx-vb[SystemWebUI_ControlBuilder_2#2](~/samples/snippets/visualbasic/VS_Snippets_WebNet/SystemWebUI_ControlBuilder_2/VB/controlbuilder.aspx#2)]  
+  
+ ]]></format>
+    </remarks>
+    <altmember cref="T:System.Web.UI.Control" />
+    <altmember cref="T:System.Web.UI.WebControls.WebControl" />
+    <altmember cref="T:System.Web.UI.Page" />
+    <altmember cref="T:System.Web.UI.ControlBuilderAttribute" />
+    <altmember cref="T:System.Web.UI.ParseChildrenAttribute" />
+    <altmember cref="T:System.Web.UI.PersistChildrenAttribute" />
+    <altmember cref="M:System.Web.UI.Control.AddParsedSubObject(System.Object)" />
+  </Docs>
+  <Members>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public ControlBuilder ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Web.UI.ControlBuilder.#ctor" />
+      <MemberSignature Language="VB.NET" Value="Public Sub New ()" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; ControlBuilder();" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="87c6a-113">初始化 <see cref="T:System.Web.UI.ControlBuilder" /> 类的新实例。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="87c6a-113">Initializes a new instance of the <see cref="T:System.Web.UI.ControlBuilder" /> class.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="87c6a-114">使用此构造函数创建的新实例<xref:System.Web.UI.ControlBuilder>类。</span><span class="sxs-lookup"><span data-stu-id="87c6a-114">Use this constructor to create a new instance the <xref:System.Web.UI.ControlBuilder> class.</span></span>  
+  
+> [!NOTE]
+>  <span data-ttu-id="87c6a-115">分析页面时通常由 ASP.NET 使用此构造函数和创建的控件层次结构。</span><span class="sxs-lookup"><span data-stu-id="87c6a-115">This constructor is generally used by ASP.NET when parsing the page and creating the control hierarchy.</span></span> <span data-ttu-id="87c6a-116">它不用于在代码中使用。</span><span class="sxs-lookup"><span data-stu-id="87c6a-116">It is not intended for use in your code.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="AllowWhitespaceLiterals">
+      <MemberSignature Language="C#" Value="public virtual bool AllowWhitespaceLiterals ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance bool AllowWhitespaceLiterals() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Web.UI.ControlBuilder.AllowWhitespaceLiterals" />
+      <MemberSignature Language="VB.NET" Value="Public Overridable Function AllowWhitespaceLiterals () As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual bool AllowWhitespaceLiterals();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="87c6a-117">确定在控件的开始和结束标记之间的内容中是否允许存在空白。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="87c6a-117">Determines whether white space literals are permitted in the content between a control's opening and closing tags.</span>
+          </span>
+          <span data-ttu-id="87c6a-118">此方法由 ASP.NET 页面框架调用。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="87c6a-118">This method is called by the ASP.NET page framework.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="87c6a-119">始终返回 <see langword="true" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="87c6a-119">Always returns <see langword="true" />.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="87c6a-120"><xref:System.Web.UI.ControlBuilder.AllowWhitespaceLiterals%2A>方法用于确定是否之间开始标记和结束标记的控件的内容中允许存在空白。</span><span class="sxs-lookup"><span data-stu-id="87c6a-120">The <xref:System.Web.UI.ControlBuilder.AllowWhitespaceLiterals%2A> method is used to determine whether white space literals are permitted in the content between the opening and closing tags of a control.</span></span> <span data-ttu-id="87c6a-121">如果此方法返回`false`，由页分析器处理内容之前，将内容从削减的空白文本。</span><span class="sxs-lookup"><span data-stu-id="87c6a-121">When this method returns `false`, the white space literals are trimmed from the content before the content is processed by the page parser.</span></span> <span data-ttu-id="87c6a-122">如果此方法返回`true`，未删除的空白文本。</span><span class="sxs-lookup"><span data-stu-id="87c6a-122">When this method returns `true`, the white space literals not removed.</span></span>  
+  
+ <span data-ttu-id="87c6a-123">此方法在分析过程中由 ASP.NET 页面框架调用，但不可直接在代码中调用。</span><span class="sxs-lookup"><span data-stu-id="87c6a-123">This method is called by the ASP.NET page framework during parsing and is not intended to be called directly in you code.</span></span>  
+  
+   
+  
+## Examples  
+ [!code-csharp[ControlBuilderSamples_1#4](~/samples/snippets/csharp/VS_Snippets_WebNet/ControlBuilderSamples_1/CS/ctrlbuilder_1.cs#4)]
+ [!code-vb[ControlBuilderSamples_1#4](~/samples/snippets/visualbasic/VS_Snippets_WebNet/ControlBuilderSamples_1/VB/ctrlbuilder_1.vb#4)]  
+  
+ ]]></format>
+        </remarks>
+        <block subset="none" type="overrides">
+          <para>
+            <span data-ttu-id="87c6a-124">你可以指示是否在你自定义控件中允许存在空白派生类中重写此方法。</span>
+            <span class="sxs-lookup">
+              <span data-stu-id="87c6a-124">You can override this method in your derived class to indicate whether white space literals are permitted in your custom control.</span>
+            </span>
+          </para>
+        </block>
+      </Docs>
+    </Member>
+    <Member MemberName="AppendLiteralString">
+      <MemberSignature Language="C#" Value="public virtual void AppendLiteralString (string s);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void AppendLiteralString(string s) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Web.UI.ControlBuilder.AppendLiteralString(System.String)" />
+      <MemberSignature Language="VB.NET" Value="Public Overridable Sub AppendLiteralString (s As String)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual void AppendLiteralString(System::String ^ s);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="s" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="s">
+          <span data-ttu-id="87c6a-125">要添加到控件的内容。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="87c6a-125">The content to add to the control.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="87c6a-126">将指定的文本内容添加到控件。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="87c6a-126">Adds the specified literal content to a control.</span>
+          </span>
+          <span data-ttu-id="87c6a-127">此方法由 ASP.NET 页面框架调用。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="87c6a-127">This method is called by the ASP.NET page framework.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="87c6a-128">重写<xref:System.Web.UI.ControlBuilder.AppendLiteralString%2A>处理方法可控制如何文本内容控件的开始和结束标记之间。</span><span class="sxs-lookup"><span data-stu-id="87c6a-128">Override the <xref:System.Web.UI.ControlBuilder.AppendLiteralString%2A> method to control how literal content between the control's opening and closing tags is processed.</span></span> <span data-ttu-id="87c6a-129">文本内容可以是任何浏览器由传递给服务器控件的文本。</span><span class="sxs-lookup"><span data-stu-id="87c6a-129">Literal content can be any text that is passed by the browser to the server control.</span></span> <span data-ttu-id="87c6a-130">例如，任何 HTML 元素和其开始和结束标记之间的文本，都是文本内容。</span><span class="sxs-lookup"><span data-stu-id="87c6a-130">For example, any HTML elements and text, between their opening and closing tags, are literal content.</span></span>  
+  
+   
+  
+## Examples  
+ [!code-csharp[ControlBuilderSamples_1#3](~/samples/snippets/csharp/VS_Snippets_WebNet/ControlBuilderSamples_1/CS/ctrlbuilder_1.cs#3)]
+ [!code-vb[ControlBuilderSamples_1#3](~/samples/snippets/visualbasic/VS_Snippets_WebNet/ControlBuilderSamples_1/VB/ctrlbuilder_1.vb#3)]  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.Web.HttpException">
+          <span data-ttu-id="87c6a-131">字符串的格式不正确。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="87c6a-131">The string literal is not well formed.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="AppendSubBuilder">
+      <MemberSignature Language="C#" Value="public virtual void AppendSubBuilder (System.Web.UI.ControlBuilder subBuilder);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void AppendSubBuilder(class System.Web.UI.ControlBuilder subBuilder) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Web.UI.ControlBuilder.AppendSubBuilder(System.Web.UI.ControlBuilder)" />
+      <MemberSignature Language="VB.NET" Value="Public Overridable Sub AppendSubBuilder (subBuilder As ControlBuilder)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual void AppendSubBuilder(System::Web::UI::ControlBuilder ^ subBuilder);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="subBuilder" Type="System.Web.UI.ControlBuilder" />
+      </Parameters>
+      <Docs>
+        <param name="subBuilder">
+          <span data-ttu-id="87c6a-132">分配给子控件的对象 <see cref="T:System.Web.UI.ControlBuilder" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="87c6a-132">The <see cref="T:System.Web.UI.ControlBuilder" /> object assigned to the child control.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="87c6a-133">将生成器添加到属于容器控件的任何子控件的 <see cref="T:System.Web.UI.ControlBuilder" /> 对象。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="87c6a-133">Adds builders to the <see cref="T:System.Web.UI.ControlBuilder" /> object for any child controls that belong to the container control.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ <span data-ttu-id="87c6a-134">下面的示例重写<xref:System.Web.UI.ControlBuilder.AppendSubBuilder%2A>方法会引发<xref:System.Exception>如果此控件生成器应用于控件尝试在其实例中包含控件<xref:System.Web.UI.ControlCollection>类。</span><span class="sxs-lookup"><span data-stu-id="87c6a-134">The following example overrides the <xref:System.Web.UI.ControlBuilder.AppendSubBuilder%2A> method to throw an <xref:System.Exception> if the control this control builder is applied to tries to include controls in its instance of <xref:System.Web.UI.ControlCollection> class.</span></span>  
+  
+ [!code-csharp[ControlBuilderSamples_2#1](~/samples/snippets/csharp/VS_Snippets_WebNet/ControlBuilderSamples_2/cs/ctrlbuilder1.cs#1)]
+ [!code-vb[ControlBuilderSamples_2#1](~/samples/snippets/visualbasic/VS_Snippets_WebNet/ControlBuilderSamples_2/VB/ctrlbuilder1.vb#1)]  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="T:System.Web.UI.ControlBuilder" />
+      </Docs>
+    </Member>
+    <Member MemberName="BindingContainerBuilder">
+      <MemberSignature Language="C#" Value="public virtual System.Web.UI.ControlBuilder BindingContainerBuilder { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class System.Web.UI.ControlBuilder BindingContainerBuilder" />
+      <MemberSignature Language="DocId" Value="P:System.Web.UI.ControlBuilder.BindingContainerBuilder" />
+      <MemberSignature Language="VB.NET" Value="Public Overridable ReadOnly Property BindingContainerBuilder As ControlBuilder" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual property System::Web::UI::ControlBuilder ^ BindingContainerBuilder { System::Web::UI::ControlBuilder ^ get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Web.UI.ControlBuilder</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="87c6a-135">获取与此生成器创建的控件的绑定容器对应的控件生成器。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="87c6a-135">Gets the control builder that corresponds to the binding container for the control that this builder creates.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="87c6a-136">对应于控件的约束容器的控件生成器。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="87c6a-136">The control builder that corresponds to the binding container for the control.</span>
+          </span>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="BindingContainerType">
+      <MemberSignature Language="C#" Value="public virtual Type BindingContainerType { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class System.Type BindingContainerType" />
+      <MemberSignature Language="DocId" Value="P:System.Web.UI.ControlBuilder.BindingContainerType" />
+      <MemberSignature Language="VB.NET" Value="Public Overridable ReadOnly Property BindingContainerType As Type" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual property Type ^ BindingContainerType { Type ^ get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Type</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="87c6a-137">获取此生成器所创建控件的绑定容器的类型。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="87c6a-137">Gets the type of the binding container for the control that this builder creates.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="87c6a-138">一个 <see cref="T:System.Type" />，表示此生成器所创建控件的绑定容器的类型。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="87c6a-138">A <see cref="T:System.Type" /> that represent the type of the binding container for the control that this builder creates.</span>
+          </span>
+        </value>
+        <remarks>To be added.</remarks>
+        <altmember cref="P:System.Web.UI.Control.BindingContainer" />
+      </Docs>
+    </Member>
+    <Member MemberName="BuildObject">
+      <MemberSignature Language="C#" Value="public virtual object BuildObject ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance object BuildObject() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Web.UI.ControlBuilder.BuildObject" />
+      <MemberSignature Language="VB.NET" Value="Public Overridable Function BuildObject () As Object" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual System::Object ^ BuildObject();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Object</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="87c6a-139">生成此 <see cref="T:System.Web.UI.ControlBuilder" /> 对象所引用的控件的设计时实例。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="87c6a-139">Builds a design-time instance of the control that is referred to by this <see cref="T:System.Web.UI.ControlBuilder" /> object.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="87c6a-140">作为结果生成的控件。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="87c6a-140">The resulting built control.</span>
+          </span>
+        </returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="CloseControl">
+      <MemberSignature Language="C#" Value="public virtual void CloseControl ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void CloseControl() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Web.UI.ControlBuilder.CloseControl" />
+      <MemberSignature Language="VB.NET" Value="Public Overridable Sub CloseControl ()" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual void CloseControl();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="87c6a-141">由分析器调用以通知生成器对控件的开始和结束标记的分析已完成。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="87c6a-141">Called by the parser to inform the builder that the parsing of the control's opening and closing tags is complete.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="87c6a-142"><xref:System.Web.UI.ControlBuilder.CloseControl%2A>分析器使用方法以指示它已完成分析控件生成器。</span><span class="sxs-lookup"><span data-stu-id="87c6a-142">The <xref:System.Web.UI.ControlBuilder.CloseControl%2A> method is used by the parser to indicate to the builder that it has finished parsing the control.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ComplexPropertyEntries">
+      <MemberSignature Language="C#" Value="public System.Collections.ICollection ComplexPropertyEntries { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class System.Collections.ICollection ComplexPropertyEntries" />
+      <MemberSignature Language="DocId" Value="P:System.Web.UI.ControlBuilder.ComplexPropertyEntries" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property ComplexPropertyEntries As ICollection" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::Collections::ICollection ^ ComplexPropertyEntries { System::Collections::ICollection ^ get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Collections.ICollection</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="87c6a-143">获取复杂属性项的集合。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="87c6a-143">Gets a collection of complex property entries.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="87c6a-144">复杂属性项的集合。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="87c6a-144">A collection of complex property entries.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="87c6a-145">如果不存在项，则返回静态的空集合。</span><span class="sxs-lookup"><span data-stu-id="87c6a-145">If there are no entries, a static empty collection is returned.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ControlType">
+      <MemberSignature Language="C#" Value="public Type ControlType { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class System.Type ControlType" />
+      <MemberSignature Language="DocId" Value="P:System.Web.UI.ControlBuilder.ControlType" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property ControlType As Type" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property Type ^ ControlType { Type ^ get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Type</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="87c6a-146">获取要创建的控件的 <see cref="T:System.Type" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="87c6a-146">Gets the <see cref="T:System.Type" /> for the control to be created.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="87c6a-147">要创建的控件的 <see cref="T:System.Type" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="87c6a-147">The <see cref="T:System.Type" /> for the control to be created.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ <span data-ttu-id="87c6a-148">此示例替代<xref:System.Web.UI.ControlBuilder.OnAppendToParentBuilder%2A>方法来检查<xref:System.Web.UI.ControlBuilder.ControlType%2A>属性来确定哪种类型的控件此生成器应用于。</span><span class="sxs-lookup"><span data-stu-id="87c6a-148">This example overrides the <xref:System.Web.UI.ControlBuilder.OnAppendToParentBuilder%2A> method to check the <xref:System.Web.UI.ControlBuilder.ControlType%2A> property to determine what type of control this builder is applied to.</span></span> <span data-ttu-id="87c6a-149">如果它是`CustomTextBox`，生成器检查是否的值<xref:System.Web.UI.ControlBuilder.HasAspCode%2A>属性包含在控件中。</span><span class="sxs-lookup"><span data-stu-id="87c6a-149">If it is a `CustomTextBox`, the builder checks whether the value of the <xref:System.Web.UI.ControlBuilder.HasAspCode%2A> property is included in the control.</span></span> <span data-ttu-id="87c6a-150">如果因此，将引发异常，否则<xref:System.Web.UI.ControlBuilder.HasBody%2A>调用方法。</span><span class="sxs-lookup"><span data-stu-id="87c6a-150">If so, an exception is thrown, if not the <xref:System.Web.UI.ControlBuilder.HasBody%2A> method is called.</span></span>  
+  
+ [!code-csharp[ControlBuilderSamples_4#1](~/samples/snippets/csharp/VS_Snippets_WebNet/ControlBuilderSamples_4/cs/controlbuilder_4.cs#1)]
+ [!code-vb[ControlBuilderSamples_4#1](~/samples/snippets/visualbasic/VS_Snippets_WebNet/ControlBuilderSamples_4/VB/controlbuilder_4.vb#1)]  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="T:System.Type" />
+      </Docs>
+    </Member>
+    <Member MemberName="CreateBuilderFromType">
+      <MemberSignature Language="C#" Value="public static System.Web.UI.ControlBuilder CreateBuilderFromType (System.Web.UI.TemplateParser parser, System.Web.UI.ControlBuilder parentBuilder, Type type, string tagName, string id, System.Collections.IDictionary attribs, int line, string sourceFileName);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig class System.Web.UI.ControlBuilder CreateBuilderFromType(class System.Web.UI.TemplateParser parser, class System.Web.UI.ControlBuilder parentBuilder, class System.Type type, string tagName, string id, class System.Collections.IDictionary attribs, int32 line, string sourceFileName) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Web.UI.ControlBuilder.CreateBuilderFromType(System.Web.UI.TemplateParser,System.Web.UI.ControlBuilder,System.Type,System.String,System.String,System.Collections.IDictionary,System.Int32,System.String)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static System::Web::UI::ControlBuilder ^ CreateBuilderFromType(System::Web::UI::TemplateParser ^ parser, System::Web::UI::ControlBuilder ^ parentBuilder, Type ^ type, System::String ^ tagName, System::String ^ id, System::Collections::IDictionary ^ attribs, int line, System::String ^ sourceFileName);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Web.UI.ControlBuilder</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="parser" Type="System.Web.UI.TemplateParser" />
+        <Parameter Name="parentBuilder" Type="System.Web.UI.ControlBuilder" />
+        <Parameter Name="type" Type="System.Type" />
+        <Parameter Name="tagName" Type="System.String" />
+        <Parameter Name="id" Type="System.String" />
+        <Parameter Name="attribs" Type="System.Collections.IDictionary" />
+        <Parameter Name="line" Type="System.Int32" />
+        <Parameter Name="sourceFileName" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="parser">
+          <span data-ttu-id="87c6a-151">负责分析控件的 <see cref="T:System.Web.UI.TemplateParser" /> 对象。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="87c6a-151">The <see cref="T:System.Web.UI.TemplateParser" /> object responsible for parsing the control.</span>
+          </span>
+        </param>
+        <param name="parentBuilder">
+          <span data-ttu-id="87c6a-152">负责生成父控件的 <see cref="T:System.Web.UI.ControlBuilder" /> 对象。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="87c6a-152">The <see cref="T:System.Web.UI.ControlBuilder" /> object responsible for building the parent control.</span>
+          </span>
+        </param>
+        <param name="type">
+          <span data-ttu-id="87c6a-153">生成器将创建的对象的 <see cref="T:System.Type" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="87c6a-153">The <see cref="T:System.Type" /> of the object that the builder will create.</span>
+          </span>
+        </param>
+        <param name="tagName">
+          <span data-ttu-id="87c6a-154">要生成的标记的名称。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="87c6a-154">The name of the tag to be built.</span>
+          </span>
+          <span data-ttu-id="87c6a-155">这允许生成器支持多个标记类型。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="87c6a-155">This allows the builder to support multiple tag types.</span>
+          </span>
+        </param>
+        <param name="id">
+          <span data-ttu-id="87c6a-156">分配给控件的 <see cref="P:System.Web.UI.ControlBuilder.ID" /> 特性。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="87c6a-156">The <see cref="P:System.Web.UI.ControlBuilder.ID" /> attribute assigned to the control.</span>
+          </span>
+        </param>
+        <param name="attribs">
+          <span data-ttu-id="87c6a-157">保存所有指定标记特性的 <see cref="T:System.Collections.IDictionary" /> 对象。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="87c6a-157">The <see cref="T:System.Collections.IDictionary" /> object that holds all the specified tag attributes.</span>
+          </span>
+        </param>
+        <param name="line">
+          <span data-ttu-id="87c6a-158">指定控件的源文件行号。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="87c6a-158">The source file line number for the specified control.</span>
+          </span>
+        </param>
+        <param name="sourceFileName">
+          <span data-ttu-id="87c6a-159">用来创建控件的源文件的名称。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="87c6a-159">The name of the source file from which the control is to be created.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="87c6a-160">根据指定的标记名称和对象类型，以及定义生成器的其他参数创建一个 <see cref="T:System.Web.UI.ControlBuilder" /> 对象。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="87c6a-160">Creates a <see cref="T:System.Web.UI.ControlBuilder" /> object from the specified tag name and object type, as well as other parameters defining the builder.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="87c6a-161">负责创建控件的生成器。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="87c6a-161">The builder that is responsible for creating the control.</span>
+          </span>
+        </returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="CurrentFilterResolutionService">
+      <MemberSignature Language="C#" Value="public System.Web.UI.IFilterResolutionService CurrentFilterResolutionService { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class System.Web.UI.IFilterResolutionService CurrentFilterResolutionService" />
+      <MemberSignature Language="DocId" Value="P:System.Web.UI.ControlBuilder.CurrentFilterResolutionService" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property CurrentFilterResolutionService As IFilterResolutionService" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::Web::UI::IFilterResolutionService ^ CurrentFilterResolutionService { System::Web::UI::IFilterResolutionService ^ get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Web.UI.IFilterResolutionService</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="87c6a-162">获取一个 <see cref="T:System.Web.UI.IFilterResolutionService" /> 对象，在设计器中分析和保持控件时使用该对象管理与设备筛选器相关的服务。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="87c6a-162">Gets an <see cref="T:System.Web.UI.IFilterResolutionService" /> object that is used to manage device-filter related services when parsing and persisting controls in the designer.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="87c6a-163">一个 <see cref="T:System.Web.UI.IFilterResolutionService" /> 对象，在设计器中分析和保持控件时使用该对象管理与设备筛选器相关的服务。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="87c6a-163">An <see cref="T:System.Web.UI.IFilterResolutionService" /> object that is used to manage device filter related services when parsing and persisting controls in the designer.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="87c6a-164"><xref:System.Web.UI.IFilterResolutionService>接口是特定于控件的设计器中使用设备筛选器的方式的接口。</span><span class="sxs-lookup"><span data-stu-id="87c6a-164">The <xref:System.Web.UI.IFilterResolutionService> interface is an interface that is specific to how a control uses device filters in a designer.</span></span> <span data-ttu-id="87c6a-165">当分析或在浏览器请求，上下文以外的设计器中保持控件<xref:System.Web.UI.IFilterResolutionService>提供一种方法来确定是否当前控件受指定的筛选器和指定的筛选器是否为特定的设备筛选器的一部分层次结构。</span><span class="sxs-lookup"><span data-stu-id="87c6a-165">When controls are parsed or persisted in the designer outside the context of a browser request, the <xref:System.Web.UI.IFilterResolutionService> provides a way to determine whether the current control is affected by a named filter and whether a named filter is part of a specific device-filter hierarchy.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="T:System.Web.UI.IFilterResolutionService" />
+      </Docs>
+    </Member>
+    <Member MemberName="DeclareType">
+      <MemberSignature Language="C#" Value="public virtual Type DeclareType { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class System.Type DeclareType" />
+      <MemberSignature Language="DocId" Value="P:System.Web.UI.ControlBuilder.DeclareType" />
+      <MemberSignature Language="VB.NET" Value="Public Overridable ReadOnly Property DeclareType As Type" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual property Type ^ DeclareType { Type ^ get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Type</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="87c6a-166">获取代码生成将用于声明控件的类型。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="87c6a-166">Gets the type that will be used by code generation to declare the control.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="87c6a-167">代码生成用于声明控件的控件 <see cref="T:System.Type" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="87c6a-167">The <see cref="T:System.Type" /> of the control used by code generation to declare the control.</span>
+          </span>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="DesignerFilter">
+      <MemberSignature Language="C#" Value="public static readonly string DesignerFilter;" />
+      <MemberSignature Language="ILAsm" Value=".field public static initonly string DesignerFilter" />
+      <MemberSignature Language="DocId" Value="F:System.Web.UI.ControlBuilder.DesignerFilter" />
+      <MemberSignature Language="VB.NET" Value="Public Shared ReadOnly DesignerFilter As String " />
+      <MemberSignature Language="C++ CLI" Value="public: static initonly System::String ^ DesignerFilter;" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="87c6a-168">表示 <c>"__designer"</c> 字符串。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="87c6a-168">Represents the <c>"__designer"</c> literal string.</span>
+          </span>
+        </summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="FChildrenAsProperties">
+      <MemberSignature Language="C#" Value="protected bool FChildrenAsProperties { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance bool FChildrenAsProperties" />
+      <MemberSignature Language="DocId" Value="P:System.Web.UI.ControlBuilder.FChildrenAsProperties" />
+      <MemberSignature Language="VB.NET" Value="Protected ReadOnly Property FChildrenAsProperties As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; property bool FChildrenAsProperties { bool get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="87c6a-169">获取确定控件是否有设置到 <see langword="true" /> 的 <see cref="T:System.Web.UI.ParseChildrenAttribute" /> 的 <see cref="P:System.Web.UI.ParseChildrenAttribute.ChildrenAsProperties" /> 的值。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="87c6a-169">Gets a value that determines whether the control has a <see cref="T:System.Web.UI.ParseChildrenAttribute" /> with <see cref="P:System.Web.UI.ParseChildrenAttribute.ChildrenAsProperties" /> set to <see langword="true" />.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="87c6a-170">如果控件有 <see cref="T:System.Web.UI.ParseChildrenAttribute" /> 设置为 <see langword="true" /> 的 <see cref="P:System.Web.UI.ParseChildrenAttribute.ChildrenAsProperties" />，则为 <see langword="true" />；否则为 <see langword="false" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="87c6a-170">
+              <see langword="true" /> if the control has a <see cref="T:System.Web.UI.ParseChildrenAttribute" /> with <see cref="P:System.Web.UI.ParseChildrenAttribute.ChildrenAsProperties" /> set to <see langword="true" />, otherwise <see langword="false" />.</span>
+          </span>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="FIsNonParserAccessor">
+      <MemberSignature Language="C#" Value="protected bool FIsNonParserAccessor { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance bool FIsNonParserAccessor" />
+      <MemberSignature Language="DocId" Value="P:System.Web.UI.ControlBuilder.FIsNonParserAccessor" />
+      <MemberSignature Language="VB.NET" Value="Protected ReadOnly Property FIsNonParserAccessor As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; property bool FIsNonParserAccessor { bool get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="87c6a-171">获取确定控件是否实现了 <see cref="T:System.Web.UI.IParserAccessor" /> 界面的值。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="87c6a-171">Gets a value that determines whether the control implements the <see cref="T:System.Web.UI.IParserAccessor" /> interface.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="87c6a-172">如果该控件实现了 <see cref="T:System.Web.UI.IParserAccessor" /> 接口，则为 <see langword="false" />；否则为 <see langword="true" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="87c6a-172">
+              <see langword="false" /> if the control implements the <see cref="T:System.Web.UI.IParserAccessor" /> interface, otherwise <see langword="true" />.</span>
+          </span>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetChildControlType">
+      <MemberSignature Language="C#" Value="public virtual Type GetChildControlType (string tagName, System.Collections.IDictionary attribs);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance class System.Type GetChildControlType(string tagName, class System.Collections.IDictionary attribs) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Web.UI.ControlBuilder.GetChildControlType(System.String,System.Collections.IDictionary)" />
+      <MemberSignature Language="VB.NET" Value="Public Overridable Function GetChildControlType (tagName As String, attribs As IDictionary) As Type" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual Type ^ GetChildControlType(System::String ^ tagName, System::Collections::IDictionary ^ attribs);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Type</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="tagName" Type="System.String" />
+        <Parameter Name="attribs" Type="System.Collections.IDictionary" />
+      </Parameters>
+      <Docs>
+        <param name="tagName">
+          <span data-ttu-id="87c6a-173">子级的标记名称。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="87c6a-173">The tag name of the child.</span>
+          </span>
+        </param>
+        <param name="attribs">
+          <span data-ttu-id="87c6a-174">包含在子控件中的属性的数组。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="87c6a-174">An array of attributes contained in the child control.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="87c6a-175">获取与子标记对应的控件类型的 <see cref="T:System.Type" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="87c6a-175">Obtains the <see cref="T:System.Type" /> of the control type corresponding to a child tag.</span>
+          </span>
+          <span data-ttu-id="87c6a-176">此方法由 ASP.NET 页面框架调用。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="87c6a-176">This method is called by the ASP.NET page framework.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="87c6a-177">指定控件的子级的 <see cref="T:System.Type" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="87c6a-177">The <see cref="T:System.Type" /> of the specified control's child.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="87c6a-178">此方法在分析过程中由 ASP.NET 页面框架调用，但不可直接在代码中调用。</span><span class="sxs-lookup"><span data-stu-id="87c6a-178">This method is called by the ASP.NET page framework during parsing and is not intended to be called directly in you code.</span></span>  
+  
+   
+  
+## Examples  
+ [!code-csharp[ControlBuilderSamples_1#2](~/samples/snippets/csharp/VS_Snippets_WebNet/ControlBuilderSamples_1/CS/ctrlbuilder_1.cs#2)]
+ [!code-vb[ControlBuilderSamples_1#2](~/samples/snippets/visualbasic/VS_Snippets_WebNet/ControlBuilderSamples_1/VB/ctrlbuilder_1.vb#2)]  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetObjectPersistData">
+      <MemberSignature Language="C#" Value="public System.Web.UI.ObjectPersistData GetObjectPersistData ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class System.Web.UI.ObjectPersistData GetObjectPersistData() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Web.UI.ControlBuilder.GetObjectPersistData" />
+      <MemberSignature Language="VB.NET" Value="Public Function GetObjectPersistData () As ObjectPersistData" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; System::Web::UI::ObjectPersistData ^ GetObjectPersistData();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Web.UI.ObjectPersistData</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="87c6a-179">创建此 <see cref="T:System.Web.UI.ObjectPersistData" /> 对象的 <see cref="T:System.Web.UI.ControlBuilder" /> 对象。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="87c6a-179">Creates the <see cref="T:System.Web.UI.ObjectPersistData" /> object for this <see cref="T:System.Web.UI.ControlBuilder" /> object.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="87c6a-180">用于此 <see cref="T:System.Web.UI.ObjectPersistData" /> 的 <see cref="T:System.Web.UI.ControlBuilder" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="87c6a-180">The <see cref="T:System.Web.UI.ObjectPersistData" /> for this <see cref="T:System.Web.UI.ControlBuilder" />.</span>
+          </span>
+        </returns>
+        <remarks>To be added.</remarks>
+        <altmember cref="T:System.Web.UI.ObjectPersistData" />
+      </Docs>
+    </Member>
+    <Member MemberName="GetResourceKey">
+      <MemberSignature Language="C#" Value="public string GetResourceKey ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance string GetResourceKey() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Web.UI.ControlBuilder.GetResourceKey" />
+      <MemberSignature Language="VB.NET" Value="Public Function GetResourceKey () As String" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; System::String ^ GetResourceKey();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="87c6a-181">检索此 <see cref="T:System.Web.UI.ControlBuilder" /> 对象的资源键。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="87c6a-181">Retrieves the resource key for this <see cref="T:System.Web.UI.ControlBuilder" /> object.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="87c6a-182">此 <see cref="T:System.Web.UI.ControlBuilder" /> 的资源键。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="87c6a-182">The resource key for this <see cref="T:System.Web.UI.ControlBuilder" />.</span>
+          </span>
+        </returns>
+        <remarks>To be added.</remarks>
+        <altmember cref="M:System.Web.UI.ControlBuilder.SetResourceKey(System.String)" />
+      </Docs>
+    </Member>
+    <Member MemberName="HasAspCode">
+      <MemberSignature Language="C#" Value="public virtual bool HasAspCode { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance bool HasAspCode" />
+      <MemberSignature Language="DocId" Value="P:System.Web.UI.ControlBuilder.HasAspCode" />
+      <MemberSignature Language="VB.NET" Value="Public Overridable ReadOnly Property HasAspCode As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual property bool HasAspCode { bool get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="87c6a-183">获取一个值，该值指示控件是否包含任何代码块。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="87c6a-183">Gets a value indicating whether the control contains any code blocks.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="87c6a-184">如果控件包含至少一个代码块，则为 <see langword="true" />；否则为 <see langword="false" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="87c6a-184">
+              <see langword="true" /> if the control contains at least one code block; otherwise, <see langword="false" />.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ <span data-ttu-id="87c6a-185">此示例替代<xref:System.Web.UI.ControlBuilder.OnAppendToParentBuilder%2A>方法来检查<xref:System.Web.UI.ControlBuilder.ControlType%2A>属性来确定哪种类型的控件此生成器应用于。</span><span class="sxs-lookup"><span data-stu-id="87c6a-185">This example overrides the <xref:System.Web.UI.ControlBuilder.OnAppendToParentBuilder%2A> method to check the <xref:System.Web.UI.ControlBuilder.ControlType%2A> property to determine what type of control this builder is applied to.</span></span> <span data-ttu-id="87c6a-186">如果它是`CustomTextBox`，生成器检查是否的值<xref:System.Web.UI.ControlBuilder.HasAspCode%2A>属性包含在控件中。</span><span class="sxs-lookup"><span data-stu-id="87c6a-186">If it is a `CustomTextBox`, the builder checks whether the value of the <xref:System.Web.UI.ControlBuilder.HasAspCode%2A> property is included in the control.</span></span> <span data-ttu-id="87c6a-187">如果因此，将引发异常，否则<xref:System.Web.UI.ControlBuilder.HasBody%2A>调用方法。</span><span class="sxs-lookup"><span data-stu-id="87c6a-187">If so, an exception is thrown, if not the <xref:System.Web.UI.ControlBuilder.HasBody%2A> method is called.</span></span>  
+  
+ [!code-csharp[ControlBuilderSamples_4#1](~/samples/snippets/csharp/VS_Snippets_WebNet/ControlBuilderSamples_4/cs/controlbuilder_4.cs#1)]
+ [!code-vb[ControlBuilderSamples_4#1](~/samples/snippets/visualbasic/VS_Snippets_WebNet/ControlBuilderSamples_4/VB/controlbuilder_4.vb#1)]  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="HasBody">
+      <MemberSignature Language="C#" Value="public virtual bool HasBody ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance bool HasBody() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Web.UI.ControlBuilder.HasBody" />
+      <MemberSignature Language="VB.NET" Value="Public Overridable Function HasBody () As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual bool HasBody();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="87c6a-188">确定控件是否同时具有开始标记和结束标记。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="87c6a-188">Determines if a control has both an opening and closing tag.</span>
+          </span>
+          <span data-ttu-id="87c6a-189">此方法由 ASP.NET 页面框架调用。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="87c6a-189">This method is called by the ASP.NET page framework.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="87c6a-190">如果控件同时具有开始标记和结束标记，则为 <see langword="true" />；否则为 <see langword="false" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="87c6a-190">
+              <see langword="true" /> if the control has an opening and closing tag; otherwise, <see langword="false" />.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="87c6a-191">此方法在分析过程中由 ASP.NET 页面框架调用，但不可直接在代码中调用。</span><span class="sxs-lookup"><span data-stu-id="87c6a-191">This method is called by the ASP.NET page framework during parsing and is not intended to be called directly in you code.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="87c6a-192">此示例替代<xref:System.Web.UI.ControlBuilder.OnAppendToParentBuilder%2A>方法来检查<xref:System.Web.UI.ControlBuilder.ControlType%2A>属性来确定哪种类型的控件此生成器应用于。</span><span class="sxs-lookup"><span data-stu-id="87c6a-192">This example overrides the <xref:System.Web.UI.ControlBuilder.OnAppendToParentBuilder%2A> method to check the <xref:System.Web.UI.ControlBuilder.ControlType%2A> property to determine what type of control this builder is applied to.</span></span> <span data-ttu-id="87c6a-193">如果它是`CustomTextBox`，生成器检查是否的值<xref:System.Web.UI.ControlBuilder.HasAspCode%2A>属性包含在控件中。</span><span class="sxs-lookup"><span data-stu-id="87c6a-193">If it is a `CustomTextBox`, the builder checks whether the value of the <xref:System.Web.UI.ControlBuilder.HasAspCode%2A> property is included in the control.</span></span> <span data-ttu-id="87c6a-194">如果因此，将引发异常，否则<xref:System.Web.UI.ControlBuilder.HasBody%2A>调用方法。</span><span class="sxs-lookup"><span data-stu-id="87c6a-194">If so, an exception is thrown, if not the <xref:System.Web.UI.ControlBuilder.HasBody%2A> method is called.</span></span>  
+  
+ [!code-csharp[ControlBuilderSamples_4#1](~/samples/snippets/csharp/VS_Snippets_WebNet/ControlBuilderSamples_4/cs/controlbuilder_4.cs#1)]
+ [!code-vb[ControlBuilderSamples_4#1](~/samples/snippets/visualbasic/VS_Snippets_WebNet/ControlBuilderSamples_4/VB/controlbuilder_4.vb#1)]  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="HtmlDecodeLiterals">
+      <MemberSignature Language="C#" Value="public virtual bool HtmlDecodeLiterals ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance bool HtmlDecodeLiterals() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Web.UI.ControlBuilder.HtmlDecodeLiterals" />
+      <MemberSignature Language="VB.NET" Value="Public Overridable Function HtmlDecodeLiterals () As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual bool HtmlDecodeLiterals();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="87c6a-195">确定 HTML 控件的字符串是否必须是 HTML 解码的。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="87c6a-195">Determines whether the literal string of an HTML control must be HTML decoded.</span>
+          </span>
+          <span data-ttu-id="87c6a-196">此方法由 ASP.NET 页面框架调用。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="87c6a-196">This method is called by the ASP.NET page framework.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="87c6a-197">如果要解码 HTML 控件字符串，则为 <see langword="true" />；否则为 <see langword="false" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="87c6a-197">
+              <see langword="true" /> if the HTML control literal string is to be decoded; otherwise, <see langword="false" />.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="87c6a-198">文字字符串是指开始标记和结束标记的 HTML 控件之间的文本。</span><span class="sxs-lookup"><span data-stu-id="87c6a-198">A literal string refers to the text between the opening and closing tag of an HTML control.</span></span> <span data-ttu-id="87c6a-199">HTML 编码是将文本转换为的浏览器将显示，而将解释为 HTML 的字符串表示形式时。</span><span class="sxs-lookup"><span data-stu-id="87c6a-199">HTML encoding is when text is converted into a string representation that the browser will display rather than interpret as HTML.</span></span> <span data-ttu-id="87c6a-200">字符如问题标记 （？）、 and 符 (&)、 斜杠标记 （/） 和空格可能截断或损坏某些浏览器，因此中出现时，这些字符必须经过编码`a`标记或查询字符串中。</span><span class="sxs-lookup"><span data-stu-id="87c6a-200">Characters such as the question mark (?), ampersand (&), slash mark (/), and spaces might be truncated or corrupted by some browsers, so those characters must be encoded when they appear in `a` tags or in query strings.</span></span>  
+  
+ <span data-ttu-id="87c6a-201"><xref:System.Web.UI.ControlBuilder.HtmlDecodeLiterals%2A>方法在分析过程中由 ASP.NET 页面框架调用，但不适合直接在代码中调用。</span><span class="sxs-lookup"><span data-stu-id="87c6a-201">The <xref:System.Web.UI.ControlBuilder.HtmlDecodeLiterals%2A> method is called by the ASP.NET page framework during parsing and is not intended to be called directly in you code.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="87c6a-202">下面的示例重写<xref:System.Web.UI.ControlBuilder.HtmlDecodeLiterals%2A>方法，以便允许 HTML 解码的文本字符串在此生成器应用于任何控件中。</span><span class="sxs-lookup"><span data-stu-id="87c6a-202">The following example overrides the <xref:System.Web.UI.ControlBuilder.HtmlDecodeLiterals%2A> method to allow HTML decoding of literal strings in any control this builder is applied to.</span></span>  
+  
+ [!code-csharp[ControlBuilderSamples_2#2](~/samples/snippets/csharp/VS_Snippets_WebNet/ControlBuilderSamples_2/cs/ctrlbuilder1.cs#2)]
+ [!code-vb[ControlBuilderSamples_2#2](~/samples/snippets/visualbasic/VS_Snippets_WebNet/ControlBuilderSamples_2/VB/ctrlbuilder1.vb#2)]  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ID">
+      <MemberSignature Language="C#" Value="public string ID { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance string ID" />
+      <MemberSignature Language="DocId" Value="P:System.Web.UI.ControlBuilder.ID" />
+      <MemberSignature Language="VB.NET" Value="Public Property ID As String" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::String ^ ID { System::String ^ get(); void set(System::String ^ value); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="87c6a-203">获取或设置要生成的控件的标识符属性。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="87c6a-203">Gets or sets the identifier property for the control to be built.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="87c6a-204">控件的标识符属性。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="87c6a-204">The identifier property for the control.</span>
+          </span>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="InDesigner">
+      <MemberSignature Language="C#" Value="protected bool InDesigner { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance bool InDesigner" />
+      <MemberSignature Language="DocId" Value="P:System.Web.UI.ControlBuilder.InDesigner" />
+      <MemberSignature Language="VB.NET" Value="Protected ReadOnly Property InDesigner As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; property bool InDesigner { bool get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="87c6a-205">返回 <see cref="T:System.Web.UI.ControlBuilder" /> 是否正在设计器中运行。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="87c6a-205">Returns whether the <see cref="T:System.Web.UI.ControlBuilder" /> is running in the designer.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="87c6a-206">如果 <see cref="T:System.Web.UI.ControlBuilder" /> 正在设计器中运行，则为 <see langword="true" />；否则为 <see langword="false" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="87c6a-206">
+              <see langword="true" /> if the <see cref="T:System.Web.UI.ControlBuilder" /> is running in the designer; otherwise, <see langword="false" />.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ <span data-ttu-id="87c6a-207">下面的示例使用<xref:System.Web.UI.ControlBuilder.InDesigner%2A>属性时<xref:System.Web.UI.ControlBuilder.NeedsTagInnerText%2A>调用方法。</span><span class="sxs-lookup"><span data-stu-id="87c6a-207">The following example uses the <xref:System.Web.UI.ControlBuilder.InDesigner%2A> property when the <xref:System.Web.UI.ControlBuilder.NeedsTagInnerText%2A> method is called.</span></span> <span data-ttu-id="87c6a-208">当控件将附加到它，此生成器<xref:System.Web.UI.ControlBuilder.NeedsTagInnerText%2A>方法确定控件是否正在访问在设计时通过设计器。</span><span class="sxs-lookup"><span data-stu-id="87c6a-208">When a control has this builder attached to it, the <xref:System.Web.UI.ControlBuilder.NeedsTagInnerText%2A> method determines whether the control is being accessed at design-time through a designer.</span></span> <span data-ttu-id="87c6a-209"><xref:System.Web.UI.ControlBuilder.NeedsTagInnerText%2A>返回的值<xref:System.Web.UI.ControlBuilder.InDesigner%2A>属性，然后<xref:System.Web.UI.ControlBuilder.SetTagInnerText%2A>调用方法。</span><span class="sxs-lookup"><span data-stu-id="87c6a-209">The <xref:System.Web.UI.ControlBuilder.NeedsTagInnerText%2A> returns the value of the <xref:System.Web.UI.ControlBuilder.InDesigner%2A> property, and then the <xref:System.Web.UI.ControlBuilder.SetTagInnerText%2A> method is called.</span></span> <span data-ttu-id="87c6a-210">如果<xref:System.Web.UI.ControlBuilder.InDesigner%2A>属性设置为`false`、<xref:System.Exception>引发。</span><span class="sxs-lookup"><span data-stu-id="87c6a-210">If the <xref:System.Web.UI.ControlBuilder.InDesigner%2A> property is set to `false`, an <xref:System.Exception> is thrown.</span></span> <span data-ttu-id="87c6a-211">否则，在返回该控件的内部文本<xref:System.Web.UI.ControlBuilder.SetTagInnerText%2A>调用。</span><span class="sxs-lookup"><span data-stu-id="87c6a-211">Otherwise, the inner text of the control is returned on the <xref:System.Web.UI.ControlBuilder.SetTagInnerText%2A> call.</span></span>  
+  
+ [!code-csharp[ControlBuilderSamples_3#1](~/samples/snippets/csharp/VS_Snippets_WebNet/ControlBuilderSamples_3/cs/controlbuilder_samples3.cs#1)]
+ [!code-vb[ControlBuilderSamples_3#1](~/samples/snippets/visualbasic/VS_Snippets_WebNet/ControlBuilderSamples_3/VB/controlbuilder_samples3.vb#1)]  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Init">
+      <MemberSignature Language="C#" Value="public virtual void Init (System.Web.UI.TemplateParser parser, System.Web.UI.ControlBuilder parentBuilder, Type type, string tagName, string id, System.Collections.IDictionary attribs);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void Init(class System.Web.UI.TemplateParser parser, class System.Web.UI.ControlBuilder parentBuilder, class System.Type type, string tagName, string id, class System.Collections.IDictionary attribs) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Web.UI.ControlBuilder.Init(System.Web.UI.TemplateParser,System.Web.UI.ControlBuilder,System.Type,System.String,System.String,System.Collections.IDictionary)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual void Init(System::Web::UI::TemplateParser ^ parser, System::Web::UI::ControlBuilder ^ parentBuilder, Type ^ type, System::String ^ tagName, System::String ^ id, System::Collections::IDictionary ^ attribs);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="parser" Type="System.Web.UI.TemplateParser" />
+        <Parameter Name="parentBuilder" Type="System.Web.UI.ControlBuilder" />
+        <Parameter Name="type" Type="System.Type" />
+        <Parameter Name="tagName" Type="System.String" />
+        <Parameter Name="id" Type="System.String" />
+        <Parameter Name="attribs" Type="System.Collections.IDictionary" />
+      </Parameters>
+      <Docs>
+        <param name="parser">
+          <span data-ttu-id="87c6a-212">负责分析控件的 <see cref="T:System.Web.UI.TemplateParser" /> 对象。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="87c6a-212">The <see cref="T:System.Web.UI.TemplateParser" /> object responsible for parsing the control.</span>
+          </span>
+        </param>
+        <param name="parentBuilder">
+          <span data-ttu-id="87c6a-213">负责生成父控件的 <see cref="T:System.Web.UI.ControlBuilder" /> 对象。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="87c6a-213">The <see cref="T:System.Web.UI.ControlBuilder" /> object responsible for building the parent control.</span>
+          </span>
+        </param>
+        <param name="type">
+          <span data-ttu-id="87c6a-214">分配给生成器将创建的控件的 <see cref="T:System.Type" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="87c6a-214">The <see cref="T:System.Type" /> assigned to the control that the builder will create.</span>
+          </span>
+        </param>
+        <param name="tagName">
+          <span data-ttu-id="87c6a-215">要生成的标记的名称。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="87c6a-215">The name of the tag to be built.</span>
+          </span>
+          <span data-ttu-id="87c6a-216">这允许生成器支持多个标记类型。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="87c6a-216">This allows the builder to support multiple tag types.</span>
+          </span>
+        </param>
+        <param name="id">
+          <span data-ttu-id="87c6a-217">分配给控件的 <see cref="P:System.Web.UI.ControlBuilder.ID" /> 特性。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="87c6a-217">The <see cref="P:System.Web.UI.ControlBuilder.ID" /> attribute assigned to the control.</span>
+          </span>
+        </param>
+        <param name="attribs">
+          <span data-ttu-id="87c6a-218">保存所有指定标记特性的 <see cref="T:System.Collections.IDictionary" /> 对象。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="87c6a-218">The <see cref="T:System.Collections.IDictionary" /> object that holds all the specified tag attributes.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="87c6a-219">实例化 <see cref="T:System.Web.UI.ControlBuilder" /> 后再进行初始化以便使用。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="87c6a-219">Initializes the <see cref="T:System.Web.UI.ControlBuilder" /> for use after it is instantiated.</span>
+          </span>
+          <span data-ttu-id="87c6a-220">此方法由 ASP.NET 页面框架调用。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="87c6a-220">This method is called by the ASP.NET page framework.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="87c6a-221">此方法在分析过程中由 ASP.NET 页面框架调用，但不可直接在代码中调用。</span><span class="sxs-lookup"><span data-stu-id="87c6a-221">This method is called by the ASP.NET page framework during parsing and is not intended to be called directly in you code.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="InPageTheme">
+      <MemberSignature Language="C#" Value="protected bool InPageTheme { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance bool InPageTheme" />
+      <MemberSignature Language="DocId" Value="P:System.Web.UI.ControlBuilder.InPageTheme" />
+      <MemberSignature Language="VB.NET" Value="Protected ReadOnly Property InPageTheme As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; property bool InPageTheme { bool get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="87c6a-222">获取一个布尔值，该值指示此 <see cref="T:System.Web.UI.ControlBuilder" /> 对象是否用于生成页主题。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="87c6a-222">Gets a Boolean value indicating whether this <see cref="T:System.Web.UI.ControlBuilder" /> object is used to generate page themes.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="87c6a-223">
+            <see langword="true" /> 表示使用此 <see cref="T:System.Web.UI.ControlBuilder" /> 生成页主题；否则为 <see langword="false" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="87c6a-223">
+              <see langword="true" /> to use this <see cref="T:System.Web.UI.ControlBuilder" /> to generate page themes; otherwise, <see langword="false" />.</span>
+          </span>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ItemType">
+      <MemberSignature Language="C#" Value="public virtual string ItemType { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance string ItemType" />
+      <MemberSignature Language="DocId" Value="P:System.Web.UI.ControlBuilder.ItemType" />
+      <MemberSignature Language="VB.NET" Value="Public Overridable ReadOnly Property ItemType As String" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual property System::String ^ ItemType { System::String ^ get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="87c6a-224">获取在绑定容器上设置的类型。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="87c6a-224">Gets the type set on the binding container.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="87c6a-225">在设置绑定容器的类型。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="87c6a-225">The type set on the binding container.</span>
+          </span>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Localize">
+      <MemberSignature Language="C#" Value="public bool Localize { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance bool Localize" />
+      <MemberSignature Language="DocId" Value="P:System.Web.UI.ControlBuilder.Localize" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property Localize As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property bool Localize { bool get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="87c6a-226">获取一个布尔值，该值指示由此 <see cref="T:System.Web.UI.ControlBuilder" /> 对象所创建的控件是否已本地化。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="87c6a-226">Gets a Boolean value indicating whether the control that is created by this <see cref="T:System.Web.UI.ControlBuilder" /> object is localized.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="87c6a-227">
+            <see langword="true" /> 指示由此 <see cref="T:System.Web.UI.ControlBuilder" /> 对象所创建的控件已本地化；否则为 <see langword="false" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="87c6a-227">
+              <see langword="true" /> to indicate that the control created by this <see cref="T:System.Web.UI.ControlBuilder" /> object is localized; otherwise, <see langword="false" />.</span>
+          </span>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="NamingContainerType">
+      <MemberSignature Language="C#" Value="public Type NamingContainerType { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class System.Type NamingContainerType" />
+      <MemberSignature Language="DocId" Value="P:System.Web.UI.ControlBuilder.NamingContainerType" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property NamingContainerType As Type" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property Type ^ NamingContainerType { Type ^ get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Type</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="87c6a-228">获取此生成器所创建控件的命名容器的类型。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="87c6a-228">Gets the type of the naming container for the control that this builder creates.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="87c6a-229">一个 <see cref="T:System.Type" />，表示此生成器所创建控件的命名容器的类型。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="87c6a-229">A <see cref="T:System.Type" /> that represent the type of the naming container for the control that this builder creates.</span>
+          </span>
+        </value>
+        <remarks>To be added.</remarks>
+        <altmember cref="P:System.Web.UI.ControlBuilder.ControlType" />
+      </Docs>
+    </Member>
+    <Member MemberName="NeedsTagInnerText">
+      <MemberSignature Language="C#" Value="public virtual bool NeedsTagInnerText ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance bool NeedsTagInnerText() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Web.UI.ControlBuilder.NeedsTagInnerText" />
+      <MemberSignature Language="VB.NET" Value="Public Overridable Function NeedsTagInnerText () As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual bool NeedsTagInnerText();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="87c6a-230">确定控件生成器是否需要获取它的内部文本。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="87c6a-230">Determines if the control builder needs to get its inner text.</span>
+          </span>
+          <span data-ttu-id="87c6a-231">如果需要，则必须调用 <see cref="M:System.Web.UI.ControlBuilder.SetTagInnerText(System.String)" /> 方法。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="87c6a-231">If so, the <see cref="M:System.Web.UI.ControlBuilder.SetTagInnerText(System.String)" /> method must be called.</span>
+          </span>
+          <span data-ttu-id="87c6a-232">此方法由 ASP.NET 页面框架调用。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="87c6a-232">This method is called by the ASP.NET page framework.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="87c6a-233">如果控件生成器需要获取它的内部文本，则为 <see langword="true" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="87c6a-233">
+              <see langword="true" /> if the control builder needs to get its inner text.</span>
+          </span>
+          <span data-ttu-id="87c6a-234">默认值为 <see langword="false" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="87c6a-234">The default is <see langword="false" />.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="87c6a-235">内部文本是控件的开始标记和结束标记之间的文本。</span><span class="sxs-lookup"><span data-stu-id="87c6a-235">The inner text is the text between the opening and closing tags of the control.</span></span>  
+  
+ <span data-ttu-id="87c6a-236">此方法在分析过程中由 ASP.NET 页面框架调用，但不可直接在代码中调用。</span><span class="sxs-lookup"><span data-stu-id="87c6a-236">This method is called by the ASP.NET page framework during parsing and is not intended to be called directly in you code.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="87c6a-237">下面的示例使用<xref:System.Web.UI.ControlBuilder.InDesigner%2A>属性时<xref:System.Web.UI.ControlBuilder.NeedsTagInnerText%2A>调用方法。</span><span class="sxs-lookup"><span data-stu-id="87c6a-237">The following example uses the <xref:System.Web.UI.ControlBuilder.InDesigner%2A> property when the <xref:System.Web.UI.ControlBuilder.NeedsTagInnerText%2A> method is called.</span></span> <span data-ttu-id="87c6a-238">当控件将附加到它，此生成器<xref:System.Web.UI.ControlBuilder.NeedsTagInnerText%2A>确定控件是否正在访问在设计时通过设计器。</span><span class="sxs-lookup"><span data-stu-id="87c6a-238">When a control has this builder attached to it, the <xref:System.Web.UI.ControlBuilder.NeedsTagInnerText%2A> determines whether the control is being accessed at design-time through a designer.</span></span> <span data-ttu-id="87c6a-239"><xref:System.Web.UI.ControlBuilder.NeedsTagInnerText%2A>返回的值<xref:System.Web.UI.ControlBuilder.InDesigner%2A>属性，然后<xref:System.Web.UI.ControlBuilder.SetTagInnerText%2A>调用方法。</span><span class="sxs-lookup"><span data-stu-id="87c6a-239">The <xref:System.Web.UI.ControlBuilder.NeedsTagInnerText%2A> returns the value of the <xref:System.Web.UI.ControlBuilder.InDesigner%2A> property, and then the <xref:System.Web.UI.ControlBuilder.SetTagInnerText%2A> method is called.</span></span> <span data-ttu-id="87c6a-240">如果<xref:System.Web.UI.ControlBuilder.InDesigner%2A>属性设置为`false`、<xref:System.Exception>引发。</span><span class="sxs-lookup"><span data-stu-id="87c6a-240">If the <xref:System.Web.UI.ControlBuilder.InDesigner%2A> property is set to `false`, an <xref:System.Exception> is thrown.</span></span> <span data-ttu-id="87c6a-241">否则，在返回该控件的内部文本<xref:System.Web.UI.ControlBuilder.SetTagInnerText%2A>调用。</span><span class="sxs-lookup"><span data-stu-id="87c6a-241">Otherwise, the inner text of the control is returned on the <xref:System.Web.UI.ControlBuilder.SetTagInnerText%2A> call.</span></span>  
+  
+ [!code-csharp[ControlBuilderSamples_3#1](~/samples/snippets/csharp/VS_Snippets_WebNet/ControlBuilderSamples_3/cs/controlbuilder_samples3.cs#1)]
+ [!code-vb[ControlBuilderSamples_3#1](~/samples/snippets/visualbasic/VS_Snippets_WebNet/ControlBuilderSamples_3/VB/controlbuilder_samples3.vb#1)]  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="OnAppendToParentBuilder">
+      <MemberSignature Language="C#" Value="public virtual void OnAppendToParentBuilder (System.Web.UI.ControlBuilder parentBuilder);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void OnAppendToParentBuilder(class System.Web.UI.ControlBuilder parentBuilder) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Web.UI.ControlBuilder.OnAppendToParentBuilder(System.Web.UI.ControlBuilder)" />
+      <MemberSignature Language="VB.NET" Value="Public Overridable Sub OnAppendToParentBuilder (parentBuilder As ControlBuilder)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual void OnAppendToParentBuilder(System::Web::UI::ControlBuilder ^ parentBuilder);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="parentBuilder" Type="System.Web.UI.ControlBuilder" />
+      </Parameters>
+      <Docs>
+        <param name="parentBuilder">
+          <span data-ttu-id="87c6a-242">将当前生成器添加到的 <see cref="T:System.Web.UI.ControlBuilder" /> 对象。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="87c6a-242">The <see cref="T:System.Web.UI.ControlBuilder" /> object to which the current builder is added.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="87c6a-243">通知 <see cref="T:System.Web.UI.ControlBuilder" /> 正在将它添加到父控件生成器。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="87c6a-243">Notifies the <see cref="T:System.Web.UI.ControlBuilder" /> that it is being added to a parent control builder.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ <span data-ttu-id="87c6a-244">此示例替代<xref:System.Web.UI.ControlBuilder.OnAppendToParentBuilder%2A>方法来检查<xref:System.Web.UI.ControlBuilder.ControlType%2A>属性来确定哪种类型的控件此生成器应用于。</span><span class="sxs-lookup"><span data-stu-id="87c6a-244">This example overrides the <xref:System.Web.UI.ControlBuilder.OnAppendToParentBuilder%2A> method to check the <xref:System.Web.UI.ControlBuilder.ControlType%2A> property to determine what type of control this builder is applied to.</span></span> <span data-ttu-id="87c6a-245">如果它是`CustomTextBox`，生成器检查是否的值<xref:System.Web.UI.ControlBuilder.HasAspCode%2A>属性包含在控件中。</span><span class="sxs-lookup"><span data-stu-id="87c6a-245">If it is a `CustomTextBox`, the builder checks whether the value of the <xref:System.Web.UI.ControlBuilder.HasAspCode%2A> property is included in the control.</span></span> <span data-ttu-id="87c6a-246">如果因此，将引发异常，否则<xref:System.Web.UI.ControlBuilder.HasBody%2A>调用方法。</span><span class="sxs-lookup"><span data-stu-id="87c6a-246">If so, an exception is thrown, if not the <xref:System.Web.UI.ControlBuilder.HasBody%2A> method is called.</span></span>  
+  
+ [!code-csharp[ControlBuilderSamples_4#1](~/samples/snippets/csharp/VS_Snippets_WebNet/ControlBuilderSamples_4/cs/controlbuilder_4.cs#1)]
+ [!code-vb[ControlBuilderSamples_4#1](~/samples/snippets/visualbasic/VS_Snippets_WebNet/ControlBuilderSamples_4/VB/controlbuilder_4.vb#1)]  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="PageVirtualPath">
+      <MemberSignature Language="C#" Value="public string PageVirtualPath { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance string PageVirtualPath" />
+      <MemberSignature Language="DocId" Value="P:System.Web.UI.ControlBuilder.PageVirtualPath" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property PageVirtualPath As String" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::String ^ PageVirtualPath { System::String ^ get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="87c6a-247">通过 <see cref="T:System.Web.UI.ControlBuilder" /> 实例获取要建立的页的虚拟路径。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="87c6a-247">Gets the virtual path of a page to be built by this <see cref="T:System.Web.UI.ControlBuilder" /> instance.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="87c6a-248">要构建的页面的虚拟路径。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="87c6a-248">The virtual path of the page to be built.</span>
+          </span>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Parser">
+      <MemberSignature Language="C#" Value="protected internal System.Web.UI.TemplateParser Parser { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class System.Web.UI.TemplateParser Parser" />
+      <MemberSignature Language="DocId" Value="P:System.Web.UI.ControlBuilder.Parser" />
+      <MemberSignature Language="VB.NET" Value="Protected Friend ReadOnly Property Parser As TemplateParser" />
+      <MemberSignature Language="C++ CLI" Value="protected public:&#xA; property System::Web::UI::TemplateParser ^ Parser { System::Web::UI::TemplateParser ^ get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Web.UI.TemplateParser</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="87c6a-249">获取负责分析控件的 <see cref="T:System.Web.UI.TemplateParser" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="87c6a-249">Gets the <see cref="T:System.Web.UI.TemplateParser" /> responsible for parsing the control.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="87c6a-250">用于分析控件的 <see cref="T:System.Web.UI.TemplateParser" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="87c6a-250">The <see cref="T:System.Web.UI.TemplateParser" /> used to parse the control.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="87c6a-251">此属性检索<xref:System.Web.UI.TemplateParser>负责分析该控件。</span><span class="sxs-lookup"><span data-stu-id="87c6a-251">This property retrieves the <xref:System.Web.UI.TemplateParser> responsible for parsing the control.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="T:System.Web.UI.TemplateParser" />
+      </Docs>
+    </Member>
+    <Member MemberName="ProcessGeneratedCode">
+      <MemberSignature Language="C#" Value="public virtual void ProcessGeneratedCode (System.CodeDom.CodeCompileUnit codeCompileUnit, System.CodeDom.CodeTypeDeclaration baseType, System.CodeDom.CodeTypeDeclaration derivedType, System.CodeDom.CodeMemberMethod buildMethod, System.CodeDom.CodeMemberMethod dataBindingMethod);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void ProcessGeneratedCode(class System.CodeDom.CodeCompileUnit codeCompileUnit, class System.CodeDom.CodeTypeDeclaration baseType, class System.CodeDom.CodeTypeDeclaration derivedType, class System.CodeDom.CodeMemberMethod buildMethod, class System.CodeDom.CodeMemberMethod dataBindingMethod) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Web.UI.ControlBuilder.ProcessGeneratedCode(System.CodeDom.CodeCompileUnit,System.CodeDom.CodeTypeDeclaration,System.CodeDom.CodeTypeDeclaration,System.CodeDom.CodeMemberMethod,System.CodeDom.CodeMemberMethod)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual void ProcessGeneratedCode(System::CodeDom::CodeCompileUnit ^ codeCompileUnit, System::CodeDom::CodeTypeDeclaration ^ baseType, System::CodeDom::CodeTypeDeclaration ^ derivedType, System::CodeDom::CodeMemberMethod ^ buildMethod, System::CodeDom::CodeMemberMethod ^ dataBindingMethod);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="codeCompileUnit" Type="System.CodeDom.CodeCompileUnit" />
+        <Parameter Name="baseType" Type="System.CodeDom.CodeTypeDeclaration" />
+        <Parameter Name="derivedType" Type="System.CodeDom.CodeTypeDeclaration" />
+        <Parameter Name="buildMethod" Type="System.CodeDom.CodeMemberMethod" />
+        <Parameter Name="dataBindingMethod" Type="System.CodeDom.CodeMemberMethod" />
+      </Parameters>
+      <Docs>
+        <param name="codeCompileUnit">
+          <span data-ttu-id="87c6a-252">所生成控件的 CodeDOM 关系图的根容器。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="87c6a-252">The root container of a CodeDOM graph of the control that is being built.</span>
+          </span>
+        </param>
+        <param name="baseType">
+          <span data-ttu-id="87c6a-253">包含所生成控件的页面或用户控件的基类型。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="87c6a-253">The base type of the page or user control that contains the control that is being built.</span>
+          </span>
+        </param>
+        <param name="derivedType">
+          <span data-ttu-id="87c6a-254">包含所生成控件的页面或用户控件的派生类型。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="87c6a-254">The derived type of the page or user control that contains the control that is being built.</span>
+          </span>
+        </param>
+        <param name="buildMethod">
+          <span data-ttu-id="87c6a-255">用于生成控件的代码。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="87c6a-255">The code that is used to build the control.</span>
+          </span>
+        </param>
+        <param name="dataBindingMethod">
+          <span data-ttu-id="87c6a-256">用于生成控件的数据绑定方法的代码。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="87c6a-256">The code that is used to build the data-binding method of the control.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="87c6a-257">启用自定义控件生成器以访问生成的代码文档对象模型 (CodeDom)，并在分析和生成控件的过程中插入和修改代码。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="87c6a-257">Enables custom control builders to access the generated Code Document Object Model (CodeDom) and insert and modify code during the process of parsing and building controls.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="87c6a-258">在单文件页模型中，`baseType`和`derivedType`参数都是相同<xref:System.CodeDom.CodeTypeDeclaration>类型，通常派生自<xref:System.Web.UI.Page>类。</span><span class="sxs-lookup"><span data-stu-id="87c6a-258">In the single-file page model, the `baseType` and `derivedType` parameters are the same <xref:System.CodeDom.CodeTypeDeclaration> type, which typically derives from the <xref:System.Web.UI.Page> class.</span></span>  
+  
+ <span data-ttu-id="87c6a-259">在代码隐藏页模型中，`baseType`是<xref:System.CodeDom.CodeTypeDeclaration>表示部分的代码隐藏类，该类通常派生自类型<xref:System.Web.UI.Page>类。</span><span class="sxs-lookup"><span data-stu-id="87c6a-259">In the code-behind page model, `baseType` is the <xref:System.CodeDom.CodeTypeDeclaration> type that represents the partial code-behind class, which is typically derived from the <xref:System.Web.UI.Page> class.</span></span> <span data-ttu-id="87c6a-260">`derivedType`参数是派生自包含标记的分部类的类。</span><span class="sxs-lookup"><span data-stu-id="87c6a-260">The `derivedType` parameter is the class that derives from the partial class that contains the markup.</span></span>  
+  
+ <span data-ttu-id="87c6a-261">有关 ASP.NET Web 页模型的详细信息，请参阅[ASP.NET Web 窗体页语法概述](http://msdn.microsoft.com/library/09074b20-ece9-46fa-bc8f-ab2595ed2c02)。</span><span class="sxs-lookup"><span data-stu-id="87c6a-261">For more information about ASP.NET Web page models, see [ASP.NET Web Forms Page Syntax Overview](http://msdn.microsoft.com/library/09074b20-ece9-46fa-bc8f-ab2595ed2c02).</span></span>  
+  
+ <span data-ttu-id="87c6a-262">有关如何使用 CodeDOM 表示并生成源代码的详细信息，请参阅[动态源代码生成和编译](~/docs/framework/reflection-and-codedom/dynamic-source-code-generation-and-compilation.md)。</span><span class="sxs-lookup"><span data-stu-id="87c6a-262">For more information about how to use the CodeDOM to represent and generate source code, see [Dynamic Source Code Generation and Compilation](~/docs/framework/reflection-and-codedom/dynamic-source-code-generation-and-compilation.md).</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ServiceProvider">
+      <MemberSignature Language="C#" Value="public IServiceProvider ServiceProvider { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class System.IServiceProvider ServiceProvider" />
+      <MemberSignature Language="DocId" Value="P:System.Web.UI.ControlBuilder.ServiceProvider" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property ServiceProvider As IServiceProvider" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property IServiceProvider ^ ServiceProvider { IServiceProvider ^ get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.IServiceProvider</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="87c6a-263">获取此 <see cref="T:System.Web.UI.ControlBuilder" /> 对象的服务对象。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="87c6a-263">Gets the service object for this <see cref="T:System.Web.UI.ControlBuilder" /> object.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="87c6a-264">表示此 <see cref="T:System.IServiceProvider" /> 的服务对象的 <see cref="T:System.Web.UI.ControlBuilder" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="87c6a-264">An <see cref="T:System.IServiceProvider" /> that represents the service object for this <see cref="T:System.Web.UI.ControlBuilder" />.</span>
+          </span>
+        </value>
+        <remarks>To be added.</remarks>
+        <altmember cref="M:System.Web.UI.ControlBuilder.SetServiceProvider(System.IServiceProvider)" />
+      </Docs>
+    </Member>
+    <Member MemberName="SetResourceKey">
+      <MemberSignature Language="C#" Value="public void SetResourceKey (string resourceKey);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void SetResourceKey(string resourceKey) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Web.UI.ControlBuilder.SetResourceKey(System.String)" />
+      <MemberSignature Language="VB.NET" Value="Public Sub SetResourceKey (resourceKey As String)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void SetResourceKey(System::String ^ resourceKey);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="resourceKey" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="resourceKey">
+          <span data-ttu-id="87c6a-265">此 <see cref="T:System.Web.UI.ControlBuilder" /> 的资源键。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="87c6a-265">The resource key for this <see cref="T:System.Web.UI.ControlBuilder" />.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="87c6a-266">设置此 <see cref="T:System.Web.UI.ControlBuilder" /> 对象的资源键。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="87c6a-266">Sets the resource key for this <see cref="T:System.Web.UI.ControlBuilder" /> object.</span>
+          </span>
+        </summary>
+        <remarks>To be added.</remarks>
+        <altmember cref="M:System.Web.UI.ControlBuilder.GetResourceKey" />
+      </Docs>
+    </Member>
+    <Member MemberName="SetServiceProvider">
+      <MemberSignature Language="C#" Value="public void SetServiceProvider (IServiceProvider serviceProvider);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void SetServiceProvider(class System.IServiceProvider serviceProvider) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Web.UI.ControlBuilder.SetServiceProvider(System.IServiceProvider)" />
+      <MemberSignature Language="VB.NET" Value="Public Sub SetServiceProvider (serviceProvider As IServiceProvider)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void SetServiceProvider(IServiceProvider ^ serviceProvider);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="serviceProvider" Type="System.IServiceProvider" />
+      </Parameters>
+      <Docs>
+        <param name="serviceProvider">
+          <span data-ttu-id="87c6a-267">表示 <see cref="T:System.IServiceProvider" /> 的服务对象的 <see cref="T:System.Web.UI.ControlBuilder" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="87c6a-267">An <see cref="T:System.IServiceProvider" /> that represents the service object for the <see cref="T:System.Web.UI.ControlBuilder" />.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="87c6a-268">设置此 <see cref="T:System.Web.UI.ControlBuilder" /> 对象的服务对象。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="87c6a-268">Sets the service object for this <see cref="T:System.Web.UI.ControlBuilder" /> object.</span>
+          </span>
+        </summary>
+        <remarks>To be added.</remarks>
+        <altmember cref="T:System.IServiceProvider" />
+      </Docs>
+    </Member>
+    <Member MemberName="SetTagInnerText">
+      <MemberSignature Language="C#" Value="public virtual void SetTagInnerText (string text);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void SetTagInnerText(string text) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Web.UI.ControlBuilder.SetTagInnerText(System.String)" />
+      <MemberSignature Language="VB.NET" Value="Public Overridable Sub SetTagInnerText (text As String)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual void SetTagInnerText(System::String ^ text);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="text" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="text">
+          <span data-ttu-id="87c6a-269">要提供的文本。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="87c6a-269">The text to be provided.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="87c6a-270">为 <see cref="T:System.Web.UI.ControlBuilder" /> 提供控件标记的内部文本。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="87c6a-270">Provides the <see cref="T:System.Web.UI.ControlBuilder" /> with the inner text of the control tag.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="87c6a-271">仅当调用此方法<xref:System.Web.UI.ControlBuilder.NeedsTagInnerText%2A>以前返回`true`。</span><span class="sxs-lookup"><span data-stu-id="87c6a-271">This method is called only if <xref:System.Web.UI.ControlBuilder.NeedsTagInnerText%2A> previously returned `true`.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="87c6a-272">下面的示例使用<xref:System.Web.UI.ControlBuilder.InDesigner%2A>属性时<xref:System.Web.UI.ControlBuilder.NeedsTagInnerText%2A>调用方法。</span><span class="sxs-lookup"><span data-stu-id="87c6a-272">The following example uses the <xref:System.Web.UI.ControlBuilder.InDesigner%2A> property when the <xref:System.Web.UI.ControlBuilder.NeedsTagInnerText%2A> method is called.</span></span> <span data-ttu-id="87c6a-273">当控件将附加到它，此生成器<xref:System.Web.UI.ControlBuilder.NeedsTagInnerText%2A>确定控件是否正在访问在设计时通过设计器。</span><span class="sxs-lookup"><span data-stu-id="87c6a-273">When a control has this builder attached to it, the <xref:System.Web.UI.ControlBuilder.NeedsTagInnerText%2A> determines whether the control is being accessed at design-time through a designer.</span></span> <span data-ttu-id="87c6a-274"><xref:System.Web.UI.ControlBuilder.NeedsTagInnerText%2A>返回的值<xref:System.Web.UI.ControlBuilder.InDesigner%2A>属性，然后<xref:System.Web.UI.ControlBuilder.SetTagInnerText%2A>调用方法。</span><span class="sxs-lookup"><span data-stu-id="87c6a-274">The <xref:System.Web.UI.ControlBuilder.NeedsTagInnerText%2A> returns the value of the <xref:System.Web.UI.ControlBuilder.InDesigner%2A> property, and then the <xref:System.Web.UI.ControlBuilder.SetTagInnerText%2A> method is called.</span></span> <span data-ttu-id="87c6a-275">如果<xref:System.Web.UI.ControlBuilder.InDesigner%2A>属性设置为`false`、<xref:System.Exception>引发。</span><span class="sxs-lookup"><span data-stu-id="87c6a-275">If the <xref:System.Web.UI.ControlBuilder.InDesigner%2A> property is set to `false`, an <xref:System.Exception> is thrown.</span></span> <span data-ttu-id="87c6a-276">否则，在返回该控件的内部文本<xref:System.Web.UI.ControlBuilder.SetTagInnerText%2A>调用。</span><span class="sxs-lookup"><span data-stu-id="87c6a-276">Otherwise, the inner text of the control is returned on the <xref:System.Web.UI.ControlBuilder.SetTagInnerText%2A> call.</span></span>  
+  
+ [!code-csharp[ControlBuilderSamples_3#1](~/samples/snippets/csharp/VS_Snippets_WebNet/ControlBuilderSamples_3/cs/controlbuilder_samples3.cs#1)]
+ [!code-vb[ControlBuilderSamples_3#1](~/samples/snippets/visualbasic/VS_Snippets_WebNet/ControlBuilderSamples_3/VB/controlbuilder_samples3.vb#1)]  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="SubBuilders">
+      <MemberSignature Language="C#" Value="public System.Collections.ArrayList SubBuilders { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class System.Collections.ArrayList SubBuilders" />
+      <MemberSignature Language="DocId" Value="P:System.Web.UI.ControlBuilder.SubBuilders" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property SubBuilders As ArrayList" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::Collections::ArrayList ^ SubBuilders { System::Collections::ArrayList ^ get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Collections.ArrayList</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="87c6a-277">获取此 <see cref="T:System.Web.UI.ControlBuilder" /> 对象的 <see cref="T:System.Web.UI.ControlBuilder" /> 子对象的列表。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="87c6a-277">Gets a list of child <see cref="T:System.Web.UI.ControlBuilder" /> objects for this <see cref="T:System.Web.UI.ControlBuilder" /> object.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="87c6a-278">子级 <see cref="T:System.Web.UI.ControlBuilder" /> 对象列表。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="87c6a-278">A list of child <see cref="T:System.Web.UI.ControlBuilder" /> objects.</span>
+          </span>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="TagName">
+      <MemberSignature Language="C#" Value="public string TagName { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance string TagName" />
+      <MemberSignature Language="DocId" Value="P:System.Web.UI.ControlBuilder.TagName" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property TagName As String" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::String ^ TagName { System::String ^ get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="87c6a-279">获取要生成的控件的标记名称。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="87c6a-279">Gets the tag name for the control to be built.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="87c6a-280">控件的标记名称。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="87c6a-280">The tag name for the control.</span>
+          </span>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="TemplatePropertyEntries">
+      <MemberSignature Language="C#" Value="public System.Collections.ICollection TemplatePropertyEntries { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class System.Collections.ICollection TemplatePropertyEntries" />
+      <MemberSignature Language="DocId" Value="P:System.Web.UI.ControlBuilder.TemplatePropertyEntries" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property TemplatePropertyEntries As ICollection" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::Collections::ICollection ^ TemplatePropertyEntries { System::Collections::ICollection ^ get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Collections.ICollection</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="87c6a-281">获取模板属性项的集合。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="87c6a-281">Gets a collection of template property entries.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="87c6a-282">模板属性项的集合。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="87c6a-282">A collection of template property entries.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="87c6a-283">如果不存在项，则返回静态的空集合。</span><span class="sxs-lookup"><span data-stu-id="87c6a-283">If there are no entries, a static empty collection is returned.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ThemeResolutionService">
+      <MemberSignature Language="C#" Value="public System.Web.UI.IThemeResolutionService ThemeResolutionService { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class System.Web.UI.IThemeResolutionService ThemeResolutionService" />
+      <MemberSignature Language="DocId" Value="P:System.Web.UI.ControlBuilder.ThemeResolutionService" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property ThemeResolutionService As IThemeResolutionService" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::Web::UI::IThemeResolutionService ^ ThemeResolutionService { System::Web::UI::IThemeResolutionService ^ get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Web.UI.IThemeResolutionService</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="87c6a-284">获取一个 <see cref="T:System.Web.UI.IThemeResolutionService" /> 对象，该对象用于在设计时管理控件的主题和外观。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="87c6a-284">Gets an <see cref="T:System.Web.UI.IThemeResolutionService" /> object that is used in design time to manage control themes and skins.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="87c6a-285">一个 <see cref="T:System.Web.UI.IThemeResolutionService" /> 对象，该对象用于在设计时管理控件的主题和外观。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="87c6a-285">An <see cref="T:System.Web.UI.IThemeResolutionService" /> object that is used in design time to manage control themes and skins.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="87c6a-286"><xref:System.Web.UI.IThemeResolutionService>接口是一个或多个容器<xref:System.Web.UI.ThemeProvider>对象，反过来提供<xref:System.Web.UI.SkinBuilder>将主题应用和控件到控件的外观的设计器中创建的对象。</span><span class="sxs-lookup"><span data-stu-id="87c6a-286">The <xref:System.Web.UI.IThemeResolutionService> interface is a container for one or more <xref:System.Web.UI.ThemeProvider> objects, which in turn supply the <xref:System.Web.UI.SkinBuilder> objects that apply themes and control skins to controls when they are created in a designer.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="T:System.Web.UI.IThemeResolutionService" />
+      </Docs>
+    </Member>
+  </Members>
+</Type>

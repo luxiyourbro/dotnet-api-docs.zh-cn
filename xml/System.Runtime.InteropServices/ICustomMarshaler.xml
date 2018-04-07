@@ -1,0 +1,413 @@
+<Type Name="ICustomMarshaler" FullName="System.Runtime.InteropServices.ICustomMarshaler">
+  <Metadata>
+    <Meta Name="ms.openlocfilehash" Value="96e612f036008e38d852a9b63135ce9093ba596a" />
+    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
+    <Meta Name="ms.translationtype" Value="HT" />
+    <Meta Name="ms.contentlocale" Value="zh-CN" />
+    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
+  </Metadata>
+  <TypeSignature Language="C#" Value="public interface ICustomMarshaler" />
+  <TypeSignature Language="ILAsm" Value=".class public interface auto ansi abstract ICustomMarshaler" />
+  <TypeSignature Language="DocId" Value="T:System.Runtime.InteropServices.ICustomMarshaler" />
+  <TypeSignature Language="VB.NET" Value="Public Interface ICustomMarshaler" />
+  <TypeSignature Language="C++ CLI" Value="public interface class ICustomMarshaler" />
+  <AssemblyInfo>
+    <AssemblyName>mscorlib</AssemblyName>
+    <AssemblyVersion>2.0.5.0</AssemblyVersion>
+    <AssemblyVersion>4.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <AssemblyInfo>
+    <AssemblyName>netstandard</AssemblyName>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <AssemblyInfo>
+    <AssemblyName>System.Runtime.InteropServices</AssemblyName>
+    <AssemblyVersion>4.2.0.0</AssemblyVersion>
+    <AssemblyVersion>4.2.1.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Interfaces />
+  <Attributes>
+    <Attribute>
+      <AttributeName>System.Runtime.InteropServices.ComVisible(true)</AttributeName>
+    </Attribute>
+  </Attributes>
+  <Docs>
+    <summary>
+      <span data-ttu-id="7c627-101">提供用于处理方法调用的自定义包装器。</span>
+      <span class="sxs-lookup">
+        <span data-stu-id="7c627-101">Provides custom wrappers for handling method calls.</span>
+      </span>
+    </summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="7c627-102">封送处理程序提供的功能的旧和新的接口之间的桥梁。</span><span class="sxs-lookup"><span data-stu-id="7c627-102">A marshaler provides a bridge between the functionality of old and new interfaces.</span></span> <span data-ttu-id="7c627-103">自定义封送处理提供以下好处：</span><span class="sxs-lookup"><span data-stu-id="7c627-103">Custom marshaling provides the following benefits:</span></span>  
+  
+-   <span data-ttu-id="7c627-104">它使客户端应用程序被设计为可与旧接口以实现新接口的服务器与一同使用。</span><span class="sxs-lookup"><span data-stu-id="7c627-104">It enables client applications that were designed to work with an old interface to also work with servers that implement a new interface.</span></span>  
+  
+-   <span data-ttu-id="7c627-105">它使客户端生成的应用程序可以使用新接口用于实现旧接口的服务器。</span><span class="sxs-lookup"><span data-stu-id="7c627-105">It enables client applications built to work with a new interface to work with servers that implement an old interface.</span></span>  
+  
+ <span data-ttu-id="7c627-106">如果你有一个接口，这带来了不同的封送处理行为或以不同的方式公开到组件对象模型 (COM)，你可以设计而不是使用互操作封送处理程序自定义封送处理程序。</span><span class="sxs-lookup"><span data-stu-id="7c627-106">If you have an interface that introduces different marshaling behavior or that is exposed to the Component Object Model (COM) in a different way, you can design a custom marshaler instead of using the interop marshaler.</span></span> <span data-ttu-id="7c627-107">通过使用自定义封送处理程序，你可以尽量减少新的.NET Framework 组件和现有的 COM 组件之间的区别。</span><span class="sxs-lookup"><span data-stu-id="7c627-107">By using a custom marshaler, you can minimize the distinction between new .NET Framework components and existing COM components.</span></span>  
+  
+ <span data-ttu-id="7c627-108">例如，假设你正在开发的托管的接口名`INew`。</span><span class="sxs-lookup"><span data-stu-id="7c627-108">For example, suppose that you are developing a managed interface called `INew`.</span></span> <span data-ttu-id="7c627-109">当通过标准的 COM 可调用包装 (CCW) 情况下，向 COM 公开此接口时，它与托管接口具有相同的方法，并使用互操作封送处理程序中内置的封送处理规则。</span><span class="sxs-lookup"><span data-stu-id="7c627-109">When this interface is exposed to COM through a standard COM callable wrapper (CCW), it has the same methods as the managed interface and uses the marshaling rules built into the interop marshaler.</span></span> <span data-ttu-id="7c627-110">现在，假设的已知 COM 接口调用`IOld`已经提供了与相同的功能`INew`接口。</span><span class="sxs-lookup"><span data-stu-id="7c627-110">Now suppose that a well-known COM interface called `IOld` already provides the same functionality as the `INew` interface.</span></span> <span data-ttu-id="7c627-111">通过设计时自定义封送处理程序，你可以提供的非托管的实现`IOld`，只需将调用委托给的托管实现`INew`接口。</span><span class="sxs-lookup"><span data-stu-id="7c627-111">By designing a custom marshaler, you can provide an unmanaged implementation of `IOld` that simply delegates the calls to the managed implementation of the `INew` interface.</span></span> <span data-ttu-id="7c627-112">因此，自定义封送处理程序作为托管和非托管接口之间的桥梁。</span><span class="sxs-lookup"><span data-stu-id="7c627-112">Therefore, the custom marshaler acts as a bridge between the managed and unmanaged interfaces.</span></span>  
+  
+> [!NOTE]
+>  <span data-ttu-id="7c627-113">当从托管代码调用到非托管代码仅支持调度的接口上时，不会调用自定义封。</span><span class="sxs-lookup"><span data-stu-id="7c627-113">Custom marshalers are not invoked when calling from managed code to unmanaged code on a dispatch-only interface.</span></span>  
+  
+## <a name="defining-the-marshaling-type"></a><span data-ttu-id="7c627-114">定义封送处理类型</span><span class="sxs-lookup"><span data-stu-id="7c627-114">Defining the Marshaling Type</span></span>  
+ <span data-ttu-id="7c627-115">你可以构建自定义封送处理程序之前，必须定义将被封送托管和非托管接口。</span><span class="sxs-lookup"><span data-stu-id="7c627-115">Before you can build a custom marshaler, you must define the managed and unmanaged interfaces that will be marshaled.</span></span> <span data-ttu-id="7c627-116">通常，这些接口执行相同的功能，但以不同的方式公开给托管和非托管对象。</span><span class="sxs-lookup"><span data-stu-id="7c627-116">These interfaces commonly perform the same function but are exposed differently to managed and unmanaged objects.</span></span>  
+  
+ <span data-ttu-id="7c627-117">托管的编译器生成的元数据，从托管的接口，并生成接口看起来像任何其他托管的接口。</span><span class="sxs-lookup"><span data-stu-id="7c627-117">A managed compiler produces a managed interface from metadata, and the resulting interface looks like any other managed interface.</span></span> <span data-ttu-id="7c627-118">下面的示例演示一个典型的接口。</span><span class="sxs-lookup"><span data-stu-id="7c627-118">The following example shows a typical interface.</span></span>  
+  
+ [!code-cpp[System.Runtime.InteropServices.ICustomMarshaler#1](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.runtime.interopservices.icustommarshaler/cpp/source.cpp#1)]
+ [!code-csharp[System.Runtime.InteropServices.ICustomMarshaler#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.runtime.interopservices.icustommarshaler/cs/source.cs#1)]
+ [!code-vb[System.Runtime.InteropServices.ICustomMarshaler#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.runtime.interopservices.icustommarshaler/vb/source.vb#1)]  
+  
+ <span data-ttu-id="7c627-119">定义在接口定义语言 (IDL) 的非托管的类型，并使用 Microsoft 接口定义语言 (MIDL) 编译器进行编译。</span><span class="sxs-lookup"><span data-stu-id="7c627-119">You define the unmanaged type in Interface Definition Language (IDL) and compile it with the Microsoft Interface Definition Language (MIDL) compiler.</span></span> <span data-ttu-id="7c627-120">你的库语句中定义该接口，并将其分配使用通用唯一标识符 (UUID) 属性的接口 ID，如以下示例所示。</span><span class="sxs-lookup"><span data-stu-id="7c627-120">You define the interface within a library statement and assign it an interface ID with the universal unique identifier (UUID) attribute, as the following example demonstrates.</span></span>  
+  
+```  
+ [uuid(9B2BAADA-0705-11D3-A0CD-00C04FA35826)]  
+library OldLib {  
+     [uuid(9B2BAADD-0705-11D3-A0CD-00C04FA35826)]  
+     interface IOld : IUnknown  
+         HRESULT OldMethod();  
+}  
+```  
+  
+ <span data-ttu-id="7c627-121">MIDL 编译器将产生多个输出文件。</span><span class="sxs-lookup"><span data-stu-id="7c627-121">The MIDL compiler produces several output files.</span></span> <span data-ttu-id="7c627-122">如果接口在 Old.idl 中定义的定义输出文件 Old_i.c`const`变量与接口标识符 (IID) 的接口，如以下示例所示。</span><span class="sxs-lookup"><span data-stu-id="7c627-122">If the interface is defined in Old.idl, the output file Old_i.c defines a `const` variable with the interface identifier (IID) of the interface, as the following example demonstrates.</span></span>  
+  
+```  
+const IID IID_IOld = {0x9B2BAADD,0x0705,0x11D3,{0xA0,0xCD,0x00,0xC0,0x4F,0xA3,0x58,0x26}};  
+```  
+  
+ <span data-ttu-id="7c627-123">Midl，也会产生 Old.h 文件。</span><span class="sxs-lookup"><span data-stu-id="7c627-123">The Old.h file is also produced by MIDL.</span></span> <span data-ttu-id="7c627-124">它包含可以在 c + + 源代码中包括的接口的 c + + 定义。</span><span class="sxs-lookup"><span data-stu-id="7c627-124">It contains a C++ definition of the interface that can be included in your C++ source code.</span></span>  
+  
+## <a name="implementing-the-icustommarshaler-interface"></a><span data-ttu-id="7c627-125">实现 ICustomMarshaler 接口</span><span class="sxs-lookup"><span data-stu-id="7c627-125">Implementing the ICustomMarshaler Interface</span></span>  
+ <span data-ttu-id="7c627-126">你自定义封送处理程序必须实现<xref:System.Runtime.InteropServices.ICustomMarshaler>接口，以提供给运行时适当的包装器。</span><span class="sxs-lookup"><span data-stu-id="7c627-126">Your custom marshaler must implement the <xref:System.Runtime.InteropServices.ICustomMarshaler> interface to provide the appropriate wrappers to the runtime.</span></span>  
+  
+ <span data-ttu-id="7c627-127">下面的 C# 代码显示由所有自定义封必须实现的基接口。</span><span class="sxs-lookup"><span data-stu-id="7c627-127">The following C# code displays the base interface that must be implemented by all custom marshalers.</span></span>  
+  
+ [!code-cpp[System.Runtime.InteropServices.ICustomMarshaler#2](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.runtime.interopservices.icustommarshaler/cpp/source.cpp#2)]
+ [!code-csharp[System.Runtime.InteropServices.ICustomMarshaler#2](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.runtime.interopservices.icustommarshaler/cs/source.cs#2)]
+ [!code-vb[System.Runtime.InteropServices.ICustomMarshaler#2](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.runtime.interopservices.icustommarshaler/vb/source.vb#2)]  
+  
+ <span data-ttu-id="7c627-128"><xref:System.Runtime.InteropServices.ICustomMarshaler>接口包含提供转换支持、 清理支持以及有关数据要封送处理信息的方法。</span><span class="sxs-lookup"><span data-stu-id="7c627-128">The <xref:System.Runtime.InteropServices.ICustomMarshaler> interface includes methods that provide conversion support, cleanup support, and information about the data to be marshaled.</span></span>  
+  
+|<span data-ttu-id="7c627-129">类型的操作</span><span class="sxs-lookup"><span data-stu-id="7c627-129">Type of operation</span></span>|<span data-ttu-id="7c627-130">ICustomMarshaler 方法</span><span class="sxs-lookup"><span data-stu-id="7c627-130">ICustomMarshaler method</span></span>|<span data-ttu-id="7c627-131">描述</span><span class="sxs-lookup"><span data-stu-id="7c627-131">Description</span></span>|  
+|-----------------------|-----------------------------|-----------------|  
+|<span data-ttu-id="7c627-132">（从本机托管代码） 的转换</span><span class="sxs-lookup"><span data-stu-id="7c627-132">Conversion (from native to managed code)</span></span>|<xref:System.Runtime.InteropServices.ICustomMarshaler.MarshalNativeToManaged%2A>|<span data-ttu-id="7c627-133">将指向本机数据的封送到托管对象。</span><span class="sxs-lookup"><span data-stu-id="7c627-133">Marshals a pointer to native data into a managed object.</span></span> <span data-ttu-id="7c627-134">此方法返回的自定义运行时可调用包装 (RCW)，但可以封送作为参数传递的非托管的接口。</span><span class="sxs-lookup"><span data-stu-id="7c627-134">This method returns a custom runtime callable wrapper (RCW) that can marshal the unmanaged interface that is passed as an argument.</span></span> <span data-ttu-id="7c627-135">封送处理程序应返回该类型的自定义 RCW 的实例。</span><span class="sxs-lookup"><span data-stu-id="7c627-135">The marshaler should return an instance of the custom RCW for that type.</span></span>|  
+|<span data-ttu-id="7c627-136">（从托管到本机代码） 的转换</span><span class="sxs-lookup"><span data-stu-id="7c627-136">Conversion (from managed to native code)</span></span>|<xref:System.Runtime.InteropServices.ICustomMarshaler.MarshalManagedToNative%2A>|<span data-ttu-id="7c627-137">将托管的对象封送到本机数据的指针。</span><span class="sxs-lookup"><span data-stu-id="7c627-137">Marshals a managed object into a pointer to native data.</span></span> <span data-ttu-id="7c627-138">此方法返回的自定义 COM 可调用包装 (CCW) 可以封送作为参数传递的托管的接口。</span><span class="sxs-lookup"><span data-stu-id="7c627-138">This method returns a custom COM callable wrapper (CCW) that can marshal the managed interface that is passed as an argument.</span></span> <span data-ttu-id="7c627-139">封送处理程序应返回该类型的自定义的 CCW 的实例。</span><span class="sxs-lookup"><span data-stu-id="7c627-139">The marshaler should return an instance of the custom CCW for that type.</span></span>|  
+|<span data-ttu-id="7c627-140">清理 （本机代码）</span><span class="sxs-lookup"><span data-stu-id="7c627-140">Cleanup (of native code)</span></span>|<xref:System.Runtime.InteropServices.ICustomMarshaler.CleanUpNativeData%2A>|<span data-ttu-id="7c627-141">使封送处理程序以进行本机数据 (CCW) 返回的清除<xref:System.Runtime.InteropServices.ICustomMarshaler.MarshalManagedToNative%2A>方法。</span><span class="sxs-lookup"><span data-stu-id="7c627-141">Enables the marshaler to clean up the native data (the CCW) that is returned by the <xref:System.Runtime.InteropServices.ICustomMarshaler.MarshalManagedToNative%2A> method.</span></span>|  
+|<span data-ttu-id="7c627-142">清理 （托管代码）</span><span class="sxs-lookup"><span data-stu-id="7c627-142">Cleanup (of managed code)</span></span>|<xref:System.Runtime.InteropServices.ICustomMarshaler.CleanUpManagedData%2A>|<span data-ttu-id="7c627-143">使该封送处理清理返回托管数据 (RCW)<xref:System.Runtime.InteropServices.ICustomMarshaler.MarshalNativeToManaged%2A>方法。</span><span class="sxs-lookup"><span data-stu-id="7c627-143">Enables the marshaler to clean up the managed data (the RCW) that is returned by the <xref:System.Runtime.InteropServices.ICustomMarshaler.MarshalNativeToManaged%2A> method.</span></span>|  
+|<span data-ttu-id="7c627-144">（有关本机代码） 的信息</span><span class="sxs-lookup"><span data-stu-id="7c627-144">Information (about native code)</span></span>|<xref:System.Runtime.InteropServices.ICustomMarshaler.GetNativeDataSize%2A>|<span data-ttu-id="7c627-145">返回要封送处理的非托管数据的大小。</span><span class="sxs-lookup"><span data-stu-id="7c627-145">Returns the size of the unmanaged data to be marshaled.</span></span>|  
+  
+### <a name="conversion"></a><span data-ttu-id="7c627-146">转换</span><span class="sxs-lookup"><span data-stu-id="7c627-146">Conversion</span></span>  
+ <xref:System.Runtime.InteropServices.ICustomMarshaler.MarshalNativeToManaged%2A?displayProperty=nameWithType>  
+  
+ <span data-ttu-id="7c627-147">将指向本机数据的封送到托管对象。</span><span class="sxs-lookup"><span data-stu-id="7c627-147">Marshals a pointer to native data into a managed object.</span></span> <span data-ttu-id="7c627-148">此方法返回的自定义运行时可调用包装 (RCW)，但可以封送作为参数传递的非托管的接口。</span><span class="sxs-lookup"><span data-stu-id="7c627-148">This method returns a custom runtime callable wrapper (RCW) that can marshal the unmanaged interface that is passed as an argument.</span></span> <span data-ttu-id="7c627-149">封送处理程序应返回该类型的自定义 RCW 的实例。</span><span class="sxs-lookup"><span data-stu-id="7c627-149">The marshaler should return an instance of the custom RCW for that type.</span></span>  
+  
+ <xref:System.Runtime.InteropServices.ICustomMarshaler.MarshalManagedToNative%2A?displayProperty=nameWithType>  
+  
+ <span data-ttu-id="7c627-150">将托管的对象封送到本机数据的指针。</span><span class="sxs-lookup"><span data-stu-id="7c627-150">Marshals a managed object into a pointer to native data.</span></span> <span data-ttu-id="7c627-151">此方法返回的自定义 COM 可调用包装 (CCW) 可以封送作为参数传递的托管的接口。</span><span class="sxs-lookup"><span data-stu-id="7c627-151">This method returns a custom COM callable wrapper (CCW) that can marshal the managed interface that is passed as an argument.</span></span> <span data-ttu-id="7c627-152">封送处理程序应返回该类型的自定义的 CCW 的实例。</span><span class="sxs-lookup"><span data-stu-id="7c627-152">The marshaler should return an instance of the custom CCW for that type.</span></span>  
+  
+### <a name="cleanup"></a><span data-ttu-id="7c627-153">清理</span><span class="sxs-lookup"><span data-stu-id="7c627-153">Cleanup</span></span>  
+ <xref:System.Runtime.InteropServices.ICustomMarshaler.CleanUpNativeData%2A?displayProperty=nameWithType>  
+  
+ <span data-ttu-id="7c627-154">使封送处理程序以进行本机数据 (CCW) 返回的清除<xref:System.Runtime.InteropServices.ICustomMarshaler.MarshalManagedToNative%2A>方法。</span><span class="sxs-lookup"><span data-stu-id="7c627-154">Enables the marshaler to clean up the native data (the CCW) that is returned by the <xref:System.Runtime.InteropServices.ICustomMarshaler.MarshalManagedToNative%2A> method.</span></span>  
+  
+ <xref:System.Runtime.InteropServices.ICustomMarshaler.CleanUpManagedData%2A?displayProperty=nameWithType>  
+  
+ <span data-ttu-id="7c627-155">使该封送处理清理返回托管数据 (RCW)<xref:System.Runtime.InteropServices.ICustomMarshaler.MarshalNativeToManaged%2A>方法。</span><span class="sxs-lookup"><span data-stu-id="7c627-155">Enables the marshaler to clean up the managed data (the RCW) that is returned by the <xref:System.Runtime.InteropServices.ICustomMarshaler.MarshalNativeToManaged%2A> method.</span></span>  
+  
+### <a name="size-information"></a><span data-ttu-id="7c627-156">大小信息</span><span class="sxs-lookup"><span data-stu-id="7c627-156">Size Information</span></span>  
+ <xref:System.Runtime.InteropServices.ICustomMarshaler.GetNativeDataSize%2A?displayProperty=nameWithType>  
+  
+ <span data-ttu-id="7c627-157">返回要封送处理的非托管数据的大小。</span><span class="sxs-lookup"><span data-stu-id="7c627-157">Returns the size of the unmanaged data to be marshaled.</span></span>  
+  
+## <a name="implementing-the-getinstance-method"></a><span data-ttu-id="7c627-158">实现 GetInstance 方法</span><span class="sxs-lookup"><span data-stu-id="7c627-158">Implementing the GetInstance Method</span></span>  
+ <span data-ttu-id="7c627-159">除了实现<xref:System.Runtime.InteropServices.ICustomMarshaler>接口，必须实现自定义封`static`调用方法`GetInstance`接受<xref:System.String>作为参数且其返回类型为<xref:System.Runtime.InteropServices.ICustomMarshaler>。</span><span class="sxs-lookup"><span data-stu-id="7c627-159">In addition to implementing the <xref:System.Runtime.InteropServices.ICustomMarshaler> interface, custom marshalers must implement a `static` method called `GetInstance` that accepts a <xref:System.String> as a parameter and has a return type of <xref:System.Runtime.InteropServices.ICustomMarshaler>.</span></span> <span data-ttu-id="7c627-160">这`static`由公共语言运行时的 COM 互操作层，若要实例化自定义封送处理程序的实例调用方法。</span><span class="sxs-lookup"><span data-stu-id="7c627-160">This `static` method is called by the common language runtime's COM interop layer to instantiate an instance of the custom marshaler.</span></span> <span data-ttu-id="7c627-161">字符串传递给`GetInstance`是该方法可用于自定义返回自定义封送处理程序 cookie。</span><span class="sxs-lookup"><span data-stu-id="7c627-161">The string that is passed to `GetInstance` is a cookie that the method can use to customize the returned custom marshaler.</span></span>  
+  
+```  
+static ICustomMarshaler *GetInstance(String *pstrCookie);  
+```  
+  
+## <a name="applying-marshalasattribute"></a><span data-ttu-id="7c627-162">应用 MarshalAsAttribute</span><span class="sxs-lookup"><span data-stu-id="7c627-162">Applying MarshalAsAttribute</span></span>  
+ <span data-ttu-id="7c627-163">若要使用自定义封送处理程序，必须应用<xref:System.Runtime.InteropServices.MarshalAsAttribute>属性设为的参数或正封送的字段。</span><span class="sxs-lookup"><span data-stu-id="7c627-163">To use a custom marshaler, you must apply the <xref:System.Runtime.InteropServices.MarshalAsAttribute> attribute to the parameter or field that is being marshaled.</span></span>  
+  
+ <span data-ttu-id="7c627-164">你还必须传递<xref:System.Runtime.InteropServices.UnmanagedType.CustomMarshaler?displayProperty=nameWithType>枚举值到<xref:System.Runtime.InteropServices.MarshalAsAttribute>构造函数。</span><span class="sxs-lookup"><span data-stu-id="7c627-164">You must also pass the <xref:System.Runtime.InteropServices.UnmanagedType.CustomMarshaler?displayProperty=nameWithType> enumeration value to the <xref:System.Runtime.InteropServices.MarshalAsAttribute> constructor.</span></span> <span data-ttu-id="7c627-165">此外，还必须指定<xref:System.Runtime.InteropServices.MarshalAsAttribute.MarshalType>字段的命名参数，则下列选项之一：</span><span class="sxs-lookup"><span data-stu-id="7c627-165">In addition, you must specify the <xref:System.Runtime.InteropServices.MarshalAsAttribute.MarshalType> field with one of the following named parameters:</span></span>  
+  
+-   <span data-ttu-id="7c627-166"><xref:System.Runtime.InteropServices.MarshalAsAttribute.MarshalType> （必需）： 自定义封送处理程序的程序集限定名称。</span><span class="sxs-lookup"><span data-stu-id="7c627-166"><xref:System.Runtime.InteropServices.MarshalAsAttribute.MarshalType> (required): The assembly-qualified name of the custom marshaler.</span></span> <span data-ttu-id="7c627-167">名称应包含的命名空间和类的自定义封送处理程序。</span><span class="sxs-lookup"><span data-stu-id="7c627-167">The name should include the namespace and class of the custom marshaler.</span></span> <span data-ttu-id="7c627-168">如果在使用中的程序集未定义自定义封送处理程序，必须指定在其中定义程序集的名称。</span><span class="sxs-lookup"><span data-stu-id="7c627-168">If the custom marshaler is not defined in the assembly it is used in, you must specify the name of the assembly in which it is defined.</span></span>  
+  
+    > [!NOTE]
+    >  <span data-ttu-id="7c627-169">你可以使用<xref:System.Runtime.InteropServices.MarshalAsAttribute.MarshalTypeRef>字段而不是<xref:System.Runtime.InteropServices.MarshalAsAttribute.MarshalType>字段。</span><span class="sxs-lookup"><span data-stu-id="7c627-169">You can use the <xref:System.Runtime.InteropServices.MarshalAsAttribute.MarshalTypeRef> field instead of the <xref:System.Runtime.InteropServices.MarshalAsAttribute.MarshalType> field.</span></span> <span data-ttu-id="7c627-170"><xref:System.Runtime.InteropServices.MarshalAsAttribute.MarshalTypeRef> 将可以更轻松地指定的类型。</span><span class="sxs-lookup"><span data-stu-id="7c627-170"><xref:System.Runtime.InteropServices.MarshalAsAttribute.MarshalTypeRef> takes a type that is easier to specify.</span></span>  
+  
+-   <span data-ttu-id="7c627-171"><xref:System.Runtime.InteropServices.MarshalAsAttribute.MarshalCookie> （可选）： 传递给自定义封送处理程序的 cookie。</span><span class="sxs-lookup"><span data-stu-id="7c627-171"><xref:System.Runtime.InteropServices.MarshalAsAttribute.MarshalCookie> (optional): A cookie that is passed to the custom marshaler.</span></span> <span data-ttu-id="7c627-172">Cookie 可用于向封送处理程序中提供的其他信息。</span><span class="sxs-lookup"><span data-stu-id="7c627-172">You can use the cookie to provide additional information to the marshaler.</span></span> <span data-ttu-id="7c627-173">例如，如果同一封送处理程序用于提供大量的包装，cookie 将标识特定的包装。</span><span class="sxs-lookup"><span data-stu-id="7c627-173">For example, if the same marshaler is used to provide a number of wrappers, the cookie identifies a specific wrapper.</span></span> <span data-ttu-id="7c627-174">Cookie 传递给`GetInstance`封送处理程序方法。</span><span class="sxs-lookup"><span data-stu-id="7c627-174">The cookie is passed to the `GetInstance` method of the marshaler.</span></span>  
+  
+ <span data-ttu-id="7c627-175"><xref:System.Runtime.InteropServices.MarshalAsAttribute>特性标识自定义封送处理程序，使其可以激活适当的包装。</span><span class="sxs-lookup"><span data-stu-id="7c627-175">The <xref:System.Runtime.InteropServices.MarshalAsAttribute> attribute identifies the custom marshaler so it can activate the appropriate wrapper.</span></span> <span data-ttu-id="7c627-176">然后，公共语言运行时的互操作服务检查该属性，并创建要封送处理的自变量 （参数或字段） 需求的自定义封送处理程序的第一个时间。</span><span class="sxs-lookup"><span data-stu-id="7c627-176">The common language runtime's interop service then examines the attribute and creates the custom marshaler the first time the argument (parameter or field) needs to be marshaled.</span></span>  
+  
+ <span data-ttu-id="7c627-177">然后，运行时调用<xref:System.Runtime.InteropServices.ICustomMarshaler.MarshalNativeToManaged%2A>和<xref:System.Runtime.InteropServices.ICustomMarshaler.MarshalManagedToNative%2A>上激活正确的包装，以处理调用自定义封送处理程序的方法。</span><span class="sxs-lookup"><span data-stu-id="7c627-177">The runtime then calls the <xref:System.Runtime.InteropServices.ICustomMarshaler.MarshalNativeToManaged%2A> and <xref:System.Runtime.InteropServices.ICustomMarshaler.MarshalManagedToNative%2A> methods on the custom marshaler to activate the correct wrapper to handle the call.</span></span>  
+  
+## <a name="using-a-custom-marshaler"></a><span data-ttu-id="7c627-178">使用自定义封送处理程序</span><span class="sxs-lookup"><span data-stu-id="7c627-178">Using a Custom Marshaler</span></span>  
+ <span data-ttu-id="7c627-179">自定义封送处理程序完成后，你可以将其用作自定义包装特定类型。</span><span class="sxs-lookup"><span data-stu-id="7c627-179">When the custom marshaler is complete, you can use it as a custom wrapper for a particular type.</span></span> <span data-ttu-id="7c627-180">下面的示例演示的定义`IUserData`托管的接口：</span><span class="sxs-lookup"><span data-stu-id="7c627-180">The following example shows the definition of the `IUserData` managed interface:</span></span>  
+  
+ [!code-cpp[System.Runtime.InteropServices.ICustomMarshaler#3](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.runtime.interopservices.icustommarshaler/cpp/source.cpp#3)]
+ [!code-csharp[System.Runtime.InteropServices.ICustomMarshaler#3](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.runtime.interopservices.icustommarshaler/cs/source.cs#3)]
+ [!code-vb[System.Runtime.InteropServices.ICustomMarshaler#3](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.runtime.interopservices.icustommarshaler/vb/source.vb#3)]  
+  
+ <span data-ttu-id="7c627-181">在下面的示例中，`IUserData`接口使用`NewOldMarshaler`自定义封送处理程序以启用非托管客户端应用程序传递`IOld`接口`DoSomeStuff`方法。</span><span class="sxs-lookup"><span data-stu-id="7c627-181">In the following example, the `IUserData` interface uses the `NewOldMarshaler` custom marshaler to enable unmanaged client applications to pass an `IOld` interface to the `DoSomeStuff` method.</span></span> <span data-ttu-id="7c627-182">托管的说明`DoSomeStuff`方法采用`INew`接口，如前面的示例中所示，而非托管的版本的`DoSomeStuff`采用`IOld`的接口指针，如下面的示例中所示。</span><span class="sxs-lookup"><span data-stu-id="7c627-182">The managed description of the `DoSomeStuff` method takes an `INew` interface, as shown in the previous example, whereas the unmanaged version of `DoSomeStuff` takes an `IOld` interface pointer, as shown in the following example.</span></span>  
+  
+```  
+[uuid(9B2BAADA-0705-11D3-A0CD-00C04FA35826)]  
+library UserLib {  
+     [uuid(9B2BABCD-0705-11D3-A0CD-00C04FA35826)]  
+     interface IUserData : IUnknown  
+         HRESULT DoSomeStuff(IUnknown* pIOld);  
+}  
+```  
+  
+ <span data-ttu-id="7c627-183">通过导出的托管的定义生成的类型库`IUserData`而不是标准定义此示例中所示的非托管定义。</span><span class="sxs-lookup"><span data-stu-id="7c627-183">The type library that is generated by exporting the managed definition of `IUserData` yields the unmanaged definition shown in this example instead of the standard definition.</span></span> <span data-ttu-id="7c627-184"><xref:System.Runtime.InteropServices.MarshalAsAttribute>应用于属性`INew`自变量中的托管定义`DoSomeStuff`方法指示的参数使用了自定义封送处理程序，如以下示例所示。</span><span class="sxs-lookup"><span data-stu-id="7c627-184">The <xref:System.Runtime.InteropServices.MarshalAsAttribute> attribute applied to the `INew` argument in the managed definition of the `DoSomeStuff` method indicates that the argument uses a custom marshaler, as the following example shows.</span></span>  
+  
+ [!code-cpp[System.Runtime.InteropServices.ICustomMarshaler#4](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.runtime.interopservices.icustommarshaler/cpp/source.cpp#4)]
+ [!code-csharp[System.Runtime.InteropServices.ICustomMarshaler#4](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.runtime.interopservices.icustommarshaler/cs/source.cs#4)]
+ [!code-vb[System.Runtime.InteropServices.ICustomMarshaler#4](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.runtime.interopservices.icustommarshaler/vb/source.vb#4)]  
+  
+ [!code-cpp[System.Runtime.InteropServices.ICustomMarshaler#5](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.runtime.interopservices.icustommarshaler/cpp/source.cpp#5)]
+ [!code-csharp[System.Runtime.InteropServices.ICustomMarshaler#5](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.runtime.interopservices.icustommarshaler/cs/source.cs#5)]
+ [!code-vb[System.Runtime.InteropServices.ICustomMarshaler#5](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.runtime.interopservices.icustommarshaler/vb/source.vb#5)]  
+  
+ <span data-ttu-id="7c627-185">在前面的示例中，第一个参数提供给<xref:System.Runtime.InteropServices.MarshalAsAttribute>属性是<xref:System.Runtime.InteropServices.UnmanagedType.CustomMarshaler?displayProperty=nameWithType>枚举值`UnmanagedType.CustomMarshaler`。</span><span class="sxs-lookup"><span data-stu-id="7c627-185">In the previous examples, the first parameter provided to the <xref:System.Runtime.InteropServices.MarshalAsAttribute> attribute is the <xref:System.Runtime.InteropServices.UnmanagedType.CustomMarshaler?displayProperty=nameWithType> enumeration value `UnmanagedType.CustomMarshaler`.</span></span>  
+  
+ <span data-ttu-id="7c627-186">第二个参数是<xref:System.Runtime.InteropServices.MarshalAsAttribute.MarshalType>字段，它提供的自定义封送处理程序的程序集限定名称。</span><span class="sxs-lookup"><span data-stu-id="7c627-186">The second parameter is the <xref:System.Runtime.InteropServices.MarshalAsAttribute.MarshalType> field, which provides the assembly-qualified name of the custom marshaler.</span></span> <span data-ttu-id="7c627-187">此名称组成的命名空间和类的自定义封送处理程序 (`MarshalType="MyCompany.NewOldMarshaler"`)。</span><span class="sxs-lookup"><span data-stu-id="7c627-187">This name consists of the namespace and class of the custom marshaler (`MarshalType="MyCompany.NewOldMarshaler"`).</span></span>  
+  
+ ]]></format>
+    </remarks>
+  </Docs>
+  <Members>
+    <Member MemberName="CleanUpManagedData">
+      <MemberSignature Language="C#" Value="public void CleanUpManagedData (object ManagedObj);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void CleanUpManagedData(object ManagedObj) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Runtime.InteropServices.ICustomMarshaler.CleanUpManagedData(System.Object)" />
+      <MemberSignature Language="VB.NET" Value="Public Sub CleanUpManagedData (ManagedObj As Object)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void CleanUpManagedData(System::Object ^ ManagedObj);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Runtime.InteropServices</AssemblyName>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="ManagedObj" Type="System.Object" />
+      </Parameters>
+      <Docs>
+        <param name="ManagedObj">
+          <span data-ttu-id="7c627-188">要销毁的托管对象。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="7c627-188">The managed object to be destroyed.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="7c627-189">不再需要时执行必要的托管数据的清除。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="7c627-189">Performs necessary cleanup of the managed data when it is no longer needed.</span>
+          </span>
+        </summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="CleanUpNativeData">
+      <MemberSignature Language="C#" Value="public void CleanUpNativeData (IntPtr pNativeData);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void CleanUpNativeData(native int pNativeData) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Runtime.InteropServices.ICustomMarshaler.CleanUpNativeData(System.IntPtr)" />
+      <MemberSignature Language="VB.NET" Value="Public Sub CleanUpNativeData (pNativeData As IntPtr)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void CleanUpNativeData(IntPtr pNativeData);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Runtime.InteropServices</AssemblyName>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="pNativeData" Type="System.IntPtr" />
+      </Parameters>
+      <Docs>
+        <param name="pNativeData">
+          <span data-ttu-id="7c627-190">指向要销毁的非托管数据的指针。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="7c627-190">A pointer to the unmanaged data to be destroyed.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="7c627-191">不再需要时执行必要的非托管数据的清除。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="7c627-191">Performs necessary cleanup of the unmanaged data when it is no longer needed.</span>
+          </span>
+        </summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetNativeDataSize">
+      <MemberSignature Language="C#" Value="public int GetNativeDataSize ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance int32 GetNativeDataSize() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Runtime.InteropServices.ICustomMarshaler.GetNativeDataSize" />
+      <MemberSignature Language="VB.NET" Value="Public Function GetNativeDataSize () As Integer" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; int GetNativeDataSize();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Runtime.InteropServices</AssemblyName>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="7c627-192">返回要封送的本机数据的大小。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="7c627-192">Returns the size of the native data to be marshaled.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="7c627-193">本机数据的大小（以字节为单位）。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="7c627-193">The size, in bytes, of the native data.</span>
+          </span>
+        </returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="MarshalManagedToNative">
+      <MemberSignature Language="C#" Value="public IntPtr MarshalManagedToNative (object ManagedObj);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance native int MarshalManagedToNative(object ManagedObj) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Runtime.InteropServices.ICustomMarshaler.MarshalManagedToNative(System.Object)" />
+      <MemberSignature Language="VB.NET" Value="Public Function MarshalManagedToNative (ManagedObj As Object) As IntPtr" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; IntPtr MarshalManagedToNative(System::Object ^ ManagedObj);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Runtime.InteropServices</AssemblyName>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.IntPtr</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="ManagedObj" Type="System.Object" />
+      </Parameters>
+      <Docs>
+        <param name="ManagedObj">
+          <span data-ttu-id="7c627-194">要转换的托管对象。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="7c627-194">The managed object to be converted.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="7c627-195">将托管数据转换为非托管数据。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="7c627-195">Converts the managed data to unmanaged data.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="7c627-196">指向托管对象的 COM 视图的指针。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="7c627-196">A pointer to the COM view of the managed object.</span>
+          </span>
+        </returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="MarshalNativeToManaged">
+      <MemberSignature Language="C#" Value="public object MarshalNativeToManaged (IntPtr pNativeData);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance object MarshalNativeToManaged(native int pNativeData) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Runtime.InteropServices.ICustomMarshaler.MarshalNativeToManaged(System.IntPtr)" />
+      <MemberSignature Language="VB.NET" Value="Public Function MarshalNativeToManaged (pNativeData As IntPtr) As Object" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; System::Object ^ MarshalNativeToManaged(IntPtr pNativeData);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Runtime.InteropServices</AssemblyName>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Object</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="pNativeData" Type="System.IntPtr" />
+      </Parameters>
+      <Docs>
+        <param name="pNativeData">
+          <span data-ttu-id="7c627-197">指向要包装的非托管数据的指针。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="7c627-197">A pointer to the unmanaged data to be wrapped.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="7c627-198">将非托管数据转换为托管数据。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="7c627-198">Converts the unmanaged data to managed data.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="7c627-199">表示 COM 数据的托管视图的对象。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="7c627-199">An object that represents the managed view of the COM data.</span>
+          </span>
+        </returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

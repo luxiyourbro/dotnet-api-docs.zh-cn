@@ -1,0 +1,95 @@
+<Type Name="IDestinationTypeProvider" FullName="System.Xaml.IDestinationTypeProvider">
+  <Metadata>
+    <Meta Name="ms.openlocfilehash" Value="5b7c50aa2125017dfd7de732494ba1d51c5e1616" />
+    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
+    <Meta Name="ms.translationtype" Value="HT" />
+    <Meta Name="ms.contentlocale" Value="zh-CN" />
+    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
+  </Metadata>
+  <TypeSignature Language="C#" Value="public interface IDestinationTypeProvider" />
+  <TypeSignature Language="ILAsm" Value=".class public interface auto ansi abstract IDestinationTypeProvider" />
+  <TypeSignature Language="DocId" Value="T:System.Xaml.IDestinationTypeProvider" />
+  <TypeSignature Language="VB.NET" Value="Public Interface IDestinationTypeProvider" />
+  <TypeSignature Language="C++ CLI" Value="public interface class IDestinationTypeProvider" />
+  <AssemblyInfo>
+    <AssemblyName>System.Xaml</AssemblyName>
+    <AssemblyVersion>4.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Interfaces />
+  <Docs>
+    <summary>
+      <span data-ttu-id="e4483-101">表示一个服务，该服务可返回目标类型的 CLR 类型系统标识符。</span>
+      <span class="sxs-lookup">
+        <span data-stu-id="e4483-101">Represents a service that can return a CLR type system identifier for the destination type.</span>
+      </span>
+      <span data-ttu-id="e4483-102">与目标类型相关的情况是属性设置操作的目标类型由反射或其他机制间接报告。</span>
+      <span class="sxs-lookup">
+        <span data-stu-id="e4483-102">The destination type is relevant when the destination type for a property-setting operation is indirectly reported by reflection or other mechanisms.</span>
+      </span>
+    </summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="e4483-103">通过返回的类型<xref:System.Xaml.IDestinationTypeProvider.GetDestinationType%2A>从 XAML 节点流的当前位置使用当前的 XAML 架构上下文解析。</span><span class="sxs-lookup"><span data-stu-id="e4483-103">The type that is returned by <xref:System.Xaml.IDestinationTypeProvider.GetDestinationType%2A> is resolved from the current position of the XAML node stream by using current XAML schema context.</span></span>  
+  
+ <span data-ttu-id="e4483-104">如果你使用的 XAML 类型系统，.NET Framework XAML 服务和访问服务上下文，在这些情况下的实施方式<xref:System.Xaml.IDestinationTypeProvider.GetDestinationType%2A>返回<xref:System.Xaml.XamlType.UnderlyingType%2A>基于可用的 XAML 类型系统信息和基于 CLR 的 XAML 架构上下文。</span><span class="sxs-lookup"><span data-stu-id="e4483-104">If you use the XAML type system as implemented by .NET Framework XAML Services and access the service context under these conditions, <xref:System.Xaml.IDestinationTypeProvider.GetDestinationType%2A> returns the <xref:System.Xaml.XamlType.UnderlyingType%2A> based on available XAML type system information and CLR-based XAML schema context.</span></span>  
+  
+ <span data-ttu-id="e4483-105">此服务是适用于其中纯 CLR 反射或其他机制可能会提供足够的信息的目标类型相关的情况。</span><span class="sxs-lookup"><span data-stu-id="e4483-105">This service is relevant for situations where pure CLR reflection or other mechanisms might not provide enough information about a destination type.</span></span> <span data-ttu-id="e4483-106">以下是一些相关方案的列表<xref:System.Xaml.IDestinationTypeProvider>:</span><span class="sxs-lookup"><span data-stu-id="e4483-106">The following is a list of some relevant scenarios for <xref:System.Xaml.IDestinationTypeProvider>:</span></span>  
+  
+-   <span data-ttu-id="e4483-107">CLR 类型系统报告间接类型由于 CLR 如何定义和使用类型，并且你想真实的目标类型。</span><span class="sxs-lookup"><span data-stu-id="e4483-107">The CLR type system reports an indirect type because of how the CLR defines and uses types, and you want a true destination type.</span></span> <span data-ttu-id="e4483-108">例如，在.NET Framework XAML 服务 Api 使用此服务内部时在处理事件成员。</span><span class="sxs-lookup"><span data-stu-id="e4483-108">For example, the APIs in .NET Framework XAML Services use this service internally when they process event members.</span></span> <span data-ttu-id="e4483-109">通过为纯 CLR 反射报告事件<xref:System.Delegate>。</span><span class="sxs-lookup"><span data-stu-id="e4483-109">Events are reported by pure CLR reflection as a <xref:System.Delegate>.</span></span>  
+  
+-   <span data-ttu-id="e4483-110">你想要确保目标类型的类型转换器用法匹配可以生成类型转换器的预期的类型。</span><span class="sxs-lookup"><span data-stu-id="e4483-110">You want to ensure that the destination type of a type converter usage matches the expected type that the type converter can produce.</span></span> <span data-ttu-id="e4483-111">这种情况下是适合于在参数化的目标类型或泛型。</span><span class="sxs-lookup"><span data-stu-id="e4483-111">This scenario is useful when the destination type is parameterized or generic.</span></span>  
+  
+-   <span data-ttu-id="e4483-112">从嵌套在另一个值转换器的用法中调用的值转换器。</span><span class="sxs-lookup"><span data-stu-id="e4483-112">Your value converter is being called from a usage that nested in another value converter.</span></span> <span data-ttu-id="e4483-113">在这种情况下，<xref:System.Xaml.IDestinationTypeProvider.GetDestinationType%2A>展开嵌套，并返回实际的属性设置，而不是返回任何干预的值转换器的输出类型的目标类型。</span><span class="sxs-lookup"><span data-stu-id="e4483-113">In this case, <xref:System.Xaml.IDestinationTypeProvider.GetDestinationType%2A> unwinds the nesting and returns the destination type of the actual property being set, instead of returning the output type of any intervening value converter.</span></span>  
+  
+ <span data-ttu-id="e4483-114">类型转换器和标记扩展可以查询有关<xref:System.Xaml.IDestinationTypeProvider>作为上由 XAML 对象编写器，XAML 对象编写器调用值转换行为时提供的服务上下文的服务。</span><span class="sxs-lookup"><span data-stu-id="e4483-114">Type converters and markup extensions can query for <xref:System.Xaml.IDestinationTypeProvider> as a service on the service context that is provided by a XAML object writer, when the XAML object writer invokes value conversion behavior.</span></span> <span data-ttu-id="e4483-115">有关详细信息，请参阅[类型转换器和 XAML 的标记扩展](~/docs/framework/xaml-services/type-converters-and-markup-extensions-for-xaml.md)和[可供类型转换器和标记扩展的上下文服务](~/docs/framework/xaml-services/service-contexts-available-to-type-converters-and-markup-extensions.md)。</span><span class="sxs-lookup"><span data-stu-id="e4483-115">For more information, see [Type Converters and Markup Extensions for XAML](~/docs/framework/xaml-services/type-converters-and-markup-extensions-for-xaml.md) and [Service Contexts Available to Type Converters and Markup Extensions](~/docs/framework/xaml-services/service-contexts-available-to-type-converters-and-markup-extensions.md).</span></span>  
+  
+ ]]></format>
+    </remarks>
+    <altmember cref="T:System.Xaml.XamlObjectWriter" />
+  </Docs>
+  <Members>
+    <Member MemberName="GetDestinationType">
+      <MemberSignature Language="C#" Value="public Type GetDestinationType ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance class System.Type GetDestinationType() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Xaml.IDestinationTypeProvider.GetDestinationType" />
+      <MemberSignature Language="VB.NET" Value="Public Function GetDestinationType () As Type" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; Type ^ GetDestinationType();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Xaml</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Type</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="e4483-116">返回 CLR <see cref="T:System.Type" />，用于标识相关类型转换器或标记扩展的目标类型。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="e4483-116">Returns the CLR <see cref="T:System.Type" /> that identifies the destination type for the relevant type converter or markup extension.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="e4483-117">目标类型的 CLR <see cref="T:System.Type" /> 值。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="e4483-117">A CLR <see cref="T:System.Type" /> value for the destination type.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="e4483-118">此方法没有任何输入的参数。</span><span class="sxs-lookup"><span data-stu-id="e4483-118">This method has no input parameter.</span></span> <span data-ttu-id="e4483-119">要返回的内容 (以及是否不返回任何内容`null`) 由 XAML 节点流中的当前节点位置。</span><span class="sxs-lookup"><span data-stu-id="e4483-119">What to return (and whether to return anything other than `null`) is determined by the current node position in the XAML node stream.</span></span>  
+  
+## <a name="service-implementers"></a><span data-ttu-id="e4483-120">服务实施者</span><span class="sxs-lookup"><span data-stu-id="e4483-120">Service Implementers</span></span>  
+ <span data-ttu-id="e4483-121">如果重新实现此服务，<xref:System.Xaml.IDestinationTypeProvider.GetDestinationType%2A>方法应返回的标记扩展或类型转换器预期检查时要对照其最特定的转换或输出类型的类型。</span><span class="sxs-lookup"><span data-stu-id="e4483-121">If you reimplement this service, the <xref:System.Xaml.IDestinationTypeProvider.GetDestinationType%2A> method should return the type that a markup extension or type converter expects to check against its most specific conversion or output type.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

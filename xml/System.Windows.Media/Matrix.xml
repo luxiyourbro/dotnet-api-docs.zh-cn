@@ -1,0 +1,2435 @@
+<Type Name="Matrix" FullName="System.Windows.Media.Matrix">
+  <Metadata>
+    <Meta Name="ms.openlocfilehash" Value="0972f9783aeff49583feba35c36dfdcc27a5eff2" />
+    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
+    <Meta Name="ms.translationtype" Value="HT" />
+    <Meta Name="ms.contentlocale" Value="zh-CN" />
+    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
+  </Metadata>
+  <TypeSignature Language="C#" Value="public struct Matrix : IFormattable" />
+  <TypeSignature Language="ILAsm" Value=".class public sequential ansi serializable sealed beforefieldinit Matrix extends System.ValueType implements class System.IFormattable" />
+  <TypeSignature Language="DocId" Value="T:System.Windows.Media.Matrix" />
+  <TypeSignature Language="VB.NET" Value="Public Structure Matrix&#xA;Implements IFormattable" />
+  <TypeSignature Language="C++ CLI" Value="public value class Matrix : IFormattable" />
+  <AssemblyInfo>
+    <AssemblyName>WindowsBase</AssemblyName>
+    <AssemblyVersion>4.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.ValueType</BaseTypeName>
+  </Base>
+  <Interfaces>
+    <Interface>
+      <InterfaceName>System.IFormattable</InterfaceName>
+    </Interface>
+  </Interfaces>
+  <Attributes>
+    <Attribute>
+      <AttributeName>System.ComponentModel.TypeConverter(typeof(System.Windows.Media.MatrixConverter))</AttributeName>
+    </Attribute>
+    <Attribute>
+      <AttributeName>System.Windows.Markup.ValueSerializer(typeof(System.Windows.Media.Converters.MatrixValueSerializer))</AttributeName>
+    </Attribute>
+  </Attributes>
+  <Docs>
+    <summary>
+      <span data-ttu-id="5db94-101">表示用于在二维空间中进行转换的 3x3 仿射转换矩阵。</span>
+      <span class="sxs-lookup">
+        <span data-stu-id="5db94-101">Represents a 3x3 affine transformation matrix used for transformations in 2-D space.</span>
+      </span>
+    </summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="5db94-102">在中进行转换使用的 3 x 3 矩阵[!INCLUDE[TLA2#tla_2d](~/includes/tla2sharptla-2d-md.md)]x，y 平面。</span><span class="sxs-lookup"><span data-stu-id="5db94-102">A 3x3 matrix is used for transformations in a [!INCLUDE[TLA2#tla_2d](~/includes/tla2sharptla-2d-md.md)] x-y plane.</span></span> <span data-ttu-id="5db94-103">仿射转换矩阵相乘可形成任意数目的线性转换，例如旋转和时间差 （切变），然后再进行平移。</span><span class="sxs-lookup"><span data-stu-id="5db94-103">Affine transformation matrices can be multiplied to form any number of linear transformations, such as rotation and skew (shear), followed by translation.</span></span> <span data-ttu-id="5db94-104">仿射转换矩阵具有等于 （0，0，1），因此只需指定前两个列中的成员的最后一列。</span><span class="sxs-lookup"><span data-stu-id="5db94-104">An affine transformation matrix has its final column equal to (0, 0, 1), so only the members in the first two columns need to be specified.</span></span>  <span data-ttu-id="5db94-105">请注意行矢量，不是列矢量表示向量。</span><span class="sxs-lookup"><span data-stu-id="5db94-105">Note that vectors are expressed as row-vectors, not column vectors.</span></span>  
+  
+ <span data-ttu-id="5db94-106">A [!INCLUDE[TLA2#tla_winclient](~/includes/tla2sharptla-winclient-md.md)] <xref:System.Windows.Media.Matrix>使用行优先顺序进行存储，并具有以下结构：</span><span class="sxs-lookup"><span data-stu-id="5db94-106">A [!INCLUDE[TLA2#tla_winclient](~/includes/tla2sharptla-winclient-md.md)] <xref:System.Windows.Media.Matrix> is stored using row-major order and has the following structure:</span></span>  
+  
+||||  
+|-|-|-|  
+|<xref:System.Windows.Media.Matrix.M11%2A>|<xref:System.Windows.Media.Matrix.M12%2A>|<span data-ttu-id="5db94-107">0</span><span class="sxs-lookup"><span data-stu-id="5db94-107">0</span></span>|  
+|<xref:System.Windows.Media.Matrix.M21%2A>|<xref:System.Windows.Media.Matrix.M22%2A>|<span data-ttu-id="5db94-108">0</span><span class="sxs-lookup"><span data-stu-id="5db94-108">0</span></span>|  
+|<xref:System.Windows.Media.Matrix.OffsetX%2A>|<xref:System.Windows.Media.Matrix.OffsetY%2A>|<span data-ttu-id="5db94-109">1</span><span class="sxs-lookup"><span data-stu-id="5db94-109">1</span></span>|  
+  
+ <span data-ttu-id="5db94-110">在最后一个行中，成员<xref:System.Windows.Media.Matrix.OffsetX%2A>和<xref:System.Windows.Media.Matrix.OffsetY%2A>，表示平移值。</span><span class="sxs-lookup"><span data-stu-id="5db94-110">The members in the last row, <xref:System.Windows.Media.Matrix.OffsetX%2A> and <xref:System.Windows.Media.Matrix.OffsetY%2A>, represent translation values.</span></span>  
+  
+ <span data-ttu-id="5db94-111">方法和属性中的转换矩阵通常被指定为一个只需单击六成员具有的向量，如下所示：</span><span class="sxs-lookup"><span data-stu-id="5db94-111">In methods and properties, the transformation matrix is usually specified as a vector with only six members, as follows:</span></span>  
+  
+ <span data-ttu-id="5db94-112">(<xref:System.Windows.Media.Matrix.M11%2A>, <xref:System.Windows.Media.Matrix.M12%2A>, <xref:System.Windows.Media.Matrix.M21%2A>, <xref:System.Windows.Media.Matrix.M22%2A>, <xref:System.Windows.Media.Matrix.OffsetX%2A>, <xref:System.Windows.Media.Matrix.OffsetY%2A>)</span><span class="sxs-lookup"><span data-stu-id="5db94-112">(<xref:System.Windows.Media.Matrix.M11%2A>, <xref:System.Windows.Media.Matrix.M12%2A>, <xref:System.Windows.Media.Matrix.M21%2A>, <xref:System.Windows.Media.Matrix.M22%2A>, <xref:System.Windows.Media.Matrix.OffsetX%2A>, <xref:System.Windows.Media.Matrix.OffsetY%2A>)</span></span>  
+  
+ <span data-ttu-id="5db94-113">尽管可以使用<xref:System.Windows.Media.Matrix>结构直接平移单独的点，或与<xref:System.Windows.Media.MatrixTransform>可以将对象，转换[!INCLUDE[TLA2#tla_winclient](~/includes/tla2sharptla-winclient-md.md)]还提供了一组使你可以将对象转换而无需直接与矩阵中使用的类：<xref:System.Windows.Media.RotateTransform>， <xref:System.Windows.Media.ScaleTransform>， <xref:System.Windows.Media.SkewTransform>，和<xref:System.Windows.Media.TranslateTransform>。</span><span class="sxs-lookup"><span data-stu-id="5db94-113">Although you can use a <xref:System.Windows.Media.Matrix> structure directly to translate individual points, or with a <xref:System.Windows.Media.MatrixTransform> to transform objects, [!INCLUDE[TLA2#tla_winclient](~/includes/tla2sharptla-winclient-md.md)] also provides a set of classes that enable you to transform objects without working directly with matrices: <xref:System.Windows.Media.RotateTransform>, <xref:System.Windows.Media.ScaleTransform>, <xref:System.Windows.Media.SkewTransform>, and <xref:System.Windows.Media.TranslateTransform>.</span></span>  
+  
+<a name="xamlAttributeUsage_Matrix"></a>   
+## <a name="xaml-attribute-usage"></a><span data-ttu-id="5db94-114">XAML 属性用法</span><span class="sxs-lookup"><span data-stu-id="5db94-114">XAML Attribute Usage</span></span>  
+  
+```  
+<object property="m11, m12, m21, m22, offsetX, offsetY"/>  
+- or -  
+<object property="Identity"/>  
+```  
+  
+<a name="xamlValues_Matrix"></a>   
+## <a name="xaml-values"></a><span data-ttu-id="5db94-115">XAML 值</span><span class="sxs-lookup"><span data-stu-id="5db94-115">XAML Values</span></span>  
+ <span data-ttu-id="5db94-116">*m11*</span><span class="sxs-lookup"><span data-stu-id="5db94-116">*m11*</span></span>  
+ <xref:System.Double?displayProperty=nameWithType>  
+  
+ <span data-ttu-id="5db94-117">中的第一行和第一列，此值<xref:System.Windows.Media.Matrix>。</span><span class="sxs-lookup"><span data-stu-id="5db94-117">The value in the first row and first column of this <xref:System.Windows.Media.Matrix>.</span></span> <span data-ttu-id="5db94-118">有关更多信息，请参见 <xref:System.Windows.Media.Matrix.M11%2A> 属性。</span><span class="sxs-lookup"><span data-stu-id="5db94-118">For more information, see the <xref:System.Windows.Media.Matrix.M11%2A> property.</span></span>  
+  
+ <span data-ttu-id="5db94-119">*m12*</span><span class="sxs-lookup"><span data-stu-id="5db94-119">*m12*</span></span>  
+ <xref:System.Double?displayProperty=nameWithType>  
+  
+ <span data-ttu-id="5db94-120">中的第一行和第二列的值。</span><span class="sxs-lookup"><span data-stu-id="5db94-120">The value in the first row and second column.</span></span> <span data-ttu-id="5db94-121">有关更多信息，请参见 <xref:System.Windows.Media.Matrix.M12%2A> 属性。</span><span class="sxs-lookup"><span data-stu-id="5db94-121">For more information, see the <xref:System.Windows.Media.Matrix.M12%2A> property.</span></span>  
+  
+ <span data-ttu-id="5db94-122">*m21*</span><span class="sxs-lookup"><span data-stu-id="5db94-122">*m21*</span></span>  
+ <xref:System.Double?displayProperty=nameWithType>  
+  
+ <span data-ttu-id="5db94-123">中的第二行和第一列的值。</span><span class="sxs-lookup"><span data-stu-id="5db94-123">The value in the second row and first column.</span></span> <span data-ttu-id="5db94-124">有关更多信息，请参见 <xref:System.Windows.Media.Matrix.M21%2A> 属性。</span><span class="sxs-lookup"><span data-stu-id="5db94-124">For more information, see the <xref:System.Windows.Media.Matrix.M21%2A> property.</span></span>  
+  
+ <span data-ttu-id="5db94-125">*m22*</span><span class="sxs-lookup"><span data-stu-id="5db94-125">*m22*</span></span>  
+ <xref:System.Double?displayProperty=nameWithType>  
+  
+ <span data-ttu-id="5db94-126">中的第二行和第二列的值。</span><span class="sxs-lookup"><span data-stu-id="5db94-126">The value in the second row and second column.</span></span> <span data-ttu-id="5db94-127">有关更多信息，请参见 <xref:System.Windows.Media.Matrix.M22%2A> 属性。</span><span class="sxs-lookup"><span data-stu-id="5db94-127">For more information, see the <xref:System.Windows.Media.Matrix.M22%2A> property.</span></span>  
+  
+ <span data-ttu-id="5db94-128">*offsetX*</span><span class="sxs-lookup"><span data-stu-id="5db94-128">*offsetX*</span></span>  
+ <xref:System.Double?displayProperty=nameWithType>  
+  
+ <span data-ttu-id="5db94-129">中的第三行和第一列的值。</span><span class="sxs-lookup"><span data-stu-id="5db94-129">The value in the third row and first column.</span></span> <span data-ttu-id="5db94-130">有关更多信息，请参见 <xref:System.Windows.Media.Matrix.OffsetX%2A> 属性。</span><span class="sxs-lookup"><span data-stu-id="5db94-130">For more information, see the <xref:System.Windows.Media.Matrix.OffsetX%2A> property.</span></span>  
+  
+ <span data-ttu-id="5db94-131">*offsetY*</span><span class="sxs-lookup"><span data-stu-id="5db94-131">*offsetY*</span></span>  
+ <xref:System.Double?displayProperty=nameWithType>  
+  
+ <span data-ttu-id="5db94-132">中的第三行和第二列的值。</span><span class="sxs-lookup"><span data-stu-id="5db94-132">The value in the third row and second column.</span></span> <span data-ttu-id="5db94-133">有关更多信息，请参见 <xref:System.Windows.Media.Matrix.OffsetY%2A> 属性。</span><span class="sxs-lookup"><span data-stu-id="5db94-133">For more information, see the <xref:System.Windows.Media.Matrix.OffsetY%2A> property.</span></span>  
+  
+ ]]></format>
+    </remarks>
+  </Docs>
+  <Members>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public Matrix (double m11, double m12, double m21, double m22, double offsetX, double offsetY);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(float64 m11, float64 m12, float64 m21, float64 m22, float64 offsetX, float64 offsetY) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Media.Matrix.#ctor(System.Double,System.Double,System.Double,System.Double,System.Double,System.Double)" />
+      <MemberSignature Language="VB.NET" Value="Public Sub New (m11 As Double, m12 As Double, m21 As Double, m22 As Double, offsetX As Double, offsetY As Double)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; Matrix(double m11, double m12, double m21, double m22, double offsetX, double offsetY);" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>WindowsBase</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="m11" Type="System.Double" />
+        <Parameter Name="m12" Type="System.Double" />
+        <Parameter Name="m21" Type="System.Double" />
+        <Parameter Name="m22" Type="System.Double" />
+        <Parameter Name="offsetX" Type="System.Double" />
+        <Parameter Name="offsetY" Type="System.Double" />
+      </Parameters>
+      <Docs>
+        <param name="m11">
+          <span data-ttu-id="5db94-134">新的 <see cref="T:System.Windows.Media.Matrix" /> 结构的 <see cref="P:System.Windows.Media.Matrix.M11" /> 系数。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-134">The new <see cref="T:System.Windows.Media.Matrix" /> structure's <see cref="P:System.Windows.Media.Matrix.M11" /> coefficient.</span>
+          </span>
+        </param>
+        <param name="m12">
+          <span data-ttu-id="5db94-135">新的 <see cref="T:System.Windows.Media.Matrix" /> 结构的 <see cref="P:System.Windows.Media.Matrix.M12" /> 系数。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-135">The new <see cref="T:System.Windows.Media.Matrix" /> structure's <see cref="P:System.Windows.Media.Matrix.M12" /> coefficient.</span>
+          </span>
+        </param>
+        <param name="m21">
+          <span data-ttu-id="5db94-136">新的 <see cref="T:System.Windows.Media.Matrix" /> 结构的 <see cref="P:System.Windows.Media.Matrix.M21" /> 系数。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-136">The new <see cref="T:System.Windows.Media.Matrix" /> structure's <see cref="P:System.Windows.Media.Matrix.M21" /> coefficient.</span>
+          </span>
+        </param>
+        <param name="m22">
+          <span data-ttu-id="5db94-137">新的 <see cref="T:System.Windows.Media.Matrix" /> 结构的 <see cref="P:System.Windows.Media.Matrix.M22" /> 系数。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-137">The new <see cref="T:System.Windows.Media.Matrix" /> structure's <see cref="P:System.Windows.Media.Matrix.M22" /> coefficient.</span>
+          </span>
+        </param>
+        <param name="offsetX">
+          <span data-ttu-id="5db94-138">新的 <see cref="T:System.Windows.Media.Matrix" /> 结构的 <see cref="P:System.Windows.Media.Matrix.OffsetX" /> 系数。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-138">The new <see cref="T:System.Windows.Media.Matrix" /> structure's <see cref="P:System.Windows.Media.Matrix.OffsetX" /> coefficient.</span>
+          </span>
+        </param>
+        <param name="offsetY">
+          <span data-ttu-id="5db94-139">新的 <see cref="T:System.Windows.Media.Matrix" /> 结构的 <see cref="P:System.Windows.Media.Matrix.OffsetY" /> 系数。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-139">The new <see cref="T:System.Windows.Media.Matrix" /> structure's <see cref="P:System.Windows.Media.Matrix.OffsetY" /> coefficient.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="5db94-140">初始化 <see cref="T:System.Windows.Media.Matrix" /> 结构的新实例。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-140">Initializes a new instance of the <see cref="T:System.Windows.Media.Matrix" /> structure.</span>
+          </span>
+        </summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Append">
+      <MemberSignature Language="C#" Value="public void Append (System.Windows.Media.Matrix matrix);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void Append(valuetype System.Windows.Media.Matrix matrix) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Media.Matrix.Append(System.Windows.Media.Matrix)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void Append(System::Windows::Media::Matrix matrix);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>WindowsBase</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="matrix" Type="System.Windows.Media.Matrix" />
+      </Parameters>
+      <Docs>
+        <param name="matrix">
+          <span data-ttu-id="5db94-141">要追加到此 <see cref="T:System.Windows.Media.Matrix" /> 结构的 <see cref="T:System.Windows.Media.Matrix" /> 结构。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-141">The <see cref="T:System.Windows.Media.Matrix" /> structure to append to this <see cref="T:System.Windows.Media.Matrix" /> structure.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="5db94-142">将指定的 <see cref="T:System.Windows.Media.Matrix" /> 结构追加到此 <see cref="T:System.Windows.Media.Matrix" /> 结构。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-142">Appends the specified <see cref="T:System.Windows.Media.Matrix" /> structure to this <see cref="T:System.Windows.Media.Matrix" /> structure.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="5db94-143">此操作等同于将乘以这<xref:System.Windows.Media.Matrix>由参数的结构`matrix`。</span><span class="sxs-lookup"><span data-stu-id="5db94-143">This operation is the same as multiplying this <xref:System.Windows.Media.Matrix> structure by the parameter `matrix`.</span></span>  <span data-ttu-id="5db94-144">矩阵乘法不是可交换性，不过，因此此操作不是与将乘以参数相同`matrix`由此<xref:System.Windows.Media.Matrix>结构; 即，(这 * `matrix`) 不是相同 (`matrix` * 这)。</span><span class="sxs-lookup"><span data-stu-id="5db94-144">Matrix multiplication is not commutative, though, so this operation is not the same as multiplying the parameter `matrix` by this <xref:System.Windows.Media.Matrix> structure; that is, (this * `matrix`) is not the same as (`matrix` * this).</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="5db94-145">下面的示例演示如何将追加<xref:System.Windows.Media.Matrix>结构与另一个<xref:System.Windows.Media.Matrix>结构。</span><span class="sxs-lookup"><span data-stu-id="5db94-145">The following example shows how to append a <xref:System.Windows.Media.Matrix> structure to another <xref:System.Windows.Media.Matrix> structure.</span></span>  
+  
+ [!code-csharp[MatrixExamples_snip#MatrixRotateAboutPointExample_csharp](~/samples/snippets/csharp/VS_Snippets_Wpf/MatrixExamples_snip/CSharp/MatrixExample.cs#matrixrotateaboutpointexample_csharp)]  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="M:System.Windows.Media.Matrix.Multiply(System.Windows.Media.Matrix,System.Windows.Media.Matrix)" />
+        <altmember cref="M:System.Windows.Media.Matrix.op_Multiply(System.Windows.Media.Matrix,System.Windows.Media.Matrix)" />
+        <altmember cref="M:System.Windows.Media.Matrix.Prepend(System.Windows.Media.Matrix)" />
+      </Docs>
+    </Member>
+    <Member MemberName="Determinant">
+      <MemberSignature Language="C#" Value="public double Determinant { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance float64 Determinant" />
+      <MemberSignature Language="DocId" Value="P:System.Windows.Media.Matrix.Determinant" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property Determinant As Double" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property double Determinant { double get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>WindowsBase</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Double</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="5db94-146">获取此 <see cref="T:System.Windows.Media.Matrix" /> 结构的行列式。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-146">Gets the determinant of this <see cref="T:System.Windows.Media.Matrix" /> structure.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="5db94-147">此 <see cref="T:System.Windows.Media.Matrix" /> 的行列式。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-147">The determinant of this <see cref="T:System.Windows.Media.Matrix" />.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ <span data-ttu-id="5db94-148">此示例演示如何获取的行列式<xref:System.Windows.Media.Matrix>。</span><span class="sxs-lookup"><span data-stu-id="5db94-148">This example shows how to get the determinant of a <xref:System.Windows.Media.Matrix>.</span></span>  
+  
+ [!code-csharp[MatrixExamples_snip#MatrixDeterminantExample_csharp](~/samples/snippets/csharp/VS_Snippets_Wpf/MatrixExamples_snip/CSharp/MatrixExample.cs#matrixdeterminantexample_csharp)]  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <MemberGroup MemberName="Equals">
+      <AssemblyInfo>
+        <AssemblyName>WindowsBase</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Docs>
+        <summary>
+          <span data-ttu-id="5db94-149">确定两个指定的 <see cref="T:System.Windows.Media.Matrix" /> 结构是否具有相同的值。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-149">Determines whether the two specified <see cref="T:System.Windows.Media.Matrix" /> structures have the same values.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+  
+> [!NOTE]
+>  <span data-ttu-id="5db94-150">A<xref:System.Windows.Media.Matrix>存储其值作为双精度型值。</span><span class="sxs-lookup"><span data-stu-id="5db94-150">A <xref:System.Windows.Media.Matrix> stores its values as doubles.</span></span> <span data-ttu-id="5db94-151">因为的值<xref:System.Double>它，比较两个执行算术运算时可能会丢失精度<xref:System.Double>逻辑上相等的结构可能会失败。</span><span class="sxs-lookup"><span data-stu-id="5db94-151">Because the value of a <xref:System.Double> can lose precision when arithmetic operations are performed on it, a comparison between two <xref:System.Double> structures that are logically equal might fail.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="5db94-152">下面的示例演示如何检查两个<xref:System.Windows.Media.Matrix>是否相等的结构。</span><span class="sxs-lookup"><span data-stu-id="5db94-152">The following example shows how to check two <xref:System.Windows.Media.Matrix> structures for equality.</span></span>  
+  
+ [!code-csharp[MatrixExamples_snip#MatrixEqualityExample_csharp](~/samples/snippets/csharp/VS_Snippets_Wpf/MatrixExamples_snip/CSharp/MatrixExample.cs#matrixequalityexample_csharp)]  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </MemberGroup>
+    <Member MemberName="Equals">
+      <MemberSignature Language="C#" Value="public override bool Equals (object o);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance bool Equals(object o) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Media.Matrix.Equals(System.Object)" />
+      <MemberSignature Language="VB.NET" Value="Public Overrides Function Equals (o As Object) As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; override bool Equals(System::Object ^ o);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>WindowsBase</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="o" Type="System.Object" />
+      </Parameters>
+      <Docs>
+        <param name="o">
+          <span data-ttu-id="5db94-153">要比较的 <see cref="T:System.Object" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-153">The <see cref="T:System.Object" /> to compare.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="5db94-154">确定指定的 <see cref="T:System.Object" /> 是否是一个与此 <see cref="T:System.Windows.Media.Matrix" /> 相同的 <see cref="T:System.Windows.Media.Matrix" /> 结构。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-154">Determines whether the specified <see cref="T:System.Object" /> is a <see cref="T:System.Windows.Media.Matrix" /> structure that is identical to this <see cref="T:System.Windows.Media.Matrix" />.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="5db94-155">如果 <paramref name="o" /> 是一个与此 <see cref="T:System.Windows.Media.Matrix" /> 结构相同的 <see cref="T:System.Windows.Media.Matrix" /> 结构，则为 <see langword="true" />；否则为 <see langword="false" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-155">
+              <see langword="true" /> if <paramref name="o" /> is a <see cref="T:System.Windows.Media.Matrix" /> structure that is identical to this <see cref="T:System.Windows.Media.Matrix" /> structure; otherwise, <see langword="false" />.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+  
+> [!NOTE]
+>  <span data-ttu-id="5db94-156">A<xref:System.Windows.Media.Matrix>存储其值作为双精度型值。</span><span class="sxs-lookup"><span data-stu-id="5db94-156">A <xref:System.Windows.Media.Matrix> stores its values as doubles.</span></span> <span data-ttu-id="5db94-157">因为的值<xref:System.Double>它，比较两个执行算术运算时可能会丢失精度<xref:System.Double>逻辑上相等的结构可能会失败。</span><span class="sxs-lookup"><span data-stu-id="5db94-157">Because the value of a <xref:System.Double> can lose precision when arithmetic operations are performed on it, a comparison between two <xref:System.Double> structures that are logically equal might fail.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="5db94-158">下面的示例演示如何检查两个<xref:System.Windows.Media.Matrix>是否相等的结构。</span><span class="sxs-lookup"><span data-stu-id="5db94-158">The following example shows how to check two <xref:System.Windows.Media.Matrix> structures for equality.</span></span>  
+  
+ [!code-csharp[MatrixExamples_snip#MatrixEqualityExample_csharp](~/samples/snippets/csharp/VS_Snippets_Wpf/MatrixExamples_snip/CSharp/MatrixExample.cs#matrixequalityexample_csharp)]  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="M:System.Windows.Media.Matrix.op_Equality(System.Windows.Media.Matrix,System.Windows.Media.Matrix)" />
+      </Docs>
+    </Member>
+    <Member MemberName="Equals">
+      <MemberSignature Language="C#" Value="public bool Equals (System.Windows.Media.Matrix value);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance bool Equals(valuetype System.Windows.Media.Matrix value) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Media.Matrix.Equals(System.Windows.Media.Matrix)" />
+      <MemberSignature Language="VB.NET" Value="Public Function Equals (value As Matrix) As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; bool Equals(System::Windows::Media::Matrix value);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>WindowsBase</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="value" Type="System.Windows.Media.Matrix" />
+      </Parameters>
+      <Docs>
+        <param name="value">
+          <span data-ttu-id="5db94-159">要与此实例比较的 <see cref="T:System.Windows.Media.Matrix" /> 实例。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-159">The instance of <see cref="T:System.Windows.Media.Matrix" /> to compare to this instance.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="5db94-160">确定指定的 <see cref="T:System.Windows.Media.Matrix" /> 结构是否与此实例相同。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-160">Determines whether the specified <see cref="T:System.Windows.Media.Matrix" /> structure is identical to this instance.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="5db94-161">如果两个实例相等，则为 <see langword="true" />；否则为 <see langword="false" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-161">
+              <see langword="true" /> if instances are equal; otherwise, <see langword="false" />.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+  
+> [!NOTE]
+>  <span data-ttu-id="5db94-162">A<xref:System.Windows.Media.Matrix>存储其值作为双精度型值。</span><span class="sxs-lookup"><span data-stu-id="5db94-162">A <xref:System.Windows.Media.Matrix> stores its values as doubles.</span></span> <span data-ttu-id="5db94-163">因为的值<xref:System.Double>它，比较两个执行算术运算时可能会丢失精度<xref:System.Double>逻辑上相等的结构可能会失败。</span><span class="sxs-lookup"><span data-stu-id="5db94-163">Because the value of a <xref:System.Double> can lose precision when arithmetic operations are performed on it, a comparison between two <xref:System.Double> structures that are logically equal might fail.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="5db94-164">下面的示例演示如何检查两个<xref:System.Windows.Media.Matrix>是否相等的结构。</span><span class="sxs-lookup"><span data-stu-id="5db94-164">The following example shows how to check two <xref:System.Windows.Media.Matrix> structures for equality.</span></span>  
+  
+ [!code-csharp[MatrixExamples_snip#MatrixEqualityExample_csharp](~/samples/snippets/csharp/VS_Snippets_Wpf/MatrixExamples_snip/CSharp/MatrixExample.cs#matrixequalityexample_csharp)]  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="M:System.Windows.Media.Matrix.op_Equality(System.Windows.Media.Matrix,System.Windows.Media.Matrix)" />
+      </Docs>
+    </Member>
+    <Member MemberName="Equals">
+      <MemberSignature Language="C#" Value="public static bool Equals (System.Windows.Media.Matrix matrix1, System.Windows.Media.Matrix matrix2);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig bool Equals(valuetype System.Windows.Media.Matrix matrix1, valuetype System.Windows.Media.Matrix matrix2) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Media.Matrix.Equals(System.Windows.Media.Matrix,System.Windows.Media.Matrix)" />
+      <MemberSignature Language="VB.NET" Value="Public Shared Function Equals (matrix1 As Matrix, matrix2 As Matrix) As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static bool Equals(System::Windows::Media::Matrix matrix1, System::Windows::Media::Matrix matrix2);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>WindowsBase</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="matrix1" Type="System.Windows.Media.Matrix" />
+        <Parameter Name="matrix2" Type="System.Windows.Media.Matrix" />
+      </Parameters>
+      <Docs>
+        <param name="matrix1">
+          <span data-ttu-id="5db94-165">要比较的第一个 <see cref="T:System.Windows.Media.Matrix" /> 结构。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-165">The first <see cref="T:System.Windows.Media.Matrix" /> structure to compare.</span>
+          </span>
+        </param>
+        <param name="matrix2">
+          <span data-ttu-id="5db94-166">要比较的第二个 <see cref="T:System.Windows.Media.Matrix" /> 结构。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-166">The second <see cref="T:System.Windows.Media.Matrix" /> structure to compare.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="5db94-167">确定两个指定的 <see cref="T:System.Windows.Media.Matrix" /> 结构是否相同。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-167">Determines whether the two specified <see cref="T:System.Windows.Media.Matrix" /> structures are identical.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="5db94-168">如果 <paramref name="matrix1" /> 和 <paramref name="matrix2" /> 相同，则为 <see langword="true" />；否则为 <see langword="false" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-168">
+              <see langword="true" /> if <paramref name="matrix1" /> and <paramref name="matrix2" /> are identical; otherwise, <see langword="false" />.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+  
+> [!NOTE]
+>  <span data-ttu-id="5db94-169">A<xref:System.Windows.Media.Matrix>存储其值作为双精度型值。</span><span class="sxs-lookup"><span data-stu-id="5db94-169">A <xref:System.Windows.Media.Matrix> stores its values as doubles.</span></span> <span data-ttu-id="5db94-170">因为的值<xref:System.Double>它，比较两个执行算术运算时可能会丢失精度<xref:System.Double>逻辑上相等的结构可能会失败。</span><span class="sxs-lookup"><span data-stu-id="5db94-170">Because the value of a <xref:System.Double> can lose precision when arithmetic operations are performed on it, a comparison between two <xref:System.Double> structures that are logically equal might fail.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="M:System.Windows.Media.Matrix.op_Equality(System.Windows.Media.Matrix,System.Windows.Media.Matrix)" />
+      </Docs>
+    </Member>
+    <Member MemberName="GetHashCode">
+      <MemberSignature Language="C#" Value="public override int GetHashCode ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance int32 GetHashCode() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Media.Matrix.GetHashCode" />
+      <MemberSignature Language="VB.NET" Value="Public Overrides Function GetHashCode () As Integer" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; override int GetHashCode();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>WindowsBase</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="5db94-171">返回此 <see cref="T:System.Windows.Media.Matrix" /> 结构的哈希代码。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-171">Returns the hash code for this <see cref="T:System.Windows.Media.Matrix" /> structure.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="5db94-172">此实例的哈希代码。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-172">The hash code for this instance.</span>
+          </span>
+        </returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="HasInverse">
+      <MemberSignature Language="C#" Value="public bool HasInverse { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance bool HasInverse" />
+      <MemberSignature Language="DocId" Value="P:System.Windows.Media.Matrix.HasInverse" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property HasInverse As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property bool HasInverse { bool get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>WindowsBase</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="5db94-173">获取一个值，该值指示此 <see cref="T:System.Windows.Media.Matrix" /> 结构是否可以反转。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-173">Gets a value that indicates whether this <see cref="T:System.Windows.Media.Matrix" /> structure is invertible.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="5db94-174">如果 <see cref="T:System.Windows.Media.Matrix" /> 存在逆矩阵，则为 <see langword="true" />；否则为 <see langword="false" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-174">
+              <see langword="true" /> if the <see cref="T:System.Windows.Media.Matrix" /> has an inverse; otherwise, <see langword="false" />.</span>
+          </span>
+          <span data-ttu-id="5db94-175">默认值为 <see langword="true" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-175">The default is <see langword="true" />.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ <span data-ttu-id="5db94-176">下面的示例检查是否<xref:System.Windows.Media.Matrix>是否可逆转。</span><span class="sxs-lookup"><span data-stu-id="5db94-176">The following example checks whether a <xref:System.Windows.Media.Matrix> is invertible.</span></span> <span data-ttu-id="5db94-177">如果它是可逆转的<xref:System.Windows.Media.Matrix>反转。</span><span class="sxs-lookup"><span data-stu-id="5db94-177">If it is invertible, the <xref:System.Windows.Media.Matrix> is inverted.</span></span>  
+  
+ [!code-csharp[MatrixExamples_snip#MatrixInverseExample_csharp](~/samples/snippets/csharp/VS_Snippets_Wpf/MatrixExamples_snip/CSharp/MatrixExample.cs#matrixinverseexample_csharp)]  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Identity">
+      <MemberSignature Language="C#" Value="public static System.Windows.Media.Matrix Identity { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property valuetype System.Windows.Media.Matrix Identity" />
+      <MemberSignature Language="DocId" Value="P:System.Windows.Media.Matrix.Identity" />
+      <MemberSignature Language="VB.NET" Value="Public Shared ReadOnly Property Identity As Matrix" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static property System::Windows::Media::Matrix Identity { System::Windows::Media::Matrix get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>WindowsBase</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Windows.Media.Matrix</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="5db94-178">获取一个恒等 <see cref="T:System.Windows.Media.Matrix" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-178">Gets an identity <see cref="T:System.Windows.Media.Matrix" />.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="5db94-179">一个恒等矩阵。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-179">An identity matrix.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="5db94-180">某标识矩阵在系数 [1，1]，[2，2] [3，3] 中具有值为 1 和 0，在其余系数的值。</span><span class="sxs-lookup"><span data-stu-id="5db94-180">An identity matrix has a value of 1 in coefficients [1,1],[2,2],[3,3] and a value of 0 in the rest of the coefficients.</span></span> <span data-ttu-id="5db94-181">这对应于设置<xref:System.Windows.Media.Matrix.M11%2A>和<xref:System.Windows.Media.Matrix.M22%2A>为 1 和<xref:System.Windows.Media.Matrix.M12%2A>， <xref:System.Windows.Media.Matrix.M21%2A>， <xref:System.Windows.Media.Matrix.OffsetX%2A>，和<xref:System.Windows.Media.Matrix.OffsetY%2A>为 0。</span><span class="sxs-lookup"><span data-stu-id="5db94-181">This correlates to setting <xref:System.Windows.Media.Matrix.M11%2A> and <xref:System.Windows.Media.Matrix.M22%2A> to 1 and <xref:System.Windows.Media.Matrix.M12%2A>, <xref:System.Windows.Media.Matrix.M21%2A>, <xref:System.Windows.Media.Matrix.OffsetX%2A>, and <xref:System.Windows.Media.Matrix.OffsetY%2A> to 0.</span></span> <span data-ttu-id="5db94-182">是的实现的仿射矩阵，[!INCLUDE[TLA#tla_winclient](~/includes/tlasharptla-winclient-md.md)]用于<xref:System.Windows.Media.Matrix>，结构，系数 [3，1]、 [3，2] 和 [3.3] 暗指始终分别具有 0,0,1 的值。</span><span class="sxs-lookup"><span data-stu-id="5db94-182">In an affine matrix, which is the implementation that [!INCLUDE[TLA#tla_winclient](~/includes/tlasharptla-winclient-md.md)] uses for the <xref:System.Windows.Media.Matrix>, structure, coefficients [3,1],[3,2],[3.3] are implied to always have the values 0,0,1 respectively.</span></span>  
+  
+||||  
+|-|-|-|  
+|<span data-ttu-id="5db94-183">1</span><span class="sxs-lookup"><span data-stu-id="5db94-183">1</span></span>|<span data-ttu-id="5db94-184">0</span><span class="sxs-lookup"><span data-stu-id="5db94-184">0</span></span>|<span data-ttu-id="5db94-185">0</span><span class="sxs-lookup"><span data-stu-id="5db94-185">0</span></span>|  
+|<span data-ttu-id="5db94-186">0</span><span class="sxs-lookup"><span data-stu-id="5db94-186">0</span></span>|<span data-ttu-id="5db94-187">1</span><span class="sxs-lookup"><span data-stu-id="5db94-187">1</span></span>|<span data-ttu-id="5db94-188">0</span><span class="sxs-lookup"><span data-stu-id="5db94-188">0</span></span>|  
+|<span data-ttu-id="5db94-189">0</span><span class="sxs-lookup"><span data-stu-id="5db94-189">0</span></span>|<span data-ttu-id="5db94-190">0</span><span class="sxs-lookup"><span data-stu-id="5db94-190">0</span></span>|<span data-ttu-id="5db94-191">1</span><span class="sxs-lookup"><span data-stu-id="5db94-191">1</span></span>|  
+  
+ <span data-ttu-id="5db94-192">为某标识矩阵，<xref:System.Windows.Media.Matrix.ToString%2A>方法返回字符串"标识"而不是系数的<xref:System.Windows.Media.Matrix>。</span><span class="sxs-lookup"><span data-stu-id="5db94-192">For an identity matrix, the <xref:System.Windows.Media.Matrix.ToString%2A> method returns the string "Identity" instead of the coefficients of the <xref:System.Windows.Media.Matrix>.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="5db94-193">下面的示例演示如何检索<xref:System.Windows.Media.Matrix.Identity%2A>矩阵。</span><span class="sxs-lookup"><span data-stu-id="5db94-193">The following example shows how to retrieve the <xref:System.Windows.Media.Matrix.Identity%2A> matrix.</span></span>  
+  
+ [!code-csharp[MatrixExamples_snip#MatrixIdentityExample_csharp](~/samples/snippets/csharp/VS_Snippets_Wpf/MatrixExamples_snip/CSharp/MatrixExample.cs#matrixidentityexample_csharp)]  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="M:System.Windows.Media.Matrix.SetIdentity" />
+        <altmember cref="P:System.Windows.Media.Matrix.IsIdentity" />
+      </Docs>
+    </Member>
+    <Member MemberName="Invert">
+      <MemberSignature Language="C#" Value="public void Invert ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void Invert() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Media.Matrix.Invert" />
+      <MemberSignature Language="VB.NET" Value="Public Sub Invert ()" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void Invert();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>WindowsBase</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="5db94-194">反转此 <see cref="T:System.Windows.Media.Matrix" /> 结构。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-194">Inverts this <see cref="T:System.Windows.Media.Matrix" /> structure.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ <span data-ttu-id="5db94-195">下面的示例检查如果<xref:System.Windows.Media.Matrix>结构是可逆转。</span><span class="sxs-lookup"><span data-stu-id="5db94-195">The following example checks if a <xref:System.Windows.Media.Matrix> structure is invertible.</span></span> <span data-ttu-id="5db94-196">如果它是可逆转的<xref:System.Windows.Media.Matrix>反转结构。</span><span class="sxs-lookup"><span data-stu-id="5db94-196">If it is invertible, the <xref:System.Windows.Media.Matrix> structure is inverted.</span></span>  
+  
+ [!code-csharp[MatrixExamples_snip#MatrixInverseExample_csharp](~/samples/snippets/csharp/VS_Snippets_Wpf/MatrixExamples_snip/CSharp/MatrixExample.cs#matrixinverseexample_csharp)]  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.InvalidOperationException">
+          <span data-ttu-id="5db94-197">不能反转 <see cref="T:System.Windows.Media.Matrix" /> 结构。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-197">The <see cref="T:System.Windows.Media.Matrix" /> structure is not invertible.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="IsIdentity">
+      <MemberSignature Language="C#" Value="public bool IsIdentity { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance bool IsIdentity" />
+      <MemberSignature Language="DocId" Value="P:System.Windows.Media.Matrix.IsIdentity" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property IsIdentity As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property bool IsIdentity { bool get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>WindowsBase</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="5db94-198">获取一个值，该值指示此 <see cref="T:System.Windows.Media.Matrix" /> 结构是否为恒等矩阵。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-198">Gets a value that indicates whether this <see cref="T:System.Windows.Media.Matrix" /> structure is an identity matrix.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="5db94-199">如果 <see cref="T:System.Windows.Media.Matrix" /> 结构是恒等矩阵，则为 <see langword="true" />；否则为 <see langword="false" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-199">
+              <see langword="true" /> if the <see cref="T:System.Windows.Media.Matrix" /> structure is an identity matrix; otherwise, <see langword="false" />.</span>
+          </span>
+          <span data-ttu-id="5db94-200">默认值为 <see langword="true" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-200">The default is <see langword="true" />.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="5db94-201">某标识矩阵在系数 [1，1]，[2，2] [3，3] 中具有值为 1 和 0，在其余系数的值。</span><span class="sxs-lookup"><span data-stu-id="5db94-201">An identity matrix has a value of 1 in coefficients [1,1],[2,2],[3,3] and a value of 0 in the rest of the coefficients.</span></span> <span data-ttu-id="5db94-202">这对应于设置<xref:System.Windows.Media.Matrix.M11%2A>和<xref:System.Windows.Media.Matrix.M22%2A>为 1 和<xref:System.Windows.Media.Matrix.M12%2A>， <xref:System.Windows.Media.Matrix.M21%2A>， <xref:System.Windows.Media.Matrix.OffsetX%2A>，和<xref:System.Windows.Media.Matrix.OffsetY%2A>为 0。</span><span class="sxs-lookup"><span data-stu-id="5db94-202">This correlates to setting <xref:System.Windows.Media.Matrix.M11%2A> and <xref:System.Windows.Media.Matrix.M22%2A> to 1 and <xref:System.Windows.Media.Matrix.M12%2A>, <xref:System.Windows.Media.Matrix.M21%2A>, <xref:System.Windows.Media.Matrix.OffsetX%2A>, and <xref:System.Windows.Media.Matrix.OffsetY%2A> to 0.</span></span> <span data-ttu-id="5db94-203">是的实现的仿射矩阵，[!INCLUDE[TLA#tla_winclient](~/includes/tlasharptla-winclient-md.md)]用于<xref:System.Windows.Media.Matrix>结构，系数 [3，1]、 [3，2] 和 [3.3] 暗指始终分别具有 0,0,1 的值。</span><span class="sxs-lookup"><span data-stu-id="5db94-203">In an affine matrix, which is the implementation that [!INCLUDE[TLA#tla_winclient](~/includes/tlasharptla-winclient-md.md)] uses for the <xref:System.Windows.Media.Matrix> structure, coefficients [3,1],[3,2],[3.3] are implied to always have the values 0,0,1 respectively.</span></span>  
+  
+||||  
+|-|-|-|  
+|<span data-ttu-id="5db94-204">1</span><span class="sxs-lookup"><span data-stu-id="5db94-204">1</span></span>|<span data-ttu-id="5db94-205">0</span><span class="sxs-lookup"><span data-stu-id="5db94-205">0</span></span>|<span data-ttu-id="5db94-206">0</span><span class="sxs-lookup"><span data-stu-id="5db94-206">0</span></span>|  
+|<span data-ttu-id="5db94-207">0</span><span class="sxs-lookup"><span data-stu-id="5db94-207">0</span></span>|<span data-ttu-id="5db94-208">1</span><span class="sxs-lookup"><span data-stu-id="5db94-208">1</span></span>|<span data-ttu-id="5db94-209">0</span><span class="sxs-lookup"><span data-stu-id="5db94-209">0</span></span>|  
+|<span data-ttu-id="5db94-210">0</span><span class="sxs-lookup"><span data-stu-id="5db94-210">0</span></span>|<span data-ttu-id="5db94-211">0</span><span class="sxs-lookup"><span data-stu-id="5db94-211">0</span></span>|<span data-ttu-id="5db94-212">1</span><span class="sxs-lookup"><span data-stu-id="5db94-212">1</span></span>|  
+  
+ <span data-ttu-id="5db94-213">为某标识矩阵，<xref:System.Windows.Media.Matrix.ToString%2A>方法返回字符串"标识"，而不是系数的<xref:System.Windows.Media.Matrix>。</span><span class="sxs-lookup"><span data-stu-id="5db94-213">For an identity matrix, the <xref:System.Windows.Media.Matrix.ToString%2A> method returns the string "Identity", instead of the coefficients of the <xref:System.Windows.Media.Matrix>.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="P:System.Windows.Media.Matrix.Identity" />
+        <altmember cref="M:System.Windows.Media.Matrix.SetIdentity" />
+      </Docs>
+    </Member>
+    <Member MemberName="M11">
+      <MemberSignature Language="C#" Value="public double M11 { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance float64 M11" />
+      <MemberSignature Language="DocId" Value="P:System.Windows.Media.Matrix.M11" />
+      <MemberSignature Language="VB.NET" Value="Public Property M11 As Double" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property double M11 { double get(); void set(double value); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>WindowsBase</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Double</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="5db94-214">获取或设置此 <see cref="T:System.Windows.Media.Matrix" /> 结构中第一行与第一列相交处的值。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-214">Gets or sets the value of the first row and first column of this <see cref="T:System.Windows.Media.Matrix" /> structure.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="5db94-215">此 <see cref="T:System.Windows.Media.Matrix" /> 中第一行与第一列相交处的值。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-215">The value of the first row and first column of this <see cref="T:System.Windows.Media.Matrix" />.</span>
+          </span>
+          <span data-ttu-id="5db94-216">默认值为 1。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-216">The default value is 1.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ <span data-ttu-id="5db94-217">下面的示例演示如何将两个相乘<xref:System.Windows.Media.Matrix>结构以及如何将值分配给<xref:System.Windows.Media.Matrix>声明它时和声明结构后。</span><span class="sxs-lookup"><span data-stu-id="5db94-217">The following example shows how to multiply two <xref:System.Windows.Media.Matrix> structures and how to assign values to a <xref:System.Windows.Media.Matrix> when it is declared, and after the structure is declared.</span></span>  
+  
+ [!code-csharp[MatrixExamples_snip#MatrixMultiplicationExample_csharp](~/samples/snippets/csharp/VS_Snippets_Wpf/MatrixExamples_snip/CSharp/MatrixExample.cs#matrixmultiplicationexample_csharp)]  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="M12">
+      <MemberSignature Language="C#" Value="public double M12 { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance float64 M12" />
+      <MemberSignature Language="DocId" Value="P:System.Windows.Media.Matrix.M12" />
+      <MemberSignature Language="VB.NET" Value="Public Property M12 As Double" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property double M12 { double get(); void set(double value); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>WindowsBase</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Double</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="5db94-218">获取或设置此 <see cref="T:System.Windows.Media.Matrix" /> 结构中第一行与第二列相交处的值。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-218">Gets or sets the value of the first row and second column of this <see cref="T:System.Windows.Media.Matrix" /> structure.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="5db94-219">此 <see cref="T:System.Windows.Media.Matrix" /> 中第一行与第二列相交处的值。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-219">The value of the first row and second column of this <see cref="T:System.Windows.Media.Matrix" />.</span>
+          </span>
+          <span data-ttu-id="5db94-220">默认值为 0。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-220">The default value is 0.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="5db94-221">下表显示的布局<xref:System.Windows.Media.Matrix>。</span><span class="sxs-lookup"><span data-stu-id="5db94-221">The following table shows the layout of a <xref:System.Windows.Media.Matrix>.</span></span>  
+  
+||||  
+|-|-|-|  
+|<xref:System.Windows.Media.Matrix.M11%2A>|<xref:System.Windows.Media.Matrix.M12%2A>|<span data-ttu-id="5db94-222">0</span><span class="sxs-lookup"><span data-stu-id="5db94-222">0</span></span>|  
+|<xref:System.Windows.Media.Matrix.M21%2A>|<xref:System.Windows.Media.Matrix.M22%2A>|<span data-ttu-id="5db94-223">0</span><span class="sxs-lookup"><span data-stu-id="5db94-223">0</span></span>|  
+|<xref:System.Windows.Media.Matrix.OffsetX%2A>|<xref:System.Windows.Media.Matrix.OffsetY%2A>|<span data-ttu-id="5db94-224">1</span><span class="sxs-lookup"><span data-stu-id="5db94-224">1</span></span>|  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="5db94-225">下面的示例演示如何将两个相乘<xref:System.Windows.Media.Matrix>结构以及如何将值分配给<xref:System.Windows.Media.Matrix>声明它时和声明结构后。</span><span class="sxs-lookup"><span data-stu-id="5db94-225">The following example shows how to multiply two <xref:System.Windows.Media.Matrix> structures and how to assign values to a <xref:System.Windows.Media.Matrix> when it is declared, and after the structure is declared.</span></span>  
+  
+ [!code-csharp[MatrixExamples_snip#MatrixMultiplicationExample_csharp](~/samples/snippets/csharp/VS_Snippets_Wpf/MatrixExamples_snip/CSharp/MatrixExample.cs#matrixmultiplicationexample_csharp)]  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="M21">
+      <MemberSignature Language="C#" Value="public double M21 { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance float64 M21" />
+      <MemberSignature Language="DocId" Value="P:System.Windows.Media.Matrix.M21" />
+      <MemberSignature Language="VB.NET" Value="Public Property M21 As Double" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property double M21 { double get(); void set(double value); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>WindowsBase</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Double</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="5db94-226">获取或设置此 <see cref="T:System.Windows.Media.Matrix" /> 结构中第二行与第一列相交处的值。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-226">Gets or sets the value of the second row and first column of this <see cref="T:System.Windows.Media.Matrix" /> structure.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="5db94-227">此 <see cref="T:System.Windows.Media.Matrix" /> 中第二行与第一列相交处的值。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-227">The value of the second row and first column of this <see cref="T:System.Windows.Media.Matrix" />.</span>
+          </span>
+          <span data-ttu-id="5db94-228">默认值为 0。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-228">The default value is 0.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="5db94-229">下表显示的布局<xref:System.Windows.Media.Matrix>。</span><span class="sxs-lookup"><span data-stu-id="5db94-229">The following table shows the layout of a <xref:System.Windows.Media.Matrix>.</span></span>  
+  
+||||  
+|-|-|-|  
+|<xref:System.Windows.Media.Matrix.M11%2A>|<xref:System.Windows.Media.Matrix.M12%2A>|<span data-ttu-id="5db94-230">0</span><span class="sxs-lookup"><span data-stu-id="5db94-230">0</span></span>|  
+|<xref:System.Windows.Media.Matrix.M21%2A>|<xref:System.Windows.Media.Matrix.M22%2A>|<span data-ttu-id="5db94-231">0</span><span class="sxs-lookup"><span data-stu-id="5db94-231">0</span></span>|  
+|<xref:System.Windows.Media.Matrix.OffsetX%2A>|<xref:System.Windows.Media.Matrix.OffsetY%2A>|<span data-ttu-id="5db94-232">1</span><span class="sxs-lookup"><span data-stu-id="5db94-232">1</span></span>|  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="5db94-233">下面的示例演示如何将两个相乘<xref:System.Windows.Media.Matrix>结构以及如何将值分配给<xref:System.Windows.Media.Matrix>声明它时和声明结构后。</span><span class="sxs-lookup"><span data-stu-id="5db94-233">The following example shows how to multiply two <xref:System.Windows.Media.Matrix> structures and how to assign values to a <xref:System.Windows.Media.Matrix> when it is declared, and after the structure is declared.</span></span>  
+  
+ [!code-csharp[MatrixExamples_snip#MatrixMultiplicationExample_csharp](~/samples/snippets/csharp/VS_Snippets_Wpf/MatrixExamples_snip/CSharp/MatrixExample.cs#matrixmultiplicationexample_csharp)]  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="M22">
+      <MemberSignature Language="C#" Value="public double M22 { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance float64 M22" />
+      <MemberSignature Language="DocId" Value="P:System.Windows.Media.Matrix.M22" />
+      <MemberSignature Language="VB.NET" Value="Public Property M22 As Double" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property double M22 { double get(); void set(double value); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>WindowsBase</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Double</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="5db94-234">获取或设置此 <see cref="T:System.Windows.Media.Matrix" /> 结构中第二行与第二列相交处的值。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-234">Gets or sets the value of the second row and second column of this <see cref="T:System.Windows.Media.Matrix" /> structure.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="5db94-235">此 <see cref="T:System.Windows.Media.Matrix" /> 结构中第二行与第二列相交处的值。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-235">The value of the second row and second column of this <see cref="T:System.Windows.Media.Matrix" /> structure.</span>
+          </span>
+          <span data-ttu-id="5db94-236">默认值为 1。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-236">The default value is 1.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="5db94-237">下表显示的布局<xref:System.Windows.Media.Matrix>结构。</span><span class="sxs-lookup"><span data-stu-id="5db94-237">The following table shows the layout of a <xref:System.Windows.Media.Matrix> structure.</span></span>  
+  
+||||  
+|-|-|-|  
+|<xref:System.Windows.Media.Matrix.M11%2A>|<xref:System.Windows.Media.Matrix.M12%2A>|<span data-ttu-id="5db94-238">0</span><span class="sxs-lookup"><span data-stu-id="5db94-238">0</span></span>|  
+|<xref:System.Windows.Media.Matrix.M21%2A>|<xref:System.Windows.Media.Matrix.M22%2A>|<span data-ttu-id="5db94-239">0</span><span class="sxs-lookup"><span data-stu-id="5db94-239">0</span></span>|  
+|<xref:System.Windows.Media.Matrix.OffsetX%2A>|<xref:System.Windows.Media.Matrix.OffsetY%2A>|<span data-ttu-id="5db94-240">1</span><span class="sxs-lookup"><span data-stu-id="5db94-240">1</span></span>|  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="5db94-241">下面的示例演示如何将两个相乘<xref:System.Windows.Media.Matrix>结构以及如何将值分配给<xref:System.Windows.Media.Matrix>声明它时和声明结构后。</span><span class="sxs-lookup"><span data-stu-id="5db94-241">The following example shows how to multiply two <xref:System.Windows.Media.Matrix> structures and how to assign values to a <xref:System.Windows.Media.Matrix> when it is declared, and after the structure is declared.</span></span>  
+  
+ [!code-csharp[MatrixExamples_snip#MatrixMultiplicationExample_csharp](~/samples/snippets/csharp/VS_Snippets_Wpf/MatrixExamples_snip/CSharp/MatrixExample.cs#matrixmultiplicationexample_csharp)]  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Multiply">
+      <MemberSignature Language="C#" Value="public static System.Windows.Media.Matrix Multiply (System.Windows.Media.Matrix trans1, System.Windows.Media.Matrix trans2);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig valuetype System.Windows.Media.Matrix Multiply(valuetype System.Windows.Media.Matrix trans1, valuetype System.Windows.Media.Matrix trans2) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Media.Matrix.Multiply(System.Windows.Media.Matrix,System.Windows.Media.Matrix)" />
+      <MemberSignature Language="VB.NET" Value="Public Shared Function Multiply (trans1 As Matrix, trans2 As Matrix) As Matrix" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static System::Windows::Media::Matrix Multiply(System::Windows::Media::Matrix trans1, System::Windows::Media::Matrix trans2);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>WindowsBase</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Windows.Media.Matrix</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="trans1" Type="System.Windows.Media.Matrix" />
+        <Parameter Name="trans2" Type="System.Windows.Media.Matrix" />
+      </Parameters>
+      <Docs>
+        <param name="trans1">
+          <span data-ttu-id="5db94-242">要相乘的第一个 <see cref="T:System.Windows.Media.Matrix" /> 结构。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-242">The first <see cref="T:System.Windows.Media.Matrix" /> structure to multiply.</span>
+          </span>
+        </param>
+        <param name="trans2">
+          <span data-ttu-id="5db94-243">要相乘的第二个 <see cref="T:System.Windows.Media.Matrix" /> 结构。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-243">The second <see cref="T:System.Windows.Media.Matrix" /> structure to multiply.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="5db94-244">让 <see cref="T:System.Windows.Media.Matrix" /> 结构乘以另一个 <see cref="T:System.Windows.Media.Matrix" /> 结构。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-244">Multiplies a <see cref="T:System.Windows.Media.Matrix" /> structure by another <see cref="T:System.Windows.Media.Matrix" /> structure.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="5db94-245">
+            <paramref name="trans1" /> 与 <paramref name="trans2" /> 相乘的结果。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-245">The result of multiplying <paramref name="trans1" /> by <paramref name="trans2" />.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="5db94-246">矩阵乘法不是可交换的。</span><span class="sxs-lookup"><span data-stu-id="5db94-246">Matrix multiplication is not commutative.</span></span> <span data-ttu-id="5db94-247">将乘以`trans1`通过`trans2`不相同相乘`trans2`通过`trans1`。</span><span class="sxs-lookup"><span data-stu-id="5db94-247">Multiplying `trans1` by `trans2` is not the same as multiplying `trans2` by `trans1`.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="5db94-248">下面的示例演示如何将两个相乘<xref:System.Windows.Media.Matrix>结构。</span><span class="sxs-lookup"><span data-stu-id="5db94-248">The following example shows how to multiply two <xref:System.Windows.Media.Matrix> structures.</span></span>  
+  
+ [!code-csharp[MatrixExamples_snip#MatrixMultiplicationExample_csharp](~/samples/snippets/csharp/VS_Snippets_Wpf/MatrixExamples_snip/CSharp/MatrixExample.cs#matrixmultiplicationexample_csharp)]  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="M:System.Windows.Media.Matrix.op_Multiply(System.Windows.Media.Matrix,System.Windows.Media.Matrix)" />
+        <altmember cref="M:System.Windows.Media.Matrix.Prepend(System.Windows.Media.Matrix)" />
+        <altmember cref="M:System.Windows.Media.Matrix.Append(System.Windows.Media.Matrix)" />
+      </Docs>
+    </Member>
+    <Member MemberName="OffsetX">
+      <MemberSignature Language="C#" Value="public double OffsetX { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance float64 OffsetX" />
+      <MemberSignature Language="DocId" Value="P:System.Windows.Media.Matrix.OffsetX" />
+      <MemberSignature Language="VB.NET" Value="Public Property OffsetX As Double" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property double OffsetX { double get(); void set(double value); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>WindowsBase</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Double</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="5db94-249">获取或设置此 <see cref="T:System.Windows.Media.Matrix" /> 结构中第三行与第一列相交处的值。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-249">Gets or sets the value of the third row and first column of this <see cref="T:System.Windows.Media.Matrix" /> structure.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="5db94-250">此 <see cref="T:System.Windows.Media.Matrix" /> 结构中第三行与第一列相交处的值。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-250">The value of the third row and first column of this <see cref="T:System.Windows.Media.Matrix" /> structure.</span>
+          </span>
+          <span data-ttu-id="5db94-251">默认值为 0。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-251">The default value is 0.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="5db94-252"><xref:System.Windows.Media.Matrix.OffsetX%2A>属性之所以如此命名，因为它指定要坐标空间沿 x 轴平移的量。</span><span class="sxs-lookup"><span data-stu-id="5db94-252">The <xref:System.Windows.Media.Matrix.OffsetX%2A> property is so named because it specifies the amount to translate the coordinate space along the x-axis.</span></span>  
+  
+ <span data-ttu-id="5db94-253">下表显示的布局<xref:System.Windows.Media.Matrix>。</span><span class="sxs-lookup"><span data-stu-id="5db94-253">The following table shows the layout of a <xref:System.Windows.Media.Matrix>.</span></span>  
+  
+||||  
+|-|-|-|  
+|<xref:System.Windows.Media.Matrix.M11%2A>|<xref:System.Windows.Media.Matrix.M12%2A>|<span data-ttu-id="5db94-254">0</span><span class="sxs-lookup"><span data-stu-id="5db94-254">0</span></span>|  
+|<xref:System.Windows.Media.Matrix.M21%2A>|<xref:System.Windows.Media.Matrix.M22%2A>|<span data-ttu-id="5db94-255">0</span><span class="sxs-lookup"><span data-stu-id="5db94-255">0</span></span>|  
+|<xref:System.Windows.Media.Matrix.OffsetX%2A>|<xref:System.Windows.Media.Matrix.OffsetY%2A>|<span data-ttu-id="5db94-256">1</span><span class="sxs-lookup"><span data-stu-id="5db94-256">1</span></span>|  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="OffsetY">
+      <MemberSignature Language="C#" Value="public double OffsetY { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance float64 OffsetY" />
+      <MemberSignature Language="DocId" Value="P:System.Windows.Media.Matrix.OffsetY" />
+      <MemberSignature Language="VB.NET" Value="Public Property OffsetY As Double" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property double OffsetY { double get(); void set(double value); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>WindowsBase</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Double</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="5db94-257">获取或设置此 <see cref="T:System.Windows.Media.Matrix" /> 结构中第三行与第二列相交处的值。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-257">Gets or sets the value of the third row and second column of this <see cref="T:System.Windows.Media.Matrix" /> structure.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="5db94-258">此 <see cref="T:System.Windows.Media.Matrix" /> 结构中第三行与第二列相交处的值。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-258">The value of the third row and second column of this <see cref="T:System.Windows.Media.Matrix" /> structure.</span>
+          </span>
+          <span data-ttu-id="5db94-259">默认值为 0。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-259">The default value is 0.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="5db94-260"><xref:System.Windows.Media.Matrix.OffsetY%2A>属性之所以如此命名，因为它指定要坐标空间沿 y 轴平移的量。</span><span class="sxs-lookup"><span data-stu-id="5db94-260">The <xref:System.Windows.Media.Matrix.OffsetY%2A> property is so named because it specifies the amount to translate the coordinate space along the y-axis.</span></span>  
+  
+ <span data-ttu-id="5db94-261">下表显示的布局<xref:System.Windows.Media.Matrix>。</span><span class="sxs-lookup"><span data-stu-id="5db94-261">The following table shows the layout of a <xref:System.Windows.Media.Matrix>.</span></span>  
+  
+||||  
+|-|-|-|  
+|<xref:System.Windows.Media.Matrix.M11%2A>|<xref:System.Windows.Media.Matrix.M12%2A>|<span data-ttu-id="5db94-262">0</span><span class="sxs-lookup"><span data-stu-id="5db94-262">0</span></span>|  
+|<xref:System.Windows.Media.Matrix.M21%2A>|<xref:System.Windows.Media.Matrix.M22%2A>|<span data-ttu-id="5db94-263">0</span><span class="sxs-lookup"><span data-stu-id="5db94-263">0</span></span>|  
+|<xref:System.Windows.Media.Matrix.OffsetX%2A>|<xref:System.Windows.Media.Matrix.OffsetY%2A>|<span data-ttu-id="5db94-264">1</span><span class="sxs-lookup"><span data-stu-id="5db94-264">1</span></span>|  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="op_Equality">
+      <MemberSignature Language="C#" Value="public static bool operator == (System.Windows.Media.Matrix matrix1, System.Windows.Media.Matrix matrix2);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig specialname bool op_Equality(valuetype System.Windows.Media.Matrix matrix1, valuetype System.Windows.Media.Matrix matrix2) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Media.Matrix.op_Equality(System.Windows.Media.Matrix,System.Windows.Media.Matrix)" />
+      <MemberSignature Language="VB.NET" Value="Public Shared Operator == (matrix1 As Matrix, matrix2 As Matrix) As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static bool operator ==(System::Windows::Media::Matrix matrix1, System::Windows::Media::Matrix matrix2);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>WindowsBase</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="matrix1" Type="System.Windows.Media.Matrix" />
+        <Parameter Name="matrix2" Type="System.Windows.Media.Matrix" />
+      </Parameters>
+      <Docs>
+        <param name="matrix1">
+          <span data-ttu-id="5db94-265">要比较的第一个 <see cref="T:System.Windows.Media.Matrix" /> 结构。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-265">The first <see cref="T:System.Windows.Media.Matrix" /> structure to compare.</span>
+          </span>
+        </param>
+        <param name="matrix2">
+          <span data-ttu-id="5db94-266">要比较的第二个 <see cref="T:System.Windows.Media.Matrix" /> 结构。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-266">The second <see cref="T:System.Windows.Media.Matrix" /> structure to compare.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="5db94-267">确定两个指定的 <see cref="T:System.Windows.Media.Matrix" /> 结构是否相同。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-267">Determines whether the two specified <see cref="T:System.Windows.Media.Matrix" /> structures are identical.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="5db94-268">如果 <paramref name="matrix1" /> 和 <paramref name="matrix2" /> 相同，则为 <see langword="true" />；否则为 <see langword="false" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-268">
+              <see langword="true" /> if <paramref name="matrix1" /> and <paramref name="matrix2" /> are identical; otherwise, <see langword="false" />.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+  
+> [!NOTE]
+>  <span data-ttu-id="5db94-269">A<xref:System.Windows.Media.Matrix>存储其值作为双精度型值。</span><span class="sxs-lookup"><span data-stu-id="5db94-269">A <xref:System.Windows.Media.Matrix> stores its values as doubles.</span></span> <span data-ttu-id="5db94-270">因为的值<xref:System.Double>它，比较两个执行算术运算时可能会丢失精度<xref:System.Double>逻辑上相等的结构可能会失败。</span><span class="sxs-lookup"><span data-stu-id="5db94-270">Because the value of a <xref:System.Double> can lose precision when arithmetic operations are performed on it, a comparison between two <xref:System.Double> structures that are logically equal might fail.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="5db94-271">下面的示例演示如何检查两个<xref:System.Windows.Media.Matrix>是否相等的结构。</span><span class="sxs-lookup"><span data-stu-id="5db94-271">The following example shows how to check two <xref:System.Windows.Media.Matrix> structures for equality.</span></span>  
+  
+ [!code-csharp[MatrixExamples_snip#MatrixEqualityExample_csharp](~/samples/snippets/csharp/VS_Snippets_Wpf/MatrixExamples_snip/CSharp/MatrixExample.cs#matrixequalityexample_csharp)]  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="Overload:System.Windows.Media.Matrix.Equals" />
+      </Docs>
+    </Member>
+    <Member MemberName="op_Inequality">
+      <MemberSignature Language="C#" Value="public static bool operator != (System.Windows.Media.Matrix matrix1, System.Windows.Media.Matrix matrix2);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig specialname bool op_Inequality(valuetype System.Windows.Media.Matrix matrix1, valuetype System.Windows.Media.Matrix matrix2) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Media.Matrix.op_Inequality(System.Windows.Media.Matrix,System.Windows.Media.Matrix)" />
+      <MemberSignature Language="VB.NET" Value="Public Shared Operator != (matrix1 As Matrix, matrix2 As Matrix) As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static bool operator !=(System::Windows::Media::Matrix matrix1, System::Windows::Media::Matrix matrix2);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>WindowsBase</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="matrix1" Type="System.Windows.Media.Matrix" />
+        <Parameter Name="matrix2" Type="System.Windows.Media.Matrix" />
+      </Parameters>
+      <Docs>
+        <param name="matrix1">
+          <span data-ttu-id="5db94-272">要比较的第一个 <see cref="T:System.Windows.Media.Matrix" /> 结构。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-272">The first <see cref="T:System.Windows.Media.Matrix" /> structure to compare.</span>
+          </span>
+        </param>
+        <param name="matrix2">
+          <span data-ttu-id="5db94-273">要比较的第二个 <see cref="T:System.Windows.Media.Matrix" /> 结构。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-273">The second <see cref="T:System.Windows.Media.Matrix" /> structure to compare.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="5db94-274">确定两个指定的 <see cref="T:System.Windows.Media.Matrix" /> 结构是否不同。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-274">Determines whether the two specified <see cref="T:System.Windows.Media.Matrix" /> structures are not identical.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="5db94-275">如果 <paramref name="matrix1" /> 和 <paramref name="matrix2" /> 不同，则为 <see langword="true" />；否则为 <see langword="false" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-275">
+              <see langword="true" /> if <paramref name="matrix1" /> and <paramref name="matrix2" /> are not identical; otherwise, <see langword="false" />.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+  
+> [!NOTE]
+>  <span data-ttu-id="5db94-276">A<xref:System.Windows.Media.Matrix>存储其值作为双精度型值。</span><span class="sxs-lookup"><span data-stu-id="5db94-276">A <xref:System.Windows.Media.Matrix> stores its values as doubles.</span></span> <span data-ttu-id="5db94-277">因为的值<xref:System.Double>它，比较两个执行算术运算时可能会丢失精度<xref:System.Double>逻辑上相等的结构可能会失败。</span><span class="sxs-lookup"><span data-stu-id="5db94-277">Because the value of a <xref:System.Double> can lose precision when arithmetic operations are performed on it, a comparison between two <xref:System.Double> structures that are logically equal might fail.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="5db94-278">下面的示例演示如何检查两个<xref:System.Windows.Media.Matrix>是否相等的结构。</span><span class="sxs-lookup"><span data-stu-id="5db94-278">The following example shows how to check two <xref:System.Windows.Media.Matrix> structures for equality.</span></span>  
+  
+ [!code-csharp[MatrixExamples_snip#MatrixEqualityExample_csharp](~/samples/snippets/csharp/VS_Snippets_Wpf/MatrixExamples_snip/CSharp/MatrixExample.cs#matrixequalityexample_csharp)]  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="op_Multiply">
+      <MemberSignature Language="C#" Value="public static System.Windows.Media.Matrix operator * (System.Windows.Media.Matrix trans1, System.Windows.Media.Matrix trans2);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig specialname valuetype System.Windows.Media.Matrix op_Multiply(valuetype System.Windows.Media.Matrix trans1, valuetype System.Windows.Media.Matrix trans2) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Media.Matrix.op_Multiply(System.Windows.Media.Matrix,System.Windows.Media.Matrix)" />
+      <MemberSignature Language="VB.NET" Value="Public Shared Operator * (trans1 As Matrix, trans2 As Matrix) As Matrix" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static System::Windows::Media::Matrix operator *(System::Windows::Media::Matrix trans1, System::Windows::Media::Matrix trans2);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>WindowsBase</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Windows.Media.Matrix</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="trans1" Type="System.Windows.Media.Matrix" />
+        <Parameter Name="trans2" Type="System.Windows.Media.Matrix" />
+      </Parameters>
+      <Docs>
+        <param name="trans1">
+          <span data-ttu-id="5db94-279">要相乘的第一个 <see cref="T:System.Windows.Media.Matrix" /> 结构。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-279">The first <see cref="T:System.Windows.Media.Matrix" /> structure to multiply.</span>
+          </span>
+        </param>
+        <param name="trans2">
+          <span data-ttu-id="5db94-280">要相乘的第二个 <see cref="T:System.Windows.Media.Matrix" /> 结构。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-280">The second <see cref="T:System.Windows.Media.Matrix" /> structure to multiply.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="5db94-281">让 <see cref="T:System.Windows.Media.Matrix" /> 结构乘以另一个 <see cref="T:System.Windows.Media.Matrix" /> 结构。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-281">Multiplies a <see cref="T:System.Windows.Media.Matrix" /> structure by another <see cref="T:System.Windows.Media.Matrix" /> structure.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="5db94-282">
+            <paramref name="trans1" /> 与 <paramref name="trans2" /> 相乘的结果。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-282">The result of multiplying <paramref name="trans1" /> by <paramref name="trans2" />.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="5db94-283">矩阵乘法不是可交换的。</span><span class="sxs-lookup"><span data-stu-id="5db94-283">Matrix multiplication is not commutative.</span></span> <span data-ttu-id="5db94-284">将乘以`trans1`通过`trans2`不相同相乘`trans2`通过`trans1`。</span><span class="sxs-lookup"><span data-stu-id="5db94-284">Multiplying `trans1` by `trans2` is not the same as multiplying `trans2` by `trans1`.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="5db94-285">下面的示例演示如何将两个相乘<xref:System.Windows.Media.Matrix>结构。</span><span class="sxs-lookup"><span data-stu-id="5db94-285">The following example shows how to multiply two <xref:System.Windows.Media.Matrix> structures.</span></span>  
+  
+ [!code-csharp[MatrixExamples_snip#MatrixMultiplicationExample_csharp](~/samples/snippets/csharp/VS_Snippets_Wpf/MatrixExamples_snip/CSharp/MatrixExample.cs#matrixmultiplicationexample_csharp)]  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="M:System.Windows.Media.Matrix.Multiply(System.Windows.Media.Matrix,System.Windows.Media.Matrix)" />
+        <altmember cref="M:System.Windows.Media.Matrix.Prepend(System.Windows.Media.Matrix)" />
+        <altmember cref="M:System.Windows.Media.Matrix.Append(System.Windows.Media.Matrix)" />
+      </Docs>
+    </Member>
+    <Member MemberName="Parse">
+      <MemberSignature Language="C#" Value="public static System.Windows.Media.Matrix Parse (string source);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig valuetype System.Windows.Media.Matrix Parse(string source) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Media.Matrix.Parse(System.String)" />
+      <MemberSignature Language="VB.NET" Value="Public Shared Function Parse (source As String) As Matrix" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static System::Windows::Media::Matrix Parse(System::String ^ source);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>WindowsBase</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Windows.Media.Matrix</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="source" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="source">
+          <span data-ttu-id="5db94-286">矩阵的 <see cref="T:System.String" /> 表示形式。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-286">The <see cref="T:System.String" /> representation of the matrix.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="5db94-287">将矩阵的 <see cref="T:System.String" /> 表示形式转换为等效的 <see cref="T:System.Windows.Media.Matrix" /> 结构。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-287">Converts a <see cref="T:System.String" /> representation of a matrix into the equivalent <see cref="T:System.Windows.Media.Matrix" /> structure.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="5db94-288">等效的 <see cref="T:System.Windows.Media.Matrix" /> 结构。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-288">The equivalent <see cref="T:System.Windows.Media.Matrix" /> structure.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ <span data-ttu-id="5db94-289">下面的示例演示如何将转换的字符串表示形式到矩阵<xref:System.Windows.Media.Matrix>结构。</span><span class="sxs-lookup"><span data-stu-id="5db94-289">The following example shows how to convert a string representation of a matrix into a <xref:System.Windows.Media.Matrix> structure.</span></span>  
+  
+ [!code-csharp[MatrixExamples_snip#MatrixParseExample_csharp](~/samples/snippets/csharp/VS_Snippets_Wpf/MatrixExamples_snip/CSharp/MatrixExample.cs#matrixparseexample_csharp)]  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Prepend">
+      <MemberSignature Language="C#" Value="public void Prepend (System.Windows.Media.Matrix matrix);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void Prepend(valuetype System.Windows.Media.Matrix matrix) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Media.Matrix.Prepend(System.Windows.Media.Matrix)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void Prepend(System::Windows::Media::Matrix matrix);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>WindowsBase</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="matrix" Type="System.Windows.Media.Matrix" />
+      </Parameters>
+      <Docs>
+        <param name="matrix">
+          <span data-ttu-id="5db94-290">要添加到此 <see cref="T:System.Windows.Media.Matrix" /> 结构之前的 <see cref="T:System.Windows.Media.Matrix" /> 结构。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-290">The <see cref="T:System.Windows.Media.Matrix" /> structure to prepend to this <see cref="T:System.Windows.Media.Matrix" /> structure.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="5db94-291">将指定的 <see cref="T:System.Windows.Media.Matrix" /> 结构添加到此 <see cref="T:System.Windows.Media.Matrix" /> 结构之前。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-291">Prepends the specified <see cref="T:System.Windows.Media.Matrix" /> structure onto this <see cref="T:System.Windows.Media.Matrix" /> structure.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="5db94-292">此操作等同于将乘以参数`matrix`由此<xref:System.Windows.Media.Matrix>结构。</span><span class="sxs-lookup"><span data-stu-id="5db94-292">This operation is the same as multiplying the parameter `matrix` by this <xref:System.Windows.Media.Matrix> structure.</span></span> <span data-ttu-id="5db94-293">但是，矩阵乘法不可交换，因此，此操作不相同相乘这<xref:System.Windows.Media.Matrix>由参数的结构`matrix`; 即， `matrix` * 这是不与此相同 * `matrix`。</span><span class="sxs-lookup"><span data-stu-id="5db94-293">Matrix multiplication is not commutative, however, so this operation is not the same as multiplying this <xref:System.Windows.Media.Matrix> structure by the parameter `matrix`; that is, `matrix` * this is not the same as this * `matrix`.</span></span>  
+  
+ <span data-ttu-id="5db94-294">在复合转换中，各个变换之间的顺序很重要。</span><span class="sxs-lookup"><span data-stu-id="5db94-294">In a composite transformation, the order of individual transformations is important.</span></span> <span data-ttu-id="5db94-295">例如，如果第一次旋转，则缩放，则转换，你获得不同的结果不是如果首先将转换，然后旋转，则缩放。</span><span class="sxs-lookup"><span data-stu-id="5db94-295">For example, if you first rotate, then scale, then translate, you get a different result than if you first translate, then rotate, then scale.</span></span> <span data-ttu-id="5db94-296">顺序很重要的原因之一是，这样像旋转和缩放转换是针对坐标系统的原点。</span><span class="sxs-lookup"><span data-stu-id="5db94-296">One reason order is significant is that transformations like rotation and scaling are done with respect to the origin of the coordinate system.</span></span> <span data-ttu-id="5db94-297">缩放以原点中心的对象生成比缩放已离开源的对象不同的结果。</span><span class="sxs-lookup"><span data-stu-id="5db94-297">Scaling an object that is centered at the origin produces a different result than scaling an object that has been moved away from the origin.</span></span> <span data-ttu-id="5db94-298">同样，轮换基于原点居中的对象生成已离开源的对象与旋转不同的结果。</span><span class="sxs-lookup"><span data-stu-id="5db94-298">Similarly, rotating an object that is centered at the origin produces a different result than rotating an object that has been moved away from the origin.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="5db94-299">下面的示例演示如何在前面添加<xref:System.Windows.Media.Matrix>到另一条<xref:System.Windows.Media.Matrix>。</span><span class="sxs-lookup"><span data-stu-id="5db94-299">The following example shows how to prepend a <xref:System.Windows.Media.Matrix> onto another <xref:System.Windows.Media.Matrix>.</span></span>  
+  
+ [!code-csharp[MatrixExamples_snip#MatrixPrependExample_csharp](~/samples/snippets/csharp/VS_Snippets_Wpf/MatrixExamples_snip/CSharp/MatrixExample.cs#matrixprependexample_csharp)]  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="M:System.Windows.Media.Matrix.Multiply(System.Windows.Media.Matrix,System.Windows.Media.Matrix)" />
+        <altmember cref="M:System.Windows.Media.Matrix.op_Multiply(System.Windows.Media.Matrix,System.Windows.Media.Matrix)" />
+        <altmember cref="M:System.Windows.Media.Matrix.Append(System.Windows.Media.Matrix)" />
+      </Docs>
+    </Member>
+    <Member MemberName="Rotate">
+      <MemberSignature Language="C#" Value="public void Rotate (double angle);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void Rotate(float64 angle) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Media.Matrix.Rotate(System.Double)" />
+      <MemberSignature Language="VB.NET" Value="Public Sub Rotate (angle As Double)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void Rotate(double angle);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>WindowsBase</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="angle" Type="System.Double" />
+      </Parameters>
+      <Docs>
+        <param name="angle">
+          <span data-ttu-id="5db94-300">旋转角度。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-300">The angle of rotation.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="5db94-301">以此 <see cref="T:System.Windows.Media.Matrix" /> 结构的原点为中心旋转指定的角度。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-301">Applies a rotation of the specified angle about the origin of this <see cref="T:System.Windows.Media.Matrix" /> structure.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ <span data-ttu-id="5db94-302">下面的示例演示如何旋转<xref:System.Windows.Media.Matrix>。</span><span class="sxs-lookup"><span data-stu-id="5db94-302">The following example shows how to rotate a <xref:System.Windows.Media.Matrix>.</span></span>  
+  
+ [!code-csharp[MatrixExamples_snip#MatrixRotateExample_csharp](~/samples/snippets/csharp/VS_Snippets_Wpf/MatrixExamples_snip/CSharp/MatrixExample.cs#matrixrotateexample_csharp)]  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="M:System.Windows.Media.Matrix.RotatePrepend(System.Double)" />
+        <altmember cref="M:System.Windows.Media.Matrix.RotateAt(System.Double,System.Double,System.Double)" />
+        <altmember cref="M:System.Windows.Media.Matrix.RotateAtPrepend(System.Double,System.Double,System.Double)" />
+      </Docs>
+    </Member>
+    <Member MemberName="RotateAt">
+      <MemberSignature Language="C#" Value="public void RotateAt (double angle, double centerX, double centerY);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void RotateAt(float64 angle, float64 centerX, float64 centerY) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Media.Matrix.RotateAt(System.Double,System.Double,System.Double)" />
+      <MemberSignature Language="VB.NET" Value="Public Sub RotateAt (angle As Double, centerX As Double, centerY As Double)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void RotateAt(double angle, double centerX, double centerY);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>WindowsBase</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="angle" Type="System.Double" />
+        <Parameter Name="centerX" Type="System.Double" />
+        <Parameter Name="centerY" Type="System.Double" />
+      </Parameters>
+      <Docs>
+        <param name="angle">
+          <span data-ttu-id="5db94-303">此矩阵要旋转的角度（单位为度）。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-303">The angle, in degrees, by which to rotate this matrix.</span>
+          </span>
+        </param>
+        <param name="centerX">
+          <span data-ttu-id="5db94-304">此矩阵要围绕其旋转的点的 x 坐标。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-304">The x-coordinate of the point about which to rotate this matrix.</span>
+          </span>
+        </param>
+        <param name="centerY">
+          <span data-ttu-id="5db94-305">此矩阵要围绕其旋转的点的 y 坐标。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-305">The y-coordinate of the point about which to rotate this matrix.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="5db94-306">绕指定的点旋转此矩阵。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-306">Rotates this matrix about the specified point.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ <span data-ttu-id="5db94-307">下面的示例演示如何旋转<xref:System.Windows.Media.Matrix>围绕指定点。</span><span class="sxs-lookup"><span data-stu-id="5db94-307">The following example shows how to rotate a <xref:System.Windows.Media.Matrix> about a specified point.</span></span>  
+  
+ [!code-csharp[MatrixExamples_snip#MatrixRotateAboutPointExample_csharp](~/samples/snippets/csharp/VS_Snippets_Wpf/MatrixExamples_snip/CSharp/MatrixExample.cs#matrixrotateaboutpointexample_csharp)]  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="RotateAtPrepend">
+      <MemberSignature Language="C#" Value="public void RotateAtPrepend (double angle, double centerX, double centerY);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void RotateAtPrepend(float64 angle, float64 centerX, float64 centerY) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Media.Matrix.RotateAtPrepend(System.Double,System.Double,System.Double)" />
+      <MemberSignature Language="VB.NET" Value="Public Sub RotateAtPrepend (angle As Double, centerX As Double, centerY As Double)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void RotateAtPrepend(double angle, double centerX, double centerY);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>WindowsBase</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="angle" Type="System.Double" />
+        <Parameter Name="centerX" Type="System.Double" />
+        <Parameter Name="centerY" Type="System.Double" />
+      </Parameters>
+      <Docs>
+        <param name="angle">
+          <span data-ttu-id="5db94-308">旋转角度（单位为度）。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-308">The rotation angle, in degrees.</span>
+          </span>
+        </param>
+        <param name="centerX">
+          <span data-ttu-id="5db94-309">旋转中心的 x 坐标。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-309">The x-coordinate of the rotation center.</span>
+          </span>
+        </param>
+        <param name="centerY">
+          <span data-ttu-id="5db94-310">旋转中心的 y 坐标。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-310">The y-coordinate of the rotation center.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="5db94-311">在此 <see cref="T:System.Windows.Media.Matrix" /> 结构前面添加围绕指定点的指定角度的旋转。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-311">Prepends a rotation of the specified angle at the specified point to this <see cref="T:System.Windows.Media.Matrix" /> structure.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="5db94-312">在复合转换中，各个变换之间的顺序很重要。</span><span class="sxs-lookup"><span data-stu-id="5db94-312">In a composite transformation, the order of individual transformations is important.</span></span> <span data-ttu-id="5db94-313">例如，如果第一次旋转，则缩放，则转换，你获得不同的结果不是如果首先将转换，然后旋转，则缩放。</span><span class="sxs-lookup"><span data-stu-id="5db94-313">For example, if you first rotate, then scale, then translate, you get a different result than if you first translate, then rotate, then scale.</span></span> <span data-ttu-id="5db94-314">顺序很重要的原因之一是，这样像旋转和缩放转换是针对坐标系统的原点。</span><span class="sxs-lookup"><span data-stu-id="5db94-314">One reason order is significant is that transformations like rotation and scaling are done with respect to the origin of the coordinate system.</span></span> <span data-ttu-id="5db94-315">缩放以原点中心的对象生成比缩放已离开源的对象不同的结果。</span><span class="sxs-lookup"><span data-stu-id="5db94-315">Scaling an object that is centered at the origin produces a different result than scaling an object that has been moved away from the origin.</span></span> <span data-ttu-id="5db94-316">同样，轮换基于原点居中的对象生成已离开源的对象与旋转不同的结果。</span><span class="sxs-lookup"><span data-stu-id="5db94-316">Similarly, rotating an object that is centered at the origin produces a different result than rotating an object that has been moved away from the origin.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="5db94-317">下面的示例演示如何在前面添加旋转到<xref:System.Windows.Media.Matrix>。</span><span class="sxs-lookup"><span data-stu-id="5db94-317">The following example shows how to prepend a rotation to a <xref:System.Windows.Media.Matrix>.</span></span>  
+  
+ [!code-csharp[MatrixExamples_snip#MatrixPrependRotateExamples_csharp](~/samples/snippets/csharp/VS_Snippets_Wpf/MatrixExamples_snip/CSharp/MatrixExample.cs#matrixprependrotateexamples_csharp)]  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="RotatePrepend">
+      <MemberSignature Language="C#" Value="public void RotatePrepend (double angle);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void RotatePrepend(float64 angle) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Media.Matrix.RotatePrepend(System.Double)" />
+      <MemberSignature Language="VB.NET" Value="Public Sub RotatePrepend (angle As Double)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void RotatePrepend(double angle);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>WindowsBase</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="angle" Type="System.Double" />
+      </Parameters>
+      <Docs>
+        <param name="angle">
+          <span data-ttu-id="5db94-318">要在前面添加的旋转的角度。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-318">The angle of rotation to prepend.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="5db94-319">在此 <see cref="T:System.Windows.Media.Matrix" /> 结构前面添加指定角度的旋转。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-319">Prepends a rotation of the specified angle to this <see cref="T:System.Windows.Media.Matrix" /> structure.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="5db94-320">在复合转换中，各个变换之间的顺序很重要。</span><span class="sxs-lookup"><span data-stu-id="5db94-320">In a composite transformation, the order of individual transformations is important.</span></span> <span data-ttu-id="5db94-321">例如，如果第一次旋转，则缩放，则转换，你获得不同的结果不是如果首先将转换，然后旋转，则缩放。</span><span class="sxs-lookup"><span data-stu-id="5db94-321">For example, if you first rotate, then scale, then translate, you get a different result than if you first translate, then rotate, then scale.</span></span> <span data-ttu-id="5db94-322">顺序很重要的原因之一是，这样像旋转和缩放转换是针对坐标系统的原点。</span><span class="sxs-lookup"><span data-stu-id="5db94-322">One reason order is significant is that transformations like rotation and scaling are done with respect to the origin of the coordinate system.</span></span> <span data-ttu-id="5db94-323">缩放以原点中心的对象生成比缩放已离开源的对象不同的结果。</span><span class="sxs-lookup"><span data-stu-id="5db94-323">Scaling an object that is centered at the origin produces a different result than scaling an object that has been moved away from the origin.</span></span> <span data-ttu-id="5db94-324">同样，轮换基于原点居中的对象生成已离开源的对象与旋转不同的结果。</span><span class="sxs-lookup"><span data-stu-id="5db94-324">Similarly, rotating an object that is centered at the origin produces a different result than rotating an object that has been moved away from the origin.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="5db94-325">下面的示例演示如何在前面添加旋转到<xref:System.Windows.Media.Matrix>。</span><span class="sxs-lookup"><span data-stu-id="5db94-325">The following example shows how to prepend a rotation to a <xref:System.Windows.Media.Matrix>.</span></span>  
+  
+ [!code-csharp[MatrixExamples_snip#MatrixPrependRotateExamples_csharp](~/samples/snippets/csharp/VS_Snippets_Wpf/MatrixExamples_snip/CSharp/MatrixExample.cs#matrixprependrotateexamples_csharp)]  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="M:System.Windows.Media.Matrix.Rotate(System.Double)" />
+        <altmember cref="M:System.Windows.Media.Matrix.RotateAt(System.Double,System.Double,System.Double)" />
+        <altmember cref="M:System.Windows.Media.Matrix.RotateAtPrepend(System.Double,System.Double,System.Double)" />
+      </Docs>
+    </Member>
+    <Member MemberName="Scale">
+      <MemberSignature Language="C#" Value="public void Scale (double scaleX, double scaleY);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void Scale(float64 scaleX, float64 scaleY) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Media.Matrix.Scale(System.Double,System.Double)" />
+      <MemberSignature Language="VB.NET" Value="Public Sub Scale (scaleX As Double, scaleY As Double)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void Scale(double scaleX, double scaleY);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>WindowsBase</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="scaleX" Type="System.Double" />
+        <Parameter Name="scaleY" Type="System.Double" />
+      </Parameters>
+      <Docs>
+        <param name="scaleX">
+          <span data-ttu-id="5db94-326">此 <see cref="T:System.Windows.Media.Matrix" /> 要沿 x 轴缩放的值。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-326">The value by which to scale this <see cref="T:System.Windows.Media.Matrix" /> along the x-axis.</span>
+          </span>
+        </param>
+        <param name="scaleY">
+          <span data-ttu-id="5db94-327">此 <see cref="T:System.Windows.Media.Matrix" /> 要沿 y 轴缩放的值。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-327">The value by which to scale this <see cref="T:System.Windows.Media.Matrix" /> along the y-axis.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="5db94-328">在此 <see cref="T:System.Windows.Media.Matrix" /> 结构后面追加指定的缩放向量。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-328">Appends the specified scale vector to this <see cref="T:System.Windows.Media.Matrix" /> structure.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ <span data-ttu-id="5db94-329">下面的示例演示如何缩放<xref:System.Windows.Media.Matrix>结构。</span><span class="sxs-lookup"><span data-stu-id="5db94-329">The following example shows how to scale a <xref:System.Windows.Media.Matrix> structure.</span></span>  
+  
+ [!code-csharp[MatrixExamples_snip#MatrixScaleExamples_csharp](~/samples/snippets/csharp/VS_Snippets_Wpf/MatrixExamples_snip/CSharp/MatrixExample.cs#matrixscaleexamples_csharp)]  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="M:System.Windows.Media.Matrix.ScaleAt(System.Double,System.Double,System.Double,System.Double)" />
+        <altmember cref="M:System.Windows.Media.Matrix.ScaleAtPrepend(System.Double,System.Double,System.Double,System.Double)" />
+        <altmember cref="M:System.Windows.Media.Matrix.ScalePrepend(System.Double,System.Double)" />
+      </Docs>
+    </Member>
+    <Member MemberName="ScaleAt">
+      <MemberSignature Language="C#" Value="public void ScaleAt (double scaleX, double scaleY, double centerX, double centerY);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void ScaleAt(float64 scaleX, float64 scaleY, float64 centerX, float64 centerY) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Media.Matrix.ScaleAt(System.Double,System.Double,System.Double,System.Double)" />
+      <MemberSignature Language="VB.NET" Value="Public Sub ScaleAt (scaleX As Double, scaleY As Double, centerX As Double, centerY As Double)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void ScaleAt(double scaleX, double scaleY, double centerX, double centerY);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>WindowsBase</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="scaleX" Type="System.Double" />
+        <Parameter Name="scaleY" Type="System.Double" />
+        <Parameter Name="centerX" Type="System.Double" />
+        <Parameter Name="centerY" Type="System.Double" />
+      </Parameters>
+      <Docs>
+        <param name="scaleX">
+          <span data-ttu-id="5db94-330">此 <see cref="T:System.Windows.Media.Matrix" /> 沿 x 轴的缩放量。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-330">The amount by which to scale this <see cref="T:System.Windows.Media.Matrix" /> along the x-axis.</span>
+          </span>
+        </param>
+        <param name="scaleY">
+          <span data-ttu-id="5db94-331">此 <see cref="T:System.Windows.Media.Matrix" /> 沿 y 轴的缩放量。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-331">The amount by which to scale this <see cref="T:System.Windows.Media.Matrix" /> along the y-axis.</span>
+          </span>
+        </param>
+        <param name="centerX">
+          <span data-ttu-id="5db94-332">缩放操作中心点的 x 坐标。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-332">The x-coordinate of the scale operation's center point.</span>
+          </span>
+        </param>
+        <param name="centerY">
+          <span data-ttu-id="5db94-333">缩放操作中心点的 y 坐标。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-333">The y-coordinate of the scale operation's center point.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="5db94-334">围绕指定的点按指定的量缩放此 <see cref="T:System.Windows.Media.Matrix" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-334">Scales this <see cref="T:System.Windows.Media.Matrix" /> by the specified amount about the specified point.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ <span data-ttu-id="5db94-335">下面的示例演示如何缩放<xref:System.Windows.Media.Matrix>结构。</span><span class="sxs-lookup"><span data-stu-id="5db94-335">The following example shows how to scale a <xref:System.Windows.Media.Matrix> structure.</span></span>  
+  
+ [!code-csharp[MatrixExamples_snip#MatrixScaleExamples_csharp](~/samples/snippets/csharp/VS_Snippets_Wpf/MatrixExamples_snip/CSharp/MatrixExample.cs#matrixscaleexamples_csharp)]  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ScaleAtPrepend">
+      <MemberSignature Language="C#" Value="public void ScaleAtPrepend (double scaleX, double scaleY, double centerX, double centerY);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void ScaleAtPrepend(float64 scaleX, float64 scaleY, float64 centerX, float64 centerY) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Media.Matrix.ScaleAtPrepend(System.Double,System.Double,System.Double,System.Double)" />
+      <MemberSignature Language="VB.NET" Value="Public Sub ScaleAtPrepend (scaleX As Double, scaleY As Double, centerX As Double, centerY As Double)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void ScaleAtPrepend(double scaleX, double scaleY, double centerX, double centerY);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>WindowsBase</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="scaleX" Type="System.Double" />
+        <Parameter Name="scaleY" Type="System.Double" />
+        <Parameter Name="centerX" Type="System.Double" />
+        <Parameter Name="centerY" Type="System.Double" />
+      </Parameters>
+      <Docs>
+        <param name="scaleX">
+          <span data-ttu-id="5db94-336">x 轴的缩放比例。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-336">The x-axis scale factor.</span>
+          </span>
+        </param>
+        <param name="scaleY">
+          <span data-ttu-id="5db94-337">y 轴的缩放比例。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-337">The y-axis scale factor.</span>
+          </span>
+        </param>
+        <param name="centerX">
+          <span data-ttu-id="5db94-338">执行缩放操作所围绕的点的 x 坐标。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-338">The x-coordinate of the point about which the scale operation is performed.</span>
+          </span>
+        </param>
+        <param name="centerY">
+          <span data-ttu-id="5db94-339">执行缩放操作所围绕的点的 y 坐标。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-339">The y-coordinate of the point about which the scale operation is performed.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="5db94-340">在此 <see cref="T:System.Windows.Media.Matrix" /> 前面添加围绕指定点的指定缩放。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-340">Prepends the specified scale about the specified point of this <see cref="T:System.Windows.Media.Matrix" />.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="5db94-341">在复合转换中，各个变换之间的顺序很重要。</span><span class="sxs-lookup"><span data-stu-id="5db94-341">In a composite transformation, the order of individual transformations is important.</span></span> <span data-ttu-id="5db94-342">例如，如果第一次旋转，则缩放，则转换，你获得不同的结果不是如果首先将转换，然后旋转，则缩放。</span><span class="sxs-lookup"><span data-stu-id="5db94-342">For example, if you first rotate, then scale, then translate, you get a different result than if you first translate, then rotate, then scale.</span></span> <span data-ttu-id="5db94-343">顺序很重要的原因之一是，这样像旋转和缩放转换是针对坐标系统的原点。</span><span class="sxs-lookup"><span data-stu-id="5db94-343">One reason order is significant is that transformations like rotation and scaling are done with respect to the origin of the coordinate system.</span></span> <span data-ttu-id="5db94-344">缩放以原点中心的对象生成比缩放已离开源的对象不同的结果。</span><span class="sxs-lookup"><span data-stu-id="5db94-344">Scaling an object that is centered at the origin produces a different result than scaling an object that has been moved away from the origin.</span></span> <span data-ttu-id="5db94-345">同样，轮换基于原点居中的对象生成已离开源的对象与旋转不同的结果。</span><span class="sxs-lookup"><span data-stu-id="5db94-345">Similarly, rotating an object that is centered at the origin produces a different result than rotating an object that has been moved away from the origin.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="5db94-346">下面的示例演示如何前面添加到缩放<xref:System.Windows.Media.Matrix>。</span><span class="sxs-lookup"><span data-stu-id="5db94-346">The following example shows how to prepend a scale to a <xref:System.Windows.Media.Matrix>.</span></span>  
+  
+ [!code-csharp[MatrixExamples_snip#MatrixPrependScaleExamples_csharp](~/samples/snippets/csharp/VS_Snippets_Wpf/MatrixExamples_snip/CSharp/MatrixExample.cs#matrixprependscaleexamples_csharp)]  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ScalePrepend">
+      <MemberSignature Language="C#" Value="public void ScalePrepend (double scaleX, double scaleY);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void ScalePrepend(float64 scaleX, float64 scaleY) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Media.Matrix.ScalePrepend(System.Double,System.Double)" />
+      <MemberSignature Language="VB.NET" Value="Public Sub ScalePrepend (scaleX As Double, scaleY As Double)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void ScalePrepend(double scaleX, double scaleY);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>WindowsBase</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="scaleX" Type="System.Double" />
+        <Parameter Name="scaleY" Type="System.Double" />
+      </Parameters>
+      <Docs>
+        <param name="scaleX">
+          <span data-ttu-id="5db94-347">此 <see cref="T:System.Windows.Media.Matrix" /> 结构要沿 x 轴缩放的值。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-347">The value by which to scale this <see cref="T:System.Windows.Media.Matrix" /> structure along the x-axis.</span>
+          </span>
+        </param>
+        <param name="scaleY">
+          <span data-ttu-id="5db94-348">此 <see cref="T:System.Windows.Media.Matrix" /> 结构要沿 y 轴缩放的值。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-348">The value by which to scale this <see cref="T:System.Windows.Media.Matrix" /> structure along the y-axis.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="5db94-349">在此 <see cref="T:System.Windows.Media.Matrix" /> 结构前面添加指定的缩放向量。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-349">Prepends the specified scale vector to this <see cref="T:System.Windows.Media.Matrix" /> structure.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="5db94-350">在复合转换中，各个变换之间的顺序很重要。</span><span class="sxs-lookup"><span data-stu-id="5db94-350">In a composite transformation, the order of individual transformations is important.</span></span> <span data-ttu-id="5db94-351">例如，如果第一次旋转，则缩放，则转换，你获得不同的结果不是如果首先将转换，然后旋转，则缩放。</span><span class="sxs-lookup"><span data-stu-id="5db94-351">For example, if you first rotate, then scale, then translate, you get a different result than if you first translate, then rotate, then scale.</span></span> <span data-ttu-id="5db94-352">顺序很重要的原因之一是，这样像旋转和缩放转换是针对坐标系统的原点。</span><span class="sxs-lookup"><span data-stu-id="5db94-352">One reason order is significant is that transformations like rotation and scaling are done with respect to the origin of the coordinate system.</span></span> <span data-ttu-id="5db94-353">缩放以原点中心的对象生成比缩放已离开源的对象不同的结果。</span><span class="sxs-lookup"><span data-stu-id="5db94-353">Scaling an object that is centered at the origin produces a different result than scaling an object that has been moved away from the origin.</span></span> <span data-ttu-id="5db94-354">同样，轮换基于原点居中的对象生成已离开源的对象与旋转不同的结果。</span><span class="sxs-lookup"><span data-stu-id="5db94-354">Similarly, rotating an object that is centered at the origin produces a different result than rotating an object that has been moved away from the origin.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="5db94-355">下面的示例演示如何前面添加到缩放<xref:System.Windows.Media.Matrix>结构。</span><span class="sxs-lookup"><span data-stu-id="5db94-355">The following example shows how to prepend a scale to a <xref:System.Windows.Media.Matrix> structure.</span></span>  
+  
+ [!code-csharp[MatrixExamples_snip#MatrixPrependScaleExamples_csharp](~/samples/snippets/csharp/VS_Snippets_Wpf/MatrixExamples_snip/CSharp/MatrixExample.cs#matrixprependscaleexamples_csharp)]  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="M:System.Windows.Media.Matrix.ScaleAtPrepend(System.Double,System.Double,System.Double,System.Double)" />
+        <altmember cref="M:System.Windows.Media.Matrix.Scale(System.Double,System.Double)" />
+        <altmember cref="M:System.Windows.Media.Matrix.ScaleAt(System.Double,System.Double,System.Double,System.Double)" />
+      </Docs>
+    </Member>
+    <Member MemberName="SetIdentity">
+      <MemberSignature Language="C#" Value="public void SetIdentity ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void SetIdentity() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Media.Matrix.SetIdentity" />
+      <MemberSignature Language="VB.NET" Value="Public Sub SetIdentity ()" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void SetIdentity();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>WindowsBase</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="5db94-356">将此 <see cref="T:System.Windows.Media.Matrix" /> 结构更改为恒等矩阵。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-356">Changes this <see cref="T:System.Windows.Media.Matrix" /> structure into an identity matrix.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="5db94-357">某标识矩阵在系数 [1，1]，[2，2] [3，3] 中具有值为 1 和 0，在其余系数的值。</span><span class="sxs-lookup"><span data-stu-id="5db94-357">An identity matrix has a value of 1 in coefficients [1,1],[2,2],[3,3] and a value of 0 in the rest of the coefficients.</span></span> <span data-ttu-id="5db94-358">这对应于设置<xref:System.Windows.Media.Matrix.M11%2A>和<xref:System.Windows.Media.Matrix.M22%2A>为 1 和<xref:System.Windows.Media.Matrix.M12%2A>， <xref:System.Windows.Media.Matrix.M21%2A>， <xref:System.Windows.Media.Matrix.OffsetX%2A>，和<xref:System.Windows.Media.Matrix.OffsetY%2A>为 0。</span><span class="sxs-lookup"><span data-stu-id="5db94-358">This correlates to setting <xref:System.Windows.Media.Matrix.M11%2A> and <xref:System.Windows.Media.Matrix.M22%2A> to 1 and <xref:System.Windows.Media.Matrix.M12%2A>, <xref:System.Windows.Media.Matrix.M21%2A>, <xref:System.Windows.Media.Matrix.OffsetX%2A>, and <xref:System.Windows.Media.Matrix.OffsetY%2A> to 0.</span></span> <span data-ttu-id="5db94-359">是的实现的仿射矩阵，[!INCLUDE[TLA#tla_winclient](~/includes/tlasharptla-winclient-md.md)]用于<xref:System.Windows.Media.Matrix>结构，系数 [3，1]、 [3，2] 和 [3.3] 暗指始终分别具有 0,0,1 的值。</span><span class="sxs-lookup"><span data-stu-id="5db94-359">In an affine matrix, which is the implementation that [!INCLUDE[TLA#tla_winclient](~/includes/tlasharptla-winclient-md.md)] uses for the <xref:System.Windows.Media.Matrix> structure, coefficients [3,1],[3,2],[3.3] are implied to always have the values 0,0,1 respectively.</span></span>  
+  
+||||  
+|-|-|-|  
+|<span data-ttu-id="5db94-360">1</span><span class="sxs-lookup"><span data-stu-id="5db94-360">1</span></span>|<span data-ttu-id="5db94-361">0</span><span class="sxs-lookup"><span data-stu-id="5db94-361">0</span></span>|<span data-ttu-id="5db94-362">0</span><span class="sxs-lookup"><span data-stu-id="5db94-362">0</span></span>|  
+|<span data-ttu-id="5db94-363">0</span><span class="sxs-lookup"><span data-stu-id="5db94-363">0</span></span>|<span data-ttu-id="5db94-364">1</span><span class="sxs-lookup"><span data-stu-id="5db94-364">1</span></span>|<span data-ttu-id="5db94-365">0</span><span class="sxs-lookup"><span data-stu-id="5db94-365">0</span></span>|  
+|<span data-ttu-id="5db94-366">0</span><span class="sxs-lookup"><span data-stu-id="5db94-366">0</span></span>|<span data-ttu-id="5db94-367">0</span><span class="sxs-lookup"><span data-stu-id="5db94-367">0</span></span>|<span data-ttu-id="5db94-368">1</span><span class="sxs-lookup"><span data-stu-id="5db94-368">1</span></span>|  
+  
+ <span data-ttu-id="5db94-369">为某标识矩阵，<xref:System.Windows.Media.Matrix.ToString%2A>方法返回字符串"标识"，而不是系数的<xref:System.Windows.Media.Matrix>。</span><span class="sxs-lookup"><span data-stu-id="5db94-369">For an identity matrix, the <xref:System.Windows.Media.Matrix.ToString%2A> method returns the string "Identity", instead of the coefficients of the <xref:System.Windows.Media.Matrix>.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="5db94-370">下面的示例演示如何打开<xref:System.Windows.Media.Matrix>到某标识矩阵的结构。</span><span class="sxs-lookup"><span data-stu-id="5db94-370">The following example shows how to turn a <xref:System.Windows.Media.Matrix> structure into an identity matrix.</span></span>  
+  
+ [!code-csharp[MatrixExamples_snip#MatrixIdentityExample_csharp](~/samples/snippets/csharp/VS_Snippets_Wpf/MatrixExamples_snip/CSharp/MatrixExample.cs#matrixidentityexample_csharp)]  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="P:System.Windows.Media.Matrix.Identity" />
+        <altmember cref="P:System.Windows.Media.Matrix.IsIdentity" />
+      </Docs>
+    </Member>
+    <Member MemberName="Skew">
+      <MemberSignature Language="C#" Value="public void Skew (double skewX, double skewY);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void Skew(float64 skewX, float64 skewY) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Media.Matrix.Skew(System.Double,System.Double)" />
+      <MemberSignature Language="VB.NET" Value="Public Sub Skew (skewX As Double, skewY As Double)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void Skew(double skewX, double skewY);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>WindowsBase</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="skewX" Type="System.Double" />
+        <Parameter Name="skewY" Type="System.Double" />
+      </Parameters>
+      <Docs>
+        <param name="skewX">
+          <span data-ttu-id="5db94-371">用于扭曲此 <see cref="T:System.Windows.Media.Matrix" /> 的 x 维角度。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-371">The angle in the x dimension by which to skew this <see cref="T:System.Windows.Media.Matrix" />.</span>
+          </span>
+        </param>
+        <param name="skewY">
+          <span data-ttu-id="5db94-372">用于扭曲此 <see cref="T:System.Windows.Media.Matrix" /> 的 y 维角度。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-372">The angle in the y dimension by which to skew this <see cref="T:System.Windows.Media.Matrix" />.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="5db94-373">在此 <see cref="T:System.Windows.Media.Matrix" /> 结构后面追加 x 和 y 维中指定角度的扭曲。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-373">Appends a skew of the specified degrees in the x and y dimensions to this <see cref="T:System.Windows.Media.Matrix" /> structure.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ <span data-ttu-id="5db94-374">此示例演示如何扭曲<xref:System.Windows.Media.Matrix>结构。</span><span class="sxs-lookup"><span data-stu-id="5db94-374">This example shows how to skew a <xref:System.Windows.Media.Matrix> structure.</span></span>  
+  
+ [!code-csharp[MatrixExamples_snip#MatrixSkewExample_csharp](~/samples/snippets/csharp/VS_Snippets_Wpf/MatrixExamples_snip/CSharp/MatrixExample.cs#matrixskewexample_csharp)]  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="M:System.Windows.Media.Matrix.SkewPrepend(System.Double,System.Double)" />
+      </Docs>
+    </Member>
+    <Member MemberName="SkewPrepend">
+      <MemberSignature Language="C#" Value="public void SkewPrepend (double skewX, double skewY);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void SkewPrepend(float64 skewX, float64 skewY) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Media.Matrix.SkewPrepend(System.Double,System.Double)" />
+      <MemberSignature Language="VB.NET" Value="Public Sub SkewPrepend (skewX As Double, skewY As Double)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void SkewPrepend(double skewX, double skewY);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>WindowsBase</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="skewX" Type="System.Double" />
+        <Parameter Name="skewY" Type="System.Double" />
+      </Parameters>
+      <Docs>
+        <param name="skewX">
+          <span data-ttu-id="5db94-375">用于扭曲此 <see cref="T:System.Windows.Media.Matrix" /> 的 x 维角度。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-375">The angle in the x dimension by which to skew this <see cref="T:System.Windows.Media.Matrix" />.</span>
+          </span>
+        </param>
+        <param name="skewY">
+          <span data-ttu-id="5db94-376">用于扭曲此 <see cref="T:System.Windows.Media.Matrix" /> 的 y 维角度。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-376">The angle in the y dimension by which to skew this <see cref="T:System.Windows.Media.Matrix" />.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="5db94-377">在此 <see cref="T:System.Windows.Media.Matrix" /> 结构前面添加 x 和 y 维中指定角度的扭曲。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-377">Prepends a skew of the specified degrees in the x and y dimensions to this <see cref="T:System.Windows.Media.Matrix" /> structure.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="5db94-378">在复合转换中，各个变换之间的顺序很重要。</span><span class="sxs-lookup"><span data-stu-id="5db94-378">In a composite transformation, the order of individual transformations is important.</span></span> <span data-ttu-id="5db94-379">例如，如果第一次旋转，则缩放，则转换，你获得不同的结果不是如果首先将转换，然后旋转，则缩放。</span><span class="sxs-lookup"><span data-stu-id="5db94-379">For example, if you first rotate, then scale, then translate, you get a different result than if you first translate, then rotate, then scale.</span></span> <span data-ttu-id="5db94-380">顺序很重要的原因之一是，这样像旋转和缩放转换是针对坐标系统的原点。</span><span class="sxs-lookup"><span data-stu-id="5db94-380">One reason order is significant is that transformations like rotation and scaling are done with respect to the origin of the coordinate system.</span></span> <span data-ttu-id="5db94-381">缩放以原点中心的对象生成比缩放已离开源的对象不同的结果。</span><span class="sxs-lookup"><span data-stu-id="5db94-381">Scaling an object that is centered at the origin produces a different result than scaling an object that has been moved away from the origin.</span></span> <span data-ttu-id="5db94-382">同样，轮换基于原点居中的对象生成已离开源的对象与旋转不同的结果。</span><span class="sxs-lookup"><span data-stu-id="5db94-382">Similarly, rotating an object that is centered at the origin produces a different result than rotating an object that has been moved away from the origin.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="5db94-383">此示例演示如何以前面添加到扭曲<xref:System.Windows.Media.Matrix>结构。</span><span class="sxs-lookup"><span data-stu-id="5db94-383">This example shows how to prepend a skew to a <xref:System.Windows.Media.Matrix> structure.</span></span>  
+  
+ [!code-csharp[MatrixExamples_snip#MatrixSkewPrependExample_csharp](~/samples/snippets/csharp/VS_Snippets_Wpf/MatrixExamples_snip/CSharp/MatrixExample.cs#matrixskewprependexample_csharp)]  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="M:System.Windows.Media.Matrix.Skew(System.Double,System.Double)" />
+      </Docs>
+    </Member>
+    <Member MemberName="System.IFormattable.ToString">
+      <MemberSignature Language="C#" Value="string IFormattable.ToString (string format, IFormatProvider provider);" />
+      <MemberSignature Language="ILAsm" Value=".method hidebysig newslot virtual instance string System.IFormattable.ToString(string format, class System.IFormatProvider provider) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Media.Matrix.System#IFormattable#ToString(System.String,System.IFormatProvider)" />
+      <MemberSignature Language="VB.NET" Value="Function ToString (format As String, provider As IFormatProvider) As String Implements IFormattable.ToString" />
+      <MemberSignature Language="C++ CLI" Value=" virtual System::String ^ System.IFormattable.ToString(System::String ^ format, IFormatProvider ^ provider) = IFormattable::ToString;" />
+      <MemberType>Method</MemberType>
+      <Implements>
+        <InterfaceMember>M:System.IFormattable.ToString(System.String,System.IFormatProvider)</InterfaceMember>
+      </Implements>
+      <AssemblyInfo>
+        <AssemblyName>WindowsBase</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="format" Type="System.String" />
+        <Parameter Name="provider" Type="System.IFormatProvider" />
+      </Parameters>
+      <Docs>
+        <param name="format">
+          <span data-ttu-id="5db94-384">要使用的格式。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-384">The format to use.</span>
+          </span>
+          <span data-ttu-id="5db94-385">或</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-385">-or-</span>
+          </span>
+          <span data-ttu-id="5db94-386">null 引用（Visual Basic 中为 <see langword="Nothing" />）将使用为 <see cref="T:System.IFormattable" /> 实现的类型所定义的默认格式。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-386">A null reference (<see langword="Nothing" /> in Visual Basic) to use the default format defined for the type of the <see cref="T:System.IFormattable" /> implementation.</span>
+          </span>
+        </param>
+        <param name="provider">
+          <span data-ttu-id="5db94-387">要用于对值设置格式的提供程序。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-387">The provider to use to format the value.</span>
+          </span>
+          <span data-ttu-id="5db94-388">或</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-388">-or-</span>
+          </span>
+          <span data-ttu-id="5db94-389">null 引用（Visual Basic 中为 <see langword="Nothing" />）将从操作系统的当前区域设置中获取数字格式信息。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-389">A null reference (<see langword="Nothing" /> in Visual Basic) to obtain the numeric format information from the current locale setting of the operating system.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="5db94-390">使用指定格式对当前实例的值设置格式。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-390">Formats the value of the current instance using the specified format.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="5db94-391">采用指定格式的当前实例的值。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-391">The value of the current instance in the specified format.</span>
+          </span>
+        </returns>
+        <remarks>To be added.</remarks>
+        <altmember cref="T:System.IFormatProvider" />
+      </Docs>
+    </Member>
+    <MemberGroup MemberName="ToString">
+      <AssemblyInfo>
+        <AssemblyName>WindowsBase</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Docs>
+        <summary>
+          <span data-ttu-id="5db94-392">创建此 <see cref="T:System.String" /> 结构的 <see cref="T:System.Windows.Media.Matrix" /> 表示形式。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-392">Creates a <see cref="T:System.String" /> representation of this <see cref="T:System.Windows.Media.Matrix" /> structure.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="5db94-393">如果此<xref:System.Windows.Media.Matrix>结构是单位矩阵，"标识"将返回的字符串。</span><span class="sxs-lookup"><span data-stu-id="5db94-393">If this <xref:System.Windows.Media.Matrix> structure is an identity matrix, the string "Identity" is returned.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </MemberGroup>
+    <Member MemberName="ToString">
+      <MemberSignature Language="C#" Value="public override string ToString ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance string ToString() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Media.Matrix.ToString" />
+      <MemberSignature Language="VB.NET" Value="Public Overrides Function ToString () As String" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; override System::String ^ ToString();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>WindowsBase</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="5db94-394">创建此 <see cref="T:System.String" /> 结构的 <see cref="T:System.Windows.Media.Matrix" /> 表示形式。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-394">Creates a <see cref="T:System.String" /> representation of this <see cref="T:System.Windows.Media.Matrix" /> structure.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="5db94-395">一个 <see cref="T:System.String" />，其中包含此 <see cref="P:System.Windows.Media.Matrix.M11" /> 的 <see cref="P:System.Windows.Media.Matrix.M12" />、<see cref="P:System.Windows.Media.Matrix.M21" />、<see cref="P:System.Windows.Media.Matrix.M22" />、<see cref="P:System.Windows.Media.Matrix.OffsetX" />、<see cref="P:System.Windows.Media.Matrix.OffsetY" /> 和 <see cref="T:System.Windows.Media.Matrix" /> 值。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-395">A <see cref="T:System.String" /> containing the <see cref="P:System.Windows.Media.Matrix.M11" />, <see cref="P:System.Windows.Media.Matrix.M12" />, <see cref="P:System.Windows.Media.Matrix.M21" />, <see cref="P:System.Windows.Media.Matrix.M22" />, <see cref="P:System.Windows.Media.Matrix.OffsetX" />, and <see cref="P:System.Windows.Media.Matrix.OffsetY" /> values of this <see cref="T:System.Windows.Media.Matrix" />.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="5db94-396">如果此<xref:System.Windows.Media.Matrix>是<xref:System.Windows.Media.Matrix.Identity%2A>矩阵，返回"标识"的字符串。</span><span class="sxs-lookup"><span data-stu-id="5db94-396">If this <xref:System.Windows.Media.Matrix> is an <xref:System.Windows.Media.Matrix.Identity%2A> matrix, the string "Identity" is returned.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ToString">
+      <MemberSignature Language="C#" Value="public string ToString (IFormatProvider provider);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance string ToString(class System.IFormatProvider provider) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Media.Matrix.ToString(System.IFormatProvider)" />
+      <MemberSignature Language="VB.NET" Value="Public Function ToString (provider As IFormatProvider) As String" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; System::String ^ ToString(IFormatProvider ^ provider);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>WindowsBase</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="provider" Type="System.IFormatProvider" />
+      </Parameters>
+      <Docs>
+        <param name="provider">
+          <span data-ttu-id="5db94-397">特定于区域的格式设置信息。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-397">The culture-specific formatting information.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="5db94-398">使用区域性特定的格式设置信息创建此 <see cref="T:System.String" /> 结构的 <see cref="T:System.Windows.Media.Matrix" /> 表示形式。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-398">Creates a <see cref="T:System.String" /> representation of this <see cref="T:System.Windows.Media.Matrix" /> structure with culture-specific formatting information.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="5db94-399">一个 <see cref="T:System.String" />，其中包含此 <see cref="P:System.Windows.Media.Matrix.M11" /> 的 <see cref="P:System.Windows.Media.Matrix.M12" />、<see cref="P:System.Windows.Media.Matrix.M21" />、<see cref="P:System.Windows.Media.Matrix.M22" />、<see cref="P:System.Windows.Media.Matrix.OffsetX" />、<see cref="P:System.Windows.Media.Matrix.OffsetY" /> 和 <see cref="T:System.Windows.Media.Matrix" /> 值。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-399">A <see cref="T:System.String" /> containing the <see cref="P:System.Windows.Media.Matrix.M11" />, <see cref="P:System.Windows.Media.Matrix.M12" />, <see cref="P:System.Windows.Media.Matrix.M21" />, <see cref="P:System.Windows.Media.Matrix.M22" />, <see cref="P:System.Windows.Media.Matrix.OffsetX" />, and <see cref="P:System.Windows.Media.Matrix.OffsetY" /> values of this <see cref="T:System.Windows.Media.Matrix" />.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="5db94-400">如果此<xref:System.Windows.Media.Matrix>结构是单位矩阵，"标识"将返回的字符串。</span><span class="sxs-lookup"><span data-stu-id="5db94-400">If this <xref:System.Windows.Media.Matrix> structure is an identity matrix, the string "Identity" is returned.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <MemberGroup MemberName="Transform">
+      <AssemblyInfo>
+        <AssemblyName>WindowsBase</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Docs>
+        <summary>
+          <span data-ttu-id="5db94-401">用此 <see cref="T:System.Windows.Media.Matrix" /> 变换指定的点、点数组、向量或向量数组。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-401">Transforms the specified point, array of points, vector, or array of vectors by this <see cref="T:System.Windows.Media.Matrix" />.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ <span data-ttu-id="5db94-402">下面的示例演示如何使用<xref:System.Windows.Media.Matrix>转换点和向量。</span><span class="sxs-lookup"><span data-stu-id="5db94-402">The follow example shows how to use a <xref:System.Windows.Media.Matrix> to transform points and vectors.</span></span>  
+  
+ [!code-csharp[MatrixExamples_snip#MatrixTransformExamples_csharp](~/samples/snippets/csharp/VS_Snippets_Wpf/MatrixExamples_snip/CSharp/MatrixExample.cs#matrixtransformexamples_csharp)]  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </MemberGroup>
+    <Member MemberName="Transform">
+      <MemberSignature Language="C#" Value="public System.Windows.Point Transform (System.Windows.Point point);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance valuetype System.Windows.Point Transform(valuetype System.Windows.Point point) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Media.Matrix.Transform(System.Windows.Point)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; System::Windows::Point Transform(System::Windows::Point point);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>WindowsBase</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Windows.Point</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="point" Type="System.Windows.Point" />
+      </Parameters>
+      <Docs>
+        <param name="point">
+          <span data-ttu-id="5db94-403">要转换的点。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-403">The point to transform.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="5db94-404">用 <see cref="T:System.Windows.Media.Matrix" /> 变换指定的点并返回结果。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-404">Transforms the specified point by the <see cref="T:System.Windows.Media.Matrix" /> and returns the result.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="5db94-405">用此 <see cref="T:System.Windows.Media.Matrix" /> 变换 <paramref name="point" /> 的结果。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-405">The result of transforming <paramref name="point" /> by this <see cref="T:System.Windows.Media.Matrix" />.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ <span data-ttu-id="5db94-406">下面的示例演示如何使用<xref:System.Windows.Media.Matrix>转换点和向量。</span><span class="sxs-lookup"><span data-stu-id="5db94-406">The follow example shows how to use a <xref:System.Windows.Media.Matrix> to transform points and vectors.</span></span>  
+  
+ [!code-csharp[MatrixExamples_snip#MatrixTransformExamples_csharp](~/samples/snippets/csharp/VS_Snippets_Wpf/MatrixExamples_snip/CSharp/MatrixExample.cs#matrixtransformexamples_csharp)]  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Transform">
+      <MemberSignature Language="C#" Value="public void Transform (System.Windows.Point[] points);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void Transform(valuetype System.Windows.Point[] points) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Media.Matrix.Transform(System.Windows.Point[])" />
+      <MemberSignature Language="VB.NET" Value="Public Sub Transform (points As Point())" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void Transform(cli::array &lt;System::Windows::Point&gt; ^ points);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>WindowsBase</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="points" Type="System.Windows.Point[]" />
+      </Parameters>
+      <Docs>
+        <param name="points">
+          <span data-ttu-id="5db94-407">要变换的点。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-407">The points to transform.</span>
+          </span>
+          <span data-ttu-id="5db94-408">数组中的原始点将被它们的变换值替换。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-408">The original points in the array are replaced by their transformed values.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="5db94-409">用此 <see cref="T:System.Windows.Media.Matrix" /> 变换指定的点。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-409">Transforms the specified points by this <see cref="T:System.Windows.Media.Matrix" />.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ <span data-ttu-id="5db94-410">下面的示例演示如何使用<xref:System.Windows.Media.Matrix>转换点和向量。</span><span class="sxs-lookup"><span data-stu-id="5db94-410">The follow example shows how to use a <xref:System.Windows.Media.Matrix> to transform points and vectors.</span></span>  
+  
+ [!code-csharp[MatrixExamples_snip#MatrixTransformExamples_csharp](~/samples/snippets/csharp/VS_Snippets_Wpf/MatrixExamples_snip/CSharp/MatrixExample.cs#matrixtransformexamples_csharp)]  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Transform">
+      <MemberSignature Language="C#" Value="public System.Windows.Vector Transform (System.Windows.Vector vector);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance valuetype System.Windows.Vector Transform(valuetype System.Windows.Vector vector) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Media.Matrix.Transform(System.Windows.Vector)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; System::Windows::Vector Transform(System::Windows::Vector vector);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>WindowsBase</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Windows.Vector</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="vector" Type="System.Windows.Vector" />
+      </Parameters>
+      <Docs>
+        <param name="vector">
+          <span data-ttu-id="5db94-411">要转换的向量。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-411">The vector to transform.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="5db94-412">用此 <see cref="T:System.Windows.Media.Matrix" /> 变换指定的向量。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-412">Transforms the specified vector by this <see cref="T:System.Windows.Media.Matrix" />.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="5db94-413">用此 <see cref="T:System.Windows.Media.Matrix" /> 变换 <paramref name="vector" /> 的结果。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-413">The result of transforming <paramref name="vector" /> by this <see cref="T:System.Windows.Media.Matrix" />.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ <span data-ttu-id="5db94-414">下面的示例演示如何使用<xref:System.Windows.Media.Matrix>转换点和向量。</span><span class="sxs-lookup"><span data-stu-id="5db94-414">The follow example shows how to use a <xref:System.Windows.Media.Matrix> to transform points and vectors.</span></span>  
+  
+ [!code-csharp[MatrixExamples_snip#MatrixTransformExamples_csharp](~/samples/snippets/csharp/VS_Snippets_Wpf/MatrixExamples_snip/CSharp/MatrixExample.cs#matrixtransformexamples_csharp)]  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Transform">
+      <MemberSignature Language="C#" Value="public void Transform (System.Windows.Vector[] vectors);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void Transform(valuetype System.Windows.Vector[] vectors) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Media.Matrix.Transform(System.Windows.Vector[])" />
+      <MemberSignature Language="VB.NET" Value="Public Sub Transform (vectors As Vector())" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void Transform(cli::array &lt;System::Windows::Vector&gt; ^ vectors);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>WindowsBase</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="vectors" Type="System.Windows.Vector[]" />
+      </Parameters>
+      <Docs>
+        <param name="vectors">
+          <span data-ttu-id="5db94-415">要变换的向量。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-415">The vectors to transform.</span>
+          </span>
+          <span data-ttu-id="5db94-416">数组中的原始向量将被它们的变换值替换。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-416">The original vectors in the array are replaced by their transformed values.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="5db94-417">用此 <see cref="T:System.Windows.Media.Matrix" /> 变换指定的向量。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-417">Transforms the specified vectors by this <see cref="T:System.Windows.Media.Matrix" />.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ <span data-ttu-id="5db94-418">下面的示例演示如何使用<xref:System.Windows.Media.Matrix>转换点和向量。</span><span class="sxs-lookup"><span data-stu-id="5db94-418">The follow example shows how to use a <xref:System.Windows.Media.Matrix> to transform points and vectors.</span></span>  
+  
+ [!code-csharp[MatrixExamples_snip#MatrixTransformExamples_csharp](~/samples/snippets/csharp/VS_Snippets_Wpf/MatrixExamples_snip/CSharp/MatrixExample.cs#matrixtransformexamples_csharp)]  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Translate">
+      <MemberSignature Language="C#" Value="public void Translate (double offsetX, double offsetY);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void Translate(float64 offsetX, float64 offsetY) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Media.Matrix.Translate(System.Double,System.Double)" />
+      <MemberSignature Language="VB.NET" Value="Public Sub Translate (offsetX As Double, offsetY As Double)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void Translate(double offsetX, double offsetY);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>WindowsBase</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="offsetX" Type="System.Double" />
+        <Parameter Name="offsetY" Type="System.Double" />
+      </Parameters>
+      <Docs>
+        <param name="offsetX">
+          <span data-ttu-id="5db94-419">此 <see cref="T:System.Windows.Media.Matrix" /> 沿 x 轴的偏移量。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-419">The amount to offset this <see cref="T:System.Windows.Media.Matrix" /> along the x-axis.</span>
+          </span>
+        </param>
+        <param name="offsetY">
+          <span data-ttu-id="5db94-420">此 <see cref="T:System.Windows.Media.Matrix" /> 沿 y 轴的偏移量。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-420">The amount to offset this <see cref="T:System.Windows.Media.Matrix" /> along the y-axis.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="5db94-421">在此 <see cref="T:System.Windows.Media.Matrix" /> 结构后面追加指定偏移量的平移。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-421">Appends a translation of the specified offsets to this <see cref="T:System.Windows.Media.Matrix" /> structure.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ <span data-ttu-id="5db94-422">下面的示例演示如何将追加到转换<xref:System.Windows.Media.Matrix>结构。</span><span class="sxs-lookup"><span data-stu-id="5db94-422">The following example shows how append a translation onto a <xref:System.Windows.Media.Matrix> structure.</span></span>  
+  
+ [!code-csharp[MatrixExamples_snip#MatrixTranslateExample_csharp](~/samples/snippets/csharp/VS_Snippets_Wpf/MatrixExamples_snip/CSharp/MatrixExample.cs#matrixtranslateexample_csharp)]  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="M:System.Windows.Media.Matrix.TranslatePrepend(System.Double,System.Double)" />
+      </Docs>
+    </Member>
+    <Member MemberName="TranslatePrepend">
+      <MemberSignature Language="C#" Value="public void TranslatePrepend (double offsetX, double offsetY);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void TranslatePrepend(float64 offsetX, float64 offsetY) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Media.Matrix.TranslatePrepend(System.Double,System.Double)" />
+      <MemberSignature Language="VB.NET" Value="Public Sub TranslatePrepend (offsetX As Double, offsetY As Double)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void TranslatePrepend(double offsetX, double offsetY);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>WindowsBase</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="offsetX" Type="System.Double" />
+        <Parameter Name="offsetY" Type="System.Double" />
+      </Parameters>
+      <Docs>
+        <param name="offsetX">
+          <span data-ttu-id="5db94-423">此 <see cref="T:System.Windows.Media.Matrix" /> 沿 x 轴的偏移量。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-423">The amount to offset this <see cref="T:System.Windows.Media.Matrix" /> along the x-axis.</span>
+          </span>
+        </param>
+        <param name="offsetY">
+          <span data-ttu-id="5db94-424">此 <see cref="T:System.Windows.Media.Matrix" /> 沿 y 轴的偏移量。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-424">The amount to offset this <see cref="T:System.Windows.Media.Matrix" /> along the y-axis.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="5db94-425">在此 <see cref="T:System.Windows.Media.Matrix" /> 结构前面添加指定偏移量的平移。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5db94-425">Prepends a translation of the specified offsets to this <see cref="T:System.Windows.Media.Matrix" /> structure.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="5db94-426">在复合转换中，各个变换之间的顺序很重要。</span><span class="sxs-lookup"><span data-stu-id="5db94-426">In a composite transformation, the order of individual transformations is important.</span></span> <span data-ttu-id="5db94-427">例如，如果第一次旋转，则缩放，则转换，你获得不同的结果不是如果首先将转换，然后旋转，则缩放。</span><span class="sxs-lookup"><span data-stu-id="5db94-427">For example, if you first rotate, then scale, then translate, you get a different result than if you first translate, then rotate, then scale.</span></span> <span data-ttu-id="5db94-428">顺序很重要的原因之一是，这样像旋转和缩放转换是针对坐标系统的原点。</span><span class="sxs-lookup"><span data-stu-id="5db94-428">One reason order is significant is that transformations like rotation and scaling are done with respect to the origin of the coordinate system.</span></span> <span data-ttu-id="5db94-429">缩放以原点中心的对象生成比缩放已离开源的对象不同的结果。</span><span class="sxs-lookup"><span data-stu-id="5db94-429">Scaling an object that is centered at the origin produces a different result than scaling an object that has been moved away from the origin.</span></span> <span data-ttu-id="5db94-430">同样，轮换基于原点居中的对象生成已离开源的对象与旋转不同的结果。</span><span class="sxs-lookup"><span data-stu-id="5db94-430">Similarly, rotating an object that is centered at the origin produces a different result than rotating an object that has been moved away from the origin.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="5db94-431">下面的示例演示如何在前面添加平移<xref:System.Windows.Media.Matrix>结构。</span><span class="sxs-lookup"><span data-stu-id="5db94-431">The following example shows how prepend a translation onto a <xref:System.Windows.Media.Matrix> structure.</span></span>  
+  
+ [!code-csharp[MatrixExamples_snip#MatrixTranslatePrependExample_csharp](~/samples/snippets/csharp/VS_Snippets_Wpf/MatrixExamples_snip/CSharp/MatrixExample.cs#matrixtranslateprependexample_csharp)]  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="M:System.Windows.Media.Matrix.Translate(System.Double,System.Double)" />
+      </Docs>
+    </Member>
+  </Members>
+</Type>

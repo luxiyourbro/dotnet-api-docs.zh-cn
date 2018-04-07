@@ -1,0 +1,1059 @@
+<Type Name="OdbcCommandBuilder" FullName="System.Data.Odbc.OdbcCommandBuilder">
+  <Metadata>
+    <Meta Name="ms.openlocfilehash" Value="754ba74c3af6b88ffda378f845dd52a3dc15dff0" />
+    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
+    <Meta Name="ms.translationtype" Value="HT" />
+    <Meta Name="ms.contentlocale" Value="zh-CN" />
+    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
+  </Metadata>
+  <TypeSignature Language="C#" Value="public sealed class OdbcCommandBuilder : System.Data.Common.DbCommandBuilder" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed beforefieldinit OdbcCommandBuilder extends System.Data.Common.DbCommandBuilder" />
+  <TypeSignature Language="DocId" Value="T:System.Data.Odbc.OdbcCommandBuilder" />
+  <TypeSignature Language="VB.NET" Value="Public NotInheritable Class OdbcCommandBuilder&#xA;Inherits DbCommandBuilder" />
+  <TypeSignature Language="C++ CLI" Value="public ref class OdbcCommandBuilder sealed : System::Data::Common::DbCommandBuilder" />
+  <AssemblyInfo>
+    <AssemblyName>System.Data</AssemblyName>
+    <AssemblyVersion>4.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <AssemblyInfo>
+    <AssemblyName>System.Data.Odbc</AssemblyName>
+    <AssemblyVersion>4.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Data.Common.DbCommandBuilder</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Docs>
+    <summary>
+      <span data-ttu-id="2321c-101">自动生成用于协调对 <see cref="T:System.Data.DataSet" /> 的更改与关联的数据源的单表命令。</span>
+      <span class="sxs-lookup">
+        <span data-stu-id="2321c-101">Automatically generates single-table commands that are used to reconcile changes made to a <see cref="T:System.Data.DataSet" /> with the associated data source.</span>
+      </span>
+      <span data-ttu-id="2321c-102">此类不能被继承。</span>
+      <span class="sxs-lookup">
+        <span data-stu-id="2321c-102">This class cannot be inherited.</span>
+      </span>
+    </summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="2321c-103"><xref:System.Data.Odbc.OdbcDataAdapter>不会自动生成所需进行对帐对所做更改的 SQL 语句<xref:System.Data.DataSet>与数据源关联。</span><span class="sxs-lookup"><span data-stu-id="2321c-103">The <xref:System.Data.Odbc.OdbcDataAdapter> does not automatically generate the SQL statements required to reconcile changes made to a <xref:System.Data.DataSet> associated with the data source.</span></span> <span data-ttu-id="2321c-104">但是，你可以创建<xref:System.Data.Odbc.OdbcCommandBuilder>对象，它通过设置生成 SQL 语句的单表更新<xref:System.Data.Odbc.OdbcDataAdapter.SelectCommand%2A>属性<xref:System.Data.Odbc.OdbcDataAdapter>。</span><span class="sxs-lookup"><span data-stu-id="2321c-104">However, you can create an <xref:System.Data.Odbc.OdbcCommandBuilder> object that generates SQL statements for single-table updates by setting the <xref:System.Data.Odbc.OdbcDataAdapter.SelectCommand%2A> property of the <xref:System.Data.Odbc.OdbcDataAdapter>.</span></span> <span data-ttu-id="2321c-105"><xref:System.Data.Odbc.OdbcCommandBuilder>然后生成未设置任何其他 SQL 语句。</span><span class="sxs-lookup"><span data-stu-id="2321c-105">The <xref:System.Data.Odbc.OdbcCommandBuilder> then generates any additional SQL statements that you do not set.</span></span>  
+  
+ <span data-ttu-id="2321c-106">之间的关系<xref:System.Data.Odbc.OdbcDataAdapter>和其对应<xref:System.Data.Odbc.OdbcCommandBuilder>始终是一对一。</span><span class="sxs-lookup"><span data-stu-id="2321c-106">The relationship between an <xref:System.Data.Odbc.OdbcDataAdapter> and its corresponding <xref:System.Data.Odbc.OdbcCommandBuilder> is always one-to-one.</span></span> <span data-ttu-id="2321c-107">若要创建这种对应关系，你可以设置<xref:System.Data.Odbc.OdbcDataAdapter>属性<xref:System.Data.Odbc.OdbcCommandBuilder>对象。</span><span class="sxs-lookup"><span data-stu-id="2321c-107">To create this correspondence, you set the <xref:System.Data.Odbc.OdbcDataAdapter> property of the <xref:System.Data.Odbc.OdbcCommandBuilder> object.</span></span> <span data-ttu-id="2321c-108">这将导致<xref:System.Data.Odbc.OdbcCommandBuilder>将自身注册为侦听器，它将生成的输出<xref:System.Data.Odbc.OdbcDataAdapter.RowUpdating>影响事件<xref:System.Data.DataSet>。</span><span class="sxs-lookup"><span data-stu-id="2321c-108">This causes the <xref:System.Data.Odbc.OdbcCommandBuilder> to register itself as a listener, which produces the output of <xref:System.Data.Odbc.OdbcDataAdapter.RowUpdating> events that affect the <xref:System.Data.DataSet>.</span></span>  
+  
+ <span data-ttu-id="2321c-109">若要生成 INSERT、 UPDATE 或 DELETE 语句，<xref:System.Data.Odbc.OdbcCommandBuilder>使用<xref:System.Data.Odbc.OdbcDataAdapter.SelectCommand%2A>属性，以检索所需的元数据集。</span><span class="sxs-lookup"><span data-stu-id="2321c-109">To generate INSERT, UPDATE, or DELETE statements, the <xref:System.Data.Odbc.OdbcCommandBuilder> uses the <xref:System.Data.Odbc.OdbcDataAdapter.SelectCommand%2A> property to retrieve a required set of metadata.</span></span> <span data-ttu-id="2321c-110">如果你更改的值<xref:System.Data.Odbc.OdbcDataAdapter.SelectCommand%2A>元数据进行检索，如第一次更新，然后，你应调用后<xref:System.Data.Common.DbCommandBuilder.RefreshSchema%2A>方法来更新元数据。</span><span class="sxs-lookup"><span data-stu-id="2321c-110">If you change the value of <xref:System.Data.Odbc.OdbcDataAdapter.SelectCommand%2A> after the metadata has been retrieved, such as after the first update, you should then call the <xref:System.Data.Common.DbCommandBuilder.RefreshSchema%2A> method to update the metadata.</span></span>  
+  
+> [!NOTE]
+>  <span data-ttu-id="2321c-111">如果 SELECT 语句分配给<xref:System.Data.Odbc.OdbcDataAdapter.SelectCommand%2A>属性使用别名列名称，生成的 INSERT、 UPDATE 和 DELETE 语句可能不准确或失败。</span><span class="sxs-lookup"><span data-stu-id="2321c-111">If the SELECT statement assigned to the <xref:System.Data.Odbc.OdbcDataAdapter.SelectCommand%2A> property uses aliased column names, the resulting INSERT, UPDATE, and DELETE statements may be inaccurate or fail.</span></span> <span data-ttu-id="2321c-112">如果基础的 ODBC 驱动程序无法提供别名列名称的相应的基列名称 (使用 SQL_DESC_BASE_COLUMN_NAME 值`SQLColAttribute`)，无法生成 INSERT、 UPDATE 和 DELETE 语句中使用的别名。</span><span class="sxs-lookup"><span data-stu-id="2321c-112">If the underlying ODBC driver cannot provide the appropriate base column name for the alias column name (using the SQL_DESC_BASE_COLUMN_NAME value of `SQLColAttribute`), the alias name could be used in the generated INSERT, UPDATE, and DELETE statements.</span></span> <span data-ttu-id="2321c-113">例如，Microsoft ODBC Driver for Oracle 返回的别名名称作为基列名称。</span><span class="sxs-lookup"><span data-stu-id="2321c-113">For example, the Microsoft ODBC Driver for Oracle returns the alias name as the base column name.</span></span> <span data-ttu-id="2321c-114">因此，生成的 INSERT、 UPDATE 和 DELETE 语句可能会导致错误。</span><span class="sxs-lookup"><span data-stu-id="2321c-114">Therefore, the generated INSERT, UPDATE, and DELETE statements would cause errors.</span></span>  
+  
+ <span data-ttu-id="2321c-115"><xref:System.Data.Odbc.OdbcCommandBuilder>还使用<xref:System.Data.Odbc.OdbcCommand.Connection%2A>， <xref:System.Data.Odbc.OdbcCommand.CommandTimeout%2A>，和<xref:System.Data.Odbc.OdbcCommand.Transaction%2A>属性引用的<xref:System.Data.Odbc.OdbcDataAdapter.SelectCommand%2A>。</span><span class="sxs-lookup"><span data-stu-id="2321c-115">The <xref:System.Data.Odbc.OdbcCommandBuilder> also uses the <xref:System.Data.Odbc.OdbcCommand.Connection%2A>, <xref:System.Data.Odbc.OdbcCommand.CommandTimeout%2A>, and <xref:System.Data.Odbc.OdbcCommand.Transaction%2A> properties referenced by the <xref:System.Data.Odbc.OdbcDataAdapter.SelectCommand%2A>.</span></span> <span data-ttu-id="2321c-116">用户应调用<xref:System.Data.Common.DbCommandBuilder.RefreshSchema%2A>如果修改一个或多个这些属性，或如果的值<xref:System.Data.Odbc.OdbcDataAdapter.SelectCommand%2A>更改属性本身。</span><span class="sxs-lookup"><span data-stu-id="2321c-116">The user should call <xref:System.Data.Common.DbCommandBuilder.RefreshSchema%2A> if one or more of these properties are modified, or if the value of the <xref:System.Data.Odbc.OdbcDataAdapter.SelectCommand%2A> property itself is changed.</span></span> <span data-ttu-id="2321c-117">否则为<xref:System.Data.Odbc.OdbcDataAdapter.InsertCommand%2A>， <xref:System.Data.Odbc.OdbcDataAdapter.UpdateCommand%2A>，和<xref:System.Data.Odbc.OdbcDataAdapter.DeleteCommand%2A>属性保留其以前的值。</span><span class="sxs-lookup"><span data-stu-id="2321c-117">Otherwise the <xref:System.Data.Odbc.OdbcDataAdapter.InsertCommand%2A>, <xref:System.Data.Odbc.OdbcDataAdapter.UpdateCommand%2A>, and <xref:System.Data.Odbc.OdbcDataAdapter.DeleteCommand%2A> properties retain their previous values.</span></span>  
+  
+ <span data-ttu-id="2321c-118">如果调用<xref:System.ComponentModel.Component.Dispose%2A>、<xref:System.Data.Odbc.OdbcCommandBuilder>与解除关联<xref:System.Data.Odbc.OdbcDataAdapter>，并且不再使用所生成的命令。</span><span class="sxs-lookup"><span data-stu-id="2321c-118">If you call <xref:System.ComponentModel.Component.Dispose%2A>, the <xref:System.Data.Odbc.OdbcCommandBuilder> is disassociated from the <xref:System.Data.Odbc.OdbcDataAdapter>, and the generated commands are no longer used.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="2321c-119">下面的示例使用<xref:System.Data.Odbc.OdbcCommand>以及<xref:System.Data.Odbc.OdbcDataAdapter>和<xref:System.Data.Odbc.OdbcConnection>，来从数据源选择的行。</span><span class="sxs-lookup"><span data-stu-id="2321c-119">The following example uses <xref:System.Data.Odbc.OdbcCommand>, together with <xref:System.Data.Odbc.OdbcDataAdapter> and <xref:System.Data.Odbc.OdbcConnection>, to select rows from a data source.</span></span> <span data-ttu-id="2321c-120">该示例传递一个已初始化<xref:System.Data.DataSet>，连接字符串、 是一个 SQL SELECT 语句，查询字符串和是数据源表的名称的字符串。</span><span class="sxs-lookup"><span data-stu-id="2321c-120">The example is passed an initialized <xref:System.Data.DataSet>, a connection string, a query string that is an SQL SELECT statement, and a string that is the name of the data source table.</span></span> <span data-ttu-id="2321c-121">然后，示例创建<xref:System.Data.Odbc.OdbcCommandBuilder>。</span><span class="sxs-lookup"><span data-stu-id="2321c-121">The example then creates an <xref:System.Data.Odbc.OdbcCommandBuilder>.</span></span>  
+  
+ [!code-csharp[Classic WebData OdbcCommandBuilder#1](~/samples/snippets/csharp/VS_Snippets_ADO.NET/Classic WebData OdbcCommandBuilder/CS/mysample.cs#1)]
+ [!code-vb[Classic WebData OdbcCommandBuilder#1](~/samples/snippets/visualbasic/VS_Snippets_ADO.NET/Classic WebData OdbcCommandBuilder/VB/mysample.vb#1)]  
+  
+ ]]></format>
+    </remarks>
+  </Docs>
+  <Members>
+    <MemberGroup MemberName=".ctor">
+      <AssemblyInfo>
+        <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Docs>
+        <summary>
+          <span data-ttu-id="2321c-122">初始化 <see cref="T:System.Data.Odbc.OdbcCommandBuilder" /> 类的新实例。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="2321c-122">Initializes a new instance of the <see cref="T:System.Data.Odbc.OdbcCommandBuilder" /> class.</span>
+          </span>
+        </summary>
+      </Docs>
+    </MemberGroup>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public OdbcCommandBuilder ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.Odbc.OdbcCommandBuilder.#ctor" />
+      <MemberSignature Language="VB.NET" Value="Public Sub New ()" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; OdbcCommandBuilder();" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.Odbc</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="2321c-123">初始化 <see cref="T:System.Data.Odbc.OdbcCommandBuilder" /> 类的新实例。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="2321c-123">Initializes a new instance of the <see cref="T:System.Data.Odbc.OdbcCommandBuilder" /> class.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="2321c-124">基构造函数初始化为其默认值的所有字段。</span><span class="sxs-lookup"><span data-stu-id="2321c-124">The base constructor initializes all fields to their default values.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public OdbcCommandBuilder (System.Data.Odbc.OdbcDataAdapter adapter);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(class System.Data.Odbc.OdbcDataAdapter adapter) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.Odbc.OdbcCommandBuilder.#ctor(System.Data.Odbc.OdbcDataAdapter)" />
+      <MemberSignature Language="VB.NET" Value="Public Sub New (adapter As OdbcDataAdapter)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; OdbcCommandBuilder(System::Data::Odbc::OdbcDataAdapter ^ adapter);" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.Odbc</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="adapter" Type="System.Data.Odbc.OdbcDataAdapter" />
+      </Parameters>
+      <Docs>
+        <param name="adapter">
+          <span data-ttu-id="2321c-125">与此 <see cref="T:System.Data.Odbc.OdbcDataAdapter" /> 关联的 <see cref="T:System.Data.Odbc.OdbcCommandBuilder" /> 对象。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="2321c-125">An <see cref="T:System.Data.Odbc.OdbcDataAdapter" /> object to associate with this <see cref="T:System.Data.Odbc.OdbcCommandBuilder" />.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="2321c-126">使用关联的 <see cref="T:System.Data.Odbc.OdbcCommandBuilder" /> 对象初始化 <see cref="T:System.Data.Odbc.OdbcDataAdapter" /> 类的新实例。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="2321c-126">Initializes a new instance of the <see cref="T:System.Data.Odbc.OdbcCommandBuilder" /> class with the associated <see cref="T:System.Data.Odbc.OdbcDataAdapter" /> object.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="2321c-127"><xref:System.Data.Odbc.OdbcCommandBuilder>将自己注册为侦听器<xref:System.Data.Odbc.OdbcDataAdapter.RowUpdating>由生成的事件<xref:System.Data.Odbc.OdbcDataAdapter>此属性中指定。</span><span class="sxs-lookup"><span data-stu-id="2321c-127">The <xref:System.Data.Odbc.OdbcCommandBuilder> registers itself as a listener for <xref:System.Data.Odbc.OdbcDataAdapter.RowUpdating> events that are generated by the <xref:System.Data.Odbc.OdbcDataAdapter> specified in this property.</span></span>  
+  
+ <span data-ttu-id="2321c-128">当你创建的新实例<xref:System.Data.Odbc.OdbcCommandBuilder>，任何现有<xref:System.Data.Odbc.OdbcCommandBuilder>与此关联<xref:System.Data.Odbc.OdbcDataAdapter>释放。</span><span class="sxs-lookup"><span data-stu-id="2321c-128">When you create a new instance of <xref:System.Data.Odbc.OdbcCommandBuilder>, any existing <xref:System.Data.Odbc.OdbcCommandBuilder> associated with this <xref:System.Data.Odbc.OdbcDataAdapter> is released.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ApplyParameterInfo">
+      <MemberSignature Language="C#" Value="protected override void ApplyParameterInfo (System.Data.Common.DbParameter parameter, System.Data.DataRow datarow, System.Data.StatementType statementType, bool whereClause);" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig virtual instance void ApplyParameterInfo(class System.Data.Common.DbParameter parameter, class System.Data.DataRow datarow, valuetype System.Data.StatementType statementType, bool whereClause) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.Odbc.OdbcCommandBuilder.ApplyParameterInfo(System.Data.Common.DbParameter,System.Data.DataRow,System.Data.StatementType,System.Boolean)" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; override void ApplyParameterInfo(System::Data::Common::DbParameter ^ parameter, System::Data::DataRow ^ datarow, System::Data::StatementType statementType, bool whereClause);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.Odbc</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="parameter" Type="System.Data.Common.DbParameter" />
+        <Parameter Name="datarow" Type="System.Data.DataRow" />
+        <Parameter Name="statementType" Type="System.Data.StatementType" />
+        <Parameter Name="whereClause" Type="System.Boolean" />
+      </Parameters>
+      <Docs>
+        <param name="parameter">To be added.</param>
+        <param name="datarow">To be added.</param>
+        <param name="statementType">To be added.</param>
+        <param name="whereClause">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="DataAdapter">
+      <MemberSignature Language="C#" Value="public System.Data.Odbc.OdbcDataAdapter DataAdapter { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class System.Data.Odbc.OdbcDataAdapter DataAdapter" />
+      <MemberSignature Language="DocId" Value="P:System.Data.Odbc.OdbcCommandBuilder.DataAdapter" />
+      <MemberSignature Language="VB.NET" Value="Public Property DataAdapter As OdbcDataAdapter" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::Data::Odbc::OdbcDataAdapter ^ DataAdapter { System::Data::Odbc::OdbcDataAdapter ^ get(); void set(System::Data::Odbc::OdbcDataAdapter ^ value); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.Odbc</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.ComponentModel.DefaultValue(null)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Data.Odbc.OdbcDataAdapter</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="2321c-129">获取或设置此 <see cref="T:System.Data.Odbc.OdbcDataAdapter" /> 对象将为其生成 SQL 语句的 <see cref="T:System.Data.Odbc.OdbcCommandBuilder" /> 对象。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="2321c-129">Gets or sets an <see cref="T:System.Data.Odbc.OdbcDataAdapter" /> object for which this <see cref="T:System.Data.Odbc.OdbcCommandBuilder" /> object will generate SQL statements.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="2321c-130">与此 <see cref="T:System.Data.Odbc.OdbcDataAdapter" /> 关联的 <see cref="T:System.Data.Odbc.OdbcCommandBuilder" /> 对象。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="2321c-130">An <see cref="T:System.Data.Odbc.OdbcDataAdapter" /> object that is associated with this <see cref="T:System.Data.Odbc.OdbcCommandBuilder" />.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="2321c-131"><xref:System.Data.Odbc.OdbcCommandBuilder>将自己注册为侦听器<xref:System.Data.Odbc.OdbcDataAdapter.RowUpdating>由生成的事件<xref:System.Data.Odbc.OdbcDataAdapter>此属性中指定。</span><span class="sxs-lookup"><span data-stu-id="2321c-131">The <xref:System.Data.Odbc.OdbcCommandBuilder> registers itself as a listener for <xref:System.Data.Odbc.OdbcDataAdapter.RowUpdating> events that are generated by the <xref:System.Data.Odbc.OdbcDataAdapter> specified in this property.</span></span>  
+  
+ <span data-ttu-id="2321c-132">当你创建的新实例<xref:System.Data.Odbc.OdbcCommandBuilder>，任何现有<xref:System.Data.Odbc.OdbcCommandBuilder>与此关联<xref:System.Data.Odbc.OdbcDataAdapter>释放。</span><span class="sxs-lookup"><span data-stu-id="2321c-132">When you create a new instance of <xref:System.Data.Odbc.OdbcCommandBuilder>, any existing <xref:System.Data.Odbc.OdbcCommandBuilder> associated with this <xref:System.Data.Odbc.OdbcDataAdapter> is released.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="DeriveParameters">
+      <MemberSignature Language="C#" Value="public static void DeriveParameters (System.Data.Odbc.OdbcCommand command);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig void DeriveParameters(class System.Data.Odbc.OdbcCommand command) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.Odbc.OdbcCommandBuilder.DeriveParameters(System.Data.Odbc.OdbcCommand)" />
+      <MemberSignature Language="VB.NET" Value="Public Shared Sub DeriveParameters (command As OdbcCommand)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static void DeriveParameters(System::Data::Odbc::OdbcCommand ^ command);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.Odbc</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="command" Type="System.Data.Odbc.OdbcCommand" />
+      </Parameters>
+      <Docs>
+        <param name="command">
+          <span data-ttu-id="2321c-133">引用将从其中导出参数信息的存储过程的 <see cref="T:System.Data.Odbc.OdbcCommand" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="2321c-133">The <see cref="T:System.Data.Odbc.OdbcCommand" /> referencing the stored procedure from which the parameter information is to be derived.</span>
+          </span>
+          <span data-ttu-id="2321c-134">将派生参数添加到 <see cref="P:System.Data.Odbc.OdbcCommand.Parameters" /> 的 <see cref="T:System.Data.Odbc.OdbcCommand" /> 集合中。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="2321c-134">The derived parameters are added to the <see cref="P:System.Data.Odbc.OdbcCommand.Parameters" /> collection of the <see cref="T:System.Data.Odbc.OdbcCommand" />.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="2321c-135">从在 <see cref="T:System.Data.Odbc.OdbcCommand" /> 中指定的存储过程中检索参数信息并填充指定的 <see cref="P:System.Data.Odbc.OdbcCommand.Parameters" /> 对象的 <see cref="T:System.Data.Odbc.OdbcCommand" /> 集合。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="2321c-135">Retrieves parameter information from the stored procedure specified in the <see cref="T:System.Data.Odbc.OdbcCommand" /> and populates the <see cref="P:System.Data.Odbc.OdbcCommand.Parameters" /> collection of the specified <see cref="T:System.Data.Odbc.OdbcCommand" /> object.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="2321c-136"><xref:System.Data.Odbc.OdbcCommandBuilder.DeriveParameters%2A> 将覆盖任何现有参数信息<xref:System.Data.Odbc.OdbcCommand>。</span><span class="sxs-lookup"><span data-stu-id="2321c-136"><xref:System.Data.Odbc.OdbcCommandBuilder.DeriveParameters%2A> overwrites any existing parameter information for the <xref:System.Data.Odbc.OdbcCommand>.</span></span>  
+  
+ <span data-ttu-id="2321c-137"><xref:System.Data.Odbc.OdbcCommandBuilder.DeriveParameters%2A> 需要更多调用数据源以获取信息。</span><span class="sxs-lookup"><span data-stu-id="2321c-137"><xref:System.Data.Odbc.OdbcCommandBuilder.DeriveParameters%2A> requires an additional call to the data source to obtain the information.</span></span> <span data-ttu-id="2321c-138">如果在提前知道参数信息，则更有效地通过显式设置的信息填充的参数集合。</span><span class="sxs-lookup"><span data-stu-id="2321c-138">If the parameter information is known in advance, it is more efficient to populate the parameters collection by setting the information explicitly.</span></span>  
+  
+ <span data-ttu-id="2321c-139">你只能使用<xref:System.Data.Odbc.OdbcCommandBuilder.DeriveParameters%2A>的存储过程。</span><span class="sxs-lookup"><span data-stu-id="2321c-139">You can only use <xref:System.Data.Odbc.OdbcCommandBuilder.DeriveParameters%2A> with stored procedures.</span></span> <span data-ttu-id="2321c-140">不能使用<xref:System.Data.Odbc.OdbcCommandBuilder.DeriveParameters%2A>来填充<xref:System.Data.Odbc.OdbcParameterCollection>使用任意 Transact SQL 语句，例如参数化的 SELECT 语句。</span><span class="sxs-lookup"><span data-stu-id="2321c-140">You cannot use <xref:System.Data.Odbc.OdbcCommandBuilder.DeriveParameters%2A> to populate the <xref:System.Data.Odbc.OdbcParameterCollection> with arbitrary Transact-SQL statements, such as a parameterized SELECT statement.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.InvalidOperationException">
+          <span data-ttu-id="2321c-141">基础 ODBC 驱动程序不支持返回存储过程参数信息，或者命令文本不是有效的存储过程名称，或者指定的 <see cref="T:System.Data.CommandType" /> 不是 <see langword="CommandType.StoredProcedure" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="2321c-141">The underlying ODBC driver does not support returning stored procedure parameter information, or the command text is not a valid stored procedure name, or the <see cref="T:System.Data.CommandType" /> specified was not <see langword="CommandType.StoredProcedure" />.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <MemberGroup MemberName="GetDeleteCommand">
+      <AssemblyInfo>
+        <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Docs>
+        <summary>
+          <span data-ttu-id="2321c-142">获取在数据源中执行删除操作所需的自动生成的 <see cref="T:System.Data.Odbc.OdbcCommand" /> 对象。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="2321c-142">Gets the automatically generated <see cref="T:System.Data.Odbc.OdbcCommand" /> object required to perform deletions at the data source.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="2321c-143">你可以使用<xref:System.Data.Odbc.OdbcCommandBuilder.GetDeleteCommand%2A>方法为信息性或故障排除目的，因为它返回<xref:System.Data.Odbc.OdbcCommand>要执行对象。</span><span class="sxs-lookup"><span data-stu-id="2321c-143">You can use the <xref:System.Data.Odbc.OdbcCommandBuilder.GetDeleteCommand%2A> method for informational or troubleshooting purposes because it returns the <xref:System.Data.Odbc.OdbcCommand> object to be executed.</span></span>  
+  
+ <span data-ttu-id="2321c-144">你还可以使用<xref:System.Data.Odbc.OdbcCommandBuilder.GetDeleteCommand%2A>作为修改命令的基础。</span><span class="sxs-lookup"><span data-stu-id="2321c-144">You can also use <xref:System.Data.Odbc.OdbcCommandBuilder.GetDeleteCommand%2A> as the basis of a modified command.</span></span> <span data-ttu-id="2321c-145">例如，你可能会调用<xref:System.Data.Odbc.OdbcCommandBuilder.GetDeleteCommand%2A>和修改<xref:System.Data.Odbc.OdbcCommand.CommandTimeout%2A>值，然后上显式设置<xref:System.Data.Odbc.OdbcDataAdapter>。</span><span class="sxs-lookup"><span data-stu-id="2321c-145">For example, you might call <xref:System.Data.Odbc.OdbcCommandBuilder.GetDeleteCommand%2A> and modify the <xref:System.Data.Odbc.OdbcCommand.CommandTimeout%2A> value, and then explicitly set that on the <xref:System.Data.Odbc.OdbcDataAdapter>.</span></span>  
+  
+ <span data-ttu-id="2321c-146">当首次生成 SQL 语句后，你必须明确地调用<xref:System.Data.Common.DbCommandBuilder.RefreshSchema%2A>如果更改该语句以任何方式。</span><span class="sxs-lookup"><span data-stu-id="2321c-146">After the SQL statement is first generated, you must explicitly call <xref:System.Data.Common.DbCommandBuilder.RefreshSchema%2A> if it changes the statement in any way.</span></span> <span data-ttu-id="2321c-147">否则为<xref:System.Data.Odbc.OdbcCommandBuilder.GetDeleteCommand%2A>仍将使用从上一条语句，这可能不是正确的信息。</span><span class="sxs-lookup"><span data-stu-id="2321c-147">Otherwise, the <xref:System.Data.Odbc.OdbcCommandBuilder.GetDeleteCommand%2A> still will be using information from the previous statement, which might not be correct.</span></span> <span data-ttu-id="2321c-148">应用程序调用时，将首先生成 SQL 语句<xref:System.Data.Common.DbDataAdapter.Update%2A>或<xref:System.Data.Odbc.OdbcCommandBuilder.GetDeleteCommand%2A>。</span><span class="sxs-lookup"><span data-stu-id="2321c-148">The SQL statements are first generated when the application calls either <xref:System.Data.Common.DbDataAdapter.Update%2A> or <xref:System.Data.Odbc.OdbcCommandBuilder.GetDeleteCommand%2A>.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </MemberGroup>
+    <Member MemberName="GetDeleteCommand">
+      <MemberSignature Language="C#" Value="public System.Data.Odbc.OdbcCommand GetDeleteCommand ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class System.Data.Odbc.OdbcCommand GetDeleteCommand() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.Odbc.OdbcCommandBuilder.GetDeleteCommand" />
+      <MemberSignature Language="VB.NET" Value="Public Function GetDeleteCommand () As OdbcCommand" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; System::Data::Odbc::OdbcCommand ^ GetDeleteCommand();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.Odbc</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Data.Odbc.OdbcCommand</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="2321c-149">获取在数据源中执行删除操作所需的自动生成的 <see cref="T:System.Data.Odbc.OdbcCommand" /> 对象。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="2321c-149">Gets the automatically generated <see cref="T:System.Data.Odbc.OdbcCommand" /> object required to perform deletions at the data source.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="2321c-150">自动生成的、执行删除操作所需的 <see cref="T:System.Data.Odbc.OdbcCommand" /> 对象。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="2321c-150">The automatically generated <see cref="T:System.Data.Odbc.OdbcCommand" /> object required to perform deletions.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="2321c-151">你可以使用<xref:System.Data.Odbc.OdbcCommandBuilder.GetDeleteCommand%2A>方法为信息性或故障排除目的，因为它返回<xref:System.Data.Odbc.OdbcCommand>要执行对象。</span><span class="sxs-lookup"><span data-stu-id="2321c-151">You can use the <xref:System.Data.Odbc.OdbcCommandBuilder.GetDeleteCommand%2A> method for informational or troubleshooting purposes because it returns the <xref:System.Data.Odbc.OdbcCommand> object to be executed.</span></span>  
+  
+ <span data-ttu-id="2321c-152">你还可以使用<xref:System.Data.Odbc.OdbcCommandBuilder.GetDeleteCommand%2A>作为修改命令的基础。</span><span class="sxs-lookup"><span data-stu-id="2321c-152">You can also use <xref:System.Data.Odbc.OdbcCommandBuilder.GetDeleteCommand%2A> as the basis of a modified command.</span></span> <span data-ttu-id="2321c-153">例如，你可能会调用<xref:System.Data.Odbc.OdbcCommandBuilder.GetDeleteCommand%2A>和修改<xref:System.Data.Odbc.OdbcCommand.CommandTimeout%2A>值，然后上显式设置<xref:System.Data.Odbc.OdbcDataAdapter>。</span><span class="sxs-lookup"><span data-stu-id="2321c-153">For example, you might call <xref:System.Data.Odbc.OdbcCommandBuilder.GetDeleteCommand%2A> and modify the <xref:System.Data.Odbc.OdbcCommand.CommandTimeout%2A> value, and then explicitly set that on the <xref:System.Data.Odbc.OdbcDataAdapter>.</span></span>  
+  
+ <span data-ttu-id="2321c-154">当首次生成 SQL 语句后，你必须明确地调用<xref:System.Data.Common.DbCommandBuilder.RefreshSchema%2A>如果更改该语句以任何方式。</span><span class="sxs-lookup"><span data-stu-id="2321c-154">After the SQL statement is first generated, you must explicitly call <xref:System.Data.Common.DbCommandBuilder.RefreshSchema%2A> if it changes the statement in any way.</span></span> <span data-ttu-id="2321c-155">否则为<xref:System.Data.Odbc.OdbcCommandBuilder.GetDeleteCommand%2A>将使用从上一条语句，这可能不是正确的信息。</span><span class="sxs-lookup"><span data-stu-id="2321c-155">Otherwise, the <xref:System.Data.Odbc.OdbcCommandBuilder.GetDeleteCommand%2A> will be using information from the previous statement, which might not be correct.</span></span> <span data-ttu-id="2321c-156">应用程序调用时，将首先生成 SQL 语句<xref:System.Data.Common.DbDataAdapter.Update%2A>或<xref:System.Data.Odbc.OdbcCommandBuilder.GetDeleteCommand%2A>。</span><span class="sxs-lookup"><span data-stu-id="2321c-156">The SQL statements are first generated when the application calls either <xref:System.Data.Common.DbDataAdapter.Update%2A> or <xref:System.Data.Odbc.OdbcCommandBuilder.GetDeleteCommand%2A>.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetDeleteCommand">
+      <MemberSignature Language="C#" Value="public System.Data.Odbc.OdbcCommand GetDeleteCommand (bool useColumnsForParameterNames);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class System.Data.Odbc.OdbcCommand GetDeleteCommand(bool useColumnsForParameterNames) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.Odbc.OdbcCommandBuilder.GetDeleteCommand(System.Boolean)" />
+      <MemberSignature Language="VB.NET" Value="Public Function GetDeleteCommand (useColumnsForParameterNames As Boolean) As OdbcCommand" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; System::Data::Odbc::OdbcCommand ^ GetDeleteCommand(bool useColumnsForParameterNames);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.Odbc</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Data.Odbc.OdbcCommand</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="useColumnsForParameterNames" Type="System.Boolean" />
+      </Parameters>
+      <Docs>
+        <param name="useColumnsForParameterNames">
+          <span data-ttu-id="2321c-157">如果为 <see langword="true" />，则如有可能，将生成与列名相匹配的参数名称。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="2321c-157">If <see langword="true" />, generate parameter names matching column names, if it is possible.</span>
+          </span>
+          <span data-ttu-id="2321c-158">如果为 <see langword="false" />，则生成 @p1、@p2，以此类推。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="2321c-158">If <see langword="false" />, generate @p1, @p2, and so on.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="2321c-159">获取在数据源中执行删除操作所需的自动生成的 <see cref="T:System.Data.Odbc.OdbcCommand" /> 对象。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="2321c-159">Gets the automatically generated <see cref="T:System.Data.Odbc.OdbcCommand" /> object required to perform deletions at the data source.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="2321c-160">自动生成的、执行删除操作所需的 <see cref="T:System.Data.Odbc.OdbcCommand" /> 对象。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="2321c-160">The automatically generated <see cref="T:System.Data.Odbc.OdbcCommand" /> object required to perform deletions.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="2321c-161">你可以使用<xref:System.Data.Odbc.OdbcCommandBuilder.GetDeleteCommand%2A>方法为信息性或故障排除目的，因为它返回<xref:System.Data.Odbc.OdbcCommand>要执行对象。</span><span class="sxs-lookup"><span data-stu-id="2321c-161">You can use the <xref:System.Data.Odbc.OdbcCommandBuilder.GetDeleteCommand%2A> method for informational or troubleshooting purposes because it returns the <xref:System.Data.Odbc.OdbcCommand> object to be executed.</span></span>  
+  
+ <span data-ttu-id="2321c-162">你还可以使用<xref:System.Data.Odbc.OdbcCommandBuilder.GetDeleteCommand%2A>作为修改命令的基础。</span><span class="sxs-lookup"><span data-stu-id="2321c-162">You can also use <xref:System.Data.Odbc.OdbcCommandBuilder.GetDeleteCommand%2A> as the basis of a modified command.</span></span> <span data-ttu-id="2321c-163">例如，你可能会调用<xref:System.Data.Odbc.OdbcCommandBuilder.GetDeleteCommand%2A>和修改<xref:System.Data.Odbc.OdbcCommand.CommandTimeout%2A>值，然后上显式设置<xref:System.Data.Odbc.OdbcDataAdapter>。</span><span class="sxs-lookup"><span data-stu-id="2321c-163">For example, you might call <xref:System.Data.Odbc.OdbcCommandBuilder.GetDeleteCommand%2A> and modify the <xref:System.Data.Odbc.OdbcCommand.CommandTimeout%2A> value, and then explicitly set that on the <xref:System.Data.Odbc.OdbcDataAdapter>.</span></span>  
+  
+ <span data-ttu-id="2321c-164">当首次生成 SQL 语句后，你必须明确地调用<xref:System.Data.Common.DbCommandBuilder.RefreshSchema%2A>如果更改该语句以任何方式。</span><span class="sxs-lookup"><span data-stu-id="2321c-164">After the SQL statement is first generated, you must explicitly call <xref:System.Data.Common.DbCommandBuilder.RefreshSchema%2A> if it changes the statement in any way.</span></span> <span data-ttu-id="2321c-165">否则为<xref:System.Data.Odbc.OdbcCommandBuilder.GetDeleteCommand%2A>将使用从上一条语句，这可能不是正确的信息。</span><span class="sxs-lookup"><span data-stu-id="2321c-165">Otherwise, the <xref:System.Data.Odbc.OdbcCommandBuilder.GetDeleteCommand%2A> will be using information from the previous statement, which might not be correct.</span></span> <span data-ttu-id="2321c-166">应用程序调用时，将首先生成 SQL 语句<xref:System.Data.Common.DbDataAdapter.Update%2A>或<xref:System.Data.Odbc.OdbcCommandBuilder.GetDeleteCommand%2A>。</span><span class="sxs-lookup"><span data-stu-id="2321c-166">The SQL statements are first generated when the application calls either <xref:System.Data.Common.DbDataAdapter.Update%2A> or <xref:System.Data.Odbc.OdbcCommandBuilder.GetDeleteCommand%2A>.</span></span>  
+  
+ <span data-ttu-id="2321c-167">生成参数名称时的默认行为是使用@p1， @p2，有关的各种参数，依此类推。</span><span class="sxs-lookup"><span data-stu-id="2321c-167">The default behavior, when generating parameter names, is to use @p1, @p2, and so on for the various parameters.</span></span> <span data-ttu-id="2321c-168">传递`true`为`useColumnsForParameterNames`参数允许你强制<xref:System.Data.Odbc.OdbcCommandBuilder>生成改为根据列名称的参数。</span><span class="sxs-lookup"><span data-stu-id="2321c-168">Passing `true` for the `useColumnsForParameterNames` parameter lets you force the <xref:System.Data.Odbc.OdbcCommandBuilder> to generate parameters based on the column names instead.</span></span> <span data-ttu-id="2321c-169">仅当满足以下条件，此操作将成功。</span><span class="sxs-lookup"><span data-stu-id="2321c-169">This succeeds only if the following conditions are met:</span></span>  
+  
+-   <span data-ttu-id="2321c-170"><xref:System.Data.Common.DbMetaDataColumnNames.ParameterNameMaxLength>已指定，并且其长度等于或大于生成的参数名。</span><span class="sxs-lookup"><span data-stu-id="2321c-170">The <xref:System.Data.Common.DbMetaDataColumnNames.ParameterNameMaxLength> has been specified, and its length is equal to or greater than the generated parameter name.</span></span>  
+  
+-   <span data-ttu-id="2321c-171">生成的参数名满足中指定的条件<xref:System.Data.Common.DbMetaDataColumnNames.ParameterNamePattern>正则表达式。</span><span class="sxs-lookup"><span data-stu-id="2321c-171">The generated parameter name meets the criteria specified in the <xref:System.Data.Common.DbMetaDataColumnNames.ParameterNamePattern> regular expression.</span></span>  
+  
+-   <span data-ttu-id="2321c-172">A<xref:System.Data.Common.DbMetaDataColumnNames.ParameterMarkerFormat>指定。</span><span class="sxs-lookup"><span data-stu-id="2321c-172">A <xref:System.Data.Common.DbMetaDataColumnNames.ParameterMarkerFormat> is specified.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <MemberGroup MemberName="GetInsertCommand">
+      <AssemblyInfo>
+        <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Docs>
+        <summary>
+          <span data-ttu-id="2321c-173">获取在数据源中执行插入操作所需的自动生成的 <see cref="T:System.Data.Odbc.OdbcCommand" /> 对象。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="2321c-173">Gets the automatically generated <see cref="T:System.Data.Odbc.OdbcCommand" /> object required to perform insertions at the data source.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="2321c-174">你可以使用<xref:System.Data.Odbc.OdbcCommandBuilder.GetInsertCommand%2A>方法为信息性或故障排除目的，因为它返回<xref:System.Data.Odbc.OdbcCommand>要执行对象。</span><span class="sxs-lookup"><span data-stu-id="2321c-174">You can use the <xref:System.Data.Odbc.OdbcCommandBuilder.GetInsertCommand%2A> method for informational or troubleshooting purposes because it returns the <xref:System.Data.Odbc.OdbcCommand> object to be executed.</span></span>  
+  
+ <span data-ttu-id="2321c-175">你还可以使用<xref:System.Data.Odbc.OdbcCommandBuilder.GetInsertCommand%2A>作为修改命令的基础。</span><span class="sxs-lookup"><span data-stu-id="2321c-175">You can also use <xref:System.Data.Odbc.OdbcCommandBuilder.GetInsertCommand%2A> as the basis of a modified command.</span></span> <span data-ttu-id="2321c-176">例如，你可能会调用<xref:System.Data.Odbc.OdbcCommandBuilder.GetInsertCommand%2A>和修改<xref:System.Data.Odbc.OdbcCommand.CommandTimeout%2A>值，然后上显式设置<xref:System.Data.Odbc.OdbcDataAdapter>。</span><span class="sxs-lookup"><span data-stu-id="2321c-176">For example, you might call <xref:System.Data.Odbc.OdbcCommandBuilder.GetInsertCommand%2A> and modify the <xref:System.Data.Odbc.OdbcCommand.CommandTimeout%2A> value, and then explicitly set that on the <xref:System.Data.Odbc.OdbcDataAdapter>.</span></span>  
+  
+ <span data-ttu-id="2321c-177">当首次生成 SQL 语句后，你必须明确地调用<xref:System.Data.Common.DbCommandBuilder.RefreshSchema%2A>如果更改该语句以任何方式。</span><span class="sxs-lookup"><span data-stu-id="2321c-177">After the SQL statement is first generated, you must explicitly call <xref:System.Data.Common.DbCommandBuilder.RefreshSchema%2A> if it changes the statement in any way.</span></span> <span data-ttu-id="2321c-178">否则为<xref:System.Data.Odbc.OdbcCommandBuilder.GetInsertCommand%2A>将使用从上一条语句，这可能不是正确的信息。</span><span class="sxs-lookup"><span data-stu-id="2321c-178">Otherwise, the <xref:System.Data.Odbc.OdbcCommandBuilder.GetInsertCommand%2A> will be using information from the previous statement, which might not be correct.</span></span> <span data-ttu-id="2321c-179">应用程序调用时，将首先生成 SQL 语句<xref:System.Data.Common.DbDataAdapter.Update%2A>或<xref:System.Data.Odbc.OdbcCommandBuilder.GetInsertCommand%2A>。</span><span class="sxs-lookup"><span data-stu-id="2321c-179">The SQL statements are first generated when the application calls either <xref:System.Data.Common.DbDataAdapter.Update%2A> or <xref:System.Data.Odbc.OdbcCommandBuilder.GetInsertCommand%2A>.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </MemberGroup>
+    <Member MemberName="GetInsertCommand">
+      <MemberSignature Language="C#" Value="public System.Data.Odbc.OdbcCommand GetInsertCommand ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class System.Data.Odbc.OdbcCommand GetInsertCommand() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.Odbc.OdbcCommandBuilder.GetInsertCommand" />
+      <MemberSignature Language="VB.NET" Value="Public Function GetInsertCommand () As OdbcCommand" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; System::Data::Odbc::OdbcCommand ^ GetInsertCommand();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.Odbc</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Data.Odbc.OdbcCommand</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="2321c-180">获取在数据源中执行插入操作所需的自动生成的 <see cref="T:System.Data.Odbc.OdbcCommand" /> 对象。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="2321c-180">Gets the automatically generated <see cref="T:System.Data.Odbc.OdbcCommand" /> object required to perform insertions at the data source.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="2321c-181">自动生成的、执行插入操作所需的 <see cref="T:System.Data.Odbc.OdbcCommand" /> 对象。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="2321c-181">The automatically generated <see cref="T:System.Data.Odbc.OdbcCommand" /> object required to perform insertions.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="2321c-182">你可以使用<xref:System.Data.Odbc.OdbcCommandBuilder.GetInsertCommand%2A>方法为信息性或故障排除目的，因为它返回<xref:System.Data.Odbc.OdbcCommand>要执行对象。</span><span class="sxs-lookup"><span data-stu-id="2321c-182">You can use the <xref:System.Data.Odbc.OdbcCommandBuilder.GetInsertCommand%2A> method for informational or troubleshooting purposes because it returns the <xref:System.Data.Odbc.OdbcCommand> object to be executed.</span></span>  
+  
+ <span data-ttu-id="2321c-183">你还可以使用<xref:System.Data.Odbc.OdbcCommandBuilder.GetInsertCommand%2A>作为修改命令的基础。</span><span class="sxs-lookup"><span data-stu-id="2321c-183">You can also use <xref:System.Data.Odbc.OdbcCommandBuilder.GetInsertCommand%2A> as the basis of a modified command.</span></span> <span data-ttu-id="2321c-184">例如，你可能会调用<xref:System.Data.Odbc.OdbcCommandBuilder.GetInsertCommand%2A>和修改<xref:System.Data.Odbc.OdbcCommand.CommandTimeout%2A>值，然后上显式设置<xref:System.Data.Odbc.OdbcDataAdapter>。</span><span class="sxs-lookup"><span data-stu-id="2321c-184">For example, you might call <xref:System.Data.Odbc.OdbcCommandBuilder.GetInsertCommand%2A> and modify the <xref:System.Data.Odbc.OdbcCommand.CommandTimeout%2A> value, and then explicitly set that on the <xref:System.Data.Odbc.OdbcDataAdapter>.</span></span>  
+  
+ <span data-ttu-id="2321c-185">当首次生成 SQL 语句后，你必须明确地调用<xref:System.Data.Common.DbCommandBuilder.RefreshSchema%2A>如果更改该语句以任何方式。</span><span class="sxs-lookup"><span data-stu-id="2321c-185">After the SQL statement is first generated, you must explicitly call <xref:System.Data.Common.DbCommandBuilder.RefreshSchema%2A> if it changes the statement in any way.</span></span> <span data-ttu-id="2321c-186">否则为<xref:System.Data.Odbc.OdbcCommandBuilder.GetInsertCommand%2A>仍将使用从上一条语句，这可能不是正确的信息。</span><span class="sxs-lookup"><span data-stu-id="2321c-186">Otherwise, the <xref:System.Data.Odbc.OdbcCommandBuilder.GetInsertCommand%2A> still will be using information from the previous statement, which might not be correct.</span></span> <span data-ttu-id="2321c-187">应用程序调用时，将首先生成 SQL 语句<xref:System.Data.Common.DbDataAdapter.Update%2A>或<xref:System.Data.Odbc.OdbcCommandBuilder.GetInsertCommand%2A>。</span><span class="sxs-lookup"><span data-stu-id="2321c-187">The SQL statements are first generated when the application calls either <xref:System.Data.Common.DbDataAdapter.Update%2A> or <xref:System.Data.Odbc.OdbcCommandBuilder.GetInsertCommand%2A>.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetInsertCommand">
+      <MemberSignature Language="C#" Value="public System.Data.Odbc.OdbcCommand GetInsertCommand (bool useColumnsForParameterNames);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class System.Data.Odbc.OdbcCommand GetInsertCommand(bool useColumnsForParameterNames) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.Odbc.OdbcCommandBuilder.GetInsertCommand(System.Boolean)" />
+      <MemberSignature Language="VB.NET" Value="Public Function GetInsertCommand (useColumnsForParameterNames As Boolean) As OdbcCommand" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; System::Data::Odbc::OdbcCommand ^ GetInsertCommand(bool useColumnsForParameterNames);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.Odbc</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Data.Odbc.OdbcCommand</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="useColumnsForParameterNames" Type="System.Boolean" />
+      </Parameters>
+      <Docs>
+        <param name="useColumnsForParameterNames">
+          <span data-ttu-id="2321c-188">如果为 <see langword="true" />，则如有可能，将生成与列名相匹配的参数名称。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="2321c-188">If <see langword="true" />, generate parameter names matching column names, if it is possible.</span>
+          </span>
+          <span data-ttu-id="2321c-189">如果为 <see langword="false" />，则生成 @p1、@p2，以此类推。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="2321c-189">If <see langword="false" />, generate @p1, @p2, and so on.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="2321c-190">获取在数据源中执行插入操作所需的自动生成的 <see cref="T:System.Data.Odbc.OdbcCommand" /> 对象。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="2321c-190">Gets the automatically generated <see cref="T:System.Data.Odbc.OdbcCommand" /> object required to perform insertions at the data source.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="2321c-191">自动生成的、执行插入操作所需的 <see cref="T:System.Data.Odbc.OdbcCommand" /> 对象。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="2321c-191">The automatically generated <see cref="T:System.Data.Odbc.OdbcCommand" /> object required to perform insertions.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="2321c-192">你可以使用<xref:System.Data.Odbc.OdbcCommandBuilder.GetInsertCommand%2A>方法为信息性或故障排除目的，因为它返回<xref:System.Data.Odbc.OdbcCommand>要执行对象。</span><span class="sxs-lookup"><span data-stu-id="2321c-192">You can use the <xref:System.Data.Odbc.OdbcCommandBuilder.GetInsertCommand%2A> method for informational or troubleshooting purposes because it returns the <xref:System.Data.Odbc.OdbcCommand> object to be executed.</span></span>  
+  
+ <span data-ttu-id="2321c-193">你还可以使用<xref:System.Data.Odbc.OdbcCommandBuilder.GetInsertCommand%2A>作为修改命令的基础。</span><span class="sxs-lookup"><span data-stu-id="2321c-193">You can also use <xref:System.Data.Odbc.OdbcCommandBuilder.GetInsertCommand%2A> as the basis of a modified command.</span></span> <span data-ttu-id="2321c-194">例如，你可能会调用<xref:System.Data.Odbc.OdbcCommandBuilder.GetInsertCommand%2A>和修改<xref:System.Data.Odbc.OdbcCommand.CommandTimeout%2A>值，然后上显式设置<xref:System.Data.Odbc.OdbcDataAdapter>。</span><span class="sxs-lookup"><span data-stu-id="2321c-194">For example, you might call <xref:System.Data.Odbc.OdbcCommandBuilder.GetInsertCommand%2A> and modify the <xref:System.Data.Odbc.OdbcCommand.CommandTimeout%2A> value, and then explicitly set that on the <xref:System.Data.Odbc.OdbcDataAdapter>.</span></span>  
+  
+ <span data-ttu-id="2321c-195">当首次生成 SQL 语句后，你必须明确地调用<xref:System.Data.Common.DbCommandBuilder.RefreshSchema%2A>如果更改该语句以任何方式。</span><span class="sxs-lookup"><span data-stu-id="2321c-195">After the SQL statement is first generated, you must explicitly call <xref:System.Data.Common.DbCommandBuilder.RefreshSchema%2A> if it changes the statement in any way.</span></span> <span data-ttu-id="2321c-196">否则为<xref:System.Data.Odbc.OdbcCommandBuilder.GetInsertCommand%2A>将使用从上一条语句，这可能不是正确的信息。</span><span class="sxs-lookup"><span data-stu-id="2321c-196">Otherwise, the <xref:System.Data.Odbc.OdbcCommandBuilder.GetInsertCommand%2A> will be using information from the previous statement, which might not be correct.</span></span> <span data-ttu-id="2321c-197">应用程序调用时，将首先生成 SQL 语句<xref:System.Data.Common.DbDataAdapter.Update%2A>或<xref:System.Data.Odbc.OdbcCommandBuilder.GetInsertCommand%2A>。</span><span class="sxs-lookup"><span data-stu-id="2321c-197">The SQL statements are first generated when the application calls either <xref:System.Data.Common.DbDataAdapter.Update%2A> or <xref:System.Data.Odbc.OdbcCommandBuilder.GetInsertCommand%2A>.</span></span>  
+  
+ <span data-ttu-id="2321c-198">生成参数名称时的默认行为是使用@p1， @p2，有关的各种参数，依此类推。</span><span class="sxs-lookup"><span data-stu-id="2321c-198">The default behavior, when generating parameter names, is to use @p1, @p2, and so on for the various parameters.</span></span> <span data-ttu-id="2321c-199">传递`true`为`useColumnsForParameterNames`参数允许你强制<xref:System.Data.Common.DbCommandBuilder>生成改为根据列名称的参数。</span><span class="sxs-lookup"><span data-stu-id="2321c-199">Passing `true` for the `useColumnsForParameterNames` parameter lets you force the <xref:System.Data.Common.DbCommandBuilder> to generate parameters based on the column names instead.</span></span> <span data-ttu-id="2321c-200">仅当满足以下条件，此操作将成功。</span><span class="sxs-lookup"><span data-stu-id="2321c-200">This succeeds only if the following conditions are met:</span></span>  
+  
+-   <span data-ttu-id="2321c-201"><xref:System.Data.Common.DbMetaDataColumnNames.ParameterNameMaxLength>已指定，并且其长度等于或大于生成的参数名。</span><span class="sxs-lookup"><span data-stu-id="2321c-201">The <xref:System.Data.Common.DbMetaDataColumnNames.ParameterNameMaxLength> has been specified, and its length is equal to or greater than the generated parameter name.</span></span>  
+  
+-   <span data-ttu-id="2321c-202">生成的参数名满足中指定的条件<xref:System.Data.Common.DbMetaDataColumnNames.ParameterNamePattern>正则表达式。</span><span class="sxs-lookup"><span data-stu-id="2321c-202">The generated parameter name meets the criteria specified in the <xref:System.Data.Common.DbMetaDataColumnNames.ParameterNamePattern> regular expression.</span></span>  
+  
+-   <span data-ttu-id="2321c-203">A<xref:System.Data.Common.DbMetaDataColumnNames.ParameterMarkerFormat>指定。</span><span class="sxs-lookup"><span data-stu-id="2321c-203">A <xref:System.Data.Common.DbMetaDataColumnNames.ParameterMarkerFormat> is specified.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetParameterName">
+      <MemberSignature Language="C#" Value="protected override string GetParameterName (int parameterOrdinal);" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig virtual instance string GetParameterName(int32 parameterOrdinal) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.Odbc.OdbcCommandBuilder.GetParameterName(System.Int32)" />
+      <MemberSignature Language="VB.NET" Value="Protected Overrides Function GetParameterName (parameterOrdinal As Integer) As String" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; override System::String ^ GetParameterName(int parameterOrdinal);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.Odbc</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="parameterOrdinal" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="parameterOrdinal">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetParameterName">
+      <MemberSignature Language="C#" Value="protected override string GetParameterName (string parameterName);" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig virtual instance string GetParameterName(string parameterName) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.Odbc.OdbcCommandBuilder.GetParameterName(System.String)" />
+      <MemberSignature Language="VB.NET" Value="Protected Overrides Function GetParameterName (parameterName As String) As String" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; override System::String ^ GetParameterName(System::String ^ parameterName);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.Odbc</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="parameterName" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="parameterName">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetParameterPlaceholder">
+      <MemberSignature Language="C#" Value="protected override string GetParameterPlaceholder (int parameterOrdinal);" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig virtual instance string GetParameterPlaceholder(int32 parameterOrdinal) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.Odbc.OdbcCommandBuilder.GetParameterPlaceholder(System.Int32)" />
+      <MemberSignature Language="VB.NET" Value="Protected Overrides Function GetParameterPlaceholder (parameterOrdinal As Integer) As String" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; override System::String ^ GetParameterPlaceholder(int parameterOrdinal);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.Odbc</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="parameterOrdinal" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="parameterOrdinal">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <MemberGroup MemberName="GetUpdateCommand">
+      <AssemblyInfo>
+        <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Docs>
+        <summary>
+          <span data-ttu-id="2321c-204">获取在数据源中执行更新操作所需的自动生成的 <see cref="T:System.Data.Odbc.OdbcCommand" /> 对象。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="2321c-204">Gets the automatically generated <see cref="T:System.Data.Odbc.OdbcCommand" /> object required to perform updates at the data source.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="2321c-205">你可以使用<xref:System.Data.Odbc.OdbcCommandBuilder.GetUpdateCommand%2A>方法为信息性或故障排除目的，因为它返回<xref:System.Data.Odbc.OdbcCommand>要执行对象。</span><span class="sxs-lookup"><span data-stu-id="2321c-205">You can use the <xref:System.Data.Odbc.OdbcCommandBuilder.GetUpdateCommand%2A> method for informational or troubleshooting purposes because it returns the <xref:System.Data.Odbc.OdbcCommand> object to be executed.</span></span>  
+  
+ <span data-ttu-id="2321c-206">你还可以使用<xref:System.Data.Odbc.OdbcCommandBuilder.GetUpdateCommand%2A>作为修改命令的基础。</span><span class="sxs-lookup"><span data-stu-id="2321c-206">You can also use <xref:System.Data.Odbc.OdbcCommandBuilder.GetUpdateCommand%2A> as the basis of a modified command.</span></span> <span data-ttu-id="2321c-207">例如，你可能会调用<xref:System.Data.Odbc.OdbcCommandBuilder.GetUpdateCommand%2A>和修改<xref:System.Data.Odbc.OdbcCommand.CommandTimeout%2A>值，然后上显式设置<xref:System.Data.Odbc.OdbcDataAdapter>。</span><span class="sxs-lookup"><span data-stu-id="2321c-207">For example, you might call <xref:System.Data.Odbc.OdbcCommandBuilder.GetUpdateCommand%2A> and modify the <xref:System.Data.Odbc.OdbcCommand.CommandTimeout%2A> value, and then explicitly set that on the <xref:System.Data.Odbc.OdbcDataAdapter>.</span></span>  
+  
+ <span data-ttu-id="2321c-208">当首次生成 SQL 语句后，你必须明确地调用<xref:System.Data.Common.DbCommandBuilder.RefreshSchema%2A>如果更改该语句以任何方式。</span><span class="sxs-lookup"><span data-stu-id="2321c-208">After the SQL statement is first generated, you must explicitly call <xref:System.Data.Common.DbCommandBuilder.RefreshSchema%2A> if it changes the statement in any way.</span></span> <span data-ttu-id="2321c-209">否则为<xref:System.Data.Odbc.OdbcCommandBuilder.GetUpdateCommand%2A>将使用从上一条语句，这可能不是正确的信息。</span><span class="sxs-lookup"><span data-stu-id="2321c-209">Otherwise, the <xref:System.Data.Odbc.OdbcCommandBuilder.GetUpdateCommand%2A> will be using information from the previous statement, which might not be correct.</span></span> <span data-ttu-id="2321c-210">应用程序调用时，将首先生成 SQL 语句<xref:System.Data.Common.DbDataAdapter.Update%2A>或<xref:System.Data.Odbc.OdbcCommandBuilder.GetUpdateCommand%2A>。</span><span class="sxs-lookup"><span data-stu-id="2321c-210">The SQL statements are first generated when the application calls either <xref:System.Data.Common.DbDataAdapter.Update%2A> or <xref:System.Data.Odbc.OdbcCommandBuilder.GetUpdateCommand%2A>.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </MemberGroup>
+    <Member MemberName="GetUpdateCommand">
+      <MemberSignature Language="C#" Value="public System.Data.Odbc.OdbcCommand GetUpdateCommand ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class System.Data.Odbc.OdbcCommand GetUpdateCommand() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.Odbc.OdbcCommandBuilder.GetUpdateCommand" />
+      <MemberSignature Language="VB.NET" Value="Public Function GetUpdateCommand () As OdbcCommand" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; System::Data::Odbc::OdbcCommand ^ GetUpdateCommand();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.Odbc</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Data.Odbc.OdbcCommand</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="2321c-211">获取在数据源中执行更新操作所需的自动生成的 <see cref="T:System.Data.Odbc.OdbcCommand" /> 对象。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="2321c-211">Gets the automatically generated <see cref="T:System.Data.Odbc.OdbcCommand" /> object required to perform updates at the data source.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="2321c-212">自动生成的、执行更新所需的 <see cref="T:System.Data.Odbc.OdbcCommand" /> 对象。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="2321c-212">The automatically generated <see cref="T:System.Data.Odbc.OdbcCommand" /> object required to perform updates.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="2321c-213">你可以使用<xref:System.Data.Odbc.OdbcCommandBuilder.GetUpdateCommand%2A>方法为信息性或故障排除目的，因为它返回<xref:System.Data.Odbc.OdbcCommand>要执行对象。</span><span class="sxs-lookup"><span data-stu-id="2321c-213">You can use the <xref:System.Data.Odbc.OdbcCommandBuilder.GetUpdateCommand%2A> method for informational or troubleshooting purposes because it returns the <xref:System.Data.Odbc.OdbcCommand> object to be executed.</span></span>  
+  
+ <span data-ttu-id="2321c-214">你还可以使用<xref:System.Data.Odbc.OdbcCommandBuilder.GetUpdateCommand%2A>作为修改命令的基础。</span><span class="sxs-lookup"><span data-stu-id="2321c-214">You can also use <xref:System.Data.Odbc.OdbcCommandBuilder.GetUpdateCommand%2A> as the basis of a modified command.</span></span> <span data-ttu-id="2321c-215">例如，你可能会调用<xref:System.Data.Odbc.OdbcCommandBuilder.GetUpdateCommand%2A>和修改<xref:System.Data.Odbc.OdbcCommand.CommandTimeout%2A>值，然后上显式设置<xref:System.Data.Odbc.OdbcDataAdapter>。</span><span class="sxs-lookup"><span data-stu-id="2321c-215">For example, you might call <xref:System.Data.Odbc.OdbcCommandBuilder.GetUpdateCommand%2A> and modify the <xref:System.Data.Odbc.OdbcCommand.CommandTimeout%2A> value, and then explicitly set that on the <xref:System.Data.Odbc.OdbcDataAdapter>.</span></span>  
+  
+ <span data-ttu-id="2321c-216">当首次生成 SQL 语句后，你必须明确地调用<xref:System.Data.Common.DbCommandBuilder.RefreshSchema%2A>如果更改该语句以任何方式。</span><span class="sxs-lookup"><span data-stu-id="2321c-216">After the SQL statement is first generated, you must explicitly call <xref:System.Data.Common.DbCommandBuilder.RefreshSchema%2A> if it changes the statement in any way.</span></span> <span data-ttu-id="2321c-217">否则为<xref:System.Data.Odbc.OdbcCommandBuilder.GetUpdateCommand%2A>仍将使用从上一条语句，这可能不是正确的信息。</span><span class="sxs-lookup"><span data-stu-id="2321c-217">Otherwise, the <xref:System.Data.Odbc.OdbcCommandBuilder.GetUpdateCommand%2A> still will be using information from the previous statement, which might not be correct.</span></span> <span data-ttu-id="2321c-218">应用程序调用时，将首先生成 SQL 语句<xref:System.Data.Common.DbDataAdapter.Update%2A>或<xref:System.Data.Odbc.OdbcCommandBuilder.GetUpdateCommand%2A>。</span><span class="sxs-lookup"><span data-stu-id="2321c-218">The SQL statements are first generated when the application calls either <xref:System.Data.Common.DbDataAdapter.Update%2A> or <xref:System.Data.Odbc.OdbcCommandBuilder.GetUpdateCommand%2A>.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetUpdateCommand">
+      <MemberSignature Language="C#" Value="public System.Data.Odbc.OdbcCommand GetUpdateCommand (bool useColumnsForParameterNames);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class System.Data.Odbc.OdbcCommand GetUpdateCommand(bool useColumnsForParameterNames) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.Odbc.OdbcCommandBuilder.GetUpdateCommand(System.Boolean)" />
+      <MemberSignature Language="VB.NET" Value="Public Function GetUpdateCommand (useColumnsForParameterNames As Boolean) As OdbcCommand" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; System::Data::Odbc::OdbcCommand ^ GetUpdateCommand(bool useColumnsForParameterNames);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.Odbc</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Data.Odbc.OdbcCommand</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="useColumnsForParameterNames" Type="System.Boolean" />
+      </Parameters>
+      <Docs>
+        <param name="useColumnsForParameterNames">
+          <span data-ttu-id="2321c-219">如果为 <see langword="true" />，则如有可能，将生成与列名相匹配的参数名称。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="2321c-219">If <see langword="true" />, generate parameter names matching column names, if it is possible.</span>
+          </span>
+          <span data-ttu-id="2321c-220">如果为 <see langword="false" />，则生成 @p1、@p2，以此类推。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="2321c-220">If <see langword="false" />, generate @p1, @p2, and so on.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="2321c-221">获取在数据源中执行更新操作所需的自动生成的 <see cref="T:System.Data.Odbc.OdbcCommand" /> 对象。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="2321c-221">Gets the automatically generated <see cref="T:System.Data.Odbc.OdbcCommand" /> object required to perform updates at the data source.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="2321c-222">自动生成的、执行更新所需的 <see cref="T:System.Data.Odbc.OdbcCommand" /> 对象。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="2321c-222">The automatically generated <see cref="T:System.Data.Odbc.OdbcCommand" /> object required to perform updates.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="2321c-223">你可以使用<xref:System.Data.Odbc.OdbcCommandBuilder.GetUpdateCommand%2A>方法为信息性或故障排除目的，因为它返回<xref:System.Data.Odbc.OdbcCommand>要执行对象。</span><span class="sxs-lookup"><span data-stu-id="2321c-223">You can use the <xref:System.Data.Odbc.OdbcCommandBuilder.GetUpdateCommand%2A> method for informational or troubleshooting purposes because it returns the <xref:System.Data.Odbc.OdbcCommand> object to be executed.</span></span>  
+  
+ <span data-ttu-id="2321c-224">你还可以使用<xref:System.Data.Odbc.OdbcCommandBuilder.GetUpdateCommand%2A>作为修改命令的基础。</span><span class="sxs-lookup"><span data-stu-id="2321c-224">You can also use <xref:System.Data.Odbc.OdbcCommandBuilder.GetUpdateCommand%2A> as the basis of a modified command.</span></span> <span data-ttu-id="2321c-225">例如，你可能会调用<xref:System.Data.Odbc.OdbcCommandBuilder.GetUpdateCommand%2A>和修改<xref:System.Data.Odbc.OdbcCommand.CommandTimeout%2A>值，然后上显式设置<xref:System.Data.Odbc.OdbcDataAdapter>。</span><span class="sxs-lookup"><span data-stu-id="2321c-225">For example, you might call <xref:System.Data.Odbc.OdbcCommandBuilder.GetUpdateCommand%2A> and modify the <xref:System.Data.Odbc.OdbcCommand.CommandTimeout%2A> value, and then explicitly set that on the <xref:System.Data.Odbc.OdbcDataAdapter>.</span></span>  
+  
+ <span data-ttu-id="2321c-226">当首次生成 SQL 语句后，你必须明确地调用<xref:System.Data.Common.DbCommandBuilder.RefreshSchema%2A>如果更改该语句以任何方式。</span><span class="sxs-lookup"><span data-stu-id="2321c-226">After the SQL statement is first generated, you must explicitly call <xref:System.Data.Common.DbCommandBuilder.RefreshSchema%2A> if it changes the statement in any way.</span></span> <span data-ttu-id="2321c-227">否则为<xref:System.Data.Odbc.OdbcCommandBuilder.GetUpdateCommand%2A>仍将使用从上一条语句，这可能不是正确的信息。</span><span class="sxs-lookup"><span data-stu-id="2321c-227">Otherwise, the <xref:System.Data.Odbc.OdbcCommandBuilder.GetUpdateCommand%2A> still will be using information from the previous statement, which might not be correct.</span></span> <span data-ttu-id="2321c-228">应用程序调用时，将首先生成 SQL 语句<xref:System.Data.Common.DbDataAdapter.Update%2A>或<xref:System.Data.Odbc.OdbcCommandBuilder.GetUpdateCommand%2A>。</span><span class="sxs-lookup"><span data-stu-id="2321c-228">The SQL statements are first generated when the application calls either <xref:System.Data.Common.DbDataAdapter.Update%2A> or <xref:System.Data.Odbc.OdbcCommandBuilder.GetUpdateCommand%2A>.</span></span>  
+  
+ <span data-ttu-id="2321c-229">生成参数名称时的默认行为是使用@p1， @p2，有关的各种参数，依此类推。</span><span class="sxs-lookup"><span data-stu-id="2321c-229">The default behavior, when generating parameter names, is to use @p1, @p2, and so on for the various parameters.</span></span> <span data-ttu-id="2321c-230">传递`true`为`useColumnsForParameterNames`参数允许你强制<xref:System.Data.Common.DbCommandBuilder>生成改为根据列名称的参数。</span><span class="sxs-lookup"><span data-stu-id="2321c-230">Passing `true` for the `useColumnsForParameterNames` parameter lets you force the <xref:System.Data.Common.DbCommandBuilder> to generate parameters based on the column names instead.</span></span> <span data-ttu-id="2321c-231">仅当满足以下条件，此操作将成功。</span><span class="sxs-lookup"><span data-stu-id="2321c-231">This succeeds only if the following conditions are met:</span></span>  
+  
+-   <span data-ttu-id="2321c-232"><xref:System.Data.Common.DbMetaDataColumnNames.ParameterNameMaxLength>已指定，并且其长度等于或大于生成的参数名。</span><span class="sxs-lookup"><span data-stu-id="2321c-232">The <xref:System.Data.Common.DbMetaDataColumnNames.ParameterNameMaxLength> has been specified, and its length is equal to or greater than the generated parameter name.</span></span>  
+  
+-   <span data-ttu-id="2321c-233">生成的参数名满足中指定的条件<xref:System.Data.Common.DbMetaDataColumnNames.ParameterNamePattern>正则表达式。</span><span class="sxs-lookup"><span data-stu-id="2321c-233">The generated parameter name meets the criteria specified in the <xref:System.Data.Common.DbMetaDataColumnNames.ParameterNamePattern> regular expression.</span></span>  
+  
+-   <span data-ttu-id="2321c-234">A<xref:System.Data.Common.DbMetaDataColumnNames.ParameterMarkerFormat>指定。</span><span class="sxs-lookup"><span data-stu-id="2321c-234">A <xref:System.Data.Common.DbMetaDataColumnNames.ParameterMarkerFormat> is specified.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <MemberGroup MemberName="QuoteIdentifier">
+      <AssemblyInfo>
+        <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Docs>
+        <summary>
+          <span data-ttu-id="2321c-235">给定了具有正确的目录大小写设置且不带引号的标识符时，返回该标识符的正确的带引号形式。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="2321c-235">Given an unquoted identifier in the correct catalog case, returns the correct quoted form of that identifier.</span>
+          </span>
+          <span data-ttu-id="2321c-236">这包括正确地转义该标识符中的任何嵌入引号。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="2321c-236">This includes correctly escaping any embedded quotes in the identifier.</span>
+          </span>
+        </summary>
+      </Docs>
+    </MemberGroup>
+    <Member MemberName="QuoteIdentifier">
+      <MemberSignature Language="C#" Value="public override string QuoteIdentifier (string unquotedIdentifier);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance string QuoteIdentifier(string unquotedIdentifier) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.Odbc.OdbcCommandBuilder.QuoteIdentifier(System.String)" />
+      <MemberSignature Language="VB.NET" Value="Public Overrides Function QuoteIdentifier (unquotedIdentifier As String) As String" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; override System::String ^ QuoteIdentifier(System::String ^ unquotedIdentifier);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.Odbc</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="unquotedIdentifier" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="unquotedIdentifier">
+          <span data-ttu-id="2321c-237">不带引号的原始标识符。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="2321c-237">The original unquoted identifier.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="2321c-238">给定了具有正确的目录大小写设置且不带引号的标识符时，返回该标识符的正确的带引号形式。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="2321c-238">Given an unquoted identifier in the correct catalog case, returns the correct quoted form of that identifier.</span>
+          </span>
+          <span data-ttu-id="2321c-239">这包括正确地转义该标识符中的任何嵌入引号。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="2321c-239">This includes correctly escaping any embedded quotes in the identifier.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="2321c-240">带引号的标识符版本。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="2321c-240">The quoted version of the identifier.</span>
+          </span>
+          <span data-ttu-id="2321c-241">标识符内的嵌入引号被正确地转义。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="2321c-241">Embedded quotes within the identifier are correctly escaped.</span>
+          </span>
+        </returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="QuoteIdentifier">
+      <MemberSignature Language="C#" Value="public string QuoteIdentifier (string unquotedIdentifier, System.Data.Odbc.OdbcConnection connection);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance string QuoteIdentifier(string unquotedIdentifier, class System.Data.Odbc.OdbcConnection connection) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.Odbc.OdbcCommandBuilder.QuoteIdentifier(System.String,System.Data.Odbc.OdbcConnection)" />
+      <MemberSignature Language="VB.NET" Value="Public Function QuoteIdentifier (unquotedIdentifier As String, connection As OdbcConnection) As String" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; System::String ^ QuoteIdentifier(System::String ^ unquotedIdentifier, System::Data::Odbc::OdbcConnection ^ connection);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.Odbc</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="unquotedIdentifier" Type="System.String" />
+        <Parameter Name="connection" Type="System.Data.Odbc.OdbcConnection" />
+      </Parameters>
+      <Docs>
+        <param name="unquotedIdentifier">
+          <span data-ttu-id="2321c-242">不带引号的原始标识符。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="2321c-242">The original unquoted identifier.</span>
+          </span>
+        </param>
+        <param name="connection">
+          <span data-ttu-id="2321c-243">当连接是通过时，会导致托管包装从获取 ODBC 驱动程序的引号字符，调用 SQLGetInfo （SQL_IDENTIFIER_QUOTE_CHAR）。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="2321c-243">When a connection is passed, causes the managed wrapper to get the quote character from the ODBC driver, calling SQLGetInfo(SQL_IDENTIFIER_QUOTE_CHAR).</span>
+          </span>
+          <span data-ttu-id="2321c-244">如果连接未通过时，使用从 <see cref="P:System.Data.Common.DbCommandBuilder.QuotePrefix" /> 和 <see cref="P:System.Data.Common.DbCommandBuilder.QuoteSuffix" />的值中引用该字符串。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="2321c-244">When no connection is passed, the string is quoted using values from <see cref="P:System.Data.Common.DbCommandBuilder.QuotePrefix" /> and <see cref="P:System.Data.Common.DbCommandBuilder.QuoteSuffix" />.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="2321c-245">给定了具有正确的目录大小写设置且不带引号的标识符时，返回该标识符的正确的带引号形式。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="2321c-245">Given an unquoted identifier in the correct catalog case, returns the correct quoted form of that identifier.</span>
+          </span>
+          <span data-ttu-id="2321c-246">这包括正确地转义该标识符中的任何嵌入引号。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="2321c-246">This includes correctly escaping any embedded quotes in the identifier.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="2321c-247">带引号的标识符版本。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="2321c-247">The quoted version of the identifier.</span>
+          </span>
+          <span data-ttu-id="2321c-248">标识符内的嵌入引号被正确地转义。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="2321c-248">Embedded quotes within the identifier are correctly escaped.</span>
+          </span>
+        </returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="SetRowUpdatingHandler">
+      <MemberSignature Language="C#" Value="protected override void SetRowUpdatingHandler (System.Data.Common.DbDataAdapter adapter);" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig virtual instance void SetRowUpdatingHandler(class System.Data.Common.DbDataAdapter adapter) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.Odbc.OdbcCommandBuilder.SetRowUpdatingHandler(System.Data.Common.DbDataAdapter)" />
+      <MemberSignature Language="VB.NET" Value="Protected Overrides Sub SetRowUpdatingHandler (adapter As DbDataAdapter)" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; override void SetRowUpdatingHandler(System::Data::Common::DbDataAdapter ^ adapter);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.Odbc</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="adapter" Type="System.Data.Common.DbDataAdapter" />
+      </Parameters>
+      <Docs>
+        <param name="adapter">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <MemberGroup MemberName="UnquoteIdentifier">
+      <AssemblyInfo>
+        <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Docs>
+        <summary>
+          <span data-ttu-id="2321c-249">给定了带引号的标识符时，返回该标识符的正确的不带引号形式，包括正确地非转义该标识符中的任何嵌入引号。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="2321c-249">Given a quoted identifier, returns the correct unquoted form of that identifier, including correctly unescaping any embedded quotes in the identifier.</span>
+          </span>
+        </summary>
+      </Docs>
+    </MemberGroup>
+    <Member MemberName="UnquoteIdentifier">
+      <MemberSignature Language="C#" Value="public override string UnquoteIdentifier (string quotedIdentifier);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance string UnquoteIdentifier(string quotedIdentifier) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.Odbc.OdbcCommandBuilder.UnquoteIdentifier(System.String)" />
+      <MemberSignature Language="VB.NET" Value="Public Overrides Function UnquoteIdentifier (quotedIdentifier As String) As String" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; override System::String ^ UnquoteIdentifier(System::String ^ quotedIdentifier);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.Odbc</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="quotedIdentifier" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="quotedIdentifier">
+          <span data-ttu-id="2321c-250">其嵌入引号将被移除的标识符。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="2321c-250">The identifier that will have its embedded quotes removed.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="2321c-251">给定了带引号的标识符时，返回该标识符的正确的不带引号形式，包括正确地非转义该标识符中的任何嵌入引号。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="2321c-251">Given a quoted identifier, returns the correct unquoted form of that identifier, including correctly unescaping any embedded quotes in the identifier.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="2321c-252">不带引号的标识符，带有已正确进行非转义的嵌入引号。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="2321c-252">The unquoted identifier, with embedded quotes correctly unescaped.</span>
+          </span>
+        </returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="UnquoteIdentifier">
+      <MemberSignature Language="C#" Value="public string UnquoteIdentifier (string quotedIdentifier, System.Data.Odbc.OdbcConnection connection);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance string UnquoteIdentifier(string quotedIdentifier, class System.Data.Odbc.OdbcConnection connection) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.Odbc.OdbcCommandBuilder.UnquoteIdentifier(System.String,System.Data.Odbc.OdbcConnection)" />
+      <MemberSignature Language="VB.NET" Value="Public Function UnquoteIdentifier (quotedIdentifier As String, connection As OdbcConnection) As String" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; System::String ^ UnquoteIdentifier(System::String ^ quotedIdentifier, System::Data::Odbc::OdbcConnection ^ connection);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.Odbc</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="quotedIdentifier" Type="System.String" />
+        <Parameter Name="connection" Type="System.Data.Odbc.OdbcConnection" />
+      </Parameters>
+      <Docs>
+        <param name="quotedIdentifier">
+          <span data-ttu-id="2321c-253">其嵌入引号将被移除的标识符。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="2321c-253">The identifier that will have its embedded quotes removed.</span>
+          </span>
+        </param>
+        <param name="connection">
+          <span data-ttu-id="2321c-254">
+            <see cref="T:System.Data.Odbc.OdbcConnection" />。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="2321c-254">The <see cref="T:System.Data.Odbc.OdbcConnection" />.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="2321c-255">给定了带引号的标识符时，返回该标识符的正确的不带引号形式，包括正确地非转义该标识符中的任何嵌入引号。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="2321c-255">Given a quoted identifier, returns the correct unquoted form of that identifier, including correctly unescaping any embedded quotes in the identifier.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="2321c-256">不带引号的标识符，带有已正确进行非转义的嵌入引号。</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="2321c-256">The unquoted identifier, with embedded quotes correctly unescaped.</span>
+          </span>
+        </returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

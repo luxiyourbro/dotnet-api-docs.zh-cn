@@ -1,0 +1,1 @@
+<span data-ttu-id="78d7d-101">XML 架构定义 (XSD)</span><span class="sxs-lookup"><span data-stu-id="78d7d-101">XML Schema Definition (XSD)</span></span>

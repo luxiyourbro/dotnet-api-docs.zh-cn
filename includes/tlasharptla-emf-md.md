@@ -1,0 +1,1 @@
+<span data-ttu-id="c233a-101">增强型图元文件 (EMF)</span><span class="sxs-lookup"><span data-stu-id="c233a-101">Enhanced Metafile (EMF)</span></span>

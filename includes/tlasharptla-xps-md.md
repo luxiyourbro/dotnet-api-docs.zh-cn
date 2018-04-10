@@ -1,0 +1,1 @@
+<span data-ttu-id="92b5a-101">XML 纸张规范 (XPS)</span><span class="sxs-lookup"><span data-stu-id="92b5a-101">XML Paper Specification (XPS)</span></span>

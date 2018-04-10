@@ -1,0 +1,1 @@
+<span data-ttu-id="52b28-101">Windows 窗体</span><span class="sxs-lookup"><span data-stu-id="52b28-101">Windows Forms</span></span>

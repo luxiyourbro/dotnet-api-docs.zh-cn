@@ -1,0 +1,1 @@
+<span data-ttu-id="80477-101">Windows 软件开发包 (SDK)</span><span class="sxs-lookup"><span data-stu-id="80477-101">Windows Software Development Kit (SDK)</span></span>

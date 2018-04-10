@@ -1,0 +1,1 @@
+<span data-ttu-id="ce2bb-101">结构化查询语言 (SQL)</span><span class="sxs-lookup"><span data-stu-id="ce2bb-101">Structured Query Language (SQL)</span></span>

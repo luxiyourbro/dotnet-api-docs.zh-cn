@@ -1,0 +1,1 @@
+<span data-ttu-id="c1eb4-101">Windows NT 4.0</span><span class="sxs-lookup"><span data-stu-id="c1eb4-101">Windows NT 4.0</span></span>

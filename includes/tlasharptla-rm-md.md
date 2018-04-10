@@ -1,0 +1,1 @@
+<span data-ttu-id="c3d3a-101">Microsoft Windows 权限管理 (RM)</span><span class="sxs-lookup"><span data-stu-id="c3d3a-101">Microsoft Windows Rights Management (RM)</span></span>

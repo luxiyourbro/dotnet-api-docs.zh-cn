@@ -1,0 +1,1 @@
+<span data-ttu-id="0096b-101">Microsoft Windows Presentation Foundation 图像处理组件</span><span class="sxs-lookup"><span data-stu-id="0096b-101">Microsoft Windows Presentation Foundation Imaging Component</span></span>

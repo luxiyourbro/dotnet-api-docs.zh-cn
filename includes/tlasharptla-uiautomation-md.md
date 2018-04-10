@@ -1,0 +1,1 @@
+<span data-ttu-id="b6231-101">Microsoft UI 自动化</span><span class="sxs-lookup"><span data-stu-id="b6231-101">Microsoft UI Automation</span></span>

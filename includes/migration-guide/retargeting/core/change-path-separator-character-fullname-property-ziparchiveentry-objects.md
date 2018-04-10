@@ -1,0 +1,11 @@
+### <a name="change-in-path-separator-character-in-fullname-property-of-ziparchiveentry-objects"></a>更改路径分隔符字符，在 ZipArchiveEntry 对象 FullName 属性
+
+|   |   |
+|---|---|
+|详细信息|对于面向.NET Framework 4.6.1 及更高版本的应用程序，路径分隔符字符已从反斜杠 (&quot;&quot;) 为正斜杠 (&quot;/&quot;) 中<xref:System.IO.Compression.ZipArchiveEntry.FullName>属性<xref:System.IO.Compression.ZipArchiveEntry>的重载创建的对象<xref:System.IO.Compression.ZipFile.CreateFromDirectory%2A>方法。 更改为带来了到与 4.4.17.1 一部分的符合性的.NET 实现[。ZIP 文件格式规格](https://pkware.cachefly.net/webdocs/casestudies/APPNOTE.TXT)，并允许。ZIP 存档解压缩在非 Windows 系统上。解压缩 zip 文件由应用创建的针对以前版本的.NET framework 在非 Windows 操作系统，例如 Macintosh 上无法保留目录结构。 例如，在该系统中，它创建一组文件，其文件名连接的目录路径，以及任何反斜杠 (&quot;&quot;) 字符，以及的文件名。 因此，不会保留解压缩的文件的目录结构。|
+|建议|在此更改的影响。在 Windows 操作系统解压缩由.NET Framework 中的 Api 的 ZIP 文件<xref:System.IO?displayProperty=nameWithType>命名空间应是最小，因为这些 Api 可以无缝地处理任一斜杠 (&quot;/&quot;) 或反斜杠 (&quot;\&q u o t;) 作为路径分隔符字符。如果此更改是不可取的则可以通过添加配置设置为选择退出[\<运行时 >](~/docs/framework/configure-apps/file-schema/runtime/runtime-element.md)的应用程序配置文件的部分。 下面的示例演示`<runtime>`部分和`Switch.System.IO.Compression.ZipFile.UseBackslash`选择退出交换机：<pre><code class="language-xml">&lt;runtime&gt;&#13;&#10;&lt;AppContextSwitchOverrides value=&quot;Switch.System.IO.Compression.ZipFile.UseBackslash=true&quot; /&gt;&#13;&#10;&lt;/runtime&gt;&#13;&#10;</code></pre>此外，面向以前版本的.NET Framework 但在.NET Framework 4.6.1 及更高版本上运行的应用可以选择加入此行为通过将添加到某一配置设置[\<运行时 >](~/docs/framework/configure-apps/file-schema/runtime/runtime-element.md)应用程序配置文件节。 下面的示例演示同时`<runtime>`部分和`Switch.System.IO.Compression.ZipFile.UseBackslash`参加交换机。<pre><code class="language-xml">&lt;runtime&gt;&#13;&#10;&lt;AppContextSwitchOverrides value=&quot;Switch.System.IO.Compression.ZipFile.UseBackslash=false&quot; /&gt;&#13;&#10;&lt;/runtime&gt;&#13;&#10;</code></pre>|
+|范围|边缘|
+|版本|4.6.1|
+|类型|重定目标|
+|受影响的 API|<ul><li><xref:System.IO.Compression.ZipFile.CreateFromDirectory(System.String,System.String)?displayProperty=nameWithType></li><li><xref:System.IO.Compression.ZipFile.CreateFromDirectory(System.String,System.String,System.IO.Compression.CompressionLevel,System.Boolean)?displayProperty=nameWithType></li><li><xref:System.IO.Compression.ZipFile.CreateFromDirectory(System.String,System.String,System.IO.Compression.CompressionLevel,System.Boolean,System.Text.Encoding)?displayProperty=nameWithType></li></ul>|
+

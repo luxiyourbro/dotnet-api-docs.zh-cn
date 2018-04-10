@@ -1,0 +1,11 @@
+### <a name="operationcontextcurrent-may-return-null-when-called-in-a-using-clause"></a>OperationContext.Current 可能返回 null using 中调用时子句
+
+|   |   |
+|---|---|
+|详细信息|<xref:System.ServiceModel.OperationContext.Current?displayProperty=nameWithType> 可能会返回<code>null</code>和<xref:System.NullReferenceException>可能会导致如果满足所有以下条件：<ul><li>检索的值<xref:System.ServiceModel.OperationContext.Current?displayProperty=nameWithType>属性返回的方法中<xref:System.Threading.Tasks.Task>或<xref:System.Threading.Tasks.Task%601>。</li><li>实例化<xref:System.ServiceModel.OperationContextScope>对象在<code>using</code>子句。</li><li>检索的值<xref:System.ServiceModel.OperationContext.Current?displayProperty=nameWithType>中的属性<code>using statement</code>。 例如:</li></ul><pre><code class="language-csharp">using (new OperationContextScope(OperationContext.Current))&#13;&#10;{&#13;&#10;OperationContext context = OperationContext.Current;      // OperationContext.Current is null.&#13;&#10;// ...&#13;&#10;}&#13;&#10;</code></pre>|
+|建议|若要解决此问题，请执行以下操作：<ul><li>修改你的代码，如下所示，若要实例化一个新非<code>null</code><xref:System.ServiceModel.OperationContext.Current%2A>对象：</li></ul><pre><code class="language-csharp">OperationContext ocx = OperationContext.Current;&#13;&#10;using (new OperationContextScope(OperationContext.Current))&#13;&#10;{&#13;&#10;OperationContext.Current = new OperationContext(ocx.Channel);&#13;&#10;// ...&#13;&#10;}&#13;&#10;</code></pre><ul><li>到.NET Framework 4.6.2，安装最新的更新或升级到更高版本的.NET framework。 这将禁用的流<xref:System.Threading.ExecutionContext>中<xref:System.ServiceModel.OperationContext.Current?displayProperty=nameWithType>并还原在.NET Framework 4.6.1 及更早版本的 WCF 应用程序的行为。 此行为是可配置;它等效于将以下应用程序设置添加到你的配置文件：</li></ul><pre><code class="language-xml">&lt;appSettings&gt;&#13;&#10;&lt;add key=&quot;Switch.System.ServiceModel.DisableOperationContextAsyncFlow&quot; value=&quot;true&quot; /&gt;&#13;&#10;&lt;/appSettings&gt;&#13;&#10;</code></pre>如果此更改是不可取的并且你的应用程序依赖于操作上下文之间流动的执行上下文，你可以启用其流如下所示：<pre><code class="language-xml">&lt;appSettings&gt;&#13;&#10;&lt;add key=&quot;Switch.System.ServiceModel.DisableOperationContextAsyncFlow&quot; value=&quot;false&quot; /&gt;&#13;&#10;&lt;/appSettings&gt;&#13;&#10;</code></pre>|
+|范围|边缘|
+|版本|4.6.2|
+|类型|重定目标|
+|受影响的 API|<ul><li><xref:System.ServiceModel.OperationContext.Current?displayProperty=nameWithType></li></ul>|
+

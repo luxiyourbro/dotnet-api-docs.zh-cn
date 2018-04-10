@@ -1,0 +1,1 @@
+有关此类表示的消息的详细信息，请参阅以下规范的第 13 节： [Web 服务联合语言 （WS-联合身份验证） 版本 1.2](http://docs.oasis-open.org/wsfed/federation/v1.2/os/ws-federation-1.2-spec-os.html) (http://docs.oasis-open.org/wsfed/federation/v1.2/os/ws-federation-1.2-spec-os.html)。

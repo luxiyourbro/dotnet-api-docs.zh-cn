@@ -1,0 +1,1 @@
+从.NET Framework 4.7 开始，此方法进行身份验证使用<xref:System.Security.Authentication.SslProtocols.None>，这样，要选择要使用的最佳协议的操作系统和阻止协议的是不安全的。 在.NET Framework 4.6 （和.NET Framework 4.5 的安装最新安全修补程序） 中，允许的 TLS/SSL 协议版本是 1.2、 1.1 和 1.0 （除非通过编辑 Windows 注册表中禁用强加密）。

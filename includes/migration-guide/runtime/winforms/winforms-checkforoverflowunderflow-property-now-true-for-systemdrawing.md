@@ -1,0 +1,10 @@
+### <a name="winforms-checkforoverflowunderflow-property-is-now-true-for-systemdrawing"></a><span data-ttu-id="593ac-101">WinForm 的 CheckForOverflowUnderflow 属性现在是适用于 System.Drawing</span><span class="sxs-lookup"><span data-stu-id="593ac-101">WinForm's CheckForOverflowUnderflow property is now true for System.Drawing</span></span>
+
+|   |   |
+|---|---|
+|<span data-ttu-id="593ac-102">详细信息</span><span class="sxs-lookup"><span data-stu-id="593ac-102">Details</span></span>|<span data-ttu-id="593ac-103">System.Drawing.dll 程序集的 CheckForOverflowUnderflow 属性设置为 true。</span><span class="sxs-lookup"><span data-stu-id="593ac-103">The CheckForOverflowUnderflow property for the System.Drawing.dll assembly is set to true.</span></span>|
+|<span data-ttu-id="593ac-104">建议</span><span class="sxs-lookup"><span data-stu-id="593ac-104">Suggestion</span></span>|<span data-ttu-id="593ac-105">之前在发生溢出时，结果会在不提示的情况下被截断。</span><span class="sxs-lookup"><span data-stu-id="593ac-105">Previously when overflows occurred, the result would be silently truncated.</span></span> <span data-ttu-id="593ac-106">现在引发了 <xref:System.OverflowException?displayProperty=name> 异常。</span><span class="sxs-lookup"><span data-stu-id="593ac-106">Now an <xref:System.OverflowException?displayProperty=name> exception is thrown.</span></span>|
+|<span data-ttu-id="593ac-107">范围</span><span class="sxs-lookup"><span data-stu-id="593ac-107">Scope</span></span>|<span data-ttu-id="593ac-108">边缘</span><span class="sxs-lookup"><span data-stu-id="593ac-108">Edge</span></span>|
+|<span data-ttu-id="593ac-109">版本</span><span class="sxs-lookup"><span data-stu-id="593ac-109">Version</span></span>|<span data-ttu-id="593ac-110">4.5</span><span class="sxs-lookup"><span data-stu-id="593ac-110">4.5</span></span>|
+|<span data-ttu-id="593ac-111">类型</span><span class="sxs-lookup"><span data-stu-id="593ac-111">Type</span></span>|<span data-ttu-id="593ac-112">运行时</span><span class="sxs-lookup"><span data-stu-id="593ac-112">Runtime</span></span>|
+

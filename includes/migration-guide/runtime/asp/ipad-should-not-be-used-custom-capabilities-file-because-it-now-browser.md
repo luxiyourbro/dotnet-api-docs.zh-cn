@@ -1,0 +1,10 @@
+### <a name="ipad-should-not-be-used-in-custom-capabilities-file-because-it-is-now-a-browser-capability"></a><span data-ttu-id="38e92-101">不 IPad 应使用在自定义功能文件中，因为它现在是浏览器功能</span><span class="sxs-lookup"><span data-stu-id="38e92-101">IPad should not be used in custom capabilities file because it is now a browser capability</span></span>
+
+|   |   |
+|---|---|
+|<span data-ttu-id="38e92-102">详细信息</span><span class="sxs-lookup"><span data-stu-id="38e92-102">Details</span></span>|<span data-ttu-id="38e92-103">从.NET 4.5 开始，iPad 是标识符在默认 ASP.NET 浏览器的功能文件中，因此它不应使用自定义功能文件中</span><span class="sxs-lookup"><span data-stu-id="38e92-103">Beginning in .NET 4.5, iPad is an identifier in the default ASP.NET browser capabilities file, so it should not be used in a custom capabilities file</span></span>|
+|<span data-ttu-id="38e92-104">建议</span><span class="sxs-lookup"><span data-stu-id="38e92-104">Suggestion</span></span>|<span data-ttu-id="38e92-105">如果特定于 iPad 的功能是必需的则必须通过在预定义的网关 refID 上设置功能来修改 iPad 行为&quot;IPad&quot;而不是通过生成一个新&quot;IPad&quot;用户代理 ID匹配。</span><span class="sxs-lookup"><span data-stu-id="38e92-105">If iPad-specific capabilities are required, it is necessary to modify iPad behavior by setting capabilities on the pre-defined gateway refID &quot;IPad&quot; instead of by generating a new &quot;IPad&quot; ID by user agent matching.</span></span>|
+|<span data-ttu-id="38e92-106">范围</span><span class="sxs-lookup"><span data-stu-id="38e92-106">Scope</span></span>|<span data-ttu-id="38e92-107">边缘</span><span class="sxs-lookup"><span data-stu-id="38e92-107">Edge</span></span>|
+|<span data-ttu-id="38e92-108">版本</span><span class="sxs-lookup"><span data-stu-id="38e92-108">Version</span></span>|<span data-ttu-id="38e92-109">4.5</span><span class="sxs-lookup"><span data-stu-id="38e92-109">4.5</span></span>|
+|<span data-ttu-id="38e92-110">类型</span><span class="sxs-lookup"><span data-stu-id="38e92-110">Type</span></span>|<span data-ttu-id="38e92-111">运行时</span><span class="sxs-lookup"><span data-stu-id="38e92-111">Runtime</span></span>|
+

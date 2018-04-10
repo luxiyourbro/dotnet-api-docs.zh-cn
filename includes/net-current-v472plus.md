@@ -1,0 +1,1 @@
+<span data-ttu-id="f5b95-101">自 4.7.2 之后可用</span><span class="sxs-lookup"><span data-stu-id="f5b95-101">Available since 4.7.2</span></span>

@@ -1,0 +1,1 @@
+<span data-ttu-id="cd617-101">实体数据模型</span><span class="sxs-lookup"><span data-stu-id="cd617-101">Entity Data Model</span></span>

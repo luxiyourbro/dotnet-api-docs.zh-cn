@@ -1,4 +1,4 @@
-### <a name="wpf-textboxtext-can-be-out-of-sync-with-databinding"></a>WPF TextBox.Text 可以是扩展的同步因数据绑定
+### <a name="wpf-textboxtext-can-be-out-of-sync-with-databinding"></a>WPF TextBox.Text 可能与数据绑定不同步
 
 |   |   |
 |---|---|

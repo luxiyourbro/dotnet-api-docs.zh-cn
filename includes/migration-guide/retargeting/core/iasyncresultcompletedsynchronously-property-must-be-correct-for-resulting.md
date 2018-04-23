@@ -1,9 +1,9 @@
-### <a name="iasyncresultcompletedsynchronously-property-must-be-correct-for-the-resulting-task-to-complete"></a>IAsyncResult.CompletedSynchronously 属性必须是正确的结果的任务完成
+### <a name="iasyncresultcompletedsynchronously-property-must-be-correct-for-the-resulting-task-to-complete"></a>IAsyncResult.CompletedSynchronously 属性必须正确，才能完成生成的任务
 
 |   |   |
 |---|---|
-|详细信息|调用 TaskFactory.FromAsync 的实现时<xref:System.IAsyncResult.CompletedSynchronously>属性必须是正确的结果的任务完成。 即，当且仅当同步完成实现时，该属性才应返回 true。 之前，属性未被选中。|
-|建议|如果<xref:System.IAsyncResult?displayProperty=name>实现正确地返回适用于<xref:System.IAsyncResult.CompletedSynchronously?displayProperty=name>属性仅当同步完成的然后将按时不中断的任务。 用户应查看<xref:System.IAsyncResult?displayProperty=name>实现他们拥有 （如果有） 以确保它们正确评估是否已同步或未完成的任务。|
+|详细信息|在调用 TaskFactory.FromAsync 时，必须正确实现 <xref:System.IAsyncResult.CompletedSynchronously> 属性，才能完成生成的任务。 即，当且仅当同步完成实现时，该属性才应返回 true。 之前，属性未被选中。|
+|建议|如果仅在任务同步完成时，<xref:System.IAsyncResult?displayProperty=name> 实现才为 <xref:System.IAsyncResult.CompletedSynchronously?displayProperty=name> 属性正确返回 true，将观察不到任何中断。 用户应查看所拥有的 <xref:System.IAsyncResult?displayProperty=name> 实现（如果有），确保能够正确评估某项任务是否同步完成。|
 |范围|边缘|
 |版本|4.5|
 |类型|重定目标|

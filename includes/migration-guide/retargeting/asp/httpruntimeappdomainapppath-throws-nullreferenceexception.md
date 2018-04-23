@@ -1,9 +1,9 @@
-### <a name="httpruntimeappdomainapppath-throws-a-nullreferenceexception"></a>引发 NullReferenceException HttpRuntime.AppDomainAppPath
+### <a name="httpruntimeappdomainapppath-throws-a-nullreferenceexception"></a>HttpRuntime.AppDomainAppPath 引发 NullReferenceException
 
 |   |   |
 |---|---|
-|详细信息|在.NET Framework 4.6.2 中，则运行时会引发<code>T:System.NullReferenceException</code>检索时<code>P:System.Web.HttpRuntime.AppDomainAppPath</code>包含 null 字符的值。在.NET Framework 4.6.1 和早期版本中，则运行时会引发<code>T:System.ArgumentNullException</code>。|
-|建议|你可以执行对此更改作出响应，请按照任一操作：<ul><li>处理<code>T:System.NullReferenceException</code>如果你的应用程序在.NET Framework 4.6.2 上运行。</li><li>升级到.NET Framework 4.7，也不能还原以前的行为会引发<code>T:System.ArgumentNullException</code>。</li></ul>|
+|详细信息|在 .NET Framework 4.6.2 中，当检索包含空字符的 <code>P:System.Web.HttpRuntime.AppDomainAppPath</code> 值时，运行时会引发 <code>T:System.NullReferenceException</code>。在 .NET Framework 4.6.1 及早期版本中，运行时将引发 <code>T:System.ArgumentNullException</code>。|
+|建议|可执行以下任一操作来应对此更改：<ul><li>如果应用程序是在 .NET Framework 4.6.2 上运行，请处理 <code>T:System.NullReferenceException</code>。</li><li>升级到 .NET Framework 4.7，这将还原以前的行为并引发 <code>T:System.ArgumentNullException</code>。</li></ul>|
 |范围|边缘|
 |版本|4.6.2|
 |类型|重定目标|

@@ -1,4 +1,4 @@
 > [!NOTE]
-> 从.NET 核心 2.0 开始，你不需要运行[ `dotnet restore` ](~/docs/core/tools/dotnet-restore.md)因为它是隐式运行的所有命令，如`dotnet build`和`dotnet run`，需要进行还原。 它仍是一个有效的命令，在某些情况下，其中执行操作的显式还原功能很有用，如[持续集成生成在 Visual Studio Team Services](/vsts/build-release/apps/aspnet/build-aspnet-core)或需要显式控制的时间的生成系统中进行恢复。
+> 从 .NET Core 2.0 开始，无需运行 [`dotnet restore`](~/docs/core/tools/dotnet-restore.md)，因为它由需有还原的所有命令隐式运行，如 `dotnet build` 和 `dotnet run`。 在执行显式还原有意义的某些情况下，它仍然是有效的命令，例如 [Visual Studio Team Services 中的持续集成生成](/vsts/build-release/apps/aspnet/build-aspnet-core)中，或在需要显式控制还原发生时间的生成系统中。
 >
-> 此命令还支持`dotnet restore`选项传入的长格式 (例如， `--source`)。 缩写形式选项，如`-s`，不支持。
+> 以长格式传递命令时，该命令也支持 `dotnet restore` 选项（例如，`--source`）。 不支持缩写选项，例如 `-s`。

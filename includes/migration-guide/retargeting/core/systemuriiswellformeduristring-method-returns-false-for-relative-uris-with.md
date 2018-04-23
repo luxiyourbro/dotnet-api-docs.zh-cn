@@ -1,9 +1,9 @@
-### <a name="systemuriiswellformeduristring-method-returns-false-for-relative-uris-with-a-colon-char-in-first-segment"></a>对于与在第一条线段冒号字符的相对 Uri System.Uri.IsWellFormedUriString 方法返回 false
+### <a name="systemuriiswellformeduristring-method-returns-false-for-relative-uris-with-a-colon-char-in-first-segment"></a>System.Uri.IsWellFormedUriString 方法为第一个段中具有冒号字符型的相对 URI 返回 false
 
 |   |   |
 |---|---|
-|详细信息|从.NET Framework 4.5，开始<xref:System.Uri.IsWellFormedUriString(System.String,System.UriKind)>会将使用的相对 Uri<code>:</code>在其第一条线段如不正确。 这是从更改<xref:System.Uri.IsWellFormedUriString(System.String,System.UriKind)?displayProperty=name>进行以符合 RFC3986 到.NET Framework 4.0 中的行为。|
-|建议|此更改 （如许多其他 URI 更改） 只会影响面向.NET Framework 4.5 （或更高版本） 的应用程序。 若要继续使用旧版本行为，面向针对.NET Framework 4.0 的应用程序。 或者，在调用之前扫描 URI 的<xref:System.Uri.IsWellFormedUriString(System.String,System.UriKind)?displayProperty=name>寻找<code>:</code>你可能想要删除出于验证目的，如果需要种旧行为的字符。|
+|详细信息|从 .NET Framework 4.5 开始，<xref:System.Uri.IsWellFormedUriString(System.String,System.UriKind)> 会将第一个段中带有 <code>:</code> 的相对 URI 视为格式不正确。 这是 .NET Framework 4.0 中 <xref:System.Uri.IsWellFormedUriString(System.String,System.UriKind)?displayProperty=name> 行为的更改，以符合 RFC3986。|
+|建议|此更改（与许多其他 URI 更改一样）仅影响以 .NET Framework 4.5（或更高版本）为目标的应用程序。 要继续使用旧行为，请使应用以 .NET Framework 4.0 为目标。 或者，调用 <xref:System.Uri.IsWellFormedUriString(System.String,System.UriKind)?displayProperty=name> 前扫描 URI，查找出于验证目的想要删除的 <code>:</code> 字符（如果旧行为是可取的）。|
 |范围|次要|
 |版本|4.5|
 |类型|重定目标|

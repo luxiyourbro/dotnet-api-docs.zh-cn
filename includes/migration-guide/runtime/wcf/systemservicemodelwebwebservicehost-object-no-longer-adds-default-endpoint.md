@@ -3,7 +3,7 @@
 |   |   |
 |---|---|
 |详细信息|如果显式终结点已由应用程序代码添加，则 <xref:System.ServiceModel.Web.WebServiceHost> 对象不再添加默认终结点。|
-|建议|如果用户将希望能够连接到默认终结点和其他显式终结点已添加到<xref:System.ServiceModel.Web.WebServiceHost?displayProperty=name>，还应显式添加默认终结点 (使用<xref:System.ServiceModel.ServiceHostBase.AddDefaultEndpoints?displayProperty=name>)。|
+|建议|如果用户希望能够连接到默认终结点，并且其他显式终结点已添加到 <xref:System.ServiceModel.Web.WebServiceHost?displayProperty=name>，则还应显式添加默认终结点（使用 <xref:System.ServiceModel.ServiceHostBase.AddDefaultEndpoints?displayProperty=name>）。|
 |范围|次要|
 |版本|4.5|
 |类型|运行时|

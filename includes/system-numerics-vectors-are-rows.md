@@ -1,1 +1,1 @@
-矩阵转换<xref:System.Numerics.Vector2>， <xref:System.Numerics.Vector3>，和<xref:System.Numerics.Vector4>实例表示为行： 一个向量*v*通过矩阵转换*M*与*vM*乘法。
+对于矩阵转换，<xref:System.Numerics.Vector2>、<xref:System.Numerics.Vector3> 和 <xref:System.Numerics.Vector4> 实例表示为行：矩阵 M 使用 vM 乘法转换矢量 v。

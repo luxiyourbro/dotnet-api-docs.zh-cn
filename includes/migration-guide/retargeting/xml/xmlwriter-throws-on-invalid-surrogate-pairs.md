@@ -1,9 +1,9 @@
-### <a name="xmlwriter-throws-on-invalid-surrogate-pairs"></a>在无效的代理项对引发 XmlWriter
+### <a name="xmlwriter-throws-on-invalid-surrogate-pairs"></a>XmlWriter 引发无效的代理项对
 
 |   |   |
 |---|---|
-|详细信息|对于面向 .NET Framework 4.5.2 或以前的版本的应用程序，使用异常回退处理编写无效的代理项对并不会总是引发异常。 对于面向.NET Framework 4.6 的应用程序，尝试编写无效代理项对会引发<xref:System.ArgumentException?displayProperty=name>。|
-|建议|如有必要，可以是此中断，避免通过面向.NET Framework 4.5.2 或更早版本。 或者，可以是无效的代理项对预先处理到之前的形式编写这些有效的 xml。|
+|详细信息|对于面向 .NET Framework 4.5.2 或以前的版本的应用程序，使用异常回退处理编写无效的代理项对并不会总是引发异常。 对于面向 .NET Framework 4.6 的应用，尝试编写无效的代理项对会引发 <xref:System.ArgumentException?displayProperty=name>。|
+|建议|如有必要，可通过面向 .NET Framework 4.5.2 或更早版本来避免此中断。 或者，可在编写无效的代理项对前将其预处理为有效的 XML。|
 |范围|边缘|
 |版本|4.6|
 |类型|重定目标|

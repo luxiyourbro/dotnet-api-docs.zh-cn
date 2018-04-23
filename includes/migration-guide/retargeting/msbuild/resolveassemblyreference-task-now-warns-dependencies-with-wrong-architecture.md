@@ -1,4 +1,4 @@
-### <a name="resolveassemblyreference-task-now-warns-of-dependencies-with-the-wrong-architecture"></a>ResolveAssemblyReference 任务现在警告与错误体系结构的依赖关系
+### <a name="resolveassemblyreference-task-now-warns-of-dependencies-with-the-wrong-architecture"></a>ResolveAssemblyReference 任务现在将对体系结构错误的依赖项发出警告
 
 |   |   |
 |---|---|

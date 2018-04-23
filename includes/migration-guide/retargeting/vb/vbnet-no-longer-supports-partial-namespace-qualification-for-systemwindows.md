@@ -1,4 +1,4 @@
-### <a name="vbnet-no-longer-supports-partial-namespace-qualification-for-systemwindows-apis"></a>VB.NET 不再支持部分的命名空间限定 System.Windows api
+### <a name="vbnet-no-longer-supports-partial-namespace-qualification-for-systemwindows-apis"></a>VB.NET 不再支持 System.Windows API 的部分命名空间限定
 
 |   |   |
 |---|---|

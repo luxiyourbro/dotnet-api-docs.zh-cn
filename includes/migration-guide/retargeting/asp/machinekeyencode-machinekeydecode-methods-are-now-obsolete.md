@@ -3,7 +3,7 @@
 |   |   |
 |---|---|
 |详细信息|这些方法现在已过时。 调用这些方法的代码编译会产生编译器警告。|
-|建议|建议的替代项为 <xref:System.Web.Security.MachineKey.Protect(System.Byte[],System.String[])> 和 <xref:System.Web.Security.MachineKey.Unprotect(System.Byte[],System.String[])>。 或者，可以禁止显示生成警告，或通过使用编译器旧的编译器，可以避免它们。 API 仍受支持。|
+|建议|建议的替代项为 <xref:System.Web.Security.MachineKey.Protect(System.Byte[],System.String[])> 和 <xref:System.Web.Security.MachineKey.Unprotect(System.Byte[],System.String[])>。 或者，可以禁止显示生成警告，也可以使用较早的编译器避免出现此类警告。 API 仍受支持。|
 |范围|次要|
 |版本|4.5|
 |类型|重定目标|

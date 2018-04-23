@@ -1,9 +1,9 @@
-### <a name="xmlserializer-fails-while-serializing-a-type-that-hides-an-accessible-member-with-an-inaccessible-one"></a>XmlSerializer 序列化隐藏与无法访问一个可访问的成员的类型时失败
+### <a name="xmlserializer-fails-while-serializing-a-type-that-hides-an-accessible-member-with-an-inaccessible-one"></a>当所序列化的类型使用不可访问成员来隐藏可访问的成员时，XmlSerializer 失败
 
 |   |   |
 |---|---|
-|详细信息|在序列化派生的类型时<xref:System.Xml.Serialization.XmlSerializer?displayProperty=name>如果该类型包含不可访问的字段或隐藏 （通过 new 的关键字） 的字段或属性已以前可访问 （公共的例如） 具有相同名称的基类型的属性可能会失败。|
-|建议|可以通过使能够使用新的隐藏成员解决此问题<xref:System.Xml.Serialization.XmlSerializer?displayProperty=name>（通过将其标记公共的例如）。或者，以下配置设置将恢复到 4.0<xref:System.Xml.Serialization.XmlSerializer?displayProperty=name>行为，即可解决此问题：<pre><code class="language-xml">&lt;system.xml.serialization&gt;&#13;&#10;&lt;xmlSerializer useLegacySerializerGeneration=&quot;true&quot; /&gt;&#13;&#10;&lt;/system.xml.serialization&gt;&#13;&#10;</code></pre>|
+|详细信息|在序列化派生类型时，如果该类型包含不可访问的字段或属性，即（通过“new”关键字）隐藏之前基类型上可访问的同名字段或属性（例如，public），则 <xref:System.Xml.Serialization.XmlSerializer?displayProperty=name> 可能会失败。|
+|建议|通过将新的隐藏成员设为可访问 <xref:System.Xml.Serialization.XmlSerializer?displayProperty=name>（例如，将其标记为 public），可以解决此问题。或者，以下 config 设置将还原为 4.0 <xref:System.Xml.Serialization.XmlSerializer?displayProperty=name> 行为，也可解决此问题：<pre><code class="language-xml">&lt;system.xml.serialization&gt;&#13;&#10;&lt;xmlSerializer useLegacySerializerGeneration=&quot;true&quot; /&gt;&#13;&#10;&lt;/system.xml.serialization&gt;&#13;&#10;</code></pre>|
 |范围|次要|
 |版本|4.5|
 |类型|运行时|

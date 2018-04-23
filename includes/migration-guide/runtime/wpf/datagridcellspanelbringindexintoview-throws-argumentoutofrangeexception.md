@@ -2,8 +2,8 @@
 
 |   |   |
 |---|---|
-|详细信息|<xref:System.Windows.Controls.DataGrid.ScrollIntoView(System.Object)> 以异步方式将工作，当启用了列虚拟化，但尚未确定列宽。  如果列被删除之前的异步工作情况发生，<xref:System.ArgumentOutOfRangeException?displayProperty=name>可以发生。|
-|建议|任何以下一项：<ol><li>升级到.NET 4.7。</li><li>安装 for.NET 4.6.2 维护最新修补程序。</li><li>避免异步响应之前删除列<xref:System.Windows.Controls.DataGrid.ScrollIntoView(System.Object)>已完成。</li></ol>|
+|详细信息|启用列虚拟化但尚未确定列宽时，<xref:System.Windows.Controls.DataGrid.ScrollIntoView(System.Object)> 将以异步方式执行工作。  如果在异步工作执行之前删除列，可能会出现 <xref:System.ArgumentOutOfRangeException?displayProperty=name>。|
+|建议|以下任一项：<ol><li>升级到 .NET 4.7。</li><li>安装 .NET 4.6.2 的最新服务修补程序。</li><li>在对 <xref:System.Windows.Controls.DataGrid.ScrollIntoView(System.Object)> 的异步响应完成前，避免删除列。</li></ol>|
 |范围|边缘|
 |版本|4.6.2|
 |类型|运行时|

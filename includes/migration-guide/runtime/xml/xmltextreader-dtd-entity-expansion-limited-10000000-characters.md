@@ -1,9 +1,9 @@
-### <a name="xmltextreader-dtd-entity-expansion-is-limited-to-10000000-characters"></a>XmlTextReader DTD 实体扩展被限制为 10,000,000 个字符
+### <a name="xmltextreader-dtd-entity-expansion-is-limited-to-10000000-characters"></a>XmlTextReader DTD 实体扩展限制为 10,000,000 个字符
 
 |   |   |
 |---|---|
 |详细信息|DTD 实体扩展现在限制为 10,000,000 个字符。 加载不带 DTD 实体扩展或带有限的 DTD 实体扩展的 XML 文件不受影响。 包含了扩展到 10,000,000 个字符以上的 DTD 实体的文件将无法加载，且会立即引发异常。|
-|建议|如果 DTD 实体扩展限制，则太低 10000000，可以使用替代值<xref:System.Xml.XmlReaderSettings.MaxCharactersFromEntities>属性。 <xref:System.Xml.XmlReaderSettings?displayProperty=name>有适当<xref:System.Xml.XmlReaderSettings.MaxCharactersFromEntities?displayProperty=name>可以将值传递给<code>XmlReader.Create</code>采用<xref:System.Xml.XmlReaderSettings?displayProperty=name>(ie。<xref:System.Xml.XmlReader.Create(System.String,System.Xml.XmlReaderSettings)>)|
+|建议|如果 DTD 实体扩展的限制低于 10,000,000，该值可使用 <xref:System.Xml.XmlReaderSettings.MaxCharactersFromEntities> 属性重写。 可以将具有适当 <xref:System.Xml.XmlReaderSettings.MaxCharactersFromEntities?displayProperty=name> 值的 <xref:System.Xml.XmlReaderSettings?displayProperty=name> 传递给采用 <xref:System.Xml.XmlReaderSettings?displayProperty=name>（例如 <xref:System.Xml.XmlReader.Create(System.String,System.Xml.XmlReaderSettings)>）的 <code>XmlReader.Create</code>|
 |范围|边缘|
 |版本|4.5|
 |类型|运行时|

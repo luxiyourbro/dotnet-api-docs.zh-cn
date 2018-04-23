@@ -1,1 +1,1 @@
-有关此类表示的元素的详细信息，请参阅以下规范： [OASIS 安全断言标记语言 (SAML) V2.0 元](http://go.microsoft.com/fwlink/?LinkId=231291)(http://go.microsoft.com/fwlink/?LinkId=231291)。
+要深入了解此类表示的元素的，请参阅以下规范：[OASIS 安全断言标记语言 (SAML) 2.0 版的元数据](http://go.microsoft.com/fwlink/?LinkId=231291) (http://go.microsoft.com/fwlink/?LinkId=231291))。

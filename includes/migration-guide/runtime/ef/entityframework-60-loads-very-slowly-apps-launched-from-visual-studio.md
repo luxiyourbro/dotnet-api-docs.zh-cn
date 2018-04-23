@@ -1,4 +1,4 @@
-### <a name="entityframework-60-loads-very-slowly-in-apps-launched-from-visual-studio"></a>从 Visual Studio 启动的应用非常缓慢中 EntityFramework 6.0 加载
+### <a name="entityframework-60-loads-very-slowly-in-apps-launched-from-visual-studio"></a>EntityFramework 6.0 在从 Visual Studio 启动的应用中会非常缓慢地加载
 
 |   |   |
 |---|---|

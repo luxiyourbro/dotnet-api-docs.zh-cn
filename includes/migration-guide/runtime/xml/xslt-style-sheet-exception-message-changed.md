@@ -1,9 +1,9 @@
-### <a name="xslt-style-sheet-exception-message-changed"></a>更改的 XSLT 样式表异常消息
+### <a name="xslt-style-sheet-exception-message-changed"></a>XSLT 样式表异常消息已更改
 
 |   |   |
 |---|---|
-|详细信息|在.NET Framework 4.5 中，XSLT 文件过于复杂时的错误消息的文本是&quot;样式表太过复杂。&quot;在以前版本中，错误消息为&quot;XSLT 编译错误。&quot;取决于错误消息的文本的应用程序代码将不再有效。 但是，异常类型保持不变，因此，此更改应该不会造成实际影响。|
-|建议|更新任何应用程序代码，具体取决于从这种错误情况异常消息，需要新的消息，或 （甚至更好地） 更新代码以仅取决于异常类型 (<xref:System.Xml.Xsl.XsltException?displayProperty=name>)，这仍是如此。|
+|详细信息|在 .NET Framework 4.5 中，XSLT 文件过于复杂时显示的错误消息的文本为“样式表太复杂”。在先前版本中，错误消息为“XSLT 编译错误”。取决于错误消息的文本的应用程序代码将不再有效。 但是，异常类型保持不变，因此，此更改应该不会造成实际影响。|
+|建议|根据此错误条件发出的异常消息更新任何应用代码，以收到新消息，或者（最好是）更新代码以仅依赖于未更改的异常类型 (<xref:System.Xml.Xsl.XsltException?displayProperty=name>)。|
 |范围|边缘|
 |版本|4.5|
 |类型|运行时|

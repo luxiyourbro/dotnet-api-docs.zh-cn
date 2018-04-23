@@ -2,8 +2,8 @@
 
 |   |   |
 |---|---|
-|详细信息|WPF 的打印 Api 使用<xref:System.Printing.PrintQueue?displayProperty=name>现在调用窗口打印文档包现已弃用的 XPS 打印 API 支持的 API。 更改与记住; 的可维护性用户和开发人员都不应该看到中行为或 API 使用的任何更改。 在 Windows 10 创建者更新中运行时，将默认启用新的打印堆栈。 旧的打印堆栈仍将继续在较旧版本的 Windows 像以前那样工作。|
-|建议|若要使用 Windows 10 创建者更新旧的堆栈，设置<code>UseXpsOMPrinting</code>REG_DWORD 值<code>HKEY_CURRENT_USER\Software\Microsoft\.NETFramework\Windows Presentation Foundation\Printing</code>注册表项设置为<code>1</code>。|
+|详细信息|WPF 打印 API 现在使用 <xref:System.Printing.PrintQueue?displayProperty=name> 调用窗口的打印文档包 API，以支持现已弃用的 XPS 打印 API。 这一更改是基于可维护性考虑的，因此用户和开发者应该都不会看到任何行为或 API 使用变化。 当在 Windows 10 创意者更新中运行时，此新打印堆栈默认情况下处于启用状态。 在旧版 Windows 中，旧打印堆栈将继续像过去一样运行。|
+|建议|若要在 Windows 10 创意者更新中使用旧堆栈，请将 <code>HKEY_CURRENT_USER\Software\Microsoft\.NETFramework\Windows Presentation Foundation\Printing</code> 注册表项的 <code>UseXpsOMPrinting</code> REG_DWORD 值设置为 <code>1</code>。|
 |范围|边缘|
 |版本|4.7|
 |类型|运行时|

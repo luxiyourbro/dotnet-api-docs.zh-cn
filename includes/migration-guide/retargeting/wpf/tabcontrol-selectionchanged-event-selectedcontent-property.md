@@ -2,8 +2,8 @@
 
 |   |   |
 |---|---|
-|详细信息|从.NET Framework 4.7.1，开始<xref:System.Windows.Controls.TabControl>更新的值，其<xref:System.Windows.Controls.TabControl.SelectedContent>属性之前引发<xref:System.Windows.Controls.Primitives.Selector.SelectionChanged>时其所选内容更改事件。在.NET Framework 4.7 和早期版本中，对 SelectedContent 的更新在事件后发生。|
-|建议|面向.NET Framework 4.7.1 或更高版本可以选择退出此应用更改，并通过添加以下使用旧行为<code>&lt;runtime&gt;</code>应用程序配置文件节：<pre><code class="language-xml">&lt;runtime&gt;&#13;&#10;&lt;AppContextSwitchOverrides value=&quot;Switch.System.Windows.Controls.TabControl.SelectionPropertiesCanLagBehindSelectionChangedEvent=true&quot; /&gt;&#13;&#10;&lt;/runtime&gt;&#13;&#10;</code></pre>应用程序面向.NET Framework 4.7 或更早版本，但在.NET Framework 4.7.1 上运行或更高版本可以通过添加以下行将对启用新的行为<code>&lt;runtime&gt;</code>的应用程序.configuration 文件的部分：<pre><code class="language-xml">&lt;runtime&gt;&#13;&#10;&lt;AppContextSwitchOverrides value=&quot;Switch.System.Windows.Controls.TabControl.SelectionPropertiesCanLagBehindSelectionChangedEvent=false&quot; /&gt;&#13;&#10;&lt;/runtime&gt;&#13;&#10;</code></pre>|
+|详细信息|从 .NET Framework 4.7.1 开始，当选择发生变化时，<xref:System.Windows.Controls.TabControl> 在引发 <xref:System.Windows.Controls.Primitives.Selector.SelectionChanged> 事件之前更新其 <xref:System.Windows.Controls.TabControl.SelectedContent> 属性的值。而在 .NET Framework 4.7 和更早版本中，在事件发生之后才更新到 SelectedContent。|
+|建议|对于面向 .NET Framework 4.7.1 或更高版本的应用，可以在应用程序配置文件的 <code>&lt;runtime&gt;</code> 部分添加以下内容，从而选择弃用此更改并启用旧版行为：<pre><code class="language-xml">&lt;runtime&gt;&#13;&#10;&lt;AppContextSwitchOverrides value=&quot;Switch.System.Windows.Controls.TabControl.SelectionPropertiesCanLagBehindSelectionChangedEvent=true&quot; /&gt;&#13;&#10;&lt;/runtime&gt;&#13;&#10;</code></pre>对于面向 .NET Framework 4.7 或更早版本，但在 .NET Framework 4.7.1 或更高版本上运行的应用，可以在应用程序配置文件的 <code>&lt;runtime&gt;</code> 部分中添加以下代码行，从而启用新的行为：<pre><code class="language-xml">&lt;runtime&gt;&#13;&#10;&lt;AppContextSwitchOverrides value=&quot;Switch.System.Windows.Controls.TabControl.SelectionPropertiesCanLagBehindSelectionChangedEvent=false&quot; /&gt;&#13;&#10;&lt;/runtime&gt;&#13;&#10;</code></pre>|
 |范围|次要|
 |版本|4.7.1|
 |类型|重定目标|

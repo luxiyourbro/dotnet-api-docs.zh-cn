@@ -1,18 +1,18 @@
-使用基于字符的索引与<xref:System.Text.StringBuilder.Chars%2A>属性可以是以下情况下执行速度极慢：
+在以下情况下，通过 <xref:System.Text.StringBuilder.Chars%2A> 属性使用基于字符的索引可能会非常缓慢：
 
-- <xref:System.Text.StringBuilder>实例是大 （例如，它由组成的几个数万个字符）。
-- <xref:System.Text.StringBuilder>是"块区"。 也就是说，如重复对方法的调用<xref:System.Text.StringBuilder.Append%2A?displayProperty=nameWithType>已自动扩展对象的<xref:System.Text.StringBuilder.Capacity%2A?displayProperty=nameWithType>属性和分配新到它的内存块。
+- <xref:System.Text.StringBuilder> 实例很大（例如，它由数以万计的字符组成）。
+- <xref:System.Text.StringBuilder>“比较笨重”。 即，对方法（例如 <xref:System.Text.StringBuilder.Append%2A?displayProperty=nameWithType>）的重复调用会自动扩展对象的 <xref:System.Text.StringBuilder.Capacity%2A?displayProperty=nameWithType> 属性并为其分配新的内存区块。
 
-因为每个字符访问指导区块以查找正确的缓冲区进行到索引的整个链接的列表会严重影响性能。
+因为每次字符访问都会遍历区块的整个链接列表以查找要索引到的正确缓冲区，所以性能受到严重影响。
 
 > [!NOTE]
->  即使对于大型大批量<xref:System.Text.StringBuilder>对象、 使用<xref:System.Text.StringBuilder.Chars%2A>以便基于索引的访问一个或少量的字符的属性会影响可以忽略不计性能; 通常情况下，它是**0 （n)**操作。 当循环中的字符，则会发生显著的性能影响<xref:System.Text.StringBuilder>对象，它是**O(n^2)**操作。 
+>  即使对于大型“笨重的”<xref:System.Text.StringBuilder> 对象，使用 <xref:System.Text.StringBuilder.Chars%2A> 属性对一个或少量字符进行基于索引的访问几乎不影响性能；一般情况下，它是 0(n) 操作。 当迭代 <xref:System.Text.StringBuilder> 对象中的字符时，会对性能造成显著的影响，这是 O(n^2) 操作。 
 
-如果你遇到性能问题时使用基于字符的索引与<xref:System.Text.StringBuilder>对象，你可以使用任何下列解决方法：
+如果通过 <xref:System.Text.StringBuilder> 对象在使用基于字符的索引时遇到性能问题，可以使用以下任一解决方法：
 
-- 将转换<xref:System.Text.StringBuilder>到实例<xref:System.String>通过调用<xref:System.Text.StringBuilder.ToString%2A>方法，然后访问字符串中的字符。
+- 通过调用 <xref:System.Text.StringBuilder.ToString%2A> 方法，将 <xref:System.Text.StringBuilder> 实例转换为 <xref:System.String>，然后访问字符串中的字符。
 
-- 将现有的内容复制<xref:System.Text.StringBuilder>到新的对象预大小<xref:System.Text.StringBuilder>对象。 可以提高性能，因为新<xref:System.Text.StringBuilder>对象不是块式。 例如:
+- 将现有的 <xref:System.Text.StringBuilder> 对象的内容复制到新的预调整大小的 <xref:System.Text.StringBuilder> 对象。 由于新的 <xref:System.Text.StringBuilder> 对象并不笨重，因此可以提升性能。 例如:
 
    ```csharp
    // sbOriginal is the existing StringBuilder object
@@ -22,4 +22,4 @@
    ' sbOriginal is the existing StringBuilder object
    Dim sbNew = New StringBuilder(sbOriginal.ToString(), sbOriginal.Length)
    ```
-- 设置的初始容量<xref:System.Text.StringBuilder>到通过调用约等于其最大的预期大小的值的对象<xref:System.Text.StringBuilder.%23ctor(System.Int32)>构造函数。 请注意此分配的内存，即使整个块<xref:System.Text.StringBuilder>很少达到其最大容量。
+- 通过调用 <xref:System.Text.StringBuilder.%23ctor(System.Int32)> 构造函数，将 <xref:System.Text.StringBuilder> 对象的初始容量设置为约等于其最大预期大小的值。 请注意，即使 <xref:System.Text.StringBuilder> 很少达到其最大容量，它仍会分配整个内存块。

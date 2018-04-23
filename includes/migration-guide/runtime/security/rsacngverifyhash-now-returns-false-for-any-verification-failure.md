@@ -1,9 +1,9 @@
-### <a name="rsacngverifyhash-now-returns-false-for-any-verification-failure"></a>RSACng.VerifyHash 现在任何验证失败，返回 False
+### <a name="rsacngverifyhash-now-returns-false-for-any-verification-failure"></a>RSACng.VerifyHash 现在为任意验证失败返回 False
 
 |   |   |
 |---|---|
-|详细信息|从.NET Framework 4.6.2 开始，此方法返回<strong>False</strong>如果本身的签名格式不正确。 现在，返回 false 的任何计算机验证失败。在.NET Framework 4.6 和 4.6.1 中，该方法将引发<xref:System.Security.Cryptography.CryptographicException?displayProperty=name>如果本身的签名格式不正确。|
-|建议|其执行取决于处理的任何代码<xref:System.Security.Cryptography.CryptographicException?displayProperty=name>应改为执行，如果验证失败并且该方法返回<strong>False</strong>。|
+|详细信息|自 .NET Framework 4.6.2 起，如果签名本身格式不正确，则此方法返回 False。 现在为任意验证失败返回 false。在 .NET Framework 4.6 和 4.6.1 中，如果签名格式错误，则此方法引发 <xref:System.Security.Cryptography.CryptographicException?displayProperty=name>。|
+|建议|如果验证失败且此方法返回 False，应改为执行依赖处理 <xref:System.Security.Cryptography.CryptographicException?displayProperty=name> 而实现执行的任意代码。|
 |范围|次要|
 |版本|4.6.2|
 |类型|运行时|

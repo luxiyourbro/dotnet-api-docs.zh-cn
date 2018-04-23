@@ -1,4 +1,4 @@
-### <a name="eventsourcewriteevent-impls-must-pass-writeevent-the-same-parameters-that-it-received-plus-id"></a>EventSource.WriteEvent impls 必须传递 WriteEvent 相同它接收的参数 （以及 ID）
+### <a name="eventsourcewriteevent-impls-must-pass-writeevent-the-same-parameters-that-it-received-plus-id"></a>EventSource.WriteEvent impls 必须传递它接收的相同参数 WriteEvent（以及 ID）
 
 |   |   |
 |---|---|

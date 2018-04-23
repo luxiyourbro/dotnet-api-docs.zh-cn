@@ -1,4 +1,4 @@
-### <a name="calling-attributegetcustomattributes-on-an-indexer-property-no-longer-throws-ambiguousmatchexception-if-the-ambiguity-can-be-resolved-by-indexs-type"></a>如果可以按索引的类型解析多义性不再调用索引器属性 Attribute.GetCustomAttributes 引发 AmbiguousMatchException
+### <a name="calling-attributegetcustomattributes-on-an-indexer-property-no-longer-throws-ambiguousmatchexception-if-the-ambiguity-can-be-resolved-by-indexs-type"></a>如果多义性可按索引类型进行解析，则在索引器属性上调用 Attribute.GetCustomAttributes 将不再引发 AmbiguousMatchException
 
 |   |   |
 |---|---|

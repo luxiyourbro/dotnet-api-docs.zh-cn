@@ -1,4 +1,4 @@
-### <a name="minfreememorypercentagetoactiveservice-is-now-respected"></a>现在考虑 MinFreeMemoryPercentageToActiveService
+### <a name="minfreememorypercentagetoactiveservice-is-now-respected"></a>MinFreeMemoryPercentageToActiveService 现在受到遵从
 
 |   |   |
 |---|---|

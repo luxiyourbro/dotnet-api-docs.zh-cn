@@ -1,9 +1,9 @@
-### <a name="xmlschemaexception-now-sets-line-positions-properly"></a>XmlSchemaException 现在正确设置行的位置
+### <a name="xmlschemaexception-now-sets-line-positions-properly"></a>XmlSchemaException 现在正确设置行位置
 
 |   |   |
 |---|---|
-|详细信息|如果<xref:System.Xml.Linq.LoadOptions.SetLineInfo>值传递给 Load 方法并发生验证错误，<xref:System.Xml.Schema.XmlSchemaException.LineNumber>和<xref:System.Xml.Schema.XmlSchemaException.LinePosition>属性现在包含行信息。|
-|建议|假定的异常处理代码<xref:System.Xml.Schema.XmlSchemaException.LineNumber>和<xref:System.Xml.Schema.XmlSchemaException.LinePosition>将不会因为加载 XML 时使用 SetLineInfo 时，这些属性将立即正确设置应更新集。|
+|详细信息|如果将 <xref:System.Xml.Linq.LoadOptions.SetLineInfo> 值传递给 Load 方法并发生验证错误，则 <xref:System.Xml.Schema.XmlSchemaException.LineNumber> 和 <xref:System.Xml.Schema.XmlSchemaException.LinePosition> 属性现在包含行信息。|
+|建议|应该更新假设不设置 <xref:System.Xml.Schema.XmlSchemaException.LineNumber> 和 <xref:System.Xml.Schema.XmlSchemaException.LinePosition> 的异常处理代码，因为这些属性将会在加载 XML 且使用 SetLineInfo 的时候正确设置。|
 |范围|边缘|
 |版本|4.5|
 |类型|运行时|

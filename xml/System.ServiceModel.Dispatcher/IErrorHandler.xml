@@ -1,230 +1,180 @@
-<Type Name="IErrorHandler" FullName="System.ServiceModel.Dispatcher.IErrorHandler">
-  <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="1598e70fe551845ecee45c28edf60e852cf1f45b" />
-    <Meta Name="ms.sourcegitcommit" Value="3507e865a3613c00760f25ad1045aaa11bae4dd8" />
-    <Meta Name="ms.translationtype" Value="HT" />
-    <Meta Name="ms.contentlocale" Value="zh-CN" />
-    <Meta Name="ms.lasthandoff" Value="04/23/2018" />
-  </Metadata>
-  <TypeSignature Language="C#" Value="public interface IErrorHandler" />
-  <TypeSignature Language="ILAsm" Value=".class public interface auto ansi abstract IErrorHandler" />
-  <TypeSignature Language="DocId" Value="T:System.ServiceModel.Dispatcher.IErrorHandler" />
-  <TypeSignature Language="VB.NET" Value="Public Interface IErrorHandler" />
-  <TypeSignature Language="C++ CLI" Value="public interface class IErrorHandler" />
-  <AssemblyInfo>
-    <AssemblyName>System.ServiceModel</AssemblyName>
-    <AssemblyVersion>4.0.0.0</AssemblyVersion>
-  </AssemblyInfo>
-  <Interfaces />
-  <Docs>
-    <summary>
-      <span data-ttu-id="d7d06-101">允许实施者对返回给调用方的错误消息进行控制，还可以选择执行自定义错误处理，例如日志记录。</span>
-      <span class="sxs-lookup">
-        <span data-stu-id="d7d06-101">Allows an implementer to control the fault message returned to the caller and optionally perform custom error processing such as logging.</span>
-      </span>
-    </summary>
-    <remarks>
-      <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="d7d06-102">若要显式控制应用程序的行为会引发异常时，请实现<xref:System.ServiceModel.Dispatcher.IErrorHandler>接口，并将其添加到<xref:System.ServiceModel.Dispatcher.ChannelDispatcher>的<xref:System.ServiceModel.Dispatcher.ChannelDispatcher.ErrorHandlers%2A>属性。</span><span class="sxs-lookup"><span data-stu-id="d7d06-102">To explicitly control the behavior of the application when an exception is thrown, implement the <xref:System.ServiceModel.Dispatcher.IErrorHandler> interface and add it to the <xref:System.ServiceModel.Dispatcher.ChannelDispatcher>’s <xref:System.ServiceModel.Dispatcher.ChannelDispatcher.ErrorHandlers%2A> property.</span></span> <span data-ttu-id="d7d06-103"><xref:System.ServiceModel.Dispatcher.IErrorHandler> 可以显式控制生成的 SOAP 错误，决定是否将其发送回客户端，然后执行相关联的任务，例如日志记录。</span><span class="sxs-lookup"><span data-stu-id="d7d06-103"><xref:System.ServiceModel.Dispatcher.IErrorHandler> enables you to explicitly control the SOAP fault generated, decide whether to send it back to the client, and perform associated tasks, such as logging.</span></span> <span data-ttu-id="d7d06-104">错误处理程序将按照它们向 <xref:System.ServiceModel.Dispatcher.ChannelDispatcher.ErrorHandlers%2A> 属性中的添加顺序进行调用。</span><span class="sxs-lookup"><span data-stu-id="d7d06-104">Error handlers are called in the order in which they were added to the <xref:System.ServiceModel.Dispatcher.ChannelDispatcher.ErrorHandlers%2A> property.</span></span>  
-  
- <span data-ttu-id="d7d06-105">实现 <xref:System.ServiceModel.Dispatcher.IErrorHandler.ProvideFault%2A> 方法可控制返回到客户端的错误消息。</span><span class="sxs-lookup"><span data-stu-id="d7d06-105">Implement the <xref:System.ServiceModel.Dispatcher.IErrorHandler.ProvideFault%2A> method to control the fault message that is returned to the client.</span></span>  
-  
- <span data-ttu-id="d7d06-106">实现 <xref:System.ServiceModel.Dispatcher.IErrorHandler.HandleError%2A> 方法可确保执行错误相关行为，包括错误日志记录、确保快速报告故障、关闭应用程序等。</span><span class="sxs-lookup"><span data-stu-id="d7d06-106">Implement the <xref:System.ServiceModel.Dispatcher.IErrorHandler.HandleError%2A> method to ensure error-related behaviors, including error logging, assuring a fail fast, shutting down the application, and so on.</span></span>  
-  
-> [!NOTE]
->  <span data-ttu-id="d7d06-107">由于 <xref:System.ServiceModel.Dispatcher.IErrorHandler.HandleError%2A> 方法可以从许多不同的位置进行调用，所以不能确保该方法调用的线程。</span><span class="sxs-lookup"><span data-stu-id="d7d06-107">Because the <xref:System.ServiceModel.Dispatcher.IErrorHandler.HandleError%2A> method can be called from many different places there are no guarantees made about which thread the method is called on.</span></span> <span data-ttu-id="d7d06-108">不要依赖操作线程上调用的 <xref:System.ServiceModel.Dispatcher.IErrorHandler.HandleError%2A> 方法。</span><span class="sxs-lookup"><span data-stu-id="d7d06-108">Do not depend on <xref:System.ServiceModel.Dispatcher.IErrorHandler.HandleError%2A> method being called on the operation thread.</span></span>  
-  
- <span data-ttu-id="d7d06-109">发送响应消息前，首先调用所有 <xref:System.ServiceModel.Dispatcher.IErrorHandler.ProvideFault%2A> 实现。</span><span class="sxs-lookup"><span data-stu-id="d7d06-109">All <xref:System.ServiceModel.Dispatcher.IErrorHandler.ProvideFault%2A> implementations are called first, prior to sending a response message.</span></span> <span data-ttu-id="d7d06-110">如果 <xref:System.ServiceModel.Dispatcher.IErrorHandler.ProvideFault%2A> 为非 `fault`，则在调用了所有 `null` 实现且返回后，将根据操作协定将响应消息发送回客户端。</span><span class="sxs-lookup"><span data-stu-id="d7d06-110">When all <xref:System.ServiceModel.Dispatcher.IErrorHandler.ProvideFault%2A> implementations have been called and return, and if `fault` is non-`null`, it is sent back to the client according to the operation contract.</span></span> <span data-ttu-id="d7d06-111">如果调用所有实现后，`fault` 为 `null`，则响应消息将由 <xref:System.ServiceModel.ServiceBehaviorAttribute.IncludeExceptionDetailInFaults%2A?displayProperty=nameWithType> 属性值控制。</span><span class="sxs-lookup"><span data-stu-id="d7d06-111">If `fault` is `null` after all implementations have been called, the response message is controlled by the <xref:System.ServiceModel.ServiceBehaviorAttribute.IncludeExceptionDetailInFaults%2A?displayProperty=nameWithType> property value.</span></span>  
-  
-> [!NOTE]
->  <span data-ttu-id="d7d06-112">调用所有 <xref:System.ServiceModel.Dispatcher.IErrorHandler.ProvideFault%2A> 实现，并将响应消息传递到通道后，可能会发生异常。</span><span class="sxs-lookup"><span data-stu-id="d7d06-112">Exceptions can occur after all <xref:System.ServiceModel.Dispatcher.IErrorHandler.ProvideFault%2A> implementations are called and a response message is handed to the channel.</span></span> <span data-ttu-id="d7d06-113">如果通道异常发生 （例如，序列化消息的难度）<xref:System.ServiceModel.Dispatcher.IErrorHandler>对象会收到通知。</span><span class="sxs-lookup"><span data-stu-id="d7d06-113">If a channel exception occurs (for example, difficulty serializing the message) <xref:System.ServiceModel.Dispatcher.IErrorHandler> objects are notified.</span></span> <span data-ttu-id="d7d06-114">在这种情况下，还应确保你的开发环境将捕获并向用户显示此类异常或利用跟踪来发现问题。</span><span class="sxs-lookup"><span data-stu-id="d7d06-114">In this case, you should still make sure that your development environment catches and displays such exceptions to you or makes use of tracing to discover the problem.</span></span> <span data-ttu-id="d7d06-115">有关跟踪的详细信息，请参阅[解决应用程序中使用跟踪](~/docs/framework/wcf/diagnostics/tracing/using-tracing-to-troubleshoot-your-application.md)。</span><span class="sxs-lookup"><span data-stu-id="d7d06-115">For more information about tracing, see [Using Tracing to Troubleshoot Your Application](~/docs/framework/wcf/diagnostics/tracing/using-tracing-to-troubleshoot-your-application.md).</span></span>  
-  
- <span data-ttu-id="d7d06-116">发送响应消息后，将以相同顺序调用所有 <xref:System.ServiceModel.Dispatcher.IErrorHandler.HandleError%2A> 实现。</span><span class="sxs-lookup"><span data-stu-id="d7d06-116">After the response message has been sent, all <xref:System.ServiceModel.Dispatcher.IErrorHandler.HandleError%2A> implementations are called in the same order.</span></span>  
-  
- <span data-ttu-id="d7d06-117">通常，会将 <xref:System.ServiceModel.Dispatcher.IErrorHandler> 实现添加到服务的 <xref:System.ServiceModel.Dispatcher.ChannelDispatcher.ErrorHandlers%2A> 属性；如果为双工通信，则还要添加到客户端的上述属性中。</span><span class="sxs-lookup"><span data-stu-id="d7d06-117">Typically, an <xref:System.ServiceModel.Dispatcher.IErrorHandler> implementation is added to the <xref:System.ServiceModel.Dispatcher.ChannelDispatcher.ErrorHandlers%2A> property on the service (and the client in the case of duplex communication).</span></span>  
-  
- <span data-ttu-id="d7d06-118">您可通过实现行为（<xref:System.ServiceModel.Dispatcher.IErrorHandler>、<xref:System.ServiceModel.Description.IServiceBehavior?displayProperty=nameWithType>、<xref:System.ServiceModel.Description.IEndpointBehavior?displayProperty=nameWithType> 或 <xref:System.ServiceModel.Description.IContractBehavior?displayProperty=nameWithType> 对象）将 <xref:System.ServiceModel.Description.IOperationBehavior?displayProperty=nameWithType> 添加到运行时，然后从配置文件、以编程方式使用所添加的行为，或利用自定义属性来附加您的 <xref:System.ServiceModel.Dispatcher.IErrorHandler>。</span><span class="sxs-lookup"><span data-stu-id="d7d06-118">You can add the <xref:System.ServiceModel.Dispatcher.IErrorHandler> to the runtime by implementing a behavior (either an <xref:System.ServiceModel.Description.IServiceBehavior?displayProperty=nameWithType>, <xref:System.ServiceModel.Description.IEndpointBehavior?displayProperty=nameWithType>, <xref:System.ServiceModel.Description.IContractBehavior?displayProperty=nameWithType>, or <xref:System.ServiceModel.Description.IOperationBehavior?displayProperty=nameWithType> object) and use the behavior programmatically, from a configuration file or with a custom attribute to attach your <xref:System.ServiceModel.Dispatcher.IErrorHandler>.</span></span>  
-  
- <span data-ttu-id="d7d06-119">有关使用行为来修改运行时的详细信息，请参阅[配置和扩展的运行时带有行为](~/docs/framework/wcf/extending/configuring-and-extending-the-runtime-with-behaviors.md)。</span><span class="sxs-lookup"><span data-stu-id="d7d06-119">For more information about using behaviors to modify the runtime, see [Configuring and Extending the Runtime with Behaviors](~/docs/framework/wcf/extending/configuring-and-extending-the-runtime-with-behaviors.md).</span></span>  
-  
-   
-  
-## Examples  
- <span data-ttu-id="d7d06-120">下面的代码示例演示了服务方法引发托管异常时，实现 <xref:System.ServiceModel.Dispatcher.IErrorHandler>（仅返回类型为 <xref:System.ServiceModel.FaultException%601> 的 `GreetingFault`）的服务。</span><span class="sxs-lookup"><span data-stu-id="d7d06-120">The following code example demonstrates a service that implements <xref:System.ServiceModel.Dispatcher.IErrorHandler> that returns only <xref:System.ServiceModel.FaultException%601> of type `GreetingFault` when a service method throws a managed exception.</span></span>  
-  
- [!code-csharp[IErrorHandler#6](~/samples/snippets/csharp/VS_Snippets_CFX/ierrorhandler/cs/ierrorhandler.cs#6)]
- [!code-vb[IErrorHandler#6](~/samples/snippets/visualbasic/VS_Snippets_CFX/ierrorhandler/vb/ierrorhandler.vb#6)]  
-  
- <span data-ttu-id="d7d06-121">下面的代码示例演示了如何使用服务行为将 <xref:System.ServiceModel.Dispatcher.IErrorHandler> 实现添加到 <xref:System.ServiceModel.Dispatcher.ChannelDispatcher.ErrorHandlers%2A> 属性。</span><span class="sxs-lookup"><span data-stu-id="d7d06-121">The following code example shows how to use a service behavior to add the <xref:System.ServiceModel.Dispatcher.IErrorHandler> implementation to the <xref:System.ServiceModel.Dispatcher.ChannelDispatcher.ErrorHandlers%2A> property.</span></span>  
-  
- [!code-csharp[IErrorHandler#7](~/samples/snippets/csharp/VS_Snippets_CFX/ierrorhandler/cs/ierrorhandler.cs#7)]
- [!code-vb[IErrorHandler#7](~/samples/snippets/visualbasic/VS_Snippets_CFX/ierrorhandler/vb/ierrorhandler.vb#7)]  
-  
- <span data-ttu-id="d7d06-122">下面的代码示例演示了如何通过使用应用程序配置文件来配置服务，从而加载服务行为。</span><span class="sxs-lookup"><span data-stu-id="d7d06-122">The following code example shows how to configure the service to load the service behavior using an application configuration file.</span></span> <span data-ttu-id="d7d06-123">有关如何在配置文件中公开服务行为的详细信息，请参见 <xref:System.ServiceModel.Description.IServiceBehavior>。</span><span class="sxs-lookup"><span data-stu-id="d7d06-123">For more details about how to expose a service behavior in a configuration file, see <xref:System.ServiceModel.Description.IServiceBehavior>.</span></span>  
-
- [!code-xml[IErrorHandler#4](~/samples/snippets/csharp/VS_Snippets_CFX/ierrorhandler/cs/hostapplication.exe.config#4)]   
-  
- ]]></format>
-    </remarks>
-  </Docs>
-  <Members>
-    <Member MemberName="HandleError">
-      <MemberSignature Language="C#" Value="public bool HandleError (Exception error);" FrameworkAlternate="netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance bool HandleError(class System.Exception error) cil managed" FrameworkAlternate="netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2" />
-      <MemberSignature Language="VB.NET" Value="Public Function HandleError (error As Exception) As Boolean" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; bool HandleError(Exception ^ error);" FrameworkAlternate="netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2" />
-      <MemberSignature Language="C#" Value="public bool HandleError (Exception exception);" FrameworkAlternate="xamarinmac-3.0" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance bool HandleError(class System.Exception exception) cil managed" FrameworkAlternate="xamarinmac-3.0" />
-      <MemberSignature Language="DocId" Value="M:System.ServiceModel.Dispatcher.IErrorHandler.HandleError(System.Exception)" FrameworkAlternate="xamarinmac-3.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; bool HandleError(Exception ^ exception);" FrameworkAlternate="xamarinmac-3.0" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.ServiceModel</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Boolean</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="error" Type="System.Exception" Index="0" FrameworkAlternate="netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2" />
-        <Parameter Name="exception" Type="System.Exception" Index="0" FrameworkAlternate="xamarinmac-3.0" />
-      </Parameters>
-      <Docs>
-        <param name="error">To be added.</param>
-        <param name="exception">To be added.</param>
-        <summary>
-          <span data-ttu-id="d7d06-124">启用错误相关处理并返回一个值，该值指示调度程序在某些情况下是否中止会话和实例上下文。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d7d06-124">Enables error-related processing and returns a value that indicates whether the dispatcher aborts the session and the instance context in certain cases.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="d7d06-125">如果 [!INCLUDE[indigo1](~/includes/indigo1-md.md)] 不应中止会话（如果有一个）和实例上下文（如果实例上下文不是 <see cref="F:System.ServiceModel.InstanceContextMode.Single" />），则为 <see langword="true" />；否则为 <see langword="false" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d7d06-125">
-              <see langword="true" /> if [!INCLUDE[indigo1](~/includes/indigo1-md.md)] should not abort the session (if there is one) and instance context if the instance context is not <see cref="F:System.ServiceModel.InstanceContextMode.Single" />; otherwise, <see langword="false" />.</span>
-          </span>
-          <span data-ttu-id="d7d06-126">默认值为 <see langword="false" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d7d06-126">The default is <see langword="false" />.</span>
-          </span>
-        </returns>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="d7d06-127">使用 <xref:System.ServiceModel.Dispatcher.IErrorHandler.HandleError%2A> 方法可实现错误相关行为（例如错误日志记录、系统通知、关闭应用程序等）并返回一个值，该值指定异常是否已适当处理。</span><span class="sxs-lookup"><span data-stu-id="d7d06-127">Use the <xref:System.ServiceModel.Dispatcher.IErrorHandler.HandleError%2A> method to implement error-related behaviors such as error logging, system notifications, shutting down the application, and so on, and return a value that specifies whether the exception has been handled appropriately.</span></span>  
-  
-> [!NOTE]
->  <span data-ttu-id="d7d06-128">由于 <xref:System.ServiceModel.Dispatcher.IErrorHandler.HandleError%2A> 方法可以从许多不同的位置进行调用，所以不能确保该方法调用的线程。</span><span class="sxs-lookup"><span data-stu-id="d7d06-128">Because the <xref:System.ServiceModel.Dispatcher.IErrorHandler.HandleError%2A> method can be called from many different places there are no guarantees made about which thread the method is called on.</span></span> <span data-ttu-id="d7d06-129">不要依赖操作线程上调用的 <xref:System.ServiceModel.Dispatcher.IErrorHandler.HandleError%2A> 方法。</span><span class="sxs-lookup"><span data-stu-id="d7d06-129">Do not depend on <xref:System.ServiceModel.Dispatcher.IErrorHandler.HandleError%2A> method being called on the operation thread.</span></span>  
-  
- <span data-ttu-id="d7d06-130">将调用所有 <xref:System.ServiceModel.Dispatcher.IErrorHandler> 实现。</span><span class="sxs-lookup"><span data-stu-id="d7d06-130">All <xref:System.ServiceModel.Dispatcher.IErrorHandler> implementations are called.</span></span> <span data-ttu-id="d7d06-131">默认情况下 (当返回的值是`false`)，如果没有异常，调度程序将中止任何会话，并中止<xref:System.ServiceModel.InstanceContext>如果<xref:System.ServiceModel.InstanceContextMode>是任何内容，而不<xref:System.ServiceModel.InstanceContextMode.Single>。</span><span class="sxs-lookup"><span data-stu-id="d7d06-131">By default (when the return value is `false`), if there is an exception, the dispatcher aborts any session and aborts the <xref:System.ServiceModel.InstanceContext> if the <xref:System.ServiceModel.InstanceContextMode> is anything other than <xref:System.ServiceModel.InstanceContextMode.Single>.</span></span>  <span data-ttu-id="d7d06-132">这样，该异常被视为未处理，并且任何状态都被视为已损坏。</span><span class="sxs-lookup"><span data-stu-id="d7d06-132">The exception is then considered unhandled and any state is considered corrupt.</span></span>  
-  
- <span data-ttu-id="d7d06-133">从 `true` 返回 <xref:System.ServiceModel.Dispatcher.IErrorHandler.HandleError%2A> 可以防止此默认行为。</span><span class="sxs-lookup"><span data-stu-id="d7d06-133">Return `true` from <xref:System.ServiceModel.Dispatcher.IErrorHandler.HandleError%2A> to prevent this default behavior.</span></span> <span data-ttu-id="d7d06-134">如果任何错误处理程序返回了 `true`，它会指示 [!INCLUDE[indigo2](~/includes/indigo2-md.md)] 继续使用与失败请求相关联的状态是安全的。</span><span class="sxs-lookup"><span data-stu-id="d7d06-134">If any error handler returns `true` it instructs [!INCLUDE[indigo2](~/includes/indigo2-md.md)] that it is safe to continue using state associated with the failed request.</span></span>  
-  
- <span data-ttu-id="d7d06-135">当通过会话通道进行通信，或 `true` 属性未设置为 <xref:System.ServiceModel.Dispatcher.IErrorHandler.HandleError%2A> 时，如果没有错误处理程序从 <xref:System.ServiceModel.InstanceContext?displayProperty=nameWithType> 方法返回 <xref:System.ServiceModel.ServiceBehaviorAttribute.InstanceContextMode%2A?displayProperty=nameWithType>，则将认为异常未处理且默认响应适用，并可能会导致中止 <xref:System.ServiceModel.InstanceContextMode.Single?displayProperty=nameWithType> 和通道。</span><span class="sxs-lookup"><span data-stu-id="d7d06-135">If no error handler returns `true` from the <xref:System.ServiceModel.Dispatcher.IErrorHandler.HandleError%2A> method the exception is considered unhandled and the default response applies, potentially resulting in an aborted <xref:System.ServiceModel.InstanceContext?displayProperty=nameWithType> and channel when communicating on a session channel or the <xref:System.ServiceModel.ServiceBehaviorAttribute.InstanceContextMode%2A?displayProperty=nameWithType> property is not set to <xref:System.ServiceModel.InstanceContextMode.Single?displayProperty=nameWithType>.</span></span>  
-  
- <span data-ttu-id="d7d06-136">`error` 参数包含有所引发的异常对象，且永远不会为 `null`。</span><span class="sxs-lookup"><span data-stu-id="d7d06-136">The `error` parameter is never `null` and contains the exception object that was thrown.</span></span>  
-  
-   
-  
-## Examples  
- <span data-ttu-id="d7d06-137">下面的代码示例演示了服务方法引发托管异常时，实现 <xref:System.ServiceModel.Dispatcher.IErrorHandler>（仅返回类型为 <xref:System.ServiceModel.FaultException%601> 的 `GreetingFault`）的服务。</span><span class="sxs-lookup"><span data-stu-id="d7d06-137">The following code example demonstrates a service that implements <xref:System.ServiceModel.Dispatcher.IErrorHandler> that returns only <xref:System.ServiceModel.FaultException%601> of type `GreetingFault` when a service method throws a managed exception.</span></span>  
-  
- [!code-csharp[IErrorHandler#6](~/samples/snippets/csharp/VS_Snippets_CFX/ierrorhandler/cs/ierrorhandler.cs#6)]
- [!code-vb[IErrorHandler#6](~/samples/snippets/visualbasic/VS_Snippets_CFX/ierrorhandler/vb/ierrorhandler.vb#6)]  
-  
- <span data-ttu-id="d7d06-138">下面的代码示例演示了如何使用服务行为将 <xref:System.ServiceModel.Dispatcher.IErrorHandler> 实现添加到 <xref:System.ServiceModel.Dispatcher.ChannelDispatcher.ErrorHandlers%2A> 属性。</span><span class="sxs-lookup"><span data-stu-id="d7d06-138">The following code example shows how to use a service behavior to add the <xref:System.ServiceModel.Dispatcher.IErrorHandler> implementation to the <xref:System.ServiceModel.Dispatcher.ChannelDispatcher.ErrorHandlers%2A> property.</span></span>  
-  
- [!code-csharp[IErrorHandler#7](~/samples/snippets/csharp/VS_Snippets_CFX/ierrorhandler/cs/ierrorhandler.cs#7)]
- [!code-vb[IErrorHandler#7](~/samples/snippets/visualbasic/VS_Snippets_CFX/ierrorhandler/vb/ierrorhandler.vb#7)]  
-  
- <span data-ttu-id="d7d06-139">下面的代码示例演示了如何通过使用应用程序配置文件来配置服务，从而加载服务行为。</span><span class="sxs-lookup"><span data-stu-id="d7d06-139">The following code example shows how to configure the service to load the service behavior using an application configuration file.</span></span> <span data-ttu-id="d7d06-140">有关如何在配置文件中公开服务行为的详细信息，请参见 <xref:System.ServiceModel.Description.IServiceBehavior>。</span><span class="sxs-lookup"><span data-stu-id="d7d06-140">For more details about how to expose a service behavior in a configuration file, see <xref:System.ServiceModel.Description.IServiceBehavior>.</span></span>  
-  
- [!code-xml[IErrorHandler#4](~/samples/snippets/csharp/VS_Snippets_CFX/ierrorhandler/cs/hostapplication.exe.config#4)]   
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="ProvideFault">
-      <MemberSignature Language="C#" Value="public void ProvideFault (Exception error, System.ServiceModel.Channels.MessageVersion version, ref System.ServiceModel.Channels.Message fault);" FrameworkAlternate="netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void ProvideFault(class System.Exception error, class System.ServiceModel.Channels.MessageVersion version, class System.ServiceModel.Channels.Message&amp; fault) cil managed" FrameworkAlternate="netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2" />
-      <MemberSignature Language="VB.NET" Value="Public Sub ProvideFault (error As Exception, version As MessageVersion, ByRef fault As Message)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; void ProvideFault(Exception ^ error, System::ServiceModel::Channels::MessageVersion ^ version, System::ServiceModel::Channels::Message ^ % fault);" FrameworkAlternate="netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2" />
-      <MemberSignature Language="C#" Value="public void ProvideFault (Exception exception, System.ServiceModel.Channels.MessageVersion version, ref System.ServiceModel.Channels.Message fault);" FrameworkAlternate="xamarinmac-3.0" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void ProvideFault(class System.Exception exception, class System.ServiceModel.Channels.MessageVersion version, class System.ServiceModel.Channels.Message&amp; fault) cil managed" FrameworkAlternate="xamarinmac-3.0" />
-      <MemberSignature Language="DocId" Value="M:System.ServiceModel.Dispatcher.IErrorHandler.ProvideFault(System.Exception,System.ServiceModel.Channels.MessageVersion,System.ServiceModel.Channels.Message@)" FrameworkAlternate="xamarinmac-3.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; void ProvideFault(Exception ^ exception, System::ServiceModel::Channels::MessageVersion ^ version, System::ServiceModel::Channels::Message ^ % fault);" FrameworkAlternate="xamarinmac-3.0" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.ServiceModel</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="error" Type="System.Exception" Index="0" FrameworkAlternate="netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2" />
-        <Parameter Name="exception" Type="System.Exception" Index="0" FrameworkAlternate="xamarinmac-3.0" />
-        <Parameter Name="version" Type="System.ServiceModel.Channels.MessageVersion" Index="1" />
-        <Parameter Name="fault" Type="System.ServiceModel.Channels.Message&amp;" RefType="ref" Index="2" />
-      </Parameters>
-      <Docs>
-        <param name="error">To be added.</param>
-        <param name="exception">To be added.</param>
-        <param name="version">
-          <span data-ttu-id="d7d06-141">消息的 SOAP 版本。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d7d06-141">The SOAP version of the message.</span>
-          </span>
-        </param>
-        <param name="fault">
-          <span data-ttu-id="d7d06-142">双工情况下，返回到客户端或服务的 <see cref="T:System.ServiceModel.Channels.Message" /> 对象。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d7d06-142">The <see cref="T:System.ServiceModel.Channels.Message" /> object that is returned to the client, or service, in the duplex case.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="d7d06-143">启用创建从服务方法过程中的异常返回的自定义 <see cref="T:System.ServiceModel.FaultException`1" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d7d06-143">Enables the creation of a custom <see cref="T:System.ServiceModel.FaultException`1" /> that is returned from an exception in the course of a service method.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="d7d06-144">实现 <xref:System.ServiceModel.Dispatcher.IErrorHandler.ProvideFault%2A> 方法可创建返回到客户端的自定义错误消息。</span><span class="sxs-lookup"><span data-stu-id="d7d06-144">Implement the <xref:System.ServiceModel.Dispatcher.IErrorHandler.ProvideFault%2A> method to create a custom fault message that is returned to the client.</span></span>  <span data-ttu-id="d7d06-145"><xref:System.ServiceModel.Dispatcher.IErrorHandler.ProvideFault%2A>方法将始终会为异常会导致操作，除了当 WCF 运行时识别视为尤其是致命错误异常，并重新引发的异常自身调用。</span><span class="sxs-lookup"><span data-stu-id="d7d06-145">The <xref:System.ServiceModel.Dispatcher.IErrorHandler.ProvideFault%2A> method will always be called for exceptions that leave operations, except when the WCF runtime recognizes the exception as especially fatal and rethrows the exception itself.</span></span> <span data-ttu-id="d7d06-146">调用所有 <xref:System.ServiceModel.Dispatcher.IErrorHandler.ProvideFault%2A> 实现后，如果 `fault` 为非 `null`，错误消息将会被发送回客户端。</span><span class="sxs-lookup"><span data-stu-id="d7d06-146">When all <xref:System.ServiceModel.Dispatcher.IErrorHandler.ProvideFault%2A> implementations have been called, the fault message is sent back to the client (if `fault` is non-`null`).</span></span> <span data-ttu-id="d7d06-147">如果`fault`参数是`null`默认错误发送到客户端。</span><span class="sxs-lookup"><span data-stu-id="d7d06-147">If the `fault` parameter is `null` the default fault is sent to the client.</span></span>  
-  
-> [!NOTE]
->  <span data-ttu-id="d7d06-148">在此方法的操作过程中，可从 <xref:System.ServiceModel.OperationContext.RequestContext%2A?displayProperty=nameWithType> 属性访问引发处理错误的入站消息。</span><span class="sxs-lookup"><span data-stu-id="d7d06-148">The inbound message that caused the processing error is available during this method from the <xref:System.ServiceModel.OperationContext.RequestContext%2A?displayProperty=nameWithType> property.</span></span>  
-  
-> [!NOTE]
->  <span data-ttu-id="d7d06-149">由于 <xref:System.ServiceModel.Dispatcher.IErrorHandler.ProvideFault%2A> 方法可以从许多不同的位置进行调用，所以不能确保该方法调用的线程。</span><span class="sxs-lookup"><span data-stu-id="d7d06-149">Because the <xref:System.ServiceModel.Dispatcher.IErrorHandler.ProvideFault%2A> method can be called from many different places there are no guarantees made about which thread the method is called on.</span></span> <span data-ttu-id="d7d06-150">不要依赖操作线程上调用的 <xref:System.ServiceModel.Dispatcher.IErrorHandler.ProvideFault%2A> 方法。</span><span class="sxs-lookup"><span data-stu-id="d7d06-150">Do not depend on <xref:System.ServiceModel.Dispatcher.IErrorHandler.ProvideFault%2A> method being called on the operation thread.</span></span>  
-  
-   
-  
-## Examples  
- <span data-ttu-id="d7d06-151">下面的代码示例演示了服务方法引发托管异常时，实现 <xref:System.ServiceModel.Dispatcher.IErrorHandler>（仅返回类型为 <xref:System.ServiceModel.FaultException%601> 的 `GreetingFault`）的服务。</span><span class="sxs-lookup"><span data-stu-id="d7d06-151">The following code example demonstrates a service that implements <xref:System.ServiceModel.Dispatcher.IErrorHandler> that returns only <xref:System.ServiceModel.FaultException%601> of type `GreetingFault` when a service method throws a managed exception.</span></span>  
-  
- [!code-csharp[IErrorHandler#6](~/samples/snippets/csharp/VS_Snippets_CFX/ierrorhandler/cs/ierrorhandler.cs#6)]
- [!code-vb[IErrorHandler#6](~/samples/snippets/visualbasic/VS_Snippets_CFX/ierrorhandler/vb/ierrorhandler.vb#6)]  
-  
- <span data-ttu-id="d7d06-152">下面的代码示例演示了如何使用服务行为将 <xref:System.ServiceModel.Dispatcher.IErrorHandler> 实现添加到 <xref:System.ServiceModel.Dispatcher.ChannelDispatcher.ErrorHandlers%2A> 属性。</span><span class="sxs-lookup"><span data-stu-id="d7d06-152">The following code example shows how to use a service behavior to add the <xref:System.ServiceModel.Dispatcher.IErrorHandler> implementation to the <xref:System.ServiceModel.Dispatcher.ChannelDispatcher.ErrorHandlers%2A> property.</span></span>  
-  
- [!code-csharp[IErrorHandler#7](~/samples/snippets/csharp/VS_Snippets_CFX/ierrorhandler/cs/ierrorhandler.cs#7)]
- [!code-vb[IErrorHandler#7](~/samples/snippets/visualbasic/VS_Snippets_CFX/ierrorhandler/vb/ierrorhandler.vb#7)]  
-  
- <span data-ttu-id="d7d06-153">下面的代码示例演示了如何通过使用应用程序配置文件来配置服务，从而加载服务行为。</span><span class="sxs-lookup"><span data-stu-id="d7d06-153">The following code example shows how to configure the service to load the service behavior using an application configuration file.</span></span> <span data-ttu-id="d7d06-154">有关如何在配置文件中公开服务行为的详细信息，请参见 <xref:System.ServiceModel.Description.IServiceBehavior>。</span><span class="sxs-lookup"><span data-stu-id="d7d06-154">For more details about how to expose a service behavior in a configuration file, see <xref:System.ServiceModel.Description.IServiceBehavior>.</span></span>  
-  
- [!code-xml[IErrorHandler#4](~/samples/snippets/csharp/VS_Snippets_CFX/ierrorhandler/cs/hostapplication.exe.config#4)]   
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-  </Members>
-</Type>
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.2" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 xliff-core-1.2-transitional.xsd">
+  <file datatype="xml" original="IErrorHandler.xml" source-language="en-US" target-language="zh-CN">
+    <header>
+      <tool tool-id="mdxliff" tool-name="mdxliff" tool-version="1.0-efd8310" tool-company="Microsoft" />
+      <xliffext:skl_file_name xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">73cd4428-9abd-4836-b1ef-ba70fe2e0b7286dc43481a61c6d31ce336ef7033109adb8fb68b.skl</xliffext:skl_file_name>
+      <xliffext:version xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">1.2</xliffext:version>
+      <xliffext:ms.openlocfilehash xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">86dc43481a61c6d31ce336ef7033109adb8fb68b</xliffext:ms.openlocfilehash>
+      <xliffext:ms.sourcegitcommit xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">cc0c87a2e12b0fb9ba9ecdd3d4950f0572524db8</xliffext:ms.sourcegitcommit>
+      <xliffext:ms.lasthandoff xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">05/03/2018</xliffext:ms.lasthandoff>
+      <xliffext:moniker_ids xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">netframework-4.5.1,netframework-4.5.2,netframework-4.5,netframework-4.6.1,netframework-4.6.2,netframework-4.6,netframework-4.7.1,netframework-4.7.2,netframework-4.7,xamarinmac-3.0</xliffext:moniker_ids>
+    </header>
+    <body>
+      <group id="content" extype="content">
+        <trans-unit id="101" translate="yes" xml:space="preserve" uid="T:System.ServiceModel.Dispatcher.IErrorHandler">
+          <source>Allows an implementer to control the fault message returned to the caller and optionally perform custom error processing such as logging.</source>
+          <target state="translated">允许实施者对返回给调用方的错误消息进行控制，还可以选择执行自定义错误处理，例如日志记录。</target>       </trans-unit>
+        <trans-unit id="102" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ServiceModel.Dispatcher.IErrorHandler">
+          <source>To explicitly control the behavior of the application when an exception is thrown, implement the <ph id="ph1">&lt;xref:System.ServiceModel.Dispatcher.IErrorHandler&gt;</ph> interface and add it to the <ph id="ph2">&lt;xref:System.ServiceModel.Dispatcher.ChannelDispatcher&gt;</ph>’s <ph id="ph3">&lt;xref:System.ServiceModel.Dispatcher.ChannelDispatcher.ErrorHandlers%2A&gt;</ph> property.</source>
+          <target state="translated">若要显式控制应用程序的行为会引发异常时，请实现<ph id="ph1">&lt;xref:System.ServiceModel.Dispatcher.IErrorHandler&gt;</ph>接口，并将其添加到<ph id="ph2">&lt;xref:System.ServiceModel.Dispatcher.ChannelDispatcher&gt;</ph>的<ph id="ph3">&lt;xref:System.ServiceModel.Dispatcher.ChannelDispatcher.ErrorHandlers%2A&gt;</ph>属性。</target>       </trans-unit>
+        <trans-unit id="103" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ServiceModel.Dispatcher.IErrorHandler">
+          <source><ph id="ph1">&lt;xref:System.ServiceModel.Dispatcher.IErrorHandler&gt;</ph> enables you to explicitly control the SOAP fault generated, decide whether to send it back to the client, and perform associated tasks, such as logging.</source>
+          <target state="translated"><ph id="ph1">&lt;xref:System.ServiceModel.Dispatcher.IErrorHandler&gt;</ph> 可以显式控制生成的 SOAP 错误，决定是否将其发送回客户端，然后执行相关联的任务，例如日志记录。</target>       </trans-unit>
+        <trans-unit id="104" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ServiceModel.Dispatcher.IErrorHandler">
+          <source>Error handlers are called in the order in which they were added to the <ph id="ph1">&lt;xref:System.ServiceModel.Dispatcher.ChannelDispatcher.ErrorHandlers%2A&gt;</ph> property.</source>
+          <target state="translated">错误处理程序将按照它们向 <ph id="ph1">&lt;xref:System.ServiceModel.Dispatcher.ChannelDispatcher.ErrorHandlers%2A&gt;</ph> 属性中的添加顺序进行调用。</target>       </trans-unit>
+        <trans-unit id="105" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ServiceModel.Dispatcher.IErrorHandler">
+          <source>Implement the <ph id="ph1">&lt;xref:System.ServiceModel.Dispatcher.IErrorHandler.ProvideFault%2A&gt;</ph> method to control the fault message that is returned to the client.</source>
+          <target state="translated">实现 <ph id="ph1">&lt;xref:System.ServiceModel.Dispatcher.IErrorHandler.ProvideFault%2A&gt;</ph> 方法可控制返回到客户端的错误消息。</target>       </trans-unit>
+        <trans-unit id="106" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ServiceModel.Dispatcher.IErrorHandler">
+          <source>Implement the <ph id="ph1">&lt;xref:System.ServiceModel.Dispatcher.IErrorHandler.HandleError%2A&gt;</ph> method to ensure error-related behaviors, including error logging, assuring a fail fast, shutting down the application, and so on.</source>
+          <target state="translated">实现 <ph id="ph1">&lt;xref:System.ServiceModel.Dispatcher.IErrorHandler.HandleError%2A&gt;</ph> 方法可确保执行错误相关行为，包括错误日志记录、确保快速报告故障、关闭应用程序等。</target>       </trans-unit>
+        <trans-unit id="107" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ServiceModel.Dispatcher.IErrorHandler">
+          <source>Because the <ph id="ph1">&lt;xref:System.ServiceModel.Dispatcher.IErrorHandler.HandleError%2A&gt;</ph> method can be called from many different places there are no guarantees made about which thread the method is called on.</source>
+          <target state="translated">由于 <ph id="ph1">&lt;xref:System.ServiceModel.Dispatcher.IErrorHandler.HandleError%2A&gt;</ph> 方法可以从许多不同的位置进行调用，所以不能确保该方法调用的线程。</target>       </trans-unit>
+        <trans-unit id="108" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ServiceModel.Dispatcher.IErrorHandler">
+          <source>Do not depend on <ph id="ph1">&lt;xref:System.ServiceModel.Dispatcher.IErrorHandler.HandleError%2A&gt;</ph> method being called on the operation thread.</source>
+          <target state="translated">不要依赖操作线程上调用的 <ph id="ph1">&lt;xref:System.ServiceModel.Dispatcher.IErrorHandler.HandleError%2A&gt;</ph> 方法。</target>       </trans-unit>
+        <trans-unit id="109" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ServiceModel.Dispatcher.IErrorHandler">
+          <source>All <ph id="ph1">&lt;xref:System.ServiceModel.Dispatcher.IErrorHandler.ProvideFault%2A&gt;</ph> implementations are called first, prior to sending a response message.</source>
+          <target state="translated">发送响应消息前，首先调用所有 <ph id="ph1">&lt;xref:System.ServiceModel.Dispatcher.IErrorHandler.ProvideFault%2A&gt;</ph> 实现。</target>       </trans-unit>
+        <trans-unit id="110" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ServiceModel.Dispatcher.IErrorHandler">
+          <source>When all <ph id="ph1">&lt;xref:System.ServiceModel.Dispatcher.IErrorHandler.ProvideFault%2A&gt;</ph> implementations have been called and return, and if <ph id="ph2">`fault`</ph> is non-<ph id="ph3">`null`</ph>, it is sent back to the client according to the operation contract.</source>
+          <target state="translated">如果 <ph id="ph1">&lt;xref:System.ServiceModel.Dispatcher.IErrorHandler.ProvideFault%2A&gt;</ph> 为非 <ph id="ph2">`fault`</ph>，则在调用了所有 <ph id="ph3">`null`</ph> 实现且返回后，将根据操作协定将响应消息发送回客户端。</target>       </trans-unit>
+        <trans-unit id="111" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ServiceModel.Dispatcher.IErrorHandler">
+          <source>If <ph id="ph1">`fault`</ph> is <ph id="ph2">`null`</ph> after all implementations have been called, the response message is controlled by the <ph id="ph3">&lt;xref:System.ServiceModel.ServiceBehaviorAttribute.IncludeExceptionDetailInFaults%2A?displayProperty=nameWithType&gt;</ph> property value.</source>
+          <target state="translated">如果调用所有实现后，<ph id="ph1">`fault`</ph> 为 <ph id="ph2">`null`</ph>，则响应消息将由 <ph id="ph3">&lt;xref:System.ServiceModel.ServiceBehaviorAttribute.IncludeExceptionDetailInFaults%2A?displayProperty=nameWithType&gt;</ph> 属性值控制。</target>       </trans-unit>
+        <trans-unit id="112" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ServiceModel.Dispatcher.IErrorHandler">
+          <source>Exceptions can occur after all <ph id="ph1">&lt;xref:System.ServiceModel.Dispatcher.IErrorHandler.ProvideFault%2A&gt;</ph> implementations are called and a response message is handed to the channel.</source>
+          <target state="translated">调用所有 <ph id="ph1">&lt;xref:System.ServiceModel.Dispatcher.IErrorHandler.ProvideFault%2A&gt;</ph> 实现，并将响应消息传递到通道后，可能会发生异常。</target>       </trans-unit>
+        <trans-unit id="113" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ServiceModel.Dispatcher.IErrorHandler">
+          <source>If a channel exception occurs (for example, difficulty serializing the message) <ph id="ph1">&lt;xref:System.ServiceModel.Dispatcher.IErrorHandler&gt;</ph> objects are notified.</source>
+          <target state="translated">如果通道异常发生 （例如，序列化消息的难度）<ph id="ph1">&lt;xref:System.ServiceModel.Dispatcher.IErrorHandler&gt;</ph>对象会收到通知。</target>       </trans-unit>
+        <trans-unit id="114" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ServiceModel.Dispatcher.IErrorHandler">
+          <source>In this case, you should still make sure that your development environment catches and displays such exceptions to you or makes use of tracing to discover the problem.</source>
+          <target state="translated">在这种情况下，还应确保你的开发环境将捕获并向用户显示此类异常或利用跟踪来发现问题。</target>       </trans-unit>
+        <trans-unit id="115" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ServiceModel.Dispatcher.IErrorHandler">
+          <source>For more information about tracing, see <bpt id="p1">[</bpt>Using Tracing to Troubleshoot Your Application<ept id="p1">](~/docs/framework/wcf/diagnostics/tracing/using-tracing-to-troubleshoot-your-application.md)</ept>.</source>
+          <target state="translated">有关跟踪的详细信息，请参阅<bpt id="p1">[</bpt>解决应用程序中使用跟踪<ept id="p1">](~/docs/framework/wcf/diagnostics/tracing/using-tracing-to-troubleshoot-your-application.md)</ept>。</target>       </trans-unit>
+        <trans-unit id="116" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ServiceModel.Dispatcher.IErrorHandler">
+          <source>After the response message has been sent, all <ph id="ph1">&lt;xref:System.ServiceModel.Dispatcher.IErrorHandler.HandleError%2A&gt;</ph> implementations are called in the same order.</source>
+          <target state="translated">发送响应消息后，将以相同顺序调用所有 <ph id="ph1">&lt;xref:System.ServiceModel.Dispatcher.IErrorHandler.HandleError%2A&gt;</ph> 实现。</target>       </trans-unit>
+        <trans-unit id="117" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ServiceModel.Dispatcher.IErrorHandler">
+          <source>Typically, an <ph id="ph1">&lt;xref:System.ServiceModel.Dispatcher.IErrorHandler&gt;</ph> implementation is added to the <ph id="ph2">&lt;xref:System.ServiceModel.Dispatcher.ChannelDispatcher.ErrorHandlers%2A&gt;</ph> property on the service (and the client in the case of duplex communication).</source>
+          <target state="translated">通常，会将 <ph id="ph1">&lt;xref:System.ServiceModel.Dispatcher.IErrorHandler&gt;</ph> 实现添加到服务的 <ph id="ph2">&lt;xref:System.ServiceModel.Dispatcher.ChannelDispatcher.ErrorHandlers%2A&gt;</ph> 属性；如果为双工通信，则还要添加到客户端的上述属性中。</target>       </trans-unit>
+        <trans-unit id="118" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ServiceModel.Dispatcher.IErrorHandler">
+          <source>You can add the <ph id="ph1">&lt;xref:System.ServiceModel.Dispatcher.IErrorHandler&gt;</ph> to the runtime by implementing a behavior (either an <ph id="ph2">&lt;xref:System.ServiceModel.Description.IServiceBehavior?displayProperty=nameWithType&gt;</ph>, <ph id="ph3">&lt;xref:System.ServiceModel.Description.IEndpointBehavior?displayProperty=nameWithType&gt;</ph>, <ph id="ph4">&lt;xref:System.ServiceModel.Description.IContractBehavior?displayProperty=nameWithType&gt;</ph>, or <ph id="ph5">&lt;xref:System.ServiceModel.Description.IOperationBehavior?displayProperty=nameWithType&gt;</ph> object) and use the behavior programmatically, from a configuration file or with a custom attribute to attach your <ph id="ph6">&lt;xref:System.ServiceModel.Dispatcher.IErrorHandler&gt;</ph>.</source>
+          <target state="translated">您可通过实现行为（<ph id="ph1">&lt;xref:System.ServiceModel.Dispatcher.IErrorHandler&gt;</ph>、<ph id="ph2">&lt;xref:System.ServiceModel.Description.IServiceBehavior?displayProperty=nameWithType&gt;</ph>、<ph id="ph3">&lt;xref:System.ServiceModel.Description.IEndpointBehavior?displayProperty=nameWithType&gt;</ph> 或 <ph id="ph4">&lt;xref:System.ServiceModel.Description.IContractBehavior?displayProperty=nameWithType&gt;</ph> 对象）将 <ph id="ph5">&lt;xref:System.ServiceModel.Description.IOperationBehavior?displayProperty=nameWithType&gt;</ph> 添加到运行时，然后从配置文件、以编程方式使用所添加的行为，或利用自定义属性来附加您的 <ph id="ph6">&lt;xref:System.ServiceModel.Dispatcher.IErrorHandler&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="119" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ServiceModel.Dispatcher.IErrorHandler">
+          <source>For more information about using behaviors to modify the runtime, see <bpt id="p1">[</bpt>Configuring and Extending the Runtime with Behaviors<ept id="p1">](~/docs/framework/wcf/extending/configuring-and-extending-the-runtime-with-behaviors.md)</ept>.</source>
+          <target state="translated">有关使用行为来修改运行时的详细信息，请参阅<bpt id="p1">[</bpt>配置和扩展的运行时带有行为<ept id="p1">](~/docs/framework/wcf/extending/configuring-and-extending-the-runtime-with-behaviors.md)</ept>。</target>       </trans-unit>
+        <trans-unit id="120" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ServiceModel.Dispatcher.IErrorHandler">
+          <source>The following code example demonstrates a service that implements <ph id="ph1">&lt;xref:System.ServiceModel.Dispatcher.IErrorHandler&gt;</ph> that returns only <ph id="ph2">&lt;xref:System.ServiceModel.FaultException%601&gt;</ph> of type <ph id="ph3">`GreetingFault`</ph> when a service method throws a managed exception.</source>
+          <target state="translated">下面的代码示例演示了服务方法引发托管异常时，实现 <ph id="ph1">&lt;xref:System.ServiceModel.Dispatcher.IErrorHandler&gt;</ph>（仅返回类型为 <ph id="ph2">&lt;xref:System.ServiceModel.FaultException%601&gt;</ph> 的 <ph id="ph3">`GreetingFault`</ph>）的服务。</target>       </trans-unit>
+        <trans-unit id="121" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ServiceModel.Dispatcher.IErrorHandler">
+          <source>The following code example shows how to use a service behavior to add the <ph id="ph1">&lt;xref:System.ServiceModel.Dispatcher.IErrorHandler&gt;</ph> implementation to the <ph id="ph2">&lt;xref:System.ServiceModel.Dispatcher.ChannelDispatcher.ErrorHandlers%2A&gt;</ph> property.</source>
+          <target state="translated">下面的代码示例演示了如何使用服务行为将 <ph id="ph1">&lt;xref:System.ServiceModel.Dispatcher.IErrorHandler&gt;</ph> 实现添加到 <ph id="ph2">&lt;xref:System.ServiceModel.Dispatcher.ChannelDispatcher.ErrorHandlers%2A&gt;</ph> 属性。</target>       </trans-unit>
+        <trans-unit id="122" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ServiceModel.Dispatcher.IErrorHandler">
+          <source>The following code example shows how to configure the service to load the service behavior using an application configuration file.</source>
+          <target state="translated">下面的代码示例演示了如何通过使用应用程序配置文件来配置服务，从而加载服务行为。</target>       </trans-unit>
+        <trans-unit id="123" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ServiceModel.Dispatcher.IErrorHandler">
+          <source>For more details about how to expose a service behavior in a configuration file, see <ph id="ph1">&lt;xref:System.ServiceModel.Description.IServiceBehavior&gt;</ph>.</source>
+          <target state="translated">有关如何在配置文件中公开服务行为的详细信息，请参见 <ph id="ph1">&lt;xref:System.ServiceModel.Description.IServiceBehavior&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="124" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.Dispatcher.IErrorHandler.HandleError(System.Exception)">
+          <source>Enables error-related processing and returns a value that indicates whether the dispatcher aborts the session and the instance context in certain cases.</source>
+          <target state="translated">启用错误相关处理并返回一个值，该值指示调度程序在某些情况下是否中止会话和实例上下文。</target>       </trans-unit>
+        <trans-unit id="125" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.Dispatcher.IErrorHandler.HandleError(System.Exception)">
+          <source><ph id="ph1">&lt;see langword="true" /&gt;</ph> if <ph id="ph2">[!INCLUDE[indigo1](~/includes/indigo1-md.md)]</ph> should not abort the session (if there is one) and instance context if the instance context is not <ph id="ph3">&lt;see cref="F:System.ServiceModel.InstanceContextMode.Single" /&gt;</ph>; otherwise, <ph id="ph4">&lt;see langword="false" /&gt;</ph>.</source>
+          <target state="translated">如果 <ph id="ph2">[!INCLUDE[indigo1](~/includes/indigo1-md.md)]</ph> 不应中止会话（如果有一个）和实例上下文（如果实例上下文不是 <ph id="ph3">&lt;see cref="F:System.ServiceModel.InstanceContextMode.Single" /&gt;</ph>），则为 <ph id="ph1">&lt;see langword="true" /&gt;</ph>；否则为 <ph id="ph4">&lt;see langword="false" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="126" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.Dispatcher.IErrorHandler.HandleError(System.Exception)">
+          <source>The default is <ph id="ph1">&lt;see langword="false" /&gt;</ph>.</source>
+          <target state="translated">默认值为 <ph id="ph1">&lt;see langword="false" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="127" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ServiceModel.Dispatcher.IErrorHandler.HandleError(System.Exception)">
+          <source>Use the <ph id="ph1">&lt;xref:System.ServiceModel.Dispatcher.IErrorHandler.HandleError%2A&gt;</ph> method to implement error-related behaviors such as error logging, system notifications, shutting down the application, and so on, and return a value that specifies whether the exception has been handled appropriately.</source>
+          <target state="translated">使用 <ph id="ph1">&lt;xref:System.ServiceModel.Dispatcher.IErrorHandler.HandleError%2A&gt;</ph> 方法可实现错误相关行为（例如错误日志记录、系统通知、关闭应用程序等）并返回一个值，该值指定异常是否已适当处理。</target>       </trans-unit>
+        <trans-unit id="128" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ServiceModel.Dispatcher.IErrorHandler.HandleError(System.Exception)">
+          <source>Because the <ph id="ph1">&lt;xref:System.ServiceModel.Dispatcher.IErrorHandler.HandleError%2A&gt;</ph> method can be called from many different places there are no guarantees made about which thread the method is called on.</source>
+          <target state="translated">由于 <ph id="ph1">&lt;xref:System.ServiceModel.Dispatcher.IErrorHandler.HandleError%2A&gt;</ph> 方法可以从许多不同的位置进行调用，所以不能确保该方法调用的线程。</target>       </trans-unit>
+        <trans-unit id="129" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ServiceModel.Dispatcher.IErrorHandler.HandleError(System.Exception)">
+          <source>Do not depend on <ph id="ph1">&lt;xref:System.ServiceModel.Dispatcher.IErrorHandler.HandleError%2A&gt;</ph> method being called on the operation thread.</source>
+          <target state="translated">不要依赖操作线程上调用的 <ph id="ph1">&lt;xref:System.ServiceModel.Dispatcher.IErrorHandler.HandleError%2A&gt;</ph> 方法。</target>       </trans-unit>
+        <trans-unit id="130" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ServiceModel.Dispatcher.IErrorHandler.HandleError(System.Exception)">
+          <source>All <ph id="ph1">&lt;xref:System.ServiceModel.Dispatcher.IErrorHandler&gt;</ph> implementations are called.</source>
+          <target state="translated">将调用所有 <ph id="ph1">&lt;xref:System.ServiceModel.Dispatcher.IErrorHandler&gt;</ph> 实现。</target>       </trans-unit>
+        <trans-unit id="131" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ServiceModel.Dispatcher.IErrorHandler.HandleError(System.Exception)">
+          <source>By default (when the return value is <ph id="ph1">`false`</ph>), if there is an exception, the dispatcher aborts any session and aborts the <ph id="ph2">&lt;xref:System.ServiceModel.InstanceContext&gt;</ph> if the <ph id="ph3">&lt;xref:System.ServiceModel.InstanceContextMode&gt;</ph> is anything other than <ph id="ph4">&lt;xref:System.ServiceModel.InstanceContextMode.Single&gt;</ph>.</source>
+          <target state="translated">默认情况下 (当返回的值是<ph id="ph1">`false`</ph>)，如果没有异常，调度程序将中止任何会话，并中止<ph id="ph2">&lt;xref:System.ServiceModel.InstanceContext&gt;</ph>如果<ph id="ph3">&lt;xref:System.ServiceModel.InstanceContextMode&gt;</ph>是任何内容，而不<ph id="ph4">&lt;xref:System.ServiceModel.InstanceContextMode.Single&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="132" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ServiceModel.Dispatcher.IErrorHandler.HandleError(System.Exception)">
+          <source>The exception is then considered unhandled and any state is considered corrupt.</source>
+          <target state="translated">这样，该异常被视为未处理，并且任何状态都被视为已损坏。</target>       </trans-unit>
+        <trans-unit id="133" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ServiceModel.Dispatcher.IErrorHandler.HandleError(System.Exception)">
+          <source>Return <ph id="ph1">`true`</ph> from <ph id="ph2">&lt;xref:System.ServiceModel.Dispatcher.IErrorHandler.HandleError%2A&gt;</ph> to prevent this default behavior.</source>
+          <target state="translated">从 <ph id="ph1">`true`</ph> 返回 <ph id="ph2">&lt;xref:System.ServiceModel.Dispatcher.IErrorHandler.HandleError%2A&gt;</ph> 可以防止此默认行为。</target>       </trans-unit>
+        <trans-unit id="134" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ServiceModel.Dispatcher.IErrorHandler.HandleError(System.Exception)">
+          <source>If any error handler returns <ph id="ph1">`true`</ph> it instructs WCF that it is safe to continue using state associated with the failed request.</source>
+          <target state="translated">如果任何错误处理程序返回<ph id="ph1">`true`</ph>它指示 WCF，则可以安全地继续使用与失败的请求关联的状态。</target>       </trans-unit>
+        <trans-unit id="135" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ServiceModel.Dispatcher.IErrorHandler.HandleError(System.Exception)">
+          <source>If no error handler returns <ph id="ph1">`true`</ph> from the <ph id="ph2">&lt;xref:System.ServiceModel.Dispatcher.IErrorHandler.HandleError%2A&gt;</ph> method the exception is considered unhandled and the default response applies, potentially resulting in an aborted <ph id="ph3">&lt;xref:System.ServiceModel.InstanceContext?displayProperty=nameWithType&gt;</ph> and channel when communicating on a session channel or the <ph id="ph4">&lt;xref:System.ServiceModel.ServiceBehaviorAttribute.InstanceContextMode%2A?displayProperty=nameWithType&gt;</ph> property is not set to <ph id="ph5">&lt;xref:System.ServiceModel.InstanceContextMode.Single?displayProperty=nameWithType&gt;</ph>.</source>
+          <target state="translated">当通过会话通道进行通信，或 <ph id="ph1">`true`</ph> 属性未设置为 <ph id="ph2">&lt;xref:System.ServiceModel.Dispatcher.IErrorHandler.HandleError%2A&gt;</ph> 时，如果没有错误处理程序从 <ph id="ph3">&lt;xref:System.ServiceModel.InstanceContext?displayProperty=nameWithType&gt;</ph> 方法返回 <ph id="ph4">&lt;xref:System.ServiceModel.ServiceBehaviorAttribute.InstanceContextMode%2A?displayProperty=nameWithType&gt;</ph>，则将认为异常未处理且默认响应适用，并可能会导致中止 <ph id="ph5">&lt;xref:System.ServiceModel.InstanceContextMode.Single?displayProperty=nameWithType&gt;</ph> 和通道。</target>       </trans-unit>
+        <trans-unit id="136" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ServiceModel.Dispatcher.IErrorHandler.HandleError(System.Exception)">
+          <source>The <ph id="ph1">`error`</ph> parameter is never <ph id="ph2">`null`</ph> and contains the exception object that was thrown.</source>
+          <target state="translated"><ph id="ph1">`error`</ph> 参数包含有所引发的异常对象，且永远不会为 <ph id="ph2">`null`</ph>。</target>       </trans-unit>
+        <trans-unit id="137" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ServiceModel.Dispatcher.IErrorHandler.HandleError(System.Exception)">
+          <source>The following code example demonstrates a service that implements <ph id="ph1">&lt;xref:System.ServiceModel.Dispatcher.IErrorHandler&gt;</ph> that returns only <ph id="ph2">&lt;xref:System.ServiceModel.FaultException%601&gt;</ph> of type <ph id="ph3">`GreetingFault`</ph> when a service method throws a managed exception.</source>
+          <target state="translated">下面的代码示例演示了服务方法引发托管异常时，实现 <ph id="ph1">&lt;xref:System.ServiceModel.Dispatcher.IErrorHandler&gt;</ph>（仅返回类型为 <ph id="ph2">&lt;xref:System.ServiceModel.FaultException%601&gt;</ph> 的 <ph id="ph3">`GreetingFault`</ph>）的服务。</target>       </trans-unit>
+        <trans-unit id="138" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ServiceModel.Dispatcher.IErrorHandler.HandleError(System.Exception)">
+          <source>The following code example shows how to use a service behavior to add the <ph id="ph1">&lt;xref:System.ServiceModel.Dispatcher.IErrorHandler&gt;</ph> implementation to the <ph id="ph2">&lt;xref:System.ServiceModel.Dispatcher.ChannelDispatcher.ErrorHandlers%2A&gt;</ph> property.</source>
+          <target state="translated">下面的代码示例演示了如何使用服务行为将 <ph id="ph1">&lt;xref:System.ServiceModel.Dispatcher.IErrorHandler&gt;</ph> 实现添加到 <ph id="ph2">&lt;xref:System.ServiceModel.Dispatcher.ChannelDispatcher.ErrorHandlers%2A&gt;</ph> 属性。</target>       </trans-unit>
+        <trans-unit id="139" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ServiceModel.Dispatcher.IErrorHandler.HandleError(System.Exception)">
+          <source>The following code example shows how to configure the service to load the service behavior using an application configuration file.</source>
+          <target state="translated">下面的代码示例演示了如何通过使用应用程序配置文件来配置服务，从而加载服务行为。</target>       </trans-unit>
+        <trans-unit id="140" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ServiceModel.Dispatcher.IErrorHandler.HandleError(System.Exception)">
+          <source>For more details about how to expose a service behavior in a configuration file, see <ph id="ph1">&lt;xref:System.ServiceModel.Description.IServiceBehavior&gt;</ph>.</source>
+          <target state="translated">有关如何在配置文件中公开服务行为的详细信息，请参见 <ph id="ph1">&lt;xref:System.ServiceModel.Description.IServiceBehavior&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="141" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.Dispatcher.IErrorHandler.ProvideFault(System.Exception,System.ServiceModel.Channels.MessageVersion,System.ServiceModel.Channels.Message@)">
+          <source>The SOAP version of the message.</source>
+          <target state="translated">消息的 SOAP 版本。</target>       </trans-unit>
+        <trans-unit id="142" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.Dispatcher.IErrorHandler.ProvideFault(System.Exception,System.ServiceModel.Channels.MessageVersion,System.ServiceModel.Channels.Message@)">
+          <source>The <ph id="ph1">&lt;see cref="T:System.ServiceModel.Channels.Message" /&gt;</ph> object that is returned to the client, or service, in the duplex case.</source>
+          <target state="translated">双工情况下，返回到客户端或服务的 <ph id="ph1">&lt;see cref="T:System.ServiceModel.Channels.Message" /&gt;</ph> 对象。</target>       </trans-unit>
+        <trans-unit id="143" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.Dispatcher.IErrorHandler.ProvideFault(System.Exception,System.ServiceModel.Channels.MessageVersion,System.ServiceModel.Channels.Message@)">
+          <source>Enables the creation of a custom <ph id="ph1">&lt;see cref="T:System.ServiceModel.FaultException`1" /&gt;</ph> that is returned from an exception in the course of a service method.</source>
+          <target state="translated">启用创建从服务方法过程中的异常返回的自定义 <ph id="ph1">&lt;see cref="T:System.ServiceModel.FaultException`1" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="144" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ServiceModel.Dispatcher.IErrorHandler.ProvideFault(System.Exception,System.ServiceModel.Channels.MessageVersion,System.ServiceModel.Channels.Message@)">
+          <source>Implement the <ph id="ph1">&lt;xref:System.ServiceModel.Dispatcher.IErrorHandler.ProvideFault%2A&gt;</ph> method to create a custom fault message that is returned to the client.</source>
+          <target state="translated">实现 <ph id="ph1">&lt;xref:System.ServiceModel.Dispatcher.IErrorHandler.ProvideFault%2A&gt;</ph> 方法可创建返回到客户端的自定义错误消息。</target>       </trans-unit>
+        <trans-unit id="145" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ServiceModel.Dispatcher.IErrorHandler.ProvideFault(System.Exception,System.ServiceModel.Channels.MessageVersion,System.ServiceModel.Channels.Message@)">
+          <source>The <ph id="ph1">&lt;xref:System.ServiceModel.Dispatcher.IErrorHandler.ProvideFault%2A&gt;</ph> method will always be called for exceptions that leave operations, except when the WCF runtime recognizes the exception as especially fatal and rethrows the exception itself.</source>
+          <target state="translated"><ph id="ph1">&lt;xref:System.ServiceModel.Dispatcher.IErrorHandler.ProvideFault%2A&gt;</ph>方法将始终会为异常会导致操作，除了当 WCF 运行时识别视为尤其是致命错误异常，并重新引发的异常自身调用。</target>       </trans-unit>
+        <trans-unit id="146" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ServiceModel.Dispatcher.IErrorHandler.ProvideFault(System.Exception,System.ServiceModel.Channels.MessageVersion,System.ServiceModel.Channels.Message@)">
+          <source>When all <ph id="ph1">&lt;xref:System.ServiceModel.Dispatcher.IErrorHandler.ProvideFault%2A&gt;</ph> implementations have been called, the fault message is sent back to the client (if <ph id="ph2">`fault`</ph> is non-<ph id="ph3">`null`</ph>).</source>
+          <target state="translated">调用所有 <ph id="ph1">&lt;xref:System.ServiceModel.Dispatcher.IErrorHandler.ProvideFault%2A&gt;</ph> 实现后，如果 <ph id="ph2">`fault`</ph> 为非 <ph id="ph3">`null`</ph>，错误消息将会被发送回客户端。</target>       </trans-unit>
+        <trans-unit id="147" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ServiceModel.Dispatcher.IErrorHandler.ProvideFault(System.Exception,System.ServiceModel.Channels.MessageVersion,System.ServiceModel.Channels.Message@)">
+          <source>If the <ph id="ph1">`fault`</ph> parameter is <ph id="ph2">`null`</ph> the default fault is sent to the client.</source>
+          <target state="translated">如果<ph id="ph1">`fault`</ph>参数是<ph id="ph2">`null`</ph>默认错误发送到客户端。</target>       </trans-unit>
+        <trans-unit id="148" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ServiceModel.Dispatcher.IErrorHandler.ProvideFault(System.Exception,System.ServiceModel.Channels.MessageVersion,System.ServiceModel.Channels.Message@)">
+          <source>The inbound message that caused the processing error is available during this method from the <ph id="ph1">&lt;xref:System.ServiceModel.OperationContext.RequestContext%2A?displayProperty=nameWithType&gt;</ph> property.</source>
+          <target state="translated">在此方法的操作过程中，可从 <ph id="ph1">&lt;xref:System.ServiceModel.OperationContext.RequestContext%2A?displayProperty=nameWithType&gt;</ph> 属性访问引发处理错误的入站消息。</target>       </trans-unit>
+        <trans-unit id="149" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ServiceModel.Dispatcher.IErrorHandler.ProvideFault(System.Exception,System.ServiceModel.Channels.MessageVersion,System.ServiceModel.Channels.Message@)">
+          <source>Because the <ph id="ph1">&lt;xref:System.ServiceModel.Dispatcher.IErrorHandler.ProvideFault%2A&gt;</ph> method can be called from many different places there are no guarantees made about which thread the method is called on.</source>
+          <target state="translated">由于 <ph id="ph1">&lt;xref:System.ServiceModel.Dispatcher.IErrorHandler.ProvideFault%2A&gt;</ph> 方法可以从许多不同的位置进行调用，所以不能确保该方法调用的线程。</target>       </trans-unit>
+        <trans-unit id="150" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ServiceModel.Dispatcher.IErrorHandler.ProvideFault(System.Exception,System.ServiceModel.Channels.MessageVersion,System.ServiceModel.Channels.Message@)">
+          <source>Do not depend on <ph id="ph1">&lt;xref:System.ServiceModel.Dispatcher.IErrorHandler.ProvideFault%2A&gt;</ph> method being called on the operation thread.</source>
+          <target state="translated">不要依赖操作线程上调用的 <ph id="ph1">&lt;xref:System.ServiceModel.Dispatcher.IErrorHandler.ProvideFault%2A&gt;</ph> 方法。</target>       </trans-unit>
+        <trans-unit id="151" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ServiceModel.Dispatcher.IErrorHandler.ProvideFault(System.Exception,System.ServiceModel.Channels.MessageVersion,System.ServiceModel.Channels.Message@)">
+          <source>The following code example demonstrates a service that implements <ph id="ph1">&lt;xref:System.ServiceModel.Dispatcher.IErrorHandler&gt;</ph> that returns only <ph id="ph2">&lt;xref:System.ServiceModel.FaultException%601&gt;</ph> of type <ph id="ph3">`GreetingFault`</ph> when a service method throws a managed exception.</source>
+          <target state="translated">下面的代码示例演示了服务方法引发托管异常时，实现 <ph id="ph1">&lt;xref:System.ServiceModel.Dispatcher.IErrorHandler&gt;</ph>（仅返回类型为 <ph id="ph2">&lt;xref:System.ServiceModel.FaultException%601&gt;</ph> 的 <ph id="ph3">`GreetingFault`</ph>）的服务。</target>       </trans-unit>
+        <trans-unit id="152" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ServiceModel.Dispatcher.IErrorHandler.ProvideFault(System.Exception,System.ServiceModel.Channels.MessageVersion,System.ServiceModel.Channels.Message@)">
+          <source>The following code example shows how to use a service behavior to add the <ph id="ph1">&lt;xref:System.ServiceModel.Dispatcher.IErrorHandler&gt;</ph> implementation to the <ph id="ph2">&lt;xref:System.ServiceModel.Dispatcher.ChannelDispatcher.ErrorHandlers%2A&gt;</ph> property.</source>
+          <target state="translated">下面的代码示例演示了如何使用服务行为将 <ph id="ph1">&lt;xref:System.ServiceModel.Dispatcher.IErrorHandler&gt;</ph> 实现添加到 <ph id="ph2">&lt;xref:System.ServiceModel.Dispatcher.ChannelDispatcher.ErrorHandlers%2A&gt;</ph> 属性。</target>       </trans-unit>
+        <trans-unit id="153" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ServiceModel.Dispatcher.IErrorHandler.ProvideFault(System.Exception,System.ServiceModel.Channels.MessageVersion,System.ServiceModel.Channels.Message@)">
+          <source>The following code example shows how to configure the service to load the service behavior using an application configuration file.</source>
+          <target state="translated">下面的代码示例演示了如何通过使用应用程序配置文件来配置服务，从而加载服务行为。</target>       </trans-unit>
+        <trans-unit id="154" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ServiceModel.Dispatcher.IErrorHandler.ProvideFault(System.Exception,System.ServiceModel.Channels.MessageVersion,System.ServiceModel.Channels.Message@)">
+          <source>For more details about how to expose a service behavior in a configuration file, see <ph id="ph1">&lt;xref:System.ServiceModel.Description.IServiceBehavior&gt;</ph>.</source>
+          <target state="translated">有关如何在配置文件中公开服务行为的详细信息，请参见 <ph id="ph1">&lt;xref:System.ServiceModel.Description.IServiceBehavior&gt;</ph>。</target>       </trans-unit>
+      </group>
+    </body>
+  </file>
+</xliff>

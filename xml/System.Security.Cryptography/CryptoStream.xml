@@ -1,1499 +1,474 @@
-<Type Name="CryptoStream" FullName="System.Security.Cryptography.CryptoStream">
-  <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="7ff56d0fe2868f707aeec2a808c72af64a260869" />
-    <Meta Name="ms.sourcegitcommit" Value="254e16ae65e82f4aa59360cd8572b36b6b5b2f80" />
-    <Meta Name="ms.translationtype" Value="HT" />
-    <Meta Name="ms.contentlocale" Value="zh-CN" />
-    <Meta Name="ms.lasthandoff" Value="04/05/2018" />
-  </Metadata>
-  <TypeSignature Language="C#" Value="public class CryptoStream : System.IO.Stream" />
-  <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit CryptoStream extends System.IO.Stream implements class System.IDisposable" />
-  <TypeSignature Language="DocId" Value="T:System.Security.Cryptography.CryptoStream" />
-  <TypeSignature Language="VB.NET" Value="Public Class CryptoStream&#xA;Inherits Stream" />
-  <TypeSignature Language="C++ CLI" Value="public ref class CryptoStream : System::IO::Stream" />
-  <AssemblyInfo>
-    <AssemblyName>System.Security.Cryptography.Primitives</AssemblyName>
-    <AssemblyVersion>4.0.0.0</AssemblyVersion>
-    <AssemblyVersion>4.1.0.0</AssemblyVersion>
-    <AssemblyVersion>4.1.1.0</AssemblyVersion>
-  </AssemblyInfo>
-  <AssemblyInfo>
-    <AssemblyName>mscorlib</AssemblyName>
-    <AssemblyVersion>2.0.5.0</AssemblyVersion>
-    <AssemblyVersion>4.0.0.0</AssemblyVersion>
-  </AssemblyInfo>
-  <AssemblyInfo>
-    <AssemblyName>netstandard</AssemblyName>
-    <AssemblyVersion>2.0.0.0</AssemblyVersion>
-  </AssemblyInfo>
-  <Base>
-    <BaseTypeName>System.IO.Stream</BaseTypeName>
-  </Base>
-  <Interfaces></Interfaces>
-  <Attributes>
-    <Attribute>
-      <AttributeName>System.Runtime.InteropServices.ComVisible(true)</AttributeName>
-    </Attribute>
-  </Attributes>
-  <Docs>
-    <summary>
-      <span data-ttu-id="b9b23-101">定义将数据流链接到加密转换的流。</span>
-      <span class="sxs-lookup">
-        <span data-stu-id="b9b23-101">Defines a stream that links data streams to cryptographic transformations.</span>
-      </span>
-    </summary>
-    <remarks>
-      <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="b9b23-102">公共语言运行时使用面向流的设计进行加密。</span><span class="sxs-lookup"><span data-stu-id="b9b23-102">The common language runtime uses a stream-oriented design for cryptography.</span></span> <span data-ttu-id="b9b23-103">这种设计的核心是<xref:System.Security.Cryptography.CryptoStream>。</span><span class="sxs-lookup"><span data-stu-id="b9b23-103">The core of this design is <xref:System.Security.Cryptography.CryptoStream>.</span></span> <span data-ttu-id="b9b23-104">任何加密对象实现<xref:System.Security.Cryptography.CryptoStream>可以实现的任何对象以及链接<xref:System.IO.Stream>，因此可以需要一个对象的流式处理的输出传递给另一个对象的输入。</span><span class="sxs-lookup"><span data-stu-id="b9b23-104">Any cryptographic objects that implement <xref:System.Security.Cryptography.CryptoStream> can be chained together with any objects that implement <xref:System.IO.Stream>, so the streamed output from one object can be fed into the input of another object.</span></span> <span data-ttu-id="b9b23-105">中间结果 （从第一个对象的输出） 不需要单独存储。</span><span class="sxs-lookup"><span data-stu-id="b9b23-105">The intermediate result (the output from the first object) does not need to be stored separately.</span></span>  
-  
-> [!IMPORTANT]
->  <span data-ttu-id="b9b23-106">此类型实现<xref:System.IDisposable>接口。</span><span class="sxs-lookup"><span data-stu-id="b9b23-106">This type implements the <xref:System.IDisposable> interface.</span></span> <span data-ttu-id="b9b23-107">在完成使用类型后，您应释放它的直接或间接通过调用其<xref:System.Security.Cryptography.CryptoStream.Clear%2A>方法，后者反过来调用其<xref:System.IDisposable>实现。</span><span class="sxs-lookup"><span data-stu-id="b9b23-107">When you have finished using the type, you should dispose of it either directly or indirectly by calling its <xref:System.Security.Cryptography.CryptoStream.Clear%2A> method, which in turn calls its <xref:System.IDisposable> implementation.</span></span> <span data-ttu-id="b9b23-108">若要直接释放类型，调用其<xref:System.Security.Cryptography.CryptoStream.Clear%2A>中的方法`try` / `catch`块。</span><span class="sxs-lookup"><span data-stu-id="b9b23-108">To dispose of the type directly, call its <xref:System.Security.Cryptography.CryptoStream.Clear%2A> method in a `try`/`catch` block.</span></span> <span data-ttu-id="b9b23-109">若要间接释放类型，请使用 `using`（在 C# 中）或 `Using`（在 Visual Basic 中）等语言构造。</span><span class="sxs-lookup"><span data-stu-id="b9b23-109">To dispose of it indirectly, use a language construct such as `using` (in C#) or `Using` (in Visual Basic).</span></span> <span data-ttu-id="b9b23-110">有关详细信息，请参阅中的"使用实现 IDisposable 的对象"部分<xref:System.IDisposable>接口主题。</span><span class="sxs-lookup"><span data-stu-id="b9b23-110">For more information, see the "Using an Object that Implements IDisposable" section in the <xref:System.IDisposable> interface topic.</span></span>  
-  
- <span data-ttu-id="b9b23-111">你应始终显式关闭你<xref:System.Security.Cryptography.CryptoStream>对象都完成后使用通过调用<xref:System.Security.Cryptography.CryptoStream.Clear%2A>方法。</span><span class="sxs-lookup"><span data-stu-id="b9b23-111">You should always explicitly close your <xref:System.Security.Cryptography.CryptoStream> object after you are done using it by calling the <xref:System.Security.Cryptography.CryptoStream.Clear%2A> method.</span></span>  <span data-ttu-id="b9b23-112">这样刷新基础流，并使所有剩余数据的处理块<xref:System.Security.Cryptography.CryptoStream>对象。</span><span class="sxs-lookup"><span data-stu-id="b9b23-112">Doing so flushes the underlying stream and causes all remaining blocks of data to be processed by the <xref:System.Security.Cryptography.CryptoStream> object.</span></span>  <span data-ttu-id="b9b23-113">但是，如果你在调用之前，则会发生异常<xref:System.IO.Stream.Close%2A>方法，<xref:System.Security.Cryptography.CryptoStream>对象可能不会关闭。</span><span class="sxs-lookup"><span data-stu-id="b9b23-113">However, if an exception occurs before you call the <xref:System.IO.Stream.Close%2A> method, the <xref:System.Security.Cryptography.CryptoStream> object might not be closed.</span></span>  <span data-ttu-id="b9b23-114">若要确保<xref:System.IO.Stream.Close%2A>始终调用方法，请将放到调用<xref:System.Security.Cryptography.CryptoStream.Clear%2A>方法内的`finally`块`try` / `catch`语句。</span><span class="sxs-lookup"><span data-stu-id="b9b23-114">To ensure that the <xref:System.IO.Stream.Close%2A> method always gets called, place your call to the <xref:System.Security.Cryptography.CryptoStream.Clear%2A> method within the `finally` block of a `try`/`catch` statement.</span></span>  
-  
-   
-  
-## Examples  
- <span data-ttu-id="b9b23-115">下面的示例演示如何使用<xref:System.Security.Cryptography.CryptoStream>加密字符串。</span><span class="sxs-lookup"><span data-stu-id="b9b23-115">The following example demonstrates how to use a <xref:System.Security.Cryptography.CryptoStream> to encrypt a string.</span></span> <span data-ttu-id="b9b23-116">此方法使用<xref:System.Security.Cryptography.RijndaelManaged>使用指定的类<xref:System.Security.Cryptography.SymmetricAlgorithm.Key%2A>和初始化向量 (<xref:System.Security.Cryptography.SymmetricAlgorithm.IV%2A>)。</span><span class="sxs-lookup"><span data-stu-id="b9b23-116">This method uses <xref:System.Security.Cryptography.RijndaelManaged> class with the specified <xref:System.Security.Cryptography.SymmetricAlgorithm.Key%2A> and initialization vector (<xref:System.Security.Cryptography.SymmetricAlgorithm.IV%2A>).</span></span>  
-  
- [!code-csharp[Cryptography.Rijndael.Create.File#1](~/samples/snippets/csharp/VS_Snippets_CLR/cryptography.rijndael.create.file/cs/fileexample.cs#1)]
- [!code-vb[Cryptography.Rijndael.Create.File#1](~/samples/snippets/visualbasic/VS_Snippets_CLR/cryptography.rijndael.create.file/vb/fileexample.vb#1)]  
-  
- ]]></format>
-    </remarks>
-  </Docs>
-  <Members>
-    <Member MemberName=".ctor">
-      <MemberSignature Language="C#" Value="public CryptoStream (System.IO.Stream stream, System.Security.Cryptography.ICryptoTransform transform, System.Security.Cryptography.CryptoStreamMode mode);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(class System.IO.Stream stream, class System.Security.Cryptography.ICryptoTransform transform, valuetype System.Security.Cryptography.CryptoStreamMode mode) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Security.Cryptography.CryptoStream.#ctor(System.IO.Stream,System.Security.Cryptography.ICryptoTransform,System.Security.Cryptography.CryptoStreamMode)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; CryptoStream(System::IO::Stream ^ stream, System::Security::Cryptography::ICryptoTransform ^ transform, System::Security::Cryptography::CryptoStreamMode mode);" />
-      <MemberType>Constructor</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Security.Cryptography.Primitives</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-        <AssemblyVersion>4.1.0.0</AssemblyVersion>
-        <AssemblyVersion>4.1.1.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>mscorlib</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>netstandard</AssemblyName>
-        <AssemblyVersion>2.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Parameters>
-        <Parameter Name="stream" Type="System.IO.Stream" />
-        <Parameter Name="transform" Type="System.Security.Cryptography.ICryptoTransform" />
-        <Parameter Name="mode" Type="System.Security.Cryptography.CryptoStreamMode" />
-      </Parameters>
-      <Docs>
-        <param name="stream">
-          <span data-ttu-id="b9b23-117">对其执行加密转换的流。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="b9b23-117">The stream on which to perform the cryptographic transformation.</span>
-          </span>
-        </param>
-        <param name="transform">
-          <span data-ttu-id="b9b23-118">要对流执行的加密转换。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="b9b23-118">The cryptographic transformation that is to be performed on the stream.</span>
-          </span>
-        </param>
-        <param name="mode">
-          <span data-ttu-id="b9b23-119">
-            <see cref="T:System.Security.Cryptography.CryptoStreamMode" /> 值之一。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="b9b23-119">One of the <see cref="T:System.Security.Cryptography.CryptoStreamMode" /> values.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="b9b23-120">用目标数据流、要使用的转换和流的模式初始化 <see cref="T:System.Security.Cryptography.CryptoStream" /> 类的新实例。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="b9b23-120">Initializes a new instance of the <see cref="T:System.Security.Cryptography.CryptoStream" /> class with a target data stream, the transformation to use, and the mode of the stream.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="b9b23-121">派生自任何对象<xref:System.IO.Stream>可传入`stream`参数。</span><span class="sxs-lookup"><span data-stu-id="b9b23-121">Any object that derives from <xref:System.IO.Stream> can be passed into the `stream` parameter.</span></span> <span data-ttu-id="b9b23-122">实现任何对象<xref:System.Security.Cryptography.ICryptoTransform>(如<xref:System.Security.Cryptography.HashAlgorithm>) 可将传入`transform`参数。</span><span class="sxs-lookup"><span data-stu-id="b9b23-122">Any object that implements <xref:System.Security.Cryptography.ICryptoTransform> (such as <xref:System.Security.Cryptography.HashAlgorithm>) can be passed into the `transform` parameter.</span></span>  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.ArgumentException">
-          <span data-ttu-id="b9b23-123">
-            <paramref name="stream" /> 无效。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="b9b23-123">
-              <paramref name="stream" /> is invalid.</span>
-          </span>
-        </exception>
-      </Docs>
-    </Member>
-    <Member MemberName=".ctor">
-      <MemberSignature Language="C#" Value="public CryptoStream (System.IO.Stream stream, System.Security.Cryptography.ICryptoTransform transform, System.Security.Cryptography.CryptoStreamMode mode, bool leaveOpen);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(class System.IO.Stream stream, class System.Security.Cryptography.ICryptoTransform transform, valuetype System.Security.Cryptography.CryptoStreamMode mode, bool leaveOpen) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Security.Cryptography.CryptoStream.#ctor(System.IO.Stream,System.Security.Cryptography.ICryptoTransform,System.Security.Cryptography.CryptoStreamMode,System.Boolean)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; CryptoStream(System::IO::Stream ^ stream, System::Security::Cryptography::ICryptoTransform ^ transform, System::Security::Cryptography::CryptoStreamMode mode, bool leaveOpen);" />
-      <MemberType>Constructor</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Security.Cryptography.Primitives</AssemblyName>
-        <AssemblyVersion>4.1.0.0</AssemblyVersion>
-        <AssemblyVersion>4.1.1.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>mscorlib</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Parameters>
-        <Parameter Name="stream" Type="System.IO.Stream" />
-        <Parameter Name="transform" Type="System.Security.Cryptography.ICryptoTransform" />
-        <Parameter Name="mode" Type="System.Security.Cryptography.CryptoStreamMode" />
-        <Parameter Name="leaveOpen" Type="System.Boolean" />
-      </Parameters>
-      <Docs>
-        <param name="stream">To be added.</param>
-        <param name="transform">To be added.</param>
-        <param name="mode">To be added.</param>
-        <param name="leaveOpen">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="BeginRead">
-      <MemberSignature Language="C#" Value="public override IAsyncResult BeginRead (byte[] buffer, int offset, int count, AsyncCallback callback, object state);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance class System.IAsyncResult BeginRead(unsigned int8[] buffer, int32 offset, int32 count, class System.AsyncCallback callback, object state) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Security.Cryptography.CryptoStream.BeginRead(System.Byte[],System.Int32,System.Int32,System.AsyncCallback,System.Object)" />
-      <MemberSignature Language="VB.NET" Value="Public Overrides Function BeginRead (buffer As Byte(), offset As Integer, count As Integer, callback As AsyncCallback, state As Object) As IAsyncResult" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; override IAsyncResult ^ BeginRead(cli::array &lt;System::Byte&gt; ^ buffer, int offset, int count, AsyncCallback ^ callback, System::Object ^ state);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Security.Cryptography.Primitives</AssemblyName>
-        <AssemblyVersion>4.1.1.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.IAsyncResult</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="buffer" Type="System.Byte[]" />
-        <Parameter Name="offset" Type="System.Int32" />
-        <Parameter Name="count" Type="System.Int32" />
-        <Parameter Name="callback" Type="System.AsyncCallback" />
-        <Parameter Name="state" Type="System.Object" />
-      </Parameters>
-      <Docs>
-        <param name="buffer">To be added.</param>
-        <param name="offset">To be added.</param>
-        <param name="count">To be added.</param>
-        <param name="callback">To be added.</param>
-        <param name="state">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="BeginWrite">
-      <MemberSignature Language="C#" Value="public override IAsyncResult BeginWrite (byte[] buffer, int offset, int count, AsyncCallback callback, object state);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance class System.IAsyncResult BeginWrite(unsigned int8[] buffer, int32 offset, int32 count, class System.AsyncCallback callback, object state) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Security.Cryptography.CryptoStream.BeginWrite(System.Byte[],System.Int32,System.Int32,System.AsyncCallback,System.Object)" />
-      <MemberSignature Language="VB.NET" Value="Public Overrides Function BeginWrite (buffer As Byte(), offset As Integer, count As Integer, callback As AsyncCallback, state As Object) As IAsyncResult" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; override IAsyncResult ^ BeginWrite(cli::array &lt;System::Byte&gt; ^ buffer, int offset, int count, AsyncCallback ^ callback, System::Object ^ state);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Security.Cryptography.Primitives</AssemblyName>
-        <AssemblyVersion>4.1.1.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.IAsyncResult</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="buffer" Type="System.Byte[]" />
-        <Parameter Name="offset" Type="System.Int32" />
-        <Parameter Name="count" Type="System.Int32" />
-        <Parameter Name="callback" Type="System.AsyncCallback" />
-        <Parameter Name="state" Type="System.Object" />
-      </Parameters>
-      <Docs>
-        <param name="buffer">To be added.</param>
-        <param name="offset">To be added.</param>
-        <param name="count">To be added.</param>
-        <param name="callback">To be added.</param>
-        <param name="state">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="CanRead">
-      <MemberSignature Language="C#" Value="public override bool CanRead { get; }" />
-      <MemberSignature Language="ILAsm" Value=".property instance bool CanRead" />
-      <MemberSignature Language="DocId" Value="P:System.Security.Cryptography.CryptoStream.CanRead" />
-      <MemberSignature Language="VB.NET" Value="Public Overrides ReadOnly Property CanRead As Boolean" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual property bool CanRead { bool get(); };" />
-      <MemberType>Property</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Security.Cryptography.Primitives</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-        <AssemblyVersion>4.1.0.0</AssemblyVersion>
-        <AssemblyVersion>4.1.1.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>mscorlib</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>netstandard</AssemblyName>
-        <AssemblyVersion>2.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Boolean</ReturnType>
-      </ReturnValue>
-      <Docs>
-        <summary>
-          <span data-ttu-id="b9b23-124">获取一个值，该值指示当前的 <see cref="T:System.Security.Cryptography.CryptoStream" /> 是否可读。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="b9b23-124">Gets a value indicating whether the current <see cref="T:System.Security.Cryptography.CryptoStream" /> is readable.</span>
-          </span>
-        </summary>
-        <value>
-          <span data-ttu-id="b9b23-125">如果当前流可读，则为 <see langword="true" />；否则为 <see langword="false" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="b9b23-125">
-              <see langword="true" /> if the current stream is readable; otherwise, <see langword="false" />.</span>
-          </span>
-        </value>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="CanSeek">
-      <MemberSignature Language="C#" Value="public override bool CanSeek { get; }" />
-      <MemberSignature Language="ILAsm" Value=".property instance bool CanSeek" />
-      <MemberSignature Language="DocId" Value="P:System.Security.Cryptography.CryptoStream.CanSeek" />
-      <MemberSignature Language="VB.NET" Value="Public Overrides ReadOnly Property CanSeek As Boolean" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual property bool CanSeek { bool get(); };" />
-      <MemberType>Property</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Security.Cryptography.Primitives</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-        <AssemblyVersion>4.1.0.0</AssemblyVersion>
-        <AssemblyVersion>4.1.1.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>mscorlib</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>netstandard</AssemblyName>
-        <AssemblyVersion>2.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Boolean</ReturnType>
-      </ReturnValue>
-      <Docs>
-        <summary>
-          <span data-ttu-id="b9b23-126">获取一个值，该值指示你是否可以在当前 <see cref="T:System.Security.Cryptography.CryptoStream" /> 中搜索。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="b9b23-126">Gets a value indicating whether you can seek within the current <see cref="T:System.Security.Cryptography.CryptoStream" />.</span>
-          </span>
-        </summary>
-        <value>
-          <span data-ttu-id="b9b23-127">总是为 <see langword="false" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="b9b23-127">Always <see langword="false" />.</span>
-          </span>
-        </value>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="b9b23-128">查找中未启用<xref:System.Security.Cryptography.CryptoStream>，因此此方法始终返回`false`。</span><span class="sxs-lookup"><span data-stu-id="b9b23-128">Seeking is not enabled in a <xref:System.Security.Cryptography.CryptoStream>, so this method always returns `false`.</span></span>  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="CanWrite">
-      <MemberSignature Language="C#" Value="public override bool CanWrite { get; }" />
-      <MemberSignature Language="ILAsm" Value=".property instance bool CanWrite" />
-      <MemberSignature Language="DocId" Value="P:System.Security.Cryptography.CryptoStream.CanWrite" />
-      <MemberSignature Language="VB.NET" Value="Public Overrides ReadOnly Property CanWrite As Boolean" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual property bool CanWrite { bool get(); };" />
-      <MemberType>Property</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Security.Cryptography.Primitives</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-        <AssemblyVersion>4.1.0.0</AssemblyVersion>
-        <AssemblyVersion>4.1.1.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>mscorlib</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>netstandard</AssemblyName>
-        <AssemblyVersion>2.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Boolean</ReturnType>
-      </ReturnValue>
-      <Docs>
-        <summary>
-          <span data-ttu-id="b9b23-129">获取一个值，该值指示当前的 <see cref="T:System.Security.Cryptography.CryptoStream" /> 是否可写。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="b9b23-129">Gets a value indicating whether the current <see cref="T:System.Security.Cryptography.CryptoStream" /> is writable.</span>
-          </span>
-        </summary>
-        <value>
-          <span data-ttu-id="b9b23-130">如果当前流可写，则为 <see langword="true" />；否则为 <see langword="false" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="b9b23-130">
-              <see langword="true" /> if the current stream is writable; otherwise, <see langword="false" />.</span>
-          </span>
-        </value>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="Clear">
-      <MemberSignature Language="C#" Value="public void Clear ();" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void Clear() cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Security.Cryptography.CryptoStream.Clear" />
-      <MemberSignature Language="VB.NET" Value="Public Sub Clear ()" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; void Clear();" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>mscorlib</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>netstandard</AssemblyName>
-        <AssemblyVersion>2.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>System.Security.Cryptography.Primitives</AssemblyName>
-        <AssemblyVersion>4.1.0.0</AssemblyVersion>
-        <AssemblyVersion>4.1.1.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters />
-      <Docs>
-        <summary>
-          <span data-ttu-id="b9b23-131">释放由 <see cref="T:System.Security.Cryptography.CryptoStream" /> 使用的所有资源。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="b9b23-131">Releases all resources used by the <see cref="T:System.Security.Cryptography.CryptoStream" />.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="b9b23-132">此方法会包装类型的调用<xref:System.IDisposable.Dispose%2A?displayProperty=nameWithType>实现。</span><span class="sxs-lookup"><span data-stu-id="b9b23-132">This method wraps a call to the type's <xref:System.IDisposable.Dispose%2A?displayProperty=nameWithType> implementation.</span></span>  
-  
- <span data-ttu-id="b9b23-133">调用`Dispose`允许使用的资源<xref:System.Security.Cryptography.CryptoStream>可以重新分配用于其他目的。</span><span class="sxs-lookup"><span data-stu-id="b9b23-133">Calling `Dispose` allows the resources used by the <xref:System.Security.Cryptography.CryptoStream> to be reallocated for other purposes.</span></span> <span data-ttu-id="b9b23-134">有关详细信息`Dispose`，请参阅[清洗向上非托管资源](~/docs/standard/garbage-collection/unmanaged.md)</span><span class="sxs-lookup"><span data-stu-id="b9b23-134">For more information about `Dispose`, see [Cleaning Up Unmanaged Resources](~/docs/standard/garbage-collection/unmanaged.md)</span></span>  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="Dispose">
-      <MemberSignature Language="C#" Value="protected override void Dispose (bool disposing);" />
-      <MemberSignature Language="ILAsm" Value=".method familyhidebysig virtual instance void Dispose(bool disposing) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Security.Cryptography.CryptoStream.Dispose(System.Boolean)" />
-      <MemberSignature Language="VB.NET" Value="Protected Overrides Sub Dispose (disposing As Boolean)" />
-      <MemberSignature Language="C++ CLI" Value="protected:&#xA; override void Dispose(bool disposing);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Security.Cryptography.Primitives</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-        <AssemblyVersion>4.1.0.0</AssemblyVersion>
-        <AssemblyVersion>4.1.1.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>mscorlib</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>netstandard</AssemblyName>
-        <AssemblyVersion>2.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="disposing" Type="System.Boolean" />
-      </Parameters>
-      <Docs>
-        <param name="disposing">
-          <span data-ttu-id="b9b23-135">若要释放托管资源和非托管资源，则为 <see langword="true" />；若仅释放非托管资源，则为 <see langword="false" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="b9b23-135">
-              <see langword="true" /> to release both managed and unmanaged resources; <see langword="false" /> to release only unmanaged resources.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="b9b23-136">释放由 <see cref="T:System.Security.Cryptography.CryptoStream" /> 占用的非托管资源，还可以另外再释放托管资源。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="b9b23-136">Releases the unmanaged resources used by the <see cref="T:System.Security.Cryptography.CryptoStream" /> and optionally releases the managed resources.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="b9b23-137">此方法称为由公共`Dispose()`方法和`Finalize`方法。</span><span class="sxs-lookup"><span data-stu-id="b9b23-137">This method is called by the public `Dispose()` method and the `Finalize` method.</span></span> <span data-ttu-id="b9b23-138">`Dispose()` 调用受保护`Dispose(Boolean)`方法释放参数设置为`true`。</span><span class="sxs-lookup"><span data-stu-id="b9b23-138">`Dispose()` invokes the protected `Dispose(Boolean)` method with the disposing parameter set to `true`.</span></span> <span data-ttu-id="b9b23-139">`Finalize` 将释放设置为 `Dispose`，调用 `false`。</span><span class="sxs-lookup"><span data-stu-id="b9b23-139">`Finalize` invokes `Dispose` with disposing set to `false`.</span></span>  
-  
- <span data-ttu-id="b9b23-140">当 `disposing` 参数为 `true` 时，此方法释放该 <xref:System.Security.Cryptography.CryptoStream> 引用的、由任何托管对象持有的全部资源。</span><span class="sxs-lookup"><span data-stu-id="b9b23-140">When the `disposing` parameter is `true`, this method releases all resources held by any managed objects that this <xref:System.Security.Cryptography.CryptoStream> references.</span></span> <span data-ttu-id="b9b23-141">此方法调用每个引用对象的 `Dispose()` 方法。</span><span class="sxs-lookup"><span data-stu-id="b9b23-141">This method invokes the `Dispose()` method of each referenced object.</span></span>  
-  
- ]]></format>
-        </remarks>
-        <block subset="none" type="overrides">
-          <para>
-            <span data-ttu-id="b9b23-142">
-              <see langword="Dispose" /> 可以由其他对象多次调用。</span>
-            <span class="sxs-lookup">
-              <span data-stu-id="b9b23-142">
-                <see langword="Dispose" /> can be called multiple times by other objects.</span>
-            </span>
-            <span data-ttu-id="b9b23-143">在重写<see langword="Dispose(Boolean)" />，请注意不要引用在以前调用之前释放对象<see langword="Dispose" />。</span>
-            <span class="sxs-lookup">
-              <span data-stu-id="b9b23-143">When overriding <see langword="Dispose(Boolean)" />, be careful not to reference objects that have been previously disposed in an earlier call to <see langword="Dispose" />.</span>
-            </span>
-            <span data-ttu-id="b9b23-144">有关如何实现详细信息<see langword="Dispose(Boolean)" />，请参阅[实现 Dispose 方法](~/docs/standard/garbage-collection/implementing-dispose.md)。</span>
-            <span class="sxs-lookup">
-              <span data-stu-id="b9b23-144">For more information about how to implement <see langword="Dispose(Boolean)" />, see [Implementing a Dispose Method](~/docs/standard/garbage-collection/implementing-dispose.md).</span>
-            </span>
-            <span data-ttu-id="b9b23-145">有关详细信息<see langword="Dispose" />和<see langword="Finalize" />，请参阅[清洗向上非托管资源](~/docs/standard/garbage-collection/unmanaged.md)。</span>
-            <span class="sxs-lookup">
-              <span data-stu-id="b9b23-145">For more information about <see langword="Dispose" /> and <see langword="Finalize" />, see [Cleaning Up Unmanaged Resources](~/docs/standard/garbage-collection/unmanaged.md).</span>
-            </span>
-          </para>
-        </block>
-      </Docs>
-    </Member>
-    <Member MemberName="EndRead">
-      <MemberSignature Language="C#" Value="public override int EndRead (IAsyncResult asyncResult);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance int32 EndRead(class System.IAsyncResult asyncResult) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Security.Cryptography.CryptoStream.EndRead(System.IAsyncResult)" />
-      <MemberSignature Language="VB.NET" Value="Public Overrides Function EndRead (asyncResult As IAsyncResult) As Integer" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; override int EndRead(IAsyncResult ^ asyncResult);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Security.Cryptography.Primitives</AssemblyName>
-        <AssemblyVersion>4.1.1.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Int32</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="asyncResult" Type="System.IAsyncResult" />
-      </Parameters>
-      <Docs>
-        <param name="asyncResult">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="EndWrite">
-      <MemberSignature Language="C#" Value="public override void EndWrite (IAsyncResult asyncResult);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance void EndWrite(class System.IAsyncResult asyncResult) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Security.Cryptography.CryptoStream.EndWrite(System.IAsyncResult)" />
-      <MemberSignature Language="VB.NET" Value="Public Overrides Sub EndWrite (asyncResult As IAsyncResult)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; override void EndWrite(IAsyncResult ^ asyncResult);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Security.Cryptography.Primitives</AssemblyName>
-        <AssemblyVersion>4.1.1.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="asyncResult" Type="System.IAsyncResult" />
-      </Parameters>
-      <Docs>
-        <param name="asyncResult">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="Flush">
-      <MemberSignature Language="C#" Value="public override void Flush ();" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance void Flush() cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Security.Cryptography.CryptoStream.Flush" />
-      <MemberSignature Language="VB.NET" Value="Public Overrides Sub Flush ()" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; override void Flush();" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Security.Cryptography.Primitives</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-        <AssemblyVersion>4.1.0.0</AssemblyVersion>
-        <AssemblyVersion>4.1.1.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>mscorlib</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>netstandard</AssemblyName>
-        <AssemblyVersion>2.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters />
-      <Docs>
-        <summary>
-          <span data-ttu-id="b9b23-146">清理当前流的所有缓冲区，并使所有缓冲数据写入基础设备。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="b9b23-146">Clears all buffers for the current stream and causes any buffered data to be written to the underlying device.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="b9b23-147">刷新流将不会刷新其基础的编码器，除非你明确地调用<xref:System.Security.Cryptography.CryptoStream.Flush%2A>或<xref:System.IO.Stream.Close%2A>。</span><span class="sxs-lookup"><span data-stu-id="b9b23-147">Flushing the stream will not flush its underlying encoder unless you explicitly call <xref:System.Security.Cryptography.CryptoStream.Flush%2A> or <xref:System.IO.Stream.Close%2A>.</span></span> <span data-ttu-id="b9b23-148">设置<xref:System.IO.StreamWriter.AutoFlush%2A>到`true`意味着数据从缓冲区刷新到流中，但不是会刷新编码器状态。</span><span class="sxs-lookup"><span data-stu-id="b9b23-148">Setting <xref:System.IO.StreamWriter.AutoFlush%2A> to `true` means that data will be flushed from the buffer to the stream, but the encoder state will not be flushed.</span></span> <span data-ttu-id="b9b23-149">这将允许编码器，以便它可以正确编码的字符的下一步块保持其状态 （部分字符）。</span><span class="sxs-lookup"><span data-stu-id="b9b23-149">This allows the encoder to keep its state (partial characters) so that it can encode the next block of characters correctly.</span></span> <span data-ttu-id="b9b23-150">这种情况下会影响 UTF8 和 UTF7 其中某些字符仅后才能进行编码的编码器收到的相邻字符。</span><span class="sxs-lookup"><span data-stu-id="b9b23-150">This scenario affects UTF8 and UTF7 where certain characters can only be encoded after the encoder receives the adjacent character or characters.</span></span>  
-  
-> [!NOTE]
->  <span data-ttu-id="b9b23-151">你应通过调用<xref:System.IO.Stream.Close%2A>方法或<xref:System.Security.Cryptography.CryptoStream.FlushFinalBlock%2A>方法以完成刷新缓冲区。</span><span class="sxs-lookup"><span data-stu-id="b9b23-151">You should call either the <xref:System.IO.Stream.Close%2A> method or the <xref:System.Security.Cryptography.CryptoStream.FlushFinalBlock%2A> method to complete flushing the buffer.</span></span>  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="FlushAsync">
-      <MemberSignature Language="C#" Value="public override System.Threading.Tasks.Task FlushAsync (System.Threading.CancellationToken cancellationToken);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance class System.Threading.Tasks.Task FlushAsync(valuetype System.Threading.CancellationToken cancellationToken) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Security.Cryptography.CryptoStream.FlushAsync(System.Threading.CancellationToken)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; override System::Threading::Tasks::Task ^ FlushAsync(System::Threading::CancellationToken cancellationToken);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Security.Cryptography.Primitives</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-        <AssemblyVersion>4.1.0.0</AssemblyVersion>
-        <AssemblyVersion>4.1.1.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>mscorlib</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>netstandard</AssemblyName>
-        <AssemblyVersion>2.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Threading.Tasks.Task</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="cancellationToken" Type="System.Threading.CancellationToken" />
-      </Parameters>
-      <Docs>
-        <param name="cancellationToken">
-          <span data-ttu-id="b9b23-152">要监视取消请求的标记。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="b9b23-152">The token to monitor for cancellation requests.</span>
-          </span>
-          <span data-ttu-id="b9b23-153">默认值为 <see cref="P:System.Threading.CancellationToken.None" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="b9b23-153">The default value is <see cref="P:System.Threading.CancellationToken.None" />.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="b9b23-154">异步清理当前流的所有缓冲区，并使所有缓冲数据写入基础设备，并且监控取消请求。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="b9b23-154">Clears all buffers for the current stream asynchronously, causes any buffered data to be written to the underlying device, and monitors cancellation requests.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="b9b23-155">表示异步刷新操作的任务。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="b9b23-155">A task that represents the asynchronous flush operation.</span>
-          </span>
-        </returns>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="b9b23-156">必须在调用之前添加<xref:System.Security.Cryptography.CryptoStream.FlushAsync%2A>与`await`(C#) 或`Await`(Visual Basic 中) 运算符可暂停执行方法，直到完成该任务为止。</span><span class="sxs-lookup"><span data-stu-id="b9b23-156">You must preface your call to <xref:System.Security.Cryptography.CryptoStream.FlushAsync%2A> with the `await` (C#) or `Await` (Visual Basic) operator to suspend execution of the method until the task is complete.</span></span> <span data-ttu-id="b9b23-157">有关详细信息，请参阅[使用 Async 和 Await 的异步编程](http://msdn.microsoft.com/library/db854f91-ccef-4035-ae4d-0911fde808c7)。</span><span class="sxs-lookup"><span data-stu-id="b9b23-157">For more information, see [Asynchronous Programming with Async and Await](http://msdn.microsoft.com/library/db854f91-ccef-4035-ae4d-0911fde808c7).</span></span>  
-  
- <span data-ttu-id="b9b23-158">如果在完成之前，将取消该操作，返回的任务包含<xref:System.Threading.Tasks.TaskStatus.Canceled>值<xref:System.Threading.Tasks.Task.Status%2A>属性。</span><span class="sxs-lookup"><span data-stu-id="b9b23-158">If the operation is canceled before it completes, the returned task contains the <xref:System.Threading.Tasks.TaskStatus.Canceled> value for the <xref:System.Threading.Tasks.Task.Status%2A> property.</span></span>  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.ObjectDisposedException">
-          <span data-ttu-id="b9b23-159">已释放流。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="b9b23-159">The stream has been disposed.</span>
-          </span>
-        </exception>
-      </Docs>
-    </Member>
-    <Member MemberName="FlushFinalBlock">
-      <MemberSignature Language="C#" Value="public void FlushFinalBlock ();" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void FlushFinalBlock() cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Security.Cryptography.CryptoStream.FlushFinalBlock" />
-      <MemberSignature Language="VB.NET" Value="Public Sub FlushFinalBlock ()" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; void FlushFinalBlock();" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Security.Cryptography.Primitives</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-        <AssemblyVersion>4.1.0.0</AssemblyVersion>
-        <AssemblyVersion>4.1.1.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>mscorlib</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>netstandard</AssemblyName>
-        <AssemblyVersion>2.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters />
-      <Docs>
-        <summary>
-          <span data-ttu-id="b9b23-160">用缓冲区的当前状态更新基础数据源或存储库，随后清除缓冲区。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="b9b23-160">Updates the underlying data source or repository with the current state of the buffer, then clears the buffer.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="b9b23-161">调用<xref:System.IO.Stream.Close%2A>方法将调用<xref:System.Security.Cryptography.CryptoStream.FlushFinalBlock%2A>。</span><span class="sxs-lookup"><span data-stu-id="b9b23-161">Calling the <xref:System.IO.Stream.Close%2A> method will call <xref:System.Security.Cryptography.CryptoStream.FlushFinalBlock%2A>.</span></span> <span data-ttu-id="b9b23-162">如果不调用<xref:System.IO.Stream.Close%2A>，调用<xref:System.Security.Cryptography.CryptoStream.FlushFinalBlock%2A>完成刷新缓冲区。</span><span class="sxs-lookup"><span data-stu-id="b9b23-162">If you do not call <xref:System.IO.Stream.Close%2A>, call <xref:System.Security.Cryptography.CryptoStream.FlushFinalBlock%2A> to complete flushing the buffer.</span></span> <span data-ttu-id="b9b23-163">调用<xref:System.Security.Cryptography.CryptoStream.FlushFinalBlock%2A>流的所有活动都时才完成。</span><span class="sxs-lookup"><span data-stu-id="b9b23-163">Call <xref:System.Security.Cryptography.CryptoStream.FlushFinalBlock%2A> only when all stream activity is complete.</span></span>  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.Security.Cryptography.CryptographicException">
-          <span data-ttu-id="b9b23-164">密钥已损坏，它可能会导致流的填充无效。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="b9b23-164">The key is corrupt which can cause invalid padding to the stream.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.NotSupportedException">
-          <span data-ttu-id="b9b23-165">当前流不可写。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="b9b23-165">The current stream is not writable.</span>
-          </span>
-          <span data-ttu-id="b9b23-166">或</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="b9b23-166">-or-</span>
-          </span>
-          <span data-ttu-id="b9b23-167">最后一个块已被转换。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="b9b23-167">The final block has already been transformed.</span>
-          </span>
-        </exception>
-      </Docs>
-    </Member>
-    <Member MemberName="HasFlushedFinalBlock">
-      <MemberSignature Language="C#" Value="public bool HasFlushedFinalBlock { get; }" />
-      <MemberSignature Language="ILAsm" Value=".property instance bool HasFlushedFinalBlock" />
-      <MemberSignature Language="DocId" Value="P:System.Security.Cryptography.CryptoStream.HasFlushedFinalBlock" />
-      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property HasFlushedFinalBlock As Boolean" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; property bool HasFlushedFinalBlock { bool get(); };" />
-      <MemberType>Property</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Security.Cryptography.Primitives</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-        <AssemblyVersion>4.1.0.0</AssemblyVersion>
-        <AssemblyVersion>4.1.1.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>mscorlib</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>netstandard</AssemblyName>
-        <AssemblyVersion>2.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Boolean</ReturnType>
-      </ReturnValue>
-      <Docs>
-        <summary>
-          <span data-ttu-id="b9b23-168">获取一个值，该值指示最终缓冲区块是否已写入基础流。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="b9b23-168">Gets a value indicating whether the final buffer block has been written to the underlying stream.</span>
-          </span>
-        </summary>
-        <value>
-          <span data-ttu-id="b9b23-169">如果已刷新最终块，则为 <see langword="true" />；否则为 <see langword="false" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="b9b23-169">
-              <see langword="true" /> if the final block has been flushed; otherwise, <see langword="false" />.</span>
-          </span>
-        </value>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="b9b23-170">设置此属性`true`时<xref:System.Security.Cryptography.CryptoStream.FlushFinalBlock%2A>调用方法。</span><span class="sxs-lookup"><span data-stu-id="b9b23-170">This property is set `true` when the <xref:System.Security.Cryptography.CryptoStream.FlushFinalBlock%2A> method is called.</span></span>  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="Length">
-      <MemberSignature Language="C#" Value="public override long Length { get; }" />
-      <MemberSignature Language="ILAsm" Value=".property instance int64 Length" />
-      <MemberSignature Language="DocId" Value="P:System.Security.Cryptography.CryptoStream.Length" />
-      <MemberSignature Language="VB.NET" Value="Public Overrides ReadOnly Property Length As Long" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual property long Length { long get(); };" />
-      <MemberType>Property</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Security.Cryptography.Primitives</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-        <AssemblyVersion>4.1.0.0</AssemblyVersion>
-        <AssemblyVersion>4.1.1.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>mscorlib</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>netstandard</AssemblyName>
-        <AssemblyVersion>2.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Int64</ReturnType>
-      </ReturnValue>
-      <Docs>
-        <summary>
-          <span data-ttu-id="b9b23-171">获取用字节表示的流长度。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="b9b23-171">Gets the length in bytes of the stream.</span>
-          </span>
-        </summary>
-        <value>
-          <span data-ttu-id="b9b23-172">不支持此属性。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="b9b23-172">This property is not supported.</span>
-          </span>
-        </value>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="b9b23-173">此属性的存在只是为了支持从 <xref:System.IO.Stream> 继承；无法使用此属性。</span><span class="sxs-lookup"><span data-stu-id="b9b23-173">This property exists only to support inheritance from <xref:System.IO.Stream>, and cannot be used.</span></span>  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.NotSupportedException">
-          <span data-ttu-id="b9b23-174">不支持此属性。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="b9b23-174">This property is not supported.</span>
-          </span>
-        </exception>
-      </Docs>
-    </Member>
-    <Member MemberName="Position">
-      <MemberSignature Language="C#" Value="public override long Position { get; set; }" />
-      <MemberSignature Language="ILAsm" Value=".property instance int64 Position" />
-      <MemberSignature Language="DocId" Value="P:System.Security.Cryptography.CryptoStream.Position" />
-      <MemberSignature Language="VB.NET" Value="Public Overrides Property Position As Long" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual property long Position { long get(); void set(long value); };" />
-      <MemberType>Property</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Security.Cryptography.Primitives</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-        <AssemblyVersion>4.1.0.0</AssemblyVersion>
-        <AssemblyVersion>4.1.1.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>mscorlib</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>netstandard</AssemblyName>
-        <AssemblyVersion>2.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Int64</ReturnType>
-      </ReturnValue>
-      <Docs>
-        <summary>
-          <span data-ttu-id="b9b23-175">获取或设置当前流中的位置。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="b9b23-175">Gets or sets the position within the current stream.</span>
-          </span>
-        </summary>
-        <value>
-          <span data-ttu-id="b9b23-176">不支持此属性。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="b9b23-176">This property is not supported.</span>
-          </span>
-        </value>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="b9b23-177">此属性的存在只是为了支持从 <xref:System.IO.Stream> 继承；无法使用此属性。</span><span class="sxs-lookup"><span data-stu-id="b9b23-177">This property exists only to support inheritance from <xref:System.IO.Stream>, and cannot be used.</span></span>  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.NotSupportedException">
-          <span data-ttu-id="b9b23-178">不支持此属性。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="b9b23-178">This property is not supported.</span>
-          </span>
-        </exception>
-      </Docs>
-    </Member>
-    <Member MemberName="Read">
-      <MemberSignature Language="C#" Value="public override int Read (byte[] buffer, int offset, int count);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance int32 Read([out] unsigned int8[] buffer, int32 offset, int32 count) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Security.Cryptography.CryptoStream.Read(System.Byte[],System.Int32,System.Int32)" />
-      <MemberSignature Language="VB.NET" Value="Public Overrides Function Read (buffer As Byte(), offset As Integer, count As Integer) As Integer" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; override int Read(cli::array &lt;System::Byte&gt; ^ buffer, int offset, int count);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Security.Cryptography.Primitives</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-        <AssemblyVersion>4.1.0.0</AssemblyVersion>
-        <AssemblyVersion>4.1.1.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>mscorlib</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>netstandard</AssemblyName>
-        <AssemblyVersion>2.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Int32</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="buffer" Type="System.Byte[]" />
-        <Parameter Name="offset" Type="System.Int32" />
-        <Parameter Name="count" Type="System.Int32" />
-      </Parameters>
-      <Docs>
-        <param name="buffer">
-          <span data-ttu-id="b9b23-179">字节数组。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="b9b23-179">An array of bytes.</span>
-          </span>
-          <span data-ttu-id="b9b23-180">从当前流中读取最多 <c>count</c> 个字节，并将它们存储在 <c>buffer</c> 中。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="b9b23-180">A maximum of <c>count</c> bytes are read from the current stream and stored in <c>buffer</c>.</span>
-          </span>
-        </param>
-        <param name="offset">
-          <span data-ttu-id="b9b23-181">
-            <c>buffer</c> 中的字节偏移量，从此位置开始存储从当前流中读取的数据。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="b9b23-181">The byte offset in <c>buffer</c> at which to begin storing the data read from the current stream.</span>
-          </span>
-        </param>
-        <param name="count">
-          <span data-ttu-id="b9b23-182">要从当前流中最多读取的字节数。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="b9b23-182">The maximum number of bytes to be read from the current stream.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="b9b23-183">从当前流读取字节序列，并将流中的位置向前移动读取的字节数。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="b9b23-183">Reads a sequence of bytes from the current stream and advances the position within the stream by the number of bytes read.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="b9b23-184">读入缓冲区中的总字节数。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="b9b23-184">The total number of bytes read into the buffer.</span>
-          </span>
-          <span data-ttu-id="b9b23-185">如果当前可用的字节数没有请求的字节数那么多，则总字节数可能小于请求的字节数；如果已到达流的末尾，则为零。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="b9b23-185">This can be less than the number of bytes requested if that many bytes are not currently available, or zero if the end of the stream has been reached.</span>
-          </span>
-        </returns>
-        <remarks>To be added.</remarks>
-        <exception cref="T:System.NotSupportedException">
-          <span data-ttu-id="b9b23-186">与当前 <see cref="T:System.Security.Cryptography.CryptoStreamMode" /> 对象关联的 <see cref="T:System.Security.Cryptography.CryptoStream" /> 与基础流不匹配。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="b9b23-186">The <see cref="T:System.Security.Cryptography.CryptoStreamMode" /> associated with current <see cref="T:System.Security.Cryptography.CryptoStream" /> object does not match the underlying stream.</span>
-          </span>
-          <span data-ttu-id="b9b23-187">例如，对只写的基础流使用 <see cref="F:System.Security.Cryptography.CryptoStreamMode.Read" /> 时会引发此异常。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="b9b23-187">For example, this exception is thrown when using <see cref="F:System.Security.Cryptography.CryptoStreamMode.Read" /> with an underlying stream that is write only.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.ArgumentOutOfRangeException">
-          <span data-ttu-id="b9b23-188">
-            <paramref name="offset" /> 参数小于零。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="b9b23-188">The <paramref name="offset" /> parameter is less than zero.</span>
-          </span>
-          <span data-ttu-id="b9b23-189">或</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="b9b23-189">-or-</span>
-          </span>
-          <span data-ttu-id="b9b23-190">
-            <paramref name="count" /> 参数小于零。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="b9b23-190">The <paramref name="count" /> parameter is less than zero.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.ArgumentException">
-          <span data-ttu-id="b9b23-191">
-            <paramref name="count" /> 参数和 <paramref name="offset" /> 参数的和比缓冲区的长度长。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="b9b23-191">Thesum of the <paramref name="count" /> and <paramref name="offset" /> parameters is longer than the length of the buffer.</span>
-          </span>
-        </exception>
-      </Docs>
-    </Member>
-    <Member MemberName="ReadAsync">
-      <MemberSignature Language="C#" Value="public override System.Threading.Tasks.Task&lt;int&gt; ReadAsync (byte[] buffer, int offset, int count, System.Threading.CancellationToken cancellationToken);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance class System.Threading.Tasks.Task`1&lt;int32&gt; ReadAsync(unsigned int8[] buffer, int32 offset, int32 count, valuetype System.Threading.CancellationToken cancellationToken) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Security.Cryptography.CryptoStream.ReadAsync(System.Byte[],System.Int32,System.Int32,System.Threading.CancellationToken)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; override System::Threading::Tasks::Task&lt;int&gt; ^ ReadAsync(cli::array &lt;System::Byte&gt; ^ buffer, int offset, int count, System::Threading::CancellationToken cancellationToken);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Security.Cryptography.Primitives</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-        <AssemblyVersion>4.1.0.0</AssemblyVersion>
-        <AssemblyVersion>4.1.1.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>mscorlib</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>netstandard</AssemblyName>
-        <AssemblyVersion>2.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Threading.Tasks.Task&lt;System.Int32&gt;</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="buffer" Type="System.Byte[]" />
-        <Parameter Name="offset" Type="System.Int32" />
-        <Parameter Name="count" Type="System.Int32" />
-        <Parameter Name="cancellationToken" Type="System.Threading.CancellationToken" />
-      </Parameters>
-      <Docs>
-        <param name="buffer">
-          <span data-ttu-id="b9b23-192">数据写入的缓冲区。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="b9b23-192">The buffer to write the data into.</span>
-          </span>
-        </param>
-        <param name="offset">
-          <span data-ttu-id="b9b23-193">
-            <c>buffer</c> 中的字节偏移量，从该偏移量开始写入流中的数据。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="b9b23-193">The byte offset in <c>buffer</c> at which to begin writing data from the stream.</span>
-          </span>
-        </param>
-        <param name="count">
-          <span data-ttu-id="b9b23-194">最多读取的字节数。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="b9b23-194">The maximum number of bytes to read.</span>
-          </span>
-        </param>
-        <param name="cancellationToken">
-          <span data-ttu-id="b9b23-195">要监视取消请求的标记。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="b9b23-195">The token to monitor for cancellation requests.</span>
-          </span>
-          <span data-ttu-id="b9b23-196">默认值为 <see cref="P:System.Threading.CancellationToken.None" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="b9b23-196">The default value is <see cref="P:System.Threading.CancellationToken.None" />.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="b9b23-197">从当前流异步读取字节序列，将此流中的位置提升读取的字节数，并监视取消请求数。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="b9b23-197">Reads a sequence of bytes from the current stream asynchronously, advances the position within the stream by the number of bytes read, and monitors cancellation requests.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="b9b23-198">表示异步读取操作的任务。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="b9b23-198">A task that represents the asynchronous read operation.</span>
-          </span>
-          <span data-ttu-id="b9b23-199">目标对象的 <paramref name="TResult" /> 参数的值包含多次读入缓冲区总字节数。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="b9b23-199">The value of the task object's <paramref name="TResult" /> parameter contains the total number of bytes read into the buffer.</span>
-          </span>
-          <span data-ttu-id="b9b23-200">如果当前可用字节数少于所请求的字节数，则该结果值可能小于所请求的字节数，或者如果已到达流的末尾时，则为 0（零）。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="b9b23-200">The result can be less than the number of bytes requested if the number of bytes currently available is less than the requested number, or it can be 0 (zero) if the end of the stream has been reached.</span>
-          </span>
-        </returns>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="b9b23-201">必须在调用之前添加<xref:System.Security.Cryptography.CryptoStream.ReadAsync%2A>与`await`(C#) 或`Await`(Visual Basic 中) 运算符可暂停执行方法，直到完成该任务为止。</span><span class="sxs-lookup"><span data-stu-id="b9b23-201">You must preface your call to <xref:System.Security.Cryptography.CryptoStream.ReadAsync%2A> with the `await` (C#) or `Await` (Visual Basic) operator to suspend execution of the method until the task is complete.</span></span> <span data-ttu-id="b9b23-202">有关详细信息，请参阅[使用 Async 和 Await 的异步编程](http://msdn.microsoft.com/library/db854f91-ccef-4035-ae4d-0911fde808c7)。</span><span class="sxs-lookup"><span data-stu-id="b9b23-202">For more information, see [Asynchronous Programming with Async and Await](http://msdn.microsoft.com/library/db854f91-ccef-4035-ae4d-0911fde808c7).</span></span>  
-  
- <span data-ttu-id="b9b23-203">如果在完成之前，将取消该操作，返回的任务包含<xref:System.Threading.Tasks.TaskStatus.Canceled>值<xref:System.Threading.Tasks.Task.Status%2A>属性。</span><span class="sxs-lookup"><span data-stu-id="b9b23-203">If the operation is canceled before it completes, the returned task contains the <xref:System.Threading.Tasks.TaskStatus.Canceled> value for the <xref:System.Threading.Tasks.Task.Status%2A> property.</span></span>  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.ArgumentNullException">
-          <span data-ttu-id="b9b23-204">
-            <paramref name="buffer" /> 为 <see langword="null" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="b9b23-204">
-              <paramref name="buffer" /> is <see langword="null" />.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.ArgumentOutOfRangeException">
-          <span data-ttu-id="b9b23-205">
-            <paramref name="offset" /> 或 <paramref name="count" /> 为负数。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="b9b23-205">
-              <paramref name="offset" /> or <paramref name="count" /> is negative.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.ArgumentException">
-          <span data-ttu-id="b9b23-206">
-            <paramref name="offset" /> 和 <paramref name="count" /> 的总和大于缓冲区长度。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="b9b23-206">The sum of <paramref name="offset" /> and <paramref name="count" /> is larger than the buffer length.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.NotSupportedException">
-          <span data-ttu-id="b9b23-207">流不支持读取。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="b9b23-207">The stream does not support reading.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.ObjectDisposedException">
-          <span data-ttu-id="b9b23-208">已释放流。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="b9b23-208">The stream has been disposed.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.InvalidOperationException">
-          <span data-ttu-id="b9b23-209">之前的读取操作当前正在使用流。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="b9b23-209">The stream is currently in use by a previous read operation.</span>
-          </span>
-        </exception>
-      </Docs>
-    </Member>
-    <Member MemberName="ReadByte">
-      <MemberSignature Language="C#" Value="public override int ReadByte ();" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance int32 ReadByte() cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Security.Cryptography.CryptoStream.ReadByte" />
-      <MemberSignature Language="VB.NET" Value="Public Overrides Function ReadByte () As Integer" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; override int ReadByte();" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Security.Cryptography.Primitives</AssemblyName>
-        <AssemblyVersion>4.1.0.0</AssemblyVersion>
-        <AssemblyVersion>4.1.1.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Int32</ReturnType>
-      </ReturnValue>
-      <Parameters />
-      <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="Seek">
-      <MemberSignature Language="C#" Value="public override long Seek (long offset, System.IO.SeekOrigin origin);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance int64 Seek(int64 offset, valuetype System.IO.SeekOrigin origin) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Security.Cryptography.CryptoStream.Seek(System.Int64,System.IO.SeekOrigin)" />
-      <MemberSignature Language="VB.NET" Value="Public Overrides Function Seek (offset As Long, origin As SeekOrigin) As Long" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; override long Seek(long offset, System::IO::SeekOrigin origin);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Security.Cryptography.Primitives</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-        <AssemblyVersion>4.1.0.0</AssemblyVersion>
-        <AssemblyVersion>4.1.1.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>mscorlib</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>netstandard</AssemblyName>
-        <AssemblyVersion>2.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Int64</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="offset" Type="System.Int64" />
-        <Parameter Name="origin" Type="System.IO.SeekOrigin" />
-      </Parameters>
-      <Docs>
-        <param name="offset">
-          <span data-ttu-id="b9b23-210">相对于 <c>origin</c> 参数的字节偏移量。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="b9b23-210">A byte offset relative to the <c>origin</c> parameter.</span>
-          </span>
-        </param>
-        <param name="origin">
-          <span data-ttu-id="b9b23-211">一个 <see cref="T:System.IO.SeekOrigin" /> 对象，该对象指示用于获得新位置的参考点。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="b9b23-211">A <see cref="T:System.IO.SeekOrigin" /> object indicating the reference point used to obtain the new position.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="b9b23-212">设置当前流中的位置。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="b9b23-212">Sets the position within the current stream.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="b9b23-213">不支持此方法。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="b9b23-213">This method is not supported.</span>
-          </span>
-        </returns>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="b9b23-214">此方法存在只是为了支持从继承<xref:System.IO.Stream>，并且不能使用。</span><span class="sxs-lookup"><span data-stu-id="b9b23-214">This method exists only to support inheritance from <xref:System.IO.Stream>, and cannot be used.</span></span>  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.NotSupportedException">
-          <span data-ttu-id="b9b23-215">不支持此方法。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="b9b23-215">This method is not supported.</span>
-          </span>
-        </exception>
-      </Docs>
-    </Member>
-    <Member MemberName="SetLength">
-      <MemberSignature Language="C#" Value="public override void SetLength (long value);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance void SetLength(int64 value) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Security.Cryptography.CryptoStream.SetLength(System.Int64)" />
-      <MemberSignature Language="VB.NET" Value="Public Overrides Sub SetLength (value As Long)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; override void SetLength(long value);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Security.Cryptography.Primitives</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-        <AssemblyVersion>4.1.0.0</AssemblyVersion>
-        <AssemblyVersion>4.1.1.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>mscorlib</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>netstandard</AssemblyName>
-        <AssemblyVersion>2.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="value" Type="System.Int64" />
-      </Parameters>
-      <Docs>
-        <param name="value">
-          <span data-ttu-id="b9b23-216">所需的当前流的长度（以字节表示）。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="b9b23-216">The desired length of the current stream in bytes.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="b9b23-217">设置当前流的长度。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="b9b23-217">Sets the length of the current stream.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="b9b23-218">此属性的存在只是为了支持从 <xref:System.IO.Stream> 继承；无法使用此属性。</span><span class="sxs-lookup"><span data-stu-id="b9b23-218">This property exists only to support inheritance from <xref:System.IO.Stream>, and cannot be used.</span></span>  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.NotSupportedException">
-          <span data-ttu-id="b9b23-219">此属性的存在只是为了支持从 <see cref="T:System.IO.Stream" /> 继承；无法使用此属性。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="b9b23-219">This property exists only to support inheritance from <see cref="T:System.IO.Stream" />, and cannot be used.</span>
-          </span>
-        </exception>
-      </Docs>
-    </Member>
-    <Member MemberName="Write">
-      <MemberSignature Language="C#" Value="public override void Write (byte[] buffer, int offset, int count);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance void Write(unsigned int8[] buffer, int32 offset, int32 count) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Security.Cryptography.CryptoStream.Write(System.Byte[],System.Int32,System.Int32)" />
-      <MemberSignature Language="VB.NET" Value="Public Overrides Sub Write (buffer As Byte(), offset As Integer, count As Integer)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; override void Write(cli::array &lt;System::Byte&gt; ^ buffer, int offset, int count);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Security.Cryptography.Primitives</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-        <AssemblyVersion>4.1.0.0</AssemblyVersion>
-        <AssemblyVersion>4.1.1.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>mscorlib</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>netstandard</AssemblyName>
-        <AssemblyVersion>2.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="buffer" Type="System.Byte[]" />
-        <Parameter Name="offset" Type="System.Int32" />
-        <Parameter Name="count" Type="System.Int32" />
-      </Parameters>
-      <Docs>
-        <param name="buffer">
-          <span data-ttu-id="b9b23-220">字节数组。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="b9b23-220">An array of bytes.</span>
-          </span>
-          <span data-ttu-id="b9b23-221">此方法将 <c>count</c> 个字节从 <c>buffer</c> 复制到当前流。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="b9b23-221">This method copies <c>count</c> bytes from <c>buffer</c> to the current stream.</span>
-          </span>
-        </param>
-        <param name="offset">
-          <span data-ttu-id="b9b23-222">
-            <c>buffer</c> 中的字节偏移量，从此位置开始将字节复制到当前流。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="b9b23-222">The byte offset in <c>buffer</c> at which to begin copying bytes to the current stream.</span>
-          </span>
-        </param>
-        <param name="count">
-          <span data-ttu-id="b9b23-223">要写入当前流的字节数。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="b9b23-223">The number of bytes to be written to the current stream.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="b9b23-224">将一字节序列写入当前的 <see cref="T:System.Security.Cryptography.CryptoStream" />，并将通过写入的字节数提前该流的当前位置。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="b9b23-224">Writes a sequence of bytes to the current <see cref="T:System.Security.Cryptography.CryptoStream" /> and advances the current position within the stream by the number of bytes written.</span>
-          </span>
-        </summary>
-        <remarks>To be added.</remarks>
-        <exception cref="T:System.NotSupportedException">
-          <span data-ttu-id="b9b23-225">与当前 <see cref="T:System.Security.Cryptography.CryptoStreamMode" /> 对象关联的 <see cref="T:System.Security.Cryptography.CryptoStream" /> 与基础流不匹配。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="b9b23-225">The <see cref="T:System.Security.Cryptography.CryptoStreamMode" /> associated with current <see cref="T:System.Security.Cryptography.CryptoStream" /> object does not match the underlying stream.</span>
-          </span>
-          <span data-ttu-id="b9b23-226">例如，对只读的基础流使用 <see cref="F:System.Security.Cryptography.CryptoStreamMode.Write" /> 时会引发此异常。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="b9b23-226">For example, this exception is thrown when using <see cref="F:System.Security.Cryptography.CryptoStreamMode.Write" /> with an underlying stream that is read only.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.ArgumentOutOfRangeException">
-          <span data-ttu-id="b9b23-227">
-            <paramref name="offset" /> 参数小于零。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="b9b23-227">The <paramref name="offset" /> parameter is less than zero.</span>
-          </span>
-          <span data-ttu-id="b9b23-228">或</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="b9b23-228">-or-</span>
-          </span>
-          <span data-ttu-id="b9b23-229">
-            <paramref name="count" /> 参数小于零。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="b9b23-229">The <paramref name="count" /> parameter is less than zero.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.ArgumentException">
-          <span data-ttu-id="b9b23-230">
-            <paramref name="count" /> 参数和 <paramref name="offset" /> 参数的和比缓冲区的长度长。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="b9b23-230">The sum of the <paramref name="count" /> and <paramref name="offset" /> parameters is longer than the length of the buffer.</span>
-          </span>
-        </exception>
-      </Docs>
-    </Member>
-    <Member MemberName="WriteAsync">
-      <MemberSignature Language="C#" Value="public override System.Threading.Tasks.Task WriteAsync (byte[] buffer, int offset, int count, System.Threading.CancellationToken cancellationToken);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance class System.Threading.Tasks.Task WriteAsync(unsigned int8[] buffer, int32 offset, int32 count, valuetype System.Threading.CancellationToken cancellationToken) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Security.Cryptography.CryptoStream.WriteAsync(System.Byte[],System.Int32,System.Int32,System.Threading.CancellationToken)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; override System::Threading::Tasks::Task ^ WriteAsync(cli::array &lt;System::Byte&gt; ^ buffer, int offset, int count, System::Threading::CancellationToken cancellationToken);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Security.Cryptography.Primitives</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-        <AssemblyVersion>4.1.0.0</AssemblyVersion>
-        <AssemblyVersion>4.1.1.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>mscorlib</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>netstandard</AssemblyName>
-        <AssemblyVersion>2.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Threading.Tasks.Task</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="buffer" Type="System.Byte[]" />
-        <Parameter Name="offset" Type="System.Int32" />
-        <Parameter Name="count" Type="System.Int32" />
-        <Parameter Name="cancellationToken" Type="System.Threading.CancellationToken" />
-      </Parameters>
-      <Docs>
-        <param name="buffer">
-          <span data-ttu-id="b9b23-231">从中写入数据的缓冲区。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="b9b23-231">The buffer to write data from.</span>
-          </span>
-        </param>
-        <param name="offset">
-          <span data-ttu-id="b9b23-232">
-            <c>buffer</c> 中的从零开始的字节偏移量，从此位置开始将字节写入到流。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="b9b23-232">The zero-based byte offset in <c>buffer</c> from which to begin writing bytes to the stream.</span>
-          </span>
-        </param>
-        <param name="count">
-          <span data-ttu-id="b9b23-233">最多写入的字节数。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="b9b23-233">The maximum number of bytes to write.</span>
-          </span>
-        </param>
-        <param name="cancellationToken">
-          <span data-ttu-id="b9b23-234">要监视取消请求的标记。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="b9b23-234">The token to monitor for cancellation requests.</span>
-          </span>
-          <span data-ttu-id="b9b23-235">默认值为 <see cref="P:System.Threading.CancellationToken.None" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="b9b23-235">The default value is <see cref="P:System.Threading.CancellationToken.None" />.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="b9b23-236">将字节序列异步写入当前流，将该流的当前位置向前移动写入的字节数，并监视取消请求。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="b9b23-236">Writes a sequence of bytes to the current stream asynchronously, advances the current position within the stream by the number of bytes written, and monitors cancellation requests.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="b9b23-237">表示异步写入操作的任务。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="b9b23-237">A task that represents the asynchronous write operation.</span>
-          </span>
-        </returns>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="b9b23-238">必须在调用之前添加<xref:System.Security.Cryptography.CryptoStream.WriteAsync%2A>与`await`(C#) 或`Await`(Visual Basic 中) 运算符可暂停执行方法，直到完成该任务为止。</span><span class="sxs-lookup"><span data-stu-id="b9b23-238">You must preface your call to <xref:System.Security.Cryptography.CryptoStream.WriteAsync%2A> with the `await` (C#) or `Await` (Visual Basic) operator to suspend execution of the method until the task is complete.</span></span> <span data-ttu-id="b9b23-239">有关详细信息，请参阅[使用 Async 和 Await 的异步编程](http://msdn.microsoft.com/library/db854f91-ccef-4035-ae4d-0911fde808c7)。</span><span class="sxs-lookup"><span data-stu-id="b9b23-239">For more information, see [Asynchronous Programming with Async and Await](http://msdn.microsoft.com/library/db854f91-ccef-4035-ae4d-0911fde808c7).</span></span>  
-  
- <span data-ttu-id="b9b23-240">如果在完成之前，将取消该操作，返回的任务包含<xref:System.Threading.Tasks.TaskStatus.Canceled>值<xref:System.Threading.Tasks.Task.Status%2A>属性。</span><span class="sxs-lookup"><span data-stu-id="b9b23-240">If the operation is canceled before it completes, the returned task contains the <xref:System.Threading.Tasks.TaskStatus.Canceled> value for the <xref:System.Threading.Tasks.Task.Status%2A> property.</span></span>  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.ArgumentNullException">
-          <span data-ttu-id="b9b23-241">
-            <paramref name="buffer" /> 为 <see langword="null" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="b9b23-241">
-              <paramref name="buffer" /> is <see langword="null" />.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.ArgumentOutOfRangeException">
-          <span data-ttu-id="b9b23-242">
-            <paramref name="offset" /> 或 <paramref name="count" /> 为负数。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="b9b23-242">
-              <paramref name="offset" /> or <paramref name="count" /> is negative.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.ArgumentException">
-          <span data-ttu-id="b9b23-243">
-            <paramref name="offset" /> 和 <paramref name="count" /> 的总和大于缓冲区长度。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="b9b23-243">The sum of <paramref name="offset" /> and <paramref name="count" /> is larger than the buffer length.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.NotSupportedException">
-          <span data-ttu-id="b9b23-244">流不支持写入。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="b9b23-244">The stream does not support writing.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.ObjectDisposedException">
-          <span data-ttu-id="b9b23-245">已释放流。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="b9b23-245">The stream has been disposed.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.InvalidOperationException">
-          <span data-ttu-id="b9b23-246">流正在由前一次写操作使用。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="b9b23-246">The stream is currently in use by a previous write operation.</span>
-          </span>
-        </exception>
-      </Docs>
-    </Member>
-    <Member MemberName="WriteByte">
-      <MemberSignature Language="C#" Value="public override void WriteByte (byte value);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance void WriteByte(unsigned int8 value) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Security.Cryptography.CryptoStream.WriteByte(System.Byte)" />
-      <MemberSignature Language="VB.NET" Value="Public Overrides Sub WriteByte (value As Byte)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; override void WriteByte(System::Byte value);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Security.Cryptography.Primitives</AssemblyName>
-        <AssemblyVersion>4.1.0.0</AssemblyVersion>
-        <AssemblyVersion>4.1.1.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="value" Type="System.Byte" />
-      </Parameters>
-      <Docs>
-        <param name="value">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-  </Members>
-</Type>
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.2" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 xliff-core-1.2-transitional.xsd">
+  <file datatype="xml" original="CryptoStream.xml" source-language="en-US" target-language="zh-CN">
+    <header>
+      <tool tool-id="mdxliff" tool-name="mdxliff" tool-version="1.0-15c36f0" tool-company="Microsoft" />
+      <xliffext:skl_file_name xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">360c3a36-c465-4a92-baa7-e17b5430051fe9df8f5e32be435b4f97fa42cf467cb442b69471.skl</xliffext:skl_file_name>
+      <xliffext:version xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">1.2</xliffext:version>
+      <xliffext:ms.openlocfilehash xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">e9df8f5e32be435b4f97fa42cf467cb442b69471</xliffext:ms.openlocfilehash>
+      <xliffext:ms.sourcegitcommit xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">e7865e39826e7aaf54da4c7042975153813a31c7</xliffext:ms.sourcegitcommit>
+      <xliffext:ms.lasthandoff xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">04/16/2018</xliffext:ms.lasthandoff>
+      <xliffext:moniker_ids xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">netcore-1.0,netcore-1.1,netcore-2.0,netcore-2.1,netframework-4.5.1,netframework-4.5.2,netframework-4.5,netframework-4.6.1,netframework-4.6.2,netframework-4.6,netframework-4.7.1,netframework-4.7.2,netframework-4.7,netstandard-1.3,netstandard-1.4,netstandard-1.6,netstandard-2.0,xamarinandroid-7.1,xamarinios-10.8,xamarinmac-3.0</xliffext:moniker_ids>
+    </header>
+    <body>
+      <group id="content" extype="content">
+        <trans-unit id="101" translate="yes" xml:space="preserve" uid="T:System.Security.Cryptography.CryptoStream">
+          <source>Defines a stream that links data streams to cryptographic transformations.</source>
+          <target state="translated">定义将数据流链接到加密转换的流。</target>       </trans-unit>
+        <trans-unit id="102" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Security.Cryptography.CryptoStream">
+          <source>The common language runtime uses a stream-oriented design for cryptography.</source>
+          <target state="translated">公共语言运行时使用面向流的设计进行加密。</target>       </trans-unit>
+        <trans-unit id="103" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Security.Cryptography.CryptoStream">
+          <source>The core of this design is <ph id="ph1">&lt;xref:System.Security.Cryptography.CryptoStream&gt;</ph>.</source>
+          <target state="translated">这种设计的核心是<ph id="ph1">&lt;xref:System.Security.Cryptography.CryptoStream&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="104" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Security.Cryptography.CryptoStream">
+          <source>Any cryptographic objects that implement <ph id="ph1">&lt;xref:System.Security.Cryptography.CryptoStream&gt;</ph> can be chained together with any objects that implement <ph id="ph2">&lt;xref:System.IO.Stream&gt;</ph>, so the streamed output from one object can be fed into the input of another object.</source>
+          <target state="translated">任何加密对象实现<ph id="ph1">&lt;xref:System.Security.Cryptography.CryptoStream&gt;</ph>可以实现的任何对象以及链接<ph id="ph2">&lt;xref:System.IO.Stream&gt;</ph>，因此可以需要一个对象的流式处理的输出传递给另一个对象的输入。</target>       </trans-unit>
+        <trans-unit id="105" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Security.Cryptography.CryptoStream">
+          <source>The intermediate result (the output from the first object) does not need to be stored separately.</source>
+          <target state="translated">中间结果 （从第一个对象的输出） 不需要单独存储。</target>       </trans-unit>
+        <trans-unit id="106" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Security.Cryptography.CryptoStream">
+          <source>This type implements the <ph id="ph1">&lt;xref:System.IDisposable&gt;</ph> interface.</source>
+          <target state="translated">此类型实现<ph id="ph1">&lt;xref:System.IDisposable&gt;</ph>接口。</target>       </trans-unit>
+        <trans-unit id="107" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Security.Cryptography.CryptoStream">
+          <source>When you have finished using the type, you should dispose of it either directly or indirectly by calling its <ph id="ph1">&lt;xref:System.Security.Cryptography.CryptoStream.Clear%2A&gt;</ph> method, which in turn calls its <ph id="ph2">&lt;xref:System.IDisposable&gt;</ph> implementation.</source>
+          <target state="translated">在完成使用类型后，您应释放它的直接或间接通过调用其<ph id="ph1">&lt;xref:System.Security.Cryptography.CryptoStream.Clear%2A&gt;</ph>方法，后者反过来调用其<ph id="ph2">&lt;xref:System.IDisposable&gt;</ph>实现。</target>       </trans-unit>
+        <trans-unit id="108" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Security.Cryptography.CryptoStream">
+          <source>To dispose of the type directly, call its <ph id="ph1">&lt;xref:System.Security.Cryptography.CryptoStream.Clear%2A&gt;</ph> method in a <ph id="ph2">`try`</ph><ph id="ph3">/</ph><ph id="ph4">`catch`</ph> block.</source>
+          <target state="translated">若要直接释放类型，调用其<ph id="ph1">&lt;xref:System.Security.Cryptography.CryptoStream.Clear%2A&gt;</ph>中的方法<ph id="ph2">`try`</ph> <ph id="ph3">/</ph> <ph id="ph4">`catch`</ph>块。</target>       </trans-unit>
+        <trans-unit id="109" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Security.Cryptography.CryptoStream">
+          <source>To dispose of it indirectly, use a language construct such as <ph id="ph1">`using`</ph> (in C#) or <ph id="ph2">`Using`</ph> (in Visual Basic).</source>
+          <target state="translated">若要间接释放类型，请使用 <ph id="ph1">`using`</ph>（在 C# 中）或 <ph id="ph2">`Using`</ph>（在 Visual Basic 中）等语言构造。</target>       </trans-unit>
+        <trans-unit id="110" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Security.Cryptography.CryptoStream">
+          <source>For more information, see the "Using an Object that Implements IDisposable" section in the <ph id="ph1">&lt;xref:System.IDisposable&gt;</ph> interface topic.</source>
+          <target state="translated">有关详细信息，请参阅中的"使用实现 IDisposable 的对象"部分<ph id="ph1">&lt;xref:System.IDisposable&gt;</ph>接口主题。</target>       </trans-unit>
+        <trans-unit id="111" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Security.Cryptography.CryptoStream">
+          <source>You should always explicitly close your <ph id="ph1">&lt;xref:System.Security.Cryptography.CryptoStream&gt;</ph> object after you are done using it by calling the <ph id="ph2">&lt;xref:System.Security.Cryptography.CryptoStream.Clear%2A&gt;</ph> method.</source>
+          <target state="translated">你应始终显式关闭你<ph id="ph1">&lt;xref:System.Security.Cryptography.CryptoStream&gt;</ph>对象都完成后使用通过调用<ph id="ph2">&lt;xref:System.Security.Cryptography.CryptoStream.Clear%2A&gt;</ph>方法。</target>       </trans-unit>
+        <trans-unit id="112" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Security.Cryptography.CryptoStream">
+          <source>Doing so flushes the underlying stream and causes all remaining blocks of data to be processed by the <ph id="ph1">&lt;xref:System.Security.Cryptography.CryptoStream&gt;</ph> object.</source>
+          <target state="translated">这样刷新基础流，并使所有剩余数据的处理块<ph id="ph1">&lt;xref:System.Security.Cryptography.CryptoStream&gt;</ph>对象。</target>       </trans-unit>
+        <trans-unit id="113" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Security.Cryptography.CryptoStream">
+          <source>However, if an exception occurs before you call the <ph id="ph1">&lt;xref:System.IO.Stream.Close%2A&gt;</ph> method, the <ph id="ph2">&lt;xref:System.Security.Cryptography.CryptoStream&gt;</ph> object might not be closed.</source>
+          <target state="translated">但是，如果你在调用之前，则会发生异常<ph id="ph1">&lt;xref:System.IO.Stream.Close%2A&gt;</ph>方法，<ph id="ph2">&lt;xref:System.Security.Cryptography.CryptoStream&gt;</ph>对象可能不会关闭。</target>       </trans-unit>
+        <trans-unit id="114" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Security.Cryptography.CryptoStream">
+          <source>To ensure that the <ph id="ph1">&lt;xref:System.IO.Stream.Close%2A&gt;</ph> method always gets called, place your call to the <ph id="ph2">&lt;xref:System.Security.Cryptography.CryptoStream.Clear%2A&gt;</ph> method within the <ph id="ph3">`finally`</ph> block of a <ph id="ph4">`try`</ph><ph id="ph5">/</ph><ph id="ph6">`catch`</ph> statement.</source>
+          <target state="translated">若要确保<ph id="ph1">&lt;xref:System.IO.Stream.Close%2A&gt;</ph>始终调用方法，请将放到调用<ph id="ph2">&lt;xref:System.Security.Cryptography.CryptoStream.Clear%2A&gt;</ph>方法内的<ph id="ph3">`finally`</ph>块<ph id="ph4">`try`</ph> <ph id="ph5">/</ph> <ph id="ph6">`catch`</ph>语句。</target>       </trans-unit>
+        <trans-unit id="115" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Security.Cryptography.CryptoStream">
+          <source>The following example demonstrates how to use a <ph id="ph1">&lt;xref:System.Security.Cryptography.CryptoStream&gt;</ph> to encrypt a string.</source>
+          <target state="translated">下面的示例演示如何使用<ph id="ph1">&lt;xref:System.Security.Cryptography.CryptoStream&gt;</ph>加密字符串。</target>       </trans-unit>
+        <trans-unit id="116" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Security.Cryptography.CryptoStream">
+          <source>This method uses <ph id="ph1">&lt;xref:System.Security.Cryptography.RijndaelManaged&gt;</ph> class with the specified <ph id="ph2">&lt;xref:System.Security.Cryptography.SymmetricAlgorithm.Key%2A&gt;</ph> and initialization vector (<ph id="ph3">&lt;xref:System.Security.Cryptography.SymmetricAlgorithm.IV%2A&gt;</ph>).</source>
+          <target state="translated">此方法使用<ph id="ph1">&lt;xref:System.Security.Cryptography.RijndaelManaged&gt;</ph>使用指定的类<ph id="ph2">&lt;xref:System.Security.Cryptography.SymmetricAlgorithm.Key%2A&gt;</ph>和初始化向量 (<ph id="ph3">&lt;xref:System.Security.Cryptography.SymmetricAlgorithm.IV%2A&gt;</ph>)。</target>       </trans-unit>
+        <trans-unit id="117" translate="yes" xml:space="preserve" uid="M:System.Security.Cryptography.CryptoStream.#ctor(System.IO.Stream,System.Security.Cryptography.ICryptoTransform,System.Security.Cryptography.CryptoStreamMode)">
+          <source>The stream on which to perform the cryptographic transformation.</source>
+          <target state="translated">对其执行加密转换的流。</target>       </trans-unit>
+        <trans-unit id="118" translate="yes" xml:space="preserve" uid="M:System.Security.Cryptography.CryptoStream.#ctor(System.IO.Stream,System.Security.Cryptography.ICryptoTransform,System.Security.Cryptography.CryptoStreamMode)">
+          <source>The cryptographic transformation that is to be performed on the stream.</source>
+          <target state="translated">要对流执行的加密转换。</target>       </trans-unit>
+        <trans-unit id="119" translate="yes" xml:space="preserve" uid="M:System.Security.Cryptography.CryptoStream.#ctor(System.IO.Stream,System.Security.Cryptography.ICryptoTransform,System.Security.Cryptography.CryptoStreamMode)">
+          <source>One of the <ph id="ph1">&lt;see cref="T:System.Security.Cryptography.CryptoStreamMode" /&gt;</ph> values.</source>
+          <target state="translated"><ph id="ph1">&lt;see cref="T:System.Security.Cryptography.CryptoStreamMode" /&gt;</ph> 值之一。</target>       </trans-unit>
+        <trans-unit id="120" translate="yes" xml:space="preserve" uid="M:System.Security.Cryptography.CryptoStream.#ctor(System.IO.Stream,System.Security.Cryptography.ICryptoTransform,System.Security.Cryptography.CryptoStreamMode)">
+          <source>Initializes a new instance of the <ph id="ph1">&lt;see cref="T:System.Security.Cryptography.CryptoStream" /&gt;</ph> class with a target data stream, the transformation to use, and the mode of the stream.</source>
+          <target state="translated">用目标数据流、要使用的转换和流的模式初始化 <ph id="ph1">&lt;see cref="T:System.Security.Cryptography.CryptoStream" /&gt;</ph> 类的新实例。</target>       </trans-unit>
+        <trans-unit id="121" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Security.Cryptography.CryptoStream.#ctor(System.IO.Stream,System.Security.Cryptography.ICryptoTransform,System.Security.Cryptography.CryptoStreamMode)">
+          <source>Any object that derives from <ph id="ph1">&lt;xref:System.IO.Stream&gt;</ph> can be passed into the <ph id="ph2">`stream`</ph> parameter.</source>
+          <target state="translated">派生自任何对象<ph id="ph1">&lt;xref:System.IO.Stream&gt;</ph>可传入<ph id="ph2">`stream`</ph>参数。</target>       </trans-unit>
+        <trans-unit id="122" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Security.Cryptography.CryptoStream.#ctor(System.IO.Stream,System.Security.Cryptography.ICryptoTransform,System.Security.Cryptography.CryptoStreamMode)">
+          <source>Any object that implements <ph id="ph1">&lt;xref:System.Security.Cryptography.ICryptoTransform&gt;</ph> (such as <ph id="ph2">&lt;xref:System.Security.Cryptography.HashAlgorithm&gt;</ph>) can be passed into the <ph id="ph3">`transform`</ph> parameter.</source>
+          <target state="translated">实现任何对象<ph id="ph1">&lt;xref:System.Security.Cryptography.ICryptoTransform&gt;</ph>(如<ph id="ph2">&lt;xref:System.Security.Cryptography.HashAlgorithm&gt;</ph>) 可将传入<ph id="ph3">`transform`</ph>参数。</target>       </trans-unit>
+        <trans-unit id="123" translate="yes" xml:space="preserve" uid="M:System.Security.Cryptography.CryptoStream.#ctor(System.IO.Stream,System.Security.Cryptography.ICryptoTransform,System.Security.Cryptography.CryptoStreamMode)">
+          <source><ph id="ph1">&lt;paramref name="stream" /&gt;</ph> is invalid.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="stream" /&gt;</ph> 无效。</target>       </trans-unit>
+        <trans-unit id="124" translate="yes" xml:space="preserve" uid="M:System.Security.Cryptography.CryptoStream.#ctor(System.IO.Stream,System.Security.Cryptography.ICryptoTransform,System.Security.Cryptography.CryptoStreamMode,System.Boolean)">
+          <source>The stream on which to perform the cryptographic transformation.</source>
+          <target state="translated">对其执行加密转换的流。</target>       </trans-unit>
+        <trans-unit id="125" translate="yes" xml:space="preserve" uid="M:System.Security.Cryptography.CryptoStream.#ctor(System.IO.Stream,System.Security.Cryptography.ICryptoTransform,System.Security.Cryptography.CryptoStreamMode,System.Boolean)">
+          <source>The cryptographic transformation that is to be performed on the stream.</source>
+          <target state="translated">要对流执行的加密转换。</target>       </trans-unit>
+        <trans-unit id="126" translate="yes" xml:space="preserve" uid="M:System.Security.Cryptography.CryptoStream.#ctor(System.IO.Stream,System.Security.Cryptography.ICryptoTransform,System.Security.Cryptography.CryptoStreamMode,System.Boolean)">
+          <source>The mode of the stream.</source>
+          <target state="translated">流的模式。</target>       </trans-unit>
+        <trans-unit id="127" translate="yes" xml:space="preserve" uid="M:System.Security.Cryptography.CryptoStream.#ctor(System.IO.Stream,System.Security.Cryptography.ICryptoTransform,System.Security.Cryptography.CryptoStreamMode,System.Boolean)">
+          <source><ph id="ph1">&lt;see langword="true" /&gt;</ph> to not close the underlying stream when the <ph id="ph2">&lt;see cref="T:System.Security.Cryptography.CryptoStream" /&gt;</ph> object is disposed; otherwise, <ph id="ph3">&lt;see langword="false" /&gt;</ph>.</source>
+          <target state="translated">若要在释放 <ph id="ph2">&lt;see cref="T:System.Security.Cryptography.CryptoStream" /&gt;</ph> 对象时不关闭基础流，则为 <ph id="ph1">&lt;see langword="true" /&gt;</ph>；否则为 <ph id="ph3">&lt;see langword="false" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="128" translate="yes" xml:space="preserve" uid="M:System.Security.Cryptography.CryptoStream.#ctor(System.IO.Stream,System.Security.Cryptography.ICryptoTransform,System.Security.Cryptography.CryptoStreamMode,System.Boolean)">
+          <source>Initializes a new instance of the <ph id="ph1">&lt;see cref="T:System.Security.Cryptography.CryptoStream" /&gt;</ph> class.</source>
+          <target state="translated">初始化 <ph id="ph1">&lt;see cref="T:System.Security.Cryptography.CryptoStream" /&gt;</ph> 类的新实例。</target>       </trans-unit>
+        <trans-unit id="129" translate="yes" xml:space="preserve" uid="M:System.Security.Cryptography.CryptoStream.#ctor(System.IO.Stream,System.Security.Cryptography.ICryptoTransform,System.Security.Cryptography.CryptoStreamMode,System.Boolean)">
+          <source><ph id="ph1">&lt;paramref name="mode" /&gt;</ph> is invalid.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="mode" /&gt;</ph> 无效。</target>       </trans-unit>
+        <trans-unit id="130" translate="yes" xml:space="preserve" uid="P:System.Security.Cryptography.CryptoStream.CanRead">
+          <source>Gets a value indicating whether the current <ph id="ph1">&lt;see cref="T:System.Security.Cryptography.CryptoStream" /&gt;</ph> is readable.</source>
+          <target state="translated">获取一个值，该值指示当前的 <ph id="ph1">&lt;see cref="T:System.Security.Cryptography.CryptoStream" /&gt;</ph> 是否可读。</target>       </trans-unit>
+        <trans-unit id="131" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Security.Cryptography.CryptoStream.CanRead">
+          <source><ph id="ph1">&lt;see langword="true" /&gt;</ph> if the current stream is readable; otherwise, <ph id="ph2">&lt;see langword="false" /&gt;</ph>.</source>
+          <target state="translated">如果当前流可读，则为 <ph id="ph1">&lt;see langword="true" /&gt;</ph>；否则为 <ph id="ph2">&lt;see langword="false" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="132" translate="yes" xml:space="preserve" uid="P:System.Security.Cryptography.CryptoStream.CanSeek">
+          <source>Gets a value indicating whether you can seek within the current <ph id="ph1">&lt;see cref="T:System.Security.Cryptography.CryptoStream" /&gt;</ph>.</source>
+          <target state="translated">获取一个值，该值指示你是否可以在当前 <ph id="ph1">&lt;see cref="T:System.Security.Cryptography.CryptoStream" /&gt;</ph> 中搜索。</target>       </trans-unit>
+        <trans-unit id="133" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Security.Cryptography.CryptoStream.CanSeek">
+          <source>Always <ph id="ph1">&lt;see langword="false" /&gt;</ph>.</source>
+          <target state="translated">总是为 <ph id="ph1">&lt;see langword="false" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="134" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Security.Cryptography.CryptoStream.CanSeek">
+          <source>Seeking is not enabled in a <ph id="ph1">&lt;xref:System.Security.Cryptography.CryptoStream&gt;</ph>, so this method always returns <ph id="ph2">`false`</ph>.</source>
+          <target state="translated">查找中未启用<ph id="ph1">&lt;xref:System.Security.Cryptography.CryptoStream&gt;</ph>，因此此方法始终返回<ph id="ph2">`false`</ph>。</target>       </trans-unit>
+        <trans-unit id="135" translate="yes" xml:space="preserve" uid="P:System.Security.Cryptography.CryptoStream.CanWrite">
+          <source>Gets a value indicating whether the current <ph id="ph1">&lt;see cref="T:System.Security.Cryptography.CryptoStream" /&gt;</ph> is writable.</source>
+          <target state="translated">获取一个值，该值指示当前的 <ph id="ph1">&lt;see cref="T:System.Security.Cryptography.CryptoStream" /&gt;</ph> 是否可写。</target>       </trans-unit>
+        <trans-unit id="136" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Security.Cryptography.CryptoStream.CanWrite">
+          <source><ph id="ph1">&lt;see langword="true" /&gt;</ph> if the current stream is writable; otherwise, <ph id="ph2">&lt;see langword="false" /&gt;</ph>.</source>
+          <target state="translated">如果当前流可写，则为 <ph id="ph1">&lt;see langword="true" /&gt;</ph>；否则为 <ph id="ph2">&lt;see langword="false" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="137" translate="yes" xml:space="preserve" uid="M:System.Security.Cryptography.CryptoStream.Clear">
+          <source>Releases all resources used by the <ph id="ph1">&lt;see cref="T:System.Security.Cryptography.CryptoStream" /&gt;</ph>.</source>
+          <target state="translated">释放由 <ph id="ph1">&lt;see cref="T:System.Security.Cryptography.CryptoStream" /&gt;</ph> 使用的所有资源。</target>       </trans-unit>
+        <trans-unit id="138" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Security.Cryptography.CryptoStream.Clear">
+          <source>This method wraps a call to the type's <ph id="ph1">&lt;xref:System.IDisposable.Dispose%2A?displayProperty=nameWithType&gt;</ph> implementation.</source>
+          <target state="translated">此方法会包装类型的调用<ph id="ph1">&lt;xref:System.IDisposable.Dispose%2A?displayProperty=nameWithType&gt;</ph>实现。</target>       </trans-unit>
+        <trans-unit id="139" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Security.Cryptography.CryptoStream.Clear">
+          <source>Calling <ph id="ph1">`Dispose`</ph> allows the resources used by the <ph id="ph2">&lt;xref:System.Security.Cryptography.CryptoStream&gt;</ph> to be reallocated for other purposes.</source>
+          <target state="translated">调用<ph id="ph1">`Dispose`</ph>允许使用的资源<ph id="ph2">&lt;xref:System.Security.Cryptography.CryptoStream&gt;</ph>可以重新分配用于其他目的。</target>       </trans-unit>
+        <trans-unit id="140" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Security.Cryptography.CryptoStream.Clear">
+          <source>For more information about <ph id="ph1">`Dispose`</ph>, see <bpt id="p1">[</bpt>Cleaning Up Unmanaged Resources<ept id="p1">](~/docs/standard/garbage-collection/unmanaged.md)</ept></source>
+          <target state="translated">有关详细信息<ph id="ph1">`Dispose`</ph>，请参阅<bpt id="p1">[</bpt>清洗向上非托管资源<ept id="p1">](~/docs/standard/garbage-collection/unmanaged.md)</ept></target>       </trans-unit>
+        <trans-unit id="141" translate="yes" xml:space="preserve" uid="M:System.Security.Cryptography.CryptoStream.Dispose(System.Boolean)">
+          <source><ph id="ph1">&lt;see langword="true" /&gt;</ph> to release both managed and unmanaged resources; <ph id="ph2">&lt;see langword="false" /&gt;</ph> to release only unmanaged resources.</source>
+          <target state="translated">若要释放托管资源和非托管资源，则为 <ph id="ph1">&lt;see langword="true" /&gt;</ph>；若仅释放非托管资源，则为 <ph id="ph2">&lt;see langword="false" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="142" translate="yes" xml:space="preserve" uid="M:System.Security.Cryptography.CryptoStream.Dispose(System.Boolean)">
+          <source>Releases the unmanaged resources used by the <ph id="ph1">&lt;see cref="T:System.Security.Cryptography.CryptoStream" /&gt;</ph> and optionally releases the managed resources.</source>
+          <target state="translated">释放由 <ph id="ph1">&lt;see cref="T:System.Security.Cryptography.CryptoStream" /&gt;</ph> 占用的非托管资源，还可以另外再释放托管资源。</target>       </trans-unit>
+        <trans-unit id="143" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Security.Cryptography.CryptoStream.Dispose(System.Boolean)">
+          <source>This method is called by the public <ph id="ph1">`Dispose()`</ph> method and the <ph id="ph2">`Finalize`</ph> method.</source>
+          <target state="translated">此方法称为由公共<ph id="ph1">`Dispose()`</ph>方法和<ph id="ph2">`Finalize`</ph>方法。</target>       </trans-unit>
+        <trans-unit id="144" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Security.Cryptography.CryptoStream.Dispose(System.Boolean)">
+          <source><ph id="ph1">`Dispose()`</ph> invokes the protected <ph id="ph2">`Dispose(Boolean)`</ph> method with the disposing parameter set to <ph id="ph3">`true`</ph>.</source>
+          <target state="translated"><ph id="ph1">`Dispose()`</ph> 调用受保护<ph id="ph2">`Dispose(Boolean)`</ph>方法释放参数设置为<ph id="ph3">`true`</ph>。</target>       </trans-unit>
+        <trans-unit id="145" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Security.Cryptography.CryptoStream.Dispose(System.Boolean)">
+          <source><ph id="ph1">`Finalize`</ph> invokes <ph id="ph2">`Dispose`</ph> with disposing set to <ph id="ph3">`false`</ph>.</source>
+          <target state="translated"><ph id="ph1">`Finalize`</ph> 将释放设置为 <ph id="ph2">`Dispose`</ph>，调用 <ph id="ph3">`false`</ph>。</target>       </trans-unit>
+        <trans-unit id="146" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Security.Cryptography.CryptoStream.Dispose(System.Boolean)">
+          <source>When the <ph id="ph1">`disposing`</ph> parameter is <ph id="ph2">`true`</ph>, this method releases all resources held by any managed objects that this <ph id="ph3">&lt;xref:System.Security.Cryptography.CryptoStream&gt;</ph> references.</source>
+          <target state="translated">当 <ph id="ph1">`disposing`</ph> 参数为 <ph id="ph2">`true`</ph> 时，此方法释放该 <ph id="ph3">&lt;xref:System.Security.Cryptography.CryptoStream&gt;</ph> 引用的、由任何托管对象持有的全部资源。</target>       </trans-unit>
+        <trans-unit id="147" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Security.Cryptography.CryptoStream.Dispose(System.Boolean)">
+          <source>This method invokes the <ph id="ph1">`Dispose()`</ph> method of each referenced object.</source>
+          <target state="translated">此方法调用每个引用对象的 <ph id="ph1">`Dispose()`</ph> 方法。</target>       </trans-unit>
+        <trans-unit id="148" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Security.Cryptography.CryptoStream.Dispose(System.Boolean)">
+          <source><ph id="ph1">&lt;see langword="Dispose" /&gt;</ph> can be called multiple times by other objects.</source>
+          <target state="translated"><ph id="ph1">&lt;see langword="Dispose" /&gt;</ph> 可以由其他对象多次调用。</target>       </trans-unit>
+        <trans-unit id="149" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Security.Cryptography.CryptoStream.Dispose(System.Boolean)">
+          <source>When overriding <ph id="ph1">&lt;see langword="Dispose(Boolean)" /&gt;</ph>, be careful not to reference objects that have been previously disposed in an earlier call to <ph id="ph2">&lt;see langword="Dispose" /&gt;</ph>.</source>
+          <target state="translated">在重写<ph id="ph1">&lt;see langword="Dispose(Boolean)" /&gt;</ph>，请注意不要引用在以前调用之前释放对象<ph id="ph2">&lt;see langword="Dispose" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="150" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Security.Cryptography.CryptoStream.Dispose(System.Boolean)">
+          <source>For more information about how to implement <ph id="ph1">&lt;see langword="Dispose(Boolean)" /&gt;</ph>, see <bpt id="p1">[</bpt>Implementing a Dispose Method<ept id="p1">](~/docs/standard/garbage-collection/implementing-dispose.md)</ept>.</source>
+          <target state="translated">有关如何实现详细信息<ph id="ph1">&lt;see langword="Dispose(Boolean)" /&gt;</ph>，请参阅<bpt id="p1">[</bpt>实现 Dispose 方法<ept id="p1">](~/docs/standard/garbage-collection/implementing-dispose.md)</ept>。</target>       </trans-unit>
+        <trans-unit id="151" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Security.Cryptography.CryptoStream.Dispose(System.Boolean)">
+          <source>For more information about <ph id="ph1">&lt;see langword="Dispose" /&gt;</ph> and <ph id="ph2">&lt;see langword="Finalize" /&gt;</ph>, see <bpt id="p1">[</bpt>Cleaning Up Unmanaged Resources<ept id="p1">](~/docs/standard/garbage-collection/unmanaged.md)</ept>.</source>
+          <target state="translated">有关详细信息<ph id="ph1">&lt;see langword="Dispose" /&gt;</ph>和<ph id="ph2">&lt;see langword="Finalize" /&gt;</ph>，请参阅<bpt id="p1">[</bpt>清洗向上非托管资源<ept id="p1">](~/docs/standard/garbage-collection/unmanaged.md)</ept>。</target>       </trans-unit>
+        <trans-unit id="152" translate="yes" xml:space="preserve" uid="M:System.Security.Cryptography.CryptoStream.Flush">
+          <source>Clears all buffers for the current stream and causes any buffered data to be written to the underlying device.</source>
+          <target state="translated">清理当前流的所有缓冲区，并使所有缓冲数据写入基础设备。</target>       </trans-unit>
+        <trans-unit id="153" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Security.Cryptography.CryptoStream.Flush">
+          <source>Flushing the stream will not flush its underlying encoder unless you explicitly call <ph id="ph1">&lt;xref:System.Security.Cryptography.CryptoStream.Flush%2A&gt;</ph> or <ph id="ph2">&lt;xref:System.IO.Stream.Close%2A&gt;</ph>.</source>
+          <target state="translated">刷新流将不会刷新其基础的编码器，除非你明确地调用<ph id="ph1">&lt;xref:System.Security.Cryptography.CryptoStream.Flush%2A&gt;</ph>或<ph id="ph2">&lt;xref:System.IO.Stream.Close%2A&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="154" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Security.Cryptography.CryptoStream.Flush">
+          <source>Setting <ph id="ph1">&lt;xref:System.IO.StreamWriter.AutoFlush%2A&gt;</ph> to <ph id="ph2">`true`</ph> means that data will be flushed from the buffer to the stream, but the encoder state will not be flushed.</source>
+          <target state="translated">设置<ph id="ph1">&lt;xref:System.IO.StreamWriter.AutoFlush%2A&gt;</ph>到<ph id="ph2">`true`</ph>意味着数据从缓冲区刷新到流中，但不是会刷新编码器状态。</target>       </trans-unit>
+        <trans-unit id="155" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Security.Cryptography.CryptoStream.Flush">
+          <source>This allows the encoder to keep its state (partial characters) so that it can encode the next block of characters correctly.</source>
+          <target state="translated">这将允许编码器，以便它可以正确编码的字符的下一步块保持其状态 （部分字符）。</target>       </trans-unit>
+        <trans-unit id="156" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Security.Cryptography.CryptoStream.Flush">
+          <source>This scenario affects UTF8 and UTF7 where certain characters can only be encoded after the encoder receives the adjacent character or characters.</source>
+          <target state="translated">这种情况下会影响 UTF8 和 UTF7 其中某些字符仅后才能进行编码的编码器收到的相邻字符。</target>       </trans-unit>
+        <trans-unit id="157" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Security.Cryptography.CryptoStream.Flush">
+          <source>You should call either the <ph id="ph1">&lt;xref:System.IO.Stream.Close%2A&gt;</ph> method or the <ph id="ph2">&lt;xref:System.Security.Cryptography.CryptoStream.FlushFinalBlock%2A&gt;</ph> method to complete flushing the buffer.</source>
+          <target state="translated">你应通过调用<ph id="ph1">&lt;xref:System.IO.Stream.Close%2A&gt;</ph>方法或<ph id="ph2">&lt;xref:System.Security.Cryptography.CryptoStream.FlushFinalBlock%2A&gt;</ph>方法以完成刷新缓冲区。</target>       </trans-unit>
+        <trans-unit id="158" translate="yes" xml:space="preserve" uid="M:System.Security.Cryptography.CryptoStream.FlushAsync(System.Threading.CancellationToken)">
+          <source>The token to monitor for cancellation requests.</source>
+          <target state="translated">要监视取消请求的标记。</target>       </trans-unit>
+        <trans-unit id="159" translate="yes" xml:space="preserve" uid="M:System.Security.Cryptography.CryptoStream.FlushAsync(System.Threading.CancellationToken)">
+          <source>The default value is <ph id="ph1">&lt;see cref="P:System.Threading.CancellationToken.None" /&gt;</ph>.</source>
+          <target state="translated">默认值为 <ph id="ph1">&lt;see cref="P:System.Threading.CancellationToken.None" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="160" translate="yes" xml:space="preserve" uid="M:System.Security.Cryptography.CryptoStream.FlushAsync(System.Threading.CancellationToken)">
+          <source>Clears all buffers for the current stream asynchronously, causes any buffered data to be written to the underlying device, and monitors cancellation requests.</source>
+          <target state="translated">异步清理当前流的所有缓冲区，并使所有缓冲数据写入基础设备，并且监控取消请求。</target>       </trans-unit>
+        <trans-unit id="161" translate="yes" xml:space="preserve" uid="M:System.Security.Cryptography.CryptoStream.FlushAsync(System.Threading.CancellationToken)">
+          <source>A task that represents the asynchronous flush operation.</source>
+          <target state="translated">表示异步刷新操作的任务。</target>       </trans-unit>
+        <trans-unit id="162" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Security.Cryptography.CryptoStream.FlushAsync(System.Threading.CancellationToken)">
+          <source>You must preface your call to <ph id="ph1">&lt;xref:System.Security.Cryptography.CryptoStream.FlushAsync%2A&gt;</ph> with the <ph id="ph2">`await`</ph> (C#) or <ph id="ph3">`Await`</ph> (Visual Basic) operator to suspend execution of the method until the task is complete.</source>
+          <target state="translated">必须在调用之前添加<ph id="ph1">&lt;xref:System.Security.Cryptography.CryptoStream.FlushAsync%2A&gt;</ph>与<ph id="ph2">`await`</ph>(C#) 或<ph id="ph3">`Await`</ph>(Visual Basic 中) 运算符可暂停执行方法，直到完成该任务为止。</target>       </trans-unit>
+        <trans-unit id="163" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Security.Cryptography.CryptoStream.FlushAsync(System.Threading.CancellationToken)">
+          <source>For more information, see <bpt id="p1">[</bpt>Asynchronous Programming with Async and Await<ept id="p1">](http://msdn.microsoft.com/library/db854f91-ccef-4035-ae4d-0911fde808c7)</ept>.</source>
+          <target state="translated">有关详细信息，请参阅<bpt id="p1">[</bpt>使用 Async 和 Await 的异步编程<ept id="p1">](http://msdn.microsoft.com/library/db854f91-ccef-4035-ae4d-0911fde808c7)</ept>。</target>       </trans-unit>
+        <trans-unit id="164" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Security.Cryptography.CryptoStream.FlushAsync(System.Threading.CancellationToken)">
+          <source>If the operation is canceled before it completes, the returned task contains the <ph id="ph1">&lt;xref:System.Threading.Tasks.TaskStatus.Canceled&gt;</ph> value for the <ph id="ph2">&lt;xref:System.Threading.Tasks.Task.Status%2A&gt;</ph> property.</source>
+          <target state="translated">如果在完成之前，将取消该操作，返回的任务包含<ph id="ph1">&lt;xref:System.Threading.Tasks.TaskStatus.Canceled&gt;</ph>值<ph id="ph2">&lt;xref:System.Threading.Tasks.Task.Status%2A&gt;</ph>属性。</target>       </trans-unit>
+        <trans-unit id="165" translate="yes" xml:space="preserve" uid="M:System.Security.Cryptography.CryptoStream.FlushAsync(System.Threading.CancellationToken)">
+          <source>The stream has been disposed.</source>
+          <target state="translated">已释放流。</target>       </trans-unit>
+        <trans-unit id="166" translate="yes" xml:space="preserve" uid="M:System.Security.Cryptography.CryptoStream.FlushFinalBlock">
+          <source>Updates the underlying data source or repository with the current state of the buffer, then clears the buffer.</source>
+          <target state="translated">用缓冲区的当前状态更新基础数据源或存储库，随后清除缓冲区。</target>       </trans-unit>
+        <trans-unit id="167" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Security.Cryptography.CryptoStream.FlushFinalBlock">
+          <source>Calling the <ph id="ph1">&lt;xref:System.IO.Stream.Close%2A&gt;</ph> method will call <ph id="ph2">&lt;xref:System.Security.Cryptography.CryptoStream.FlushFinalBlock%2A&gt;</ph>.</source>
+          <target state="translated">调用<ph id="ph1">&lt;xref:System.IO.Stream.Close%2A&gt;</ph>方法将调用<ph id="ph2">&lt;xref:System.Security.Cryptography.CryptoStream.FlushFinalBlock%2A&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="168" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Security.Cryptography.CryptoStream.FlushFinalBlock">
+          <source>If you do not call <ph id="ph1">&lt;xref:System.IO.Stream.Close%2A&gt;</ph>, call <ph id="ph2">&lt;xref:System.Security.Cryptography.CryptoStream.FlushFinalBlock%2A&gt;</ph> to complete flushing the buffer.</source>
+          <target state="translated">如果不调用<ph id="ph1">&lt;xref:System.IO.Stream.Close%2A&gt;</ph>，调用<ph id="ph2">&lt;xref:System.Security.Cryptography.CryptoStream.FlushFinalBlock%2A&gt;</ph>完成刷新缓冲区。</target>       </trans-unit>
+        <trans-unit id="169" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Security.Cryptography.CryptoStream.FlushFinalBlock">
+          <source>Call <ph id="ph1">&lt;xref:System.Security.Cryptography.CryptoStream.FlushFinalBlock%2A&gt;</ph> only when all stream activity is complete.</source>
+          <target state="translated">调用<ph id="ph1">&lt;xref:System.Security.Cryptography.CryptoStream.FlushFinalBlock%2A&gt;</ph>流的所有活动都时才完成。</target>       </trans-unit>
+        <trans-unit id="170" translate="yes" xml:space="preserve" uid="M:System.Security.Cryptography.CryptoStream.FlushFinalBlock">
+          <source>The key is corrupt which can cause invalid padding to the stream.</source>
+          <target state="translated">密钥已损坏，它可能会导致流的填充无效。</target>       </trans-unit>
+        <trans-unit id="171" translate="yes" xml:space="preserve" uid="M:System.Security.Cryptography.CryptoStream.FlushFinalBlock">
+          <source>The current stream is not writable.</source>
+          <target state="translated">当前流不可写。</target>       </trans-unit>
+        <trans-unit id="172" translate="yes" xml:space="preserve" uid="M:System.Security.Cryptography.CryptoStream.FlushFinalBlock">
+          <source>-or-</source>
+          <target state="translated">或</target>       </trans-unit>
+        <trans-unit id="173" translate="yes" xml:space="preserve" uid="M:System.Security.Cryptography.CryptoStream.FlushFinalBlock">
+          <source>The final block has already been transformed.</source>
+          <target state="translated">最后一个块已被转换。</target>       </trans-unit>
+        <trans-unit id="174" translate="yes" xml:space="preserve" uid="P:System.Security.Cryptography.CryptoStream.HasFlushedFinalBlock">
+          <source>Gets a value indicating whether the final buffer block has been written to the underlying stream.</source>
+          <target state="translated">获取一个值，该值指示最终缓冲区块是否已写入基础流。</target>       </trans-unit>
+        <trans-unit id="175" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Security.Cryptography.CryptoStream.HasFlushedFinalBlock">
+          <source><ph id="ph1">&lt;see langword="true" /&gt;</ph> if the final block has been flushed; otherwise, <ph id="ph2">&lt;see langword="false" /&gt;</ph>.</source>
+          <target state="translated">如果已刷新最终块，则为 <ph id="ph1">&lt;see langword="true" /&gt;</ph>；否则为 <ph id="ph2">&lt;see langword="false" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="176" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Security.Cryptography.CryptoStream.HasFlushedFinalBlock">
+          <source>This property is set <ph id="ph1">`true`</ph> when the <ph id="ph2">&lt;xref:System.Security.Cryptography.CryptoStream.FlushFinalBlock%2A&gt;</ph> method is called.</source>
+          <target state="translated">设置此属性<ph id="ph1">`true`</ph>时<ph id="ph2">&lt;xref:System.Security.Cryptography.CryptoStream.FlushFinalBlock%2A&gt;</ph>调用方法。</target>       </trans-unit>
+        <trans-unit id="177" translate="yes" xml:space="preserve" uid="P:System.Security.Cryptography.CryptoStream.Length">
+          <source>Gets the length in bytes of the stream.</source>
+          <target state="translated">获取用字节表示的流长度。</target>       </trans-unit>
+        <trans-unit id="178" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Security.Cryptography.CryptoStream.Length">
+          <source>This property is not supported.</source>
+          <target state="translated">不支持此属性。</target>       </trans-unit>
+        <trans-unit id="179" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Security.Cryptography.CryptoStream.Length">
+          <source>This property exists only to support inheritance from <ph id="ph1">&lt;xref:System.IO.Stream&gt;</ph>, and cannot be used.</source>
+          <target state="translated">此属性的存在只是为了支持从 <ph id="ph1">&lt;xref:System.IO.Stream&gt;</ph> 继承；无法使用此属性。</target>       </trans-unit>
+        <trans-unit id="180" translate="yes" xml:space="preserve" uid="P:System.Security.Cryptography.CryptoStream.Length">
+          <source>This property is not supported.</source>
+          <target state="translated">不支持此属性。</target>       </trans-unit>
+        <trans-unit id="181" translate="yes" xml:space="preserve" uid="P:System.Security.Cryptography.CryptoStream.Position">
+          <source>Gets or sets the position within the current stream.</source>
+          <target state="translated">获取或设置当前流中的位置。</target>       </trans-unit>
+        <trans-unit id="182" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Security.Cryptography.CryptoStream.Position">
+          <source>This property is not supported.</source>
+          <target state="translated">不支持此属性。</target>       </trans-unit>
+        <trans-unit id="183" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Security.Cryptography.CryptoStream.Position">
+          <source>This property exists only to support inheritance from <ph id="ph1">&lt;xref:System.IO.Stream&gt;</ph>, and cannot be used.</source>
+          <target state="translated">此属性的存在只是为了支持从 <ph id="ph1">&lt;xref:System.IO.Stream&gt;</ph> 继承；无法使用此属性。</target>       </trans-unit>
+        <trans-unit id="184" translate="yes" xml:space="preserve" uid="P:System.Security.Cryptography.CryptoStream.Position">
+          <source>This property is not supported.</source>
+          <target state="translated">不支持此属性。</target>       </trans-unit>
+        <trans-unit id="185" translate="yes" xml:space="preserve" uid="M:System.Security.Cryptography.CryptoStream.Read(System.Byte[],System.Int32,System.Int32)">
+          <source>An array of bytes.</source>
+          <target state="translated">字节数组。</target>       </trans-unit>
+        <trans-unit id="186" translate="yes" xml:space="preserve" uid="M:System.Security.Cryptography.CryptoStream.Read(System.Byte[],System.Int32,System.Int32)">
+          <source>A maximum of <bpt id="p1">&lt;c&gt;</bpt>count<ept id="p1">&lt;/c&gt;</ept> bytes are read from the current stream and stored in <bpt id="p2">&lt;c&gt;</bpt>buffer<ept id="p2">&lt;/c&gt;</ept>.</source>
+          <target state="translated">从当前流中读取最多 <bpt id="p1">&lt;c&gt;</bpt>count<ept id="p1">&lt;/c&gt;</ept> 个字节，并将它们存储在 <bpt id="p2">&lt;c&gt;</bpt>buffer<ept id="p2">&lt;/c&gt;</ept> 中。</target>       </trans-unit>
+        <trans-unit id="187" translate="yes" xml:space="preserve" uid="M:System.Security.Cryptography.CryptoStream.Read(System.Byte[],System.Int32,System.Int32)">
+          <source>The byte offset in <bpt id="p1">&lt;c&gt;</bpt>buffer<ept id="p1">&lt;/c&gt;</ept> at which to begin storing the data read from the current stream.</source>
+          <target state="translated"><bpt id="p1">&lt;c&gt;</bpt>buffer<ept id="p1">&lt;/c&gt;</ept> 中的字节偏移量，从此位置开始存储从当前流中读取的数据。</target>       </trans-unit>
+        <trans-unit id="188" translate="yes" xml:space="preserve" uid="M:System.Security.Cryptography.CryptoStream.Read(System.Byte[],System.Int32,System.Int32)">
+          <source>The maximum number of bytes to be read from the current stream.</source>
+          <target state="translated">要从当前流中最多读取的字节数。</target>       </trans-unit>
+        <trans-unit id="189" translate="yes" xml:space="preserve" uid="M:System.Security.Cryptography.CryptoStream.Read(System.Byte[],System.Int32,System.Int32)">
+          <source>Reads a sequence of bytes from the current stream and advances the position within the stream by the number of bytes read.</source>
+          <target state="translated">从当前流读取字节序列，并将流中的位置向前移动读取的字节数。</target>       </trans-unit>
+        <trans-unit id="190" translate="yes" xml:space="preserve" uid="M:System.Security.Cryptography.CryptoStream.Read(System.Byte[],System.Int32,System.Int32)">
+          <source>The total number of bytes read into the buffer.</source>
+          <target state="translated">读入缓冲区中的总字节数。</target>       </trans-unit>
+        <trans-unit id="191" translate="yes" xml:space="preserve" uid="M:System.Security.Cryptography.CryptoStream.Read(System.Byte[],System.Int32,System.Int32)">
+          <source>This can be less than the number of bytes requested if that many bytes are not currently available, or zero if the end of the stream has been reached.</source>
+          <target state="translated">如果当前可用的字节数没有请求的字节数那么多，则总字节数可能小于请求的字节数；如果已到达流的末尾，则为零。</target>       </trans-unit>
+        <trans-unit id="192" translate="yes" xml:space="preserve" uid="M:System.Security.Cryptography.CryptoStream.Read(System.Byte[],System.Int32,System.Int32)">
+          <source>The <ph id="ph1">&lt;see cref="T:System.Security.Cryptography.CryptoStreamMode" /&gt;</ph> associated with current <ph id="ph2">&lt;see cref="T:System.Security.Cryptography.CryptoStream" /&gt;</ph> object does not match the underlying stream.</source>
+          <target state="translated">与当前 <ph id="ph1">&lt;see cref="T:System.Security.Cryptography.CryptoStreamMode" /&gt;</ph> 对象关联的 <ph id="ph2">&lt;see cref="T:System.Security.Cryptography.CryptoStream" /&gt;</ph> 与基础流不匹配。</target>       </trans-unit>
+        <trans-unit id="193" translate="yes" xml:space="preserve" uid="M:System.Security.Cryptography.CryptoStream.Read(System.Byte[],System.Int32,System.Int32)">
+          <source>For example, this exception is thrown when using <ph id="ph1">&lt;see cref="F:System.Security.Cryptography.CryptoStreamMode.Read" /&gt;</ph> with an underlying stream that is write only.</source>
+          <target state="translated">例如，对只写的基础流使用 <ph id="ph1">&lt;see cref="F:System.Security.Cryptography.CryptoStreamMode.Read" /&gt;</ph> 时会引发此异常。</target>       </trans-unit>
+        <trans-unit id="194" translate="yes" xml:space="preserve" uid="M:System.Security.Cryptography.CryptoStream.Read(System.Byte[],System.Int32,System.Int32)">
+          <source>The <ph id="ph1">&lt;paramref name="offset" /&gt;</ph> parameter is less than zero.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="offset" /&gt;</ph> 参数小于零。</target>       </trans-unit>
+        <trans-unit id="195" translate="yes" xml:space="preserve" uid="M:System.Security.Cryptography.CryptoStream.Read(System.Byte[],System.Int32,System.Int32)">
+          <source>-or-</source>
+          <target state="translated">或</target>       </trans-unit>
+        <trans-unit id="196" translate="yes" xml:space="preserve" uid="M:System.Security.Cryptography.CryptoStream.Read(System.Byte[],System.Int32,System.Int32)">
+          <source>The <ph id="ph1">&lt;paramref name="count" /&gt;</ph> parameter is less than zero.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="count" /&gt;</ph> 参数小于零。</target>       </trans-unit>
+        <trans-unit id="197" translate="yes" xml:space="preserve" uid="M:System.Security.Cryptography.CryptoStream.Read(System.Byte[],System.Int32,System.Int32)">
+          <source>Thesum of the <ph id="ph1">&lt;paramref name="count" /&gt;</ph> and <ph id="ph2">&lt;paramref name="offset" /&gt;</ph> parameters is longer than the length of the buffer.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="count" /&gt;</ph> 参数和 <ph id="ph2">&lt;paramref name="offset" /&gt;</ph> 参数的和比缓冲区的长度长。</target>       </trans-unit>
+        <trans-unit id="198" translate="yes" xml:space="preserve" uid="M:System.Security.Cryptography.CryptoStream.ReadAsync(System.Byte[],System.Int32,System.Int32,System.Threading.CancellationToken)">
+          <source>The buffer to write the data into.</source>
+          <target state="translated">数据写入的缓冲区。</target>       </trans-unit>
+        <trans-unit id="199" translate="yes" xml:space="preserve" uid="M:System.Security.Cryptography.CryptoStream.ReadAsync(System.Byte[],System.Int32,System.Int32,System.Threading.CancellationToken)">
+          <source>The byte offset in <bpt id="p1">&lt;c&gt;</bpt>buffer<ept id="p1">&lt;/c&gt;</ept> at which to begin writing data from the stream.</source>
+          <target state="translated"><bpt id="p1">&lt;c&gt;</bpt>buffer<ept id="p1">&lt;/c&gt;</ept> 中的字节偏移量，从该偏移量开始写入流中的数据。</target>       </trans-unit>
+        <trans-unit id="200" translate="yes" xml:space="preserve" uid="M:System.Security.Cryptography.CryptoStream.ReadAsync(System.Byte[],System.Int32,System.Int32,System.Threading.CancellationToken)">
+          <source>The maximum number of bytes to read.</source>
+          <target state="translated">最多读取的字节数。</target>       </trans-unit>
+        <trans-unit id="201" translate="yes" xml:space="preserve" uid="M:System.Security.Cryptography.CryptoStream.ReadAsync(System.Byte[],System.Int32,System.Int32,System.Threading.CancellationToken)">
+          <source>The token to monitor for cancellation requests.</source>
+          <target state="translated">要监视取消请求的标记。</target>       </trans-unit>
+        <trans-unit id="202" translate="yes" xml:space="preserve" uid="M:System.Security.Cryptography.CryptoStream.ReadAsync(System.Byte[],System.Int32,System.Int32,System.Threading.CancellationToken)">
+          <source>The default value is <ph id="ph1">&lt;see cref="P:System.Threading.CancellationToken.None" /&gt;</ph>.</source>
+          <target state="translated">默认值为 <ph id="ph1">&lt;see cref="P:System.Threading.CancellationToken.None" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="203" translate="yes" xml:space="preserve" uid="M:System.Security.Cryptography.CryptoStream.ReadAsync(System.Byte[],System.Int32,System.Int32,System.Threading.CancellationToken)">
+          <source>Reads a sequence of bytes from the current stream asynchronously, advances the position within the stream by the number of bytes read, and monitors cancellation requests.</source>
+          <target state="translated">从当前流异步读取字节序列，将此流中的位置提升读取的字节数，并监视取消请求数。</target>       </trans-unit>
+        <trans-unit id="204" translate="yes" xml:space="preserve" uid="M:System.Security.Cryptography.CryptoStream.ReadAsync(System.Byte[],System.Int32,System.Int32,System.Threading.CancellationToken)">
+          <source>A task that represents the asynchronous read operation.</source>
+          <target state="translated">表示异步读取操作的任务。</target>       </trans-unit>
+        <trans-unit id="205" translate="yes" xml:space="preserve" uid="M:System.Security.Cryptography.CryptoStream.ReadAsync(System.Byte[],System.Int32,System.Int32,System.Threading.CancellationToken)">
+          <source>The value of the task object's <ph id="ph1">&lt;paramref name="TResult" /&gt;</ph> parameter contains the total number of bytes read into the buffer.</source>
+          <target state="translated">目标对象的 <ph id="ph1">&lt;paramref name="TResult" /&gt;</ph> 参数的值包含多次读入缓冲区总字节数。</target>       </trans-unit>
+        <trans-unit id="206" translate="yes" xml:space="preserve" uid="M:System.Security.Cryptography.CryptoStream.ReadAsync(System.Byte[],System.Int32,System.Int32,System.Threading.CancellationToken)">
+          <source>The result can be less than the number of bytes requested if the number of bytes currently available is less than the requested number, or it can be 0 (zero) if the end of the stream has been reached.</source>
+          <target state="translated">如果当前可用字节数少于所请求的字节数，则该结果值可能小于所请求的字节数，或者如果已到达流的末尾时，则为 0（零）。</target>       </trans-unit>
+        <trans-unit id="207" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Security.Cryptography.CryptoStream.ReadAsync(System.Byte[],System.Int32,System.Int32,System.Threading.CancellationToken)">
+          <source>You must preface your call to <ph id="ph1">&lt;xref:System.Security.Cryptography.CryptoStream.ReadAsync%2A&gt;</ph> with the <ph id="ph2">`await`</ph> (C#) or <ph id="ph3">`Await`</ph> (Visual Basic) operator to suspend execution of the method until the task is complete.</source>
+          <target state="translated">必须在调用之前添加<ph id="ph1">&lt;xref:System.Security.Cryptography.CryptoStream.ReadAsync%2A&gt;</ph>与<ph id="ph2">`await`</ph>(C#) 或<ph id="ph3">`Await`</ph>(Visual Basic 中) 运算符可暂停执行方法，直到完成该任务为止。</target>       </trans-unit>
+        <trans-unit id="208" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Security.Cryptography.CryptoStream.ReadAsync(System.Byte[],System.Int32,System.Int32,System.Threading.CancellationToken)">
+          <source>For more information, see <bpt id="p1">[</bpt>Asynchronous Programming with Async and Await<ept id="p1">](http://msdn.microsoft.com/library/db854f91-ccef-4035-ae4d-0911fde808c7)</ept>.</source>
+          <target state="translated">有关详细信息，请参阅<bpt id="p1">[</bpt>使用 Async 和 Await 的异步编程<ept id="p1">](http://msdn.microsoft.com/library/db854f91-ccef-4035-ae4d-0911fde808c7)</ept>。</target>       </trans-unit>
+        <trans-unit id="209" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Security.Cryptography.CryptoStream.ReadAsync(System.Byte[],System.Int32,System.Int32,System.Threading.CancellationToken)">
+          <source>If the operation is canceled before it completes, the returned task contains the <ph id="ph1">&lt;xref:System.Threading.Tasks.TaskStatus.Canceled&gt;</ph> value for the <ph id="ph2">&lt;xref:System.Threading.Tasks.Task.Status%2A&gt;</ph> property.</source>
+          <target state="translated">如果在完成之前，将取消该操作，返回的任务包含<ph id="ph1">&lt;xref:System.Threading.Tasks.TaskStatus.Canceled&gt;</ph>值<ph id="ph2">&lt;xref:System.Threading.Tasks.Task.Status%2A&gt;</ph>属性。</target>       </trans-unit>
+        <trans-unit id="210" translate="yes" xml:space="preserve" uid="M:System.Security.Cryptography.CryptoStream.ReadAsync(System.Byte[],System.Int32,System.Int32,System.Threading.CancellationToken)">
+          <source><ph id="ph1">&lt;paramref name="buffer" /&gt;</ph> is <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="buffer" /&gt;</ph> 为 <ph id="ph2">&lt;see langword="null" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="211" translate="yes" xml:space="preserve" uid="M:System.Security.Cryptography.CryptoStream.ReadAsync(System.Byte[],System.Int32,System.Int32,System.Threading.CancellationToken)">
+          <source><ph id="ph1">&lt;paramref name="offset" /&gt;</ph> or <ph id="ph2">&lt;paramref name="count" /&gt;</ph> is negative.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="offset" /&gt;</ph> 或 <ph id="ph2">&lt;paramref name="count" /&gt;</ph> 为负数。</target>       </trans-unit>
+        <trans-unit id="212" translate="yes" xml:space="preserve" uid="M:System.Security.Cryptography.CryptoStream.ReadAsync(System.Byte[],System.Int32,System.Int32,System.Threading.CancellationToken)">
+          <source>The sum of <ph id="ph1">&lt;paramref name="offset" /&gt;</ph> and <ph id="ph2">&lt;paramref name="count" /&gt;</ph> is larger than the buffer length.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="offset" /&gt;</ph> 和 <ph id="ph2">&lt;paramref name="count" /&gt;</ph> 的总和大于缓冲区长度。</target>       </trans-unit>
+        <trans-unit id="213" translate="yes" xml:space="preserve" uid="M:System.Security.Cryptography.CryptoStream.ReadAsync(System.Byte[],System.Int32,System.Int32,System.Threading.CancellationToken)">
+          <source>The stream does not support reading.</source>
+          <target state="translated">流不支持读取。</target>       </trans-unit>
+        <trans-unit id="214" translate="yes" xml:space="preserve" uid="M:System.Security.Cryptography.CryptoStream.ReadAsync(System.Byte[],System.Int32,System.Int32,System.Threading.CancellationToken)">
+          <source>The stream has been disposed.</source>
+          <target state="translated">已释放流。</target>       </trans-unit>
+        <trans-unit id="215" translate="yes" xml:space="preserve" uid="M:System.Security.Cryptography.CryptoStream.ReadAsync(System.Byte[],System.Int32,System.Int32,System.Threading.CancellationToken)">
+          <source>The stream is currently in use by a previous read operation.</source>
+          <target state="translated">之前的读取操作当前正在使用流。</target>       </trans-unit>
+        <trans-unit id="216" translate="yes" xml:space="preserve" uid="M:System.Security.Cryptography.CryptoStream.Seek(System.Int64,System.IO.SeekOrigin)">
+          <source>A byte offset relative to the <bpt id="p1">&lt;c&gt;</bpt>origin<ept id="p1">&lt;/c&gt;</ept> parameter.</source>
+          <target state="translated">相对于 <bpt id="p1">&lt;c&gt;</bpt>origin<ept id="p1">&lt;/c&gt;</ept> 参数的字节偏移量。</target>       </trans-unit>
+        <trans-unit id="217" translate="yes" xml:space="preserve" uid="M:System.Security.Cryptography.CryptoStream.Seek(System.Int64,System.IO.SeekOrigin)">
+          <source>A <ph id="ph1">&lt;see cref="T:System.IO.SeekOrigin" /&gt;</ph> object indicating the reference point used to obtain the new position.</source>
+          <target state="translated">一个 <ph id="ph1">&lt;see cref="T:System.IO.SeekOrigin" /&gt;</ph> 对象，该对象指示用于获得新位置的参考点。</target>       </trans-unit>
+        <trans-unit id="218" translate="yes" xml:space="preserve" uid="M:System.Security.Cryptography.CryptoStream.Seek(System.Int64,System.IO.SeekOrigin)">
+          <source>Sets the position within the current stream.</source>
+          <target state="translated">设置当前流中的位置。</target>       </trans-unit>
+        <trans-unit id="219" translate="yes" xml:space="preserve" uid="M:System.Security.Cryptography.CryptoStream.Seek(System.Int64,System.IO.SeekOrigin)">
+          <source>This method is not supported.</source>
+          <target state="translated">不支持此方法。</target>       </trans-unit>
+        <trans-unit id="220" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Security.Cryptography.CryptoStream.Seek(System.Int64,System.IO.SeekOrigin)">
+          <source>This method exists only to support inheritance from <ph id="ph1">&lt;xref:System.IO.Stream&gt;</ph>, and cannot be used.</source>
+          <target state="translated">此方法存在只是为了支持从继承<ph id="ph1">&lt;xref:System.IO.Stream&gt;</ph>，并且不能使用。</target>       </trans-unit>
+        <trans-unit id="221" translate="yes" xml:space="preserve" uid="M:System.Security.Cryptography.CryptoStream.Seek(System.Int64,System.IO.SeekOrigin)">
+          <source>This method is not supported.</source>
+          <target state="translated">不支持此方法。</target>       </trans-unit>
+        <trans-unit id="222" translate="yes" xml:space="preserve" uid="M:System.Security.Cryptography.CryptoStream.SetLength(System.Int64)">
+          <source>The desired length of the current stream in bytes.</source>
+          <target state="translated">所需的当前流的长度（以字节表示）。</target>       </trans-unit>
+        <trans-unit id="223" translate="yes" xml:space="preserve" uid="M:System.Security.Cryptography.CryptoStream.SetLength(System.Int64)">
+          <source>Sets the length of the current stream.</source>
+          <target state="translated">设置当前流的长度。</target>       </trans-unit>
+        <trans-unit id="224" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Security.Cryptography.CryptoStream.SetLength(System.Int64)">
+          <source>This property exists only to support inheritance from <ph id="ph1">&lt;xref:System.IO.Stream&gt;</ph>, and cannot be used.</source>
+          <target state="translated">此属性的存在只是为了支持从 <ph id="ph1">&lt;xref:System.IO.Stream&gt;</ph> 继承；无法使用此属性。</target>       </trans-unit>
+        <trans-unit id="225" translate="yes" xml:space="preserve" uid="M:System.Security.Cryptography.CryptoStream.SetLength(System.Int64)">
+          <source>This property exists only to support inheritance from <ph id="ph1">&lt;see cref="T:System.IO.Stream" /&gt;</ph>, and cannot be used.</source>
+          <target state="translated">此属性的存在只是为了支持从 <ph id="ph1">&lt;see cref="T:System.IO.Stream" /&gt;</ph> 继承；无法使用此属性。</target>       </trans-unit>
+        <trans-unit id="226" translate="yes" xml:space="preserve" uid="M:System.Security.Cryptography.CryptoStream.Write(System.Byte[],System.Int32,System.Int32)">
+          <source>An array of bytes.</source>
+          <target state="translated">字节数组。</target>       </trans-unit>
+        <trans-unit id="227" translate="yes" xml:space="preserve" uid="M:System.Security.Cryptography.CryptoStream.Write(System.Byte[],System.Int32,System.Int32)">
+          <source>This method copies <bpt id="p1">&lt;c&gt;</bpt>count<ept id="p1">&lt;/c&gt;</ept> bytes from <bpt id="p2">&lt;c&gt;</bpt>buffer<ept id="p2">&lt;/c&gt;</ept> to the current stream.</source>
+          <target state="translated">此方法将 <bpt id="p1">&lt;c&gt;</bpt>count<ept id="p1">&lt;/c&gt;</ept> 个字节从 <bpt id="p2">&lt;c&gt;</bpt>buffer<ept id="p2">&lt;/c&gt;</ept> 复制到当前流。</target>       </trans-unit>
+        <trans-unit id="228" translate="yes" xml:space="preserve" uid="M:System.Security.Cryptography.CryptoStream.Write(System.Byte[],System.Int32,System.Int32)">
+          <source>The byte offset in <bpt id="p1">&lt;c&gt;</bpt>buffer<ept id="p1">&lt;/c&gt;</ept> at which to begin copying bytes to the current stream.</source>
+          <target state="translated"><bpt id="p1">&lt;c&gt;</bpt>buffer<ept id="p1">&lt;/c&gt;</ept> 中的字节偏移量，从此位置开始将字节复制到当前流。</target>       </trans-unit>
+        <trans-unit id="229" translate="yes" xml:space="preserve" uid="M:System.Security.Cryptography.CryptoStream.Write(System.Byte[],System.Int32,System.Int32)">
+          <source>The number of bytes to be written to the current stream.</source>
+          <target state="translated">要写入当前流的字节数。</target>       </trans-unit>
+        <trans-unit id="230" translate="yes" xml:space="preserve" uid="M:System.Security.Cryptography.CryptoStream.Write(System.Byte[],System.Int32,System.Int32)">
+          <source>Writes a sequence of bytes to the current <ph id="ph1">&lt;see cref="T:System.Security.Cryptography.CryptoStream" /&gt;</ph> and advances the current position within the stream by the number of bytes written.</source>
+          <target state="translated">将一字节序列写入当前的 <ph id="ph1">&lt;see cref="T:System.Security.Cryptography.CryptoStream" /&gt;</ph>，并将通过写入的字节数提前该流的当前位置。</target>       </trans-unit>
+        <trans-unit id="231" translate="yes" xml:space="preserve" uid="M:System.Security.Cryptography.CryptoStream.Write(System.Byte[],System.Int32,System.Int32)">
+          <source>The <ph id="ph1">&lt;see cref="T:System.Security.Cryptography.CryptoStreamMode" /&gt;</ph> associated with current <ph id="ph2">&lt;see cref="T:System.Security.Cryptography.CryptoStream" /&gt;</ph> object does not match the underlying stream.</source>
+          <target state="translated">与当前 <ph id="ph1">&lt;see cref="T:System.Security.Cryptography.CryptoStreamMode" /&gt;</ph> 对象关联的 <ph id="ph2">&lt;see cref="T:System.Security.Cryptography.CryptoStream" /&gt;</ph> 与基础流不匹配。</target>       </trans-unit>
+        <trans-unit id="232" translate="yes" xml:space="preserve" uid="M:System.Security.Cryptography.CryptoStream.Write(System.Byte[],System.Int32,System.Int32)">
+          <source>For example, this exception is thrown when using <ph id="ph1">&lt;see cref="F:System.Security.Cryptography.CryptoStreamMode.Write" /&gt;</ph> with an underlying stream that is read only.</source>
+          <target state="translated">例如，对只读的基础流使用 <ph id="ph1">&lt;see cref="F:System.Security.Cryptography.CryptoStreamMode.Write" /&gt;</ph> 时会引发此异常。</target>       </trans-unit>
+        <trans-unit id="233" translate="yes" xml:space="preserve" uid="M:System.Security.Cryptography.CryptoStream.Write(System.Byte[],System.Int32,System.Int32)">
+          <source>The <ph id="ph1">&lt;paramref name="offset" /&gt;</ph> parameter is less than zero.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="offset" /&gt;</ph> 参数小于零。</target>       </trans-unit>
+        <trans-unit id="234" translate="yes" xml:space="preserve" uid="M:System.Security.Cryptography.CryptoStream.Write(System.Byte[],System.Int32,System.Int32)">
+          <source>-or-</source>
+          <target state="translated">或</target>       </trans-unit>
+        <trans-unit id="235" translate="yes" xml:space="preserve" uid="M:System.Security.Cryptography.CryptoStream.Write(System.Byte[],System.Int32,System.Int32)">
+          <source>The <ph id="ph1">&lt;paramref name="count" /&gt;</ph> parameter is less than zero.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="count" /&gt;</ph> 参数小于零。</target>       </trans-unit>
+        <trans-unit id="236" translate="yes" xml:space="preserve" uid="M:System.Security.Cryptography.CryptoStream.Write(System.Byte[],System.Int32,System.Int32)">
+          <source>The sum of the <ph id="ph1">&lt;paramref name="count" /&gt;</ph> and <ph id="ph2">&lt;paramref name="offset" /&gt;</ph> parameters is longer than the length of the buffer.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="count" /&gt;</ph> 参数和 <ph id="ph2">&lt;paramref name="offset" /&gt;</ph> 参数的和比缓冲区的长度长。</target>       </trans-unit>
+        <trans-unit id="237" translate="yes" xml:space="preserve" uid="M:System.Security.Cryptography.CryptoStream.WriteAsync(System.Byte[],System.Int32,System.Int32,System.Threading.CancellationToken)">
+          <source>The buffer to write data from.</source>
+          <target state="translated">从中写入数据的缓冲区。</target>       </trans-unit>
+        <trans-unit id="238" translate="yes" xml:space="preserve" uid="M:System.Security.Cryptography.CryptoStream.WriteAsync(System.Byte[],System.Int32,System.Int32,System.Threading.CancellationToken)">
+          <source>The zero-based byte offset in <bpt id="p1">&lt;c&gt;</bpt>buffer<ept id="p1">&lt;/c&gt;</ept> from which to begin writing bytes to the stream.</source>
+          <target state="translated"><bpt id="p1">&lt;c&gt;</bpt>buffer<ept id="p1">&lt;/c&gt;</ept> 中的从零开始的字节偏移量，从此位置开始将字节写入到流。</target>       </trans-unit>
+        <trans-unit id="239" translate="yes" xml:space="preserve" uid="M:System.Security.Cryptography.CryptoStream.WriteAsync(System.Byte[],System.Int32,System.Int32,System.Threading.CancellationToken)">
+          <source>The maximum number of bytes to write.</source>
+          <target state="translated">最多写入的字节数。</target>       </trans-unit>
+        <trans-unit id="240" translate="yes" xml:space="preserve" uid="M:System.Security.Cryptography.CryptoStream.WriteAsync(System.Byte[],System.Int32,System.Int32,System.Threading.CancellationToken)">
+          <source>The token to monitor for cancellation requests.</source>
+          <target state="translated">要监视取消请求的标记。</target>       </trans-unit>
+        <trans-unit id="241" translate="yes" xml:space="preserve" uid="M:System.Security.Cryptography.CryptoStream.WriteAsync(System.Byte[],System.Int32,System.Int32,System.Threading.CancellationToken)">
+          <source>The default value is <ph id="ph1">&lt;see cref="P:System.Threading.CancellationToken.None" /&gt;</ph>.</source>
+          <target state="translated">默认值为 <ph id="ph1">&lt;see cref="P:System.Threading.CancellationToken.None" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="242" translate="yes" xml:space="preserve" uid="M:System.Security.Cryptography.CryptoStream.WriteAsync(System.Byte[],System.Int32,System.Int32,System.Threading.CancellationToken)">
+          <source>Writes a sequence of bytes to the current stream asynchronously, advances the current position within the stream by the number of bytes written, and monitors cancellation requests.</source>
+          <target state="translated">将字节序列异步写入当前流，将该流的当前位置向前移动写入的字节数，并监视取消请求。</target>       </trans-unit>
+        <trans-unit id="243" translate="yes" xml:space="preserve" uid="M:System.Security.Cryptography.CryptoStream.WriteAsync(System.Byte[],System.Int32,System.Int32,System.Threading.CancellationToken)">
+          <source>A task that represents the asynchronous write operation.</source>
+          <target state="translated">表示异步写入操作的任务。</target>       </trans-unit>
+        <trans-unit id="244" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Security.Cryptography.CryptoStream.WriteAsync(System.Byte[],System.Int32,System.Int32,System.Threading.CancellationToken)">
+          <source>You must preface your call to <ph id="ph1">&lt;xref:System.Security.Cryptography.CryptoStream.WriteAsync%2A&gt;</ph> with the <ph id="ph2">`await`</ph> (C#) or <ph id="ph3">`Await`</ph> (Visual Basic) operator to suspend execution of the method until the task is complete.</source>
+          <target state="translated">必须在调用之前添加<ph id="ph1">&lt;xref:System.Security.Cryptography.CryptoStream.WriteAsync%2A&gt;</ph>与<ph id="ph2">`await`</ph>(C#) 或<ph id="ph3">`Await`</ph>(Visual Basic 中) 运算符可暂停执行方法，直到完成该任务为止。</target>       </trans-unit>
+        <trans-unit id="245" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Security.Cryptography.CryptoStream.WriteAsync(System.Byte[],System.Int32,System.Int32,System.Threading.CancellationToken)">
+          <source>For more information, see <bpt id="p1">[</bpt>Asynchronous Programming with Async and Await<ept id="p1">](http://msdn.microsoft.com/library/db854f91-ccef-4035-ae4d-0911fde808c7)</ept>.</source>
+          <target state="translated">有关详细信息，请参阅<bpt id="p1">[</bpt>使用 Async 和 Await 的异步编程<ept id="p1">](http://msdn.microsoft.com/library/db854f91-ccef-4035-ae4d-0911fde808c7)</ept>。</target>       </trans-unit>
+        <trans-unit id="246" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Security.Cryptography.CryptoStream.WriteAsync(System.Byte[],System.Int32,System.Int32,System.Threading.CancellationToken)">
+          <source>If the operation is canceled before it completes, the returned task contains the <ph id="ph1">&lt;xref:System.Threading.Tasks.TaskStatus.Canceled&gt;</ph> value for the <ph id="ph2">&lt;xref:System.Threading.Tasks.Task.Status%2A&gt;</ph> property.</source>
+          <target state="translated">如果在完成之前，将取消该操作，返回的任务包含<ph id="ph1">&lt;xref:System.Threading.Tasks.TaskStatus.Canceled&gt;</ph>值<ph id="ph2">&lt;xref:System.Threading.Tasks.Task.Status%2A&gt;</ph>属性。</target>       </trans-unit>
+        <trans-unit id="247" translate="yes" xml:space="preserve" uid="M:System.Security.Cryptography.CryptoStream.WriteAsync(System.Byte[],System.Int32,System.Int32,System.Threading.CancellationToken)">
+          <source><ph id="ph1">&lt;paramref name="buffer" /&gt;</ph> is <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="buffer" /&gt;</ph> 为 <ph id="ph2">&lt;see langword="null" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="248" translate="yes" xml:space="preserve" uid="M:System.Security.Cryptography.CryptoStream.WriteAsync(System.Byte[],System.Int32,System.Int32,System.Threading.CancellationToken)">
+          <source><ph id="ph1">&lt;paramref name="offset" /&gt;</ph> or <ph id="ph2">&lt;paramref name="count" /&gt;</ph> is negative.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="offset" /&gt;</ph> 或 <ph id="ph2">&lt;paramref name="count" /&gt;</ph> 为负数。</target>       </trans-unit>
+        <trans-unit id="249" translate="yes" xml:space="preserve" uid="M:System.Security.Cryptography.CryptoStream.WriteAsync(System.Byte[],System.Int32,System.Int32,System.Threading.CancellationToken)">
+          <source>The sum of <ph id="ph1">&lt;paramref name="offset" /&gt;</ph> and <ph id="ph2">&lt;paramref name="count" /&gt;</ph> is larger than the buffer length.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="offset" /&gt;</ph> 和 <ph id="ph2">&lt;paramref name="count" /&gt;</ph> 的总和大于缓冲区长度。</target>       </trans-unit>
+        <trans-unit id="250" translate="yes" xml:space="preserve" uid="M:System.Security.Cryptography.CryptoStream.WriteAsync(System.Byte[],System.Int32,System.Int32,System.Threading.CancellationToken)">
+          <source>The stream does not support writing.</source>
+          <target state="translated">流不支持写入。</target>       </trans-unit>
+        <trans-unit id="251" translate="yes" xml:space="preserve" uid="M:System.Security.Cryptography.CryptoStream.WriteAsync(System.Byte[],System.Int32,System.Int32,System.Threading.CancellationToken)">
+          <source>The stream has been disposed.</source>
+          <target state="translated">已释放流。</target>       </trans-unit>
+        <trans-unit id="252" translate="yes" xml:space="preserve" uid="M:System.Security.Cryptography.CryptoStream.WriteAsync(System.Byte[],System.Int32,System.Int32,System.Threading.CancellationToken)">
+          <source>The stream is currently in use by a previous write operation.</source>
+          <target state="translated">流正在由前一次写操作使用。</target>       </trans-unit>
+      </group>
+    </body>
+  </file>
+</xliff>

@@ -1,877 +1,297 @@
-<Type Name="Clock" FullName="System.Windows.Media.Animation.Clock">
-  <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="829cbcd67b4a6736053ec04245b9b87181268348" />
-    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
-    <Meta Name="ms.translationtype" Value="HT" />
-    <Meta Name="ms.contentlocale" Value="zh-CN" />
-    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
-  </Metadata>
-  <TypeSignature Language="C#" Value="public class Clock : System.Windows.Threading.DispatcherObject" />
-  <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit Clock extends System.Windows.Threading.DispatcherObject" />
-  <TypeSignature Language="DocId" Value="T:System.Windows.Media.Animation.Clock" />
-  <TypeSignature Language="VB.NET" Value="Public Class Clock&#xA;Inherits DispatcherObject" />
-  <TypeSignature Language="C++ CLI" Value="public ref class Clock : System::Windows::Threading::DispatcherObject" />
-  <AssemblyInfo>
-    <AssemblyName>PresentationCore</AssemblyName>
-    <AssemblyVersion>4.0.0.0</AssemblyVersion>
-  </AssemblyInfo>
-  <Base>
-    <BaseTypeName>System.Windows.Threading.DispatcherObject</BaseTypeName>
-  </Base>
-  <Interfaces />
-  <Docs>
-    <summary>
-      <span data-ttu-id="26215-101">维护 <see cref="T:System.Windows.Media.Animation.Timeline" /> 的运行时时序状态。</span>
-      <span class="sxs-lookup">
-        <span data-stu-id="26215-101">Maintains run-time timing state for a <see cref="T:System.Windows.Media.Animation.Timeline" />.</span>
-      </span>
-    </summary>
-    <remarks>
-      <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="26215-102">A <xref:System.Windows.Media.Animation.Timeline>，其本身而言，实际上不进行任何内容而描述的时间段。</span><span class="sxs-lookup"><span data-stu-id="26215-102">A <xref:System.Windows.Media.Animation.Timeline>, by itself, doesn't actually do anything other than describe a segment of time.</span></span> <span data-ttu-id="26215-103">它是时间线的<xref:System.Windows.Media.Animation.Clock>对象，不能实际工作： 它维护与计时相关时间线的运行时状态。</span><span class="sxs-lookup"><span data-stu-id="26215-103">It's the timeline's <xref:System.Windows.Media.Animation.Clock> object that does the real work: it maintains timing-related run-time state for the timeline.</span></span>  
-  
- <span data-ttu-id="26215-104">在大多数情况下，时钟自动创建为时间线。</span><span class="sxs-lookup"><span data-stu-id="26215-104">In most cases, a clock is created automatically for your timeline.</span></span> <span data-ttu-id="26215-105">当你使用进行动画处理<xref:System.Windows.Media.Animation.Storyboard>或<xref:System.Windows.Media.Animation.Animatable.BeginAnimation%2A>方法中，时钟自动创建为时间线和动画和应用到其目标属性。</span><span class="sxs-lookup"><span data-stu-id="26215-105">When you animate by using a <xref:System.Windows.Media.Animation.Storyboard> or the <xref:System.Windows.Media.Animation.Animatable.BeginAnimation%2A> method, clocks are automatically created for your timelines and animations and applied to their targeted properties.</span></span> <span data-ttu-id="26215-106">有关示例，请参阅[如何： 使用情节提要属性进行动画处理](~/docs/framework/wpf/graphics-multimedia/how-to-animate-a-property-by-using-a-storyboard.md)和[如何： 使用进行动画处理属性而无需情节提要](~/docs/framework/wpf/graphics-multimedia/how-to-animate-a-property-without-using-a-storyboard.md)。</span><span class="sxs-lookup"><span data-stu-id="26215-106">For examples, see [How to: Animate a Property by Using a Storyboard](~/docs/framework/wpf/graphics-multimedia/how-to-animate-a-property-by-using-a-storyboard.md) and [How to: Animate a Property Without Using a Storyboard](~/docs/framework/wpf/graphics-multimedia/how-to-animate-a-property-without-using-a-storyboard.md).</span></span>  
-  
- <span data-ttu-id="26215-107">你还可以创建<xref:System.Windows.Media.Animation.Clock>通过使用显式<xref:System.Windows.Media.Animation.Timeline.CreateClock%2A>方法。</span><span class="sxs-lookup"><span data-stu-id="26215-107">You can also create a <xref:System.Windows.Media.Animation.Clock> explicitly by using the <xref:System.Windows.Media.Animation.Timeline.CreateClock%2A> method.</span></span> <span data-ttu-id="26215-108">在性能要求较高的情况下，对进行动画处理大量类似对象，如管理你自己<xref:System.Windows.Media.Animation.Clock>使用可以提供性能优势。</span><span class="sxs-lookup"><span data-stu-id="26215-108">In performance-intensive scenarios, such as animating large numbers of similar objects, managing your own <xref:System.Windows.Media.Animation.Clock> use can provide performance benefits.</span></span>  
-  
- <span data-ttu-id="26215-109">在与结构相匹配的目录树中排列时钟<xref:System.Windows.Media.Animation.Timeline>对象从其创建树。</span><span class="sxs-lookup"><span data-stu-id="26215-109">Clocks are arranged in trees that match the structure of the <xref:System.Windows.Media.Animation.Timeline> objects tree from which they are created.</span></span> <span data-ttu-id="26215-110">这样的计时树的根时钟可以以交互方式操作 （暂停、 恢复、 已停止，等等） 通过检索其<xref:System.Windows.Media.Animation.Clock.Controller%2A>。</span><span class="sxs-lookup"><span data-stu-id="26215-110">The root clock of such a timing tree can be interactively manipulated (paused, resumed, stopped, and so on) by retrieving its <xref:System.Windows.Media.Animation.Clock.Controller%2A>.</span></span> <span data-ttu-id="26215-111">不能直接控制非根时钟。</span><span class="sxs-lookup"><span data-stu-id="26215-111">Non-root clocks cannot be directly controlled.</span></span>  
-  
- <span data-ttu-id="26215-112">一旦创建，就无法修改时钟 （但可以对其进行处理）。</span><span class="sxs-lookup"><span data-stu-id="26215-112">Once created, a clock cannot be modified (but it can be manipulated).</span></span>  
-  
-## <a name="using-a-timeline-as-a-timer"></a><span data-ttu-id="26215-113">作为计时器使用时间线</span><span class="sxs-lookup"><span data-stu-id="26215-113">Using a Timeline as a Timer</span></span>  
- <span data-ttu-id="26215-114">事件处理程序与之关联时，才会前进时间线的时钟或 (对于<xref:System.Windows.Media.Animation.AnimationClock>对象) 是与属性相关联。</span><span class="sxs-lookup"><span data-stu-id="26215-114">A timeline's clock will only progress when there's an event handler associated with it or (in the case of an <xref:System.Windows.Media.Animation.AnimationClock> object) it is associated with a property.</span></span> <span data-ttu-id="26215-115">此原因 （和其他内容），不建议你使用<xref:System.Windows.Media.Animation.Timeline>作为计时器。</span><span class="sxs-lookup"><span data-stu-id="26215-115">For this reason (and others), it's not recommended that you use a <xref:System.Windows.Media.Animation.Timeline> as a timer.</span></span>  
-  
- ]]></format>
-    </remarks>
-    <block subset="none" type="overrides">
-      <para>
-        <span data-ttu-id="26215-116">派生的类应实现<see cref="M:System.Windows.Media.Animation.Clock.GetCurrentTimeCore" />如果他们想要修改时间的时钟的流动方式。</span>
-        <span class="sxs-lookup">
-          <span data-stu-id="26215-116">Derived classes should implement <see cref="M:System.Windows.Media.Animation.Clock.GetCurrentTimeCore" /> if they want to modify how time flows for this clock.</span>
-        </span>
-        <span data-ttu-id="26215-117">派生的类可用于执行其他工作时时钟重复、 跳过、 查找、 开始、 暂停、 恢复，或停止通过重写<see cref="M:System.Windows.Media.Animation.Clock.DiscontinuousTimeMovement" />， <see cref="M:System.Windows.Media.Animation.Clock.SpeedChanged" />，和<see cref="M:System.Windows.Media.Animation.Clock.Stopped" />方法。</span>
-        <span class="sxs-lookup">
-          <span data-stu-id="26215-117">Derived classes can be made to do additional work when the clock repeats, skips, seeks, begins, pauses, resumes, or stops by overriding the <see cref="M:System.Windows.Media.Animation.Clock.DiscontinuousTimeMovement" />, <see cref="M:System.Windows.Media.Animation.Clock.SpeedChanged" />, and <see cref="M:System.Windows.Media.Animation.Clock.Stopped" /> methods.</span>
-        </span>
-      </para>
-    </block>
-  </Docs>
-  <Members>
-    <Member MemberName=".ctor">
-      <MemberSignature Language="C#" Value="protected internal Clock (System.Windows.Media.Animation.Timeline timeline);" />
-      <MemberSignature Language="ILAsm" Value=".method familyorassemblyhidebysig specialname rtspecialname instance void .ctor(class System.Windows.Media.Animation.Timeline timeline) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Windows.Media.Animation.Clock.#ctor(System.Windows.Media.Animation.Timeline)" />
-      <MemberSignature Language="C++ CLI" Value="protected public:&#xA; Clock(System::Windows::Media::Animation::Timeline ^ timeline);" />
-      <MemberType>Constructor</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>PresentationCore</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Parameters>
-        <Parameter Name="timeline" Type="System.Windows.Media.Animation.Timeline" />
-      </Parameters>
-      <Docs>
-        <param name="timeline">
-          <span data-ttu-id="26215-118">应从中构造此时钟的 <see cref="P:System.Windows.Media.Animation.Clock.Timeline" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="26215-118">The <see cref="P:System.Windows.Media.Animation.Clock.Timeline" /> from which this clock should be constructed.</span>
-          </span>
-          <span data-ttu-id="26215-119">将不再为任何已具有时钟的子 <see cref="P:System.Windows.Media.Animation.Clock.Timeline" /> 对象创建时钟。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="26215-119">Clocks are not created for any child <see cref="P:System.Windows.Media.Animation.Clock.Timeline" /> objects, if they exist.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="26215-120">使用指定的 <see cref="T:System.Windows.Media.Animation.Clock" /> 作为模板来初始化 <see cref="P:System.Windows.Media.Animation.Clock.Timeline" /> 类的新实例。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="26215-120">Initializes a new instance of the <see cref="T:System.Windows.Media.Animation.Clock" /> class, using the specified <see cref="P:System.Windows.Media.Animation.Clock.Timeline" /> as a template.</span>
-          </span>
-          <span data-ttu-id="26215-121">新的 <see cref="T:System.Windows.Media.Animation.Clock" /> 对象没有子级。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="26215-121">The new <see cref="T:System.Windows.Media.Animation.Clock" /> object has no children.</span>
-          </span>
-        </summary>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="Completed">
-      <MemberSignature Language="C#" Value="public event EventHandler Completed;" />
-      <MemberSignature Language="ILAsm" Value=".event class System.EventHandler Completed" />
-      <MemberSignature Language="DocId" Value="E:System.Windows.Media.Animation.Clock.Completed" />
-      <MemberSignature Language="VB.NET" Value="Public Custom Event Completed As EventHandler " />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; event EventHandler ^ Completed;" />
-      <MemberType>Event</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>PresentationCore</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.EventHandler</ReturnType>
-      </ReturnValue>
-      <Docs>
-        <summary>
-          <span data-ttu-id="26215-122">当此时钟完全播放完毕时发生。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="26215-122">Occurs when this clock has completely finished playing.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="26215-123">如果此时钟时钟树的根时钟，它已完成播放后到达其活动的持续时间 （其中包括重复） 结尾，并且所有子项具有都达到各自活动持续时间的末尾。</span><span class="sxs-lookup"><span data-stu-id="26215-123">If this clock is the root clock of a clock tree, it has completed playing after it reaches the end of its active duration (which includes repeats) and all its children have reached the end of their active durations.</span></span> <span data-ttu-id="26215-124">如果此时钟是子时钟，它被视为完全完成播放时其所属达到时钟树的根时钟完成其活动持续时间和所有子时钟结束播放。</span><span class="sxs-lookup"><span data-stu-id="26215-124">If this clock is a child clock, it is considered to have completely finished playing when the root clock of the clock tree to which it belongs reaches the end of its active duration and all its child clocks have finished playing.</span></span>  
-  
- <span data-ttu-id="26215-125">停止时钟不会触发其已完成的事件，但前移到其填充期间会。</span><span class="sxs-lookup"><span data-stu-id="26215-125">Stopping a clock does not trigger its completed event, but advancing it to its fill period does.</span></span>  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="Controller">
-      <MemberSignature Language="C#" Value="public System.Windows.Media.Animation.ClockController Controller { get; }" />
-      <MemberSignature Language="ILAsm" Value=".property instance class System.Windows.Media.Animation.ClockController Controller" />
-      <MemberSignature Language="DocId" Value="P:System.Windows.Media.Animation.Clock.Controller" />
-      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property Controller As ClockController" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::Windows::Media::Animation::ClockController ^ Controller { System::Windows::Media::Animation::ClockController ^ get(); };" />
-      <MemberType>Property</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>PresentationCore</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Windows.Media.Animation.ClockController</ReturnType>
-      </ReturnValue>
-      <Docs>
-        <summary>
-          <span data-ttu-id="26215-126">获取可用来启动、暂停、恢复、查找、跳过、停止或删除此 <see cref="T:System.Windows.Media.Animation.Clock" /> 的 <see cref="T:System.Windows.Media.Animation.ClockController" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="26215-126">Gets a <see cref="T:System.Windows.Media.Animation.ClockController" /> that can be used to start, pause, resume, seek, skip, stop, or remove this <see cref="T:System.Windows.Media.Animation.Clock" />.</span>
-          </span>
-        </summary>
-        <value>
-          <span data-ttu-id="26215-127">如果这是根时钟，则为 <see cref="T:System.Windows.Media.Animation.ClockController" />；否则为 <see langword="null" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="26215-127">A <see cref="T:System.Windows.Media.Animation.ClockController" /> if this is a root clock; otherwise, <see langword="null" />.</span>
-          </span>
-        </value>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="26215-128">可以以交互方式控制仅根时钟。</span><span class="sxs-lookup"><span data-stu-id="26215-128">Only root clocks can be interactively controlled.</span></span>  
-  
- ]]></format>
-        </remarks>
-        <altmember cref="M:System.Windows.Media.Animation.ClockController.Begin" />
-        <altmember cref="M:System.Windows.Media.Animation.ClockController.Pause" />
-        <altmember cref="M:System.Windows.Media.Animation.ClockController.Resume" />
-        <altmember cref="M:System.Windows.Media.Animation.ClockController.Seek(System.TimeSpan,System.Windows.Media.Animation.TimeSeekOrigin)" />
-        <altmember cref="M:System.Windows.Media.Animation.ClockController.SeekAlignedToLastTick(System.TimeSpan,System.Windows.Media.Animation.TimeSeekOrigin)" />
-        <altmember cref="M:System.Windows.Media.Animation.ClockController.SkipToFill" />
-        <altmember cref="M:System.Windows.Media.Animation.ClockController.Stop" />
-        <altmember cref="M:System.Windows.Media.Animation.ClockController.Remove" />
-      </Docs>
-    </Member>
-    <Member MemberName="CurrentGlobalSpeed">
-      <MemberSignature Language="C#" Value="public Nullable&lt;double&gt; CurrentGlobalSpeed { get; }" />
-      <MemberSignature Language="ILAsm" Value=".property instance valuetype System.Nullable`1&lt;float64&gt; CurrentGlobalSpeed" />
-      <MemberSignature Language="DocId" Value="P:System.Windows.Media.Animation.Clock.CurrentGlobalSpeed" />
-      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property CurrentGlobalSpeed As Nullable(Of Double)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; property Nullable&lt;double&gt; CurrentGlobalSpeed { Nullable&lt;double&gt; get(); };" />
-      <MemberType>Property</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>PresentationCore</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Nullable&lt;System.Double&gt;</ReturnType>
-      </ReturnValue>
-      <Docs>
-        <summary>
-          <span data-ttu-id="26215-129">获取与现实世界的时间相比较，时钟时间的当前前进速率。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="26215-129">Gets the rate at which the clock's time is currently progressing, compared to real-world time.</span>
-          </span>
-        </summary>
-        <value>
-          <span data-ttu-id="26215-130">与现实世界的时间相比较，时钟时间的当前前进速率。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="26215-130">The rate at which this clock's time is current progressing, compared to real-world time.</span>
-          </span>
-          <span data-ttu-id="26215-131">如果该时钟已停止，则此属性返回 <see langword="null" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="26215-131">If the clock is stopped, this property returns <see langword="null" />.</span>
-          </span>
-        </value>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="CurrentGlobalSpeedInvalidated">
-      <MemberSignature Language="C#" Value="public event EventHandler CurrentGlobalSpeedInvalidated;" />
-      <MemberSignature Language="ILAsm" Value=".event class System.EventHandler CurrentGlobalSpeedInvalidated" />
-      <MemberSignature Language="DocId" Value="E:System.Windows.Media.Animation.Clock.CurrentGlobalSpeedInvalidated" />
-      <MemberSignature Language="VB.NET" Value="Public Custom Event CurrentGlobalSpeedInvalidated As EventHandler " />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; event EventHandler ^ CurrentGlobalSpeedInvalidated;" />
-      <MemberType>Event</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>PresentationCore</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.EventHandler</ReturnType>
-      </ReturnValue>
-      <Docs>
-        <summary>
-          <span data-ttu-id="26215-132">在更新时钟速度时发生。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="26215-132">Occurs when the clock's speed is updated.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="26215-133">暂停、 恢复、 反转、 加速、 减速、 查找、 停止或更改时钟的交互速度使用<xref:System.Windows.Media.Animation.ClockController>触发此事件。</span><span class="sxs-lookup"><span data-stu-id="26215-133">Pausing, resuming, reversing, accelerating, decelerating, seeking, stopping, or changing a clock's interactive speed using a <xref:System.Windows.Media.Animation.ClockController> triggers this event.</span></span>  
-  
- <span data-ttu-id="26215-134">虽然此事件发生时<xref:System.Windows.Media.Animation.Clock.CurrentGlobalSpeed%2A>属性变为无效，并不一定意味着更改的属性。</span><span class="sxs-lookup"><span data-stu-id="26215-134">Although this event occurs when the <xref:System.Windows.Media.Animation.Clock.CurrentGlobalSpeed%2A> property becomes invalid, that doesn't necessarily mean the property changed.</span></span>  
-  
- ]]></format>
-        </remarks>
-        <altmember cref="P:System.Windows.Media.Animation.Clock.CurrentGlobalSpeed" />
-        <altmember cref="P:System.Windows.Media.Animation.ClockController.SpeedRatio" />
-        <altmember cref="P:System.Windows.Media.Animation.Timeline.SpeedRatio" />
-        <altmember cref="P:System.Windows.Media.Animation.Timeline.AccelerationRatio" />
-        <altmember cref="P:System.Windows.Media.Animation.Timeline.DecelerationRatio" />
-      </Docs>
-    </Member>
-    <Member MemberName="CurrentGlobalTime">
-      <MemberSignature Language="C#" Value="protected TimeSpan CurrentGlobalTime { get; }" />
-      <MemberSignature Language="ILAsm" Value=".property instance valuetype System.TimeSpan CurrentGlobalTime" />
-      <MemberSignature Language="DocId" Value="P:System.Windows.Media.Animation.Clock.CurrentGlobalTime" />
-      <MemberSignature Language="VB.NET" Value="Protected ReadOnly Property CurrentGlobalTime As TimeSpan" />
-      <MemberSignature Language="C++ CLI" Value="protected:&#xA; property TimeSpan CurrentGlobalTime { TimeSpan get(); };" />
-      <MemberType>Property</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>PresentationCore</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.TimeSpan</ReturnType>
-      </ReturnValue>
-      <Docs>
-        <summary>
-          <span data-ttu-id="26215-135">获取当前全局时间，它由 [!INCLUDE[TLA2#tla_wpf](~/includes/tla2sharptla-wpf-md.md)] 计时系统建立。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="26215-135">Gets the current global time, as established by the [!INCLUDE[TLA2#tla_wpf](~/includes/tla2sharptla-wpf-md.md)] timing system.</span>
-          </span>
-        </summary>
-        <value>
-          <span data-ttu-id="26215-136">[!INCLUDE[TLA2#tla_wpf](~/includes/tla2sharptla-wpf-md.md)] 计时系统的当前全局时间。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="26215-136">The current global time for the [!INCLUDE[TLA2#tla_wpf](~/includes/tla2sharptla-wpf-md.md)] timing system.</span>
-          </span>
-        </value>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="CurrentIteration">
-      <MemberSignature Language="C#" Value="public Nullable&lt;int&gt; CurrentIteration { get; }" />
-      <MemberSignature Language="ILAsm" Value=".property instance valuetype System.Nullable`1&lt;int32&gt; CurrentIteration" />
-      <MemberSignature Language="DocId" Value="P:System.Windows.Media.Animation.Clock.CurrentIteration" />
-      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property CurrentIteration As Nullable(Of Integer)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; property Nullable&lt;int&gt; CurrentIteration { Nullable&lt;int&gt; get(); };" />
-      <MemberType>Property</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>PresentationCore</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Nullable&lt;System.Int32&gt;</ReturnType>
-      </ReturnValue>
-      <Docs>
-        <summary>
-          <span data-ttu-id="26215-137">获取此时钟的当前迭代。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="26215-137">Get the current iteration of this clock.</span>
-          </span>
-        </summary>
-        <value>
-          <span data-ttu-id="26215-138">此时钟在其当前活动期中的当前迭代，如果此时钟已停止，则为 <see langword="null" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="26215-138">This clock's current iteration within its current active period, or <see langword="null" /> if this clock is stopped.</span>
-          </span>
-        </value>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="26215-139">时钟的第一次迭代具有值为 1。</span><span class="sxs-lookup"><span data-stu-id="26215-139">A clock's first iteration has a value of 1.</span></span>  
-  
- <span data-ttu-id="26215-140">如果此时钟的时间线具有<xref:System.Windows.Media.Animation.Timeline.AutoReverse%2A>设置`true`，完整迭代包含正向和反向迭代，而不仅仅是其中一种分段。</span><span class="sxs-lookup"><span data-stu-id="26215-140">If this clock's timeline has an <xref:System.Windows.Media.Animation.Timeline.AutoReverse%2A> setting of `true`, a full iteration consists of a forward-reverse pair, not just one of these segments.</span></span>  
-  
- <span data-ttu-id="26215-141">无论其当前迭代中，定位时钟都会将其当前迭代为 1。</span><span class="sxs-lookup"><span data-stu-id="26215-141">Regardless of its current iteration, seeking a clock returns its current iteration to 1.</span></span> <span data-ttu-id="26215-142">重新启动时钟还为 1 返回其当前迭代。</span><span class="sxs-lookup"><span data-stu-id="26215-142">Restarting a clock also returns its current iteration to 1.</span></span>  
-  
- ]]></format>
-        </remarks>
-        <altmember cref="P:System.Windows.Media.Animation.Timeline.RepeatBehavior" />
-      </Docs>
-    </Member>
-    <Member MemberName="CurrentProgress">
-      <MemberSignature Language="C#" Value="public Nullable&lt;double&gt; CurrentProgress { get; }" />
-      <MemberSignature Language="ILAsm" Value=".property instance valuetype System.Nullable`1&lt;float64&gt; CurrentProgress" />
-      <MemberSignature Language="DocId" Value="P:System.Windows.Media.Animation.Clock.CurrentProgress" />
-      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property CurrentProgress As Nullable(Of Double)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; property Nullable&lt;double&gt; CurrentProgress { Nullable&lt;double&gt; get(); };" />
-      <MemberType>Property</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>PresentationCore</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Nullable&lt;System.Double&gt;</ReturnType>
-      </ReturnValue>
-      <Docs>
-        <summary>
-          <span data-ttu-id="26215-143">获取此 <see cref="T:System.Windows.Media.Animation.Clock" /> 在其当前迭代中的当前进度。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="26215-143">Gets the current progress of this <see cref="T:System.Windows.Media.Animation.Clock" /> within its current iteration.</span>
-          </span>
-        </summary>
-        <value>
-          <span data-ttu-id="26215-144">如果此时钟为 <see cref="F:System.Windows.Media.Animation.ClockState.Stopped" />，则为 <see langword="null" />；如果此时钟处于活动状态并且其 <see cref="P:System.Windows.Media.Animation.Clock.Timeline" /> 具有 <see cref="P:System.Windows.Media.Animation.Timeline.Duration" /> 的 <see cref="P:System.Windows.Duration.Forever" />，则为 0.0；否则为一个介于 0.0 和 1.0 之间的值，该值表示此时钟在其当前迭代中的当前进度。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="26215-144">
-              <see langword="null" /> if this clock is <see cref="F:System.Windows.Media.Animation.ClockState.Stopped" />, or 0.0 if this clock is active and its <see cref="P:System.Windows.Media.Animation.Clock.Timeline" /> has a <see cref="P:System.Windows.Media.Animation.Timeline.Duration" /> of <see cref="P:System.Windows.Duration.Forever" />; otherwise, a value between 0.0 and 1.0 that indicates the current progress of this Clock within its current iteration.</span>
-          </span>
-          <span data-ttu-id="26215-145">值为 0.0 时表示没有进度，值为 1.0 时表示此时钟处于其当前迭代的末尾。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="26215-145">A value of 0.0 indicates no progress, and a value of 1.0 indicates that the clock is at the end of its current iteration.</span>
-          </span>
-        </value>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="26215-146">此属性的值指示<xref:System.Windows.Media.Animation.Clock.CurrentTime%2A>规范化通过<xref:System.Windows.Media.Animation.Timeline.Duration%2A>此时钟<xref:System.Windows.Media.Animation.Clock.Timeline%2A>。</span><span class="sxs-lookup"><span data-stu-id="26215-146">The value of this property indicates the <xref:System.Windows.Media.Animation.Clock.CurrentTime%2A> normalized by the <xref:System.Windows.Media.Animation.Timeline.Duration%2A> of this clock's <xref:System.Windows.Media.Animation.Clock.Timeline%2A>.</span></span>  
-  
- <span data-ttu-id="26215-147">是一个时钟<xref:System.Windows.Media.Animation.ClockState.Filling>具有<xref:System.Windows.Media.Animation.Clock.CurrentProgress%2A>为 1.0。</span><span class="sxs-lookup"><span data-stu-id="26215-147">A clock that is <xref:System.Windows.Media.Animation.ClockState.Filling> has a <xref:System.Windows.Media.Animation.Clock.CurrentProgress%2A> of 1.0.</span></span>  
-  
-## <a name="using-a-timeline-as-a-timer"></a><span data-ttu-id="26215-148">作为计时器使用时间线</span><span class="sxs-lookup"><span data-stu-id="26215-148">Using a Timeline as a Timer</span></span>  
- <span data-ttu-id="26215-149">没有与之关联的事件处理程序时，才会前进时间线的时钟或 (对于<xref:System.Windows.Media.Animation.AnimationClock>对象) 是与属性相关联。</span><span class="sxs-lookup"><span data-stu-id="26215-149">A timeline's clock will only progress when there's an event hander associated with it or (in the case of an <xref:System.Windows.Media.Animation.AnimationClock> object) it is associated with a property.</span></span> <span data-ttu-id="26215-150">此原因 （和其他内容），不建议你使用<xref:System.Windows.Media.Animation.Timeline>作为计时器。</span><span class="sxs-lookup"><span data-stu-id="26215-150">For this reason (and others), it's not recommended that you use a <xref:System.Windows.Media.Animation.Timeline> as a timer.</span></span>  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="CurrentState">
-      <MemberSignature Language="C#" Value="public System.Windows.Media.Animation.ClockState CurrentState { get; }" />
-      <MemberSignature Language="ILAsm" Value=".property instance valuetype System.Windows.Media.Animation.ClockState CurrentState" />
-      <MemberSignature Language="DocId" Value="P:System.Windows.Media.Animation.Clock.CurrentState" />
-      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property CurrentState As ClockState" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::Windows::Media::Animation::ClockState CurrentState { System::Windows::Media::Animation::ClockState get(); };" />
-      <MemberType>Property</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>PresentationCore</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Windows.Media.Animation.ClockState</ReturnType>
-      </ReturnValue>
-      <Docs>
-        <summary>
-          <span data-ttu-id="26215-151">获取指示时钟当前处于 <see cref="F:System.Windows.Media.Animation.ClockState.Active" />、<see cref="F:System.Windows.Media.Animation.ClockState.Filling" /> 还是 <see cref="F:System.Windows.Media.Animation.ClockState.Stopped" /> 状态的值。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="26215-151">Gets a value indicating whether the clock is currently <see cref="F:System.Windows.Media.Animation.ClockState.Active" />, <see cref="F:System.Windows.Media.Animation.ClockState.Filling" />, or <see cref="F:System.Windows.Media.Animation.ClockState.Stopped" />.</span>
-          </span>
-        </summary>
-        <value>
-          <span data-ttu-id="26215-152">时钟的当前状态：<see cref="F:System.Windows.Media.Animation.ClockState.Active" />、<see cref="F:System.Windows.Media.Animation.ClockState.Filling" /> 或 <see cref="F:System.Windows.Media.Animation.ClockState.Stopped" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="26215-152">The current state of the clock: <see cref="F:System.Windows.Media.Animation.ClockState.Active" />, <see cref="F:System.Windows.Media.Animation.ClockState.Filling" />, or <see cref="F:System.Windows.Media.Animation.ClockState.Stopped" />.</span>
-          </span>
-        </value>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="26215-153">请注意，时钟<xref:System.Windows.Media.Animation.Clock.CurrentState%2A>属性不会告诉你它是否已暂停。</span><span class="sxs-lookup"><span data-stu-id="26215-153">Note the clock's <xref:System.Windows.Media.Animation.Clock.CurrentState%2A> property doesn't tell you whether it's paused.</span></span> <span data-ttu-id="26215-154">若要确定是否已暂停时钟，请使用<xref:System.Windows.Media.Animation.Clock.IsPaused%2A>属性。</span><span class="sxs-lookup"><span data-stu-id="26215-154">To determine whether a clock is paused, use the <xref:System.Windows.Media.Animation.Clock.IsPaused%2A> property.</span></span>  
-  
- <span data-ttu-id="26215-155"><xref:System.Windows.Media.Animation.Clock.CurrentStateInvalidated>每当此属性的值更改时发生。</span><span class="sxs-lookup"><span data-stu-id="26215-155">The <xref:System.Windows.Media.Animation.Clock.CurrentStateInvalidated> occurs whenever the value of this property changes.</span></span>  
-  
- ]]></format>
-        </remarks>
-        <altmember cref="E:System.Windows.Media.Animation.Clock.CurrentStateInvalidated" />
-        <altmember cref="P:System.Windows.Media.Animation.Clock.CurrentGlobalSpeed" />
-        <altmember cref="P:System.Windows.Media.Animation.Clock.CurrentGlobalTime" />
-        <altmember cref="P:System.Windows.Media.Animation.Clock.CurrentIteration" />
-        <altmember cref="P:System.Windows.Media.Animation.Clock.CurrentProgress" />
-        <altmember cref="P:System.Windows.Media.Animation.Clock.CurrentTime" />
-        <altmember cref="P:System.Windows.Media.Animation.Clock.IsPaused" />
-      </Docs>
-    </Member>
-    <Member MemberName="CurrentStateInvalidated">
-      <MemberSignature Language="C#" Value="public event EventHandler CurrentStateInvalidated;" />
-      <MemberSignature Language="ILAsm" Value=".event class System.EventHandler CurrentStateInvalidated" />
-      <MemberSignature Language="DocId" Value="E:System.Windows.Media.Animation.Clock.CurrentStateInvalidated" />
-      <MemberSignature Language="VB.NET" Value="Public Custom Event CurrentStateInvalidated As EventHandler " />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; event EventHandler ^ CurrentStateInvalidated;" />
-      <MemberType>Event</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>PresentationCore</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.EventHandler</ReturnType>
-      </ReturnValue>
-      <Docs>
-        <summary>
-          <span data-ttu-id="26215-156">当更新时钟的 <see cref="P:System.Windows.Media.Animation.Clock.CurrentState" /> 属性时发生。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="26215-156">Occurs when the clock's <see cref="P:System.Windows.Media.Animation.Clock.CurrentState" /> property is updated.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="26215-157">使用<xref:System.Windows.Media.Animation.Timeline.CurrentStateInvalidated>事件时想要被通知当时钟启动时，如果停止或填充。</span><span class="sxs-lookup"><span data-stu-id="26215-157">Use the <xref:System.Windows.Media.Animation.Timeline.CurrentStateInvalidated> event when you want to be notified if when the clock starts, stops, or fills.</span></span> <span data-ttu-id="26215-158"><xref:System.Object>参数<xref:System.EventHandler>事件处理程序是<xref:System.Windows.Media.Animation.Clock>其状态无效。</span><span class="sxs-lookup"><span data-stu-id="26215-158">The <xref:System.Object> parameter of the <xref:System.EventHandler> event handler is the <xref:System.Windows.Media.Animation.Clock> whose state was invalidated.</span></span>  
-  
- <span data-ttu-id="26215-159">暂停<xref:System.Windows.Media.Animation.Clock>不会更改其<xref:System.Windows.Media.Animation.Clock.CurrentState%2A>。</span><span class="sxs-lookup"><span data-stu-id="26215-159">Pausing a <xref:System.Windows.Media.Animation.Clock> does not change its <xref:System.Windows.Media.Animation.Clock.CurrentState%2A>.</span></span> <span data-ttu-id="26215-160">若要要得到通知时钟变为暂停时，使用<xref:System.Windows.Media.Animation.Timeline.CurrentGlobalSpeedInvalidated>事件。</span><span class="sxs-lookup"><span data-stu-id="26215-160">To be notified when a clock becomes paused, use the <xref:System.Windows.Media.Animation.Timeline.CurrentGlobalSpeedInvalidated> event.</span></span>  
-  
- <span data-ttu-id="26215-161">虽然此事件发生时<xref:System.Windows.Media.Animation.ClockState>变为无效，并不一定意味着<xref:System.Windows.Media.Animation.ClockState>更改：<xref:System.Windows.Media.Animation.Clock>用于从切换<xref:System.Windows.Media.Animation.ClockState.Active>到<xref:System.Windows.Media.Animation.ClockState.Filling>和再转回<xref:System.Windows.Media.Animation.ClockState.Active>在同一个计时周期将导致此事件激发，但其<xref:System.Windows.Media.Animation.Clock.CurrentState%2A>属性不会实际更改。</span><span class="sxs-lookup"><span data-stu-id="26215-161">Although this event occurs when the <xref:System.Windows.Media.Animation.ClockState> becomes invalid, that doesn't necessarily mean the <xref:System.Windows.Media.Animation.ClockState> changed: a <xref:System.Windows.Media.Animation.Clock> that switches from <xref:System.Windows.Media.Animation.ClockState.Active> to <xref:System.Windows.Media.Animation.ClockState.Filling> and then back to <xref:System.Windows.Media.Animation.ClockState.Active> in the same tick will cause this event to fire, but its <xref:System.Windows.Media.Animation.Clock.CurrentState%2A> property won't actually change.</span></span>  
-  
- ]]></format>
-        </remarks>
-        <altmember cref="P:System.Windows.Media.Animation.Clock.CurrentState" />
-        <altmember cref="T:System.Windows.Media.Animation.ClockState" />
-        <altmember cref="E:System.Windows.Media.Animation.Clock.CurrentTimeInvalidated" />
-      </Docs>
-    </Member>
-    <Member MemberName="CurrentTime">
-      <MemberSignature Language="C#" Value="public Nullable&lt;TimeSpan&gt; CurrentTime { get; }" />
-      <MemberSignature Language="ILAsm" Value=".property instance valuetype System.Nullable`1&lt;valuetype System.TimeSpan&gt; CurrentTime" />
-      <MemberSignature Language="DocId" Value="P:System.Windows.Media.Animation.Clock.CurrentTime" />
-      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property CurrentTime As Nullable(Of TimeSpan)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; property Nullable&lt;TimeSpan&gt; CurrentTime { Nullable&lt;TimeSpan&gt; get(); };" />
-      <MemberType>Property</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>PresentationCore</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Nullable&lt;System.TimeSpan&gt;</ReturnType>
-      </ReturnValue>
-      <Docs>
-        <summary>
-          <span data-ttu-id="26215-162">在此时钟的当前迭代中获取它的当前时间。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="26215-162">Gets this clock's current time within its current iteration.</span>
-          </span>
-        </summary>
-        <value>
-          <span data-ttu-id="26215-163">如果此时钟为 <see cref="F:System.Windows.Media.Animation.ClockState.Stopped" />，则为 <see langword="null" />；否则为此时钟的当前时间。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="26215-163">
-              <see langword="null" /> if this clock is <see cref="F:System.Windows.Media.Animation.ClockState.Stopped" />; otherwise, the current time of this clock.</span>
-          </span>
-        </value>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
-  
-## <a name="using-a-timeline-as-a-timer"></a><span data-ttu-id="26215-164">作为计时器使用时间线</span><span class="sxs-lookup"><span data-stu-id="26215-164">Using a Timeline as a Timer</span></span>  
- <span data-ttu-id="26215-165">没有与之关联的事件处理程序时，才会前进时间线的时钟或 (对于<xref:System.Windows.Media.Animation.AnimationClock>对象) 是与属性相关联。</span><span class="sxs-lookup"><span data-stu-id="26215-165">A timeline's clock will only progress when there's an event hander associated with it or (in the case of an <xref:System.Windows.Media.Animation.AnimationClock> object) it is associated with a property.</span></span> <span data-ttu-id="26215-166">此原因 （和其他内容），不建议你使用<xref:System.Windows.Media.Animation.Timeline>作为计时器。</span><span class="sxs-lookup"><span data-stu-id="26215-166">For this reason (and others), it's not recommended that you use a <xref:System.Windows.Media.Animation.Timeline> as a timer.</span></span>  
-  
- ]]></format>
-        </remarks>
-        <altmember cref="P:System.Windows.Media.Animation.Clock.CurrentProgress" />
-      </Docs>
-    </Member>
-    <Member MemberName="CurrentTimeInvalidated">
-      <MemberSignature Language="C#" Value="public event EventHandler CurrentTimeInvalidated;" />
-      <MemberSignature Language="ILAsm" Value=".event class System.EventHandler CurrentTimeInvalidated" />
-      <MemberSignature Language="DocId" Value="E:System.Windows.Media.Animation.Clock.CurrentTimeInvalidated" />
-      <MemberSignature Language="VB.NET" Value="Public Custom Event CurrentTimeInvalidated As EventHandler " />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; event EventHandler ^ CurrentTimeInvalidated;" />
-      <MemberType>Event</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>PresentationCore</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.EventHandler</ReturnType>
-      </ReturnValue>
-      <Docs>
-        <summary>
-          <span data-ttu-id="26215-167">当此时钟的 <see cref="P:System.Windows.Media.Animation.Clock.CurrentTime" /> 变为无效时发生。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="26215-167">Occurs when this clock's <see cref="P:System.Windows.Media.Animation.Clock.CurrentTime" /> becomes invalid.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="26215-168">时钟的<xref:System.Windows.Media.Animation.Clock.CurrentTime%2A>变为无效时钟前进。</span><span class="sxs-lookup"><span data-stu-id="26215-168">A clock's <xref:System.Windows.Media.Animation.Clock.CurrentTime%2A> becomes invalid when the clock progresses.</span></span> <span data-ttu-id="26215-169">以下的交互式操作还会触发 CurrentTimeInvalidated 事件： <xref:System.Windows.Media.Animation.ClockController.Begin%2A>， <xref:System.Windows.Media.Animation.ClockController.SkipToFill%2A>， <xref:System.Windows.Media.Animation.ClockController.Seek%2A>， <xref:System.Windows.Media.Animation.ClockController.SeekAlignedToLastTick%2A>，和<xref:System.Windows.Media.Animation.ClockController.Stop%2A>。</span><span class="sxs-lookup"><span data-stu-id="26215-169">The following interactive operations also trigger the CurrentTimeInvalidated event: <xref:System.Windows.Media.Animation.ClockController.Begin%2A>, <xref:System.Windows.Media.Animation.ClockController.SkipToFill%2A>, <xref:System.Windows.Media.Animation.ClockController.Seek%2A>, <xref:System.Windows.Media.Animation.ClockController.SeekAlignedToLastTick%2A>, and <xref:System.Windows.Media.Animation.ClockController.Stop%2A>.</span></span>  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="DiscontinuousTimeMovement">
-      <MemberSignature Language="C#" Value="protected virtual void DiscontinuousTimeMovement ();" />
-      <MemberSignature Language="ILAsm" Value=".method familyhidebysig newslot virtual instance void DiscontinuousTimeMovement() cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Windows.Media.Animation.Clock.DiscontinuousTimeMovement" />
-      <MemberSignature Language="VB.NET" Value="Protected Overridable Sub DiscontinuousTimeMovement ()" />
-      <MemberSignature Language="C++ CLI" Value="protected:&#xA; virtual void DiscontinuousTimeMovement();" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>PresentationCore</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters />
-      <Docs>
-        <summary>
-          <span data-ttu-id="26215-170">在派生类中实现后，每当时钟重复、跳过或查找时就会调用它。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="26215-170">When implemented in a derived class, will be invoked whenever a clock repeats, skips, or seeks.</span>
-          </span>
-        </summary>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="GetCanSlip">
-      <MemberSignature Language="C#" Value="protected virtual bool GetCanSlip ();" />
-      <MemberSignature Language="ILAsm" Value=".method familyhidebysig newslot virtual instance bool GetCanSlip() cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Windows.Media.Animation.Clock.GetCanSlip" />
-      <MemberSignature Language="VB.NET" Value="Protected Overridable Function GetCanSlip () As Boolean" />
-      <MemberSignature Language="C++ CLI" Value="protected:&#xA; virtual bool GetCanSlip();" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>PresentationCore</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Boolean</ReturnType>
-      </ReturnValue>
-      <Parameters />
-      <Docs>
-        <summary>
-          <span data-ttu-id="26215-171">返回 <see cref="T:System.Windows.Media.Animation.Clock" /> 是否具有可能需要与计时系统同步的自己的外部时间源。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="26215-171">Returns whether the <see cref="T:System.Windows.Media.Animation.Clock" /> has its own external time source, which may require synchronization with the timing system.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="26215-172">如果 <see cref="T:System.Windows.Media.Animation.Clock" /> 具有可能需要与计时系统同步的自己的外部时间源，则返回 true；否则返回 false。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="26215-172">Returns **true** if the <see cref="T:System.Windows.Media.Animation.Clock" /> has its own external source for time, which may require synchronization with the timing system; otherwise, **false**.</span>
-          </span>
-        </returns>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="26215-173">媒体所播放使用<xref:System.Windows.Media.MediaTimeline>内<xref:System.Windows.Media.Animation.Storyboard>举例说明创建<xref:System.Windows.Media.Animation.Clock>出会产生外部时间源 （例如视频剪辑） 这可能需要与其他时间线中的同步<xref:System.Windows.Media.Animation.Storyboard>。</span><span class="sxs-lookup"><span data-stu-id="26215-173">Media being played using <xref:System.Windows.Media.MediaTimeline> within a <xref:System.Windows.Media.Animation.Storyboard> is an example of creating a <xref:System.Windows.Media.Animation.Clock> that would have an external time source (a video clip for example) which may require synchronization with other timelines within the <xref:System.Windows.Media.Animation.Storyboard>.</span></span> <span data-ttu-id="26215-174">有关更多信息，请参见<xref:System.Windows.Media.Animation.ParallelTimeline.SlipBehavior%2A>。</span><span class="sxs-lookup"><span data-stu-id="26215-174">See <xref:System.Windows.Media.Animation.ParallelTimeline.SlipBehavior%2A> for more information.</span></span>  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="GetCurrentTimeCore">
-      <MemberSignature Language="C#" Value="protected virtual TimeSpan GetCurrentTimeCore ();" />
-      <MemberSignature Language="ILAsm" Value=".method familyhidebysig newslot virtual instance valuetype System.TimeSpan GetCurrentTimeCore() cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Windows.Media.Animation.Clock.GetCurrentTimeCore" />
-      <MemberSignature Language="VB.NET" Value="Protected Overridable Function GetCurrentTimeCore () As TimeSpan" />
-      <MemberSignature Language="C++ CLI" Value="protected:&#xA; virtual TimeSpan GetCurrentTimeCore();" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>PresentationCore</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.TimeSpan</ReturnType>
-      </ReturnValue>
-      <Parameters />
-      <Docs>
-        <summary>
-          <span data-ttu-id="26215-175">在此时钟的当前迭代中获取它的当前时间。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="26215-175">Gets this clock's current time within its current iteration.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="26215-176">如果时钟处于活动状态或正在填充，则为此时钟的当前时间；否则为 <see cref="F:System.TimeSpan.Zero" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="26215-176">The current time of this clock if it is active or filling; otherwise, <see cref="F:System.TimeSpan.Zero" />.</span>
-          </span>
-        </returns>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="26215-177">此方法使用的实现中<xref:System.Windows.Media.Animation.Clock.CurrentTime%2A>方法且不应在代码中直接调用。</span><span class="sxs-lookup"><span data-stu-id="26215-177">This method is used in the implementation of the <xref:System.Windows.Media.Animation.Clock.CurrentTime%2A> method and should not be called directly from your code.</span></span>  
-  
- ]]></format>
-        </remarks>
-        <block subset="none" type="overrides">
-          <para>
-            <span data-ttu-id="26215-178">派生的类应重写此方法，如果他们想要修改它们如何确定当前时间。</span>
-            <span class="sxs-lookup">
-              <span data-stu-id="26215-178">Derived classes should override this method if they want to modify how they determine the current time.</span>
-            </span>
-          </para>
-        </block>
-        <altmember cref="P:System.Windows.Media.Animation.Clock.CurrentTime" />
-      </Docs>
-    </Member>
-    <Member MemberName="HasControllableRoot">
-      <MemberSignature Language="C#" Value="public bool HasControllableRoot { get; }" />
-      <MemberSignature Language="ILAsm" Value=".property instance bool HasControllableRoot" />
-      <MemberSignature Language="DocId" Value="P:System.Windows.Media.Animation.Clock.HasControllableRoot" />
-      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property HasControllableRoot As Boolean" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; property bool HasControllableRoot { bool get(); };" />
-      <MemberType>Property</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>PresentationCore</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Boolean</ReturnType>
-      </ReturnValue>
-      <Docs>
-        <summary>
-          <span data-ttu-id="26215-179">获取一个值，该值指示此 <see cref="T:System.Windows.Media.Animation.Clock" /> 是否为可控制的时钟树的一部分。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="26215-179">Gets a value that indicates whether this <see cref="T:System.Windows.Media.Animation.Clock" /> is part of a controllable clock tree.</span>
-          </span>
-        </summary>
-        <value>
-          <span data-ttu-id="26215-180">如果此时钟所属时钟树具有可控制的根时钟或此时钟本身就是可控制的根时钟，则为 <see langword="true" />；否则为 <see langword="false" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="26215-180">
-              <see langword="true" /> if this clock belongs to a clock tree with a controllable root clock or if this clock is itself a controllable root; otherwise, <see langword="false" />.</span>
-          </span>
-        </value>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="IsPaused">
-      <MemberSignature Language="C#" Value="public bool IsPaused { get; }" />
-      <MemberSignature Language="ILAsm" Value=".property instance bool IsPaused" />
-      <MemberSignature Language="DocId" Value="P:System.Windows.Media.Animation.Clock.IsPaused" />
-      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property IsPaused As Boolean" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; property bool IsPaused { bool get(); };" />
-      <MemberType>Property</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>PresentationCore</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Boolean</ReturnType>
-      </ReturnValue>
-      <Docs>
-        <summary>
-          <span data-ttu-id="26215-181">获取指示此 <see cref="T:System.Windows.Media.Animation.Clock" /> 或其任何父级是否已暂停的值。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="26215-181">Gets a value that indicates whether this <see cref="T:System.Windows.Media.Animation.Clock" />, or any of its parents, is paused.</span>
-          </span>
-        </summary>
-        <value>
-          <span data-ttu-id="26215-182">如果此 <see cref="T:System.Windows.Media.Animation.Clock" /> 或其任何父级已暂停，则为 <see langword="true" />；否则为 <see langword="false" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="26215-182">
-              <see langword="true" /> if this <see cref="T:System.Windows.Media.Animation.Clock" /> or any of its parents is paused; otherwise, <see langword="false" />.</span>
-          </span>
-        </value>
-        <remarks>To be added.</remarks>
-        <altmember cref="M:System.Windows.Media.Animation.ClockController.Pause" />
-      </Docs>
-    </Member>
-    <Member MemberName="NaturalDuration">
-      <MemberSignature Language="C#" Value="public System.Windows.Duration NaturalDuration { get; }" />
-      <MemberSignature Language="ILAsm" Value=".property instance valuetype System.Windows.Duration NaturalDuration" />
-      <MemberSignature Language="DocId" Value="P:System.Windows.Media.Animation.Clock.NaturalDuration" />
-      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property NaturalDuration As Duration" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::Windows::Duration NaturalDuration { System::Windows::Duration get(); };" />
-      <MemberType>Property</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>PresentationCore</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Windows.Duration</ReturnType>
-      </ReturnValue>
-      <Docs>
-        <summary>
-          <span data-ttu-id="26215-183">获取此时钟的 <see cref="P:System.Windows.Media.Animation.Clock.Timeline" /> 的自然持续时间。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="26215-183">Gets the natural duration of this clock's <see cref="P:System.Windows.Media.Animation.Clock.Timeline" />.</span>
-          </span>
-        </summary>
-        <value>
-          <span data-ttu-id="26215-184">此时钟的自然持续时间由它的 <see cref="P:System.Windows.Media.Animation.Clock.Timeline" /> 确定。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="26215-184">The natural duration of this clock, as determined by its <see cref="P:System.Windows.Media.Animation.Clock.Timeline" />.</span>
-          </span>
-        </value>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="26215-185">有关自然持续时间的详细信息，请参阅<xref:System.Windows.Media.Animation.Timeline.GetNaturalDuration%2A?displayProperty=nameWithType>方法。</span><span class="sxs-lookup"><span data-stu-id="26215-185">For more information about natural duration, see the <xref:System.Windows.Media.Animation.Timeline.GetNaturalDuration%2A?displayProperty=nameWithType> method.</span></span>  
-  
- ]]></format>
-        </remarks>
-        <altmember cref="M:System.Windows.Media.Animation.Timeline.GetNaturalDuration(System.Windows.Media.Animation.Clock)" />
-      </Docs>
-    </Member>
-    <Member MemberName="Parent">
-      <MemberSignature Language="C#" Value="public System.Windows.Media.Animation.Clock Parent { get; }" />
-      <MemberSignature Language="ILAsm" Value=".property instance class System.Windows.Media.Animation.Clock Parent" />
-      <MemberSignature Language="DocId" Value="P:System.Windows.Media.Animation.Clock.Parent" />
-      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property Parent As Clock" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::Windows::Media::Animation::Clock ^ Parent { System::Windows::Media::Animation::Clock ^ get(); };" />
-      <MemberType>Property</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>PresentationCore</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Windows.Media.Animation.Clock</ReturnType>
-      </ReturnValue>
-      <Docs>
-        <summary>
-          <span data-ttu-id="26215-186">获取此时钟的父时钟。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="26215-186">Gets the clock that is the parent of this clock.</span>
-          </span>
-        </summary>
-        <value>
-          <span data-ttu-id="26215-187">此时钟的父时钟；如果此时钟为根时钟，则为 <see langword="null" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="26215-187">The parent of this clock or <see langword="null" /> if this clock is a root.</span>
-          </span>
-        </value>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="RemoveRequested">
-      <MemberSignature Language="C#" Value="public event EventHandler RemoveRequested;" />
-      <MemberSignature Language="ILAsm" Value=".event class System.EventHandler RemoveRequested" />
-      <MemberSignature Language="DocId" Value="E:System.Windows.Media.Animation.Clock.RemoveRequested" />
-      <MemberSignature Language="VB.NET" Value="Public Custom Event RemoveRequested As EventHandler " />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; event EventHandler ^ RemoveRequested;" />
-      <MemberType>Event</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>PresentationCore</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.EventHandler</ReturnType>
-      </ReturnValue>
-      <Docs>
-        <summary>
-          <span data-ttu-id="26215-188">当对此 <see cref="M:System.Windows.Media.Animation.ClockController.Remove" /> 或其父时钟之一调用 <see cref="T:System.Windows.Media.Animation.Clock" /> 方法时发生。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="26215-188">Occurs when the <see cref="M:System.Windows.Media.Animation.ClockController.Remove" /> method is called on this <see cref="T:System.Windows.Media.Animation.Clock" /> or one of its parent clocks.</span>
-          </span>
-        </summary>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="SpeedChanged">
-      <MemberSignature Language="C#" Value="protected virtual void SpeedChanged ();" />
-      <MemberSignature Language="ILAsm" Value=".method familyhidebysig newslot virtual instance void SpeedChanged() cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Windows.Media.Animation.Clock.SpeedChanged" />
-      <MemberSignature Language="VB.NET" Value="Protected Overridable Sub SpeedChanged ()" />
-      <MemberSignature Language="C++ CLI" Value="protected:&#xA; virtual void SpeedChanged();" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>PresentationCore</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters />
-      <Docs>
-        <summary>
-          <span data-ttu-id="26215-189">在派生类中实现后，每当时钟启动、跳过、暂停、继续时或时钟的 <see cref="P:System.Windows.Media.Animation.ClockController.SpeedRatio" /> 被修改时，就会调用它。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="26215-189">When implemented in a derived class, will be invoked whenever a clock begins, skips, pauses, resumes, or when the clock's <see cref="P:System.Windows.Media.Animation.ClockController.SpeedRatio" /> is modified.</span>
-          </span>
-        </summary>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="Stopped">
-      <MemberSignature Language="C#" Value="protected virtual void Stopped ();" />
-      <MemberSignature Language="ILAsm" Value=".method familyhidebysig newslot virtual instance void Stopped() cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Windows.Media.Animation.Clock.Stopped" />
-      <MemberSignature Language="VB.NET" Value="Protected Overridable Sub Stopped ()" />
-      <MemberSignature Language="C++ CLI" Value="protected:&#xA; virtual void Stopped();" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>PresentationCore</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters />
-      <Docs>
-        <summary>
-          <span data-ttu-id="26215-190">在派生类中实现后，每当使用 <see cref="M:System.Windows.Media.Animation.ClockController.Stop" /> 方法停止时钟时，就会调用它。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="26215-190">When implemented in a derived class, will be invoked whenever a clock is stopped using the <see cref="M:System.Windows.Media.Animation.ClockController.Stop" /> method.</span>
-          </span>
-        </summary>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="Timeline">
-      <MemberSignature Language="C#" Value="public System.Windows.Media.Animation.Timeline Timeline { get; }" />
-      <MemberSignature Language="ILAsm" Value=".property instance class System.Windows.Media.Animation.Timeline Timeline" />
-      <MemberSignature Language="DocId" Value="P:System.Windows.Media.Animation.Clock.Timeline" />
-      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property Timeline As Timeline" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::Windows::Media::Animation::Timeline ^ Timeline { System::Windows::Media::Animation::Timeline ^ get(); };" />
-      <MemberType>Property</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>PresentationCore</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Windows.Media.Animation.Timeline</ReturnType>
-      </ReturnValue>
-      <Docs>
-        <summary>
-          <span data-ttu-id="26215-191">获取创建此 <see cref="P:System.Windows.Media.Animation.Clock.Timeline" /> 时基于的 <see cref="T:System.Windows.Media.Animation.Clock" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="26215-191">Gets the <see cref="P:System.Windows.Media.Animation.Clock.Timeline" /> from which this <see cref="T:System.Windows.Media.Animation.Clock" /> was created.</span>
-          </span>
-        </summary>
-        <value>
-          <span data-ttu-id="26215-192">创建此 <see cref="P:System.Windows.Media.Animation.Clock.Timeline" /> 时基于的 <see cref="T:System.Windows.Media.Animation.Clock" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="26215-192">The <see cref="P:System.Windows.Media.Animation.Clock.Timeline" /> from which this <see cref="T:System.Windows.Media.Animation.Clock" /> was created.</span>
-          </span>
-        </value>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="26215-193">修改时钟的<xref:System.Windows.Media.MediaTimeline>不会更新时钟; 必须创建新的时钟从修改后<xref:System.Windows.Media.Animation.Timeline>。</span><span class="sxs-lookup"><span data-stu-id="26215-193">Modifying a clock's <xref:System.Windows.Media.MediaTimeline> does not update the clock; a new clock must be created from the modified <xref:System.Windows.Media.Animation.Timeline>.</span></span>  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-  </Members>
-</Type>
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.2" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 xliff-core-1.2-transitional.xsd">
+  <file datatype="xml" original="Clock.xml" source-language="en-US" target-language="zh-CN">
+    <header>
+      <tool tool-id="mdxliff" tool-name="mdxliff" tool-version="1.0-15c36f0" tool-company="Microsoft" />
+      <xliffext:skl_file_name xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">02cd5861-7ce2-4a82-b358-31f8435a0ac5829cbcd67b4a6736053ec04245b9b87181268348.skl</xliffext:skl_file_name>
+      <xliffext:version xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">1.2</xliffext:version>
+      <xliffext:ms.openlocfilehash xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">829cbcd67b4a6736053ec04245b9b87181268348</xliffext:ms.openlocfilehash>
+      <xliffext:ms.sourcegitcommit xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b</xliffext:ms.sourcegitcommit>
+      <xliffext:ms.lasthandoff xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">04/03/2018</xliffext:ms.lasthandoff>
+      <xliffext:moniker_ids xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">netframework-4.5.1,netframework-4.5.2,netframework-4.5,netframework-4.6.1,netframework-4.6.2,netframework-4.6,netframework-4.7.1,netframework-4.7</xliffext:moniker_ids>
+    </header>
+    <body>
+      <group id="content" extype="content">
+        <trans-unit id="101" translate="yes" xml:space="preserve" uid="T:System.Windows.Media.Animation.Clock">
+          <source>Maintains run-time timing state for a <ph id="ph1">&lt;see cref="T:System.Windows.Media.Animation.Timeline" /&gt;</ph>.</source>
+          <target state="translated">维护 <ph id="ph1">&lt;see cref="T:System.Windows.Media.Animation.Timeline" /&gt;</ph> 的运行时时序状态。</target>       </trans-unit>
+        <trans-unit id="102" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Windows.Media.Animation.Clock">
+          <source>A <ph id="ph1">&lt;xref:System.Windows.Media.Animation.Timeline&gt;</ph>, by itself, doesn't actually do anything other than describe a segment of time.</source>
+          <target state="translated">A <ph id="ph1">&lt;xref:System.Windows.Media.Animation.Timeline&gt;</ph>，其本身而言，实际上不进行任何内容而描述的时间段。</target>       </trans-unit>
+        <trans-unit id="103" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Windows.Media.Animation.Clock">
+          <source>It's the timeline's <ph id="ph1">&lt;xref:System.Windows.Media.Animation.Clock&gt;</ph> object that does the real work: it maintains timing-related run-time state for the timeline.</source>
+          <target state="translated">它是时间线的<ph id="ph1">&lt;xref:System.Windows.Media.Animation.Clock&gt;</ph>对象，不能实际工作： 它维护与计时相关时间线的运行时状态。</target>       </trans-unit>
+        <trans-unit id="104" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Windows.Media.Animation.Clock">
+          <source>In most cases, a clock is created automatically for your timeline.</source>
+          <target state="translated">在大多数情况下，时钟自动创建为时间线。</target>       </trans-unit>
+        <trans-unit id="105" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Windows.Media.Animation.Clock">
+          <source>When you animate by using a <ph id="ph1">&lt;xref:System.Windows.Media.Animation.Storyboard&gt;</ph> or the <ph id="ph2">&lt;xref:System.Windows.Media.Animation.Animatable.BeginAnimation%2A&gt;</ph> method, clocks are automatically created for your timelines and animations and applied to their targeted properties.</source>
+          <target state="translated">当你使用进行动画处理<ph id="ph1">&lt;xref:System.Windows.Media.Animation.Storyboard&gt;</ph>或<ph id="ph2">&lt;xref:System.Windows.Media.Animation.Animatable.BeginAnimation%2A&gt;</ph>方法中，时钟自动创建为时间线和动画和应用到其目标属性。</target>       </trans-unit>
+        <trans-unit id="106" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Windows.Media.Animation.Clock">
+          <source>For examples, see <bpt id="p1">[</bpt>How to: Animate a Property by Using a Storyboard<ept id="p1">](~/docs/framework/wpf/graphics-multimedia/how-to-animate-a-property-by-using-a-storyboard.md)</ept> and <bpt id="p2">[</bpt>How to: Animate a Property Without Using a Storyboard<ept id="p2">](~/docs/framework/wpf/graphics-multimedia/how-to-animate-a-property-without-using-a-storyboard.md)</ept>.</source>
+          <target state="translated">有关示例，请参阅<bpt id="p1">[</bpt>如何： 使用情节提要属性进行动画处理<ept id="p1">](~/docs/framework/wpf/graphics-multimedia/how-to-animate-a-property-by-using-a-storyboard.md)</ept>和<bpt id="p2">[</bpt>如何： 使用进行动画处理属性而无需情节提要<ept id="p2">](~/docs/framework/wpf/graphics-multimedia/how-to-animate-a-property-without-using-a-storyboard.md)</ept>。</target>       </trans-unit>
+        <trans-unit id="107" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Windows.Media.Animation.Clock">
+          <source>You can also create a <ph id="ph1">&lt;xref:System.Windows.Media.Animation.Clock&gt;</ph> explicitly by using the <ph id="ph2">&lt;xref:System.Windows.Media.Animation.Timeline.CreateClock%2A&gt;</ph> method.</source>
+          <target state="translated">你还可以创建<ph id="ph1">&lt;xref:System.Windows.Media.Animation.Clock&gt;</ph>通过使用显式<ph id="ph2">&lt;xref:System.Windows.Media.Animation.Timeline.CreateClock%2A&gt;</ph>方法。</target>       </trans-unit>
+        <trans-unit id="108" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Windows.Media.Animation.Clock">
+          <source>In performance-intensive scenarios, such as animating large numbers of similar objects, managing your own <ph id="ph1">&lt;xref:System.Windows.Media.Animation.Clock&gt;</ph> use can provide performance benefits.</source>
+          <target state="translated">在性能要求较高的情况下，对进行动画处理大量类似对象，如管理你自己<ph id="ph1">&lt;xref:System.Windows.Media.Animation.Clock&gt;</ph>使用可以提供性能优势。</target>       </trans-unit>
+        <trans-unit id="109" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Windows.Media.Animation.Clock">
+          <source>Clocks are arranged in trees that match the structure of the <ph id="ph1">&lt;xref:System.Windows.Media.Animation.Timeline&gt;</ph> objects tree from which they are created.</source>
+          <target state="translated">在与结构相匹配的目录树中排列时钟<ph id="ph1">&lt;xref:System.Windows.Media.Animation.Timeline&gt;</ph>对象从其创建树。</target>       </trans-unit>
+        <trans-unit id="110" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Windows.Media.Animation.Clock">
+          <source>The root clock of such a timing tree can be interactively manipulated (paused, resumed, stopped, and so on) by retrieving its <ph id="ph1">&lt;xref:System.Windows.Media.Animation.Clock.Controller%2A&gt;</ph>.</source>
+          <target state="translated">这样的计时树的根时钟可以以交互方式操作 （暂停、 恢复、 已停止，等等） 通过检索其<ph id="ph1">&lt;xref:System.Windows.Media.Animation.Clock.Controller%2A&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="111" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Windows.Media.Animation.Clock">
+          <source>Non-root clocks cannot be directly controlled.</source>
+          <target state="translated">不能直接控制非根时钟。</target>       </trans-unit>
+        <trans-unit id="112" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Windows.Media.Animation.Clock">
+          <source>Once created, a clock cannot be modified (but it can be manipulated).</source>
+          <target state="translated">一旦创建，就无法修改时钟 （但可以对其进行处理）。</target>       </trans-unit>
+        <trans-unit id="113" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Windows.Media.Animation.Clock">
+          <source>Using a Timeline as a Timer</source>
+          <target state="translated">作为计时器使用时间线</target>       </trans-unit>
+        <trans-unit id="114" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Windows.Media.Animation.Clock">
+          <source>A timeline's clock will only progress when there's an event handler associated with it or (in the case of an <ph id="ph1">&lt;xref:System.Windows.Media.Animation.AnimationClock&gt;</ph> object) it is associated with a property.</source>
+          <target state="translated">事件处理程序与之关联时，才会前进时间线的时钟或 (对于<ph id="ph1">&lt;xref:System.Windows.Media.Animation.AnimationClock&gt;</ph>对象) 是与属性相关联。</target>       </trans-unit>
+        <trans-unit id="115" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Windows.Media.Animation.Clock">
+          <source>For this reason (and others), it's not recommended that you use a <ph id="ph1">&lt;xref:System.Windows.Media.Animation.Timeline&gt;</ph> as a timer.</source>
+          <target state="translated">此原因 （和其他内容），不建议你使用<ph id="ph1">&lt;xref:System.Windows.Media.Animation.Timeline&gt;</ph>作为计时器。</target>       </trans-unit>
+        <trans-unit id="116" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Windows.Media.Animation.Clock">
+          <source>Derived classes should implement <ph id="ph1">&lt;see cref="M:System.Windows.Media.Animation.Clock.GetCurrentTimeCore" /&gt;</ph> if they want to modify how time flows for this clock.</source>
+          <target state="translated">派生的类应实现<ph id="ph1">&lt;see cref="M:System.Windows.Media.Animation.Clock.GetCurrentTimeCore" /&gt;</ph>如果他们想要修改时间的时钟的流动方式。</target>       </trans-unit>
+        <trans-unit id="117" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Windows.Media.Animation.Clock">
+          <source>Derived classes can be made to do additional work when the clock repeats, skips, seeks, begins, pauses, resumes, or stops by overriding the <ph id="ph1">&lt;see cref="M:System.Windows.Media.Animation.Clock.DiscontinuousTimeMovement" /&gt;</ph>, <ph id="ph2">&lt;see cref="M:System.Windows.Media.Animation.Clock.SpeedChanged" /&gt;</ph>, and <ph id="ph3">&lt;see cref="M:System.Windows.Media.Animation.Clock.Stopped" /&gt;</ph> methods.</source>
+          <target state="translated">派生的类可用于执行其他工作时时钟重复、 跳过、 查找、 开始、 暂停、 恢复，或停止通过重写<ph id="ph1">&lt;see cref="M:System.Windows.Media.Animation.Clock.DiscontinuousTimeMovement" /&gt;</ph>， <ph id="ph2">&lt;see cref="M:System.Windows.Media.Animation.Clock.SpeedChanged" /&gt;</ph>，和<ph id="ph3">&lt;see cref="M:System.Windows.Media.Animation.Clock.Stopped" /&gt;</ph>方法。</target>       </trans-unit>
+        <trans-unit id="118" translate="yes" xml:space="preserve" uid="M:System.Windows.Media.Animation.Clock.#ctor(System.Windows.Media.Animation.Timeline)">
+          <source>The <ph id="ph1">&lt;see cref="P:System.Windows.Media.Animation.Clock.Timeline" /&gt;</ph> from which this clock should be constructed.</source>
+          <target state="translated">应从中构造此时钟的 <ph id="ph1">&lt;see cref="P:System.Windows.Media.Animation.Clock.Timeline" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="119" translate="yes" xml:space="preserve" uid="M:System.Windows.Media.Animation.Clock.#ctor(System.Windows.Media.Animation.Timeline)">
+          <source>Clocks are not created for any child <ph id="ph1">&lt;see cref="P:System.Windows.Media.Animation.Clock.Timeline" /&gt;</ph> objects, if they exist.</source>
+          <target state="translated">将不再为任何已具有时钟的子 <ph id="ph1">&lt;see cref="P:System.Windows.Media.Animation.Clock.Timeline" /&gt;</ph> 对象创建时钟。</target>       </trans-unit>
+        <trans-unit id="120" translate="yes" xml:space="preserve" uid="M:System.Windows.Media.Animation.Clock.#ctor(System.Windows.Media.Animation.Timeline)">
+          <source>Initializes a new instance of the <ph id="ph1">&lt;see cref="T:System.Windows.Media.Animation.Clock" /&gt;</ph> class, using the specified <ph id="ph2">&lt;see cref="P:System.Windows.Media.Animation.Clock.Timeline" /&gt;</ph> as a template.</source>
+          <target state="translated">使用指定的 <ph id="ph1">&lt;see cref="T:System.Windows.Media.Animation.Clock" /&gt;</ph> 作为模板来初始化 <ph id="ph2">&lt;see cref="P:System.Windows.Media.Animation.Clock.Timeline" /&gt;</ph> 类的新实例。</target>       </trans-unit>
+        <trans-unit id="121" translate="yes" xml:space="preserve" uid="M:System.Windows.Media.Animation.Clock.#ctor(System.Windows.Media.Animation.Timeline)">
+          <source>The new <ph id="ph1">&lt;see cref="T:System.Windows.Media.Animation.Clock" /&gt;</ph> object has no children.</source>
+          <target state="translated">新的 <ph id="ph1">&lt;see cref="T:System.Windows.Media.Animation.Clock" /&gt;</ph> 对象没有子级。</target>       </trans-unit>
+        <trans-unit id="122" translate="yes" xml:space="preserve" uid="E:System.Windows.Media.Animation.Clock.Completed">
+          <source>Occurs when this clock has completely finished playing.</source>
+          <target state="translated">当此时钟完全播放完毕时发生。</target>       </trans-unit>
+        <trans-unit id="123" translate="yes" xml:space="preserve" extradata="MT" uid="E:System.Windows.Media.Animation.Clock.Completed">
+          <source>If this clock is the root clock of a clock tree, it has completed playing after it reaches the end of its active duration (which includes repeats) and all its children have reached the end of their active durations.</source>
+          <target state="translated">如果此时钟时钟树的根时钟，它已完成播放后到达其活动的持续时间 （其中包括重复） 结尾，并且所有子项具有都达到各自活动持续时间的末尾。</target>       </trans-unit>
+        <trans-unit id="124" translate="yes" xml:space="preserve" extradata="MT" uid="E:System.Windows.Media.Animation.Clock.Completed">
+          <source>If this clock is a child clock, it is considered to have completely finished playing when the root clock of the clock tree to which it belongs reaches the end of its active duration and all its child clocks have finished playing.</source>
+          <target state="translated">如果此时钟是子时钟，它被视为完全完成播放时其所属达到时钟树的根时钟完成其活动持续时间和所有子时钟结束播放。</target>       </trans-unit>
+        <trans-unit id="125" translate="yes" xml:space="preserve" extradata="MT" uid="E:System.Windows.Media.Animation.Clock.Completed">
+          <source>Stopping a clock does not trigger its completed event, but advancing it to its fill period does.</source>
+          <target state="translated">停止时钟不会触发其已完成的事件，但前移到其填充期间会。</target>       </trans-unit>
+        <trans-unit id="126" translate="yes" xml:space="preserve" uid="P:System.Windows.Media.Animation.Clock.Controller">
+          <source>Gets a <ph id="ph1">&lt;see cref="T:System.Windows.Media.Animation.ClockController" /&gt;</ph> that can be used to start, pause, resume, seek, skip, stop, or remove this <ph id="ph2">&lt;see cref="T:System.Windows.Media.Animation.Clock" /&gt;</ph>.</source>
+          <target state="translated">获取可用来启动、暂停、恢复、查找、跳过、停止或删除此 <ph id="ph2">&lt;see cref="T:System.Windows.Media.Animation.Clock" /&gt;</ph> 的 <ph id="ph1">&lt;see cref="T:System.Windows.Media.Animation.ClockController" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="127" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Windows.Media.Animation.Clock.Controller">
+          <source>A <ph id="ph1">&lt;see cref="T:System.Windows.Media.Animation.ClockController" /&gt;</ph> if this is a root clock; otherwise, <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</source>
+          <target state="translated">如果这是根时钟，则为 <ph id="ph1">&lt;see cref="T:System.Windows.Media.Animation.ClockController" /&gt;</ph>；否则为 <ph id="ph2">&lt;see langword="null" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="128" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Windows.Media.Animation.Clock.Controller">
+          <source>Only root clocks can be interactively controlled.</source>
+          <target state="translated">可以以交互方式控制仅根时钟。</target>       </trans-unit>
+        <trans-unit id="129" translate="yes" xml:space="preserve" uid="P:System.Windows.Media.Animation.Clock.CurrentGlobalSpeed">
+          <source>Gets the rate at which the clock's time is currently progressing, compared to real-world time.</source>
+          <target state="translated">获取与现实世界的时间相比较，时钟时间的当前前进速率。</target>       </trans-unit>
+        <trans-unit id="130" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Windows.Media.Animation.Clock.CurrentGlobalSpeed">
+          <source>The rate at which this clock's time is current progressing, compared to real-world time.</source>
+          <target state="translated">与现实世界的时间相比较，时钟时间的当前前进速率。</target>       </trans-unit>
+        <trans-unit id="131" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Windows.Media.Animation.Clock.CurrentGlobalSpeed">
+          <source>If the clock is stopped, this property returns <ph id="ph1">&lt;see langword="null" /&gt;</ph>.</source>
+          <target state="translated">如果该时钟已停止，则此属性返回 <ph id="ph1">&lt;see langword="null" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="132" translate="yes" xml:space="preserve" uid="E:System.Windows.Media.Animation.Clock.CurrentGlobalSpeedInvalidated">
+          <source>Occurs when the clock's speed is updated.</source>
+          <target state="translated">在更新时钟速度时发生。</target>       </trans-unit>
+        <trans-unit id="133" translate="yes" xml:space="preserve" extradata="MT" uid="E:System.Windows.Media.Animation.Clock.CurrentGlobalSpeedInvalidated">
+          <source>Pausing, resuming, reversing, accelerating, decelerating, seeking, stopping, or changing a clock's interactive speed using a <ph id="ph1">&lt;xref:System.Windows.Media.Animation.ClockController&gt;</ph> triggers this event.</source>
+          <target state="translated">暂停、 恢复、 反转、 加速、 减速、 查找、 停止或更改时钟的交互速度使用<ph id="ph1">&lt;xref:System.Windows.Media.Animation.ClockController&gt;</ph>触发此事件。</target>       </trans-unit>
+        <trans-unit id="134" translate="yes" xml:space="preserve" extradata="MT" uid="E:System.Windows.Media.Animation.Clock.CurrentGlobalSpeedInvalidated">
+          <source>Although this event occurs when the <ph id="ph1">&lt;xref:System.Windows.Media.Animation.Clock.CurrentGlobalSpeed%2A&gt;</ph> property becomes invalid, that doesn't necessarily mean the property changed.</source>
+          <target state="translated">虽然此事件发生时<ph id="ph1">&lt;xref:System.Windows.Media.Animation.Clock.CurrentGlobalSpeed%2A&gt;</ph>属性变为无效，并不一定意味着更改的属性。</target>       </trans-unit>
+        <trans-unit id="135" translate="yes" xml:space="preserve" uid="P:System.Windows.Media.Animation.Clock.CurrentGlobalTime">
+          <source>Gets the current global time, as established by the <ph id="ph1">[!INCLUDE[TLA2#tla_wpf](~/includes/tla2sharptla-wpf-md.md)]</ph> timing system.</source>
+          <target state="translated">获取当前全局时间，它由 <ph id="ph1">[!INCLUDE[TLA2#tla_wpf](~/includes/tla2sharptla-wpf-md.md)]</ph> 计时系统建立。</target>       </trans-unit>
+        <trans-unit id="136" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Windows.Media.Animation.Clock.CurrentGlobalTime">
+          <source>The current global time for the <ph id="ph1">[!INCLUDE[TLA2#tla_wpf](~/includes/tla2sharptla-wpf-md.md)]</ph> timing system.</source>
+          <target state="translated"><ph id="ph1">[!INCLUDE[TLA2#tla_wpf](~/includes/tla2sharptla-wpf-md.md)]</ph> 计时系统的当前全局时间。</target>       </trans-unit>
+        <trans-unit id="137" translate="yes" xml:space="preserve" uid="P:System.Windows.Media.Animation.Clock.CurrentIteration">
+          <source>Get the current iteration of this clock.</source>
+          <target state="translated">获取此时钟的当前迭代。</target>       </trans-unit>
+        <trans-unit id="138" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Windows.Media.Animation.Clock.CurrentIteration">
+          <source>This clock's current iteration within its current active period, or <ph id="ph1">&lt;see langword="null" /&gt;</ph> if this clock is stopped.</source>
+          <target state="translated">此时钟在其当前活动期中的当前迭代，如果此时钟已停止，则为 <ph id="ph1">&lt;see langword="null" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="139" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Windows.Media.Animation.Clock.CurrentIteration">
+          <source>A clock's first iteration has a value of 1.</source>
+          <target state="translated">时钟的第一次迭代具有值为 1。</target>       </trans-unit>
+        <trans-unit id="140" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Windows.Media.Animation.Clock.CurrentIteration">
+          <source>If this clock's timeline has an <ph id="ph1">&lt;xref:System.Windows.Media.Animation.Timeline.AutoReverse%2A&gt;</ph> setting of <ph id="ph2">`true`</ph>, a full iteration consists of a forward-reverse pair, not just one of these segments.</source>
+          <target state="translated">如果此时钟的时间线具有<ph id="ph1">&lt;xref:System.Windows.Media.Animation.Timeline.AutoReverse%2A&gt;</ph>设置<ph id="ph2">`true`</ph>，完整迭代包含正向和反向迭代，而不仅仅是其中一种分段。</target>       </trans-unit>
+        <trans-unit id="141" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Windows.Media.Animation.Clock.CurrentIteration">
+          <source>Regardless of its current iteration, seeking a clock returns its current iteration to 1.</source>
+          <target state="translated">无论其当前迭代中，定位时钟都会将其当前迭代为 1。</target>       </trans-unit>
+        <trans-unit id="142" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Windows.Media.Animation.Clock.CurrentIteration">
+          <source>Restarting a clock also returns its current iteration to 1.</source>
+          <target state="translated">重新启动时钟还为 1 返回其当前迭代。</target>       </trans-unit>
+        <trans-unit id="143" translate="yes" xml:space="preserve" uid="P:System.Windows.Media.Animation.Clock.CurrentProgress">
+          <source>Gets the current progress of this <ph id="ph1">&lt;see cref="T:System.Windows.Media.Animation.Clock" /&gt;</ph> within its current iteration.</source>
+          <target state="translated">获取此 <ph id="ph1">&lt;see cref="T:System.Windows.Media.Animation.Clock" /&gt;</ph> 在其当前迭代中的当前进度。</target>       </trans-unit>
+        <trans-unit id="144" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Windows.Media.Animation.Clock.CurrentProgress">
+          <source><ph id="ph1">&lt;see langword="null" /&gt;</ph> if this clock is <ph id="ph2">&lt;see cref="F:System.Windows.Media.Animation.ClockState.Stopped" /&gt;</ph>, or 0.0 if this clock is active and its <ph id="ph3">&lt;see cref="P:System.Windows.Media.Animation.Clock.Timeline" /&gt;</ph> has a <ph id="ph4">&lt;see cref="P:System.Windows.Media.Animation.Timeline.Duration" /&gt;</ph> of <ph id="ph5">&lt;see cref="P:System.Windows.Duration.Forever" /&gt;</ph>; otherwise, a value between 0.0 and 1.0 that indicates the current progress of this Clock within its current iteration.</source>
+          <target state="translated">如果此时钟为 <ph id="ph2">&lt;see cref="F:System.Windows.Media.Animation.ClockState.Stopped" /&gt;</ph>，则为 <ph id="ph1">&lt;see langword="null" /&gt;</ph>；如果此时钟处于活动状态并且其 <ph id="ph3">&lt;see cref="P:System.Windows.Media.Animation.Clock.Timeline" /&gt;</ph> 具有 <ph id="ph4">&lt;see cref="P:System.Windows.Media.Animation.Timeline.Duration" /&gt;</ph> 的 <ph id="ph5">&lt;see cref="P:System.Windows.Duration.Forever" /&gt;</ph>，则为 0.0；否则为一个介于 0.0 和 1.0 之间的值，该值表示此时钟在其当前迭代中的当前进度。</target>       </trans-unit>
+        <trans-unit id="145" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Windows.Media.Animation.Clock.CurrentProgress">
+          <source>A value of 0.0 indicates no progress, and a value of 1.0 indicates that the clock is at the end of its current iteration.</source>
+          <target state="translated">值为 0.0 时表示没有进度，值为 1.0 时表示此时钟处于其当前迭代的末尾。</target>       </trans-unit>
+        <trans-unit id="146" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Windows.Media.Animation.Clock.CurrentProgress">
+          <source>The value of this property indicates the <ph id="ph1">&lt;xref:System.Windows.Media.Animation.Clock.CurrentTime%2A&gt;</ph> normalized by the <ph id="ph2">&lt;xref:System.Windows.Media.Animation.Timeline.Duration%2A&gt;</ph> of this clock's <ph id="ph3">&lt;xref:System.Windows.Media.Animation.Clock.Timeline%2A&gt;</ph>.</source>
+          <target state="translated">此属性的值指示<ph id="ph1">&lt;xref:System.Windows.Media.Animation.Clock.CurrentTime%2A&gt;</ph>规范化通过<ph id="ph2">&lt;xref:System.Windows.Media.Animation.Timeline.Duration%2A&gt;</ph>此时钟<ph id="ph3">&lt;xref:System.Windows.Media.Animation.Clock.Timeline%2A&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="147" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Windows.Media.Animation.Clock.CurrentProgress">
+          <source>A clock that is <ph id="ph1">&lt;xref:System.Windows.Media.Animation.ClockState.Filling&gt;</ph> has a <ph id="ph2">&lt;xref:System.Windows.Media.Animation.Clock.CurrentProgress%2A&gt;</ph> of 1.0.</source>
+          <target state="translated">是一个时钟<ph id="ph1">&lt;xref:System.Windows.Media.Animation.ClockState.Filling&gt;</ph>具有<ph id="ph2">&lt;xref:System.Windows.Media.Animation.Clock.CurrentProgress%2A&gt;</ph>为 1.0。</target>       </trans-unit>
+        <trans-unit id="148" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Windows.Media.Animation.Clock.CurrentProgress">
+          <source>Using a Timeline as a Timer</source>
+          <target state="translated">作为计时器使用时间线</target>       </trans-unit>
+        <trans-unit id="149" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Windows.Media.Animation.Clock.CurrentProgress">
+          <source>A timeline's clock will only progress when there's an event hander associated with it or (in the case of an <ph id="ph1">&lt;xref:System.Windows.Media.Animation.AnimationClock&gt;</ph> object) it is associated with a property.</source>
+          <target state="translated">没有与之关联的事件处理程序时，才会前进时间线的时钟或 (对于<ph id="ph1">&lt;xref:System.Windows.Media.Animation.AnimationClock&gt;</ph>对象) 是与属性相关联。</target>       </trans-unit>
+        <trans-unit id="150" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Windows.Media.Animation.Clock.CurrentProgress">
+          <source>For this reason (and others), it's not recommended that you use a <ph id="ph1">&lt;xref:System.Windows.Media.Animation.Timeline&gt;</ph> as a timer.</source>
+          <target state="translated">此原因 （和其他内容），不建议你使用<ph id="ph1">&lt;xref:System.Windows.Media.Animation.Timeline&gt;</ph>作为计时器。</target>       </trans-unit>
+        <trans-unit id="151" translate="yes" xml:space="preserve" uid="P:System.Windows.Media.Animation.Clock.CurrentState">
+          <source>Gets a value indicating whether the clock is currently <ph id="ph1">&lt;see cref="F:System.Windows.Media.Animation.ClockState.Active" /&gt;</ph>, <ph id="ph2">&lt;see cref="F:System.Windows.Media.Animation.ClockState.Filling" /&gt;</ph>, or <ph id="ph3">&lt;see cref="F:System.Windows.Media.Animation.ClockState.Stopped" /&gt;</ph>.</source>
+          <target state="translated">获取指示时钟当前处于 <ph id="ph1">&lt;see cref="F:System.Windows.Media.Animation.ClockState.Active" /&gt;</ph>、<ph id="ph2">&lt;see cref="F:System.Windows.Media.Animation.ClockState.Filling" /&gt;</ph> 还是 <ph id="ph3">&lt;see cref="F:System.Windows.Media.Animation.ClockState.Stopped" /&gt;</ph> 状态的值。</target>       </trans-unit>
+        <trans-unit id="152" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Windows.Media.Animation.Clock.CurrentState">
+          <source>The current state of the clock: <ph id="ph1">&lt;see cref="F:System.Windows.Media.Animation.ClockState.Active" /&gt;</ph>, <ph id="ph2">&lt;see cref="F:System.Windows.Media.Animation.ClockState.Filling" /&gt;</ph>, or <ph id="ph3">&lt;see cref="F:System.Windows.Media.Animation.ClockState.Stopped" /&gt;</ph>.</source>
+          <target state="translated">时钟的当前状态：<ph id="ph1">&lt;see cref="F:System.Windows.Media.Animation.ClockState.Active" /&gt;</ph>、<ph id="ph2">&lt;see cref="F:System.Windows.Media.Animation.ClockState.Filling" /&gt;</ph> 或 <ph id="ph3">&lt;see cref="F:System.Windows.Media.Animation.ClockState.Stopped" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="153" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Windows.Media.Animation.Clock.CurrentState">
+          <source>Note the clock's <ph id="ph1">&lt;xref:System.Windows.Media.Animation.Clock.CurrentState%2A&gt;</ph> property doesn't tell you whether it's paused.</source>
+          <target state="translated">请注意，时钟<ph id="ph1">&lt;xref:System.Windows.Media.Animation.Clock.CurrentState%2A&gt;</ph>属性不会告诉你它是否已暂停。</target>       </trans-unit>
+        <trans-unit id="154" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Windows.Media.Animation.Clock.CurrentState">
+          <source>To determine whether a clock is paused, use the <ph id="ph1">&lt;xref:System.Windows.Media.Animation.Clock.IsPaused%2A&gt;</ph> property.</source>
+          <target state="translated">若要确定是否已暂停时钟，请使用<ph id="ph1">&lt;xref:System.Windows.Media.Animation.Clock.IsPaused%2A&gt;</ph>属性。</target>       </trans-unit>
+        <trans-unit id="155" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Windows.Media.Animation.Clock.CurrentState">
+          <source>The <ph id="ph1">&lt;xref:System.Windows.Media.Animation.Clock.CurrentStateInvalidated&gt;</ph> occurs whenever the value of this property changes.</source>
+          <target state="translated"><ph id="ph1">&lt;xref:System.Windows.Media.Animation.Clock.CurrentStateInvalidated&gt;</ph>每当此属性的值更改时发生。</target>       </trans-unit>
+        <trans-unit id="156" translate="yes" xml:space="preserve" uid="E:System.Windows.Media.Animation.Clock.CurrentStateInvalidated">
+          <source>Occurs when the clock's <ph id="ph1">&lt;see cref="P:System.Windows.Media.Animation.Clock.CurrentState" /&gt;</ph> property is updated.</source>
+          <target state="translated">当更新时钟的 <ph id="ph1">&lt;see cref="P:System.Windows.Media.Animation.Clock.CurrentState" /&gt;</ph> 属性时发生。</target>       </trans-unit>
+        <trans-unit id="157" translate="yes" xml:space="preserve" extradata="MT" uid="E:System.Windows.Media.Animation.Clock.CurrentStateInvalidated">
+          <source>Use the <ph id="ph1">&lt;xref:System.Windows.Media.Animation.Timeline.CurrentStateInvalidated&gt;</ph> event when you want to be notified if when the clock starts, stops, or fills.</source>
+          <target state="translated">使用<ph id="ph1">&lt;xref:System.Windows.Media.Animation.Timeline.CurrentStateInvalidated&gt;</ph>事件时想要被通知当时钟启动时，如果停止或填充。</target>       </trans-unit>
+        <trans-unit id="158" translate="yes" xml:space="preserve" extradata="MT" uid="E:System.Windows.Media.Animation.Clock.CurrentStateInvalidated">
+          <source>The <ph id="ph1">&lt;xref:System.Object&gt;</ph> parameter of the <ph id="ph2">&lt;xref:System.EventHandler&gt;</ph> event handler is the <ph id="ph3">&lt;xref:System.Windows.Media.Animation.Clock&gt;</ph> whose state was invalidated.</source>
+          <target state="translated"><ph id="ph1">&lt;xref:System.Object&gt;</ph>参数<ph id="ph2">&lt;xref:System.EventHandler&gt;</ph>事件处理程序是<ph id="ph3">&lt;xref:System.Windows.Media.Animation.Clock&gt;</ph>其状态无效。</target>       </trans-unit>
+        <trans-unit id="159" translate="yes" xml:space="preserve" extradata="MT" uid="E:System.Windows.Media.Animation.Clock.CurrentStateInvalidated">
+          <source>Pausing a <ph id="ph1">&lt;xref:System.Windows.Media.Animation.Clock&gt;</ph> does not change its <ph id="ph2">&lt;xref:System.Windows.Media.Animation.Clock.CurrentState%2A&gt;</ph>.</source>
+          <target state="translated">暂停<ph id="ph1">&lt;xref:System.Windows.Media.Animation.Clock&gt;</ph>不会更改其<ph id="ph2">&lt;xref:System.Windows.Media.Animation.Clock.CurrentState%2A&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="160" translate="yes" xml:space="preserve" extradata="MT" uid="E:System.Windows.Media.Animation.Clock.CurrentStateInvalidated">
+          <source>To be notified when a clock becomes paused, use the <ph id="ph1">&lt;xref:System.Windows.Media.Animation.Timeline.CurrentGlobalSpeedInvalidated&gt;</ph> event.</source>
+          <target state="translated">若要要得到通知时钟变为暂停时，使用<ph id="ph1">&lt;xref:System.Windows.Media.Animation.Timeline.CurrentGlobalSpeedInvalidated&gt;</ph>事件。</target>       </trans-unit>
+        <trans-unit id="161" translate="yes" xml:space="preserve" extradata="MT" uid="E:System.Windows.Media.Animation.Clock.CurrentStateInvalidated">
+          <source>Although this event occurs when the <ph id="ph1">&lt;xref:System.Windows.Media.Animation.ClockState&gt;</ph> becomes invalid, that doesn't necessarily mean the <ph id="ph2">&lt;xref:System.Windows.Media.Animation.ClockState&gt;</ph> changed: a <ph id="ph3">&lt;xref:System.Windows.Media.Animation.Clock&gt;</ph> that switches from <ph id="ph4">&lt;xref:System.Windows.Media.Animation.ClockState.Active&gt;</ph> to <ph id="ph5">&lt;xref:System.Windows.Media.Animation.ClockState.Filling&gt;</ph> and then back to <ph id="ph6">&lt;xref:System.Windows.Media.Animation.ClockState.Active&gt;</ph> in the same tick will cause this event to fire, but its <ph id="ph7">&lt;xref:System.Windows.Media.Animation.Clock.CurrentState%2A&gt;</ph> property won't actually change.</source>
+          <target state="translated">虽然此事件发生时<ph id="ph1">&lt;xref:System.Windows.Media.Animation.ClockState&gt;</ph>变为无效，并不一定意味着<ph id="ph2">&lt;xref:System.Windows.Media.Animation.ClockState&gt;</ph>更改：<ph id="ph3">&lt;xref:System.Windows.Media.Animation.Clock&gt;</ph>用于从切换<ph id="ph4">&lt;xref:System.Windows.Media.Animation.ClockState.Active&gt;</ph>到<ph id="ph5">&lt;xref:System.Windows.Media.Animation.ClockState.Filling&gt;</ph>和再转回<ph id="ph6">&lt;xref:System.Windows.Media.Animation.ClockState.Active&gt;</ph>在同一个计时周期将导致此事件激发，但其<ph id="ph7">&lt;xref:System.Windows.Media.Animation.Clock.CurrentState%2A&gt;</ph>属性不会实际更改。</target>       </trans-unit>
+        <trans-unit id="162" translate="yes" xml:space="preserve" uid="P:System.Windows.Media.Animation.Clock.CurrentTime">
+          <source>Gets this clock's current time within its current iteration.</source>
+          <target state="translated">在此时钟的当前迭代中获取它的当前时间。</target>       </trans-unit>
+        <trans-unit id="163" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Windows.Media.Animation.Clock.CurrentTime">
+          <source><ph id="ph1">&lt;see langword="null" /&gt;</ph> if this clock is <ph id="ph2">&lt;see cref="F:System.Windows.Media.Animation.ClockState.Stopped" /&gt;</ph>; otherwise, the current time of this clock.</source>
+          <target state="translated">如果此时钟为 <ph id="ph2">&lt;see cref="F:System.Windows.Media.Animation.ClockState.Stopped" /&gt;</ph>，则为 <ph id="ph1">&lt;see langword="null" /&gt;</ph>；否则为此时钟的当前时间。</target>       </trans-unit>
+        <trans-unit id="164" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Windows.Media.Animation.Clock.CurrentTime">
+          <source>Using a Timeline as a Timer</source>
+          <target state="translated">作为计时器使用时间线</target>       </trans-unit>
+        <trans-unit id="165" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Windows.Media.Animation.Clock.CurrentTime">
+          <source>A timeline's clock will only progress when there's an event hander associated with it or (in the case of an <ph id="ph1">&lt;xref:System.Windows.Media.Animation.AnimationClock&gt;</ph> object) it is associated with a property.</source>
+          <target state="translated">没有与之关联的事件处理程序时，才会前进时间线的时钟或 (对于<ph id="ph1">&lt;xref:System.Windows.Media.Animation.AnimationClock&gt;</ph>对象) 是与属性相关联。</target>       </trans-unit>
+        <trans-unit id="166" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Windows.Media.Animation.Clock.CurrentTime">
+          <source>For this reason (and others), it's not recommended that you use a <ph id="ph1">&lt;xref:System.Windows.Media.Animation.Timeline&gt;</ph> as a timer.</source>
+          <target state="translated">此原因 （和其他内容），不建议你使用<ph id="ph1">&lt;xref:System.Windows.Media.Animation.Timeline&gt;</ph>作为计时器。</target>       </trans-unit>
+        <trans-unit id="167" translate="yes" xml:space="preserve" uid="E:System.Windows.Media.Animation.Clock.CurrentTimeInvalidated">
+          <source>Occurs when this clock's <ph id="ph1">&lt;see cref="P:System.Windows.Media.Animation.Clock.CurrentTime" /&gt;</ph> becomes invalid.</source>
+          <target state="translated">当此时钟的 <ph id="ph1">&lt;see cref="P:System.Windows.Media.Animation.Clock.CurrentTime" /&gt;</ph> 变为无效时发生。</target>       </trans-unit>
+        <trans-unit id="168" translate="yes" xml:space="preserve" extradata="MT" uid="E:System.Windows.Media.Animation.Clock.CurrentTimeInvalidated">
+          <source>A clock's <ph id="ph1">&lt;xref:System.Windows.Media.Animation.Clock.CurrentTime%2A&gt;</ph> becomes invalid when the clock progresses.</source>
+          <target state="translated">时钟的<ph id="ph1">&lt;xref:System.Windows.Media.Animation.Clock.CurrentTime%2A&gt;</ph>变为无效时钟前进。</target>       </trans-unit>
+        <trans-unit id="169" translate="yes" xml:space="preserve" extradata="MT" uid="E:System.Windows.Media.Animation.Clock.CurrentTimeInvalidated">
+          <source>The following interactive operations also trigger the CurrentTimeInvalidated event: <ph id="ph1">&lt;xref:System.Windows.Media.Animation.ClockController.Begin%2A&gt;</ph>, <ph id="ph2">&lt;xref:System.Windows.Media.Animation.ClockController.SkipToFill%2A&gt;</ph>, <ph id="ph3">&lt;xref:System.Windows.Media.Animation.ClockController.Seek%2A&gt;</ph>, <ph id="ph4">&lt;xref:System.Windows.Media.Animation.ClockController.SeekAlignedToLastTick%2A&gt;</ph>, and <ph id="ph5">&lt;xref:System.Windows.Media.Animation.ClockController.Stop%2A&gt;</ph>.</source>
+          <target state="translated">以下的交互式操作还会触发 CurrentTimeInvalidated 事件： <ph id="ph1">&lt;xref:System.Windows.Media.Animation.ClockController.Begin%2A&gt;</ph>， <ph id="ph2">&lt;xref:System.Windows.Media.Animation.ClockController.SkipToFill%2A&gt;</ph>， <ph id="ph3">&lt;xref:System.Windows.Media.Animation.ClockController.Seek%2A&gt;</ph>， <ph id="ph4">&lt;xref:System.Windows.Media.Animation.ClockController.SeekAlignedToLastTick%2A&gt;</ph>，和<ph id="ph5">&lt;xref:System.Windows.Media.Animation.ClockController.Stop%2A&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="170" translate="yes" xml:space="preserve" uid="M:System.Windows.Media.Animation.Clock.DiscontinuousTimeMovement">
+          <source>When implemented in a derived class, will be invoked whenever a clock repeats, skips, or seeks.</source>
+          <target state="translated">在派生类中实现后，每当时钟重复、跳过或查找时就会调用它。</target>       </trans-unit>
+        <trans-unit id="171" translate="yes" xml:space="preserve" uid="M:System.Windows.Media.Animation.Clock.GetCanSlip">
+          <source>Returns whether the <ph id="ph1">&lt;see cref="T:System.Windows.Media.Animation.Clock" /&gt;</ph> has its own external time source, which may require synchronization with the timing system.</source>
+          <target state="translated">返回 <ph id="ph1">&lt;see cref="T:System.Windows.Media.Animation.Clock" /&gt;</ph> 是否具有可能需要与计时系统同步的自己的外部时间源。</target>       </trans-unit>
+        <trans-unit id="172" translate="yes" xml:space="preserve" uid="M:System.Windows.Media.Animation.Clock.GetCanSlip">
+          <source>Returns <bpt id="p1">**</bpt>true<ept id="p1">**</ept> if the <ph id="ph1">&lt;see cref="T:System.Windows.Media.Animation.Clock" /&gt;</ph> has its own external source for time, which may require synchronization with the timing system; otherwise, <bpt id="p2">**</bpt>false<ept id="p2">**</ept>.</source>
+          <target state="translated">如果 <ph id="ph1">&lt;see cref="T:System.Windows.Media.Animation.Clock" /&gt;</ph> 具有可能需要与计时系统同步的自己的外部时间源，则返回 true；否则返回 false。</target>       </trans-unit>
+        <trans-unit id="173" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.Media.Animation.Clock.GetCanSlip">
+          <source>Media being played using <ph id="ph1">&lt;xref:System.Windows.Media.MediaTimeline&gt;</ph> within a <ph id="ph2">&lt;xref:System.Windows.Media.Animation.Storyboard&gt;</ph> is an example of creating a <ph id="ph3">&lt;xref:System.Windows.Media.Animation.Clock&gt;</ph> that would have an external time source (a video clip for example) which may require synchronization with other timelines within the <ph id="ph4">&lt;xref:System.Windows.Media.Animation.Storyboard&gt;</ph>.</source>
+          <target state="translated">媒体所播放使用<ph id="ph1">&lt;xref:System.Windows.Media.MediaTimeline&gt;</ph>内<ph id="ph2">&lt;xref:System.Windows.Media.Animation.Storyboard&gt;</ph>举例说明创建<ph id="ph3">&lt;xref:System.Windows.Media.Animation.Clock&gt;</ph>出会产生外部时间源 （例如视频剪辑） 这可能需要与其他时间线中的同步<ph id="ph4">&lt;xref:System.Windows.Media.Animation.Storyboard&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="174" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.Media.Animation.Clock.GetCanSlip">
+          <source>See <ph id="ph1">&lt;xref:System.Windows.Media.Animation.ParallelTimeline.SlipBehavior%2A&gt;</ph> for more information.</source>
+          <target state="translated">有关更多信息，请参见<ph id="ph1">&lt;xref:System.Windows.Media.Animation.ParallelTimeline.SlipBehavior%2A&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="175" translate="yes" xml:space="preserve" uid="M:System.Windows.Media.Animation.Clock.GetCurrentTimeCore">
+          <source>Gets this clock's current time within its current iteration.</source>
+          <target state="translated">在此时钟的当前迭代中获取它的当前时间。</target>       </trans-unit>
+        <trans-unit id="176" translate="yes" xml:space="preserve" uid="M:System.Windows.Media.Animation.Clock.GetCurrentTimeCore">
+          <source>The current time of this clock if it is active or filling; otherwise, <ph id="ph1">&lt;see cref="F:System.TimeSpan.Zero" /&gt;</ph>.</source>
+          <target state="translated">如果时钟处于活动状态或正在填充，则为此时钟的当前时间；否则为 <ph id="ph1">&lt;see cref="F:System.TimeSpan.Zero" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="177" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.Media.Animation.Clock.GetCurrentTimeCore">
+          <source>This method is used in the implementation of the <ph id="ph1">&lt;xref:System.Windows.Media.Animation.Clock.CurrentTime%2A&gt;</ph> method and should not be called directly from your code.</source>
+          <target state="translated">此方法使用的实现中<ph id="ph1">&lt;xref:System.Windows.Media.Animation.Clock.CurrentTime%2A&gt;</ph>方法且不应在代码中直接调用。</target>       </trans-unit>
+        <trans-unit id="178" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.Media.Animation.Clock.GetCurrentTimeCore">
+          <source>Derived classes should override this method if they want to modify how they determine the current time.</source>
+          <target state="translated">派生的类应重写此方法，如果他们想要修改它们如何确定当前时间。</target>       </trans-unit>
+        <trans-unit id="179" translate="yes" xml:space="preserve" uid="P:System.Windows.Media.Animation.Clock.HasControllableRoot">
+          <source>Gets a value that indicates whether this <ph id="ph1">&lt;see cref="T:System.Windows.Media.Animation.Clock" /&gt;</ph> is part of a controllable clock tree.</source>
+          <target state="translated">获取一个值，该值指示此 <ph id="ph1">&lt;see cref="T:System.Windows.Media.Animation.Clock" /&gt;</ph> 是否为可控制的时钟树的一部分。</target>       </trans-unit>
+        <trans-unit id="180" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Windows.Media.Animation.Clock.HasControllableRoot">
+          <source><ph id="ph1">&lt;see langword="true" /&gt;</ph> if this clock belongs to a clock tree with a controllable root clock or if this clock is itself a controllable root; otherwise, <ph id="ph2">&lt;see langword="false" /&gt;</ph>.</source>
+          <target state="translated">如果此时钟所属时钟树具有可控制的根时钟或此时钟本身就是可控制的根时钟，则为 <ph id="ph1">&lt;see langword="true" /&gt;</ph>；否则为 <ph id="ph2">&lt;see langword="false" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="181" translate="yes" xml:space="preserve" uid="P:System.Windows.Media.Animation.Clock.IsPaused">
+          <source>Gets a value that indicates whether this <ph id="ph1">&lt;see cref="T:System.Windows.Media.Animation.Clock" /&gt;</ph>, or any of its parents, is paused.</source>
+          <target state="translated">获取指示此 <ph id="ph1">&lt;see cref="T:System.Windows.Media.Animation.Clock" /&gt;</ph> 或其任何父级是否已暂停的值。</target>       </trans-unit>
+        <trans-unit id="182" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Windows.Media.Animation.Clock.IsPaused">
+          <source><ph id="ph1">&lt;see langword="true" /&gt;</ph> if this <ph id="ph2">&lt;see cref="T:System.Windows.Media.Animation.Clock" /&gt;</ph> or any of its parents is paused; otherwise, <ph id="ph3">&lt;see langword="false" /&gt;</ph>.</source>
+          <target state="translated">如果此 <ph id="ph2">&lt;see cref="T:System.Windows.Media.Animation.Clock" /&gt;</ph> 或其任何父级已暂停，则为 <ph id="ph1">&lt;see langword="true" /&gt;</ph>；否则为 <ph id="ph3">&lt;see langword="false" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="183" translate="yes" xml:space="preserve" uid="P:System.Windows.Media.Animation.Clock.NaturalDuration">
+          <source>Gets the natural duration of this clock's <ph id="ph1">&lt;see cref="P:System.Windows.Media.Animation.Clock.Timeline" /&gt;</ph>.</source>
+          <target state="translated">获取此时钟的 <ph id="ph1">&lt;see cref="P:System.Windows.Media.Animation.Clock.Timeline" /&gt;</ph> 的自然持续时间。</target>       </trans-unit>
+        <trans-unit id="184" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Windows.Media.Animation.Clock.NaturalDuration">
+          <source>The natural duration of this clock, as determined by its <ph id="ph1">&lt;see cref="P:System.Windows.Media.Animation.Clock.Timeline" /&gt;</ph>.</source>
+          <target state="translated">此时钟的自然持续时间由它的 <ph id="ph1">&lt;see cref="P:System.Windows.Media.Animation.Clock.Timeline" /&gt;</ph> 确定。</target>       </trans-unit>
+        <trans-unit id="185" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Windows.Media.Animation.Clock.NaturalDuration">
+          <source>For more information about natural duration, see the <ph id="ph1">&lt;xref:System.Windows.Media.Animation.Timeline.GetNaturalDuration%2A?displayProperty=nameWithType&gt;</ph> method.</source>
+          <target state="translated">有关自然持续时间的详细信息，请参阅<ph id="ph1">&lt;xref:System.Windows.Media.Animation.Timeline.GetNaturalDuration%2A?displayProperty=nameWithType&gt;</ph>方法。</target>       </trans-unit>
+        <trans-unit id="186" translate="yes" xml:space="preserve" uid="P:System.Windows.Media.Animation.Clock.Parent">
+          <source>Gets the clock that is the parent of this clock.</source>
+          <target state="translated">获取此时钟的父时钟。</target>       </trans-unit>
+        <trans-unit id="187" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Windows.Media.Animation.Clock.Parent">
+          <source>The parent of this clock or <ph id="ph1">&lt;see langword="null" /&gt;</ph> if this clock is a root.</source>
+          <target state="translated">此时钟的父时钟；如果此时钟为根时钟，则为 <ph id="ph1">&lt;see langword="null" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="188" translate="yes" xml:space="preserve" uid="E:System.Windows.Media.Animation.Clock.RemoveRequested">
+          <source>Occurs when the <ph id="ph1">&lt;see cref="M:System.Windows.Media.Animation.ClockController.Remove" /&gt;</ph> method is called on this <ph id="ph2">&lt;see cref="T:System.Windows.Media.Animation.Clock" /&gt;</ph> or one of its parent clocks.</source>
+          <target state="translated">当对此 <ph id="ph1">&lt;see cref="M:System.Windows.Media.Animation.ClockController.Remove" /&gt;</ph> 或其父时钟之一调用 <ph id="ph2">&lt;see cref="T:System.Windows.Media.Animation.Clock" /&gt;</ph> 方法时发生。</target>       </trans-unit>
+        <trans-unit id="189" translate="yes" xml:space="preserve" uid="M:System.Windows.Media.Animation.Clock.SpeedChanged">
+          <source>When implemented in a derived class, will be invoked whenever a clock begins, skips, pauses, resumes, or when the clock's <ph id="ph1">&lt;see cref="P:System.Windows.Media.Animation.ClockController.SpeedRatio" /&gt;</ph> is modified.</source>
+          <target state="translated">在派生类中实现后，每当时钟启动、跳过、暂停、继续时或时钟的 <ph id="ph1">&lt;see cref="P:System.Windows.Media.Animation.ClockController.SpeedRatio" /&gt;</ph> 被修改时，就会调用它。</target>       </trans-unit>
+        <trans-unit id="190" translate="yes" xml:space="preserve" uid="M:System.Windows.Media.Animation.Clock.Stopped">
+          <source>When implemented in a derived class, will be invoked whenever a clock is stopped using the <ph id="ph1">&lt;see cref="M:System.Windows.Media.Animation.ClockController.Stop" /&gt;</ph> method.</source>
+          <target state="translated">在派生类中实现后，每当使用 <ph id="ph1">&lt;see cref="M:System.Windows.Media.Animation.ClockController.Stop" /&gt;</ph> 方法停止时钟时，就会调用它。</target>       </trans-unit>
+        <trans-unit id="191" translate="yes" xml:space="preserve" uid="P:System.Windows.Media.Animation.Clock.Timeline">
+          <source>Gets the <ph id="ph1">&lt;see cref="P:System.Windows.Media.Animation.Clock.Timeline" /&gt;</ph> from which this <ph id="ph2">&lt;see cref="T:System.Windows.Media.Animation.Clock" /&gt;</ph> was created.</source>
+          <target state="translated">获取创建此 <ph id="ph1">&lt;see cref="P:System.Windows.Media.Animation.Clock.Timeline" /&gt;</ph> 时基于的 <ph id="ph2">&lt;see cref="T:System.Windows.Media.Animation.Clock" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="192" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Windows.Media.Animation.Clock.Timeline">
+          <source>The <ph id="ph1">&lt;see cref="P:System.Windows.Media.Animation.Clock.Timeline" /&gt;</ph> from which this <ph id="ph2">&lt;see cref="T:System.Windows.Media.Animation.Clock" /&gt;</ph> was created.</source>
+          <target state="translated">创建此 <ph id="ph1">&lt;see cref="P:System.Windows.Media.Animation.Clock.Timeline" /&gt;</ph> 时基于的 <ph id="ph2">&lt;see cref="T:System.Windows.Media.Animation.Clock" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="193" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Windows.Media.Animation.Clock.Timeline">
+          <source>Modifying a clock's <ph id="ph1">&lt;xref:System.Windows.Media.MediaTimeline&gt;</ph> does not update the clock; a new clock must be created from the modified <ph id="ph2">&lt;xref:System.Windows.Media.Animation.Timeline&gt;</ph>.</source>
+          <target state="translated">修改时钟的<ph id="ph1">&lt;xref:System.Windows.Media.MediaTimeline&gt;</ph>不会更新时钟; 必须创建新的时钟从修改后<ph id="ph2">&lt;xref:System.Windows.Media.Animation.Timeline&gt;</ph>。</target>       </trans-unit>
+      </group>
+    </body>
+  </file>
+</xliff>

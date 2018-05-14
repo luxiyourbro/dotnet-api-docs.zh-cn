@@ -1,240 +1,123 @@
-<Type Name="IParameterInspector" FullName="System.ServiceModel.Dispatcher.IParameterInspector">
-  <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="89566eb5793aa3f3ad4d0a23250acea1ef5b6913" />
-    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
-    <Meta Name="ms.translationtype" Value="HT" />
-    <Meta Name="ms.contentlocale" Value="zh-CN" />
-    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
-  </Metadata>
-  <TypeSignature Language="C#" Value="public interface IParameterInspector" />
-  <TypeSignature Language="ILAsm" Value=".class public interface auto ansi abstract IParameterInspector" />
-  <TypeSignature Language="DocId" Value="T:System.ServiceModel.Dispatcher.IParameterInspector" />
-  <TypeSignature Language="VB.NET" Value="Public Interface IParameterInspector" />
-  <TypeSignature Language="C++ CLI" Value="public interface class IParameterInspector" />
-  <AssemblyInfo>
-    <AssemblyName>System.ServiceModel</AssemblyName>
-    <AssemblyVersion>2.0.5.0</AssemblyVersion>
-    <AssemblyVersion>4.0.0.0</AssemblyVersion>
-  </AssemblyInfo>
-  <AssemblyInfo>
-    <AssemblyName>System.ServiceModel.Primitives</AssemblyName>
-    <AssemblyVersion>4.1.0.0</AssemblyVersion>
-    <AssemblyVersion>4.1.1.0</AssemblyVersion>
-    <AssemblyVersion>4.2.0.0</AssemblyVersion>
-  </AssemblyInfo>
-  <Interfaces />
-  <Docs>
-    <summary>
-      <span data-ttu-id="a01f6-101">定义自定义参数检查器实现的协定，有了该协定，就可在客户端或服务进行调用之前或紧接着其调用，检查或修改信息。</span>
-      <span class="sxs-lookup">
-        <span data-stu-id="a01f6-101">Defines the contract implemented by custom parameter inspectors that enables inspection or modification of information prior to and subsequent to calls on either the client or the service.</span>
-      </span>
-    </summary>
-    <remarks>
-      <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="a01f6-102">实现 <xref:System.ServiceModel.Dispatcher.IParameterInspector> 接口，以创建自定义参数检查器，该检查器可在客户端或服务应用程序进行调用之前和之后，查看和修改调用的内容。</span><span class="sxs-lookup"><span data-stu-id="a01f6-102">Implement the <xref:System.ServiceModel.Dispatcher.IParameterInspector> interface to create a custom parameter inspector that can view and modify the contents of a call both before the call and after the call in either client or service applications.</span></span>  
-  
- <span data-ttu-id="a01f6-103">对于来自客户端的出站调用，该检查器是在请求内容序列化并发送到服务之前调用的。</span><span class="sxs-lookup"><span data-stu-id="a01f6-103">On outbound calls from a client, the inspector is invoked before the request contents are serialized and sent to the service.</span></span> <span data-ttu-id="a01f6-104">同时，还会在响应消息被反序列化之后，但在将返回值调度到代理方法之前，调用该检查器。</span><span class="sxs-lookup"><span data-stu-id="a01f6-104">The inspector is also called after the response has been deserialized but before the return values have been dispatched to the proxy method.</span></span>  
-  
- <span data-ttu-id="a01f6-105">对于到服务的入站调用，该检查器是在反序列化参数之后、但在这些参数调度到服务操作之前调用的。</span><span class="sxs-lookup"><span data-stu-id="a01f6-105">On inbound calls to a service, the inspector is invoked after parameters are deserialized but before they are dispatched to the service operation.</span></span>  
-  
- <span data-ttu-id="a01f6-106">使用 <xref:System.ServiceModel.Dispatcher.ClientOperation.ParameterInspectors%2A?displayProperty=nameWithType> 或 <xref:System.ServiceModel.Dispatcher.DispatchOperation.ParameterInspectors%2A?displayProperty=nameWithType> 属性，以为特定操作将 <xref:System.ServiceModel.Dispatcher.IParameterInspector> 实现添加到检查器集合。</span><span class="sxs-lookup"><span data-stu-id="a01f6-106">Use the <xref:System.ServiceModel.Dispatcher.ClientOperation.ParameterInspectors%2A?displayProperty=nameWithType> or the <xref:System.ServiceModel.Dispatcher.DispatchOperation.ParameterInspectors%2A?displayProperty=nameWithType> properties to add an <xref:System.ServiceModel.Dispatcher.IParameterInspector> implementation to the inspectors collection for a particular operation.</span></span>  
-  
- <span data-ttu-id="a01f6-107">**请注意**开发人员和管理员必须确保与其他交互<xref:System.ServiceModel.Dispatcher.IParameterInspector>理解实现。</span><span class="sxs-lookup"><span data-stu-id="a01f6-107">**Note** Developers and administrators must ensure that the interaction with other <xref:System.ServiceModel.Dispatcher.IParameterInspector> implementations is understood.</span></span>  
-  
-   
-  
-## Examples  
- <span data-ttu-id="a01f6-108">下面的代码示例演示了 <xref:System.ServiceModel.Dispatcher.IParameterInspector> 实现：</span><span class="sxs-lookup"><span data-stu-id="a01f6-108">The following code example shows an <xref:System.ServiceModel.Dispatcher.IParameterInspector> implementation that:</span></span>  
-  
--   <span data-ttu-id="a01f6-109">在服务反序列化响应或客户端序列化请求之后，将操作名称和返回值写入控制台。</span><span class="sxs-lookup"><span data-stu-id="a01f6-109">Writes the operation name and return value to the console after a response has been deserialized by the service or a request has been serialized by a client.</span></span>  
-  
--   <span data-ttu-id="a01f6-110">在客户端反序列化响应或服务序列化响应之后，将操作名称和返回值写入控制台。</span><span class="sxs-lookup"><span data-stu-id="a01f6-110">Writes the operation name to the console after deserializing a response on the client or after a response has been serialized on the service.</span></span>  
-  
- [!code-csharp[Interceptors#4](~/samples/snippets/csharp/VS_Snippets_CFX/interceptors/cs/interceptors.cs#4)]
- [!code-vb[Interceptors#4](~/samples/snippets/visualbasic/VS_Snippets_CFX/interceptors/vb/interceptors.vb#4)]  
-  
- <span data-ttu-id="a01f6-111">下面的代码示例演示了如何使用 <xref:System.ServiceModel.Description.IOperationBehavior?displayProperty=nameWithType>, <xref:System.ServiceModel.Description.IEndpointBehavior?displayProperty=nameWithType> 或 <xref:System.ServiceModel.Description.IServiceBehavior?displayProperty=nameWithType> 插入 <xref:System.ServiceModel.Dispatcher.IParameterInspector> 对象。</span><span class="sxs-lookup"><span data-stu-id="a01f6-111">The following code example shows how to use either <xref:System.ServiceModel.Description.IOperationBehavior?displayProperty=nameWithType>, <xref:System.ServiceModel.Description.IEndpointBehavior?displayProperty=nameWithType> or <xref:System.ServiceModel.Description.IServiceBehavior?displayProperty=nameWithType> to insert <xref:System.ServiceModel.Dispatcher.IParameterInspector> objects.</span></span>  
-  
- [!code-csharp[Interceptors#5](~/samples/snippets/csharp/VS_Snippets_CFX/interceptors/cs/insertingbehaviors.cs#5)]
- [!code-vb[Interceptors#5](~/samples/snippets/visualbasic/VS_Snippets_CFX/interceptors/vb/insertingbehaviors.vb#5)]  
-  
- ]]></format>
-    </remarks>
-  </Docs>
-  <Members>
-    <Member MemberName="AfterCall">
-      <MemberSignature Language="C#" Value="public void AfterCall (string operationName, object[] outputs, object returnValue, object correlationState);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void AfterCall(string operationName, object[] outputs, object returnValue, object correlationState) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.ServiceModel.Dispatcher.IParameterInspector.AfterCall(System.String,System.Object[],System.Object,System.Object)" />
-      <MemberSignature Language="VB.NET" Value="Public Sub AfterCall (operationName As String, outputs As Object(), returnValue As Object, correlationState As Object)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; void AfterCall(System::String ^ operationName, cli::array &lt;System::Object ^&gt; ^ outputs, System::Object ^ returnValue, System::Object ^ correlationState);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.ServiceModel</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>System.ServiceModel.Primitives</AssemblyName>
-        <AssemblyVersion>4.1.0.0</AssemblyVersion>
-        <AssemblyVersion>4.1.1.0</AssemblyVersion>
-        <AssemblyVersion>4.2.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="operationName" Type="System.String" />
-        <Parameter Name="outputs" Type="System.Object[]" />
-        <Parameter Name="returnValue" Type="System.Object" />
-        <Parameter Name="correlationState" Type="System.Object" />
-      </Parameters>
-      <Docs>
-        <param name="operationName">
-          <span data-ttu-id="a01f6-112">所调用的操作的名称。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="a01f6-112">The name of the invoked operation.</span>
-          </span>
-        </param>
-        <param name="outputs">
-          <span data-ttu-id="a01f6-113">任何输出对象。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="a01f6-113">Any output objects.</span>
-          </span>
-        </param>
-        <param name="returnValue">
-          <span data-ttu-id="a01f6-114">操作的返回值。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="a01f6-114">The return value of the operation.</span>
-          </span>
-        </param>
-        <param name="correlationState">
-          <span data-ttu-id="a01f6-115">从 <see cref="M:System.ServiceModel.Dispatcher.IParameterInspector.BeforeCall(System.String,System.Object[])" /> 方法返回的任何关联状态，或 <see langword="null" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="a01f6-115">Any correlation state returned from the <see cref="M:System.ServiceModel.Dispatcher.IParameterInspector.BeforeCall(System.String,System.Object[])" /> method, or <see langword="null" />.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="a01f6-116">在客户端调用返回之后、服务响应发送之前调用。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="a01f6-116">Called after client calls are returned and before service responses are sent.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="a01f6-117">对于来自客户端的出站调用，该检查器是在请求内容序列化并发送到服务之前调用的。</span><span class="sxs-lookup"><span data-stu-id="a01f6-117">On outbound calls from a client, the inspector is invoked before the request contents are serialized and sent to the service.</span></span> <span data-ttu-id="a01f6-118">同时，还会在响应消息被反序列化之后，但在将返回值调度到代理方法之前，调用该检查器。</span><span class="sxs-lookup"><span data-stu-id="a01f6-118">The inspector is also called after the response has been deserialized but before the return values have been dispatched to the proxy method.</span></span>  
-  
- <span data-ttu-id="a01f6-119">对于到服务的入站调用，该检查器是在反序列化参数之后、但在这些参数调度到服务操作之前调用的。</span><span class="sxs-lookup"><span data-stu-id="a01f6-119">On inbound calls to a service, the inspector is invoked after parameters are deserialized but before they are dispatched to the service operation.</span></span>  
-  
-   
-  
-## Examples  
- <span data-ttu-id="a01f6-120">下面的代码示例演示了 <xref:System.ServiceModel.Dispatcher.IParameterInspector> 实现：</span><span class="sxs-lookup"><span data-stu-id="a01f6-120">The following code example shows an <xref:System.ServiceModel.Dispatcher.IParameterInspector> implementation that:</span></span>  
-  
--   <span data-ttu-id="a01f6-121">在服务反序列化响应或客户端序列化请求之后，将操作名称和返回值写入控制台。</span><span class="sxs-lookup"><span data-stu-id="a01f6-121">Writes the operation name and return value to the console after a response has been deserialized by the service or a request has been serialized by a client.</span></span>  
-  
--   <span data-ttu-id="a01f6-122">在客户端反序列化响应或服务序列化响应之后，将操作名称和返回值写入控制台。</span><span class="sxs-lookup"><span data-stu-id="a01f6-122">Writes the operation name to the console after deserializing a response on the client or after a response has been serialized on the service.</span></span>  
-  
- [!code-csharp[Interceptors#4](~/samples/snippets/csharp/VS_Snippets_CFX/interceptors/cs/interceptors.cs#4)]
- [!code-vb[Interceptors#4](~/samples/snippets/visualbasic/VS_Snippets_CFX/interceptors/vb/interceptors.vb#4)]  
-  
- <span data-ttu-id="a01f6-123">下面的代码示例演示了如何使用 <xref:System.ServiceModel.Description.IOperationBehavior?displayProperty=nameWithType>, <xref:System.ServiceModel.Description.IEndpointBehavior?displayProperty=nameWithType> 或 <xref:System.ServiceModel.Description.IServiceBehavior?displayProperty=nameWithType> 插入 <xref:System.ServiceModel.Dispatcher.IParameterInspector> 对象。</span><span class="sxs-lookup"><span data-stu-id="a01f6-123">The following code example shows how to use either <xref:System.ServiceModel.Description.IOperationBehavior?displayProperty=nameWithType>, <xref:System.ServiceModel.Description.IEndpointBehavior?displayProperty=nameWithType>, or <xref:System.ServiceModel.Description.IServiceBehavior?displayProperty=nameWithType> to insert <xref:System.ServiceModel.Dispatcher.IParameterInspector> objects.</span></span>  
-  
- [!code-csharp[Interceptors#5](~/samples/snippets/csharp/VS_Snippets_CFX/interceptors/cs/insertingbehaviors.cs#5)]
- [!code-vb[Interceptors#5](~/samples/snippets/visualbasic/VS_Snippets_CFX/interceptors/vb/insertingbehaviors.vb#5)]  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="BeforeCall">
-      <MemberSignature Language="C#" Value="public object BeforeCall (string operationName, object[] inputs);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance object BeforeCall(string operationName, object[] inputs) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.ServiceModel.Dispatcher.IParameterInspector.BeforeCall(System.String,System.Object[])" />
-      <MemberSignature Language="VB.NET" Value="Public Function BeforeCall (operationName As String, inputs As Object()) As Object" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; System::Object ^ BeforeCall(System::String ^ operationName, cli::array &lt;System::Object ^&gt; ^ inputs);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.ServiceModel</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>System.ServiceModel.Primitives</AssemblyName>
-        <AssemblyVersion>4.1.0.0</AssemblyVersion>
-        <AssemblyVersion>4.1.1.0</AssemblyVersion>
-        <AssemblyVersion>4.2.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Object</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="operationName" Type="System.String" />
-        <Parameter Name="inputs" Type="System.Object[]" />
-      </Parameters>
-      <Docs>
-        <param name="operationName">
-          <span data-ttu-id="a01f6-124">操作的名称。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="a01f6-124">The name of the operation.</span>
-          </span>
-        </param>
-        <param name="inputs">
-          <span data-ttu-id="a01f6-125">客户端传递到方法的对象。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="a01f6-125">The objects passed to the method by the client.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="a01f6-126">在发送客户端调用之前、服务响应返回之后调用。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="a01f6-126">Called before client calls are sent and after service responses are returned.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="a01f6-127">
-            <paramref name="correlationState" /> 中，作为 <see cref="M:System.ServiceModel.Dispatcher.IParameterInspector.AfterCall(System.String,System.Object[],System.Object,System.Object)" /> 参数返回的关联状态。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="a01f6-127">The correlation state that is returned as the <paramref name="correlationState" /> parameter in <see cref="M:System.ServiceModel.Dispatcher.IParameterInspector.AfterCall(System.String,System.Object[],System.Object,System.Object)" />.</span>
-          </span>
-          <span data-ttu-id="a01f6-128">如果您不打算使用关联状态，则返回 <see langword="null" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="a01f6-128">Return <see langword="null" /> if you do not intend to use correlation state.</span>
-          </span>
-        </returns>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="a01f6-129">对于来自客户端的出站调用，该检查器是在请求内容序列化并发送到服务之前调用的。</span><span class="sxs-lookup"><span data-stu-id="a01f6-129">On outbound calls from a client, the inspector is invoked before the request contents are serialized and sent to the service.</span></span> <span data-ttu-id="a01f6-130">同时，还会在响应消息被反序列化之后，但在将返回值调度到代理方法之前，调用该检查器。</span><span class="sxs-lookup"><span data-stu-id="a01f6-130">The inspector is also called after the response has been deserialized but before the return values have been dispatched to the proxy method.</span></span>  
-  
- <span data-ttu-id="a01f6-131">对于到服务的入站调用，该检查器是在请求内容反序列化并调度到服务操作之后、响应内容反序列化并发送到客户端之前调用的。</span><span class="sxs-lookup"><span data-stu-id="a01f6-131">On inbound calls to a service, the inspector is invoked after the request contents are deserialized and dispatched to the service operation and before the response contents are serialized and sent to the client.</span></span>  
-  
-   
-  
-## Examples  
- <span data-ttu-id="a01f6-132">下面的代码示例演示了 <xref:System.ServiceModel.Dispatcher.IParameterInspector> 实现：</span><span class="sxs-lookup"><span data-stu-id="a01f6-132">The following code example shows an <xref:System.ServiceModel.Dispatcher.IParameterInspector> implementation that:</span></span>  
-  
--   <span data-ttu-id="a01f6-133">在服务反序列化响应或客户端序列化请求之后，将操作名称和返回值写入控制台。</span><span class="sxs-lookup"><span data-stu-id="a01f6-133">Writes the operation name and return value to the console after a response has been deserialized by the service or a request has been serialized by a client.</span></span>  
-  
--   <span data-ttu-id="a01f6-134">在客户端反序列化响应或服务序列化响应之后，将操作名称和返回值写入控制台。</span><span class="sxs-lookup"><span data-stu-id="a01f6-134">Writes the operation name to the console after deserializing a response on the client or after a response is serialized on the service.</span></span>  
-  
- [!code-csharp[Interceptors#4](~/samples/snippets/csharp/VS_Snippets_CFX/interceptors/cs/interceptors.cs#4)]
- [!code-vb[Interceptors#4](~/samples/snippets/visualbasic/VS_Snippets_CFX/interceptors/vb/interceptors.vb#4)]  
-  
- <span data-ttu-id="a01f6-135">下面的代码示例演示了如何使用 <xref:System.ServiceModel.Description.IOperationBehavior?displayProperty=nameWithType>, <xref:System.ServiceModel.Description.IEndpointBehavior?displayProperty=nameWithType> 或 <xref:System.ServiceModel.Description.IServiceBehavior?displayProperty=nameWithType> 插入 <xref:System.ServiceModel.Dispatcher.IParameterInspector> 对象。</span><span class="sxs-lookup"><span data-stu-id="a01f6-135">The following code example shows how to use either <xref:System.ServiceModel.Description.IOperationBehavior?displayProperty=nameWithType>, <xref:System.ServiceModel.Description.IEndpointBehavior?displayProperty=nameWithType> or <xref:System.ServiceModel.Description.IServiceBehavior?displayProperty=nameWithType> to insert <xref:System.ServiceModel.Dispatcher.IParameterInspector> objects.</span></span>  
-  
- [!code-csharp[Interceptors#5](~/samples/snippets/csharp/VS_Snippets_CFX/interceptors/cs/insertingbehaviors.cs#5)]
- [!code-vb[Interceptors#5](~/samples/snippets/visualbasic/VS_Snippets_CFX/interceptors/vb/insertingbehaviors.vb#5)]  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-  </Members>
-</Type>
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.2" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 xliff-core-1.2-transitional.xsd">
+  <file datatype="xml" original="IParameterInspector.xml" source-language="en-US" target-language="zh-CN">
+    <header>
+      <tool tool-id="mdxliff" tool-name="mdxliff" tool-version="1.0-15c36f0" tool-company="Microsoft" />
+      <xliffext:skl_file_name xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">02cd5861-7ce2-4a82-b358-31f8435a0ac589566eb5793aa3f3ad4d0a23250acea1ef5b6913.skl</xliffext:skl_file_name>
+      <xliffext:version xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">1.2</xliffext:version>
+      <xliffext:ms.openlocfilehash xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">89566eb5793aa3f3ad4d0a23250acea1ef5b6913</xliffext:ms.openlocfilehash>
+      <xliffext:ms.sourcegitcommit xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b</xliffext:ms.sourcegitcommit>
+      <xliffext:ms.lasthandoff xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">04/03/2018</xliffext:ms.lasthandoff>
+      <xliffext:moniker_ids xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">netcore-1.0,netcore-1.1,netcore-2.0,netframework-4.5.1,netframework-4.5.2,netframework-4.5,netframework-4.6.1,netframework-4.6.2,netframework-4.6,netframework-4.7.1,netframework-4.7,xamarinandroid-7.1,xamarinios-10.8,xamarinmac-3.0</xliffext:moniker_ids>
+    </header>
+    <body>
+      <group id="content" extype="content">
+        <trans-unit id="101" translate="yes" xml:space="preserve" uid="T:System.ServiceModel.Dispatcher.IParameterInspector">
+          <source>Defines the contract implemented by custom parameter inspectors that enables inspection or modification of information prior to and subsequent to calls on either the client or the service.</source>
+          <target state="translated">定义自定义参数检查器实现的协定，有了该协定，就可在客户端或服务进行调用之前或紧接着其调用，检查或修改信息。</target>       </trans-unit>
+        <trans-unit id="102" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ServiceModel.Dispatcher.IParameterInspector">
+          <source>Implement the <ph id="ph1">&lt;xref:System.ServiceModel.Dispatcher.IParameterInspector&gt;</ph> interface to create a custom parameter inspector that can view and modify the contents of a call both before the call and after the call in either client or service applications.</source>
+          <target state="translated">实现 <ph id="ph1">&lt;xref:System.ServiceModel.Dispatcher.IParameterInspector&gt;</ph> 接口，以创建自定义参数检查器，该检查器可在客户端或服务应用程序进行调用之前和之后，查看和修改调用的内容。</target>       </trans-unit>
+        <trans-unit id="103" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ServiceModel.Dispatcher.IParameterInspector">
+          <source>On outbound calls from a client, the inspector is invoked before the request contents are serialized and sent to the service.</source>
+          <target state="translated">对于来自客户端的出站调用，该检查器是在请求内容序列化并发送到服务之前调用的。</target>       </trans-unit>
+        <trans-unit id="104" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ServiceModel.Dispatcher.IParameterInspector">
+          <source>The inspector is also called after the response has been deserialized but before the return values have been dispatched to the proxy method.</source>
+          <target state="translated">同时，还会在响应消息被反序列化之后，但在将返回值调度到代理方法之前，调用该检查器。</target>       </trans-unit>
+        <trans-unit id="105" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ServiceModel.Dispatcher.IParameterInspector">
+          <source>On inbound calls to a service, the inspector is invoked after parameters are deserialized but before they are dispatched to the service operation.</source>
+          <target state="translated">对于到服务的入站调用，该检查器是在反序列化参数之后、但在这些参数调度到服务操作之前调用的。</target>       </trans-unit>
+        <trans-unit id="106" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ServiceModel.Dispatcher.IParameterInspector">
+          <source>Use the <ph id="ph1">&lt;xref:System.ServiceModel.Dispatcher.ClientOperation.ParameterInspectors%2A?displayProperty=nameWithType&gt;</ph> or the <ph id="ph2">&lt;xref:System.ServiceModel.Dispatcher.DispatchOperation.ParameterInspectors%2A?displayProperty=nameWithType&gt;</ph> properties to add an <ph id="ph3">&lt;xref:System.ServiceModel.Dispatcher.IParameterInspector&gt;</ph> implementation to the inspectors collection for a particular operation.</source>
+          <target state="translated">使用 <ph id="ph1">&lt;xref:System.ServiceModel.Dispatcher.ClientOperation.ParameterInspectors%2A?displayProperty=nameWithType&gt;</ph> 或 <ph id="ph2">&lt;xref:System.ServiceModel.Dispatcher.DispatchOperation.ParameterInspectors%2A?displayProperty=nameWithType&gt;</ph> 属性，以为特定操作将 <ph id="ph3">&lt;xref:System.ServiceModel.Dispatcher.IParameterInspector&gt;</ph> 实现添加到检查器集合。</target>       </trans-unit>
+        <trans-unit id="107" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ServiceModel.Dispatcher.IParameterInspector">
+          <source><bpt id="p1">**</bpt>Note<ept id="p1">**</ept> Developers and administrators must ensure that the interaction with other <ph id="ph1">&lt;xref:System.ServiceModel.Dispatcher.IParameterInspector&gt;</ph> implementations is understood.</source>
+          <target state="translated"><bpt id="p1">**</bpt>请注意<ept id="p1">**</ept>开发人员和管理员必须确保与其他交互<ph id="ph1">&lt;xref:System.ServiceModel.Dispatcher.IParameterInspector&gt;</ph>理解实现。</target>       </trans-unit>
+        <trans-unit id="108" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ServiceModel.Dispatcher.IParameterInspector">
+          <source>The following code example shows an <ph id="ph1">&lt;xref:System.ServiceModel.Dispatcher.IParameterInspector&gt;</ph> implementation that:</source>
+          <target state="translated">下面的代码示例演示了 <ph id="ph1">&lt;xref:System.ServiceModel.Dispatcher.IParameterInspector&gt;</ph> 实现：</target>       </trans-unit>
+        <trans-unit id="109" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ServiceModel.Dispatcher.IParameterInspector">
+          <source>Writes the operation name and return value to the console after a response has been deserialized by the service or a request has been serialized by a client.</source>
+          <target state="translated">在服务反序列化响应或客户端序列化请求之后，将操作名称和返回值写入控制台。</target>       </trans-unit>
+        <trans-unit id="110" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ServiceModel.Dispatcher.IParameterInspector">
+          <source>Writes the operation name to the console after deserializing a response on the client or after a response has been serialized on the service.</source>
+          <target state="translated">在客户端反序列化响应或服务序列化响应之后，将操作名称和返回值写入控制台。</target>       </trans-unit>
+        <trans-unit id="111" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ServiceModel.Dispatcher.IParameterInspector">
+          <source>The following code example shows how to use either <ph id="ph1">&lt;xref:System.ServiceModel.Description.IOperationBehavior?displayProperty=nameWithType&gt;</ph>, <ph id="ph2">&lt;xref:System.ServiceModel.Description.IEndpointBehavior?displayProperty=nameWithType&gt;</ph> or <ph id="ph3">&lt;xref:System.ServiceModel.Description.IServiceBehavior?displayProperty=nameWithType&gt;</ph> to insert <ph id="ph4">&lt;xref:System.ServiceModel.Dispatcher.IParameterInspector&gt;</ph> objects.</source>
+          <target state="translated">下面的代码示例演示了如何使用 <ph id="ph1">&lt;xref:System.ServiceModel.Description.IOperationBehavior?displayProperty=nameWithType&gt;</ph>, <ph id="ph2">&lt;xref:System.ServiceModel.Description.IEndpointBehavior?displayProperty=nameWithType&gt;</ph> 或 <ph id="ph3">&lt;xref:System.ServiceModel.Description.IServiceBehavior?displayProperty=nameWithType&gt;</ph> 插入 <ph id="ph4">&lt;xref:System.ServiceModel.Dispatcher.IParameterInspector&gt;</ph> 对象。</target>       </trans-unit>
+        <trans-unit id="112" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.Dispatcher.IParameterInspector.AfterCall(System.String,System.Object[],System.Object,System.Object)">
+          <source>The name of the invoked operation.</source>
+          <target state="translated">所调用的操作的名称。</target>       </trans-unit>
+        <trans-unit id="113" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.Dispatcher.IParameterInspector.AfterCall(System.String,System.Object[],System.Object,System.Object)">
+          <source>Any output objects.</source>
+          <target state="translated">任何输出对象。</target>       </trans-unit>
+        <trans-unit id="114" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.Dispatcher.IParameterInspector.AfterCall(System.String,System.Object[],System.Object,System.Object)">
+          <source>The return value of the operation.</source>
+          <target state="translated">操作的返回值。</target>       </trans-unit>
+        <trans-unit id="115" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.Dispatcher.IParameterInspector.AfterCall(System.String,System.Object[],System.Object,System.Object)">
+          <source>Any correlation state returned from the <ph id="ph1">&lt;see cref="M:System.ServiceModel.Dispatcher.IParameterInspector.BeforeCall(System.String,System.Object[])" /&gt;</ph> method, or <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</source>
+          <target state="translated">从 <ph id="ph1">&lt;see cref="M:System.ServiceModel.Dispatcher.IParameterInspector.BeforeCall(System.String,System.Object[])" /&gt;</ph> 方法返回的任何关联状态，或 <ph id="ph2">&lt;see langword="null" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="116" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.Dispatcher.IParameterInspector.AfterCall(System.String,System.Object[],System.Object,System.Object)">
+          <source>Called after client calls are returned and before service responses are sent.</source>
+          <target state="translated">在客户端调用返回之后、服务响应发送之前调用。</target>       </trans-unit>
+        <trans-unit id="117" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ServiceModel.Dispatcher.IParameterInspector.AfterCall(System.String,System.Object[],System.Object,System.Object)">
+          <source>On outbound calls from a client, the inspector is invoked before the request contents are serialized and sent to the service.</source>
+          <target state="translated">对于来自客户端的出站调用，该检查器是在请求内容序列化并发送到服务之前调用的。</target>       </trans-unit>
+        <trans-unit id="118" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ServiceModel.Dispatcher.IParameterInspector.AfterCall(System.String,System.Object[],System.Object,System.Object)">
+          <source>The inspector is also called after the response has been deserialized but before the return values have been dispatched to the proxy method.</source>
+          <target state="translated">同时，还会在响应消息被反序列化之后，但在将返回值调度到代理方法之前，调用该检查器。</target>       </trans-unit>
+        <trans-unit id="119" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ServiceModel.Dispatcher.IParameterInspector.AfterCall(System.String,System.Object[],System.Object,System.Object)">
+          <source>On inbound calls to a service, the inspector is invoked after parameters are deserialized but before they are dispatched to the service operation.</source>
+          <target state="translated">对于到服务的入站调用，该检查器是在反序列化参数之后、但在这些参数调度到服务操作之前调用的。</target>       </trans-unit>
+        <trans-unit id="120" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ServiceModel.Dispatcher.IParameterInspector.AfterCall(System.String,System.Object[],System.Object,System.Object)">
+          <source>The following code example shows an <ph id="ph1">&lt;xref:System.ServiceModel.Dispatcher.IParameterInspector&gt;</ph> implementation that:</source>
+          <target state="translated">下面的代码示例演示了 <ph id="ph1">&lt;xref:System.ServiceModel.Dispatcher.IParameterInspector&gt;</ph> 实现：</target>       </trans-unit>
+        <trans-unit id="121" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ServiceModel.Dispatcher.IParameterInspector.AfterCall(System.String,System.Object[],System.Object,System.Object)">
+          <source>Writes the operation name and return value to the console after a response has been deserialized by the service or a request has been serialized by a client.</source>
+          <target state="translated">在服务反序列化响应或客户端序列化请求之后，将操作名称和返回值写入控制台。</target>       </trans-unit>
+        <trans-unit id="122" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ServiceModel.Dispatcher.IParameterInspector.AfterCall(System.String,System.Object[],System.Object,System.Object)">
+          <source>Writes the operation name to the console after deserializing a response on the client or after a response has been serialized on the service.</source>
+          <target state="translated">在客户端反序列化响应或服务序列化响应之后，将操作名称和返回值写入控制台。</target>       </trans-unit>
+        <trans-unit id="123" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ServiceModel.Dispatcher.IParameterInspector.AfterCall(System.String,System.Object[],System.Object,System.Object)">
+          <source>The following code example shows how to use either <ph id="ph1">&lt;xref:System.ServiceModel.Description.IOperationBehavior?displayProperty=nameWithType&gt;</ph>, <ph id="ph2">&lt;xref:System.ServiceModel.Description.IEndpointBehavior?displayProperty=nameWithType&gt;</ph>, or <ph id="ph3">&lt;xref:System.ServiceModel.Description.IServiceBehavior?displayProperty=nameWithType&gt;</ph> to insert <ph id="ph4">&lt;xref:System.ServiceModel.Dispatcher.IParameterInspector&gt;</ph> objects.</source>
+          <target state="translated">下面的代码示例演示了如何使用 <ph id="ph1">&lt;xref:System.ServiceModel.Description.IOperationBehavior?displayProperty=nameWithType&gt;</ph>, <ph id="ph2">&lt;xref:System.ServiceModel.Description.IEndpointBehavior?displayProperty=nameWithType&gt;</ph> 或 <ph id="ph3">&lt;xref:System.ServiceModel.Description.IServiceBehavior?displayProperty=nameWithType&gt;</ph> 插入 <ph id="ph4">&lt;xref:System.ServiceModel.Dispatcher.IParameterInspector&gt;</ph> 对象。</target>       </trans-unit>
+        <trans-unit id="124" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.Dispatcher.IParameterInspector.BeforeCall(System.String,System.Object[])">
+          <source>The name of the operation.</source>
+          <target state="translated">操作的名称。</target>       </trans-unit>
+        <trans-unit id="125" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.Dispatcher.IParameterInspector.BeforeCall(System.String,System.Object[])">
+          <source>The objects passed to the method by the client.</source>
+          <target state="translated">客户端传递到方法的对象。</target>       </trans-unit>
+        <trans-unit id="126" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.Dispatcher.IParameterInspector.BeforeCall(System.String,System.Object[])">
+          <source>Called before client calls are sent and after service responses are returned.</source>
+          <target state="translated">在发送客户端调用之前、服务响应返回之后调用。</target>       </trans-unit>
+        <trans-unit id="127" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.Dispatcher.IParameterInspector.BeforeCall(System.String,System.Object[])">
+          <source>The correlation state that is returned as the <ph id="ph1">&lt;paramref name="correlationState" /&gt;</ph> parameter in <ph id="ph2">&lt;see cref="M:System.ServiceModel.Dispatcher.IParameterInspector.AfterCall(System.String,System.Object[],System.Object,System.Object)" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="correlationState" /&gt;</ph> 中，作为 <ph id="ph2">&lt;see cref="M:System.ServiceModel.Dispatcher.IParameterInspector.AfterCall(System.String,System.Object[],System.Object,System.Object)" /&gt;</ph> 参数返回的关联状态。</target>       </trans-unit>
+        <trans-unit id="128" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.Dispatcher.IParameterInspector.BeforeCall(System.String,System.Object[])">
+          <source>Return <ph id="ph1">&lt;see langword="null" /&gt;</ph> if you do not intend to use correlation state.</source>
+          <target state="translated">如果您不打算使用关联状态，则返回 <ph id="ph1">&lt;see langword="null" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="129" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ServiceModel.Dispatcher.IParameterInspector.BeforeCall(System.String,System.Object[])">
+          <source>On outbound calls from a client, the inspector is invoked before the request contents are serialized and sent to the service.</source>
+          <target state="translated">对于来自客户端的出站调用，该检查器是在请求内容序列化并发送到服务之前调用的。</target>       </trans-unit>
+        <trans-unit id="130" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ServiceModel.Dispatcher.IParameterInspector.BeforeCall(System.String,System.Object[])">
+          <source>The inspector is also called after the response has been deserialized but before the return values have been dispatched to the proxy method.</source>
+          <target state="translated">同时，还会在响应消息被反序列化之后，但在将返回值调度到代理方法之前，调用该检查器。</target>       </trans-unit>
+        <trans-unit id="131" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ServiceModel.Dispatcher.IParameterInspector.BeforeCall(System.String,System.Object[])">
+          <source>On inbound calls to a service, the inspector is invoked after the request contents are deserialized and dispatched to the service operation and before the response contents are serialized and sent to the client.</source>
+          <target state="translated">对于到服务的入站调用，该检查器是在请求内容反序列化并调度到服务操作之后、响应内容反序列化并发送到客户端之前调用的。</target>       </trans-unit>
+        <trans-unit id="132" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ServiceModel.Dispatcher.IParameterInspector.BeforeCall(System.String,System.Object[])">
+          <source>The following code example shows an <ph id="ph1">&lt;xref:System.ServiceModel.Dispatcher.IParameterInspector&gt;</ph> implementation that:</source>
+          <target state="translated">下面的代码示例演示了 <ph id="ph1">&lt;xref:System.ServiceModel.Dispatcher.IParameterInspector&gt;</ph> 实现：</target>       </trans-unit>
+        <trans-unit id="133" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ServiceModel.Dispatcher.IParameterInspector.BeforeCall(System.String,System.Object[])">
+          <source>Writes the operation name and return value to the console after a response has been deserialized by the service or a request has been serialized by a client.</source>
+          <target state="translated">在服务反序列化响应或客户端序列化请求之后，将操作名称和返回值写入控制台。</target>       </trans-unit>
+        <trans-unit id="134" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ServiceModel.Dispatcher.IParameterInspector.BeforeCall(System.String,System.Object[])">
+          <source>Writes the operation name to the console after deserializing a response on the client or after a response is serialized on the service.</source>
+          <target state="translated">在客户端反序列化响应或服务序列化响应之后，将操作名称和返回值写入控制台。</target>       </trans-unit>
+        <trans-unit id="135" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ServiceModel.Dispatcher.IParameterInspector.BeforeCall(System.String,System.Object[])">
+          <source>The following code example shows how to use either <ph id="ph1">&lt;xref:System.ServiceModel.Description.IOperationBehavior?displayProperty=nameWithType&gt;</ph>, <ph id="ph2">&lt;xref:System.ServiceModel.Description.IEndpointBehavior?displayProperty=nameWithType&gt;</ph> or <ph id="ph3">&lt;xref:System.ServiceModel.Description.IServiceBehavior?displayProperty=nameWithType&gt;</ph> to insert <ph id="ph4">&lt;xref:System.ServiceModel.Dispatcher.IParameterInspector&gt;</ph> objects.</source>
+          <target state="translated">下面的代码示例演示了如何使用 <ph id="ph1">&lt;xref:System.ServiceModel.Description.IOperationBehavior?displayProperty=nameWithType&gt;</ph>, <ph id="ph2">&lt;xref:System.ServiceModel.Description.IEndpointBehavior?displayProperty=nameWithType&gt;</ph> 或 <ph id="ph3">&lt;xref:System.ServiceModel.Description.IServiceBehavior?displayProperty=nameWithType&gt;</ph> 插入 <ph id="ph4">&lt;xref:System.ServiceModel.Dispatcher.IParameterInspector&gt;</ph> 对象。</target>       </trans-unit>
+      </group>
+    </body>
+  </file>
+</xliff>

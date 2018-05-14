@@ -1,168 +1,81 @@
-<Type Name="FirstChanceExceptionEventArgs" FullName="System.Runtime.ExceptionServices.FirstChanceExceptionEventArgs">
-  <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="5b82b33fd434c2b4d5434a6080b2c61d46168149" />
-    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
-    <Meta Name="ms.translationtype" Value="HT" />
-    <Meta Name="ms.contentlocale" Value="zh-CN" />
-    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
-  </Metadata>
-  <TypeSignature Language="C#" Value="public class FirstChanceExceptionEventArgs : EventArgs" />
-  <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit FirstChanceExceptionEventArgs extends System.EventArgs" />
-  <TypeSignature Language="DocId" Value="T:System.Runtime.ExceptionServices.FirstChanceExceptionEventArgs" />
-  <TypeSignature Language="VB.NET" Value="Public Class FirstChanceExceptionEventArgs&#xA;Inherits EventArgs" />
-  <TypeSignature Language="C++ CLI" Value="public ref class FirstChanceExceptionEventArgs : EventArgs" />
-  <AssemblyInfo>
-    <AssemblyName>mscorlib</AssemblyName>
-    <AssemblyVersion>2.0.5.0</AssemblyVersion>
-    <AssemblyVersion>4.0.0.0</AssemblyVersion>
-  </AssemblyInfo>
-  <AssemblyInfo>
-    <AssemblyName>netstandard</AssemblyName>
-    <AssemblyVersion>2.0.0.0</AssemblyVersion>
-  </AssemblyInfo>
-  <AssemblyInfo>
-    <AssemblyName>System.Runtime</AssemblyName>
-    <AssemblyVersion>4.2.0.0</AssemblyVersion>
-    <AssemblyVersion>4.2.1.0</AssemblyVersion>
-  </AssemblyInfo>
-  <Base>
-    <BaseTypeName>System.EventArgs</BaseTypeName>
-  </Base>
-  <Interfaces />
-  <Docs>
-    <summary>
-      <span data-ttu-id="d0055-101">在公共语言运行时开始搜索事件处理程序之前，为托管异常首次出现时引发的通知事件提供数据。</span>
-      <span class="sxs-lookup">
-        <span data-stu-id="d0055-101">Provides data for the notification event that is raised when a managed exception first occurs, before the common language runtime begins searching for event handlers.</span>
-      </span>
-    </summary>
-    <remarks>
-      <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="d0055-102">此类提供的异常处理程序<xref:System.AppDomain.FirstChanceException?displayProperty=nameWithType>有权访问该异常的事件。</span><span class="sxs-lookup"><span data-stu-id="d0055-102">This class provides the exception handler for the <xref:System.AppDomain.FirstChanceException?displayProperty=nameWithType> event with access to the exception.</span></span>  
-  
-   
-  
-## Examples  
- <span data-ttu-id="d0055-103">下面的示例创建名为的应用程序域的一系列`Child_0`通过`Child_3`，与`Worker`每个应用程序域中的对象。</span><span class="sxs-lookup"><span data-stu-id="d0055-103">The following example creates a series of application domains named `Child_0` through `Child_3`, with a `Worker` object in each application domain.</span></span> <span data-ttu-id="d0055-104">每个`Worker`对象具有对引用`Worker`对象在下一步的应用程序域中，除`Worker`最后一个应用程序域中。</span><span class="sxs-lookup"><span data-stu-id="d0055-104">Each `Worker` object has a reference to the `Worker` object in the next application domain, except for the `Worker` in the last application domain.</span></span> <span data-ttu-id="d0055-105"><xref:System.AppDomain.FirstChanceException>除外的所有应用程序域中处理事件`Child_1`。</span><span class="sxs-lookup"><span data-stu-id="d0055-105">The <xref:System.AppDomain.FirstChanceException> event is handled in all application domains except `Child_1`.</span></span>  
-  
- <span data-ttu-id="d0055-106">默认应用程序域创建的应用程序域后，调用`TestException`第一个子应用程序域的方法。</span><span class="sxs-lookup"><span data-stu-id="d0055-106">When the application domains have been created, the default application domain calls the `TestException` method for the first child application domain.</span></span> <span data-ttu-id="d0055-107">每个`Worker`对象调用`TestException`方法下一行，直到最后一个`Worker`引发已处理，或者未经处理的异常。</span><span class="sxs-lookup"><span data-stu-id="d0055-107">Each `Worker` object calls the `TestException` method for the next, until the last `Worker` throws an exception that is either handled or unhandled.</span></span> <span data-ttu-id="d0055-108">因此，当前线程通过所有应用程序域和`TestException`添加到每个应用程序域中的堆栈。</span><span class="sxs-lookup"><span data-stu-id="d0055-108">Thus, the current thread passes through all the application domains, and `TestException` is added to the stack in each application domain.</span></span>  
-  
- <span data-ttu-id="d0055-109">当最后一个`Worker`对象处理异常，<xref:System.AppDomain.FirstChanceException>仅在最后一个应用程序域中引发事件。</span><span class="sxs-lookup"><span data-stu-id="d0055-109">When the last `Worker` object handles the exception, the <xref:System.AppDomain.FirstChanceException> event is raised only in the last application domain.</span></span> <span data-ttu-id="d0055-110">其他应用程序域永远不会获得一个机会处理异常，因此不引发该事件。</span><span class="sxs-lookup"><span data-stu-id="d0055-110">The other application domains never get a chance to handle the exception, so the event is not raised.</span></span>  
-  
- <span data-ttu-id="d0055-111">当最后一个`Worker`对象并不处理异常，<xref:System.AppDomain.FirstChanceException>每个应用程序域中具有事件处理程序引发事件。</span><span class="sxs-lookup"><span data-stu-id="d0055-111">When the last `Worker` object does not handle the exception, the <xref:System.AppDomain.FirstChanceException> event is raised in each application domain that has an event handler.</span></span> <span data-ttu-id="d0055-112">每个事件处理程序完成后，堆栈将继续展开，直到默认应用程序域中捕获该异常。</span><span class="sxs-lookup"><span data-stu-id="d0055-112">After each event handler has finished, the stack continues to unwind until the exception is caught by the default application domain.</span></span>  
-  
-> [!NOTE]
->  <span data-ttu-id="d0055-113">若要查看堆栈显示为更接近引发该事件的增长和接近默认应用程序域，请更改`e.Exception.Message`到`e.Exception`中`FirstChanceHandler`事件处理程序。</span><span class="sxs-lookup"><span data-stu-id="d0055-113">To see how the stack display grows as the event is raised closer and closer to the default application domain, change `e.Exception.Message` to `e.Exception` in the `FirstChanceHandler` event handlers.</span></span> <span data-ttu-id="d0055-114">请注意，当`TestException`调用跨应用程序域边界进行，则它会出现两次： 一次针对该代理，一次存根 （stub）。</span><span class="sxs-lookup"><span data-stu-id="d0055-114">Notice that when `TestException` is called across application domain boundaries, it appears twice: once for the proxy and once for the stub.</span></span>  
-  
- [!code-csharp[System.AppDomain.FirstChanceException#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.appdomain.firstchanceexception/cs/example.cs#1)]
- [!code-vb[System.AppDomain.FirstChanceException#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.appdomain.firstchanceexception/vb/example.vb#1)]  
-  
- ]]></format>
-    </remarks>
-    <altmember cref="E:System.AppDomain.FirstChanceException" />
-  </Docs>
-  <Members>
-    <Member MemberName=".ctor">
-      <MemberSignature Language="C#" Value="public FirstChanceExceptionEventArgs (Exception exception);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(class System.Exception exception) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Runtime.ExceptionServices.FirstChanceExceptionEventArgs.#ctor(System.Exception)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; FirstChanceExceptionEventArgs(Exception ^ exception);" />
-      <MemberType>Constructor</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>mscorlib</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>netstandard</AssemblyName>
-        <AssemblyVersion>2.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>System.Runtime</AssemblyName>
-        <AssemblyVersion>4.2.0.0</AssemblyVersion>
-        <AssemblyVersion>4.2.1.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Parameters>
-        <Parameter Name="exception" Type="System.Exception" />
-      </Parameters>
-      <Docs>
-        <param name="exception">
-          <span data-ttu-id="d0055-115">刚才由托管代码引发的异常，该异常将由 <see cref="E:System.AppDomain.UnhandledException" /> 事件检查。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d0055-115">The exception that was just thrown by managed code, and that will be examined by the <see cref="E:System.AppDomain.UnhandledException" /> event.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="d0055-116">使用指定的异常初始化 <see cref="T:System.Runtime.ExceptionServices.FirstChanceExceptionEventArgs" /> 类的新实例。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d0055-116">Initializes a new instance of the <see cref="T:System.Runtime.ExceptionServices.FirstChanceExceptionEventArgs" /> class with a specified exception.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="d0055-117">公共语言运行时，不是由应用程序代码调用此构造函数。</span><span class="sxs-lookup"><span data-stu-id="d0055-117">This constructor is called by the common language runtime, not by application code.</span></span>  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="Exception">
-      <MemberSignature Language="C#" Value="public Exception Exception { get; }" />
-      <MemberSignature Language="ILAsm" Value=".property instance class System.Exception Exception" />
-      <MemberSignature Language="DocId" Value="P:System.Runtime.ExceptionServices.FirstChanceExceptionEventArgs.Exception" />
-      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property Exception As Exception" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; property Exception ^ Exception { Exception ^ get(); };" />
-      <MemberType>Property</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>mscorlib</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>netstandard</AssemblyName>
-        <AssemblyVersion>2.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>System.Runtime</AssemblyName>
-        <AssemblyVersion>4.2.0.0</AssemblyVersion>
-        <AssemblyVersion>4.2.1.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Attributes>
-        <Attribute>
-          <AttributeName>get: System.Runtime.ConstrainedExecution.ReliabilityContract(System.Runtime.ConstrainedExecution.Consistency.WillNotCorruptState, System.Runtime.ConstrainedExecution.Cer.Success)</AttributeName>
-        </Attribute>
-      </Attributes>
-      <ReturnValue>
-        <ReturnType>System.Exception</ReturnType>
-      </ReturnValue>
-      <Docs>
-        <summary>
-          <span data-ttu-id="d0055-118">与托管代码中引发的异常对应的托管异常对象。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d0055-118">The managed exception object that corresponds to the exception thrown in managed code.</span>
-          </span>
-        </summary>
-        <value>
-          <span data-ttu-id="d0055-119">新引发的异常。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d0055-119">The newly thrown exception.</span>
-          </span>
-        </value>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="d0055-120">处理的方法<xref:System.AppDomain.UnhandledException?displayProperty=nameWithType>事件可以检查异常，并执行相应的日志记录或其他通知服务。</span><span class="sxs-lookup"><span data-stu-id="d0055-120">The method that handles the <xref:System.AppDomain.UnhandledException?displayProperty=nameWithType> event can examine the exception and perform appropriate logging or other notification services.</span></span>  
-  
- <span data-ttu-id="d0055-121">有关示例代码，请参阅 <xref:System.Runtime.ExceptionServices.FirstChanceExceptionEventArgs>。</span><span class="sxs-lookup"><span data-stu-id="d0055-121">For example code, see <xref:System.Runtime.ExceptionServices.FirstChanceExceptionEventArgs>.</span></span>  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-  </Members>
-</Type>
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.2" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 xliff-core-1.2-transitional.xsd">
+  <file datatype="xml" original="FirstChanceExceptionEventArgs.xml" source-language="en-US" target-language="zh-CN">
+    <header>
+      <tool tool-id="mdxliff" tool-name="mdxliff" tool-version="1.0-15c36f0" tool-company="Microsoft" />
+      <xliffext:skl_file_name xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">02cd5861-7ce2-4a82-b358-31f8435a0ac55b82b33fd434c2b4d5434a6080b2c61d46168149.skl</xliffext:skl_file_name>
+      <xliffext:version xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">1.2</xliffext:version>
+      <xliffext:ms.openlocfilehash xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">5b82b33fd434c2b4d5434a6080b2c61d46168149</xliffext:ms.openlocfilehash>
+      <xliffext:ms.sourcegitcommit xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b</xliffext:ms.sourcegitcommit>
+      <xliffext:ms.lasthandoff xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">04/03/2018</xliffext:ms.lasthandoff>
+      <xliffext:moniker_ids xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">netcore-2.0,netcore-2.1,netframework-4.5.1,netframework-4.5.2,netframework-4.5,netframework-4.6.1,netframework-4.6.2,netframework-4.6,netframework-4.7.1,netframework-4.7,netstandard-2.0,xamarinandroid-7.1,xamarinios-10.8,xamarinmac-3.0</xliffext:moniker_ids>
+    </header>
+    <body>
+      <group id="content" extype="content">
+        <trans-unit id="101" translate="yes" xml:space="preserve" uid="T:System.Runtime.ExceptionServices.FirstChanceExceptionEventArgs">
+          <source>Provides data for the notification event that is raised when a managed exception first occurs, before the common language runtime begins searching for event handlers.</source>
+          <target state="translated">在公共语言运行时开始搜索事件处理程序之前，为托管异常首次出现时引发的通知事件提供数据。</target>       </trans-unit>
+        <trans-unit id="102" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Runtime.ExceptionServices.FirstChanceExceptionEventArgs">
+          <source>This class provides the exception handler for the <ph id="ph1">&lt;xref:System.AppDomain.FirstChanceException?displayProperty=nameWithType&gt;</ph> event with access to the exception.</source>
+          <target state="translated">此类提供的异常处理程序<ph id="ph1">&lt;xref:System.AppDomain.FirstChanceException?displayProperty=nameWithType&gt;</ph>有权访问该异常的事件。</target>       </trans-unit>
+        <trans-unit id="103" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Runtime.ExceptionServices.FirstChanceExceptionEventArgs">
+          <source>The following example creates a series of application domains named <ph id="ph1">`Child_0`</ph> through <ph id="ph2">`Child_3`</ph>, with a <ph id="ph3">`Worker`</ph> object in each application domain.</source>
+          <target state="translated">下面的示例创建名为的应用程序域的一系列<ph id="ph1">`Child_0`</ph>通过<ph id="ph2">`Child_3`</ph>，与<ph id="ph3">`Worker`</ph>每个应用程序域中的对象。</target>       </trans-unit>
+        <trans-unit id="104" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Runtime.ExceptionServices.FirstChanceExceptionEventArgs">
+          <source>Each <ph id="ph1">`Worker`</ph> object has a reference to the <ph id="ph2">`Worker`</ph> object in the next application domain, except for the <ph id="ph3">`Worker`</ph> in the last application domain.</source>
+          <target state="translated">每个<ph id="ph1">`Worker`</ph>对象具有对引用<ph id="ph2">`Worker`</ph>对象在下一步的应用程序域中，除<ph id="ph3">`Worker`</ph>最后一个应用程序域中。</target>       </trans-unit>
+        <trans-unit id="105" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Runtime.ExceptionServices.FirstChanceExceptionEventArgs">
+          <source>The <ph id="ph1">&lt;xref:System.AppDomain.FirstChanceException&gt;</ph> event is handled in all application domains except <ph id="ph2">`Child_1`</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;xref:System.AppDomain.FirstChanceException&gt;</ph>除外的所有应用程序域中处理事件<ph id="ph2">`Child_1`</ph>。</target>       </trans-unit>
+        <trans-unit id="106" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Runtime.ExceptionServices.FirstChanceExceptionEventArgs">
+          <source>When the application domains have been created, the default application domain calls the <ph id="ph1">`TestException`</ph> method for the first child application domain.</source>
+          <target state="translated">默认应用程序域创建的应用程序域后，调用<ph id="ph1">`TestException`</ph>第一个子应用程序域的方法。</target>       </trans-unit>
+        <trans-unit id="107" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Runtime.ExceptionServices.FirstChanceExceptionEventArgs">
+          <source>Each <ph id="ph1">`Worker`</ph> object calls the <ph id="ph2">`TestException`</ph> method for the next, until the last <ph id="ph3">`Worker`</ph> throws an exception that is either handled or unhandled.</source>
+          <target state="translated">每个<ph id="ph1">`Worker`</ph>对象调用<ph id="ph2">`TestException`</ph>方法下一行，直到最后一个<ph id="ph3">`Worker`</ph>引发已处理，或者未经处理的异常。</target>       </trans-unit>
+        <trans-unit id="108" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Runtime.ExceptionServices.FirstChanceExceptionEventArgs">
+          <source>Thus, the current thread passes through all the application domains, and <ph id="ph1">`TestException`</ph> is added to the stack in each application domain.</source>
+          <target state="translated">因此，当前线程通过所有应用程序域和<ph id="ph1">`TestException`</ph>添加到每个应用程序域中的堆栈。</target>       </trans-unit>
+        <trans-unit id="109" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Runtime.ExceptionServices.FirstChanceExceptionEventArgs">
+          <source>When the last <ph id="ph1">`Worker`</ph> object handles the exception, the <ph id="ph2">&lt;xref:System.AppDomain.FirstChanceException&gt;</ph> event is raised only in the last application domain.</source>
+          <target state="translated">当最后一个<ph id="ph1">`Worker`</ph>对象处理异常，<ph id="ph2">&lt;xref:System.AppDomain.FirstChanceException&gt;</ph>仅在最后一个应用程序域中引发事件。</target>       </trans-unit>
+        <trans-unit id="110" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Runtime.ExceptionServices.FirstChanceExceptionEventArgs">
+          <source>The other application domains never get a chance to handle the exception, so the event is not raised.</source>
+          <target state="translated">其他应用程序域永远不会获得一个机会处理异常，因此不引发该事件。</target>       </trans-unit>
+        <trans-unit id="111" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Runtime.ExceptionServices.FirstChanceExceptionEventArgs">
+          <source>When the last <ph id="ph1">`Worker`</ph> object does not handle the exception, the <ph id="ph2">&lt;xref:System.AppDomain.FirstChanceException&gt;</ph> event is raised in each application domain that has an event handler.</source>
+          <target state="translated">当最后一个<ph id="ph1">`Worker`</ph>对象并不处理异常，<ph id="ph2">&lt;xref:System.AppDomain.FirstChanceException&gt;</ph>每个应用程序域中具有事件处理程序引发事件。</target>       </trans-unit>
+        <trans-unit id="112" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Runtime.ExceptionServices.FirstChanceExceptionEventArgs">
+          <source>After each event handler has finished, the stack continues to unwind until the exception is caught by the default application domain.</source>
+          <target state="translated">每个事件处理程序完成后，堆栈将继续展开，直到默认应用程序域中捕获该异常。</target>       </trans-unit>
+        <trans-unit id="113" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Runtime.ExceptionServices.FirstChanceExceptionEventArgs">
+          <source>To see how the stack display grows as the event is raised closer and closer to the default application domain, change <ph id="ph1">`e.Exception.Message`</ph> to <ph id="ph2">`e.Exception`</ph> in the <ph id="ph3">`FirstChanceHandler`</ph> event handlers.</source>
+          <target state="translated">若要查看堆栈显示为更接近引发该事件的增长和接近默认应用程序域，请更改<ph id="ph1">`e.Exception.Message`</ph>到<ph id="ph2">`e.Exception`</ph>中<ph id="ph3">`FirstChanceHandler`</ph>事件处理程序。</target>       </trans-unit>
+        <trans-unit id="114" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Runtime.ExceptionServices.FirstChanceExceptionEventArgs">
+          <source>Notice that when <ph id="ph1">`TestException`</ph> is called across application domain boundaries, it appears twice: once for the proxy and once for the stub.</source>
+          <target state="translated">请注意，当<ph id="ph1">`TestException`</ph>调用跨应用程序域边界进行，则它会出现两次： 一次针对该代理，一次存根 （stub）。</target>       </trans-unit>
+        <trans-unit id="115" translate="yes" xml:space="preserve" uid="M:System.Runtime.ExceptionServices.FirstChanceExceptionEventArgs.#ctor(System.Exception)">
+          <source>The exception that was just thrown by managed code, and that will be examined by the <ph id="ph1">&lt;see cref="E:System.AppDomain.UnhandledException" /&gt;</ph> event.</source>
+          <target state="translated">刚才由托管代码引发的异常，该异常将由 <ph id="ph1">&lt;see cref="E:System.AppDomain.UnhandledException" /&gt;</ph> 事件检查。</target>       </trans-unit>
+        <trans-unit id="116" translate="yes" xml:space="preserve" uid="M:System.Runtime.ExceptionServices.FirstChanceExceptionEventArgs.#ctor(System.Exception)">
+          <source>Initializes a new instance of the <ph id="ph1">&lt;see cref="T:System.Runtime.ExceptionServices.FirstChanceExceptionEventArgs" /&gt;</ph> class with a specified exception.</source>
+          <target state="translated">使用指定的异常初始化 <ph id="ph1">&lt;see cref="T:System.Runtime.ExceptionServices.FirstChanceExceptionEventArgs" /&gt;</ph> 类的新实例。</target>       </trans-unit>
+        <trans-unit id="117" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Runtime.ExceptionServices.FirstChanceExceptionEventArgs.#ctor(System.Exception)">
+          <source>This constructor is called by the common language runtime, not by application code.</source>
+          <target state="translated">公共语言运行时，不是由应用程序代码调用此构造函数。</target>       </trans-unit>
+        <trans-unit id="118" translate="yes" xml:space="preserve" uid="P:System.Runtime.ExceptionServices.FirstChanceExceptionEventArgs.Exception">
+          <source>The managed exception object that corresponds to the exception thrown in managed code.</source>
+          <target state="translated">与托管代码中引发的异常对应的托管异常对象。</target>       </trans-unit>
+        <trans-unit id="119" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Runtime.ExceptionServices.FirstChanceExceptionEventArgs.Exception">
+          <source>The newly thrown exception.</source>
+          <target state="translated">新引发的异常。</target>       </trans-unit>
+        <trans-unit id="120" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Runtime.ExceptionServices.FirstChanceExceptionEventArgs.Exception">
+          <source>The method that handles the <ph id="ph1">&lt;xref:System.AppDomain.UnhandledException?displayProperty=nameWithType&gt;</ph> event can examine the exception and perform appropriate logging or other notification services.</source>
+          <target state="translated">处理的方法<ph id="ph1">&lt;xref:System.AppDomain.UnhandledException?displayProperty=nameWithType&gt;</ph>事件可以检查异常，并执行相应的日志记录或其他通知服务。</target>       </trans-unit>
+        <trans-unit id="121" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Runtime.ExceptionServices.FirstChanceExceptionEventArgs.Exception">
+          <source>For example code, see <ph id="ph1">&lt;xref:System.Runtime.ExceptionServices.FirstChanceExceptionEventArgs&gt;</ph>.</source>
+          <target state="translated">有关示例代码，请参阅 <ph id="ph1">&lt;xref:System.Runtime.ExceptionServices.FirstChanceExceptionEventArgs&gt;</ph>。</target>       </trans-unit>
+      </group>
+    </body>
+  </file>
+</xliff>

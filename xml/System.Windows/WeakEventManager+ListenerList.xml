@@ -1,683 +1,234 @@
-<Type Name="WeakEventManager+ListenerList" FullName="System.Windows.WeakEventManager+ListenerList">
-  <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="9f0f2be98debc822496ae0fb7a0b36b79ece2165" />
-    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
-    <Meta Name="ms.translationtype" Value="HT" />
-    <Meta Name="ms.contentlocale" Value="zh-CN" />
-    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
-  </Metadata>
-  <TypeSignature Language="C#" Value="protected class WeakEventManager.ListenerList" />
-  <TypeSignature Language="ILAsm" Value=".class nested protected auto ansi beforefieldinit WeakEventManager/ListenerList extends System.Object" />
-  <TypeSignature Language="DocId" Value="T:System.Windows.WeakEventManager.ListenerList" />
-  <TypeSignature Language="VB.NET" Value="Protected Class WeakEventManager.ListenerList" />
-  <AssemblyInfo>
-    <AssemblyName>WindowsBase</AssemblyName>
-    <AssemblyVersion>4.0.0.0</AssemblyVersion>
-  </AssemblyInfo>
-  <Base>
-    <BaseTypeName>System.Object</BaseTypeName>
-  </Base>
-  <Interfaces />
-  <Docs>
-    <summary>
-      <span data-ttu-id="0894f-101">提供用于存储 <see cref="T:System.Windows.WeakEventManager" /> 的侦听器的内置集合列表。</span>
-      <span class="sxs-lookup">
-        <span data-stu-id="0894f-101">Provides a built-in collection list for storing listeners for a <see cref="T:System.Windows.WeakEventManager" />.</span>
-      </span>
-    </summary>
-    <remarks>
-      <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="0894f-102">尽管此列表包含类似于定义的那些成员<xref:System.Collections.IList>和<xref:System.Collections.ICollection>，并提供类似的功能，此类将实现上述两个接口。</span><span class="sxs-lookup"><span data-stu-id="0894f-102">Although this list contains members that resemble those defined by <xref:System.Collections.IList> and <xref:System.Collections.ICollection>, and provide similar functionality, this class implements neither of those interfaces.</span></span>  
-  
- <span data-ttu-id="0894f-103">大多数<xref:System.Windows.WeakEventManager>派生的类无需使用任何成员上<xref:System.Windows.WeakEventManager.ListenerList>。</span><span class="sxs-lookup"><span data-stu-id="0894f-103">Most <xref:System.Windows.WeakEventManager> derived classes do not need to use any members on <xref:System.Windows.WeakEventManager.ListenerList>.</span></span> <span data-ttu-id="0894f-104"><xref:System.Windows.WeakEventManager>方法<xref:System.Windows.WeakEventManager.ProtectedAddListener%2A>和<xref:System.Windows.WeakEventManager.ProtectedRemoveListener%2A>使用一种默认<xref:System.Windows.WeakEventManager.ListenerList>内部，一个列表，每个`source`。</span><span class="sxs-lookup"><span data-stu-id="0894f-104">The <xref:System.Windows.WeakEventManager> methods <xref:System.Windows.WeakEventManager.ProtectedAddListener%2A> and <xref:System.Windows.WeakEventManager.ProtectedRemoveListener%2A> use a default <xref:System.Windows.WeakEventManager.ListenerList> internally, one list for each `source`.</span></span>  
-  
- <span data-ttu-id="0894f-105">只需调用<xref:System.Windows.WeakEventManager.ListenerList>方法如果你<xref:System.Windows.WeakEventManager>类维护对于相同的事件源组合，具有到不同的事件的条件的帐户创建每个列表的多个列表。</span><span class="sxs-lookup"><span data-stu-id="0894f-105">You only need to call <xref:System.Windows.WeakEventManager.ListenerList> methods if your <xref:System.Windows.WeakEventManager> class maintains multiple lists for the same event-source combination, with each list created to account for different conditions of the event.</span></span> <span data-ttu-id="0894f-106">在这种情况下，不会使用<xref:System.Windows.WeakEventManager.ProtectedAddListener%2A>和<xref:System.Windows.WeakEventManager.ProtectedRemoveListener%2A>和应改为实现`AddListener`或`RemoveListener`操作中内部侦听器列表中，通常基于参数添加到其中一个侦听器`AddListener`或`RemoveListener`.</span><span class="sxs-lookup"><span data-stu-id="0894f-106">In this case, you would not use <xref:System.Windows.WeakEventManager.ProtectedAddListener%2A> and <xref:System.Windows.WeakEventManager.ProtectedRemoveListener%2A> and would instead implement `AddListener` or `RemoveListener` to act upon listeners in just one of the internal listener lists, typically based on a parameter that you add to `AddListener` or `RemoveListener`.</span></span> <span data-ttu-id="0894f-107">此外，不能只需调用接收原始事件的处理程序实现<xref:System.Windows.WeakEventManager.DeliverEvent%2A>; 而是必须跟踪的事件的详细信息，并将事件传送到相应的列表使用仅<xref:System.Windows.WeakEventManager.DeliverEventToList%2A>。</span><span class="sxs-lookup"><span data-stu-id="0894f-107">Also, the handler implementation that receives the raw event cannot simply call <xref:System.Windows.WeakEventManager.DeliverEvent%2A>; you must instead keep track of the specifics of the event and deliver the event only to the appropriate list using <xref:System.Windows.WeakEventManager.DeliverEventToList%2A>.</span></span>  
-  
- <span data-ttu-id="0894f-108">各种方法<xref:System.Windows.WeakEventManager.ListenerList>，以便你可以使用内部列表并这样就可以阻止的事件的实际传送过程中修改列表提供。</span><span class="sxs-lookup"><span data-stu-id="0894f-108">The various methods of <xref:System.Windows.WeakEventManager.ListenerList> are provided so that you can work with your internal lists and so that you can prevent modification of the list during actual delivery of the event.</span></span>  
-  
- <span data-ttu-id="0894f-109">使用此实现技术对示例类进行<xref:System.ComponentModel.PropertyChangedEventManager>，并保留单独的侦听器列出`PropertyChanged`根据更改的属性。</span><span class="sxs-lookup"><span data-stu-id="0894f-109">An example class that used this implementation technique is <xref:System.ComponentModel.PropertyChangedEventManager>, which maintains separate listener lists for `PropertyChanged` based on which property changed.</span></span>  
-  
-<a name="xamlTextUsage_ListenerList"></a>   
-## <a name="xaml-text-usage"></a><span data-ttu-id="0894f-110">XAML 文本用法</span><span class="sxs-lookup"><span data-stu-id="0894f-110">XAML Text Usage</span></span>  
- <span data-ttu-id="0894f-111">不能将在此类[!INCLUDE[TLA2#tla_xaml](~/includes/tla2sharptla-xaml-md.md)]。</span><span class="sxs-lookup"><span data-stu-id="0894f-111">You cannot use this class in [!INCLUDE[TLA2#tla_xaml](~/includes/tla2sharptla-xaml-md.md)].</span></span>  
-  
- ]]></format>
-    </remarks>
-    <altmember cref="T:System.Windows.WeakEventManager" />
-    <altmember cref="T:System.Windows.IWeakEventListener" />
-  </Docs>
-  <Members>
-    <MemberGroup MemberName=".ctor">
-      <AssemblyInfo>
-        <AssemblyName>WindowsBase</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Docs>
-        <summary>
-          <span data-ttu-id="0894f-112">初始化 <see cref="T:System.Windows.WeakEventManager.ListenerList" /> 类的新实例。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="0894f-112">Initializes a new instance of the <see cref="T:System.Windows.WeakEventManager.ListenerList" /> class.</span>
-          </span>
-        </summary>
-      </Docs>
-    </MemberGroup>
-    <Member MemberName=".ctor">
-      <MemberSignature Language="C#" Value="public ListenerList ();" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor() cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Windows.WeakEventManager.ListenerList.#ctor" />
-      <MemberSignature Language="VB.NET" Value="Public Sub New ()" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; ListenerList();" />
-      <MemberType>Constructor</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>WindowsBase</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Parameters />
-      <Docs>
-        <summary>
-          <span data-ttu-id="0894f-113">初始化 <see cref="T:System.Windows.WeakEventManager.ListenerList" /> 类的新实例。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="0894f-113">Initializes a new instance of the <see cref="T:System.Windows.WeakEventManager.ListenerList" /> class.</span>
-          </span>
-        </summary>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName=".ctor">
-      <MemberSignature Language="C#" Value="public ListenerList (int capacity);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(int32 capacity) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Windows.WeakEventManager.ListenerList.#ctor(System.Int32)" />
-      <MemberSignature Language="VB.NET" Value="Public Sub New (capacity As Integer)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; ListenerList(int capacity);" />
-      <MemberType>Constructor</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>WindowsBase</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Parameters>
-        <Parameter Name="capacity" Type="System.Int32" />
-      </Parameters>
-      <Docs>
-        <param name="capacity">
-          <span data-ttu-id="0894f-114">应在初始列表中分配的项数。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="0894f-114">The number of items that should be allocated in the initial list.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="0894f-115">使用指定的初始容量初始化 <see cref="T:System.Windows.WeakEventManager.ListenerList" /> 类的新实例。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="0894f-115">Initializes a new instance of the <see cref="T:System.Windows.WeakEventManager.ListenerList" /> class with the specified initial capacity.</span>
-          </span>
-        </summary>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="Add">
-      <MemberSignature Language="C#" Value="public void Add (System.Windows.IWeakEventListener listener);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void Add(class System.Windows.IWeakEventListener listener) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Windows.WeakEventManager.ListenerList.Add(System.Windows.IWeakEventListener)" />
-      <MemberSignature Language="VB.NET" Value="Public Sub Add (listener As IWeakEventListener)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; void Add(System::Windows::IWeakEventListener ^ listener);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>WindowsBase</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="listener" Type="System.Windows.IWeakEventListener" />
-      </Parameters>
-      <Docs>
-        <param name="listener">
-          <span data-ttu-id="0894f-116">要添加到 <see cref="T:System.Windows.WeakEventManager.ListenerList" /> 的侦听器元素。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="0894f-116">The listener element to add to the <see cref="T:System.Windows.WeakEventManager.ListenerList" />.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="0894f-117">将 <see cref="T:System.Windows.IWeakEventListener" /> 对象添加到 <see cref="T:System.Windows.WeakEventManager.ListenerList" /> 中。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="0894f-117">Adds a <see cref="T:System.Windows.IWeakEventListener" /> object to the <see cref="T:System.Windows.WeakEventManager.ListenerList" />.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="0894f-118">因为侦听器应该是提供的对象<xref:System.Windows.DependencyObject>实现<xref:System.Windows.IWeakEventListener>接口，并因此具有一个有效的<xref:System.Windows.IWeakEventListener.ReceiveWeakEvent%2A>实现。</span><span class="sxs-lookup"><span data-stu-id="0894f-118">The object provided as listener should be a <xref:System.Windows.DependencyObject> that implements the <xref:System.Windows.IWeakEventListener> interface and therefore has a working <xref:System.Windows.IWeakEventListener.ReceiveWeakEvent%2A> implementation.</span></span>  
-  
- <span data-ttu-id="0894f-119">始终应调用<xref:System.Windows.WeakEventManager.ListenerList.PrepareForWriting%2A>之前更改列表的内容。</span><span class="sxs-lookup"><span data-stu-id="0894f-119">You should always call <xref:System.Windows.WeakEventManager.ListenerList.PrepareForWriting%2A> before changing the list contents.</span></span> <span data-ttu-id="0894f-120">否则为列表可能为： 传递事件对象，因此锁定原始。</span><span class="sxs-lookup"><span data-stu-id="0894f-120">Otherwise, the list may be in process of delivering events and therefore the original is locked.</span></span> <span data-ttu-id="0894f-121">调用<xref:System.Windows.WeakEventManager.ListenerList.PrepareForWriting%2A>更改输入`list`要克隆，以便你<xref:System.Windows.WeakEventManager.ListenerList.Add%2A>调用仍可在克隆上工作。</span><span class="sxs-lookup"><span data-stu-id="0894f-121">Calling <xref:System.Windows.WeakEventManager.ListenerList.PrepareForWriting%2A> changes the input `list` to be a clone so that your <xref:System.Windows.WeakEventManager.ListenerList.Add%2A> call can still work on the clone.</span></span> <span data-ttu-id="0894f-122">如果<xref:System.Windows.WeakEventManager.ListenerList.PrepareForWriting%2A>返回`true`，可能需要更新到列表中，你都应保留在你的代码的其他区域中的任何私有引用。</span><span class="sxs-lookup"><span data-stu-id="0894f-122">If <xref:System.Windows.WeakEventManager.ListenerList.PrepareForWriting%2A> returns `true`, you might need to update any private references to the list that you maintain in other areas of your code.</span></span>  
-  
- ]]></format>
-        </remarks>
-        <altmember cref="M:System.Windows.WeakEventManager.ListenerList.PrepareForWriting(System.Windows.WeakEventManager.ListenerList@)" />
-        <altmember cref="M:System.Windows.WeakEventManager.ListenerList.BeginUse" />
-      </Docs>
-    </Member>
-    <Member MemberName="AddHandler">
-      <MemberSignature Language="C#" Value="public void AddHandler (Delegate handler);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void AddHandler(class System.Delegate handler) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Windows.WeakEventManager.ListenerList.AddHandler(System.Delegate)" />
-      <MemberSignature Language="VB.NET" Value="Public Sub AddHandler (handler As Delegate)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; void AddHandler(Delegate ^ handler);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>WindowsBase</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="handler" Type="System.Delegate" />
-      </Parameters>
-      <Docs>
-        <param name="handler">
-          <span data-ttu-id="0894f-123">将添加到 <see cref="T:System.Windows.WeakEventManager.ListenerList" /> 中的事件处理程序。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="0894f-123">The event handler to add to the <see cref="T:System.Windows.WeakEventManager.ListenerList" />.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="0894f-124">将事件处理程序添加到 <see cref="T:System.Windows.WeakEventManager.ListenerList" /> 中。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="0894f-124">Adds an event handler to the <see cref="T:System.Windows.WeakEventManager.ListenerList" />.</span>
-          </span>
-        </summary>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="BeginUse">
-      <MemberSignature Language="C#" Value="public bool BeginUse ();" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance bool BeginUse() cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Windows.WeakEventManager.ListenerList.BeginUse" />
-      <MemberSignature Language="VB.NET" Value="Public Function BeginUse () As Boolean" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; bool BeginUse();" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>WindowsBase</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Boolean</ReturnType>
-      </ReturnValue>
-      <Parameters />
-      <Docs>
-        <summary>
-          <span data-ttu-id="0894f-125">声明列表正在使用中。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="0894f-125">Declares the list to be in use.</span>
-          </span>
-          <span data-ttu-id="0894f-126">这可以防止在列表项迭代过程中直接更改列表。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="0894f-126">This prevents direct changes to the list during iterations of the list items.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="0894f-127">如果列表已经声明为正在使用中，则为 <see langword="true" />；否则为 <see langword="false" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="0894f-127">
-              <see langword="true" /> if the list was already declared to be in use; otherwise, <see langword="false" />.</span>
-          </span>
-        </returns>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="0894f-128">A<xref:System.Windows.WeakEventManager>实现应调用<xref:System.Windows.WeakEventManager.ListenerList.BeginUse%2A>之前循环访问列表将事件传送到侦听器，并应调用<xref:System.Windows.WeakEventManager.ListenerList.EndUse%2A>完成时。</span><span class="sxs-lookup"><span data-stu-id="0894f-128">A <xref:System.Windows.WeakEventManager> implementation should call <xref:System.Windows.WeakEventManager.ListenerList.BeginUse%2A> before iterating through the list to deliver an event to the listeners, and should call <xref:System.Windows.WeakEventManager.ListenerList.EndUse%2A> when it is done.</span></span> <span data-ttu-id="0894f-129">这可以防止另一个调用方为了事件传送迭代过程中修改列表。</span><span class="sxs-lookup"><span data-stu-id="0894f-129">This prevents another caller from modifying the list while the iteration for purposes of event delivery is in progress.</span></span> <span data-ttu-id="0894f-130">如果在此期间修改列表，则克隆列表。</span><span class="sxs-lookup"><span data-stu-id="0894f-130">If the list is modified during this time, then the list is cloned.</span></span> <span data-ttu-id="0894f-131">如果克隆列表，然后<xref:System.Windows.WeakEventManager.ListenerList.PrepareForWriting%2A>返回`true`，这意味着你丢失了最后一次传递中最近的侦听器更改。</span><span class="sxs-lookup"><span data-stu-id="0894f-131">If the list is cloned, then <xref:System.Windows.WeakEventManager.ListenerList.PrepareForWriting%2A> returns `true`, which means that you have missed a recent listener change in the last delivery.</span></span>  
-  
- ]]></format>
-        </remarks>
-        <altmember cref="M:System.Windows.WeakEventManager.ListenerList.EndUse" />
-      </Docs>
-    </Member>
-    <Member MemberName="Clone">
-      <MemberSignature Language="C#" Value="public virtual System.Windows.WeakEventManager.ListenerList Clone ();" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance class System.Windows.WeakEventManager/ListenerList Clone() cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Windows.WeakEventManager.ListenerList.Clone" />
-      <MemberSignature Language="VB.NET" Value="Public Overridable Function Clone () As WeakEventManager.ListenerList" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>WindowsBase</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Windows.WeakEventManager+ListenerList</ReturnType>
-      </ReturnValue>
-      <Parameters />
-      <Docs>
-        <summary>
-          <span data-ttu-id="0894f-132">创建此 <see cref="T:System.Windows.WeakEventManager.ListenerList" /> 的可修改复本。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="0894f-132">Creates a modifiable clone of this <see cref="T:System.Windows.WeakEventManager.ListenerList" />.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="0894f-133">当前对象的可修改复本。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="0894f-133">A modifiable clone of the current object.</span>
-          </span>
-        </returns>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="CopyTo">
-      <MemberSignature Language="C#" Value="protected void CopyTo (System.Windows.WeakEventManager.ListenerList newList);" />
-      <MemberSignature Language="ILAsm" Value=".method familyhidebysig instance void CopyTo(class System.Windows.WeakEventManager/ListenerList newList) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Windows.WeakEventManager.ListenerList.CopyTo(System.Windows.WeakEventManager.ListenerList)" />
-      <MemberSignature Language="VB.NET" Value="Protected Sub CopyTo (newList As WeakEventManager.ListenerList)" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>WindowsBase</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="newList" Type="System.Windows.WeakEventManager+ListenerList" />
-      </Parameters>
-      <Docs>
-        <param name="newList">
-          <span data-ttu-id="0894f-134">要复制到的对象。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="0894f-134">The object to copy to.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="0894f-135">将当前的 <see cref="T:System.Windows.WeakEventManager.ListenerList" /> 复制到指定 <see cref="T:System.Windows.WeakEventManager.ListenerList" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="0894f-135">Copies the current <see cref="T:System.Windows.WeakEventManager.ListenerList" /> to the specified <see cref="T:System.Windows.WeakEventManager.ListenerList" /></span>
-          </span>
-        </summary>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="Count">
-      <MemberSignature Language="C#" Value="public int Count { get; }" />
-      <MemberSignature Language="ILAsm" Value=".property instance int32 Count" />
-      <MemberSignature Language="DocId" Value="P:System.Windows.WeakEventManager.ListenerList.Count" />
-      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property Count As Integer" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; property int Count { int get(); };" />
-      <MemberType>Property</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>WindowsBase</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Int32</ReturnType>
-      </ReturnValue>
-      <Docs>
-        <summary>
-          <span data-ttu-id="0894f-136">获取 <see cref="T:System.Windows.WeakEventManager.ListenerList" /> 中包含的项的数量。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="0894f-136">Gets the number of items contained in the <see cref="T:System.Windows.WeakEventManager.ListenerList" />.</span>
-          </span>
-        </summary>
-        <value>
-          <span data-ttu-id="0894f-137">
-            <see cref="T:System.Windows.WeakEventManager.ListenerList" /> 中包含的项的数量。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="0894f-137">The number of items contained in the <see cref="T:System.Windows.WeakEventManager.ListenerList" />.</span>
-          </span>
-        </value>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="DeliverEvent">
-      <MemberSignature Language="C#" Value="public virtual bool DeliverEvent (object sender, EventArgs args, Type managerType);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance bool DeliverEvent(object sender, class System.EventArgs args, class System.Type managerType) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Windows.WeakEventManager.ListenerList.DeliverEvent(System.Object,System.EventArgs,System.Type)" />
-      <MemberSignature Language="VB.NET" Value="Public Overridable Function DeliverEvent (sender As Object, args As EventArgs, managerType As Type) As Boolean" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual bool DeliverEvent(System::Object ^ sender, EventArgs ^ args, Type ^ managerType);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>WindowsBase</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Boolean</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="sender" Type="System.Object" />
-        <Parameter Name="args" Type="System.EventArgs" />
-        <Parameter Name="managerType" Type="System.Type" />
-      </Parameters>
-      <Docs>
-        <param name="sender">
-          <span data-ttu-id="0894f-138">引发事件的对象。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="0894f-138">The object that raised the event.</span>
-          </span>
-        </param>
-        <param name="args">
-          <span data-ttu-id="0894f-139">包含事件数据的对象。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="0894f-139">An object that contains the event data.</span>
-          </span>
-        </param>
-        <param name="managerType">
-          <span data-ttu-id="0894f-140">调用此方法的 <see cref="T:System.Windows.WeakEventManager" /> 的类型。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="0894f-140">The type of the <see cref="T:System.Windows.WeakEventManager" /> that calls this method.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="0894f-141">将正在托管的事件传送到 <see cref="T:System.Windows.WeakEventManager.ListenerList" /> 中的每个侦听器。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="0894f-141">Delivers the event being managed to each listener in the <see cref="T:System.Windows.WeakEventManager.ListenerList" />.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="0894f-142">如果任何一个 <see cref="T:System.Windows.WeakEventManager.ListenerList" /> 中侦听器引用的对象已被垃圾回收，则为 <see langword="true" />；否则，为<see langword="false" /> 。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="0894f-142">
-              <see langword="true" /> if any of the listeners in the <see cref="T:System.Windows.WeakEventManager.ListenerList" /> refer to an object that has been garbage collected; otherwise, <see langword="false" />.</span>
-          </span>
-        </returns>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="Empty">
-      <MemberSignature Language="C#" Value="public static System.Windows.WeakEventManager.ListenerList Empty { get; }" />
-      <MemberSignature Language="ILAsm" Value=".property class System.Windows.WeakEventManager/ListenerList Empty" />
-      <MemberSignature Language="DocId" Value="P:System.Windows.WeakEventManager.ListenerList.Empty" />
-      <MemberSignature Language="VB.NET" Value="Public Shared ReadOnly Property Empty As WeakEventManager.ListenerList" />
-      <MemberType>Property</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>WindowsBase</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Windows.WeakEventManager+ListenerList</ReturnType>
-      </ReturnValue>
-      <Docs>
-        <summary>
-          <span data-ttu-id="0894f-143">获取表示用于对比的空列表的值。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="0894f-143">Gets a value that represents an empty list for purposes of comparisons.</span>
-          </span>
-        </summary>
-        <value>
-          <span data-ttu-id="0894f-144">空列表表示。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="0894f-144">The empty list representation.</span>
-          </span>
-        </value>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="EndUse">
-      <MemberSignature Language="C#" Value="public void EndUse ();" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void EndUse() cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Windows.WeakEventManager.ListenerList.EndUse" />
-      <MemberSignature Language="VB.NET" Value="Public Sub EndUse ()" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; void EndUse();" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>WindowsBase</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters />
-      <Docs>
-        <summary>
-          <span data-ttu-id="0894f-145">解除由 <see cref="M:System.Windows.WeakEventManager.ListenerList.BeginUse" /> 启动的锁定状态。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="0894f-145">Unlocks the locked state initiated by <see cref="M:System.Windows.WeakEventManager.ListenerList.BeginUse" />.</span>
-          </span>
-        </summary>
-        <remarks>To be added.</remarks>
-        <altmember cref="M:System.Windows.WeakEventManager.ListenerList.BeginUse" />
-      </Docs>
-    </Member>
-    <Member MemberName="IsEmpty">
-      <MemberSignature Language="C#" Value="public bool IsEmpty { get; }" />
-      <MemberSignature Language="ILAsm" Value=".property instance bool IsEmpty" />
-      <MemberSignature Language="DocId" Value="P:System.Windows.WeakEventManager.ListenerList.IsEmpty" />
-      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property IsEmpty As Boolean" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; property bool IsEmpty { bool get(); };" />
-      <MemberType>Property</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>WindowsBase</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Boolean</ReturnType>
-      </ReturnValue>
-      <Docs>
-        <summary>
-          <span data-ttu-id="0894f-146">获取声明此 <see cref="T:System.Windows.WeakEventManager.ListenerList" /> 是否为空的值。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="0894f-146">Gets a value that declares whether this <see cref="T:System.Windows.WeakEventManager.ListenerList" /> is empty.</span>
-          </span>
-        </summary>
-        <value>
-          <span data-ttu-id="0894f-147">如果列表为空，则为 <see langword="true" />；否则为 <see langword="false" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="0894f-147">
-              <see langword="true" /> if the list is empty; otherwise, <see langword="false" />.</span>
-          </span>
-        </value>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="0894f-148">此方法等效于检查是否<xref:System.Windows.WeakEventManager.ListenerList.Count%2A>为零，并且不检查是否任何列表中引用是否现在已过时。</span><span class="sxs-lookup"><span data-stu-id="0894f-148">This method is equivalent to checking whether the <xref:System.Windows.WeakEventManager.ListenerList.Count%2A> is zero, and does not check whether any of the references in the list are now stale.</span></span> <span data-ttu-id="0894f-149">如果你想要确保所有引用都是否仍然有效，请调用<xref:System.Windows.WeakEventManager.ListenerList.Purge%2A>之前检查列表的空状态。</span><span class="sxs-lookup"><span data-stu-id="0894f-149">If you want to assure that all references are still valid, call <xref:System.Windows.WeakEventManager.ListenerList.Purge%2A> just prior to checking the empty status of the list.</span></span>  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="Item">
-      <MemberSignature Language="C#" Value="public System.Windows.IWeakEventListener this[int index] { get; }" />
-      <MemberSignature Language="ILAsm" Value=".property instance class System.Windows.IWeakEventListener Item(int32)" />
-      <MemberSignature Language="DocId" Value="P:System.Windows.WeakEventManager.ListenerList.Item(System.Int32)" />
-      <MemberSignature Language="VB.NET" Value="Default Public ReadOnly Property Item(index As Integer) As IWeakEventListener" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::Windows::IWeakEventListener ^ default[int] { System::Windows::IWeakEventListener ^ get(int index); };" />
-      <MemberType>Property</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>WindowsBase</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Windows.IWeakEventListener</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="index" Type="System.Int32" />
-      </Parameters>
-      <Docs>
-        <param name="index">
-          <span data-ttu-id="0894f-150">列表中侦听器的从零开始的索引。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="0894f-150">The zero-based index of the listener in the list.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="0894f-151">获取或设置 <see cref="T:System.Windows.WeakEventManager.ListenerList" /> 中的特定侦听器项。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="0894f-151">Gets or sets a specific listener item in the <see cref="T:System.Windows.WeakEventManager.ListenerList" /> .</span>
-          </span>
-        </summary>
-        <value>
-          <span data-ttu-id="0894f-152">该索引处的项，如果该索引处没有项，则为 null 引用。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="0894f-152">The item at that index, or a null reference if no item was at that index.</span>
-          </span>
-        </value>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="PrepareForWriting">
-      <MemberSignature Language="C#" Value="public static bool PrepareForWriting (ref System.Windows.WeakEventManager.ListenerList list);" />
-      <MemberSignature Language="ILAsm" Value=".method public static hidebysig bool PrepareForWriting(class System.Windows.WeakEventManager/ListenerList&amp; list) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Windows.WeakEventManager.ListenerList.PrepareForWriting(System.Windows.WeakEventManager.ListenerList@)" />
-      <MemberSignature Language="VB.NET" Value="Public Shared Function PrepareForWriting (ByRef list As WeakEventManager.ListenerList) As Boolean" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; static bool PrepareForWriting(System::Windows::WeakEventManager::ListenerList ^ % list);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>WindowsBase</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Boolean</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="list" Type="System.Windows.WeakEventManager+ListenerList&amp;" RefType="ref" />
-      </Parameters>
-      <Docs>
-        <param name="list">
-          <span data-ttu-id="0894f-153">要检查其使用状态和可能副本的列表。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="0894f-153">The list to check for use state and potentially copy.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="0894f-154">检查是否正在使用提供的列表，如果正在使用，则将列表引用参数设置为该列表的副本，而不是原稿列表的副本。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="0894f-154">Checks to see whether the provided list is in use, and if so, sets the list reference parameter to a copy of that list rather than the original.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="0894f-155">如果调用时正在使用提供的列表，并因此 <paramref name="list" /> 参数引用被重置为副本，则为 <see langword="true" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="0894f-155">
-              <see langword="true" /> if the provided list was in use at the time of call and therefore the <paramref name="list" /> parameter reference was reset to be a copy.</span>
-          </span>
-          <span data-ttu-id="0894f-156">如果未使用提供的列表，在此情况下 <paramref name="list" /> 参数引用保持不变，则为 <see langword="false" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="0894f-156">
-              <see langword="false" /> if the provided list was not in use, in which case the <paramref name="list" /> parameter reference remains unaltered.</span>
-          </span>
-        </returns>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="0894f-157">如果是使用给定的列表 （这意味着当前传送事件），调用此方法将替换输入`list`使用克隆。</span><span class="sxs-lookup"><span data-stu-id="0894f-157">If the given list is in use (which means an event is currently being delivered), calling this method will replace the input `list` with a clone.</span></span>  <span data-ttu-id="0894f-158">现有用户将完成将事件传送到原始列表中，不受干扰从更改为新的列表。</span><span class="sxs-lookup"><span data-stu-id="0894f-158">The existing users will finish delivering the event to the original list, without interference from changes to the new list.</span></span>  
-  
- <span data-ttu-id="0894f-159">如果该方法返回`true`，调用方可能想要在他们自己的数据结构中插入新列表，因为这表示提供的列表不再是最新的可能性。</span><span class="sxs-lookup"><span data-stu-id="0894f-159">If the method returns `true`, callers may want to insert the new list in their own data structures, since this indicates the possibility that the provided list is no longer current.</span></span>  
-  
- <span data-ttu-id="0894f-160">此方法调用<xref:System.Windows.WeakEventManager.ListenerList.BeginUse%2A>内部，然后立即调用<xref:System.Windows.WeakEventManager.ListenerList.EndUse%2A>。</span><span class="sxs-lookup"><span data-stu-id="0894f-160">This method calls <xref:System.Windows.WeakEventManager.ListenerList.BeginUse%2A> internally and then immediately calls <xref:System.Windows.WeakEventManager.ListenerList.EndUse%2A>.</span></span> <span data-ttu-id="0894f-161">因此调用<xref:System.Windows.WeakEventManager.ListenerList.PrepareForWriting%2A>本身不会导致在列表上的锁。</span><span class="sxs-lookup"><span data-stu-id="0894f-161">Therefore calling <xref:System.Windows.WeakEventManager.ListenerList.PrepareForWriting%2A> does not itself introduce a lock on the list.</span></span> <span data-ttu-id="0894f-162">即使克隆副本完成作为辅助操作之后调用<xref:System.Windows.WeakEventManager.ListenerList.EndUse%2A>。</span><span class="sxs-lookup"><span data-stu-id="0894f-162">Even the clone copy is done as a secondary operation after calling <xref:System.Windows.WeakEventManager.ListenerList.EndUse%2A>.</span></span>  
-  
- ]]></format>
-        </remarks>
-        <altmember cref="M:System.Windows.WeakEventManager.ListenerList.BeginUse" />
-        <altmember cref="M:System.Windows.WeakEventManager.ListenerList.EndUse" />
-      </Docs>
-    </Member>
-    <Member MemberName="Purge">
-      <MemberSignature Language="C#" Value="public bool Purge ();" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance bool Purge() cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Windows.WeakEventManager.ListenerList.Purge" />
-      <MemberSignature Language="VB.NET" Value="Public Function Purge () As Boolean" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; bool Purge();" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>WindowsBase</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Boolean</ReturnType>
-      </ReturnValue>
-      <Parameters />
-      <Docs>
-        <summary>
-          <span data-ttu-id="0894f-163">从基础引用目标为 null 引用的列表中移除所有项。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="0894f-163">Removes all entries from the list where the underlying reference target is a null reference.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="0894f-164">如果清除了所有项，则返回 <see langword="true" />；否则返回 <see langword="false" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="0894f-164">Returns <see langword="true" /> if any entries were purged; otherwise, <see langword="false" />.</span>
-          </span>
-        </returns>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="Remove">
-      <MemberSignature Language="C#" Value="public void Remove (System.Windows.IWeakEventListener listener);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void Remove(class System.Windows.IWeakEventListener listener) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Windows.WeakEventManager.ListenerList.Remove(System.Windows.IWeakEventListener)" />
-      <MemberSignature Language="VB.NET" Value="Public Sub Remove (listener As IWeakEventListener)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; void Remove(System::Windows::IWeakEventListener ^ listener);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>WindowsBase</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="listener" Type="System.Windows.IWeakEventListener" />
-      </Parameters>
-      <Docs>
-        <param name="listener">
-          <span data-ttu-id="0894f-165">要移除的项。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="0894f-165">The item to remove.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="0894f-166">从 <see cref="T:System.Windows.WeakEventManager.ListenerList" /> 中移除侦听器项的第一个匹配项。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="0894f-166">Removes the first occurrence of a listener item from the <see cref="T:System.Windows.WeakEventManager.ListenerList" />.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="0894f-167">始终应调用<xref:System.Windows.WeakEventManager.ListenerList.PrepareForWriting%2A>之前更改列表的内容。</span><span class="sxs-lookup"><span data-stu-id="0894f-167">You should always call <xref:System.Windows.WeakEventManager.ListenerList.PrepareForWriting%2A> before changing the list contents.</span></span> <span data-ttu-id="0894f-168">否则为列表可能为： 传递事件对象，因此锁定原始。</span><span class="sxs-lookup"><span data-stu-id="0894f-168">Otherwise, the list may be in process of delivering events and therefore the original is locked.</span></span> <span data-ttu-id="0894f-169">调用<xref:System.Windows.WeakEventManager.ListenerList.PrepareForWriting%2A>更改输入`list`要克隆，以便你<xref:System.Windows.WeakEventManager.ListenerList.Remove%2A>调用仍可在克隆上工作。</span><span class="sxs-lookup"><span data-stu-id="0894f-169">Calling <xref:System.Windows.WeakEventManager.ListenerList.PrepareForWriting%2A> changes the input `list` to be a clone so that your <xref:System.Windows.WeakEventManager.ListenerList.Remove%2A> call can still work on the clone.</span></span> <span data-ttu-id="0894f-170">如果<xref:System.Windows.WeakEventManager.ListenerList.PrepareForWriting%2A>返回`true`，可能需要更新到列表中，你都应保留在你的代码的其他区域中的任何私有引用。</span><span class="sxs-lookup"><span data-stu-id="0894f-170">If <xref:System.Windows.WeakEventManager.ListenerList.PrepareForWriting%2A> returns `true`, you might need to update any private references to the list that you maintain in other areas of your code.</span></span>  
-  
- ]]></format>
-        </remarks>
-        <altmember cref="M:System.Windows.WeakEventManager.ListenerList.PrepareForWriting(System.Windows.WeakEventManager.ListenerList@)" />
-        <altmember cref="M:System.Windows.WeakEventManager.ListenerList.BeginUse" />
-      </Docs>
-    </Member>
-    <Member MemberName="RemoveHandler">
-      <MemberSignature Language="C#" Value="public void RemoveHandler (Delegate handler);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void RemoveHandler(class System.Delegate handler) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Windows.WeakEventManager.ListenerList.RemoveHandler(System.Delegate)" />
-      <MemberSignature Language="VB.NET" Value="Public Sub RemoveHandler (handler As Delegate)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; void RemoveHandler(Delegate ^ handler);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>WindowsBase</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="handler" Type="System.Delegate" />
-      </Parameters>
-      <Docs>
-        <param name="handler">
-          <span data-ttu-id="0894f-171">要从 <see cref="T:System.Windows.WeakEventManager.ListenerList" /> 中移除的处理程序。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="0894f-171">The event handler to remove from the <see cref="T:System.Windows.WeakEventManager.ListenerList" />.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="0894f-172">从 <see cref="T:System.Windows.WeakEventManager.ListenerList" /> 目标中移除事件处理程序。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="0894f-172">Removes an event handler from the <see cref="T:System.Windows.WeakEventManager.ListenerList" />.</span>
-          </span>
-        </summary>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-  </Members>
-</Type>
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.2" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 xliff-core-1.2-transitional.xsd">
+  <file datatype="xml" original="WeakEventManager+ListenerList.xml" source-language="en-US" target-language="zh-CN">
+    <header>
+      <tool tool-id="mdxliff" tool-name="mdxliff" tool-version="1.0-15c36f0" tool-company="Microsoft" />
+      <xliffext:skl_file_name xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">02cd5861-7ce2-4a82-b358-31f8435a0ac59f0f2be98debc822496ae0fb7a0b36b79ece2165.skl</xliffext:skl_file_name>
+      <xliffext:version xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">1.2</xliffext:version>
+      <xliffext:ms.openlocfilehash xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">9f0f2be98debc822496ae0fb7a0b36b79ece2165</xliffext:ms.openlocfilehash>
+      <xliffext:ms.sourcegitcommit xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b</xliffext:ms.sourcegitcommit>
+      <xliffext:ms.lasthandoff xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">04/03/2018</xliffext:ms.lasthandoff>
+      <xliffext:moniker_ids xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">netframework-4.5.1,netframework-4.5.2,netframework-4.5,netframework-4.6.1,netframework-4.6.2,netframework-4.6,netframework-4.7.1,netframework-4.7</xliffext:moniker_ids>
+    </header>
+    <body>
+      <group id="content" extype="content">
+        <trans-unit id="101" translate="yes" xml:space="preserve" uid="T:System.Windows.WeakEventManager.ListenerList">
+          <source>Provides a built-in collection list for storing listeners for a <ph id="ph1">&lt;see cref="T:System.Windows.WeakEventManager" /&gt;</ph>.</source>
+          <target state="translated">提供用于存储 <ph id="ph1">&lt;see cref="T:System.Windows.WeakEventManager" /&gt;</ph> 的侦听器的内置集合列表。</target>       </trans-unit>
+        <trans-unit id="102" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Windows.WeakEventManager.ListenerList">
+          <source>Although this list contains members that resemble those defined by <ph id="ph1">&lt;xref:System.Collections.IList&gt;</ph> and <ph id="ph2">&lt;xref:System.Collections.ICollection&gt;</ph>, and provide similar functionality, this class implements neither of those interfaces.</source>
+          <target state="translated">尽管此列表包含类似于定义的那些成员<ph id="ph1">&lt;xref:System.Collections.IList&gt;</ph>和<ph id="ph2">&lt;xref:System.Collections.ICollection&gt;</ph>，并提供类似的功能，此类将实现上述两个接口。</target>       </trans-unit>
+        <trans-unit id="103" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Windows.WeakEventManager.ListenerList">
+          <source>Most <ph id="ph1">&lt;xref:System.Windows.WeakEventManager&gt;</ph> derived classes do not need to use any members on <ph id="ph2">&lt;xref:System.Windows.WeakEventManager.ListenerList&gt;</ph>.</source>
+          <target state="translated">大多数<ph id="ph1">&lt;xref:System.Windows.WeakEventManager&gt;</ph>派生的类无需使用任何成员上<ph id="ph2">&lt;xref:System.Windows.WeakEventManager.ListenerList&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="104" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Windows.WeakEventManager.ListenerList">
+          <source>The <ph id="ph1">&lt;xref:System.Windows.WeakEventManager&gt;</ph> methods <ph id="ph2">&lt;xref:System.Windows.WeakEventManager.ProtectedAddListener%2A&gt;</ph> and <ph id="ph3">&lt;xref:System.Windows.WeakEventManager.ProtectedRemoveListener%2A&gt;</ph> use a default <ph id="ph4">&lt;xref:System.Windows.WeakEventManager.ListenerList&gt;</ph> internally, one list for each <ph id="ph5">`source`</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;xref:System.Windows.WeakEventManager&gt;</ph>方法<ph id="ph2">&lt;xref:System.Windows.WeakEventManager.ProtectedAddListener%2A&gt;</ph>和<ph id="ph3">&lt;xref:System.Windows.WeakEventManager.ProtectedRemoveListener%2A&gt;</ph>使用一种默认<ph id="ph4">&lt;xref:System.Windows.WeakEventManager.ListenerList&gt;</ph>内部，一个列表，每个<ph id="ph5">`source`</ph>。</target>       </trans-unit>
+        <trans-unit id="105" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Windows.WeakEventManager.ListenerList">
+          <source>You only need to call <ph id="ph1">&lt;xref:System.Windows.WeakEventManager.ListenerList&gt;</ph> methods if your <ph id="ph2">&lt;xref:System.Windows.WeakEventManager&gt;</ph> class maintains multiple lists for the same event-source combination, with each list created to account for different conditions of the event.</source>
+          <target state="translated">只需调用<ph id="ph1">&lt;xref:System.Windows.WeakEventManager.ListenerList&gt;</ph>方法如果你<ph id="ph2">&lt;xref:System.Windows.WeakEventManager&gt;</ph>类维护对于相同的事件源组合，具有到不同的事件的条件的帐户创建每个列表的多个列表。</target>       </trans-unit>
+        <trans-unit id="106" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Windows.WeakEventManager.ListenerList">
+          <source>In this case, you would not use <ph id="ph1">&lt;xref:System.Windows.WeakEventManager.ProtectedAddListener%2A&gt;</ph> and <ph id="ph2">&lt;xref:System.Windows.WeakEventManager.ProtectedRemoveListener%2A&gt;</ph> and would instead implement <ph id="ph3">`AddListener`</ph> or <ph id="ph4">`RemoveListener`</ph> to act upon listeners in just one of the internal listener lists, typically based on a parameter that you add to <ph id="ph5">`AddListener`</ph> or <ph id="ph6">`RemoveListener`</ph>.</source>
+          <target state="translated">在这种情况下，不会使用<ph id="ph1">&lt;xref:System.Windows.WeakEventManager.ProtectedAddListener%2A&gt;</ph>和<ph id="ph2">&lt;xref:System.Windows.WeakEventManager.ProtectedRemoveListener%2A&gt;</ph>和应改为实现<ph id="ph3">`AddListener`</ph>或<ph id="ph4">`RemoveListener`</ph>操作中内部侦听器列表中，通常基于参数添加到其中一个侦听器<ph id="ph5">`AddListener`</ph>或<ph id="ph6">`RemoveListener`</ph>.</target>       </trans-unit>
+        <trans-unit id="107" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Windows.WeakEventManager.ListenerList">
+          <source>Also, the handler implementation that receives the raw event cannot simply call <ph id="ph1">&lt;xref:System.Windows.WeakEventManager.DeliverEvent%2A&gt;</ph>; you must instead keep track of the specifics of the event and deliver the event only to the appropriate list using <ph id="ph2">&lt;xref:System.Windows.WeakEventManager.DeliverEventToList%2A&gt;</ph>.</source>
+          <target state="translated">此外，不能只需调用接收原始事件的处理程序实现<ph id="ph1">&lt;xref:System.Windows.WeakEventManager.DeliverEvent%2A&gt;</ph>; 而是必须跟踪的事件的详细信息，并将事件传送到相应的列表使用仅<ph id="ph2">&lt;xref:System.Windows.WeakEventManager.DeliverEventToList%2A&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="108" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Windows.WeakEventManager.ListenerList">
+          <source>The various methods of <ph id="ph1">&lt;xref:System.Windows.WeakEventManager.ListenerList&gt;</ph> are provided so that you can work with your internal lists and so that you can prevent modification of the list during actual delivery of the event.</source>
+          <target state="translated">各种方法<ph id="ph1">&lt;xref:System.Windows.WeakEventManager.ListenerList&gt;</ph>，以便你可以使用内部列表并这样就可以阻止的事件的实际传送过程中修改列表提供。</target>       </trans-unit>
+        <trans-unit id="109" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Windows.WeakEventManager.ListenerList">
+          <source>An example class that used this implementation technique is <ph id="ph1">&lt;xref:System.ComponentModel.PropertyChangedEventManager&gt;</ph>, which maintains separate listener lists for <ph id="ph2">`PropertyChanged`</ph> based on which property changed.</source>
+          <target state="translated">使用此实现技术对示例类进行<ph id="ph1">&lt;xref:System.ComponentModel.PropertyChangedEventManager&gt;</ph>，并保留单独的侦听器列出<ph id="ph2">`PropertyChanged`</ph>根据更改的属性。</target>       </trans-unit>
+        <trans-unit id="110" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Windows.WeakEventManager.ListenerList">
+          <source>XAML Text Usage</source>
+          <target state="translated">XAML 文本用法</target>       </trans-unit>
+        <trans-unit id="111" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Windows.WeakEventManager.ListenerList">
+          <source>You cannot use this class in <ph id="ph1">[!INCLUDE[TLA2#tla_xaml](~/includes/tla2sharptla-xaml-md.md)]</ph>.</source>
+          <target state="translated">不能将在此类<ph id="ph1">[!INCLUDE[TLA2#tla_xaml](~/includes/tla2sharptla-xaml-md.md)]</ph>。</target>       </trans-unit>
+        <trans-unit id="112" translate="yes" xml:space="preserve" uid="T:System.Windows.WeakEventManager.ListenerList">
+          <source>Initializes a new instance of the <ph id="ph1">&lt;see cref="T:System.Windows.WeakEventManager.ListenerList" /&gt;</ph> class.</source>
+          <target state="translated">初始化 <ph id="ph1">&lt;see cref="T:System.Windows.WeakEventManager.ListenerList" /&gt;</ph> 类的新实例。</target>       </trans-unit>
+        <trans-unit id="113" translate="yes" xml:space="preserve" uid="M:System.Windows.WeakEventManager.ListenerList.#ctor">
+          <source>Initializes a new instance of the <ph id="ph1">&lt;see cref="T:System.Windows.WeakEventManager.ListenerList" /&gt;</ph> class.</source>
+          <target state="translated">初始化 <ph id="ph1">&lt;see cref="T:System.Windows.WeakEventManager.ListenerList" /&gt;</ph> 类的新实例。</target>       </trans-unit>
+        <trans-unit id="114" translate="yes" xml:space="preserve" uid="M:System.Windows.WeakEventManager.ListenerList.#ctor(System.Int32)">
+          <source>The number of items that should be allocated in the initial list.</source>
+          <target state="translated">应在初始列表中分配的项数。</target>       </trans-unit>
+        <trans-unit id="115" translate="yes" xml:space="preserve" uid="M:System.Windows.WeakEventManager.ListenerList.#ctor(System.Int32)">
+          <source>Initializes a new instance of the <ph id="ph1">&lt;see cref="T:System.Windows.WeakEventManager.ListenerList" /&gt;</ph> class with the specified initial capacity.</source>
+          <target state="translated">使用指定的初始容量初始化 <ph id="ph1">&lt;see cref="T:System.Windows.WeakEventManager.ListenerList" /&gt;</ph> 类的新实例。</target>       </trans-unit>
+        <trans-unit id="116" translate="yes" xml:space="preserve" uid="M:System.Windows.WeakEventManager.ListenerList.Add(System.Windows.IWeakEventListener)">
+          <source>The listener element to add to the <ph id="ph1">&lt;see cref="T:System.Windows.WeakEventManager.ListenerList" /&gt;</ph>.</source>
+          <target state="translated">要添加到 <ph id="ph1">&lt;see cref="T:System.Windows.WeakEventManager.ListenerList" /&gt;</ph> 的侦听器元素。</target>       </trans-unit>
+        <trans-unit id="117" translate="yes" xml:space="preserve" uid="M:System.Windows.WeakEventManager.ListenerList.Add(System.Windows.IWeakEventListener)">
+          <source>Adds a <ph id="ph1">&lt;see cref="T:System.Windows.IWeakEventListener" /&gt;</ph> object to the <ph id="ph2">&lt;see cref="T:System.Windows.WeakEventManager.ListenerList" /&gt;</ph>.</source>
+          <target state="translated">将 <ph id="ph1">&lt;see cref="T:System.Windows.IWeakEventListener" /&gt;</ph> 对象添加到 <ph id="ph2">&lt;see cref="T:System.Windows.WeakEventManager.ListenerList" /&gt;</ph> 中。</target>       </trans-unit>
+        <trans-unit id="118" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.WeakEventManager.ListenerList.Add(System.Windows.IWeakEventListener)">
+          <source>The object provided as listener should be a <ph id="ph1">&lt;xref:System.Windows.DependencyObject&gt;</ph> that implements the <ph id="ph2">&lt;xref:System.Windows.IWeakEventListener&gt;</ph> interface and therefore has a working <ph id="ph3">&lt;xref:System.Windows.IWeakEventListener.ReceiveWeakEvent%2A&gt;</ph> implementation.</source>
+          <target state="translated">因为侦听器应该是提供的对象<ph id="ph1">&lt;xref:System.Windows.DependencyObject&gt;</ph>实现<ph id="ph2">&lt;xref:System.Windows.IWeakEventListener&gt;</ph>接口，并因此具有一个有效的<ph id="ph3">&lt;xref:System.Windows.IWeakEventListener.ReceiveWeakEvent%2A&gt;</ph>实现。</target>       </trans-unit>
+        <trans-unit id="119" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.WeakEventManager.ListenerList.Add(System.Windows.IWeakEventListener)">
+          <source>You should always call <ph id="ph1">&lt;xref:System.Windows.WeakEventManager.ListenerList.PrepareForWriting%2A&gt;</ph> before changing the list contents.</source>
+          <target state="translated">始终应调用<ph id="ph1">&lt;xref:System.Windows.WeakEventManager.ListenerList.PrepareForWriting%2A&gt;</ph>之前更改列表的内容。</target>       </trans-unit>
+        <trans-unit id="120" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.WeakEventManager.ListenerList.Add(System.Windows.IWeakEventListener)">
+          <source>Otherwise, the list may be in process of delivering events and therefore the original is locked.</source>
+          <target state="translated">否则为列表可能为： 传递事件对象，因此锁定原始。</target>       </trans-unit>
+        <trans-unit id="121" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.WeakEventManager.ListenerList.Add(System.Windows.IWeakEventListener)">
+          <source>Calling <ph id="ph1">&lt;xref:System.Windows.WeakEventManager.ListenerList.PrepareForWriting%2A&gt;</ph> changes the input <ph id="ph2">`list`</ph> to be a clone so that your <ph id="ph3">&lt;xref:System.Windows.WeakEventManager.ListenerList.Add%2A&gt;</ph> call can still work on the clone.</source>
+          <target state="translated">调用<ph id="ph1">&lt;xref:System.Windows.WeakEventManager.ListenerList.PrepareForWriting%2A&gt;</ph>更改输入<ph id="ph2">`list`</ph>要克隆，以便你<ph id="ph3">&lt;xref:System.Windows.WeakEventManager.ListenerList.Add%2A&gt;</ph>调用仍可在克隆上工作。</target>       </trans-unit>
+        <trans-unit id="122" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.WeakEventManager.ListenerList.Add(System.Windows.IWeakEventListener)">
+          <source>If <ph id="ph1">&lt;xref:System.Windows.WeakEventManager.ListenerList.PrepareForWriting%2A&gt;</ph> returns <ph id="ph2">`true`</ph>, you might need to update any private references to the list that you maintain in other areas of your code.</source>
+          <target state="translated">如果<ph id="ph1">&lt;xref:System.Windows.WeakEventManager.ListenerList.PrepareForWriting%2A&gt;</ph>返回<ph id="ph2">`true`</ph>，可能需要更新到列表中，你都应保留在你的代码的其他区域中的任何私有引用。</target>       </trans-unit>
+        <trans-unit id="123" translate="yes" xml:space="preserve" uid="M:System.Windows.WeakEventManager.ListenerList.AddHandler(System.Delegate)">
+          <source>The event handler to add to the <ph id="ph1">&lt;see cref="T:System.Windows.WeakEventManager.ListenerList" /&gt;</ph>.</source>
+          <target state="translated">将添加到 <ph id="ph1">&lt;see cref="T:System.Windows.WeakEventManager.ListenerList" /&gt;</ph> 中的事件处理程序。</target>       </trans-unit>
+        <trans-unit id="124" translate="yes" xml:space="preserve" uid="M:System.Windows.WeakEventManager.ListenerList.AddHandler(System.Delegate)">
+          <source>Adds an event handler to the <ph id="ph1">&lt;see cref="T:System.Windows.WeakEventManager.ListenerList" /&gt;</ph>.</source>
+          <target state="translated">将事件处理程序添加到 <ph id="ph1">&lt;see cref="T:System.Windows.WeakEventManager.ListenerList" /&gt;</ph> 中。</target>       </trans-unit>
+        <trans-unit id="125" translate="yes" xml:space="preserve" uid="M:System.Windows.WeakEventManager.ListenerList.BeginUse">
+          <source>Declares the list to be in use.</source>
+          <target state="translated">声明列表正在使用中。</target>       </trans-unit>
+        <trans-unit id="126" translate="yes" xml:space="preserve" uid="M:System.Windows.WeakEventManager.ListenerList.BeginUse">
+          <source>This prevents direct changes to the list during iterations of the list items.</source>
+          <target state="translated">这可以防止在列表项迭代过程中直接更改列表。</target>       </trans-unit>
+        <trans-unit id="127" translate="yes" xml:space="preserve" uid="M:System.Windows.WeakEventManager.ListenerList.BeginUse">
+          <source><ph id="ph1">&lt;see langword="true" /&gt;</ph> if the list was already declared to be in use; otherwise, <ph id="ph2">&lt;see langword="false" /&gt;</ph>.</source>
+          <target state="translated">如果列表已经声明为正在使用中，则为 <ph id="ph1">&lt;see langword="true" /&gt;</ph>；否则为 <ph id="ph2">&lt;see langword="false" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="128" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.WeakEventManager.ListenerList.BeginUse">
+          <source>A <ph id="ph1">&lt;xref:System.Windows.WeakEventManager&gt;</ph> implementation should call <ph id="ph2">&lt;xref:System.Windows.WeakEventManager.ListenerList.BeginUse%2A&gt;</ph> before iterating through the list to deliver an event to the listeners, and should call <ph id="ph3">&lt;xref:System.Windows.WeakEventManager.ListenerList.EndUse%2A&gt;</ph> when it is done.</source>
+          <target state="translated">A<ph id="ph1">&lt;xref:System.Windows.WeakEventManager&gt;</ph>实现应调用<ph id="ph2">&lt;xref:System.Windows.WeakEventManager.ListenerList.BeginUse%2A&gt;</ph>之前循环访问列表将事件传送到侦听器，并应调用<ph id="ph3">&lt;xref:System.Windows.WeakEventManager.ListenerList.EndUse%2A&gt;</ph>完成时。</target>       </trans-unit>
+        <trans-unit id="129" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.WeakEventManager.ListenerList.BeginUse">
+          <source>This prevents another caller from modifying the list while the iteration for purposes of event delivery is in progress.</source>
+          <target state="translated">这可以防止另一个调用方为了事件传送迭代过程中修改列表。</target>       </trans-unit>
+        <trans-unit id="130" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.WeakEventManager.ListenerList.BeginUse">
+          <source>If the list is modified during this time, then the list is cloned.</source>
+          <target state="translated">如果在此期间修改列表，则克隆列表。</target>       </trans-unit>
+        <trans-unit id="131" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.WeakEventManager.ListenerList.BeginUse">
+          <source>If the list is cloned, then <ph id="ph1">&lt;xref:System.Windows.WeakEventManager.ListenerList.PrepareForWriting%2A&gt;</ph> returns <ph id="ph2">`true`</ph>, which means that you have missed a recent listener change in the last delivery.</source>
+          <target state="translated">如果克隆列表，然后<ph id="ph1">&lt;xref:System.Windows.WeakEventManager.ListenerList.PrepareForWriting%2A&gt;</ph>返回<ph id="ph2">`true`</ph>，这意味着你丢失了最后一次传递中最近的侦听器更改。</target>       </trans-unit>
+        <trans-unit id="132" translate="yes" xml:space="preserve" uid="M:System.Windows.WeakEventManager.ListenerList.Clone">
+          <source>Creates a modifiable clone of this <ph id="ph1">&lt;see cref="T:System.Windows.WeakEventManager.ListenerList" /&gt;</ph>.</source>
+          <target state="translated">创建此 <ph id="ph1">&lt;see cref="T:System.Windows.WeakEventManager.ListenerList" /&gt;</ph> 的可修改复本。</target>       </trans-unit>
+        <trans-unit id="133" translate="yes" xml:space="preserve" uid="M:System.Windows.WeakEventManager.ListenerList.Clone">
+          <source>A modifiable clone of the current object.</source>
+          <target state="translated">当前对象的可修改复本。</target>       </trans-unit>
+        <trans-unit id="134" translate="yes" xml:space="preserve" uid="M:System.Windows.WeakEventManager.ListenerList.CopyTo(System.Windows.WeakEventManager.ListenerList)">
+          <source>The object to copy to.</source>
+          <target state="translated">要复制到的对象。</target>       </trans-unit>
+        <trans-unit id="135" translate="yes" xml:space="preserve" uid="M:System.Windows.WeakEventManager.ListenerList.CopyTo(System.Windows.WeakEventManager.ListenerList)">
+          <source>Copies the current <ph id="ph1">&lt;see cref="T:System.Windows.WeakEventManager.ListenerList" /&gt;</ph> to the specified <ph id="ph2">&lt;see cref="T:System.Windows.WeakEventManager.ListenerList" /&gt;</ph></source>
+          <target state="translated">将当前的 <ph id="ph1">&lt;see cref="T:System.Windows.WeakEventManager.ListenerList" /&gt;</ph> 复制到指定 <ph id="ph2">&lt;see cref="T:System.Windows.WeakEventManager.ListenerList" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="136" translate="yes" xml:space="preserve" uid="P:System.Windows.WeakEventManager.ListenerList.Count">
+          <source>Gets the number of items contained in the <ph id="ph1">&lt;see cref="T:System.Windows.WeakEventManager.ListenerList" /&gt;</ph>.</source>
+          <target state="translated">获取 <ph id="ph1">&lt;see cref="T:System.Windows.WeakEventManager.ListenerList" /&gt;</ph> 中包含的项的数量。</target>       </trans-unit>
+        <trans-unit id="137" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Windows.WeakEventManager.ListenerList.Count">
+          <source>The number of items contained in the <ph id="ph1">&lt;see cref="T:System.Windows.WeakEventManager.ListenerList" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;see cref="T:System.Windows.WeakEventManager.ListenerList" /&gt;</ph> 中包含的项的数量。</target>       </trans-unit>
+        <trans-unit id="138" translate="yes" xml:space="preserve" uid="M:System.Windows.WeakEventManager.ListenerList.DeliverEvent(System.Object,System.EventArgs,System.Type)">
+          <source>The object that raised the event.</source>
+          <target state="translated">引发事件的对象。</target>       </trans-unit>
+        <trans-unit id="139" translate="yes" xml:space="preserve" uid="M:System.Windows.WeakEventManager.ListenerList.DeliverEvent(System.Object,System.EventArgs,System.Type)">
+          <source>An object that contains the event data.</source>
+          <target state="translated">包含事件数据的对象。</target>       </trans-unit>
+        <trans-unit id="140" translate="yes" xml:space="preserve" uid="M:System.Windows.WeakEventManager.ListenerList.DeliverEvent(System.Object,System.EventArgs,System.Type)">
+          <source>The type of the <ph id="ph1">&lt;see cref="T:System.Windows.WeakEventManager" /&gt;</ph> that calls this method.</source>
+          <target state="translated">调用此方法的 <ph id="ph1">&lt;see cref="T:System.Windows.WeakEventManager" /&gt;</ph> 的类型。</target>       </trans-unit>
+        <trans-unit id="141" translate="yes" xml:space="preserve" uid="M:System.Windows.WeakEventManager.ListenerList.DeliverEvent(System.Object,System.EventArgs,System.Type)">
+          <source>Delivers the event being managed to each listener in the <ph id="ph1">&lt;see cref="T:System.Windows.WeakEventManager.ListenerList" /&gt;</ph>.</source>
+          <target state="translated">将正在托管的事件传送到 <ph id="ph1">&lt;see cref="T:System.Windows.WeakEventManager.ListenerList" /&gt;</ph> 中的每个侦听器。</target>       </trans-unit>
+        <trans-unit id="142" translate="yes" xml:space="preserve" uid="M:System.Windows.WeakEventManager.ListenerList.DeliverEvent(System.Object,System.EventArgs,System.Type)">
+          <source><ph id="ph1">&lt;see langword="true" /&gt;</ph> if any of the listeners in the <ph id="ph2">&lt;see cref="T:System.Windows.WeakEventManager.ListenerList" /&gt;</ph> refer to an object that has been garbage collected; otherwise, <ph id="ph3">&lt;see langword="false" /&gt;</ph>.</source>
+          <target state="translated">如果任何一个 <ph id="ph2">&lt;see cref="T:System.Windows.WeakEventManager.ListenerList" /&gt;</ph> 中侦听器引用的对象已被垃圾回收，则为 <ph id="ph1">&lt;see langword="true" /&gt;</ph>；否则，为<ph id="ph3">&lt;see langword="false" /&gt;</ph> 。</target>       </trans-unit>
+        <trans-unit id="143" translate="yes" xml:space="preserve" uid="P:System.Windows.WeakEventManager.ListenerList.Empty">
+          <source>Gets a value that represents an empty list for purposes of comparisons.</source>
+          <target state="translated">获取表示用于对比的空列表的值。</target>       </trans-unit>
+        <trans-unit id="144" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Windows.WeakEventManager.ListenerList.Empty">
+          <source>The empty list representation.</source>
+          <target state="translated">空列表表示。</target>       </trans-unit>
+        <trans-unit id="145" translate="yes" xml:space="preserve" uid="M:System.Windows.WeakEventManager.ListenerList.EndUse">
+          <source>Unlocks the locked state initiated by <ph id="ph1">&lt;see cref="M:System.Windows.WeakEventManager.ListenerList.BeginUse" /&gt;</ph>.</source>
+          <target state="translated">解除由 <ph id="ph1">&lt;see cref="M:System.Windows.WeakEventManager.ListenerList.BeginUse" /&gt;</ph> 启动的锁定状态。</target>       </trans-unit>
+        <trans-unit id="146" translate="yes" xml:space="preserve" uid="P:System.Windows.WeakEventManager.ListenerList.IsEmpty">
+          <source>Gets a value that declares whether this <ph id="ph1">&lt;see cref="T:System.Windows.WeakEventManager.ListenerList" /&gt;</ph> is empty.</source>
+          <target state="translated">获取声明此 <ph id="ph1">&lt;see cref="T:System.Windows.WeakEventManager.ListenerList" /&gt;</ph> 是否为空的值。</target>       </trans-unit>
+        <trans-unit id="147" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Windows.WeakEventManager.ListenerList.IsEmpty">
+          <source><ph id="ph1">&lt;see langword="true" /&gt;</ph> if the list is empty; otherwise, <ph id="ph2">&lt;see langword="false" /&gt;</ph>.</source>
+          <target state="translated">如果列表为空，则为 <ph id="ph1">&lt;see langword="true" /&gt;</ph>；否则为 <ph id="ph2">&lt;see langword="false" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="148" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Windows.WeakEventManager.ListenerList.IsEmpty">
+          <source>This method is equivalent to checking whether the <ph id="ph1">&lt;xref:System.Windows.WeakEventManager.ListenerList.Count%2A&gt;</ph> is zero, and does not check whether any of the references in the list are now stale.</source>
+          <target state="translated">此方法等效于检查是否<ph id="ph1">&lt;xref:System.Windows.WeakEventManager.ListenerList.Count%2A&gt;</ph>为零，并且不检查是否任何列表中引用是否现在已过时。</target>       </trans-unit>
+        <trans-unit id="149" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Windows.WeakEventManager.ListenerList.IsEmpty">
+          <source>If you want to assure that all references are still valid, call <ph id="ph1">&lt;xref:System.Windows.WeakEventManager.ListenerList.Purge%2A&gt;</ph> just prior to checking the empty status of the list.</source>
+          <target state="translated">如果你想要确保所有引用都是否仍然有效，请调用<ph id="ph1">&lt;xref:System.Windows.WeakEventManager.ListenerList.Purge%2A&gt;</ph>之前检查列表的空状态。</target>       </trans-unit>
+        <trans-unit id="150" translate="yes" xml:space="preserve" uid="P:System.Windows.WeakEventManager.ListenerList.Item(System.Int32)">
+          <source>The zero-based index of the listener in the list.</source>
+          <target state="translated">列表中侦听器的从零开始的索引。</target>       </trans-unit>
+        <trans-unit id="151" translate="yes" xml:space="preserve" uid="P:System.Windows.WeakEventManager.ListenerList.Item(System.Int32)">
+          <source>Gets or sets a specific listener item in the <ph id="ph1">&lt;see cref="T:System.Windows.WeakEventManager.ListenerList" /&gt;</ph> .</source>
+          <target state="translated">获取或设置 <ph id="ph1">&lt;see cref="T:System.Windows.WeakEventManager.ListenerList" /&gt;</ph> 中的特定侦听器项。</target>       </trans-unit>
+        <trans-unit id="152" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Windows.WeakEventManager.ListenerList.Item(System.Int32)">
+          <source>The item at that index, or a null reference if no item was at that index.</source>
+          <target state="translated">该索引处的项，如果该索引处没有项，则为 null 引用。</target>       </trans-unit>
+        <trans-unit id="153" translate="yes" xml:space="preserve" uid="M:System.Windows.WeakEventManager.ListenerList.PrepareForWriting(System.Windows.WeakEventManager.ListenerList@)">
+          <source>The list to check for use state and potentially copy.</source>
+          <target state="translated">要检查其使用状态和可能副本的列表。</target>       </trans-unit>
+        <trans-unit id="154" translate="yes" xml:space="preserve" uid="M:System.Windows.WeakEventManager.ListenerList.PrepareForWriting(System.Windows.WeakEventManager.ListenerList@)">
+          <source>Checks to see whether the provided list is in use, and if so, sets the list reference parameter to a copy of that list rather than the original.</source>
+          <target state="translated">检查是否正在使用提供的列表，如果正在使用，则将列表引用参数设置为该列表的副本，而不是原稿列表的副本。</target>       </trans-unit>
+        <trans-unit id="155" translate="yes" xml:space="preserve" uid="M:System.Windows.WeakEventManager.ListenerList.PrepareForWriting(System.Windows.WeakEventManager.ListenerList@)">
+          <source><ph id="ph1">&lt;see langword="true" /&gt;</ph> if the provided list was in use at the time of call and therefore the <ph id="ph2">&lt;paramref name="list" /&gt;</ph> parameter reference was reset to be a copy.</source>
+          <target state="translated">如果调用时正在使用提供的列表，并因此 <ph id="ph2">&lt;paramref name="list" /&gt;</ph> 参数引用被重置为副本，则为 <ph id="ph1">&lt;see langword="true" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="156" translate="yes" xml:space="preserve" uid="M:System.Windows.WeakEventManager.ListenerList.PrepareForWriting(System.Windows.WeakEventManager.ListenerList@)">
+          <source><ph id="ph1">&lt;see langword="false" /&gt;</ph> if the provided list was not in use, in which case the <ph id="ph2">&lt;paramref name="list" /&gt;</ph> parameter reference remains unaltered.</source>
+          <target state="translated">如果未使用提供的列表，在此情况下 <ph id="ph2">&lt;paramref name="list" /&gt;</ph> 参数引用保持不变，则为 <ph id="ph1">&lt;see langword="false" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="157" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.WeakEventManager.ListenerList.PrepareForWriting(System.Windows.WeakEventManager.ListenerList@)">
+          <source>If the given list is in use (which means an event is currently being delivered), calling this method will replace the input <ph id="ph1">`list`</ph> with a clone.</source>
+          <target state="translated">如果是使用给定的列表 （这意味着当前传送事件），调用此方法将替换输入<ph id="ph1">`list`</ph>使用克隆。</target>       </trans-unit>
+        <trans-unit id="158" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.WeakEventManager.ListenerList.PrepareForWriting(System.Windows.WeakEventManager.ListenerList@)">
+          <source>The existing users will finish delivering the event to the original list, without interference from changes to the new list.</source>
+          <target state="translated">现有用户将完成将事件传送到原始列表中，不受干扰从更改为新的列表。</target>       </trans-unit>
+        <trans-unit id="159" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.WeakEventManager.ListenerList.PrepareForWriting(System.Windows.WeakEventManager.ListenerList@)">
+          <source>If the method returns <ph id="ph1">`true`</ph>, callers may want to insert the new list in their own data structures, since this indicates the possibility that the provided list is no longer current.</source>
+          <target state="translated">如果该方法返回<ph id="ph1">`true`</ph>，调用方可能想要在他们自己的数据结构中插入新列表，因为这表示提供的列表不再是最新的可能性。</target>       </trans-unit>
+        <trans-unit id="160" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.WeakEventManager.ListenerList.PrepareForWriting(System.Windows.WeakEventManager.ListenerList@)">
+          <source>This method calls <ph id="ph1">&lt;xref:System.Windows.WeakEventManager.ListenerList.BeginUse%2A&gt;</ph> internally and then immediately calls <ph id="ph2">&lt;xref:System.Windows.WeakEventManager.ListenerList.EndUse%2A&gt;</ph>.</source>
+          <target state="translated">此方法调用<ph id="ph1">&lt;xref:System.Windows.WeakEventManager.ListenerList.BeginUse%2A&gt;</ph>内部，然后立即调用<ph id="ph2">&lt;xref:System.Windows.WeakEventManager.ListenerList.EndUse%2A&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="161" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.WeakEventManager.ListenerList.PrepareForWriting(System.Windows.WeakEventManager.ListenerList@)">
+          <source>Therefore calling <ph id="ph1">&lt;xref:System.Windows.WeakEventManager.ListenerList.PrepareForWriting%2A&gt;</ph> does not itself introduce a lock on the list.</source>
+          <target state="translated">因此调用<ph id="ph1">&lt;xref:System.Windows.WeakEventManager.ListenerList.PrepareForWriting%2A&gt;</ph>本身不会导致在列表上的锁。</target>       </trans-unit>
+        <trans-unit id="162" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.WeakEventManager.ListenerList.PrepareForWriting(System.Windows.WeakEventManager.ListenerList@)">
+          <source>Even the clone copy is done as a secondary operation after calling <ph id="ph1">&lt;xref:System.Windows.WeakEventManager.ListenerList.EndUse%2A&gt;</ph>.</source>
+          <target state="translated">即使克隆副本完成作为辅助操作之后调用<ph id="ph1">&lt;xref:System.Windows.WeakEventManager.ListenerList.EndUse%2A&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="163" translate="yes" xml:space="preserve" uid="M:System.Windows.WeakEventManager.ListenerList.Purge">
+          <source>Removes all entries from the list where the underlying reference target is a null reference.</source>
+          <target state="translated">从基础引用目标为 null 引用的列表中移除所有项。</target>       </trans-unit>
+        <trans-unit id="164" translate="yes" xml:space="preserve" uid="M:System.Windows.WeakEventManager.ListenerList.Purge">
+          <source>Returns <ph id="ph1">&lt;see langword="true" /&gt;</ph> if any entries were purged; otherwise, <ph id="ph2">&lt;see langword="false" /&gt;</ph>.</source>
+          <target state="translated">如果清除了所有项，则返回 <ph id="ph1">&lt;see langword="true" /&gt;</ph>；否则返回 <ph id="ph2">&lt;see langword="false" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="165" translate="yes" xml:space="preserve" uid="M:System.Windows.WeakEventManager.ListenerList.Remove(System.Windows.IWeakEventListener)">
+          <source>The item to remove.</source>
+          <target state="translated">要移除的项。</target>       </trans-unit>
+        <trans-unit id="166" translate="yes" xml:space="preserve" uid="M:System.Windows.WeakEventManager.ListenerList.Remove(System.Windows.IWeakEventListener)">
+          <source>Removes the first occurrence of a listener item from the <ph id="ph1">&lt;see cref="T:System.Windows.WeakEventManager.ListenerList" /&gt;</ph>.</source>
+          <target state="translated">从 <ph id="ph1">&lt;see cref="T:System.Windows.WeakEventManager.ListenerList" /&gt;</ph> 中移除侦听器项的第一个匹配项。</target>       </trans-unit>
+        <trans-unit id="167" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.WeakEventManager.ListenerList.Remove(System.Windows.IWeakEventListener)">
+          <source>You should always call <ph id="ph1">&lt;xref:System.Windows.WeakEventManager.ListenerList.PrepareForWriting%2A&gt;</ph> before changing the list contents.</source>
+          <target state="translated">始终应调用<ph id="ph1">&lt;xref:System.Windows.WeakEventManager.ListenerList.PrepareForWriting%2A&gt;</ph>之前更改列表的内容。</target>       </trans-unit>
+        <trans-unit id="168" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.WeakEventManager.ListenerList.Remove(System.Windows.IWeakEventListener)">
+          <source>Otherwise, the list may be in process of delivering events and therefore the original is locked.</source>
+          <target state="translated">否则为列表可能为： 传递事件对象，因此锁定原始。</target>       </trans-unit>
+        <trans-unit id="169" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.WeakEventManager.ListenerList.Remove(System.Windows.IWeakEventListener)">
+          <source>Calling <ph id="ph1">&lt;xref:System.Windows.WeakEventManager.ListenerList.PrepareForWriting%2A&gt;</ph> changes the input <ph id="ph2">`list`</ph> to be a clone so that your <ph id="ph3">&lt;xref:System.Windows.WeakEventManager.ListenerList.Remove%2A&gt;</ph> call can still work on the clone.</source>
+          <target state="translated">调用<ph id="ph1">&lt;xref:System.Windows.WeakEventManager.ListenerList.PrepareForWriting%2A&gt;</ph>更改输入<ph id="ph2">`list`</ph>要克隆，以便你<ph id="ph3">&lt;xref:System.Windows.WeakEventManager.ListenerList.Remove%2A&gt;</ph>调用仍可在克隆上工作。</target>       </trans-unit>
+        <trans-unit id="170" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.WeakEventManager.ListenerList.Remove(System.Windows.IWeakEventListener)">
+          <source>If <ph id="ph1">&lt;xref:System.Windows.WeakEventManager.ListenerList.PrepareForWriting%2A&gt;</ph> returns <ph id="ph2">`true`</ph>, you might need to update any private references to the list that you maintain in other areas of your code.</source>
+          <target state="translated">如果<ph id="ph1">&lt;xref:System.Windows.WeakEventManager.ListenerList.PrepareForWriting%2A&gt;</ph>返回<ph id="ph2">`true`</ph>，可能需要更新到列表中，你都应保留在你的代码的其他区域中的任何私有引用。</target>       </trans-unit>
+        <trans-unit id="171" translate="yes" xml:space="preserve" uid="M:System.Windows.WeakEventManager.ListenerList.RemoveHandler(System.Delegate)">
+          <source>The event handler to remove from the <ph id="ph1">&lt;see cref="T:System.Windows.WeakEventManager.ListenerList" /&gt;</ph>.</source>
+          <target state="translated">要从 <ph id="ph1">&lt;see cref="T:System.Windows.WeakEventManager.ListenerList" /&gt;</ph> 中移除的处理程序。</target>       </trans-unit>
+        <trans-unit id="172" translate="yes" xml:space="preserve" uid="M:System.Windows.WeakEventManager.ListenerList.RemoveHandler(System.Delegate)">
+          <source>Removes an event handler from the <ph id="ph1">&lt;see cref="T:System.Windows.WeakEventManager.ListenerList" /&gt;</ph>.</source>
+          <target state="translated">从 <ph id="ph1">&lt;see cref="T:System.Windows.WeakEventManager.ListenerList" /&gt;</ph> 目标中移除事件处理程序。</target>       </trans-unit>
+      </group>
+    </body>
+  </file>
+</xliff>

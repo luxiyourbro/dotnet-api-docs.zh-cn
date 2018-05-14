@@ -1,915 +1,369 @@
-<Type Name="RichTextBox" FullName="System.Windows.Controls.RichTextBox">
-  <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="bc776ac98d81c671329dad799a3777a4c2f1dfce" />
-    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
-    <Meta Name="ms.translationtype" Value="HT" />
-    <Meta Name="ms.contentlocale" Value="zh-CN" />
-    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
-  </Metadata>
-  <TypeSignature Language="C#" Value="public class RichTextBox : System.Windows.Controls.Primitives.TextBoxBase, System.Windows.Markup.IAddChild" />
-  <TypeSignature Language="ILAsm" Value=".class public auto ansi RichTextBox extends System.Windows.Controls.Primitives.TextBoxBase implements class System.Windows.Markup.IAddChild" />
-  <TypeSignature Language="DocId" Value="T:System.Windows.Controls.RichTextBox" />
-  <TypeSignature Language="VB.NET" Value="Public Class RichTextBox&#xA;Inherits TextBoxBase&#xA;Implements IAddChild" />
-  <TypeSignature Language="C++ CLI" Value="public ref class RichTextBox : System::Windows::Controls::Primitives::TextBoxBase, System::Windows::Markup::IAddChild" />
-  <AssemblyInfo>
-    <AssemblyName>PresentationFramework</AssemblyName>
-    <AssemblyVersion>4.0.0.0</AssemblyVersion>
-  </AssemblyInfo>
-  <Base>
-    <BaseTypeName>System.Windows.Controls.Primitives.TextBoxBase</BaseTypeName>
-  </Base>
-  <Interfaces>
-    <Interface>
-      <InterfaceName>System.Windows.Markup.IAddChild</InterfaceName>
-    </Interface>
-  </Interfaces>
-  <Attributes>
-    <Attribute>
-      <AttributeName>System.Windows.Localizability(System.Windows.LocalizationCategory.Inherit)</AttributeName>
-    </Attribute>
-    <Attribute>
-      <AttributeName>System.Windows.Markup.ContentProperty("Document")</AttributeName>
-    </Attribute>
-  </Attributes>
-  <Docs>
-    <summary>
-      <span data-ttu-id="e7532-101">表示对 <see cref="T:System.Windows.Documents.FlowDocument" /> 对象执行操作的丰富编辑控件。</span>
-      <span class="sxs-lookup">
-        <span data-stu-id="e7532-101">Represents a rich editing control which operates on <see cref="T:System.Windows.Documents.FlowDocument" /> objects.</span>
-      </span>
-    </summary>
-    <remarks>
-      <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="e7532-102"><xref:System.Windows.Documents.FlowDocument> 是的唯一受支持的子元素<xref:System.Windows.Controls.RichTextBox>。</span><span class="sxs-lookup"><span data-stu-id="e7532-102"><xref:System.Windows.Documents.FlowDocument> is the only supported child element for a <xref:System.Windows.Controls.RichTextBox>.</span></span>  
-  
-> [!IMPORTANT]
->  <span data-ttu-id="e7532-103"><xref:System.Windows.Controls.RichTextBox> 已为冒泡的内置处理<xref:System.Windows.UIElement.MouseUp>和<xref:System.Windows.UIElement.MouseDown>事件。</span><span class="sxs-lookup"><span data-stu-id="e7532-103"><xref:System.Windows.Controls.RichTextBox> has built-in handling for the bubbling  <xref:System.Windows.UIElement.MouseUp> and <xref:System.Windows.UIElement.MouseDown> events.</span></span>  <span data-ttu-id="e7532-104">因此，自定义事件处理程序，侦听`MouseUp`或`MouseDown`事件从<xref:System.Windows.Controls.RichTextBox>永远不会调用。</span><span class="sxs-lookup"><span data-stu-id="e7532-104">Consequently, custom event handlers that listen for `MouseUp` or `MouseDown` events from a <xref:System.Windows.Controls.RichTextBox> will never be called.</span></span>  <span data-ttu-id="e7532-105">如果你需要对这些事件做出响应，侦听隧道<xref:System.Windows.UIElement.PreviewMouseUp>和<xref:System.Windows.UIElement.PreviewMouseDown>事件相反，或注册处理程序替换<xref:System.Windows.EventSetter.HandledEventsToo%2A>（后面这个选项才可通过代码） 的自变量。</span><span class="sxs-lookup"><span data-stu-id="e7532-105">If you need to respond to these events, listen for the tunneling <xref:System.Windows.UIElement.PreviewMouseUp> and <xref:System.Windows.UIElement.PreviewMouseDown> events instead, or register the handlers with the <xref:System.Windows.EventSetter.HandledEventsToo%2A> argument (this latter option is only available through code).</span></span> <span data-ttu-id="e7532-106">不要标记处理除非有意想要禁用的事件<xref:System.Windows.Controls.RichTextBox>本机处理这些事件，并请注意这产生显著影响控件的[!INCLUDE[TLA2#tla_ui](~/includes/tla2sharptla-ui-md.md)]。</span><span class="sxs-lookup"><span data-stu-id="e7532-106">Do not mark the event handled unless you deliberately want to disable <xref:System.Windows.Controls.RichTextBox> native handling of these events, and be aware that this has notable effects on the control's [!INCLUDE[TLA2#tla_ui](~/includes/tla2sharptla-ui-md.md)].</span></span>  
-  
- <span data-ttu-id="e7532-107">虽然<xref:System.Windows.Controls.RichTextBox>支持复制和粘贴的映像，某些情况下当前不受支持，可能无法正常工作。</span><span class="sxs-lookup"><span data-stu-id="e7532-107">While <xref:System.Windows.Controls.RichTextBox> supports copying and pasting of images, certain scenarios are currently unsupported and may not work properly.</span></span>  <span data-ttu-id="e7532-108">下表总结了这些方案和预期的结果。</span><span class="sxs-lookup"><span data-stu-id="e7532-108">The following table summarizes these scenarios and expected results.</span></span>  
-  
-|<span data-ttu-id="e7532-109">图像复制源</span><span class="sxs-lookup"><span data-stu-id="e7532-109">Image Copy Source</span></span>|<span data-ttu-id="e7532-110">图像粘贴结果</span><span class="sxs-lookup"><span data-stu-id="e7532-110">Image Paste Result</span></span>|  
-|-----------------------|------------------------|  
-|<span data-ttu-id="e7532-111">映像源是图形图元文件</span><span class="sxs-lookup"><span data-stu-id="e7532-111">Image source is a graphic metafile</span></span>|<span data-ttu-id="e7532-112">没有粘贴图像</span><span class="sxs-lookup"><span data-stu-id="e7532-112">No image is pasted</span></span>|  
-|<span data-ttu-id="e7532-113">映像源使用相对路径或链接</span><span class="sxs-lookup"><span data-stu-id="e7532-113">Image source uses relative path or link</span></span>|<span data-ttu-id="e7532-114">粘贴出现乱码或空白图像</span><span class="sxs-lookup"><span data-stu-id="e7532-114">Garbled or blank image is pasted</span></span>|  
-|<span data-ttu-id="e7532-115">映像源链接结尾不是预期的图像格式 (。PNG。JPG、。GIF)</span><span class="sxs-lookup"><span data-stu-id="e7532-115">Image source link does not end with an expected image format (.PNG, .JPG, .GIF)</span></span>|<span data-ttu-id="e7532-116">粘贴出现乱码或空白图像</span><span class="sxs-lookup"><span data-stu-id="e7532-116">Garbled or blank image is pasted</span></span>|  
-|<span data-ttu-id="e7532-117">复制格式不正确格式文本 (RTF) 从图像源</span><span class="sxs-lookup"><span data-stu-id="e7532-117">Image source copied from malformed RichText (RTF)</span></span>|<span data-ttu-id="e7532-118">指向图像源会粘贴任何内容 （而不是图像）</span><span class="sxs-lookup"><span data-stu-id="e7532-118">Link to image source is pasted (rather than image)</span></span>|  
-  
- <span data-ttu-id="e7532-119">粘贴到的 HTML 内容<xref:System.Windows.Controls.RichTextBox>可能导致意外行为，因为<xref:System.Windows.Controls.RichTextBox>使用 RTF 格式，而不是直接使用 HTML 格式。</span><span class="sxs-lookup"><span data-stu-id="e7532-119">Pasting HTML content into a <xref:System.Windows.Controls.RichTextBox> might result in unexpected behavior because <xref:System.Windows.Controls.RichTextBox> uses RTF format rather than directly using HTML format.</span></span>  
-  
- <span data-ttu-id="e7532-120">文本始终将包装在<xref:System.Windows.Controls.RichTextBox>。</span><span class="sxs-lookup"><span data-stu-id="e7532-120">Text always wraps in a <xref:System.Windows.Controls.RichTextBox>.</span></span> <span data-ttu-id="e7532-121">如果您不希望文本环绕然后将其设置<xref:System.Windows.Documents.FlowDocument.PageWidth%2A>上<xref:System.Windows.Documents.FlowDocument>要大于的宽度<xref:System.Windows.Controls.RichTextBox>。</span><span class="sxs-lookup"><span data-stu-id="e7532-121">If you do not want text to wrap then set the <xref:System.Windows.Documents.FlowDocument.PageWidth%2A> on the <xref:System.Windows.Documents.FlowDocument> to be larger than the width of the <xref:System.Windows.Controls.RichTextBox>.</span></span> <span data-ttu-id="e7532-122">但是，一旦达到页面宽度文本仍会换行。</span><span class="sxs-lookup"><span data-stu-id="e7532-122">However, once the page width is reached the text still wraps.</span></span>  
-  
- <span data-ttu-id="e7532-123">水平和垂直对齐中的内容<xref:System.Windows.Controls.RichTextBox>，可使用<xref:System.Windows.Controls.Control.HorizontalContentAlignment%2A>和<xref:System.Windows.Controls.Control.VerticalContentAlignment%2A>属性。</span><span class="sxs-lookup"><span data-stu-id="e7532-123">Horizontally and vertically aligning content within a <xref:System.Windows.Controls.RichTextBox> is done with the <xref:System.Windows.Controls.Control.HorizontalContentAlignment%2A> and <xref:System.Windows.Controls.Control.VerticalContentAlignment%2A> properties.</span></span> <span data-ttu-id="e7532-124">对齐<xref:System.Windows.Controls.RichTextBox>页的布局中，可使用<xref:System.Windows.FrameworkElement.HorizontalAlignment%2A>和<xref:System.Windows.FrameworkElement.VerticalAlignment%2A>属性。</span><span class="sxs-lookup"><span data-stu-id="e7532-124">Aligning the <xref:System.Windows.Controls.RichTextBox> within the layout of the page is done with the <xref:System.Windows.FrameworkElement.HorizontalAlignment%2A> and <xref:System.Windows.FrameworkElement.VerticalAlignment%2A> properties.</span></span>  
-  
- <span data-ttu-id="e7532-125">滚动条上不可见<xref:System.Windows.Controls.RichTextBox>默认情况下。</span><span class="sxs-lookup"><span data-stu-id="e7532-125">Scrollbars are not visible on a <xref:System.Windows.Controls.RichTextBox> by default.</span></span> <span data-ttu-id="e7532-126">若要使滚动条可见，请设置<xref:System.Windows.Controls.Primitives.TextBoxBase.VerticalScrollBarVisibility%2A>属性<xref:System.Windows.Controls.ScrollBarVisibility.Visible>或<xref:System.Windows.Controls.ScrollBarVisibility.Auto>。</span><span class="sxs-lookup"><span data-stu-id="e7532-126">To make a scrollbar visible, set the <xref:System.Windows.Controls.Primitives.TextBoxBase.VerticalScrollBarVisibility%2A> property to <xref:System.Windows.Controls.ScrollBarVisibility.Visible> or <xref:System.Windows.Controls.ScrollBarVisibility.Auto>.</span></span>  
-  
- <span data-ttu-id="e7532-127">通常情况下，<xref:System.Windows.Controls.Primitives.TextBoxBase.TextChanged>用于检测何时事件中的文本<xref:System.Windows.Controls.TextBox>或<xref:System.Windows.Controls.RichTextBox>更改，而不是<xref:System.Windows.UIElement.KeyDown>正如所料。</span><span class="sxs-lookup"><span data-stu-id="e7532-127">Usually, the <xref:System.Windows.Controls.Primitives.TextBoxBase.TextChanged> event should be used to detect when the text in a <xref:System.Windows.Controls.TextBox> or <xref:System.Windows.Controls.RichTextBox> changes, rather then <xref:System.Windows.UIElement.KeyDown> as you might expect.</span></span> <span data-ttu-id="e7532-128">有关示例，请参阅[如何： 在文本框中已更改检测时的文本](~/docs/framework/wpf/controls/how-to-detect-when-text-in-a-textbox-has-changed.md)。</span><span class="sxs-lookup"><span data-stu-id="e7532-128">For an example, see [How to: Detect When Text in a TextBox Has Changed](~/docs/framework/wpf/controls/how-to-detect-when-text-in-a-textbox-has-changed.md).</span></span>  
-  
- <span data-ttu-id="e7532-129"><xref:System.Windows.Controls.RichTextBox> 支持多种键盘命令。</span><span class="sxs-lookup"><span data-stu-id="e7532-129"><xref:System.Windows.Controls.RichTextBox> supports a variety of keyboard commands.</span></span> <span data-ttu-id="e7532-130">有关键盘命令的列表，请参阅<xref:System.Windows.Documents.EditingCommands>。</span><span class="sxs-lookup"><span data-stu-id="e7532-130">For a list of keyboard commands, see <xref:System.Windows.Documents.EditingCommands>.</span></span>  
-  
- <span data-ttu-id="e7532-131">对于此控件的依赖项属性可能由控件的默认样式设置。</span><span class="sxs-lookup"><span data-stu-id="e7532-131">Dependency properties for this control might be set by the control’s default style.</span></span>  <span data-ttu-id="e7532-132">如果属性设置的默认样式，该属性可能会更改从其默认值，如果控件出现在应用程序中。</span><span class="sxs-lookup"><span data-stu-id="e7532-132">If a property is set by a default style, the property might change from its default value when the control appears in the application.</span></span> <span data-ttu-id="e7532-133">桌面主题用应用程序运行时确定的默认样式。</span><span class="sxs-lookup"><span data-stu-id="e7532-133">The default style is determined by which desktop theme is used when the application is running.</span></span>  <span data-ttu-id="e7532-134">有关详细信息，请参阅[默认 WPF 主题](http://go.microsoft.com/fwlink/?LinkID=158252)。</span><span class="sxs-lookup"><span data-stu-id="e7532-134">For more information, see [Default WPF Themes](http://go.microsoft.com/fwlink/?LinkID=158252).</span></span>  
-  
-   
-  
-## Examples  
- <span data-ttu-id="e7532-135">下面的示例声明<xref:System.Windows.Controls.RichTextBox>，该字符串包含一个简单<xref:System.Windows.Documents.FlowDocument>。</span><span class="sxs-lookup"><span data-stu-id="e7532-135">The following example declares a <xref:System.Windows.Controls.RichTextBox> that contains a simple <xref:System.Windows.Documents.FlowDocument>.</span></span>  
-  
- [!code-xaml[RichTextBoxSnippets#_RTB_XAML](~/samples/snippets/csharp/VS_Snippets_Wpf/RichTextBoxSnippets/CSharp/Window1.xaml#_rtb_xaml)]  
-  
- [!code-csharp[RichTextBoxMiscSnippets_procedural_snip#RichTextBoxCodeOnlyExample](~/samples/snippets/csharp/VS_Snippets_Wpf/RichTextBoxMiscSnippets_procedural_snip/CSharp/RichTextBoxExample.cs#richtextboxcodeonlyexample)]
- [!code-vb[RichTextBoxMiscSnippets_procedural_snip#RichTextBoxCodeOnlyExample](~/samples/snippets/visualbasic/VS_Snippets_Wpf/RichTextBoxMiscSnippets_procedural_snip/visualbasic/richtextboxexample.vb#richtextboxcodeonlyexample)]  
-  
- ]]></format>
-    </remarks>
-  </Docs>
-  <Members>
-    <MemberGroup MemberName=".ctor">
-      <AssemblyInfo>
-        <AssemblyName>PresentationFramework</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Docs>
-        <summary>
-          <span data-ttu-id="e7532-136">初始化 <see cref="T:System.Windows.Controls.RichTextBox" /> 类的新实例。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e7532-136">Initializes a new instance of the <see cref="T:System.Windows.Controls.RichTextBox" /> class.</span>
-          </span>
-        </summary>
-      </Docs>
-    </MemberGroup>
-    <Member MemberName=".ctor">
-      <MemberSignature Language="C#" Value="public RichTextBox ();" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor() cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Windows.Controls.RichTextBox.#ctor" />
-      <MemberSignature Language="VB.NET" Value="Public Sub New ()" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; RichTextBox();" />
-      <MemberType>Constructor</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>PresentationFramework</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Parameters />
-      <Docs>
-        <summary>
-          <span data-ttu-id="e7532-137">初始化 <see cref="T:System.Windows.Controls.RichTextBox" /> 类的一个新默认实例。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e7532-137">Initializes a new, default instance of the <see cref="T:System.Windows.Controls.RichTextBox" /> class.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="e7532-138">此构造函数创建一个空<xref:System.Windows.Documents.FlowDocument>文档属性与该键相关联。</span><span class="sxs-lookup"><span data-stu-id="e7532-138">This constructor creates an empty <xref:System.Windows.Documents.FlowDocument> that is associated with the Document property.</span></span>  <span data-ttu-id="e7532-139">具体地说，此空 <xref:System.Windows.Documents.FlowDocument> 包含一个 <xref:System.Windows.Documents.Paragraph>，而后者包含一个不包括任何文本的 <xref:System.Windows.Documents.Run>。</span><span class="sxs-lookup"><span data-stu-id="e7532-139">Specifically, the empty <xref:System.Windows.Documents.FlowDocument> contains a single <xref:System.Windows.Documents.Paragraph>, which contains a single <xref:System.Windows.Documents.Run> which contains no text.</span></span>  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-    <Member MemberName=".ctor">
-      <MemberSignature Language="C#" Value="public RichTextBox (System.Windows.Documents.FlowDocument document);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(class System.Windows.Documents.FlowDocument document) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Windows.Controls.RichTextBox.#ctor(System.Windows.Documents.FlowDocument)" />
-      <MemberSignature Language="VB.NET" Value="Public Sub New (document As FlowDocument)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; RichTextBox(System::Windows::Documents::FlowDocument ^ document);" />
-      <MemberType>Constructor</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>PresentationFramework</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Parameters>
-        <Parameter Name="document" Type="System.Windows.Documents.FlowDocument" />
-      </Parameters>
-      <Docs>
-        <param name="document">
-          <span data-ttu-id="e7532-140">要作为新 <see cref="T:System.Windows.Documents.FlowDocument" /> 的初始内容添加的 <see cref="T:System.Windows.Controls.RichTextBox" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e7532-140">A <see cref="T:System.Windows.Documents.FlowDocument" /> to be added as the initial contents of the new <see cref="T:System.Windows.Controls.RichTextBox" />.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="e7532-141">初始化 <see cref="T:System.Windows.Controls.RichTextBox" /> 类的一个新实例，以将指定的 <see cref="T:System.Windows.Documents.FlowDocument" /> 作为初始内容添加。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e7532-141">Initializes a new instance of the <see cref="T:System.Windows.Controls.RichTextBox" /> class, adding a specified <see cref="T:System.Windows.Documents.FlowDocument" /> as the initial content.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Examples  
- <span data-ttu-id="e7532-142">下面的示例演示此构造函数的用法。</span><span class="sxs-lookup"><span data-stu-id="e7532-142">The following example illustrates use of this constructor.</span></span>  
-  
- [!code-csharp[RichTextBoxSnippets#_RTB_Constructor](~/samples/snippets/csharp/VS_Snippets_Wpf/RichTextBoxSnippets/CSharp/Window1.xaml.cs#_rtb_constructor)]
- [!code-vb[RichTextBoxSnippets#_RTB_Constructor](~/samples/snippets/visualbasic/VS_Snippets_Wpf/RichTextBoxSnippets/visualbasic/window1.xaml.vb#_rtb_constructor)]  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="CaretPosition">
-      <MemberSignature Language="C#" Value="public System.Windows.Documents.TextPointer CaretPosition { get; set; }" />
-      <MemberSignature Language="ILAsm" Value=".property instance class System.Windows.Documents.TextPointer CaretPosition" />
-      <MemberSignature Language="DocId" Value="P:System.Windows.Controls.RichTextBox.CaretPosition" />
-      <MemberSignature Language="VB.NET" Value="Public Property CaretPosition As TextPointer" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::Windows::Documents::TextPointer ^ CaretPosition { System::Windows::Documents::TextPointer ^ get(); void set(System::Windows::Documents::TextPointer ^ value); };" />
-      <MemberType>Property</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>PresentationFramework</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Attributes>
-        <Attribute>
-          <AttributeName>System.ComponentModel.DesignerSerializationVisibility</AttributeName>
-        </Attribute>
-      </Attributes>
-      <ReturnValue>
-        <ReturnType>System.Windows.Documents.TextPointer</ReturnType>
-      </ReturnValue>
-      <Docs>
-        <summary>
-          <span data-ttu-id="e7532-143">获取或设置输入插入符号的位置。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e7532-143">Gets or sets the position of the input caret.</span>
-          </span>
-        </summary>
-        <value>
-          <span data-ttu-id="e7532-144">一个指定输入插入符号的位置的 <see cref="T:System.Windows.Documents.TextPointer" /> 对象。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e7532-144">A <see cref="T:System.Windows.Documents.TextPointer" /> object specifying the position of the input caret.</span>
-          </span>
-          <span data-ttu-id="e7532-145">默认情况下，插入符号位于 <see cref="T:System.Windows.Controls.RichTextBox" /> 承载的内容开头的第一个插入位置。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e7532-145">By default, the caret is at the first insertion position at the beginning of the content hosted by the <see cref="T:System.Windows.Controls.RichTextBox" />.</span>
-          </span>
-          <span data-ttu-id="e7532-146">有关文本位置术语（如“插入位置”）的更多信息，请参见 <see cref="T:System.Windows.Documents.TextPointer" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e7532-146">See <see cref="T:System.Windows.Documents.TextPointer" /> for more information on text position terminology like "insertion position".</span>
-          </span>
-        </value>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Examples  
- <span data-ttu-id="e7532-147">下面的示例演示如何使用此属性。</span><span class="sxs-lookup"><span data-stu-id="e7532-147">The following example illustrates the use of this property.</span></span>  
-  
- [!code-csharp[RichTextBoxSnippets#_RTB_CaretPosition](~/samples/snippets/csharp/VS_Snippets_Wpf/RichTextBoxSnippets/CSharp/Window1.xaml.cs#_rtb_caretposition)]
- [!code-vb[RichTextBoxSnippets#_RTB_CaretPosition](~/samples/snippets/visualbasic/VS_Snippets_Wpf/RichTextBoxSnippets/visualbasic/window1.xaml.vb#_rtb_caretposition)]  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.ArgumentNullException">
-          <span data-ttu-id="e7532-148">尝试将该属性设置为 <see langword="null" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e7532-148">An attempt is made to set this property to <see langword="null" />.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.ArgumentException">
-          <span data-ttu-id="e7532-149">尝试将此属性设置为引用当前文档外部位置的 <see cref="T:System.Windows.Documents.TextPointer" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e7532-149">An attempt is made to set this property to a <see cref="T:System.Windows.Documents.TextPointer" /> that references a position outside of the current document.</span>
-          </span>
-        </exception>
-        <altmember cref="T:System.Windows.Documents.TextPointer" />
-      </Docs>
-    </Member>
-    <Member MemberName="Document">
-      <MemberSignature Language="C#" Value="public System.Windows.Documents.FlowDocument Document { get; set; }" />
-      <MemberSignature Language="ILAsm" Value=".property instance class System.Windows.Documents.FlowDocument Document" />
-      <MemberSignature Language="DocId" Value="P:System.Windows.Controls.RichTextBox.Document" />
-      <MemberSignature Language="VB.NET" Value="Public Property Document As FlowDocument" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::Windows::Documents::FlowDocument ^ Document { System::Windows::Documents::FlowDocument ^ get(); void set(System::Windows::Documents::FlowDocument ^ value); };" />
-      <MemberType>Property</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>PresentationFramework</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Windows.Documents.FlowDocument</ReturnType>
-      </ReturnValue>
-      <Docs>
-        <summary>
-          <span data-ttu-id="e7532-150">获取或设置表示 <see cref="T:System.Windows.Documents.FlowDocument" /> 的内容的 <see cref="T:System.Windows.Controls.RichTextBox" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e7532-150">Gets or sets the <see cref="T:System.Windows.Documents.FlowDocument" /> that represents the contents of the <see cref="T:System.Windows.Controls.RichTextBox" />.</span>
-          </span>
-        </summary>
-        <value>
-          <span data-ttu-id="e7532-151">一个 <see cref="T:System.Windows.Documents.FlowDocument" /> 对象，表示 <see cref="T:System.Windows.Controls.RichTextBox" /> 的内容。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e7532-151">A <see cref="T:System.Windows.Documents.FlowDocument" /> object that represents the contents of the <see cref="T:System.Windows.Controls.RichTextBox" />.</span>
-          </span>
-          <span data-ttu-id="e7532-152">默认情况下，此属性设置为空 <see cref="T:System.Windows.Documents.FlowDocument" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e7532-152">By default, this property is set to an empty <see cref="T:System.Windows.Documents.FlowDocument" />.</span>
-          </span>
-          <span data-ttu-id="e7532-153">具体地说，此空 <see cref="T:System.Windows.Documents.FlowDocument" /> 包含一个 <see cref="T:System.Windows.Documents.Paragraph" />，而后者包含一个不包括任何文本的 <see cref="T:System.Windows.Documents.Run" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e7532-153">Specifically, the empty <see cref="T:System.Windows.Documents.FlowDocument" /> contains a single <see cref="T:System.Windows.Documents.Paragraph" />, which contains a single <see cref="T:System.Windows.Documents.Run" /> which contains no text.</span>
-          </span>
-        </value>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="e7532-154">仅可以由单个托管托管 FlowDocument <xref:System.Windows.Controls.RichTextBox>。</span><span class="sxs-lookup"><span data-stu-id="e7532-154">A FlowDocument may only be hosted by a single <xref:System.Windows.Controls.RichTextBox>.</span></span>  <span data-ttu-id="e7532-155">作为多个内容指定单个 FlowDocument<xref:System.Windows.Controls.RichTextBox>不支持的控件。</span><span class="sxs-lookup"><span data-stu-id="e7532-155">Specifying a single FlowDocument as the contents of multiple <xref:System.Windows.Controls.RichTextBox> controls is not supported.</span></span>  
-  
-   
-  
-## Examples  
- <span data-ttu-id="e7532-156">下面的示例演示如何使用此属性。</span><span class="sxs-lookup"><span data-stu-id="e7532-156">The following example illustrates the use of this property.</span></span>  
-  
- [!code-csharp[RichTextBoxSnippets#_RTB_Document](~/samples/snippets/csharp/VS_Snippets_Wpf/RichTextBoxSnippets/CSharp/Window1.xaml.cs#_rtb_document)]
- [!code-vb[RichTextBoxSnippets#_RTB_Document](~/samples/snippets/visualbasic/VS_Snippets_Wpf/RichTextBoxSnippets/visualbasic/window1.xaml.vb#_rtb_document)]  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.ArgumentNullException">
-          <span data-ttu-id="e7532-157">尝试将该属性设置为 <see langword="null" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e7532-157">An attempt is made to set this property to <see langword="null" />.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.ArgumentException">
-          <span data-ttu-id="e7532-158">尝试将此属性设置为表示其他 <see cref="T:System.Windows.Documents.FlowDocument" /> 的内容的 <see cref="T:System.Windows.Controls.RichTextBox" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e7532-158">An attempt is made to set this property to a <see cref="T:System.Windows.Documents.FlowDocument" /> that represents the contents of another <see cref="T:System.Windows.Controls.RichTextBox" />.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.InvalidOperationException">
-          <span data-ttu-id="e7532-159">在激活 change 块时设置此属性。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e7532-159">This property is set while a change block has been activated.</span>
-          </span>
-        </exception>
-      </Docs>
-    </Member>
-    <Member MemberName="GetNextSpellingErrorPosition">
-      <MemberSignature Language="C#" Value="public System.Windows.Documents.TextPointer GetNextSpellingErrorPosition (System.Windows.Documents.TextPointer position, System.Windows.Documents.LogicalDirection direction);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class System.Windows.Documents.TextPointer GetNextSpellingErrorPosition(class System.Windows.Documents.TextPointer position, valuetype System.Windows.Documents.LogicalDirection direction) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Windows.Controls.RichTextBox.GetNextSpellingErrorPosition(System.Windows.Documents.TextPointer,System.Windows.Documents.LogicalDirection)" />
-      <MemberSignature Language="VB.NET" Value="Public Function GetNextSpellingErrorPosition (position As TextPointer, direction As LogicalDirection) As TextPointer" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; System::Windows::Documents::TextPointer ^ GetNextSpellingErrorPosition(System::Windows::Documents::TextPointer ^ position, System::Windows::Documents::LogicalDirection direction);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>PresentationFramework</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Windows.Documents.TextPointer</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="position" Type="System.Windows.Documents.TextPointer" />
-        <Parameter Name="direction" Type="System.Windows.Documents.LogicalDirection" />
-      </Parameters>
-      <Docs>
-        <param name="position">
-          <span data-ttu-id="e7532-160">一个 <see cref="T:System.Windows.Documents.TextPointer" />，指示搜索下一个拼写错误的起始位置。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e7532-160">A <see cref="T:System.Windows.Documents.TextPointer" /> indicating a position from which to search for the next spelling error.</span>
-          </span>
-        </param>
-        <param name="direction">
-          <span data-ttu-id="e7532-161">从指定 <c>posision</c> 开始搜索下一个拼写错误时所采用的 <see cref="T:System.Windows.Documents.LogicalDirection" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e7532-161">A <see cref="T:System.Windows.Documents.LogicalDirection" /> in which to search for the next spelling error, starting at the specified <c>posision</c>.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="e7532-162">返回指向 <see cref="T:System.Windows.Documents.TextPointer" /> 的内容中下一个拼写错误的 <see cref="T:System.Windows.Controls.RichTextBox" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e7532-162">Returns a <see cref="T:System.Windows.Documents.TextPointer" /> that points to the next spelling error in the contents of the <see cref="T:System.Windows.Controls.RichTextBox" />.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="e7532-163">指向 <see cref="T:System.Windows.Documents.TextPointer" /> 的内容中下一个拼写错误的 <see cref="T:System.Windows.Controls.RichTextBox" />；如果不存在下一个拼写错误，则为 <see langword="null" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e7532-163">A <see cref="T:System.Windows.Documents.TextPointer" /> that points to the next spelling error in the contents of the <see cref="T:System.Windows.Controls.RichTextBox" />, or <see langword="null" /> if no next spelling error exists.</span>
-          </span>
-        </returns>
-        <remarks>To be added.</remarks>
-        <altmember cref="M:System.Windows.Controls.RichTextBox.GetSpellingErrorRange(System.Windows.Documents.TextPointer)" />
-        <altmember cref="M:System.Windows.Controls.RichTextBox.GetSpellingError(System.Windows.Documents.TextPointer)" />
-      </Docs>
-    </Member>
-    <Member MemberName="GetPositionFromPoint">
-      <MemberSignature Language="C#" Value="public System.Windows.Documents.TextPointer GetPositionFromPoint (System.Windows.Point point, bool snapToText);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class System.Windows.Documents.TextPointer GetPositionFromPoint(valuetype System.Windows.Point point, bool snapToText) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Windows.Controls.RichTextBox.GetPositionFromPoint(System.Windows.Point,System.Boolean)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; System::Windows::Documents::TextPointer ^ GetPositionFromPoint(System::Windows::Point point, bool snapToText);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>PresentationFramework</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Windows.Documents.TextPointer</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="point" Type="System.Windows.Point" />
-        <Parameter Name="snapToText" Type="System.Boolean" />
-      </Parameters>
-      <Docs>
-        <param name="point">
-          <span data-ttu-id="e7532-164">一个 <see cref="T:System.Windows.Point" /> 对象，用于指定检索 <see cref="T:System.Windows.Documents.TextPointer" /> 以查找的位置。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e7532-164">A <see cref="T:System.Windows.Point" /> object specifying the position to retrieve a <see cref="T:System.Windows.Documents.TextPointer" /> for.</span>
-          </span>
-        </param>
-        <param name="snapToText">
-          <span data-ttu-id="e7532-165">如果为 <see langword="true" />，则此方法总是返回一个 <see cref="T:System.Windows.Documents.TextPointer" />，以为指定的 <see cref="T:System.Windows.Point" /> 指定最近的插入位置，无论提供的 <see cref="T:System.Windows.Point" /> 是否在字符的边界框内。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e7532-165">If <see langword="true" />, this method always returns a <see cref="T:System.Windows.Documents.TextPointer" /> specifying the closest insertion position for the <see cref="T:System.Windows.Point" /> specified, regardless or whether or not the supplied <see cref="T:System.Windows.Point" /> is inside a character's bounding box.</span>
-          </span>
-          <span data-ttu-id="e7532-166">如果为 <see langword="false" />，则当指定的 <see cref="T:System.Windows.Point" /> 不在任何字符边界框内时，此方法将返回 <see langword="null" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e7532-166">If <see langword="false" />, this method returns <see langword="null" /> if the specified <see cref="T:System.Windows.Point" /> does not fall within any character bounding box.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="e7532-167">返回 <see cref="T:System.Windows.Documents.TextPointer" />，它指向与指定职位最近的插入点。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e7532-167">Returns a <see cref="T:System.Windows.Documents.TextPointer" /> that points to the insertion point closest to the specified position.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="e7532-168">一个 <see cref="T:System.Windows.Documents.TextPointer" />，用于为提供的点指定最近的插入位置；如果 <paramref name="snapToText" /> 为 <see langword="null" /> 并且提供的 <see cref="T:System.Windows.Point" /> 不在任何字符的边界框内，则为 <see langword="false" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e7532-168">A <see cref="T:System.Windows.Documents.TextPointer" /> specifying the closest insertion position for the supplied point, or <see langword="null" /> if <paramref name="snapToText" /> is <see langword="false" /> and the supplied <see cref="T:System.Windows.Point" /> is not within any character's bounding box.</span>
-          </span>
-          <span data-ttu-id="e7532-169">请注意，返回的 <see cref="T:System.Windows.Documents.TextPointer" /> 通常是介于两个字符之间的位置。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e7532-169">Note that the <see cref="T:System.Windows.Documents.TextPointer" /> returned is usually the position between two characters.</span>
-          </span>
-          <span data-ttu-id="e7532-170">使用返回的 <see cref="P:System.Windows.Documents.TextPointer.LogicalDirection" /> 的 <see cref="T:System.Windows.Documents.TextPointer" /> 属性可确定 <see cref="T:System.Windows.Documents.TextPointer" /> 对应于这两个字符中的哪一个字符。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e7532-170">Use the <see cref="P:System.Windows.Documents.TextPointer.LogicalDirection" /> property of the returned <see cref="T:System.Windows.Documents.TextPointer" /> to determine which of the two characters the <see cref="T:System.Windows.Documents.TextPointer" /> corresponds to.</span>
-          </span>
-        </returns>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="e7532-171"><xref:System.Windows.Controls.RichTextBox> 使用标准的坐标系统的左上角原点<xref:System.Windows.Controls.RichTextBox>。</span><span class="sxs-lookup"><span data-stu-id="e7532-171"><xref:System.Windows.Controls.RichTextBox> uses a standard coordinate system with the origin located at the upper-left corner of the <xref:System.Windows.Controls.RichTextBox>.</span></span>  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.InvalidOperationException">
-          <span data-ttu-id="e7532-172">当 <see cref="T:System.Windows.Controls.RichTextBox" /> 的布局信息不是最新信息时引发。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e7532-172">Raised if layout information for the <see cref="T:System.Windows.Controls.RichTextBox" /> is not current.</span>
-          </span>
-        </exception>
-      </Docs>
-    </Member>
-    <Member MemberName="GetSpellingError">
-      <MemberSignature Language="C#" Value="public System.Windows.Controls.SpellingError GetSpellingError (System.Windows.Documents.TextPointer position);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class System.Windows.Controls.SpellingError GetSpellingError(class System.Windows.Documents.TextPointer position) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Windows.Controls.RichTextBox.GetSpellingError(System.Windows.Documents.TextPointer)" />
-      <MemberSignature Language="VB.NET" Value="Public Function GetSpellingError (position As TextPointer) As SpellingError" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; System::Windows::Controls::SpellingError ^ GetSpellingError(System::Windows::Documents::TextPointer ^ position);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>PresentationFramework</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Windows.Controls.SpellingError</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="position" Type="System.Windows.Documents.TextPointer" />
-      </Parameters>
-      <Docs>
-        <param name="position">
-          <span data-ttu-id="e7532-173">一个 <see cref="T:System.Windows.Documents.TextPointer" />，用于指定解析为字符以检查拼写错误的位置和逻辑方向。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e7532-173">A <see cref="T:System.Windows.Documents.TextPointer" /> that specifies a position and logical direction that resolves to a character to examine for a spelling error.</span>
-          </span>
-          <span data-ttu-id="e7532-174">使用此 <see cref="P:System.Windows.Documents.TextPointer.LogicalDirection" /> 的 <see cref="T:System.Windows.Documents.TextPointer" /> 属性可指定要检查的字符的方向。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e7532-174">Use the <see cref="P:System.Windows.Documents.TextPointer.LogicalDirection" /> property of this <see cref="T:System.Windows.Documents.TextPointer" /> to specify the direction of the character to examine.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="e7532-175">返回一个 <see cref="T:System.Windows.Controls.SpellingError" /> 对象，该对象与 <see cref="T:System.Windows.Controls.RichTextBox" /> 的内容中指定位置的任何拼写错误相关联。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e7532-175">Returns a <see cref="T:System.Windows.Controls.SpellingError" /> object associated with any spelling error at a specified position in the contents of the <see cref="T:System.Windows.Controls.RichTextBox" />.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="e7532-176">一个 <see cref="T:System.Windows.Controls.SpellingError" /> 对象，其中包含在由 <paramref name="position" /> 指示的字符处发现的拼写错误的详细信息；如果指定字符处没有拼写错误，则为 <see langword="null" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e7532-176">A <see cref="T:System.Windows.Controls.SpellingError" /> object containing the details of the spelling error found at the character indicated by <paramref name="position" />, or <see langword="null" /> if no spelling error exists at the specified character.</span>
-          </span>
-        </returns>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="e7532-177">A<xref:System.Windows.Documents.TextPointer>如`position`通常指定两个字符之间的某个位置。</span><span class="sxs-lookup"><span data-stu-id="e7532-177">A <xref:System.Windows.Documents.TextPointer> like `position` usually specifies a position between two characters.</span></span> <span data-ttu-id="e7532-178">使用<xref:System.Windows.Documents.TextPointer.LogicalDirection%2A>属性`position`来指定要检查的字符。</span><span class="sxs-lookup"><span data-stu-id="e7532-178">Use the <xref:System.Windows.Documents.TextPointer.LogicalDirection%2A> property of `position` to specify which character to examine.</span></span>  
-  
- ]]></format>
-        </remarks>
-        <altmember cref="M:System.Windows.Controls.RichTextBox.GetSpellingErrorRange(System.Windows.Documents.TextPointer)" />
-        <altmember cref="M:System.Windows.Controls.RichTextBox.GetNextSpellingErrorPosition(System.Windows.Documents.TextPointer,System.Windows.Documents.LogicalDirection)" />
-      </Docs>
-    </Member>
-    <Member MemberName="GetSpellingErrorRange">
-      <MemberSignature Language="C#" Value="public System.Windows.Documents.TextRange GetSpellingErrorRange (System.Windows.Documents.TextPointer position);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class System.Windows.Documents.TextRange GetSpellingErrorRange(class System.Windows.Documents.TextPointer position) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Windows.Controls.RichTextBox.GetSpellingErrorRange(System.Windows.Documents.TextPointer)" />
-      <MemberSignature Language="VB.NET" Value="Public Function GetSpellingErrorRange (position As TextPointer) As TextRange" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; System::Windows::Documents::TextRange ^ GetSpellingErrorRange(System::Windows::Documents::TextPointer ^ position);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>PresentationFramework</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Windows.Documents.TextRange</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="position" Type="System.Windows.Documents.TextPointer" />
-      </Parameters>
-      <Docs>
-        <param name="position">
-          <span data-ttu-id="e7532-179">一个 <see cref="T:System.Windows.Documents.TextPointer" />，用于指定解析为字符以检查拼写错误的位置和逻辑方向。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e7532-179">A <see cref="T:System.Windows.Documents.TextPointer" /> that specifies a position and logical direction that resolves to a character to examine for a spelling error.</span>
-          </span>
-          <span data-ttu-id="e7532-180">使用此 <see cref="P:System.Windows.Documents.TextPointer.LogicalDirection" /> 的 <see cref="T:System.Windows.Documents.TextPointer" /> 属性可指定要检查的字符的方向。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e7532-180">Use the <see cref="P:System.Windows.Documents.TextPointer.LogicalDirection" /> property of this <see cref="T:System.Windows.Documents.TextPointer" /> to specify the direction of the character to examine.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="e7532-181">返回一个 <see cref="T:System.Windows.Documents.TextRange" /> 对象，其中包括 <see cref="T:System.Windows.Controls.RichTextBox" /> 的内容中指定位置处的任何拼错的单词。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e7532-181">Returns a <see cref="T:System.Windows.Documents.TextRange" /> object covering any misspelled word at a specified position in the contents of the <see cref="T:System.Windows.Controls.RichTextBox" />.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="e7532-182">一个 <see cref="T:System.Windows.Documents.TextRange" /> 对象，其中包括含有 <paramref name="position" /> 所指定字符的任何拼错的单词。如果指定字符处没有拼写错误，则为 <see langword="null" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e7532-182">A <see cref="T:System.Windows.Documents.TextRange" /> object covering any misspelled word that includes the character specified by <paramref name="position" />, or <see langword="null" /> if no spelling error exists at the specified character.</span>
-          </span>
-        </returns>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="e7532-183">A<xref:System.Windows.Documents.TextPointer>如`position`通常指定两个字符之间的某个位置。</span><span class="sxs-lookup"><span data-stu-id="e7532-183">A <xref:System.Windows.Documents.TextPointer> like `position` usually specifies a position between two characters.</span></span> <span data-ttu-id="e7532-184">使用<xref:System.Windows.Documents.TextPointer.LogicalDirection%2A>属性`position`来指定要检查的字符。</span><span class="sxs-lookup"><span data-stu-id="e7532-184">Use the <xref:System.Windows.Documents.TextPointer.LogicalDirection%2A> property of `position` to specify which character to examine.</span></span>  
-  
- ]]></format>
-        </remarks>
-        <altmember cref="M:System.Windows.Controls.RichTextBox.GetSpellingError(System.Windows.Documents.TextPointer)" />
-        <altmember cref="M:System.Windows.Controls.RichTextBox.GetNextSpellingErrorPosition(System.Windows.Documents.TextPointer,System.Windows.Documents.LogicalDirection)" />
-      </Docs>
-    </Member>
-    <Member MemberName="IsDocumentEnabled">
-      <MemberSignature Language="C#" Value="public bool IsDocumentEnabled { get; set; }" />
-      <MemberSignature Language="ILAsm" Value=".property instance bool IsDocumentEnabled" />
-      <MemberSignature Language="DocId" Value="P:System.Windows.Controls.RichTextBox.IsDocumentEnabled" />
-      <MemberSignature Language="VB.NET" Value="Public Property IsDocumentEnabled As Boolean" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; property bool IsDocumentEnabled { bool get(); void set(bool value); };" />
-      <MemberType>Property</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>PresentationFramework</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Boolean</ReturnType>
-      </ReturnValue>
-      <Docs>
-        <summary>
-          <span data-ttu-id="e7532-185">获取或设置一个值，该值指示用户是否可以与 <see cref="T:System.Windows.UIElement" /> 内的 <see cref="T:System.Windows.ContentElement" /> 和 <see cref="T:System.Windows.Controls.RichTextBox" /> 对象进行交互。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e7532-185">Gets or sets a value that indicates whether the user can interact with <see cref="T:System.Windows.UIElement" /> and <see cref="T:System.Windows.ContentElement" /> objects within the <see cref="T:System.Windows.Controls.RichTextBox" />.</span>
-          </span>
-        </summary>
-        <value>
-          <span data-ttu-id="e7532-186">如果用户可以与 <see cref="T:System.Windows.UIElement" /> 内的 <see cref="T:System.Windows.ContentElement" /> 和 <see cref="T:System.Windows.Controls.RichTextBox" /> 对象进行交互，则为 <see langword="true" />；否则为 <see langword="false" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e7532-186">
-              <see langword="true" /> if the user can interact with <see cref="T:System.Windows.UIElement" /> and <see cref="T:System.Windows.ContentElement" /> objects within the <see cref="T:System.Windows.Controls.RichTextBox" />; otherwise, <see langword="false" />.</span>
-          </span>
-        </value>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="e7532-187"><xref:System.Windows.Controls.RichTextBox.IsDocumentEnabled%2A> 是.NET Framework 3.5 版中引入的。</span><span class="sxs-lookup"><span data-stu-id="e7532-187"><xref:System.Windows.Controls.RichTextBox.IsDocumentEnabled%2A> is introduced in the .NET Framework version 3.5.</span></span>  <span data-ttu-id="e7532-188">有关详细信息，请参见[版本和依赖关系](~/docs/framework/migration-guide/versions-and-dependencies.md)。</span><span class="sxs-lookup"><span data-stu-id="e7532-188">For more information, see [Versions and Dependencies](~/docs/framework/migration-guide/versions-and-dependencies.md).</span></span>  
-  
-   
-  
-## Examples  
- <span data-ttu-id="e7532-189">下面的示例创建<xref:System.Windows.Controls.CheckBox>和<xref:System.Windows.Controls.RichTextBox>包含<xref:System.Windows.Documents.Hyperlink>和<xref:System.Windows.Controls.Button>。</span><span class="sxs-lookup"><span data-stu-id="e7532-189">The following example creates <xref:System.Windows.Controls.CheckBox> and a <xref:System.Windows.Controls.RichTextBox> that contains a <xref:System.Windows.Documents.Hyperlink> and a <xref:System.Windows.Controls.Button>.</span></span>  <span data-ttu-id="e7532-190"><xref:System.Windows.Controls.RichTextBox.IsDocumentEnabled%2A>属性<xref:System.Windows.Controls.RichTextBox>绑定到<xref:System.Windows.Controls.Primitives.ToggleButton.IsChecked%2A>属性<xref:System.Windows.Controls.CheckBox>。</span><span class="sxs-lookup"><span data-stu-id="e7532-190">The <xref:System.Windows.Controls.RichTextBox.IsDocumentEnabled%2A> property of the <xref:System.Windows.Controls.RichTextBox> is bound to the <xref:System.Windows.Controls.Primitives.ToggleButton.IsChecked%2A> property of the <xref:System.Windows.Controls.CheckBox>.</span></span>  <span data-ttu-id="e7532-191">当用户选择<xref:System.Windows.Controls.CheckBox>，用户可以与交互<xref:System.Windows.Controls.Button>和<xref:System.Windows.Documents.Hyperlink>。</span><span class="sxs-lookup"><span data-stu-id="e7532-191">When the user selects the <xref:System.Windows.Controls.CheckBox>, the user can interact with the <xref:System.Windows.Controls.Button> and <xref:System.Windows.Documents.Hyperlink>.</span></span> <span data-ttu-id="e7532-192">当用户清除<xref:System.Windows.Controls.CheckBox>、<xref:System.Windows.Controls.Button>和<xref:System.Windows.Documents.Hyperlink>处于禁用状态。</span><span class="sxs-lookup"><span data-stu-id="e7532-192">When the user clears the <xref:System.Windows.Controls.CheckBox>, the <xref:System.Windows.Controls.Button> and <xref:System.Windows.Documents.Hyperlink> are disabled.</span></span>  
-  
- [!code-xaml[RTBIsDocumentEnabled#1](~/samples/snippets/visualbasic/VS_Snippets_Wpf/RTBIsDocumentEnabled/VB/Window1.xaml#1)]  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="IsDocumentEnabledProperty">
-      <MemberSignature Language="C#" Value="public static readonly System.Windows.DependencyProperty IsDocumentEnabledProperty;" />
-      <MemberSignature Language="ILAsm" Value=".field public static initonly class System.Windows.DependencyProperty IsDocumentEnabledProperty" />
-      <MemberSignature Language="DocId" Value="F:System.Windows.Controls.RichTextBox.IsDocumentEnabledProperty" />
-      <MemberSignature Language="VB.NET" Value="Public Shared ReadOnly IsDocumentEnabledProperty As DependencyProperty " />
-      <MemberSignature Language="C++ CLI" Value="public: static initonly System::Windows::DependencyProperty ^ IsDocumentEnabledProperty;" />
-      <MemberType>Field</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>PresentationFramework</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Windows.DependencyProperty</ReturnType>
-      </ReturnValue>
-      <Docs>
-        <summary>
-          <span data-ttu-id="e7532-193">标识 <see cref="P:System.Windows.Controls.RichTextBox.IsDocumentEnabled" /> 依赖项属性。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e7532-193">Identifies the <see cref="P:System.Windows.Controls.RichTextBox.IsDocumentEnabled" /> dependency property.</span>
-          </span>
-        </summary>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="LogicalChildren">
-      <MemberSignature Language="C#" Value="protected internal override System.Collections.IEnumerator LogicalChildren { get; }" />
-      <MemberSignature Language="ILAsm" Value=".property instance class System.Collections.IEnumerator LogicalChildren" />
-      <MemberSignature Language="DocId" Value="P:System.Windows.Controls.RichTextBox.LogicalChildren" />
-      <MemberSignature Language="VB.NET" Value="Protected Friend Overrides ReadOnly Property LogicalChildren As IEnumerator" />
-      <MemberSignature Language="C++ CLI" Value="protected public:&#xA; virtual property System::Collections::IEnumerator ^ LogicalChildren { System::Collections::IEnumerator ^ get(); };" />
-      <MemberType>Property</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>PresentationFramework</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Collections.IEnumerator</ReturnType>
-      </ReturnValue>
-      <Docs>
-        <summary>
-          <span data-ttu-id="e7532-194">获取一个可循环访问 <see langword="RichTextBox" /> 的逻辑子级的枚举器。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e7532-194">Gets an enumerator that can iterate the logical children of the <see langword="RichTextBox" />.</span>
-          </span>
-        </summary>
-        <value>
-          <span data-ttu-id="e7532-195">用于逻辑子级的枚举数。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e7532-195">An enumerator for the logical children.</span>
-          </span>
-        </value>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="MeasureOverride">
-      <MemberSignature Language="C#" Value="protected override System.Windows.Size MeasureOverride (System.Windows.Size constraint);" />
-      <MemberSignature Language="ILAsm" Value=".method familyhidebysig virtual instance valuetype System.Windows.Size MeasureOverride(valuetype System.Windows.Size constraint) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Windows.Controls.RichTextBox.MeasureOverride(System.Windows.Size)" />
-      <MemberSignature Language="VB.NET" Value="Protected Overrides Function MeasureOverride (constraint As Size) As Size" />
-      <MemberSignature Language="C++ CLI" Value="protected:&#xA; override System::Windows::Size MeasureOverride(System::Windows::Size constraint);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>PresentationFramework</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Windows.Size</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="constraint" Type="System.Windows.Size" />
-      </Parameters>
-      <Docs>
-        <param name="constraint">
-          <span data-ttu-id="e7532-196">一个 <see cref="T:System.Windows.Size" /> 结构，用于指定对 <see cref="T:System.Windows.Controls.RichTextBox" /> 大小的约束。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e7532-196">A <see cref="T:System.Windows.Size" /> structure specifying constraints on the size of the <see cref="T:System.Windows.Controls.RichTextBox" />.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="e7532-197">调用以重新测量 <see cref="T:System.Windows.Controls.RichTextBox" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e7532-197">Called to re-measure the <see cref="T:System.Windows.Controls.RichTextBox" />.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="e7532-198">一个 <see cref="T:System.Windows.Size" /> 结构，指示 <see cref="T:System.Windows.Controls.RichTextBox" /> 的新大小。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e7532-198">A <see cref="T:System.Windows.Size" /> structure indicating the new size of the <see cref="T:System.Windows.Controls.RichTextBox" />.</span>
-          </span>
-        </returns>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="e7532-199">此方法重写 <xref:System.Windows.Controls.Control.MeasureOverride%2A>。</span><span class="sxs-lookup"><span data-stu-id="e7532-199">This method overrides <xref:System.Windows.Controls.Control.MeasureOverride%2A>.</span></span>  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="OnCreateAutomationPeer">
-      <MemberSignature Language="C#" Value="protected override System.Windows.Automation.Peers.AutomationPeer OnCreateAutomationPeer ();" />
-      <MemberSignature Language="ILAsm" Value=".method familyhidebysig virtual instance class System.Windows.Automation.Peers.AutomationPeer OnCreateAutomationPeer() cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Windows.Controls.RichTextBox.OnCreateAutomationPeer" />
-      <MemberSignature Language="VB.NET" Value="Protected Overrides Function OnCreateAutomationPeer () As AutomationPeer" />
-      <MemberSignature Language="C++ CLI" Value="protected:&#xA; override System::Windows::Automation::Peers::AutomationPeer ^ OnCreateAutomationPeer();" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>PresentationFramework</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Windows.Automation.Peers.AutomationPeer</ReturnType>
-      </ReturnValue>
-      <Parameters />
-      <Docs>
-        <summary>
-          <span data-ttu-id="e7532-200">创建并返回此 <see cref="T:System.Windows.Automation.Peers.AutomationPeer" /> 的 <see cref="T:System.Windows.Controls.RichTextBox" /> 对象。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e7532-200">Creates and returns an <see cref="T:System.Windows.Automation.Peers.AutomationPeer" /> object for this <see cref="T:System.Windows.Controls.RichTextBox" />.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="e7532-201">此 <see cref="T:System.Windows.Automation.Peers.AutomationPeer" /> 的 <see cref="T:System.Windows.Controls.RichTextBox" /> 对象。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e7532-201">An <see cref="T:System.Windows.Automation.Peers.AutomationPeer" /> object for this <see cref="T:System.Windows.Controls.RichTextBox" />.</span>
-          </span>
-        </returns>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="e7532-202">此方法重写 <xref:System.Windows.ContentElement.OnCreateAutomationPeer%2A>。</span><span class="sxs-lookup"><span data-stu-id="e7532-202">This method overrides <xref:System.Windows.ContentElement.OnCreateAutomationPeer%2A>.</span></span>  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="OnDpiChanged">
-      <MemberSignature Language="C#" Value="protected override void OnDpiChanged (System.Windows.DpiScale oldDpiScaleInfo, System.Windows.DpiScale newDpiScaleInfo);" />
-      <MemberSignature Language="ILAsm" Value=".method familyhidebysig virtual instance void OnDpiChanged(valuetype System.Windows.DpiScale oldDpiScaleInfo, valuetype System.Windows.DpiScale newDpiScaleInfo) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Windows.Controls.RichTextBox.OnDpiChanged(System.Windows.DpiScale,System.Windows.DpiScale)" />
-      <MemberSignature Language="VB.NET" Value="Protected Overrides Sub OnDpiChanged (oldDpiScaleInfo As DpiScale, newDpiScaleInfo As DpiScale)" />
-      <MemberSignature Language="C++ CLI" Value="protected:&#xA; override void OnDpiChanged(System::Windows::DpiScale oldDpiScaleInfo, System::Windows::DpiScale newDpiScaleInfo);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>PresentationFramework</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="oldDpiScaleInfo" Type="System.Windows.DpiScale" />
-        <Parameter Name="newDpiScaleInfo" Type="System.Windows.DpiScale" />
-      </Parameters>
-      <Docs>
-        <param name="oldDpiScaleInfo">
-          <span data-ttu-id="e7532-203">上一 DPI 比例设置。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e7532-203">The previous DPI scale setting.</span>
-          </span>
-        </param>
-        <param name="newDpiScaleInfo">
-          <span data-ttu-id="e7532-204">新 DPI 比例设置。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e7532-204">The new DPI scale setting.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="e7532-205">呈现此多信息文本框时所使用的 DPI 发生变化时进行调用。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e7532-205">Called when the DPI at which this Rich Text Box is rendered changes.</span>
-          </span>
-        </summary>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="Selection">
-      <MemberSignature Language="C#" Value="public System.Windows.Documents.TextSelection Selection { get; }" />
-      <MemberSignature Language="ILAsm" Value=".property instance class System.Windows.Documents.TextSelection Selection" />
-      <MemberSignature Language="DocId" Value="P:System.Windows.Controls.RichTextBox.Selection" />
-      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property Selection As TextSelection" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::Windows::Documents::TextSelection ^ Selection { System::Windows::Documents::TextSelection ^ get(); };" />
-      <MemberType>Property</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>PresentationFramework</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Windows.Documents.TextSelection</ReturnType>
-      </ReturnValue>
-      <Docs>
-        <summary>
-          <span data-ttu-id="e7532-206">获取一个包含 <see cref="T:System.Windows.Documents.TextSelection" /> 中当前选定内容的 <see cref="T:System.Windows.Controls.RichTextBox" /> 对象。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e7532-206">Gets a <see cref="T:System.Windows.Documents.TextSelection" /> object containing the current selection in the <see cref="T:System.Windows.Controls.RichTextBox" />.</span>
-          </span>
-        </summary>
-        <value>
-          <span data-ttu-id="e7532-207">一个包含 <see cref="T:System.Windows.Documents.TextSelection" /> 中当前选定内容的 <see cref="T:System.Windows.Controls.RichTextBox" /> 对象。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e7532-207">A <see cref="T:System.Windows.Documents.TextSelection" /> object containing the current selection in the <see cref="T:System.Windows.Controls.RichTextBox" />.</span>
-          </span>
-          <span data-ttu-id="e7532-208">默认返回的 <see cref="T:System.Windows.Documents.TextSelection" /> 的 <see cref="P:System.Windows.Documents.TextRange.IsEmpty" /> 属性值为 <see langword="True" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e7532-208">The default returned <see cref="T:System.Windows.Documents.TextSelection" /> has an <see cref="P:System.Windows.Documents.TextRange.IsEmpty" /> property value of <see langword="True" />.</span>
-          </span>
-          <span data-ttu-id="e7532-209">空 <see cref="T:System.Windows.Documents.TextSelection" /> 在不包含任何选定内容的文本区域中呈现为一个插入符号。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e7532-209">An empty <see cref="T:System.Windows.Documents.TextSelection" /> renders as a caret in the text area with no selection.</span>
-          </span>
-        </value>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="e7532-210">使用<xref:System.Windows.Documents.TextRange.Select%2A>方法以编程方式选择内容。</span><span class="sxs-lookup"><span data-stu-id="e7532-210">Use the <xref:System.Windows.Documents.TextRange.Select%2A> method to programmatically select content.</span></span>  
-  
-   
-  
-## Examples  
- <span data-ttu-id="e7532-211">下面的示例演示如何使用此属性。</span><span class="sxs-lookup"><span data-stu-id="e7532-211">The following example illustrates the use of this property.</span></span>  
-  
- [!code-csharp[RichTextBoxSnippets#_RTB_Selection](~/samples/snippets/csharp/VS_Snippets_Wpf/RichTextBoxSnippets/CSharp/Window1.xaml.cs#_rtb_selection)]
- [!code-vb[RichTextBoxSnippets#_RTB_Selection](~/samples/snippets/visualbasic/VS_Snippets_Wpf/RichTextBoxSnippets/visualbasic/window1.xaml.vb#_rtb_selection)]  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="ShouldSerializeDocument">
-      <MemberSignature Language="C#" Value="public bool ShouldSerializeDocument ();" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance bool ShouldSerializeDocument() cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Windows.Controls.RichTextBox.ShouldSerializeDocument" />
-      <MemberSignature Language="VB.NET" Value="Public Function ShouldSerializeDocument () As Boolean" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; bool ShouldSerializeDocument();" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>PresentationFramework</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Attributes>
-        <Attribute>
-          <AttributeName>System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)</AttributeName>
-        </Attribute>
-      </Attributes>
-      <ReturnValue>
-        <ReturnType>System.Boolean</ReturnType>
-      </ReturnValue>
-      <Parameters />
-      <Docs>
-        <summary>
-          <span data-ttu-id="e7532-212">返回一个值，该值指示在序列化 <see cref="P:System.Windows.Controls.RichTextBox.Document" /> 对象期间，是否应对 <see cref="T:System.Windows.Controls.RichTextBox" /> 属性的有效值进行序列化。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e7532-212">Returns a value that indicates whether or not the effective value of the <see cref="P:System.Windows.Controls.RichTextBox.Document" /> property should be serialized during serialization of a <see cref="T:System.Windows.Controls.RichTextBox" /> object.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="e7532-213">如果 <see cref="P:System.Windows.Controls.RichTextBox.Document" /> 属性应被序列化，则为 <see langword="true" />；否则为 <see langword="false" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e7532-213">
-              <see langword="true" /> if the <see cref="P:System.Windows.Controls.RichTextBox.Document" /> property should be serialized; otherwise, <see langword="false" />.</span>
-          </span>
-        </returns>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="System.Windows.Markup.IAddChild.AddChild">
-      <MemberSignature Language="C#" Value="void IAddChild.AddChild (object value);" />
-      <MemberSignature Language="ILAsm" Value=".method hidebysig newslot virtual instance void System.Windows.Markup.IAddChild.AddChild(object value) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Windows.Controls.RichTextBox.System#Windows#Markup#IAddChild#AddChild(System.Object)" />
-      <MemberSignature Language="VB.NET" Value="Sub AddChild (value As Object) Implements IAddChild.AddChild" />
-      <MemberSignature Language="C++ CLI" Value=" virtual void System.Windows.Markup.IAddChild.AddChild(System::Object ^ value) = System::Windows::Markup::IAddChild::AddChild;" />
-      <MemberType>Method</MemberType>
-      <Implements>
-        <InterfaceMember>M:System.Windows.Markup.IAddChild.AddChild(System.Object)</InterfaceMember>
-      </Implements>
-      <AssemblyInfo>
-        <AssemblyName>PresentationFramework</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="value" Type="System.Object" />
-      </Parameters>
-      <Docs>
-        <param name="value">
-          <span data-ttu-id="e7532-214">要作为子级添加的对象。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e7532-214">An object to add as a child.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="e7532-215">此类型或成员支持 [!INCLUDE[TLA#tla_winclient](~/includes/tlasharptla-winclient-md.md)] 基础结构，但不可直接在代码中使用。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e7532-215">This type or member supports the [!INCLUDE[TLA#tla_winclient](~/includes/tlasharptla-winclient-md.md)] infrastructure and is not intended to be used directly from your code.</span>
-          </span>
-        </summary>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="System.Windows.Markup.IAddChild.AddText">
-      <MemberSignature Language="C#" Value="void IAddChild.AddText (string text);" />
-      <MemberSignature Language="ILAsm" Value=".method hidebysig newslot virtual instance void System.Windows.Markup.IAddChild.AddText(string text) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Windows.Controls.RichTextBox.System#Windows#Markup#IAddChild#AddText(System.String)" />
-      <MemberSignature Language="VB.NET" Value="Sub AddText (text As String) Implements IAddChild.AddText" />
-      <MemberSignature Language="C++ CLI" Value=" virtual void System.Windows.Markup.IAddChild.AddText(System::String ^ text) = System::Windows::Markup::IAddChild::AddText;" />
-      <MemberType>Method</MemberType>
-      <Implements>
-        <InterfaceMember>M:System.Windows.Markup.IAddChild.AddText(System.String)</InterfaceMember>
-      </Implements>
-      <AssemblyInfo>
-        <AssemblyName>PresentationFramework</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="text" Type="System.String" />
-      </Parameters>
-      <Docs>
-        <param name="text">
-          <span data-ttu-id="e7532-216">要添加到该对象的字符串。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e7532-216">A string to add to the object.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="e7532-217">此类型或成员支持 [!INCLUDE[TLA#tla_winclient](~/includes/tlasharptla-winclient-md.md)] 基础结构，但不可直接在代码中使用。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e7532-217">This type or member supports the [!INCLUDE[TLA#tla_winclient](~/includes/tlasharptla-winclient-md.md)] infrastructure and is not intended to be used directly from your code.</span>
-          </span>
-        </summary>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-  </Members>
-</Type>
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.2" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 xliff-core-1.2-transitional.xsd">
+  <file datatype="xml" original="RichTextBox.xml" source-language="en-US" target-language="zh-CN">
+    <header>
+      <tool tool-id="mdxliff" tool-name="mdxliff" tool-version="1.0-15c36f0" tool-company="Microsoft" />
+      <xliffext:skl_file_name xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">02cd5861-7ce2-4a82-b358-31f8435a0ac5bc776ac98d81c671329dad799a3777a4c2f1dfce.skl</xliffext:skl_file_name>
+      <xliffext:version xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">1.2</xliffext:version>
+      <xliffext:ms.openlocfilehash xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">bc776ac98d81c671329dad799a3777a4c2f1dfce</xliffext:ms.openlocfilehash>
+      <xliffext:ms.sourcegitcommit xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b</xliffext:ms.sourcegitcommit>
+      <xliffext:ms.lasthandoff xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">04/03/2018</xliffext:ms.lasthandoff>
+      <xliffext:moniker_ids xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">netframework-4.5.1,netframework-4.5.2,netframework-4.5,netframework-4.6.1,netframework-4.6.2,netframework-4.6,netframework-4.7.1,netframework-4.7</xliffext:moniker_ids>
+    </header>
+    <body>
+      <group id="content" extype="content">
+        <trans-unit id="101" translate="yes" xml:space="preserve" uid="T:System.Windows.Controls.RichTextBox">
+          <source>Represents a rich editing control which operates on <ph id="ph1">&lt;see cref="T:System.Windows.Documents.FlowDocument" /&gt;</ph> objects.</source>
+          <target state="translated">表示对 <ph id="ph1">&lt;see cref="T:System.Windows.Documents.FlowDocument" /&gt;</ph> 对象执行操作的丰富编辑控件。</target>       </trans-unit>
+        <trans-unit id="102" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Windows.Controls.RichTextBox">
+          <source><ph id="ph1">&lt;xref:System.Windows.Documents.FlowDocument&gt;</ph> is the only supported child element for a <ph id="ph2">&lt;xref:System.Windows.Controls.RichTextBox&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;xref:System.Windows.Documents.FlowDocument&gt;</ph> 是的唯一受支持的子元素<ph id="ph2">&lt;xref:System.Windows.Controls.RichTextBox&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="103" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Windows.Controls.RichTextBox">
+          <source><ph id="ph1">&lt;xref:System.Windows.Controls.RichTextBox&gt;</ph> has built-in handling for the bubbling  <ph id="ph2">&lt;xref:System.Windows.UIElement.MouseUp&gt;</ph> and <ph id="ph3">&lt;xref:System.Windows.UIElement.MouseDown&gt;</ph> events.</source>
+          <target state="translated"><ph id="ph1">&lt;xref:System.Windows.Controls.RichTextBox&gt;</ph> 已为冒泡的内置处理<ph id="ph2">&lt;xref:System.Windows.UIElement.MouseUp&gt;</ph>和<ph id="ph3">&lt;xref:System.Windows.UIElement.MouseDown&gt;</ph>事件。</target>       </trans-unit>
+        <trans-unit id="104" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Windows.Controls.RichTextBox">
+          <source>Consequently, custom event handlers that listen for <ph id="ph1">`MouseUp`</ph> or <ph id="ph2">`MouseDown`</ph> events from a <ph id="ph3">&lt;xref:System.Windows.Controls.RichTextBox&gt;</ph> will never be called.</source>
+          <target state="translated">因此，自定义事件处理程序，侦听<ph id="ph1">`MouseUp`</ph>或<ph id="ph2">`MouseDown`</ph>事件从<ph id="ph3">&lt;xref:System.Windows.Controls.RichTextBox&gt;</ph>永远不会调用。</target>       </trans-unit>
+        <trans-unit id="105" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Windows.Controls.RichTextBox">
+          <source>If you need to respond to these events, listen for the tunneling <ph id="ph1">&lt;xref:System.Windows.UIElement.PreviewMouseUp&gt;</ph> and <ph id="ph2">&lt;xref:System.Windows.UIElement.PreviewMouseDown&gt;</ph> events instead, or register the handlers with the <ph id="ph3">&lt;xref:System.Windows.EventSetter.HandledEventsToo%2A&gt;</ph> argument (this latter option is only available through code).</source>
+          <target state="translated">如果你需要对这些事件做出响应，侦听隧道<ph id="ph1">&lt;xref:System.Windows.UIElement.PreviewMouseUp&gt;</ph>和<ph id="ph2">&lt;xref:System.Windows.UIElement.PreviewMouseDown&gt;</ph>事件相反，或注册处理程序替换<ph id="ph3">&lt;xref:System.Windows.EventSetter.HandledEventsToo%2A&gt;</ph>（后面这个选项才可通过代码） 的自变量。</target>       </trans-unit>
+        <trans-unit id="106" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Windows.Controls.RichTextBox">
+          <source>Do not mark the event handled unless you deliberately want to disable <ph id="ph1">&lt;xref:System.Windows.Controls.RichTextBox&gt;</ph> native handling of these events, and be aware that this has notable effects on the control's <ph id="ph2">[!INCLUDE[TLA2#tla_ui](~/includes/tla2sharptla-ui-md.md)]</ph>.</source>
+          <target state="translated">不要标记处理除非有意想要禁用的事件<ph id="ph1">&lt;xref:System.Windows.Controls.RichTextBox&gt;</ph>本机处理这些事件，并请注意这产生显著影响控件的<ph id="ph2">[!INCLUDE[TLA2#tla_ui](~/includes/tla2sharptla-ui-md.md)]</ph>。</target>       </trans-unit>
+        <trans-unit id="107" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Windows.Controls.RichTextBox">
+          <source>While <ph id="ph1">&lt;xref:System.Windows.Controls.RichTextBox&gt;</ph> supports copying and pasting of images, certain scenarios are currently unsupported and may not work properly.</source>
+          <target state="translated">虽然<ph id="ph1">&lt;xref:System.Windows.Controls.RichTextBox&gt;</ph>支持复制和粘贴的映像，某些情况下当前不受支持，可能无法正常工作。</target>       </trans-unit>
+        <trans-unit id="108" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Windows.Controls.RichTextBox">
+          <source>The following table summarizes these scenarios and expected results.</source>
+          <target state="translated">下表总结了这些方案和预期的结果。</target>       </trans-unit>
+        <trans-unit id="109" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Windows.Controls.RichTextBox">
+          <source>Image Copy Source</source>
+          <target state="translated">图像复制源</target>       </trans-unit>
+        <trans-unit id="110" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Windows.Controls.RichTextBox">
+          <source>Image Paste Result</source>
+          <target state="translated">图像粘贴结果</target>       </trans-unit>
+        <trans-unit id="111" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Windows.Controls.RichTextBox">
+          <source>Image source is a graphic metafile</source>
+          <target state="translated">映像源是图形图元文件</target>       </trans-unit>
+        <trans-unit id="112" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Windows.Controls.RichTextBox">
+          <source>No image is pasted</source>
+          <target state="translated">没有粘贴图像</target>       </trans-unit>
+        <trans-unit id="113" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Windows.Controls.RichTextBox">
+          <source>Image source uses relative path or link</source>
+          <target state="translated">映像源使用相对路径或链接</target>       </trans-unit>
+        <trans-unit id="114" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Windows.Controls.RichTextBox">
+          <source>Garbled or blank image is pasted</source>
+          <target state="translated">粘贴出现乱码或空白图像</target>       </trans-unit>
+        <trans-unit id="115" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Windows.Controls.RichTextBox">
+          <source>Image source link does not end with an expected image format (.PNG, .JPG, .GIF)</source>
+          <target state="translated">映像源链接结尾不是预期的图像格式 (。PNG。JPG、。GIF)</target>       </trans-unit>
+        <trans-unit id="116" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Windows.Controls.RichTextBox">
+          <source>Garbled or blank image is pasted</source>
+          <target state="translated">粘贴出现乱码或空白图像</target>       </trans-unit>
+        <trans-unit id="117" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Windows.Controls.RichTextBox">
+          <source>Image source copied from malformed RichText (RTF)</source>
+          <target state="translated">复制格式不正确格式文本 (RTF) 从图像源</target>       </trans-unit>
+        <trans-unit id="118" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Windows.Controls.RichTextBox">
+          <source>Link to image source is pasted (rather than image)</source>
+          <target state="translated">指向图像源会粘贴任何内容 （而不是图像）</target>       </trans-unit>
+        <trans-unit id="119" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Windows.Controls.RichTextBox">
+          <source>Pasting HTML content into a <ph id="ph1">&lt;xref:System.Windows.Controls.RichTextBox&gt;</ph> might result in unexpected behavior because <ph id="ph2">&lt;xref:System.Windows.Controls.RichTextBox&gt;</ph> uses RTF format rather than directly using HTML format.</source>
+          <target state="translated">粘贴到的 HTML 内容<ph id="ph1">&lt;xref:System.Windows.Controls.RichTextBox&gt;</ph>可能导致意外行为，因为<ph id="ph2">&lt;xref:System.Windows.Controls.RichTextBox&gt;</ph>使用 RTF 格式，而不是直接使用 HTML 格式。</target>       </trans-unit>
+        <trans-unit id="120" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Windows.Controls.RichTextBox">
+          <source>Text always wraps in a <ph id="ph1">&lt;xref:System.Windows.Controls.RichTextBox&gt;</ph>.</source>
+          <target state="translated">文本始终将包装在<ph id="ph1">&lt;xref:System.Windows.Controls.RichTextBox&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="121" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Windows.Controls.RichTextBox">
+          <source>If you do not want text to wrap then set the <ph id="ph1">&lt;xref:System.Windows.Documents.FlowDocument.PageWidth%2A&gt;</ph> on the <ph id="ph2">&lt;xref:System.Windows.Documents.FlowDocument&gt;</ph> to be larger than the width of the <ph id="ph3">&lt;xref:System.Windows.Controls.RichTextBox&gt;</ph>.</source>
+          <target state="translated">如果您不希望文本环绕然后将其设置<ph id="ph1">&lt;xref:System.Windows.Documents.FlowDocument.PageWidth%2A&gt;</ph>上<ph id="ph2">&lt;xref:System.Windows.Documents.FlowDocument&gt;</ph>要大于的宽度<ph id="ph3">&lt;xref:System.Windows.Controls.RichTextBox&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="122" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Windows.Controls.RichTextBox">
+          <source>However, once the page width is reached the text still wraps.</source>
+          <target state="translated">但是，一旦达到页面宽度文本仍会换行。</target>       </trans-unit>
+        <trans-unit id="123" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Windows.Controls.RichTextBox">
+          <source>Horizontally and vertically aligning content within a <ph id="ph1">&lt;xref:System.Windows.Controls.RichTextBox&gt;</ph> is done with the <ph id="ph2">&lt;xref:System.Windows.Controls.Control.HorizontalContentAlignment%2A&gt;</ph> and <ph id="ph3">&lt;xref:System.Windows.Controls.Control.VerticalContentAlignment%2A&gt;</ph> properties.</source>
+          <target state="translated">水平和垂直对齐中的内容<ph id="ph1">&lt;xref:System.Windows.Controls.RichTextBox&gt;</ph>，可使用<ph id="ph2">&lt;xref:System.Windows.Controls.Control.HorizontalContentAlignment%2A&gt;</ph>和<ph id="ph3">&lt;xref:System.Windows.Controls.Control.VerticalContentAlignment%2A&gt;</ph>属性。</target>       </trans-unit>
+        <trans-unit id="124" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Windows.Controls.RichTextBox">
+          <source>Aligning the <ph id="ph1">&lt;xref:System.Windows.Controls.RichTextBox&gt;</ph> within the layout of the page is done with the <ph id="ph2">&lt;xref:System.Windows.FrameworkElement.HorizontalAlignment%2A&gt;</ph> and <ph id="ph3">&lt;xref:System.Windows.FrameworkElement.VerticalAlignment%2A&gt;</ph> properties.</source>
+          <target state="translated">对齐<ph id="ph1">&lt;xref:System.Windows.Controls.RichTextBox&gt;</ph>页的布局中，可使用<ph id="ph2">&lt;xref:System.Windows.FrameworkElement.HorizontalAlignment%2A&gt;</ph>和<ph id="ph3">&lt;xref:System.Windows.FrameworkElement.VerticalAlignment%2A&gt;</ph>属性。</target>       </trans-unit>
+        <trans-unit id="125" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Windows.Controls.RichTextBox">
+          <source>Scrollbars are not visible on a <ph id="ph1">&lt;xref:System.Windows.Controls.RichTextBox&gt;</ph> by default.</source>
+          <target state="translated">滚动条上不可见<ph id="ph1">&lt;xref:System.Windows.Controls.RichTextBox&gt;</ph>默认情况下。</target>       </trans-unit>
+        <trans-unit id="126" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Windows.Controls.RichTextBox">
+          <source>To make a scrollbar visible, set the <ph id="ph1">&lt;xref:System.Windows.Controls.Primitives.TextBoxBase.VerticalScrollBarVisibility%2A&gt;</ph> property to <ph id="ph2">&lt;xref:System.Windows.Controls.ScrollBarVisibility.Visible&gt;</ph> or <ph id="ph3">&lt;xref:System.Windows.Controls.ScrollBarVisibility.Auto&gt;</ph>.</source>
+          <target state="translated">若要使滚动条可见，请设置<ph id="ph1">&lt;xref:System.Windows.Controls.Primitives.TextBoxBase.VerticalScrollBarVisibility%2A&gt;</ph>属性<ph id="ph2">&lt;xref:System.Windows.Controls.ScrollBarVisibility.Visible&gt;</ph>或<ph id="ph3">&lt;xref:System.Windows.Controls.ScrollBarVisibility.Auto&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="127" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Windows.Controls.RichTextBox">
+          <source>Usually, the <ph id="ph1">&lt;xref:System.Windows.Controls.Primitives.TextBoxBase.TextChanged&gt;</ph> event should be used to detect when the text in a <ph id="ph2">&lt;xref:System.Windows.Controls.TextBox&gt;</ph> or <ph id="ph3">&lt;xref:System.Windows.Controls.RichTextBox&gt;</ph> changes, rather then <ph id="ph4">&lt;xref:System.Windows.UIElement.KeyDown&gt;</ph> as you might expect.</source>
+          <target state="translated">通常情况下，<ph id="ph1">&lt;xref:System.Windows.Controls.Primitives.TextBoxBase.TextChanged&gt;</ph>用于检测何时事件中的文本<ph id="ph2">&lt;xref:System.Windows.Controls.TextBox&gt;</ph>或<ph id="ph3">&lt;xref:System.Windows.Controls.RichTextBox&gt;</ph>更改，而不是<ph id="ph4">&lt;xref:System.Windows.UIElement.KeyDown&gt;</ph>正如所料。</target>       </trans-unit>
+        <trans-unit id="128" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Windows.Controls.RichTextBox">
+          <source>For an example, see <bpt id="p1">[</bpt>How to: Detect When Text in a TextBox Has Changed<ept id="p1">](~/docs/framework/wpf/controls/how-to-detect-when-text-in-a-textbox-has-changed.md)</ept>.</source>
+          <target state="translated">有关示例，请参阅<bpt id="p1">[</bpt>如何： 在文本框中已更改检测时的文本<ept id="p1">](~/docs/framework/wpf/controls/how-to-detect-when-text-in-a-textbox-has-changed.md)</ept>。</target>       </trans-unit>
+        <trans-unit id="129" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Windows.Controls.RichTextBox">
+          <source><ph id="ph1">&lt;xref:System.Windows.Controls.RichTextBox&gt;</ph> supports a variety of keyboard commands.</source>
+          <target state="translated"><ph id="ph1">&lt;xref:System.Windows.Controls.RichTextBox&gt;</ph> 支持多种键盘命令。</target>       </trans-unit>
+        <trans-unit id="130" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Windows.Controls.RichTextBox">
+          <source>For a list of keyboard commands, see <ph id="ph1">&lt;xref:System.Windows.Documents.EditingCommands&gt;</ph>.</source>
+          <target state="translated">有关键盘命令的列表，请参阅<ph id="ph1">&lt;xref:System.Windows.Documents.EditingCommands&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="131" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Windows.Controls.RichTextBox">
+          <source>Dependency properties for this control might be set by the control’s default style.</source>
+          <target state="translated">对于此控件的依赖项属性可能由控件的默认样式设置。</target>       </trans-unit>
+        <trans-unit id="132" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Windows.Controls.RichTextBox">
+          <source>If a property is set by a default style, the property might change from its default value when the control appears in the application.</source>
+          <target state="translated">如果属性设置的默认样式，该属性可能会更改从其默认值，如果控件出现在应用程序中。</target>       </trans-unit>
+        <trans-unit id="133" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Windows.Controls.RichTextBox">
+          <source>The default style is determined by which desktop theme is used when the application is running.</source>
+          <target state="translated">桌面主题用应用程序运行时确定的默认样式。</target>       </trans-unit>
+        <trans-unit id="134" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Windows.Controls.RichTextBox">
+          <source>For more information, see <bpt id="p1">[</bpt>Default WPF Themes<ept id="p1">](http://go.microsoft.com/fwlink/?LinkID=158252)</ept>.</source>
+          <target state="translated">有关详细信息，请参阅<bpt id="p1">[</bpt>默认 WPF 主题<ept id="p1">](http://go.microsoft.com/fwlink/?LinkID=158252)</ept>。</target>       </trans-unit>
+        <trans-unit id="135" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Windows.Controls.RichTextBox">
+          <source>The following example declares a <ph id="ph1">&lt;xref:System.Windows.Controls.RichTextBox&gt;</ph> that contains a simple <ph id="ph2">&lt;xref:System.Windows.Documents.FlowDocument&gt;</ph>.</source>
+          <target state="translated">下面的示例声明<ph id="ph1">&lt;xref:System.Windows.Controls.RichTextBox&gt;</ph>，该字符串包含一个简单<ph id="ph2">&lt;xref:System.Windows.Documents.FlowDocument&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="136" translate="yes" xml:space="preserve" uid="T:System.Windows.Controls.RichTextBox">
+          <source>Initializes a new instance of the <ph id="ph1">&lt;see cref="T:System.Windows.Controls.RichTextBox" /&gt;</ph> class.</source>
+          <target state="translated">初始化 <ph id="ph1">&lt;see cref="T:System.Windows.Controls.RichTextBox" /&gt;</ph> 类的新实例。</target>       </trans-unit>
+        <trans-unit id="137" translate="yes" xml:space="preserve" uid="M:System.Windows.Controls.RichTextBox.#ctor">
+          <source>Initializes a new, default instance of the <ph id="ph1">&lt;see cref="T:System.Windows.Controls.RichTextBox" /&gt;</ph> class.</source>
+          <target state="translated">初始化 <ph id="ph1">&lt;see cref="T:System.Windows.Controls.RichTextBox" /&gt;</ph> 类的一个新默认实例。</target>       </trans-unit>
+        <trans-unit id="138" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.Controls.RichTextBox.#ctor">
+          <source>This constructor creates an empty <ph id="ph1">&lt;xref:System.Windows.Documents.FlowDocument&gt;</ph> that is associated with the Document property.</source>
+          <target state="translated">此构造函数创建一个空<ph id="ph1">&lt;xref:System.Windows.Documents.FlowDocument&gt;</ph>文档属性与该键相关联。</target>       </trans-unit>
+        <trans-unit id="139" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.Controls.RichTextBox.#ctor">
+          <source>Specifically, the empty <ph id="ph1">&lt;xref:System.Windows.Documents.FlowDocument&gt;</ph> contains a single <ph id="ph2">&lt;xref:System.Windows.Documents.Paragraph&gt;</ph>, which contains a single <ph id="ph3">&lt;xref:System.Windows.Documents.Run&gt;</ph> which contains no text.</source>
+          <target state="translated">具体地说，此空 <ph id="ph1">&lt;xref:System.Windows.Documents.FlowDocument&gt;</ph> 包含一个 <ph id="ph2">&lt;xref:System.Windows.Documents.Paragraph&gt;</ph>，而后者包含一个不包括任何文本的 <ph id="ph3">&lt;xref:System.Windows.Documents.Run&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="140" translate="yes" xml:space="preserve" uid="M:System.Windows.Controls.RichTextBox.#ctor(System.Windows.Documents.FlowDocument)">
+          <source>A <ph id="ph1">&lt;see cref="T:System.Windows.Documents.FlowDocument" /&gt;</ph> to be added as the initial contents of the new <ph id="ph2">&lt;see cref="T:System.Windows.Controls.RichTextBox" /&gt;</ph>.</source>
+          <target state="translated">要作为新 <ph id="ph1">&lt;see cref="T:System.Windows.Documents.FlowDocument" /&gt;</ph> 的初始内容添加的 <ph id="ph2">&lt;see cref="T:System.Windows.Controls.RichTextBox" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="141" translate="yes" xml:space="preserve" uid="M:System.Windows.Controls.RichTextBox.#ctor(System.Windows.Documents.FlowDocument)">
+          <source>Initializes a new instance of the <ph id="ph1">&lt;see cref="T:System.Windows.Controls.RichTextBox" /&gt;</ph> class, adding a specified <ph id="ph2">&lt;see cref="T:System.Windows.Documents.FlowDocument" /&gt;</ph> as the initial content.</source>
+          <target state="translated">初始化 <ph id="ph1">&lt;see cref="T:System.Windows.Controls.RichTextBox" /&gt;</ph> 类的一个新实例，以将指定的 <ph id="ph2">&lt;see cref="T:System.Windows.Documents.FlowDocument" /&gt;</ph> 作为初始内容添加。</target>       </trans-unit>
+        <trans-unit id="142" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.Controls.RichTextBox.#ctor(System.Windows.Documents.FlowDocument)">
+          <source>The following example illustrates use of this constructor.</source>
+          <target state="translated">下面的示例演示此构造函数的用法。</target>       </trans-unit>
+        <trans-unit id="143" translate="yes" xml:space="preserve" uid="P:System.Windows.Controls.RichTextBox.CaretPosition">
+          <source>Gets or sets the position of the input caret.</source>
+          <target state="translated">获取或设置输入插入符号的位置。</target>       </trans-unit>
+        <trans-unit id="144" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Windows.Controls.RichTextBox.CaretPosition">
+          <source>A <ph id="ph1">&lt;see cref="T:System.Windows.Documents.TextPointer" /&gt;</ph> object specifying the position of the input caret.</source>
+          <target state="translated">一个指定输入插入符号的位置的 <ph id="ph1">&lt;see cref="T:System.Windows.Documents.TextPointer" /&gt;</ph> 对象。</target>       </trans-unit>
+        <trans-unit id="145" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Windows.Controls.RichTextBox.CaretPosition">
+          <source>By default, the caret is at the first insertion position at the beginning of the content hosted by the <ph id="ph1">&lt;see cref="T:System.Windows.Controls.RichTextBox" /&gt;</ph>.</source>
+          <target state="translated">默认情况下，插入符号位于 <ph id="ph1">&lt;see cref="T:System.Windows.Controls.RichTextBox" /&gt;</ph> 承载的内容开头的第一个插入位置。</target>       </trans-unit>
+        <trans-unit id="146" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Windows.Controls.RichTextBox.CaretPosition">
+          <source>See <ph id="ph1">&lt;see cref="T:System.Windows.Documents.TextPointer" /&gt;</ph> for more information on text position terminology like "insertion position".</source>
+          <target state="translated">有关文本位置术语（如“插入位置”）的更多信息，请参见 <ph id="ph1">&lt;see cref="T:System.Windows.Documents.TextPointer" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="147" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Windows.Controls.RichTextBox.CaretPosition">
+          <source>The following example illustrates the use of this property.</source>
+          <target state="translated">下面的示例演示如何使用此属性。</target>       </trans-unit>
+        <trans-unit id="148" translate="yes" xml:space="preserve" uid="P:System.Windows.Controls.RichTextBox.CaretPosition">
+          <source>An attempt is made to set this property to <ph id="ph1">&lt;see langword="null" /&gt;</ph>.</source>
+          <target state="translated">尝试将该属性设置为 <ph id="ph1">&lt;see langword="null" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="149" translate="yes" xml:space="preserve" uid="P:System.Windows.Controls.RichTextBox.CaretPosition">
+          <source>An attempt is made to set this property to a <ph id="ph1">&lt;see cref="T:System.Windows.Documents.TextPointer" /&gt;</ph> that references a position outside of the current document.</source>
+          <target state="translated">尝试将此属性设置为引用当前文档外部位置的 <ph id="ph1">&lt;see cref="T:System.Windows.Documents.TextPointer" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="150" translate="yes" xml:space="preserve" uid="P:System.Windows.Controls.RichTextBox.Document">
+          <source>Gets or sets the <ph id="ph1">&lt;see cref="T:System.Windows.Documents.FlowDocument" /&gt;</ph> that represents the contents of the <ph id="ph2">&lt;see cref="T:System.Windows.Controls.RichTextBox" /&gt;</ph>.</source>
+          <target state="translated">获取或设置表示 <ph id="ph1">&lt;see cref="T:System.Windows.Documents.FlowDocument" /&gt;</ph> 的内容的 <ph id="ph2">&lt;see cref="T:System.Windows.Controls.RichTextBox" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="151" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Windows.Controls.RichTextBox.Document">
+          <source>A <ph id="ph1">&lt;see cref="T:System.Windows.Documents.FlowDocument" /&gt;</ph> object that represents the contents of the <ph id="ph2">&lt;see cref="T:System.Windows.Controls.RichTextBox" /&gt;</ph>.</source>
+          <target state="translated">一个 <ph id="ph1">&lt;see cref="T:System.Windows.Documents.FlowDocument" /&gt;</ph> 对象，表示 <ph id="ph2">&lt;see cref="T:System.Windows.Controls.RichTextBox" /&gt;</ph> 的内容。</target>       </trans-unit>
+        <trans-unit id="152" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Windows.Controls.RichTextBox.Document">
+          <source>By default, this property is set to an empty <ph id="ph1">&lt;see cref="T:System.Windows.Documents.FlowDocument" /&gt;</ph>.</source>
+          <target state="translated">默认情况下，此属性设置为空 <ph id="ph1">&lt;see cref="T:System.Windows.Documents.FlowDocument" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="153" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Windows.Controls.RichTextBox.Document">
+          <source>Specifically, the empty <ph id="ph1">&lt;see cref="T:System.Windows.Documents.FlowDocument" /&gt;</ph> contains a single <ph id="ph2">&lt;see cref="T:System.Windows.Documents.Paragraph" /&gt;</ph>, which contains a single <ph id="ph3">&lt;see cref="T:System.Windows.Documents.Run" /&gt;</ph> which contains no text.</source>
+          <target state="translated">具体地说，此空 <ph id="ph1">&lt;see cref="T:System.Windows.Documents.FlowDocument" /&gt;</ph> 包含一个 <ph id="ph2">&lt;see cref="T:System.Windows.Documents.Paragraph" /&gt;</ph>，而后者包含一个不包括任何文本的 <ph id="ph3">&lt;see cref="T:System.Windows.Documents.Run" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="154" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Windows.Controls.RichTextBox.Document">
+          <source>A FlowDocument may only be hosted by a single <ph id="ph1">&lt;xref:System.Windows.Controls.RichTextBox&gt;</ph>.</source>
+          <target state="translated">仅可以由单个托管托管 FlowDocument <ph id="ph1">&lt;xref:System.Windows.Controls.RichTextBox&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="155" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Windows.Controls.RichTextBox.Document">
+          <source>Specifying a single FlowDocument as the contents of multiple <ph id="ph1">&lt;xref:System.Windows.Controls.RichTextBox&gt;</ph> controls is not supported.</source>
+          <target state="translated">作为多个内容指定单个 FlowDocument<ph id="ph1">&lt;xref:System.Windows.Controls.RichTextBox&gt;</ph>不支持的控件。</target>       </trans-unit>
+        <trans-unit id="156" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Windows.Controls.RichTextBox.Document">
+          <source>The following example illustrates the use of this property.</source>
+          <target state="translated">下面的示例演示如何使用此属性。</target>       </trans-unit>
+        <trans-unit id="157" translate="yes" xml:space="preserve" uid="P:System.Windows.Controls.RichTextBox.Document">
+          <source>An attempt is made to set this property to <ph id="ph1">&lt;see langword="null" /&gt;</ph>.</source>
+          <target state="translated">尝试将该属性设置为 <ph id="ph1">&lt;see langword="null" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="158" translate="yes" xml:space="preserve" uid="P:System.Windows.Controls.RichTextBox.Document">
+          <source>An attempt is made to set this property to a <ph id="ph1">&lt;see cref="T:System.Windows.Documents.FlowDocument" /&gt;</ph> that represents the contents of another <ph id="ph2">&lt;see cref="T:System.Windows.Controls.RichTextBox" /&gt;</ph>.</source>
+          <target state="translated">尝试将此属性设置为表示其他 <ph id="ph1">&lt;see cref="T:System.Windows.Documents.FlowDocument" /&gt;</ph> 的内容的 <ph id="ph2">&lt;see cref="T:System.Windows.Controls.RichTextBox" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="159" translate="yes" xml:space="preserve" uid="P:System.Windows.Controls.RichTextBox.Document">
+          <source>This property is set while a change block has been activated.</source>
+          <target state="translated">在激活 change 块时设置此属性。</target>       </trans-unit>
+        <trans-unit id="160" translate="yes" xml:space="preserve" uid="M:System.Windows.Controls.RichTextBox.GetNextSpellingErrorPosition(System.Windows.Documents.TextPointer,System.Windows.Documents.LogicalDirection)">
+          <source>A <ph id="ph1">&lt;see cref="T:System.Windows.Documents.TextPointer" /&gt;</ph> indicating a position from which to search for the next spelling error.</source>
+          <target state="translated">一个 <ph id="ph1">&lt;see cref="T:System.Windows.Documents.TextPointer" /&gt;</ph>，指示搜索下一个拼写错误的起始位置。</target>       </trans-unit>
+        <trans-unit id="161" translate="yes" xml:space="preserve" uid="M:System.Windows.Controls.RichTextBox.GetNextSpellingErrorPosition(System.Windows.Documents.TextPointer,System.Windows.Documents.LogicalDirection)">
+          <source>A <ph id="ph1">&lt;see cref="T:System.Windows.Documents.LogicalDirection" /&gt;</ph> in which to search for the next spelling error, starting at the specified <bpt id="p1">&lt;c&gt;</bpt>posision<ept id="p1">&lt;/c&gt;</ept>.</source>
+          <target state="translated">从指定 <bpt id="p1">&lt;c&gt;</bpt>posision<ept id="p1">&lt;/c&gt;</ept> 开始搜索下一个拼写错误时所采用的 <ph id="ph1">&lt;see cref="T:System.Windows.Documents.LogicalDirection" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="162" translate="yes" xml:space="preserve" uid="M:System.Windows.Controls.RichTextBox.GetNextSpellingErrorPosition(System.Windows.Documents.TextPointer,System.Windows.Documents.LogicalDirection)">
+          <source>Returns a <ph id="ph1">&lt;see cref="T:System.Windows.Documents.TextPointer" /&gt;</ph> that points to the next spelling error in the contents of the <ph id="ph2">&lt;see cref="T:System.Windows.Controls.RichTextBox" /&gt;</ph>.</source>
+          <target state="translated">返回指向 <ph id="ph1">&lt;see cref="T:System.Windows.Documents.TextPointer" /&gt;</ph> 的内容中下一个拼写错误的 <ph id="ph2">&lt;see cref="T:System.Windows.Controls.RichTextBox" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="163" translate="yes" xml:space="preserve" uid="M:System.Windows.Controls.RichTextBox.GetNextSpellingErrorPosition(System.Windows.Documents.TextPointer,System.Windows.Documents.LogicalDirection)">
+          <source>A <ph id="ph1">&lt;see cref="T:System.Windows.Documents.TextPointer" /&gt;</ph> that points to the next spelling error in the contents of the <ph id="ph2">&lt;see cref="T:System.Windows.Controls.RichTextBox" /&gt;</ph>, or <ph id="ph3">&lt;see langword="null" /&gt;</ph> if no next spelling error exists.</source>
+          <target state="translated">指向 <ph id="ph1">&lt;see cref="T:System.Windows.Documents.TextPointer" /&gt;</ph> 的内容中下一个拼写错误的 <ph id="ph2">&lt;see cref="T:System.Windows.Controls.RichTextBox" /&gt;</ph>；如果不存在下一个拼写错误，则为 <ph id="ph3">&lt;see langword="null" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="164" translate="yes" xml:space="preserve" uid="M:System.Windows.Controls.RichTextBox.GetPositionFromPoint(System.Windows.Point,System.Boolean)">
+          <source>A <ph id="ph1">&lt;see cref="T:System.Windows.Point" /&gt;</ph> object specifying the position to retrieve a <ph id="ph2">&lt;see cref="T:System.Windows.Documents.TextPointer" /&gt;</ph> for.</source>
+          <target state="translated">一个 <ph id="ph1">&lt;see cref="T:System.Windows.Point" /&gt;</ph> 对象，用于指定检索 <ph id="ph2">&lt;see cref="T:System.Windows.Documents.TextPointer" /&gt;</ph> 以查找的位置。</target>       </trans-unit>
+        <trans-unit id="165" translate="yes" xml:space="preserve" uid="M:System.Windows.Controls.RichTextBox.GetPositionFromPoint(System.Windows.Point,System.Boolean)">
+          <source>If <ph id="ph1">&lt;see langword="true" /&gt;</ph>, this method always returns a <ph id="ph2">&lt;see cref="T:System.Windows.Documents.TextPointer" /&gt;</ph> specifying the closest insertion position for the <ph id="ph3">&lt;see cref="T:System.Windows.Point" /&gt;</ph> specified, regardless or whether or not the supplied <ph id="ph4">&lt;see cref="T:System.Windows.Point" /&gt;</ph> is inside a character's bounding box.</source>
+          <target state="translated">如果为 <ph id="ph1">&lt;see langword="true" /&gt;</ph>，则此方法总是返回一个 <ph id="ph2">&lt;see cref="T:System.Windows.Documents.TextPointer" /&gt;</ph>，以为指定的 <ph id="ph3">&lt;see cref="T:System.Windows.Point" /&gt;</ph> 指定最近的插入位置，无论提供的 <ph id="ph4">&lt;see cref="T:System.Windows.Point" /&gt;</ph> 是否在字符的边界框内。</target>       </trans-unit>
+        <trans-unit id="166" translate="yes" xml:space="preserve" uid="M:System.Windows.Controls.RichTextBox.GetPositionFromPoint(System.Windows.Point,System.Boolean)">
+          <source>If <ph id="ph1">&lt;see langword="false" /&gt;</ph>, this method returns <ph id="ph2">&lt;see langword="null" /&gt;</ph> if the specified <ph id="ph3">&lt;see cref="T:System.Windows.Point" /&gt;</ph> does not fall within any character bounding box.</source>
+          <target state="translated">如果为 <ph id="ph1">&lt;see langword="false" /&gt;</ph>，则当指定的 <ph id="ph3">&lt;see cref="T:System.Windows.Point" /&gt;</ph> 不在任何字符边界框内时，此方法将返回 <ph id="ph2">&lt;see langword="null" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="167" translate="yes" xml:space="preserve" uid="M:System.Windows.Controls.RichTextBox.GetPositionFromPoint(System.Windows.Point,System.Boolean)">
+          <source>Returns a <ph id="ph1">&lt;see cref="T:System.Windows.Documents.TextPointer" /&gt;</ph> that points to the insertion point closest to the specified position.</source>
+          <target state="translated">返回 <ph id="ph1">&lt;see cref="T:System.Windows.Documents.TextPointer" /&gt;</ph>，它指向与指定职位最近的插入点。</target>       </trans-unit>
+        <trans-unit id="168" translate="yes" xml:space="preserve" uid="M:System.Windows.Controls.RichTextBox.GetPositionFromPoint(System.Windows.Point,System.Boolean)">
+          <source>A <ph id="ph1">&lt;see cref="T:System.Windows.Documents.TextPointer" /&gt;</ph> specifying the closest insertion position for the supplied point, or <ph id="ph2">&lt;see langword="null" /&gt;</ph> if <ph id="ph3">&lt;paramref name="snapToText" /&gt;</ph> is <ph id="ph4">&lt;see langword="false" /&gt;</ph> and the supplied <ph id="ph5">&lt;see cref="T:System.Windows.Point" /&gt;</ph> is not within any character's bounding box.</source>
+          <target state="translated">一个 <ph id="ph1">&lt;see cref="T:System.Windows.Documents.TextPointer" /&gt;</ph>，用于为提供的点指定最近的插入位置；如果 <ph id="ph3">&lt;paramref name="snapToText" /&gt;</ph> 为 <ph id="ph2">&lt;see langword="null" /&gt;</ph> 并且提供的 <ph id="ph5">&lt;see cref="T:System.Windows.Point" /&gt;</ph> 不在任何字符的边界框内，则为 <ph id="ph4">&lt;see langword="false" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="169" translate="yes" xml:space="preserve" uid="M:System.Windows.Controls.RichTextBox.GetPositionFromPoint(System.Windows.Point,System.Boolean)">
+          <source>Note that the <ph id="ph1">&lt;see cref="T:System.Windows.Documents.TextPointer" /&gt;</ph> returned is usually the position between two characters.</source>
+          <target state="translated">请注意，返回的 <ph id="ph1">&lt;see cref="T:System.Windows.Documents.TextPointer" /&gt;</ph> 通常是介于两个字符之间的位置。</target>       </trans-unit>
+        <trans-unit id="170" translate="yes" xml:space="preserve" uid="M:System.Windows.Controls.RichTextBox.GetPositionFromPoint(System.Windows.Point,System.Boolean)">
+          <source>Use the <ph id="ph1">&lt;see cref="P:System.Windows.Documents.TextPointer.LogicalDirection" /&gt;</ph> property of the returned <ph id="ph2">&lt;see cref="T:System.Windows.Documents.TextPointer" /&gt;</ph> to determine which of the two characters the <ph id="ph3">&lt;see cref="T:System.Windows.Documents.TextPointer" /&gt;</ph> corresponds to.</source>
+          <target state="translated">使用返回的 <ph id="ph1">&lt;see cref="P:System.Windows.Documents.TextPointer.LogicalDirection" /&gt;</ph> 的 <ph id="ph2">&lt;see cref="T:System.Windows.Documents.TextPointer" /&gt;</ph> 属性可确定 <ph id="ph3">&lt;see cref="T:System.Windows.Documents.TextPointer" /&gt;</ph> 对应于这两个字符中的哪一个字符。</target>       </trans-unit>
+        <trans-unit id="171" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.Controls.RichTextBox.GetPositionFromPoint(System.Windows.Point,System.Boolean)">
+          <source><ph id="ph1">&lt;xref:System.Windows.Controls.RichTextBox&gt;</ph> uses a standard coordinate system with the origin located at the upper-left corner of the <ph id="ph2">&lt;xref:System.Windows.Controls.RichTextBox&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;xref:System.Windows.Controls.RichTextBox&gt;</ph> 使用标准的坐标系统的左上角原点<ph id="ph2">&lt;xref:System.Windows.Controls.RichTextBox&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="172" translate="yes" xml:space="preserve" uid="M:System.Windows.Controls.RichTextBox.GetPositionFromPoint(System.Windows.Point,System.Boolean)">
+          <source>Raised if layout information for the <ph id="ph1">&lt;see cref="T:System.Windows.Controls.RichTextBox" /&gt;</ph> is not current.</source>
+          <target state="translated">当 <ph id="ph1">&lt;see cref="T:System.Windows.Controls.RichTextBox" /&gt;</ph> 的布局信息不是最新信息时引发。</target>       </trans-unit>
+        <trans-unit id="173" translate="yes" xml:space="preserve" uid="M:System.Windows.Controls.RichTextBox.GetSpellingError(System.Windows.Documents.TextPointer)">
+          <source>A <ph id="ph1">&lt;see cref="T:System.Windows.Documents.TextPointer" /&gt;</ph> that specifies a position and logical direction that resolves to a character to examine for a spelling error.</source>
+          <target state="translated">一个 <ph id="ph1">&lt;see cref="T:System.Windows.Documents.TextPointer" /&gt;</ph>，用于指定解析为字符以检查拼写错误的位置和逻辑方向。</target>       </trans-unit>
+        <trans-unit id="174" translate="yes" xml:space="preserve" uid="M:System.Windows.Controls.RichTextBox.GetSpellingError(System.Windows.Documents.TextPointer)">
+          <source>Use the <ph id="ph1">&lt;see cref="P:System.Windows.Documents.TextPointer.LogicalDirection" /&gt;</ph> property of this <ph id="ph2">&lt;see cref="T:System.Windows.Documents.TextPointer" /&gt;</ph> to specify the direction of the character to examine.</source>
+          <target state="translated">使用此 <ph id="ph1">&lt;see cref="P:System.Windows.Documents.TextPointer.LogicalDirection" /&gt;</ph> 的 <ph id="ph2">&lt;see cref="T:System.Windows.Documents.TextPointer" /&gt;</ph> 属性可指定要检查的字符的方向。</target>       </trans-unit>
+        <trans-unit id="175" translate="yes" xml:space="preserve" uid="M:System.Windows.Controls.RichTextBox.GetSpellingError(System.Windows.Documents.TextPointer)">
+          <source>Returns a <ph id="ph1">&lt;see cref="T:System.Windows.Controls.SpellingError" /&gt;</ph> object associated with any spelling error at a specified position in the contents of the <ph id="ph2">&lt;see cref="T:System.Windows.Controls.RichTextBox" /&gt;</ph>.</source>
+          <target state="translated">返回一个 <ph id="ph1">&lt;see cref="T:System.Windows.Controls.SpellingError" /&gt;</ph> 对象，该对象与 <ph id="ph2">&lt;see cref="T:System.Windows.Controls.RichTextBox" /&gt;</ph> 的内容中指定位置的任何拼写错误相关联。</target>       </trans-unit>
+        <trans-unit id="176" translate="yes" xml:space="preserve" uid="M:System.Windows.Controls.RichTextBox.GetSpellingError(System.Windows.Documents.TextPointer)">
+          <source>A <ph id="ph1">&lt;see cref="T:System.Windows.Controls.SpellingError" /&gt;</ph> object containing the details of the spelling error found at the character indicated by <ph id="ph2">&lt;paramref name="position" /&gt;</ph>, or <ph id="ph3">&lt;see langword="null" /&gt;</ph> if no spelling error exists at the specified character.</source>
+          <target state="translated">一个 <ph id="ph1">&lt;see cref="T:System.Windows.Controls.SpellingError" /&gt;</ph> 对象，其中包含在由 <ph id="ph2">&lt;paramref name="position" /&gt;</ph> 指示的字符处发现的拼写错误的详细信息；如果指定字符处没有拼写错误，则为 <ph id="ph3">&lt;see langword="null" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="177" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.Controls.RichTextBox.GetSpellingError(System.Windows.Documents.TextPointer)">
+          <source>A <ph id="ph1">&lt;xref:System.Windows.Documents.TextPointer&gt;</ph> like <ph id="ph2">`position`</ph> usually specifies a position between two characters.</source>
+          <target state="translated">A<ph id="ph1">&lt;xref:System.Windows.Documents.TextPointer&gt;</ph>如<ph id="ph2">`position`</ph>通常指定两个字符之间的某个位置。</target>       </trans-unit>
+        <trans-unit id="178" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.Controls.RichTextBox.GetSpellingError(System.Windows.Documents.TextPointer)">
+          <source>Use the <ph id="ph1">&lt;xref:System.Windows.Documents.TextPointer.LogicalDirection%2A&gt;</ph> property of <ph id="ph2">`position`</ph> to specify which character to examine.</source>
+          <target state="translated">使用<ph id="ph1">&lt;xref:System.Windows.Documents.TextPointer.LogicalDirection%2A&gt;</ph>属性<ph id="ph2">`position`</ph>来指定要检查的字符。</target>       </trans-unit>
+        <trans-unit id="179" translate="yes" xml:space="preserve" uid="M:System.Windows.Controls.RichTextBox.GetSpellingErrorRange(System.Windows.Documents.TextPointer)">
+          <source>A <ph id="ph1">&lt;see cref="T:System.Windows.Documents.TextPointer" /&gt;</ph> that specifies a position and logical direction that resolves to a character to examine for a spelling error.</source>
+          <target state="translated">一个 <ph id="ph1">&lt;see cref="T:System.Windows.Documents.TextPointer" /&gt;</ph>，用于指定解析为字符以检查拼写错误的位置和逻辑方向。</target>       </trans-unit>
+        <trans-unit id="180" translate="yes" xml:space="preserve" uid="M:System.Windows.Controls.RichTextBox.GetSpellingErrorRange(System.Windows.Documents.TextPointer)">
+          <source>Use the <ph id="ph1">&lt;see cref="P:System.Windows.Documents.TextPointer.LogicalDirection" /&gt;</ph> property of this <ph id="ph2">&lt;see cref="T:System.Windows.Documents.TextPointer" /&gt;</ph> to specify the direction of the character to examine.</source>
+          <target state="translated">使用此 <ph id="ph1">&lt;see cref="P:System.Windows.Documents.TextPointer.LogicalDirection" /&gt;</ph> 的 <ph id="ph2">&lt;see cref="T:System.Windows.Documents.TextPointer" /&gt;</ph> 属性可指定要检查的字符的方向。</target>       </trans-unit>
+        <trans-unit id="181" translate="yes" xml:space="preserve" uid="M:System.Windows.Controls.RichTextBox.GetSpellingErrorRange(System.Windows.Documents.TextPointer)">
+          <source>Returns a <ph id="ph1">&lt;see cref="T:System.Windows.Documents.TextRange" /&gt;</ph> object covering any misspelled word at a specified position in the contents of the <ph id="ph2">&lt;see cref="T:System.Windows.Controls.RichTextBox" /&gt;</ph>.</source>
+          <target state="translated">返回一个 <ph id="ph1">&lt;see cref="T:System.Windows.Documents.TextRange" /&gt;</ph> 对象，其中包括 <ph id="ph2">&lt;see cref="T:System.Windows.Controls.RichTextBox" /&gt;</ph> 的内容中指定位置处的任何拼错的单词。</target>       </trans-unit>
+        <trans-unit id="182" translate="yes" xml:space="preserve" uid="M:System.Windows.Controls.RichTextBox.GetSpellingErrorRange(System.Windows.Documents.TextPointer)">
+          <source>A <ph id="ph1">&lt;see cref="T:System.Windows.Documents.TextRange" /&gt;</ph> object covering any misspelled word that includes the character specified by <ph id="ph2">&lt;paramref name="position" /&gt;</ph>, or <ph id="ph3">&lt;see langword="null" /&gt;</ph> if no spelling error exists at the specified character.</source>
+          <target state="translated">一个 <ph id="ph1">&lt;see cref="T:System.Windows.Documents.TextRange" /&gt;</ph> 对象，其中包括含有 <ph id="ph2">&lt;paramref name="position" /&gt;</ph> 所指定字符的任何拼错的单词。如果指定字符处没有拼写错误，则为 <ph id="ph3">&lt;see langword="null" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="183" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.Controls.RichTextBox.GetSpellingErrorRange(System.Windows.Documents.TextPointer)">
+          <source>A <ph id="ph1">&lt;xref:System.Windows.Documents.TextPointer&gt;</ph> like <ph id="ph2">`position`</ph> usually specifies a position between two characters.</source>
+          <target state="translated">A<ph id="ph1">&lt;xref:System.Windows.Documents.TextPointer&gt;</ph>如<ph id="ph2">`position`</ph>通常指定两个字符之间的某个位置。</target>       </trans-unit>
+        <trans-unit id="184" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.Controls.RichTextBox.GetSpellingErrorRange(System.Windows.Documents.TextPointer)">
+          <source>Use the <ph id="ph1">&lt;xref:System.Windows.Documents.TextPointer.LogicalDirection%2A&gt;</ph> property of <ph id="ph2">`position`</ph> to specify which character to examine.</source>
+          <target state="translated">使用<ph id="ph1">&lt;xref:System.Windows.Documents.TextPointer.LogicalDirection%2A&gt;</ph>属性<ph id="ph2">`position`</ph>来指定要检查的字符。</target>       </trans-unit>
+        <trans-unit id="185" translate="yes" xml:space="preserve" uid="P:System.Windows.Controls.RichTextBox.IsDocumentEnabled">
+          <source>Gets or sets a value that indicates whether the user can interact with <ph id="ph1">&lt;see cref="T:System.Windows.UIElement" /&gt;</ph> and <ph id="ph2">&lt;see cref="T:System.Windows.ContentElement" /&gt;</ph> objects within the <ph id="ph3">&lt;see cref="T:System.Windows.Controls.RichTextBox" /&gt;</ph>.</source>
+          <target state="translated">获取或设置一个值，该值指示用户是否可以与 <ph id="ph1">&lt;see cref="T:System.Windows.UIElement" /&gt;</ph> 内的 <ph id="ph2">&lt;see cref="T:System.Windows.ContentElement" /&gt;</ph> 和 <ph id="ph3">&lt;see cref="T:System.Windows.Controls.RichTextBox" /&gt;</ph> 对象进行交互。</target>       </trans-unit>
+        <trans-unit id="186" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Windows.Controls.RichTextBox.IsDocumentEnabled">
+          <source><ph id="ph1">&lt;see langword="true" /&gt;</ph> if the user can interact with <ph id="ph2">&lt;see cref="T:System.Windows.UIElement" /&gt;</ph> and <ph id="ph3">&lt;see cref="T:System.Windows.ContentElement" /&gt;</ph> objects within the <ph id="ph4">&lt;see cref="T:System.Windows.Controls.RichTextBox" /&gt;</ph>; otherwise, <ph id="ph5">&lt;see langword="false" /&gt;</ph>.</source>
+          <target state="translated">如果用户可以与 <ph id="ph2">&lt;see cref="T:System.Windows.UIElement" /&gt;</ph> 内的 <ph id="ph3">&lt;see cref="T:System.Windows.ContentElement" /&gt;</ph> 和 <ph id="ph4">&lt;see cref="T:System.Windows.Controls.RichTextBox" /&gt;</ph> 对象进行交互，则为 <ph id="ph1">&lt;see langword="true" /&gt;</ph>；否则为 <ph id="ph5">&lt;see langword="false" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="187" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Windows.Controls.RichTextBox.IsDocumentEnabled">
+          <source><ph id="ph1">&lt;xref:System.Windows.Controls.RichTextBox.IsDocumentEnabled%2A&gt;</ph> is introduced in the .NET Framework version 3.5.</source>
+          <target state="translated"><ph id="ph1">&lt;xref:System.Windows.Controls.RichTextBox.IsDocumentEnabled%2A&gt;</ph> 是.NET Framework 3.5 版中引入的。</target>       </trans-unit>
+        <trans-unit id="188" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Windows.Controls.RichTextBox.IsDocumentEnabled">
+          <source>For more information, see <bpt id="p1">[</bpt>Versions and Dependencies<ept id="p1">](~/docs/framework/migration-guide/versions-and-dependencies.md)</ept>.</source>
+          <target state="translated">有关详细信息，请参见<bpt id="p1">[</bpt>版本和依赖关系<ept id="p1">](~/docs/framework/migration-guide/versions-and-dependencies.md)</ept>。</target>       </trans-unit>
+        <trans-unit id="189" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Windows.Controls.RichTextBox.IsDocumentEnabled">
+          <source>The following example creates <ph id="ph1">&lt;xref:System.Windows.Controls.CheckBox&gt;</ph> and a <ph id="ph2">&lt;xref:System.Windows.Controls.RichTextBox&gt;</ph> that contains a <ph id="ph3">&lt;xref:System.Windows.Documents.Hyperlink&gt;</ph> and a <ph id="ph4">&lt;xref:System.Windows.Controls.Button&gt;</ph>.</source>
+          <target state="translated">下面的示例创建<ph id="ph1">&lt;xref:System.Windows.Controls.CheckBox&gt;</ph>和<ph id="ph2">&lt;xref:System.Windows.Controls.RichTextBox&gt;</ph>包含<ph id="ph3">&lt;xref:System.Windows.Documents.Hyperlink&gt;</ph>和<ph id="ph4">&lt;xref:System.Windows.Controls.Button&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="190" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Windows.Controls.RichTextBox.IsDocumentEnabled">
+          <source>The <ph id="ph1">&lt;xref:System.Windows.Controls.RichTextBox.IsDocumentEnabled%2A&gt;</ph> property of the <ph id="ph2">&lt;xref:System.Windows.Controls.RichTextBox&gt;</ph> is bound to the <ph id="ph3">&lt;xref:System.Windows.Controls.Primitives.ToggleButton.IsChecked%2A&gt;</ph> property of the <ph id="ph4">&lt;xref:System.Windows.Controls.CheckBox&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;xref:System.Windows.Controls.RichTextBox.IsDocumentEnabled%2A&gt;</ph>属性<ph id="ph2">&lt;xref:System.Windows.Controls.RichTextBox&gt;</ph>绑定到<ph id="ph3">&lt;xref:System.Windows.Controls.Primitives.ToggleButton.IsChecked%2A&gt;</ph>属性<ph id="ph4">&lt;xref:System.Windows.Controls.CheckBox&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="191" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Windows.Controls.RichTextBox.IsDocumentEnabled">
+          <source>When the user selects the <ph id="ph1">&lt;xref:System.Windows.Controls.CheckBox&gt;</ph>, the user can interact with the <ph id="ph2">&lt;xref:System.Windows.Controls.Button&gt;</ph> and <ph id="ph3">&lt;xref:System.Windows.Documents.Hyperlink&gt;</ph>.</source>
+          <target state="translated">当用户选择<ph id="ph1">&lt;xref:System.Windows.Controls.CheckBox&gt;</ph>，用户可以与交互<ph id="ph2">&lt;xref:System.Windows.Controls.Button&gt;</ph>和<ph id="ph3">&lt;xref:System.Windows.Documents.Hyperlink&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="192" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Windows.Controls.RichTextBox.IsDocumentEnabled">
+          <source>When the user clears the <ph id="ph1">&lt;xref:System.Windows.Controls.CheckBox&gt;</ph>, the <ph id="ph2">&lt;xref:System.Windows.Controls.Button&gt;</ph> and <ph id="ph3">&lt;xref:System.Windows.Documents.Hyperlink&gt;</ph> are disabled.</source>
+          <target state="translated">当用户清除<ph id="ph1">&lt;xref:System.Windows.Controls.CheckBox&gt;</ph>、<ph id="ph2">&lt;xref:System.Windows.Controls.Button&gt;</ph>和<ph id="ph3">&lt;xref:System.Windows.Documents.Hyperlink&gt;</ph>处于禁用状态。</target>       </trans-unit>
+        <trans-unit id="193" translate="yes" xml:space="preserve" uid="F:System.Windows.Controls.RichTextBox.IsDocumentEnabledProperty">
+          <source>Identifies the <ph id="ph1">&lt;see cref="P:System.Windows.Controls.RichTextBox.IsDocumentEnabled" /&gt;</ph> dependency property.</source>
+          <target state="translated">标识 <ph id="ph1">&lt;see cref="P:System.Windows.Controls.RichTextBox.IsDocumentEnabled" /&gt;</ph> 依赖项属性。</target>       </trans-unit>
+        <trans-unit id="194" translate="yes" xml:space="preserve" uid="P:System.Windows.Controls.RichTextBox.LogicalChildren">
+          <source>Gets an enumerator that can iterate the logical children of the <ph id="ph1">&lt;see langword="RichTextBox" /&gt;</ph>.</source>
+          <target state="translated">获取一个可循环访问 <ph id="ph1">&lt;see langword="RichTextBox" /&gt;</ph> 的逻辑子级的枚举器。</target>       </trans-unit>
+        <trans-unit id="195" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Windows.Controls.RichTextBox.LogicalChildren">
+          <source>An enumerator for the logical children.</source>
+          <target state="translated">用于逻辑子级的枚举数。</target>       </trans-unit>
+        <trans-unit id="196" translate="yes" xml:space="preserve" uid="M:System.Windows.Controls.RichTextBox.MeasureOverride(System.Windows.Size)">
+          <source>A <ph id="ph1">&lt;see cref="T:System.Windows.Size" /&gt;</ph> structure specifying constraints on the size of the <ph id="ph2">&lt;see cref="T:System.Windows.Controls.RichTextBox" /&gt;</ph>.</source>
+          <target state="translated">一个 <ph id="ph1">&lt;see cref="T:System.Windows.Size" /&gt;</ph> 结构，用于指定对 <ph id="ph2">&lt;see cref="T:System.Windows.Controls.RichTextBox" /&gt;</ph> 大小的约束。</target>       </trans-unit>
+        <trans-unit id="197" translate="yes" xml:space="preserve" uid="M:System.Windows.Controls.RichTextBox.MeasureOverride(System.Windows.Size)">
+          <source>Called to re-measure the <ph id="ph1">&lt;see cref="T:System.Windows.Controls.RichTextBox" /&gt;</ph>.</source>
+          <target state="translated">调用以重新测量 <ph id="ph1">&lt;see cref="T:System.Windows.Controls.RichTextBox" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="198" translate="yes" xml:space="preserve" uid="M:System.Windows.Controls.RichTextBox.MeasureOverride(System.Windows.Size)">
+          <source>A <ph id="ph1">&lt;see cref="T:System.Windows.Size" /&gt;</ph> structure indicating the new size of the <ph id="ph2">&lt;see cref="T:System.Windows.Controls.RichTextBox" /&gt;</ph>.</source>
+          <target state="translated">一个 <ph id="ph1">&lt;see cref="T:System.Windows.Size" /&gt;</ph> 结构，指示 <ph id="ph2">&lt;see cref="T:System.Windows.Controls.RichTextBox" /&gt;</ph> 的新大小。</target>       </trans-unit>
+        <trans-unit id="199" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.Controls.RichTextBox.MeasureOverride(System.Windows.Size)">
+          <source>This method overrides <ph id="ph1">&lt;xref:System.Windows.Controls.Control.MeasureOverride%2A&gt;</ph>.</source>
+          <target state="translated">此方法重写 <ph id="ph1">&lt;xref:System.Windows.Controls.Control.MeasureOverride%2A&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="200" translate="yes" xml:space="preserve" uid="M:System.Windows.Controls.RichTextBox.OnCreateAutomationPeer">
+          <source>Creates and returns an <ph id="ph1">&lt;see cref="T:System.Windows.Automation.Peers.AutomationPeer" /&gt;</ph> object for this <ph id="ph2">&lt;see cref="T:System.Windows.Controls.RichTextBox" /&gt;</ph>.</source>
+          <target state="translated">创建并返回此 <ph id="ph1">&lt;see cref="T:System.Windows.Automation.Peers.AutomationPeer" /&gt;</ph> 的 <ph id="ph2">&lt;see cref="T:System.Windows.Controls.RichTextBox" /&gt;</ph> 对象。</target>       </trans-unit>
+        <trans-unit id="201" translate="yes" xml:space="preserve" uid="M:System.Windows.Controls.RichTextBox.OnCreateAutomationPeer">
+          <source>An <ph id="ph1">&lt;see cref="T:System.Windows.Automation.Peers.AutomationPeer" /&gt;</ph> object for this <ph id="ph2">&lt;see cref="T:System.Windows.Controls.RichTextBox" /&gt;</ph>.</source>
+          <target state="translated">此 <ph id="ph1">&lt;see cref="T:System.Windows.Automation.Peers.AutomationPeer" /&gt;</ph> 的 <ph id="ph2">&lt;see cref="T:System.Windows.Controls.RichTextBox" /&gt;</ph> 对象。</target>       </trans-unit>
+        <trans-unit id="202" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.Controls.RichTextBox.OnCreateAutomationPeer">
+          <source>This method overrides <ph id="ph1">&lt;xref:System.Windows.ContentElement.OnCreateAutomationPeer%2A&gt;</ph>.</source>
+          <target state="translated">此方法重写 <ph id="ph1">&lt;xref:System.Windows.ContentElement.OnCreateAutomationPeer%2A&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="203" translate="yes" xml:space="preserve" uid="M:System.Windows.Controls.RichTextBox.OnDpiChanged(System.Windows.DpiScale,System.Windows.DpiScale)">
+          <source>The previous DPI scale setting.</source>
+          <target state="translated">上一 DPI 比例设置。</target>       </trans-unit>
+        <trans-unit id="204" translate="yes" xml:space="preserve" uid="M:System.Windows.Controls.RichTextBox.OnDpiChanged(System.Windows.DpiScale,System.Windows.DpiScale)">
+          <source>The new DPI scale setting.</source>
+          <target state="translated">新 DPI 比例设置。</target>       </trans-unit>
+        <trans-unit id="205" translate="yes" xml:space="preserve" uid="M:System.Windows.Controls.RichTextBox.OnDpiChanged(System.Windows.DpiScale,System.Windows.DpiScale)">
+          <source>Called when the DPI at which this Rich Text Box is rendered changes.</source>
+          <target state="translated">呈现此多信息文本框时所使用的 DPI 发生变化时进行调用。</target>       </trans-unit>
+        <trans-unit id="206" translate="yes" xml:space="preserve" uid="P:System.Windows.Controls.RichTextBox.Selection">
+          <source>Gets a <ph id="ph1">&lt;see cref="T:System.Windows.Documents.TextSelection" /&gt;</ph> object containing the current selection in the <ph id="ph2">&lt;see cref="T:System.Windows.Controls.RichTextBox" /&gt;</ph>.</source>
+          <target state="translated">获取一个包含 <ph id="ph1">&lt;see cref="T:System.Windows.Documents.TextSelection" /&gt;</ph> 中当前选定内容的 <ph id="ph2">&lt;see cref="T:System.Windows.Controls.RichTextBox" /&gt;</ph> 对象。</target>       </trans-unit>
+        <trans-unit id="207" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Windows.Controls.RichTextBox.Selection">
+          <source>A <ph id="ph1">&lt;see cref="T:System.Windows.Documents.TextSelection" /&gt;</ph> object containing the current selection in the <ph id="ph2">&lt;see cref="T:System.Windows.Controls.RichTextBox" /&gt;</ph>.</source>
+          <target state="translated">一个包含 <ph id="ph1">&lt;see cref="T:System.Windows.Documents.TextSelection" /&gt;</ph> 中当前选定内容的 <ph id="ph2">&lt;see cref="T:System.Windows.Controls.RichTextBox" /&gt;</ph> 对象。</target>       </trans-unit>
+        <trans-unit id="208" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Windows.Controls.RichTextBox.Selection">
+          <source>The default returned <ph id="ph1">&lt;see cref="T:System.Windows.Documents.TextSelection" /&gt;</ph> has an <ph id="ph2">&lt;see cref="P:System.Windows.Documents.TextRange.IsEmpty" /&gt;</ph> property value of <ph id="ph3">&lt;see langword="True" /&gt;</ph>.</source>
+          <target state="translated">默认返回的 <ph id="ph1">&lt;see cref="T:System.Windows.Documents.TextSelection" /&gt;</ph> 的 <ph id="ph2">&lt;see cref="P:System.Windows.Documents.TextRange.IsEmpty" /&gt;</ph> 属性值为 <ph id="ph3">&lt;see langword="True" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="209" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Windows.Controls.RichTextBox.Selection">
+          <source>An empty <ph id="ph1">&lt;see cref="T:System.Windows.Documents.TextSelection" /&gt;</ph> renders as a caret in the text area with no selection.</source>
+          <target state="translated">空 <ph id="ph1">&lt;see cref="T:System.Windows.Documents.TextSelection" /&gt;</ph> 在不包含任何选定内容的文本区域中呈现为一个插入符号。</target>       </trans-unit>
+        <trans-unit id="210" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Windows.Controls.RichTextBox.Selection">
+          <source>Use the <ph id="ph1">&lt;xref:System.Windows.Documents.TextRange.Select%2A&gt;</ph> method to programmatically select content.</source>
+          <target state="translated">使用<ph id="ph1">&lt;xref:System.Windows.Documents.TextRange.Select%2A&gt;</ph>方法以编程方式选择内容。</target>       </trans-unit>
+        <trans-unit id="211" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Windows.Controls.RichTextBox.Selection">
+          <source>The following example illustrates the use of this property.</source>
+          <target state="translated">下面的示例演示如何使用此属性。</target>       </trans-unit>
+        <trans-unit id="212" translate="yes" xml:space="preserve" uid="M:System.Windows.Controls.RichTextBox.ShouldSerializeDocument">
+          <source>Returns a value that indicates whether or not the effective value of the <ph id="ph1">&lt;see cref="P:System.Windows.Controls.RichTextBox.Document" /&gt;</ph> property should be serialized during serialization of a <ph id="ph2">&lt;see cref="T:System.Windows.Controls.RichTextBox" /&gt;</ph> object.</source>
+          <target state="translated">返回一个值，该值指示在序列化 <ph id="ph1">&lt;see cref="P:System.Windows.Controls.RichTextBox.Document" /&gt;</ph> 对象期间，是否应对 <ph id="ph2">&lt;see cref="T:System.Windows.Controls.RichTextBox" /&gt;</ph> 属性的有效值进行序列化。</target>       </trans-unit>
+        <trans-unit id="213" translate="yes" xml:space="preserve" uid="M:System.Windows.Controls.RichTextBox.ShouldSerializeDocument">
+          <source><ph id="ph1">&lt;see langword="true" /&gt;</ph> if the <ph id="ph2">&lt;see cref="P:System.Windows.Controls.RichTextBox.Document" /&gt;</ph> property should be serialized; otherwise, <ph id="ph3">&lt;see langword="false" /&gt;</ph>.</source>
+          <target state="translated">如果 <ph id="ph2">&lt;see cref="P:System.Windows.Controls.RichTextBox.Document" /&gt;</ph> 属性应被序列化，则为 <ph id="ph1">&lt;see langword="true" /&gt;</ph>；否则为 <ph id="ph3">&lt;see langword="false" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="214" translate="yes" xml:space="preserve" uid="M:System.Windows.Controls.RichTextBox.System#Windows#Markup#IAddChild#AddChild(System.Object)">
+          <source>An object to add as a child.</source>
+          <target state="translated">要作为子级添加的对象。</target>       </trans-unit>
+        <trans-unit id="215" translate="yes" xml:space="preserve" uid="M:System.Windows.Controls.RichTextBox.System#Windows#Markup#IAddChild#AddChild(System.Object)">
+          <source>This type or member supports the <ph id="ph1">[!INCLUDE[TLA#tla_winclient](~/includes/tlasharptla-winclient-md.md)]</ph> infrastructure and is not intended to be used directly from your code.</source>
+          <target state="translated">此类型或成员支持 <ph id="ph1">[!INCLUDE[TLA#tla_winclient](~/includes/tlasharptla-winclient-md.md)]</ph> 基础结构，但不可直接在代码中使用。</target>       </trans-unit>
+        <trans-unit id="216" translate="yes" xml:space="preserve" uid="M:System.Windows.Controls.RichTextBox.System#Windows#Markup#IAddChild#AddText(System.String)">
+          <source>A string to add to the object.</source>
+          <target state="translated">要添加到该对象的字符串。</target>       </trans-unit>
+        <trans-unit id="217" translate="yes" xml:space="preserve" uid="M:System.Windows.Controls.RichTextBox.System#Windows#Markup#IAddChild#AddText(System.String)">
+          <source>This type or member supports the <ph id="ph1">[!INCLUDE[TLA#tla_winclient](~/includes/tlasharptla-winclient-md.md)]</ph> infrastructure and is not intended to be used directly from your code.</source>
+          <target state="translated">此类型或成员支持 <ph id="ph1">[!INCLUDE[TLA#tla_winclient](~/includes/tlasharptla-winclient-md.md)]</ph> 基础结构，但不可直接在代码中使用。</target>       </trans-unit>
+      </group>
+    </body>
+  </file>
+</xliff>

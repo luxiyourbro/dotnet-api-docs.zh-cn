@@ -1,484 +1,177 @@
-<Type Name="DependencyPropertyChangedEventArgs" FullName="System.Windows.DependencyPropertyChangedEventArgs">
-  <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="840f1b77f0e3528c43e12653ee199d6199ef1109" />
-    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
-    <Meta Name="ms.translationtype" Value="HT" />
-    <Meta Name="ms.contentlocale" Value="zh-CN" />
-    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
-  </Metadata>
-  <TypeSignature Language="C#" Value="public struct DependencyPropertyChangedEventArgs" />
-  <TypeSignature Language="ILAsm" Value=".class public sequential ansi sealed beforefieldinit DependencyPropertyChangedEventArgs extends System.ValueType" />
-  <TypeSignature Language="DocId" Value="T:System.Windows.DependencyPropertyChangedEventArgs" />
-  <TypeSignature Language="VB.NET" Value="Public Structure DependencyPropertyChangedEventArgs" />
-  <TypeSignature Language="C++ CLI" Value="public value class DependencyPropertyChangedEventArgs" />
-  <AssemblyInfo>
-    <AssemblyName>WindowsBase</AssemblyName>
-    <AssemblyVersion>4.0.0.0</AssemblyVersion>
-  </AssemblyInfo>
-  <Base>
-    <BaseTypeName>System.ValueType</BaseTypeName>
-  </Base>
-  <Interfaces />
-  <Docs>
-    <summary>
-      <span data-ttu-id="a69bd-101">提供各种属性更改事件的数据。</span>
-      <span class="sxs-lookup">
-        <span data-stu-id="a69bd-101">Provides data for various property changed events.</span>
-      </span>
-      <span data-ttu-id="a69bd-102">通常这些事件对只读依赖属性的值中的有效值更改进行报告。</span>
-      <span class="sxs-lookup">
-        <span data-stu-id="a69bd-102">Typically these events report effective value changes in the value of a read-only dependency property.</span>
-      </span>
-      <span data-ttu-id="a69bd-103">另一个用法是用作 <see cref="T:System.Windows.PropertyChangedCallback" /> 实现的一部分。</span>
-      <span class="sxs-lookup">
-        <span data-stu-id="a69bd-103">Another usage is as part of a <see cref="T:System.Windows.PropertyChangedCallback" /> implementation.</span>
-      </span>
-    </summary>
-    <remarks>
-      <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="a69bd-104">使用事件<xref:System.Windows.DependencyPropertyChangedEventArgs>事件数据的类和<xref:System.Windows.DependencyPropertyChangedEventHandler>方法实现作为处理程序，通常遵循命名模式`Is*Changed`，并作为通常实施[!INCLUDE[TLA#tla_clr](~/includes/tlasharptla-clr-md.md)]事件，而不<xref:System.Windows.RoutedEvent>（它们不是路由的事件） 的支持。</span><span class="sxs-lookup"><span data-stu-id="a69bd-104">The events that use the <xref:System.Windows.DependencyPropertyChangedEventArgs> class for event data, and the <xref:System.Windows.DependencyPropertyChangedEventHandler> method implementations for handlers, generally follow the naming pattern `Is*Changed`, and are generally implemented as [!INCLUDE[TLA#tla_clr](~/includes/tlasharptla-clr-md.md)] events without <xref:System.Windows.RoutedEvent> backing (they are not routed events).</span></span> <span data-ttu-id="a69bd-105">某些类处理方法，用于"处理"，否则未公开如报告属性更改，通过状态更改的事件<xref:System.Windows.Controls.Primitives.ButtonBase.OnIsPressedChanged%2A?displayProperty=nameWithType>，还使用<xref:System.Windows.DependencyPropertyChangedEventArgs>事件数据的类。</span><span class="sxs-lookup"><span data-stu-id="a69bd-105">Some class handling methods that "handle" otherwise unexposed events that report a state change through a property change, such as <xref:System.Windows.Controls.Primitives.ButtonBase.OnIsPressedChanged%2A?displayProperty=nameWithType>, also use the <xref:System.Windows.DependencyPropertyChangedEventArgs> class for event data.</span></span>  
-  
- <span data-ttu-id="a69bd-106">方案<xref:System.Windows.PropertyChangedCallback>是使用来自该属性的属性系统计算的报表旧和新值的自变量。</span><span class="sxs-lookup"><span data-stu-id="a69bd-106">The scenario for <xref:System.Windows.PropertyChangedCallback> is to use the arguments to report old and new values that come from the property system evaluation of the property.</span></span> <span data-ttu-id="a69bd-107">处理新旧值的回调可能选择根据这些值，例如选择不响应被认为是无意义的值更改的特殊处理。</span><span class="sxs-lookup"><span data-stu-id="a69bd-107">A callback that processes old and new values might choose special handling depending on these values, such as choosing to not respond to value changes that are deemed insignificant.</span></span>  
-  
-   
-  
-## Examples  
- <span data-ttu-id="a69bd-108">下面的示例使用<xref:System.Windows.DependencyPropertyChangedEventArgs>的上下文中的类<xref:System.Windows.PropertyChangedCallback>还定义了事件的自定义类的特定属性。</span><span class="sxs-lookup"><span data-stu-id="a69bd-108">The following example uses the <xref:System.Windows.DependencyPropertyChangedEventArgs> class in the context of a <xref:System.Windows.PropertyChangedCallback> for a particular property of a custom class that also defines events.</span></span> <span data-ttu-id="a69bd-109">回调将的结果的旧和新值的属性系统中，通过传递作为<xref:System.Windows.DependencyPropertyChangedEventArgs>，和重新打包成不同的事件自变量类这些<xref:System.Windows.RoutedPropertyChangedEventArgs%601>。</span><span class="sxs-lookup"><span data-stu-id="a69bd-109">The callback takes the results of old and new values from the property system as communicated by <xref:System.Windows.DependencyPropertyChangedEventArgs>, and repackages these into a different events arguments class <xref:System.Windows.RoutedPropertyChangedEventArgs%601>.</span></span> <span data-ttu-id="a69bd-110">新的自变量然后的数据用于定义和自定义的类引发的一个"ValueChanged"事件。</span><span class="sxs-lookup"><span data-stu-id="a69bd-110">The new arguments are then used as the data for a "ValueChanged" event defined by and raised by the custom class.</span></span>  
-  
- [!code-csharp[CustomControlNumericUpDownOneProject#DependencyPropertyChangedEventArgs](~/samples/snippets/csharp/VS_Snippets_Wpf/CustomControlNumericUpDownOneProject/CSharp/NumericUpDown.cs#dependencypropertychangedeventargs)]
- [!code-vb[CustomControlNumericUpDownOneProject#DependencyPropertyChangedEventArgs](~/samples/snippets/visualbasic/VS_Snippets_Wpf/CustomControlNumericUpDownOneProject/visualbasic/numericupdown.vb#dependencypropertychangedeventargs)]  
-  
- ]]></format>
-    </remarks>
-    <altmember cref="T:System.Windows.DependencyPropertyChangedEventHandler" />
-  </Docs>
-  <Members>
-    <Member MemberName=".ctor">
-      <MemberSignature Language="C#" Value="public DependencyPropertyChangedEventArgs (System.Windows.DependencyProperty property, object oldValue, object newValue);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(class System.Windows.DependencyProperty property, object oldValue, object newValue) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Windows.DependencyPropertyChangedEventArgs.#ctor(System.Windows.DependencyProperty,System.Object,System.Object)" />
-      <MemberSignature Language="VB.NET" Value="Public Sub New (property As DependencyProperty, oldValue As Object, newValue As Object)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; DependencyPropertyChangedEventArgs(System::Windows::DependencyProperty ^ property, System::Object ^ oldValue, System::Object ^ newValue);" />
-      <MemberType>Constructor</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>WindowsBase</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Parameters>
-        <Parameter Name="property" Type="System.Windows.DependencyProperty" />
-        <Parameter Name="oldValue" Type="System.Object" />
-        <Parameter Name="newValue" Type="System.Object" />
-      </Parameters>
-      <Docs>
-        <param name="property">
-          <span data-ttu-id="a69bd-111">更改的依赖项属性的标识符。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="a69bd-111">The identifier for the dependency property that changed.</span>
-          </span>
-        </param>
-        <param name="oldValue">
-          <span data-ttu-id="a69bd-112">相关事件报告更改或状态更改之前的属性的值。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="a69bd-112">The value of the property before the change reported by the relevant event or state change.</span>
-          </span>
-        </param>
-        <param name="newValue">
-          <span data-ttu-id="a69bd-113">相关事件报告更改或状态更改之后的属性的值。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="a69bd-113">The value of the property after the change reported by the relevant event or state change.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="a69bd-114">初始化 <see cref="T:System.Windows.DependencyPropertyChangedEventArgs" /> 类的新实例。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="a69bd-114">Initializes a new instance of the <see cref="T:System.Windows.DependencyPropertyChangedEventArgs" /> class.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="a69bd-115">报告依赖项属性更改的自定义事件的实施者应使用此构造函数引发事件时将填充更改的具体情况的事件数据。</span><span class="sxs-lookup"><span data-stu-id="a69bd-115">Implementers of custom events that report dependency property changes should use this constructor for populating the event data with the specifics of the change when the event is raised.</span></span>  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-    <MemberGroup MemberName="Equals">
-      <AssemblyInfo>
-        <AssemblyName>WindowsBase</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Docs>
-        <summary>
-          <span data-ttu-id="a69bd-116">返回提供的对象是否与当前 <see cref="T:System.Windows.DependencyPropertyChangedEventArgs" /> 相同。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="a69bd-116">Returns whether the provided object is equivalent to the current <see cref="T:System.Windows.DependencyPropertyChangedEventArgs" />.</span>
-          </span>
-        </summary>
-      </Docs>
-    </MemberGroup>
-    <Member MemberName="Equals">
-      <MemberSignature Language="C#" Value="public override bool Equals (object obj);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance bool Equals(object obj) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Windows.DependencyPropertyChangedEventArgs.Equals(System.Object)" />
-      <MemberSignature Language="VB.NET" Value="Public Overrides Function Equals (obj As Object) As Boolean" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; override bool Equals(System::Object ^ obj);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>WindowsBase</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Boolean</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="obj" Type="System.Object" />
-      </Parameters>
-      <Docs>
-        <param name="obj">
-          <span data-ttu-id="a69bd-117">要与当前 <see cref="T:System.Windows.DependencyPropertyChangedEventArgs" /> 比较的对象。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="a69bd-117">The object to compare to the current <see cref="T:System.Windows.DependencyPropertyChangedEventArgs" />.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="a69bd-118">确定提供的对象是否与当前 <see cref="T:System.Windows.DependencyPropertyChangedEventArgs" /> 相同。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="a69bd-118">Determines whether the provided object is equivalent to the current <see cref="T:System.Windows.DependencyPropertyChangedEventArgs" />.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="a69bd-119">如果提供的对象与当前 <see cref="T:System.Windows.DependencyPropertyChangedEventArgs" /> 相同，则为 <see langword="true" />；否则为 <see langword="false" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="a69bd-119">
-              <see langword="true" /> if the provided object is equivalent to the current <see cref="T:System.Windows.DependencyPropertyChangedEventArgs" />; otherwise, <see langword="false" />.</span>
-          </span>
-        </returns>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="a69bd-120">此实现依赖于的所有属性，包括内部属性的值等效。</span><span class="sxs-lookup"><span data-stu-id="a69bd-120">This implementation relies on value equivalence of all properties, including internal properties.</span></span>  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="Equals">
-      <MemberSignature Language="C#" Value="public bool Equals (System.Windows.DependencyPropertyChangedEventArgs args);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance bool Equals(valuetype System.Windows.DependencyPropertyChangedEventArgs args) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Windows.DependencyPropertyChangedEventArgs.Equals(System.Windows.DependencyPropertyChangedEventArgs)" />
-      <MemberSignature Language="VB.NET" Value="Public Function Equals (args As DependencyPropertyChangedEventArgs) As Boolean" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; bool Equals(System::Windows::DependencyPropertyChangedEventArgs args);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>WindowsBase</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Boolean</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="args" Type="System.Windows.DependencyPropertyChangedEventArgs" />
-      </Parameters>
-      <Docs>
-        <param name="args">
-          <span data-ttu-id="a69bd-121">要与当前的 <see cref="T:System.Windows.DependencyPropertyChangedEventArgs" /> 进行比较的 <see cref="T:System.Windows.DependencyPropertyChangedEventArgs" /></span>
-          <span class="sxs-lookup">
-            <span data-stu-id="a69bd-121">The <see cref="T:System.Windows.DependencyPropertyChangedEventArgs" /> to compare to the current <see cref="T:System.Windows.DependencyPropertyChangedEventArgs" /></span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="a69bd-122">确定提供的 <see cref="T:System.Windows.DependencyPropertyChangedEventArgs" /> 是否与当前 <see cref="T:System.Windows.DependencyPropertyChangedEventArgs" /> 相同。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="a69bd-122">Determines whether the provided <see cref="T:System.Windows.DependencyPropertyChangedEventArgs" /> is equivalent to the current <see cref="T:System.Windows.DependencyPropertyChangedEventArgs" />.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="a69bd-123">如果提供的 <see cref="T:System.Windows.DependencyPropertyChangedEventArgs" /> 与当前 <see cref="T:System.Windows.DependencyPropertyChangedEventArgs" /> 相同，则为 <see langword="true" />；否则为 <see langword="false" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="a69bd-123">
-              <see langword="true" /> if the provided <see cref="T:System.Windows.DependencyPropertyChangedEventArgs" /> is equivalent to the current <see cref="T:System.Windows.DependencyPropertyChangedEventArgs" />; otherwise, <see langword="false" />.</span>
-          </span>
-        </returns>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="a69bd-124">此实现依赖于的所有属性，包括内部属性的值等效。</span><span class="sxs-lookup"><span data-stu-id="a69bd-124">This implementation relies on value equivalence of all properties, including internal properties.</span></span>  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="GetHashCode">
-      <MemberSignature Language="C#" Value="public override int GetHashCode ();" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance int32 GetHashCode() cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Windows.DependencyPropertyChangedEventArgs.GetHashCode" />
-      <MemberSignature Language="VB.NET" Value="Public Overrides Function GetHashCode () As Integer" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; override int GetHashCode();" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>WindowsBase</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Int32</ReturnType>
-      </ReturnValue>
-      <Parameters />
-      <Docs>
-        <summary>
-          <span data-ttu-id="a69bd-125">获取此 <see cref="T:System.Windows.DependencyPropertyChangedEventArgs" /> 的哈希代码。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="a69bd-125">Gets a hash code  for this <see cref="T:System.Windows.DependencyPropertyChangedEventArgs" />.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="a69bd-126">带符号 32 位整数哈希代码。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="a69bd-126">A signed 32-bit integer hash code.</span>
-          </span>
-        </returns>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="NewValue">
-      <MemberSignature Language="C#" Value="public object NewValue { get; }" />
-      <MemberSignature Language="ILAsm" Value=".property instance object NewValue" />
-      <MemberSignature Language="DocId" Value="P:System.Windows.DependencyPropertyChangedEventArgs.NewValue" />
-      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property NewValue As Object" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::Object ^ NewValue { System::Object ^ get(); };" />
-      <MemberType>Property</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>WindowsBase</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Object</ReturnType>
-      </ReturnValue>
-      <Docs>
-        <summary>
-          <span data-ttu-id="a69bd-127">获取发生更改之后的属性的值。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="a69bd-127">Gets the value of the property after the change.</span>
-          </span>
-        </summary>
-        <value>
-          <span data-ttu-id="a69bd-128">发生更改之后的属性值。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="a69bd-128">The property value after the change.</span>
-          </span>
-        </value>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="a69bd-129">提供的类型应始终是值的强制转换为正在报告的依赖项属性的类型。</span><span class="sxs-lookup"><span data-stu-id="a69bd-129">The type of the value provided should always be castable to the type of the dependency property being reported.</span></span>  
-  
-   
-  
-## Examples  
- <span data-ttu-id="a69bd-130">下面的示例使用<xref:System.Windows.DependencyPropertyChangedEventArgs>的上下文中的类<xref:System.Windows.PropertyChangedCallback>还定义了事件的自定义类的特定属性。</span><span class="sxs-lookup"><span data-stu-id="a69bd-130">The following example uses the <xref:System.Windows.DependencyPropertyChangedEventArgs> class in the context of a <xref:System.Windows.PropertyChangedCallback> for a particular property of a custom class that also defines events.</span></span> <span data-ttu-id="a69bd-131">回调将的结果的旧和新值的属性系统中，通过传递作为<xref:System.Windows.DependencyPropertyChangedEventArgs>，和重新打包成不同的事件自变量类这些<xref:System.Windows.RoutedPropertyChangedEventArgs%601>。</span><span class="sxs-lookup"><span data-stu-id="a69bd-131">The callback takes the results of old and new values from the property system as communicated by <xref:System.Windows.DependencyPropertyChangedEventArgs>, and repackages these into a different events arguments class <xref:System.Windows.RoutedPropertyChangedEventArgs%601>.</span></span> <span data-ttu-id="a69bd-132">新的自变量然后的数据用于定义和自定义的类引发的一个"ValueChanged"事件。</span><span class="sxs-lookup"><span data-stu-id="a69bd-132">The new arguments are then used as the data for a "ValueChanged" event defined by and raised by the custom class.</span></span>  
-  
- [!code-csharp[CustomControlNumericUpDownOneProject#DependencyPropertyChangedEventArgs](~/samples/snippets/csharp/VS_Snippets_Wpf/CustomControlNumericUpDownOneProject/CSharp/NumericUpDown.cs#dependencypropertychangedeventargs)]
- [!code-vb[CustomControlNumericUpDownOneProject#DependencyPropertyChangedEventArgs](~/samples/snippets/visualbasic/VS_Snippets_Wpf/CustomControlNumericUpDownOneProject/visualbasic/numericupdown.vb#dependencypropertychangedeventargs)]  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="OldValue">
-      <MemberSignature Language="C#" Value="public object OldValue { get; }" />
-      <MemberSignature Language="ILAsm" Value=".property instance object OldValue" />
-      <MemberSignature Language="DocId" Value="P:System.Windows.DependencyPropertyChangedEventArgs.OldValue" />
-      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property OldValue As Object" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::Object ^ OldValue { System::Object ^ get(); };" />
-      <MemberType>Property</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>WindowsBase</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Object</ReturnType>
-      </ReturnValue>
-      <Docs>
-        <summary>
-          <span data-ttu-id="a69bd-133">获取发生更改之前的属性的值。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="a69bd-133">Gets the value of the property before the change.</span>
-          </span>
-        </summary>
-        <value>
-          <span data-ttu-id="a69bd-134">发生更改之前的属性值。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="a69bd-134">The property value before the change.</span>
-          </span>
-        </value>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="a69bd-135">提供的类型应始终是值的强制转换为正在报告的依赖项属性的类型。</span><span class="sxs-lookup"><span data-stu-id="a69bd-135">The type of the value provided should always be castable to the type of the dependency property being reported.</span></span>  
-  
-   
-  
-## Examples  
- <span data-ttu-id="a69bd-136">下面的示例使用<xref:System.Windows.DependencyPropertyChangedEventArgs>的上下文中的类<xref:System.Windows.PropertyChangedCallback>还定义了事件的自定义类的特定属性。</span><span class="sxs-lookup"><span data-stu-id="a69bd-136">The following example uses the <xref:System.Windows.DependencyPropertyChangedEventArgs> class in the context of a <xref:System.Windows.PropertyChangedCallback> for a particular property of a custom class that also defines events.</span></span> <span data-ttu-id="a69bd-137">回调将的结果的旧和新值的属性系统中，通过传递作为<xref:System.Windows.DependencyPropertyChangedEventArgs>，和重新打包成不同的事件自变量类这些<xref:System.Windows.RoutedPropertyChangedEventArgs%601>。</span><span class="sxs-lookup"><span data-stu-id="a69bd-137">The callback takes the results of old and new values from the property system as communicated by <xref:System.Windows.DependencyPropertyChangedEventArgs>, and repackages these into a different events arguments class <xref:System.Windows.RoutedPropertyChangedEventArgs%601>.</span></span> <span data-ttu-id="a69bd-138">新的自变量然后的数据用于定义和自定义的类引发的一个"ValueChanged"事件。</span><span class="sxs-lookup"><span data-stu-id="a69bd-138">The new arguments are then used as the data for a "ValueChanged" event defined by and raised by the custom class.</span></span>  
-  
- [!code-csharp[CustomControlNumericUpDownOneProject#DependencyPropertyChangedEventArgs](~/samples/snippets/csharp/VS_Snippets_Wpf/CustomControlNumericUpDownOneProject/CSharp/NumericUpDown.cs#dependencypropertychangedeventargs)]
- [!code-vb[CustomControlNumericUpDownOneProject#DependencyPropertyChangedEventArgs](~/samples/snippets/visualbasic/VS_Snippets_Wpf/CustomControlNumericUpDownOneProject/visualbasic/numericupdown.vb#dependencypropertychangedeventargs)]  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="op_Equality">
-      <MemberSignature Language="C#" Value="public static bool operator == (System.Windows.DependencyPropertyChangedEventArgs left, System.Windows.DependencyPropertyChangedEventArgs right);" />
-      <MemberSignature Language="ILAsm" Value=".method public static hidebysig specialname bool op_Equality(valuetype System.Windows.DependencyPropertyChangedEventArgs left, valuetype System.Windows.DependencyPropertyChangedEventArgs right) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Windows.DependencyPropertyChangedEventArgs.op_Equality(System.Windows.DependencyPropertyChangedEventArgs,System.Windows.DependencyPropertyChangedEventArgs)" />
-      <MemberSignature Language="VB.NET" Value="Public Shared Operator == (left As DependencyPropertyChangedEventArgs, right As DependencyPropertyChangedEventArgs) As Boolean" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; static bool operator ==(System::Windows::DependencyPropertyChangedEventArgs left, System::Windows::DependencyPropertyChangedEventArgs right);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>WindowsBase</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Boolean</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="left" Type="System.Windows.DependencyPropertyChangedEventArgs" />
-        <Parameter Name="right" Type="System.Windows.DependencyPropertyChangedEventArgs" />
-      </Parameters>
-      <Docs>
-        <param name="left">
-          <span data-ttu-id="a69bd-139">要比较的第一个 <see cref="T:System.Windows.DependencyPropertyChangedEventArgs" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="a69bd-139">The first <see cref="T:System.Windows.DependencyPropertyChangedEventArgs" /> to compare.</span>
-          </span>
-        </param>
-        <param name="right">
-          <span data-ttu-id="a69bd-140">要比较的第二个 <see cref="T:System.Windows.DependencyPropertyChangedEventArgs" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="a69bd-140">The second <see cref="T:System.Windows.DependencyPropertyChangedEventArgs" /> to compare.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="a69bd-141">确定两个指定的 <see cref="T:System.Windows.DependencyPropertyChangedEventArgs" /> 对象是否具有相同的值。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="a69bd-141">Determines whether two specified <see cref="T:System.Windows.DependencyPropertyChangedEventArgs" /> objects have the same value.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="a69bd-142">如果两个 <see cref="T:System.Windows.DependencyPropertyChangedEventArgs" /> 实例等效，则为 <see langword="true" />；否则为 <see langword="false" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="a69bd-142">
-              <see langword="true" /> if the two <see cref="T:System.Windows.DependencyPropertyChangedEventArgs" /> instances are equivalent; otherwise, <see langword="false" />.</span>
-          </span>
-        </returns>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="a69bd-143">实现使用相同逻辑<xref:System.Windows.DependencyPropertyChangedEventArgs.Equals%2A>。</span><span class="sxs-lookup"><span data-stu-id="a69bd-143">The implementation uses the same logic as <xref:System.Windows.DependencyPropertyChangedEventArgs.Equals%2A>.</span></span>  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="op_Inequality">
-      <MemberSignature Language="C#" Value="public static bool operator != (System.Windows.DependencyPropertyChangedEventArgs left, System.Windows.DependencyPropertyChangedEventArgs right);" />
-      <MemberSignature Language="ILAsm" Value=".method public static hidebysig specialname bool op_Inequality(valuetype System.Windows.DependencyPropertyChangedEventArgs left, valuetype System.Windows.DependencyPropertyChangedEventArgs right) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Windows.DependencyPropertyChangedEventArgs.op_Inequality(System.Windows.DependencyPropertyChangedEventArgs,System.Windows.DependencyPropertyChangedEventArgs)" />
-      <MemberSignature Language="VB.NET" Value="Public Shared Operator != (left As DependencyPropertyChangedEventArgs, right As DependencyPropertyChangedEventArgs) As Boolean" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; static bool operator !=(System::Windows::DependencyPropertyChangedEventArgs left, System::Windows::DependencyPropertyChangedEventArgs right);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>WindowsBase</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Boolean</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="left" Type="System.Windows.DependencyPropertyChangedEventArgs" />
-        <Parameter Name="right" Type="System.Windows.DependencyPropertyChangedEventArgs" />
-      </Parameters>
-      <Docs>
-        <param name="left">
-          <span data-ttu-id="a69bd-144">要比较的第一个 <see cref="T:System.Windows.DependencyPropertyChangedEventArgs" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="a69bd-144">The first <see cref="T:System.Windows.DependencyPropertyChangedEventArgs" /> to compare.</span>
-          </span>
-        </param>
-        <param name="right">
-          <span data-ttu-id="a69bd-145">要比较的第二个 <see cref="T:System.Windows.DependencyPropertyChangedEventArgs" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="a69bd-145">The second <see cref="T:System.Windows.DependencyPropertyChangedEventArgs" /> to compare.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="a69bd-146">确定两个指定的 <see cref="T:System.Windows.DependencyPropertyChangedEventArgs" /> 对象是否不同。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="a69bd-146">Determines whether two specified <see cref="T:System.Windows.DependencyPropertyChangedEventArgs" /> objects are different.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="a69bd-147">如果两个 <see cref="T:System.Windows.DependencyPropertyChangedEventArgs" /> 实例不同，则为 <see langword="true" />；否则为 <see langword="false" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="a69bd-147">
-              <see langword="true" /> if the two <see cref="T:System.Windows.DependencyPropertyChangedEventArgs" /> instances are different; otherwise, <see langword="false" />.</span>
-          </span>
-        </returns>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="a69bd-148">实现返回的相同逻辑求反运算<xref:System.Windows.DependencyPropertyChangedEventArgs.Equals%2A>。</span><span class="sxs-lookup"><span data-stu-id="a69bd-148">The implementation returns the negation of the same logic as <xref:System.Windows.DependencyPropertyChangedEventArgs.Equals%2A>.</span></span>  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="Property">
-      <MemberSignature Language="C#" Value="public System.Windows.DependencyProperty Property { get; }" />
-      <MemberSignature Language="ILAsm" Value=".property instance class System.Windows.DependencyProperty Property" />
-      <MemberSignature Language="DocId" Value="P:System.Windows.DependencyPropertyChangedEventArgs.Property" />
-      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property Property As DependencyProperty" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::Windows::DependencyProperty ^ Property { System::Windows::DependencyProperty ^ get(); };" />
-      <MemberType>Property</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>WindowsBase</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Windows.DependencyProperty</ReturnType>
-      </ReturnValue>
-      <Docs>
-        <summary>
-          <span data-ttu-id="a69bd-149">获取发生值更改的依赖项属性的标识符。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="a69bd-149">Gets the identifier for the dependency property where the value change occurred.</span>
-          </span>
-        </summary>
-        <value>
-          <span data-ttu-id="a69bd-150">发生值更改的依赖项属性的标识符字段。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="a69bd-150">The identifier field of the dependency property where the value change occurred.</span>
-          </span>
-        </value>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="a69bd-151">此属性是如果在一组公共使用相关<xref:System.Windows.PropertyChangedCallback>注册多个属性，并且有必要消除歧义的属性更改调用回调。</span><span class="sxs-lookup"><span data-stu-id="a69bd-151">This property is relevant if used within a common <xref:System.Windows.PropertyChangedCallback> that is registered for several properties, and it is necessary to disambiguate which property change invoked the callback.</span></span> <span data-ttu-id="a69bd-152"><xref:System.Windows.DependencyPropertyChangedEventArgs.Property%2A> 无关通常用于引发事件，因为没有通常属性和事件之间存在 1:1 的对应关系属性更改该报表。</span><span class="sxs-lookup"><span data-stu-id="a69bd-152"><xref:System.Windows.DependencyPropertyChangedEventArgs.Property%2A> is not typically relevant for raising events, because there is usually a 1:1 correspondence between properties and events that report the property change.</span></span> <span data-ttu-id="a69bd-153">已引发的事件的本身就可的指示更改的属性。</span><span class="sxs-lookup"><span data-stu-id="a69bd-153">The event that was raised is itself the indication of which property changed.</span></span>  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-  </Members>
-</Type>
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.2" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 xliff-core-1.2-transitional.xsd">
+  <file datatype="xml" original="DependencyPropertyChangedEventArgs.xml" source-language="en-US" target-language="zh-CN">
+    <header>
+      <tool tool-id="mdxliff" tool-name="mdxliff" tool-version="1.0-15c36f0" tool-company="Microsoft" />
+      <xliffext:skl_file_name xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">02cd5861-7ce2-4a82-b358-31f8435a0ac5840f1b77f0e3528c43e12653ee199d6199ef1109.skl</xliffext:skl_file_name>
+      <xliffext:version xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">1.2</xliffext:version>
+      <xliffext:ms.openlocfilehash xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">840f1b77f0e3528c43e12653ee199d6199ef1109</xliffext:ms.openlocfilehash>
+      <xliffext:ms.sourcegitcommit xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b</xliffext:ms.sourcegitcommit>
+      <xliffext:ms.lasthandoff xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">04/03/2018</xliffext:ms.lasthandoff>
+      <xliffext:moniker_ids xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">netframework-4.5.1,netframework-4.5.2,netframework-4.5,netframework-4.6.1,netframework-4.6.2,netframework-4.6,netframework-4.7.1,netframework-4.7</xliffext:moniker_ids>
+    </header>
+    <body>
+      <group id="content" extype="content">
+        <trans-unit id="101" translate="yes" xml:space="preserve" uid="T:System.Windows.DependencyPropertyChangedEventArgs">
+          <source>Provides data for various property changed events.</source>
+          <target state="translated">提供各种属性更改事件的数据。</target>       </trans-unit>
+        <trans-unit id="102" translate="yes" xml:space="preserve" uid="T:System.Windows.DependencyPropertyChangedEventArgs">
+          <source>Typically these events report effective value changes in the value of a read-only dependency property.</source>
+          <target state="translated">通常这些事件对只读依赖属性的值中的有效值更改进行报告。</target>       </trans-unit>
+        <trans-unit id="103" translate="yes" xml:space="preserve" uid="T:System.Windows.DependencyPropertyChangedEventArgs">
+          <source>Another usage is as part of a <ph id="ph1">&lt;see cref="T:System.Windows.PropertyChangedCallback" /&gt;</ph> implementation.</source>
+          <target state="translated">另一个用法是用作 <ph id="ph1">&lt;see cref="T:System.Windows.PropertyChangedCallback" /&gt;</ph> 实现的一部分。</target>       </trans-unit>
+        <trans-unit id="104" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Windows.DependencyPropertyChangedEventArgs">
+          <source>The events that use the <ph id="ph1">&lt;xref:System.Windows.DependencyPropertyChangedEventArgs&gt;</ph> class for event data, and the <ph id="ph2">&lt;xref:System.Windows.DependencyPropertyChangedEventHandler&gt;</ph> method implementations for handlers, generally follow the naming pattern <ph id="ph3">`Is*Changed`</ph>, and are generally implemented as <ph id="ph4">[!INCLUDE[TLA#tla_clr](~/includes/tlasharptla-clr-md.md)]</ph> events without <ph id="ph5">&lt;xref:System.Windows.RoutedEvent&gt;</ph> backing (they are not routed events).</source>
+          <target state="translated">使用事件<ph id="ph1">&lt;xref:System.Windows.DependencyPropertyChangedEventArgs&gt;</ph>事件数据的类和<ph id="ph2">&lt;xref:System.Windows.DependencyPropertyChangedEventHandler&gt;</ph>方法实现作为处理程序，通常遵循命名模式<ph id="ph3">`Is*Changed`</ph>，并作为通常实施<ph id="ph4">[!INCLUDE[TLA#tla_clr](~/includes/tlasharptla-clr-md.md)]</ph>事件，而不<ph id="ph5">&lt;xref:System.Windows.RoutedEvent&gt;</ph>（它们不是路由的事件） 的支持。</target>       </trans-unit>
+        <trans-unit id="105" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Windows.DependencyPropertyChangedEventArgs">
+          <source>Some class handling methods that "handle" otherwise unexposed events that report a state change through a property change, such as <ph id="ph1">&lt;xref:System.Windows.Controls.Primitives.ButtonBase.OnIsPressedChanged%2A?displayProperty=nameWithType&gt;</ph>, also use the <ph id="ph2">&lt;xref:System.Windows.DependencyPropertyChangedEventArgs&gt;</ph> class for event data.</source>
+          <target state="translated">某些类处理方法，用于"处理"，否则未公开如报告属性更改，通过状态更改的事件<ph id="ph1">&lt;xref:System.Windows.Controls.Primitives.ButtonBase.OnIsPressedChanged%2A?displayProperty=nameWithType&gt;</ph>，还使用<ph id="ph2">&lt;xref:System.Windows.DependencyPropertyChangedEventArgs&gt;</ph>事件数据的类。</target>       </trans-unit>
+        <trans-unit id="106" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Windows.DependencyPropertyChangedEventArgs">
+          <source>The scenario for <ph id="ph1">&lt;xref:System.Windows.PropertyChangedCallback&gt;</ph> is to use the arguments to report old and new values that come from the property system evaluation of the property.</source>
+          <target state="translated">方案<ph id="ph1">&lt;xref:System.Windows.PropertyChangedCallback&gt;</ph>是使用来自该属性的属性系统计算的报表旧和新值的自变量。</target>       </trans-unit>
+        <trans-unit id="107" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Windows.DependencyPropertyChangedEventArgs">
+          <source>A callback that processes old and new values might choose special handling depending on these values, such as choosing to not respond to value changes that are deemed insignificant.</source>
+          <target state="translated">处理新旧值的回调可能选择根据这些值，例如选择不响应被认为是无意义的值更改的特殊处理。</target>       </trans-unit>
+        <trans-unit id="108" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Windows.DependencyPropertyChangedEventArgs">
+          <source>The following example uses the <ph id="ph1">&lt;xref:System.Windows.DependencyPropertyChangedEventArgs&gt;</ph> class in the context of a <ph id="ph2">&lt;xref:System.Windows.PropertyChangedCallback&gt;</ph> for a particular property of a custom class that also defines events.</source>
+          <target state="translated">下面的示例使用<ph id="ph1">&lt;xref:System.Windows.DependencyPropertyChangedEventArgs&gt;</ph>的上下文中的类<ph id="ph2">&lt;xref:System.Windows.PropertyChangedCallback&gt;</ph>还定义了事件的自定义类的特定属性。</target>       </trans-unit>
+        <trans-unit id="109" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Windows.DependencyPropertyChangedEventArgs">
+          <source>The callback takes the results of old and new values from the property system as communicated by <ph id="ph1">&lt;xref:System.Windows.DependencyPropertyChangedEventArgs&gt;</ph>, and repackages these into a different events arguments class <ph id="ph2">&lt;xref:System.Windows.RoutedPropertyChangedEventArgs%601&gt;</ph>.</source>
+          <target state="translated">回调将的结果的旧和新值的属性系统中，通过传递作为<ph id="ph1">&lt;xref:System.Windows.DependencyPropertyChangedEventArgs&gt;</ph>，和重新打包成不同的事件自变量类这些<ph id="ph2">&lt;xref:System.Windows.RoutedPropertyChangedEventArgs%601&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="110" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Windows.DependencyPropertyChangedEventArgs">
+          <source>The new arguments are then used as the data for a "ValueChanged" event defined by and raised by the custom class.</source>
+          <target state="translated">新的自变量然后的数据用于定义和自定义的类引发的一个"ValueChanged"事件。</target>       </trans-unit>
+        <trans-unit id="111" translate="yes" xml:space="preserve" uid="M:System.Windows.DependencyPropertyChangedEventArgs.#ctor(System.Windows.DependencyProperty,System.Object,System.Object)">
+          <source>The identifier for the dependency property that changed.</source>
+          <target state="translated">更改的依赖项属性的标识符。</target>       </trans-unit>
+        <trans-unit id="112" translate="yes" xml:space="preserve" uid="M:System.Windows.DependencyPropertyChangedEventArgs.#ctor(System.Windows.DependencyProperty,System.Object,System.Object)">
+          <source>The value of the property before the change reported by the relevant event or state change.</source>
+          <target state="translated">相关事件报告更改或状态更改之前的属性的值。</target>       </trans-unit>
+        <trans-unit id="113" translate="yes" xml:space="preserve" uid="M:System.Windows.DependencyPropertyChangedEventArgs.#ctor(System.Windows.DependencyProperty,System.Object,System.Object)">
+          <source>The value of the property after the change reported by the relevant event or state change.</source>
+          <target state="translated">相关事件报告更改或状态更改之后的属性的值。</target>       </trans-unit>
+        <trans-unit id="114" translate="yes" xml:space="preserve" uid="M:System.Windows.DependencyPropertyChangedEventArgs.#ctor(System.Windows.DependencyProperty,System.Object,System.Object)">
+          <source>Initializes a new instance of the <ph id="ph1">&lt;see cref="T:System.Windows.DependencyPropertyChangedEventArgs" /&gt;</ph> class.</source>
+          <target state="translated">初始化 <ph id="ph1">&lt;see cref="T:System.Windows.DependencyPropertyChangedEventArgs" /&gt;</ph> 类的新实例。</target>       </trans-unit>
+        <trans-unit id="115" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.DependencyPropertyChangedEventArgs.#ctor(System.Windows.DependencyProperty,System.Object,System.Object)">
+          <source>Implementers of custom events that report dependency property changes should use this constructor for populating the event data with the specifics of the change when the event is raised.</source>
+          <target state="translated">报告依赖项属性更改的自定义事件的实施者应使用此构造函数引发事件时将填充更改的具体情况的事件数据。</target>       </trans-unit>
+        <trans-unit id="116" translate="yes" xml:space="preserve" uid="T:System.Windows.DependencyPropertyChangedEventArgs">
+          <source>Returns whether the provided object is equivalent to the current <ph id="ph1">&lt;see cref="T:System.Windows.DependencyPropertyChangedEventArgs" /&gt;</ph>.</source>
+          <target state="translated">返回提供的对象是否与当前 <ph id="ph1">&lt;see cref="T:System.Windows.DependencyPropertyChangedEventArgs" /&gt;</ph> 相同。</target>       </trans-unit>
+        <trans-unit id="117" translate="yes" xml:space="preserve" uid="M:System.Windows.DependencyPropertyChangedEventArgs.Equals(System.Object)">
+          <source>The object to compare to the current <ph id="ph1">&lt;see cref="T:System.Windows.DependencyPropertyChangedEventArgs" /&gt;</ph>.</source>
+          <target state="translated">要与当前 <ph id="ph1">&lt;see cref="T:System.Windows.DependencyPropertyChangedEventArgs" /&gt;</ph> 比较的对象。</target>       </trans-unit>
+        <trans-unit id="118" translate="yes" xml:space="preserve" uid="M:System.Windows.DependencyPropertyChangedEventArgs.Equals(System.Object)">
+          <source>Determines whether the provided object is equivalent to the current <ph id="ph1">&lt;see cref="T:System.Windows.DependencyPropertyChangedEventArgs" /&gt;</ph>.</source>
+          <target state="translated">确定提供的对象是否与当前 <ph id="ph1">&lt;see cref="T:System.Windows.DependencyPropertyChangedEventArgs" /&gt;</ph> 相同。</target>       </trans-unit>
+        <trans-unit id="119" translate="yes" xml:space="preserve" uid="M:System.Windows.DependencyPropertyChangedEventArgs.Equals(System.Object)">
+          <source><ph id="ph1">&lt;see langword="true" /&gt;</ph> if the provided object is equivalent to the current <ph id="ph2">&lt;see cref="T:System.Windows.DependencyPropertyChangedEventArgs" /&gt;</ph>; otherwise, <ph id="ph3">&lt;see langword="false" /&gt;</ph>.</source>
+          <target state="translated">如果提供的对象与当前 <ph id="ph2">&lt;see cref="T:System.Windows.DependencyPropertyChangedEventArgs" /&gt;</ph> 相同，则为 <ph id="ph1">&lt;see langword="true" /&gt;</ph>；否则为 <ph id="ph3">&lt;see langword="false" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="120" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.DependencyPropertyChangedEventArgs.Equals(System.Object)">
+          <source>This implementation relies on value equivalence of all properties, including internal properties.</source>
+          <target state="translated">此实现依赖于的所有属性，包括内部属性的值等效。</target>       </trans-unit>
+        <trans-unit id="121" translate="yes" xml:space="preserve" uid="M:System.Windows.DependencyPropertyChangedEventArgs.Equals(System.Windows.DependencyPropertyChangedEventArgs)">
+          <source>The <ph id="ph1">&lt;see cref="T:System.Windows.DependencyPropertyChangedEventArgs" /&gt;</ph> to compare to the current <ph id="ph2">&lt;see cref="T:System.Windows.DependencyPropertyChangedEventArgs" /&gt;</ph></source>
+          <target state="translated">要与当前的 <ph id="ph1">&lt;see cref="T:System.Windows.DependencyPropertyChangedEventArgs" /&gt;</ph> 进行比较的 <ph id="ph2">&lt;see cref="T:System.Windows.DependencyPropertyChangedEventArgs" /&gt;</ph></target>       </trans-unit>
+        <trans-unit id="122" translate="yes" xml:space="preserve" uid="M:System.Windows.DependencyPropertyChangedEventArgs.Equals(System.Windows.DependencyPropertyChangedEventArgs)">
+          <source>Determines whether the provided <ph id="ph1">&lt;see cref="T:System.Windows.DependencyPropertyChangedEventArgs" /&gt;</ph> is equivalent to the current <ph id="ph2">&lt;see cref="T:System.Windows.DependencyPropertyChangedEventArgs" /&gt;</ph>.</source>
+          <target state="translated">确定提供的 <ph id="ph1">&lt;see cref="T:System.Windows.DependencyPropertyChangedEventArgs" /&gt;</ph> 是否与当前 <ph id="ph2">&lt;see cref="T:System.Windows.DependencyPropertyChangedEventArgs" /&gt;</ph> 相同。</target>       </trans-unit>
+        <trans-unit id="123" translate="yes" xml:space="preserve" uid="M:System.Windows.DependencyPropertyChangedEventArgs.Equals(System.Windows.DependencyPropertyChangedEventArgs)">
+          <source><ph id="ph1">&lt;see langword="true" /&gt;</ph> if the provided <ph id="ph2">&lt;see cref="T:System.Windows.DependencyPropertyChangedEventArgs" /&gt;</ph> is equivalent to the current <ph id="ph3">&lt;see cref="T:System.Windows.DependencyPropertyChangedEventArgs" /&gt;</ph>; otherwise, <ph id="ph4">&lt;see langword="false" /&gt;</ph>.</source>
+          <target state="translated">如果提供的 <ph id="ph2">&lt;see cref="T:System.Windows.DependencyPropertyChangedEventArgs" /&gt;</ph> 与当前 <ph id="ph3">&lt;see cref="T:System.Windows.DependencyPropertyChangedEventArgs" /&gt;</ph> 相同，则为 <ph id="ph1">&lt;see langword="true" /&gt;</ph>；否则为 <ph id="ph4">&lt;see langword="false" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="124" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.DependencyPropertyChangedEventArgs.Equals(System.Windows.DependencyPropertyChangedEventArgs)">
+          <source>This implementation relies on value equivalence of all properties, including internal properties.</source>
+          <target state="translated">此实现依赖于的所有属性，包括内部属性的值等效。</target>       </trans-unit>
+        <trans-unit id="125" translate="yes" xml:space="preserve" uid="M:System.Windows.DependencyPropertyChangedEventArgs.GetHashCode">
+          <source>Gets a hash code  for this <ph id="ph1">&lt;see cref="T:System.Windows.DependencyPropertyChangedEventArgs" /&gt;</ph>.</source>
+          <target state="translated">获取此 <ph id="ph1">&lt;see cref="T:System.Windows.DependencyPropertyChangedEventArgs" /&gt;</ph> 的哈希代码。</target>       </trans-unit>
+        <trans-unit id="126" translate="yes" xml:space="preserve" uid="M:System.Windows.DependencyPropertyChangedEventArgs.GetHashCode">
+          <source>A signed 32-bit integer hash code.</source>
+          <target state="translated">带符号 32 位整数哈希代码。</target>       </trans-unit>
+        <trans-unit id="127" translate="yes" xml:space="preserve" uid="P:System.Windows.DependencyPropertyChangedEventArgs.NewValue">
+          <source>Gets the value of the property after the change.</source>
+          <target state="translated">获取发生更改之后的属性的值。</target>       </trans-unit>
+        <trans-unit id="128" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Windows.DependencyPropertyChangedEventArgs.NewValue">
+          <source>The property value after the change.</source>
+          <target state="translated">发生更改之后的属性值。</target>       </trans-unit>
+        <trans-unit id="129" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Windows.DependencyPropertyChangedEventArgs.NewValue">
+          <source>The type of the value provided should always be castable to the type of the dependency property being reported.</source>
+          <target state="translated">提供的类型应始终是值的强制转换为正在报告的依赖项属性的类型。</target>       </trans-unit>
+        <trans-unit id="130" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Windows.DependencyPropertyChangedEventArgs.NewValue">
+          <source>The following example uses the <ph id="ph1">&lt;xref:System.Windows.DependencyPropertyChangedEventArgs&gt;</ph> class in the context of a <ph id="ph2">&lt;xref:System.Windows.PropertyChangedCallback&gt;</ph> for a particular property of a custom class that also defines events.</source>
+          <target state="translated">下面的示例使用<ph id="ph1">&lt;xref:System.Windows.DependencyPropertyChangedEventArgs&gt;</ph>的上下文中的类<ph id="ph2">&lt;xref:System.Windows.PropertyChangedCallback&gt;</ph>还定义了事件的自定义类的特定属性。</target>       </trans-unit>
+        <trans-unit id="131" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Windows.DependencyPropertyChangedEventArgs.NewValue">
+          <source>The callback takes the results of old and new values from the property system as communicated by <ph id="ph1">&lt;xref:System.Windows.DependencyPropertyChangedEventArgs&gt;</ph>, and repackages these into a different events arguments class <ph id="ph2">&lt;xref:System.Windows.RoutedPropertyChangedEventArgs%601&gt;</ph>.</source>
+          <target state="translated">回调将的结果的旧和新值的属性系统中，通过传递作为<ph id="ph1">&lt;xref:System.Windows.DependencyPropertyChangedEventArgs&gt;</ph>，和重新打包成不同的事件自变量类这些<ph id="ph2">&lt;xref:System.Windows.RoutedPropertyChangedEventArgs%601&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="132" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Windows.DependencyPropertyChangedEventArgs.NewValue">
+          <source>The new arguments are then used as the data for a "ValueChanged" event defined by and raised by the custom class.</source>
+          <target state="translated">新的自变量然后的数据用于定义和自定义的类引发的一个"ValueChanged"事件。</target>       </trans-unit>
+        <trans-unit id="133" translate="yes" xml:space="preserve" uid="P:System.Windows.DependencyPropertyChangedEventArgs.OldValue">
+          <source>Gets the value of the property before the change.</source>
+          <target state="translated">获取发生更改之前的属性的值。</target>       </trans-unit>
+        <trans-unit id="134" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Windows.DependencyPropertyChangedEventArgs.OldValue">
+          <source>The property value before the change.</source>
+          <target state="translated">发生更改之前的属性值。</target>       </trans-unit>
+        <trans-unit id="135" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Windows.DependencyPropertyChangedEventArgs.OldValue">
+          <source>The type of the value provided should always be castable to the type of the dependency property being reported.</source>
+          <target state="translated">提供的类型应始终是值的强制转换为正在报告的依赖项属性的类型。</target>       </trans-unit>
+        <trans-unit id="136" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Windows.DependencyPropertyChangedEventArgs.OldValue">
+          <source>The following example uses the <ph id="ph1">&lt;xref:System.Windows.DependencyPropertyChangedEventArgs&gt;</ph> class in the context of a <ph id="ph2">&lt;xref:System.Windows.PropertyChangedCallback&gt;</ph> for a particular property of a custom class that also defines events.</source>
+          <target state="translated">下面的示例使用<ph id="ph1">&lt;xref:System.Windows.DependencyPropertyChangedEventArgs&gt;</ph>的上下文中的类<ph id="ph2">&lt;xref:System.Windows.PropertyChangedCallback&gt;</ph>还定义了事件的自定义类的特定属性。</target>       </trans-unit>
+        <trans-unit id="137" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Windows.DependencyPropertyChangedEventArgs.OldValue">
+          <source>The callback takes the results of old and new values from the property system as communicated by <ph id="ph1">&lt;xref:System.Windows.DependencyPropertyChangedEventArgs&gt;</ph>, and repackages these into a different events arguments class <ph id="ph2">&lt;xref:System.Windows.RoutedPropertyChangedEventArgs%601&gt;</ph>.</source>
+          <target state="translated">回调将的结果的旧和新值的属性系统中，通过传递作为<ph id="ph1">&lt;xref:System.Windows.DependencyPropertyChangedEventArgs&gt;</ph>，和重新打包成不同的事件自变量类这些<ph id="ph2">&lt;xref:System.Windows.RoutedPropertyChangedEventArgs%601&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="138" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Windows.DependencyPropertyChangedEventArgs.OldValue">
+          <source>The new arguments are then used as the data for a "ValueChanged" event defined by and raised by the custom class.</source>
+          <target state="translated">新的自变量然后的数据用于定义和自定义的类引发的一个"ValueChanged"事件。</target>       </trans-unit>
+        <trans-unit id="139" translate="yes" xml:space="preserve" uid="M:System.Windows.DependencyPropertyChangedEventArgs.op_Equality(System.Windows.DependencyPropertyChangedEventArgs,System.Windows.DependencyPropertyChangedEventArgs)">
+          <source>The first <ph id="ph1">&lt;see cref="T:System.Windows.DependencyPropertyChangedEventArgs" /&gt;</ph> to compare.</source>
+          <target state="translated">要比较的第一个 <ph id="ph1">&lt;see cref="T:System.Windows.DependencyPropertyChangedEventArgs" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="140" translate="yes" xml:space="preserve" uid="M:System.Windows.DependencyPropertyChangedEventArgs.op_Equality(System.Windows.DependencyPropertyChangedEventArgs,System.Windows.DependencyPropertyChangedEventArgs)">
+          <source>The second <ph id="ph1">&lt;see cref="T:System.Windows.DependencyPropertyChangedEventArgs" /&gt;</ph> to compare.</source>
+          <target state="translated">要比较的第二个 <ph id="ph1">&lt;see cref="T:System.Windows.DependencyPropertyChangedEventArgs" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="141" translate="yes" xml:space="preserve" uid="M:System.Windows.DependencyPropertyChangedEventArgs.op_Equality(System.Windows.DependencyPropertyChangedEventArgs,System.Windows.DependencyPropertyChangedEventArgs)">
+          <source>Determines whether two specified <ph id="ph1">&lt;see cref="T:System.Windows.DependencyPropertyChangedEventArgs" /&gt;</ph> objects have the same value.</source>
+          <target state="translated">确定两个指定的 <ph id="ph1">&lt;see cref="T:System.Windows.DependencyPropertyChangedEventArgs" /&gt;</ph> 对象是否具有相同的值。</target>       </trans-unit>
+        <trans-unit id="142" translate="yes" xml:space="preserve" uid="M:System.Windows.DependencyPropertyChangedEventArgs.op_Equality(System.Windows.DependencyPropertyChangedEventArgs,System.Windows.DependencyPropertyChangedEventArgs)">
+          <source><ph id="ph1">&lt;see langword="true" /&gt;</ph> if the two <ph id="ph2">&lt;see cref="T:System.Windows.DependencyPropertyChangedEventArgs" /&gt;</ph> instances are equivalent; otherwise, <ph id="ph3">&lt;see langword="false" /&gt;</ph>.</source>
+          <target state="translated">如果两个 <ph id="ph2">&lt;see cref="T:System.Windows.DependencyPropertyChangedEventArgs" /&gt;</ph> 实例等效，则为 <ph id="ph1">&lt;see langword="true" /&gt;</ph>；否则为 <ph id="ph3">&lt;see langword="false" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="143" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.DependencyPropertyChangedEventArgs.op_Equality(System.Windows.DependencyPropertyChangedEventArgs,System.Windows.DependencyPropertyChangedEventArgs)">
+          <source>The implementation uses the same logic as <ph id="ph1">&lt;xref:System.Windows.DependencyPropertyChangedEventArgs.Equals%2A&gt;</ph>.</source>
+          <target state="translated">实现使用相同逻辑<ph id="ph1">&lt;xref:System.Windows.DependencyPropertyChangedEventArgs.Equals%2A&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="144" translate="yes" xml:space="preserve" uid="M:System.Windows.DependencyPropertyChangedEventArgs.op_Inequality(System.Windows.DependencyPropertyChangedEventArgs,System.Windows.DependencyPropertyChangedEventArgs)">
+          <source>The first <ph id="ph1">&lt;see cref="T:System.Windows.DependencyPropertyChangedEventArgs" /&gt;</ph> to compare.</source>
+          <target state="translated">要比较的第一个 <ph id="ph1">&lt;see cref="T:System.Windows.DependencyPropertyChangedEventArgs" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="145" translate="yes" xml:space="preserve" uid="M:System.Windows.DependencyPropertyChangedEventArgs.op_Inequality(System.Windows.DependencyPropertyChangedEventArgs,System.Windows.DependencyPropertyChangedEventArgs)">
+          <source>The second <ph id="ph1">&lt;see cref="T:System.Windows.DependencyPropertyChangedEventArgs" /&gt;</ph> to compare.</source>
+          <target state="translated">要比较的第二个 <ph id="ph1">&lt;see cref="T:System.Windows.DependencyPropertyChangedEventArgs" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="146" translate="yes" xml:space="preserve" uid="M:System.Windows.DependencyPropertyChangedEventArgs.op_Inequality(System.Windows.DependencyPropertyChangedEventArgs,System.Windows.DependencyPropertyChangedEventArgs)">
+          <source>Determines whether two specified <ph id="ph1">&lt;see cref="T:System.Windows.DependencyPropertyChangedEventArgs" /&gt;</ph> objects are different.</source>
+          <target state="translated">确定两个指定的 <ph id="ph1">&lt;see cref="T:System.Windows.DependencyPropertyChangedEventArgs" /&gt;</ph> 对象是否不同。</target>       </trans-unit>
+        <trans-unit id="147" translate="yes" xml:space="preserve" uid="M:System.Windows.DependencyPropertyChangedEventArgs.op_Inequality(System.Windows.DependencyPropertyChangedEventArgs,System.Windows.DependencyPropertyChangedEventArgs)">
+          <source><ph id="ph1">&lt;see langword="true" /&gt;</ph> if the two <ph id="ph2">&lt;see cref="T:System.Windows.DependencyPropertyChangedEventArgs" /&gt;</ph> instances are different; otherwise, <ph id="ph3">&lt;see langword="false" /&gt;</ph>.</source>
+          <target state="translated">如果两个 <ph id="ph2">&lt;see cref="T:System.Windows.DependencyPropertyChangedEventArgs" /&gt;</ph> 实例不同，则为 <ph id="ph1">&lt;see langword="true" /&gt;</ph>；否则为 <ph id="ph3">&lt;see langword="false" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="148" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.DependencyPropertyChangedEventArgs.op_Inequality(System.Windows.DependencyPropertyChangedEventArgs,System.Windows.DependencyPropertyChangedEventArgs)">
+          <source>The implementation returns the negation of the same logic as <ph id="ph1">&lt;xref:System.Windows.DependencyPropertyChangedEventArgs.Equals%2A&gt;</ph>.</source>
+          <target state="translated">实现返回的相同逻辑求反运算<ph id="ph1">&lt;xref:System.Windows.DependencyPropertyChangedEventArgs.Equals%2A&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="149" translate="yes" xml:space="preserve" uid="P:System.Windows.DependencyPropertyChangedEventArgs.Property">
+          <source>Gets the identifier for the dependency property where the value change occurred.</source>
+          <target state="translated">获取发生值更改的依赖项属性的标识符。</target>       </trans-unit>
+        <trans-unit id="150" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Windows.DependencyPropertyChangedEventArgs.Property">
+          <source>The identifier field of the dependency property where the value change occurred.</source>
+          <target state="translated">发生值更改的依赖项属性的标识符字段。</target>       </trans-unit>
+        <trans-unit id="151" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Windows.DependencyPropertyChangedEventArgs.Property">
+          <source>This property is relevant if used within a common <ph id="ph1">&lt;xref:System.Windows.PropertyChangedCallback&gt;</ph> that is registered for several properties, and it is necessary to disambiguate which property change invoked the callback.</source>
+          <target state="translated">此属性是如果在一组公共使用相关<ph id="ph1">&lt;xref:System.Windows.PropertyChangedCallback&gt;</ph>注册多个属性，并且有必要消除歧义的属性更改调用回调。</target>       </trans-unit>
+        <trans-unit id="152" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Windows.DependencyPropertyChangedEventArgs.Property">
+          <source><ph id="ph1">&lt;xref:System.Windows.DependencyPropertyChangedEventArgs.Property%2A&gt;</ph> is not typically relevant for raising events, because there is usually a 1:1 correspondence between properties and events that report the property change.</source>
+          <target state="translated"><ph id="ph1">&lt;xref:System.Windows.DependencyPropertyChangedEventArgs.Property%2A&gt;</ph> 无关通常用于引发事件，因为没有通常属性和事件之间存在 1:1 的对应关系属性更改该报表。</target>       </trans-unit>
+        <trans-unit id="153" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Windows.DependencyPropertyChangedEventArgs.Property">
+          <source>The event that was raised is itself the indication of which property changed.</source>
+          <target state="translated">已引发的事件的本身就可的指示更改的属性。</target>       </trans-unit>
+      </group>
+    </body>
+  </file>
+</xliff>

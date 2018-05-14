@@ -1,223 +1,261 @@
-<Type Name="IDisposable" FullName="System.IDisposable">
-  <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="0f129b9e6cc6b4ce4a818f23df9a72208cdccc21" />
-    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
-    <Meta Name="ms.translationtype" Value="HT" />
-    <Meta Name="ms.contentlocale" Value="zh-CN" />
-    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
-  </Metadata>
-  <TypeSignature Language="C#" Value="public interface IDisposable" />
-  <TypeSignature Language="ILAsm" Value=".class public interface auto ansi abstract IDisposable" />
-  <TypeSignature Language="DocId" Value="T:System.IDisposable" />
-  <TypeSignature Language="VB.NET" Value="Public Interface IDisposable" />
-  <TypeSignature Language="C++ CLI" Value="public interface class IDisposable" />
-  <AssemblyInfo>
-    <AssemblyName>System.Runtime</AssemblyName>
-    <AssemblyVersion>4.0.0.0</AssemblyVersion>
-    <AssemblyVersion>4.0.10.0</AssemblyVersion>
-    <AssemblyVersion>4.0.20.0</AssemblyVersion>
-    <AssemblyVersion>4.1.0.0</AssemblyVersion>
-    <AssemblyVersion>4.2.0.0</AssemblyVersion>
-    <AssemblyVersion>4.2.1.0</AssemblyVersion>
-  </AssemblyInfo>
-  <AssemblyInfo>
-    <AssemblyName>mscorlib</AssemblyName>
-    <AssemblyVersion>2.0.5.0</AssemblyVersion>
-    <AssemblyVersion>4.0.0.0</AssemblyVersion>
-  </AssemblyInfo>
-  <AssemblyInfo>
-    <AssemblyName>netstandard</AssemblyName>
-    <AssemblyVersion>2.0.0.0</AssemblyVersion>
-  </AssemblyInfo>
-  <Interfaces />
-  <Attributes>
-    <Attribute>
-      <AttributeName>System.Runtime.InteropServices.ComVisible(true)</AttributeName>
-    </Attribute>
-  </Attributes>
-  <Docs>
-    <summary>
-      <span data-ttu-id="002f0-101">提供一种用于释放非托管资源的机制。</span>
-      <span class="sxs-lookup">
-        <span data-stu-id="002f0-101">Provides a mechanism for releasing unmanaged resources.</span>
-      </span>
-    </summary>
-    <remarks>
-      <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="002f0-102">此接口的主要用途是释放非托管的资源。</span><span class="sxs-lookup"><span data-stu-id="002f0-102">The primary use of this interface is to release unmanaged resources.</span></span> <span data-ttu-id="002f0-103">垃圾回收器自动释放不再使用该对象时分配给托管对象的内存。</span><span class="sxs-lookup"><span data-stu-id="002f0-103">The garbage collector automatically releases the memory allocated to a managed object when that object is no longer used.</span></span> <span data-ttu-id="002f0-104">但是，不可能预测将发生垃圾回收。</span><span class="sxs-lookup"><span data-stu-id="002f0-104">However, it is not possible to predict when garbage collection will occur.</span></span> <span data-ttu-id="002f0-105">此外，垃圾回收器具有不知道如窗口句柄的非托管资源，或打开文件和流。</span><span class="sxs-lookup"><span data-stu-id="002f0-105">Furthermore, the garbage collector has no knowledge of unmanaged resources such as window handles, or open files and streams.</span></span>  
-  
- <span data-ttu-id="002f0-106">使用<xref:System.IDisposable.Dispose%2A>的此接口可显式释放垃圾回收器结合使用的非托管的资源的方法。</span><span class="sxs-lookup"><span data-stu-id="002f0-106">Use the <xref:System.IDisposable.Dispose%2A> method of this interface to explicitly release unmanaged resources in conjunction with the garbage collector.</span></span> <span data-ttu-id="002f0-107">不再需要该对象时，对象的使用者可以调用此方法。</span><span class="sxs-lookup"><span data-stu-id="002f0-107">The consumer of an object can call this method when the object is no longer needed.</span></span>  
-  
-> [!WARNING]
->  <span data-ttu-id="002f0-108">它是一项重大更改添加<xref:System.IDisposable>到现有类的接口。</span><span class="sxs-lookup"><span data-stu-id="002f0-108">It is a breaking change to add the <xref:System.IDisposable> interface to an existing class.</span></span> <span data-ttu-id="002f0-109">因为你类型的预先存在的使用者不能调用<xref:System.IDisposable.Dispose%2A>，则无法确保将释放由您的类型所持有的非托管的资源。</span><span class="sxs-lookup"><span data-stu-id="002f0-109">Because pre-existing consumers of your type cannot call <xref:System.IDisposable.Dispose%2A>, you cannot be certain that unmanaged resources held by your type will be released.</span></span>  
-  
- <span data-ttu-id="002f0-110">因为<xref:System.IDisposable.Dispose%2A?displayProperty=nameWithType>不再需要实例拥有的资源时，调用将实现由一种类型的使用者，应当换行中的托管的对象<xref:System.Runtime.InteropServices.SafeHandle>（建议的替代项），也应重写<xref:System.Object.Finalize%2A?displayProperty=nameWithType>释放非托管的资源中，使用者忘记调用<xref:System.IDisposable.Dispose%2A>。</span><span class="sxs-lookup"><span data-stu-id="002f0-110">Because the <xref:System.IDisposable.Dispose%2A?displayProperty=nameWithType> implementation is called by the consumer of a type when the resources owned by an instance are no longer needed, you should either wrap the managed object in a <xref:System.Runtime.InteropServices.SafeHandle> (the recommended alternative), or you should override <xref:System.Object.Finalize%2A?displayProperty=nameWithType> to free unmanaged resources in the event that the consumer forgets to call <xref:System.IDisposable.Dispose%2A>.</span></span>  
-  
-> [!IMPORTANT]
->  <span data-ttu-id="002f0-111">在.NET Framework 中，c + + 编译器支持的资源进行确定性处置，并且不允许直接实现<xref:System.IDisposable.Dispose%2A>方法。</span><span class="sxs-lookup"><span data-stu-id="002f0-111">In the .NET Framework, the C++ compiler supports deterministic disposal of resources and does not allow direct implementation of the <xref:System.IDisposable.Dispose%2A> method.</span></span>  
-  
- <span data-ttu-id="002f0-112">有关如何的详细讨论此接口与<xref:System.Object.Finalize%2A?displayProperty=nameWithType>方法使用，请参阅[垃圾回收](http://msdn.microsoft.com/library/22b6cb97-0c80-4eeb-a2cf-5ed7655e37f9)和[实现 Dispose 方法](~/docs/standard/garbage-collection/implementing-dispose.md)主题。</span><span class="sxs-lookup"><span data-stu-id="002f0-112">For a detailed discussion about how this interface and the <xref:System.Object.Finalize%2A?displayProperty=nameWithType> method are used, see the [Garbage Collection](http://msdn.microsoft.com/library/22b6cb97-0c80-4eeb-a2cf-5ed7655e37f9) and [Implementing a Dispose Method](~/docs/standard/garbage-collection/implementing-dispose.md) topics.</span></span>  
-  
-## <a name="using-an-object-that-implements-idisposable"></a><span data-ttu-id="002f0-113">使用实现 IDisposable 的对象</span><span class="sxs-lookup"><span data-stu-id="002f0-113">Using an object that implements IDisposable</span></span>  
- <span data-ttu-id="002f0-114">如果你的应用程序只需使用实现的对象<xref:System.IDisposable>接口，你应调用对象的<xref:System.IDisposable.Dispose%2A?displayProperty=nameWithType>实现在完成使用它时。</span><span class="sxs-lookup"><span data-stu-id="002f0-114">If your app simply uses an object that implements the <xref:System.IDisposable> interface, you should call the object's <xref:System.IDisposable.Dispose%2A?displayProperty=nameWithType> implementation when you are finished using it.</span></span> <span data-ttu-id="002f0-115">具体取决于您的编程语言，可以实现这两种方式之一：</span><span class="sxs-lookup"><span data-stu-id="002f0-115">Depending on your programming language, you can do this in one of two ways:</span></span>  
-  
--   <span data-ttu-id="002f0-116">通过使用一种语言构造 （如`using`C# 和 Visual Basic 中的语句。</span><span class="sxs-lookup"><span data-stu-id="002f0-116">By using a language construct such as the `using` statement in C# and Visual Basic.</span></span>  
-  
--   <span data-ttu-id="002f0-117">通过包装到调用来<xref:System.IDisposable.Dispose%2A?displayProperty=nameWithType>中的实现`try` / `finally`块。</span><span class="sxs-lookup"><span data-stu-id="002f0-117">By wrapping the call to the <xref:System.IDisposable.Dispose%2A?displayProperty=nameWithType> implementation in a `try`/`finally` block.</span></span>  
-  
-> [!NOTE]
->  <span data-ttu-id="002f0-118">文档类型实现<xref:System.IDisposable>请注意这一事实，包括提醒调用其<xref:System.IDisposable.Dispose%2A>实现。</span><span class="sxs-lookup"><span data-stu-id="002f0-118">Documentation for types that implement <xref:System.IDisposable> note that fact and include a reminder to call its <xref:System.IDisposable.Dispose%2A> implementation.</span></span>  
-  
-<a name="Using"></a>   
-### <a name="the-c-and-visual-basic-using-statement"></a><span data-ttu-id="002f0-119">C# 和 Visual Basic 使用语句</span><span class="sxs-lookup"><span data-stu-id="002f0-119">The C# and Visual Basic Using statement</span></span>  
- <span data-ttu-id="002f0-120">如果你的语言支持一种构造，如[使用](~/docs/csharp/language-reference/keywords/using.md)C# 中的语句和[使用](~/docs/visual-basic/language-reference/statements/using-statement.md)在 Visual Basic 中的语句，你可以使用它而不是显式调用<xref:System.IDisposable.Dispose%2A?displayProperty=nameWithType>自己。</span><span class="sxs-lookup"><span data-stu-id="002f0-120">If your language supports a construct such as the [using](~/docs/csharp/language-reference/keywords/using.md) statement in C# and the [Using](~/docs/visual-basic/language-reference/statements/using-statement.md) statement in Visual Basic, you can use it instead of explicitly calling <xref:System.IDisposable.Dispose%2A?displayProperty=nameWithType> yourself.</span></span> <span data-ttu-id="002f0-121">下面的示例使用此方法中定义`WordCount`会保留有关文件和在其中的单词数的信息的类。</span><span class="sxs-lookup"><span data-stu-id="002f0-121">The following example uses this approach in defining a `WordCount` class that preserves information about a file and the number of words in it.</span></span>  
-  
- [!code-csharp[System.IDisposable#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.idisposable/cs/calling1.cs#1)]
- [!code-vb[System.IDisposable#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.idisposable/vb/calling1.vb#1)]  
-  
- <span data-ttu-id="002f0-122">`using`语句是实际在语法上方便。</span><span class="sxs-lookup"><span data-stu-id="002f0-122">The `using` statement is actually a syntactic convenience.</span></span> <span data-ttu-id="002f0-123">在编译时的语言编译器实现的中间语言 (IL) 以`try` / `finally`块。</span><span class="sxs-lookup"><span data-stu-id="002f0-123">At compile time, the language compiler implements the intermediate language (IL) for a `try`/`finally` block.</span></span>  
-  
- <span data-ttu-id="002f0-124">有关详细信息`using`语句，请参阅[Using 语句](~/docs/visual-basic/language-reference/statements/using-statement.md)或[using 语句](~/docs/csharp/language-reference/keywords/using-statement.md)主题。</span><span class="sxs-lookup"><span data-stu-id="002f0-124">For more information about the `using` statement, see the [Using Statement](~/docs/visual-basic/language-reference/statements/using-statement.md) or [using Statement](~/docs/csharp/language-reference/keywords/using-statement.md) topics.</span></span>  
-  
-### <a name="the-tryfinally-block"></a><span data-ttu-id="002f0-125">Try/Finally 块</span><span class="sxs-lookup"><span data-stu-id="002f0-125">The Try/Finally block</span></span>  
- <span data-ttu-id="002f0-126">如果您的编程语言不支持类似的构造`using`C# 或 Visual Basic 中的语句或如果你不希望使用它，则可以调用<xref:System.IDisposable.Dispose%2A?displayProperty=nameWithType>实现从`finally`块`try` / `finally`语句。</span><span class="sxs-lookup"><span data-stu-id="002f0-126">If your programming language does not support a construct like the `using` statement in C# or Visual Basic, or if you prefer not to use it, you can call the <xref:System.IDisposable.Dispose%2A?displayProperty=nameWithType> implementation from the `finally` block of a `try`/`finally` statement.</span></span> <span data-ttu-id="002f0-127">下面的示例替换`using`块中，与前面的示例在`try` / `finally`块。</span><span class="sxs-lookup"><span data-stu-id="002f0-127">The following example replaces the `using` block in the previous example with a `try`/`finally` block.</span></span>  
-  
- [!code-csharp[System.IDisposable#2](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.idisposable/cs/calling2.cs#2)]
- [!code-vb[System.IDisposable#2](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.idisposable/vb/calling2.vb#2)]  
-  
- <span data-ttu-id="002f0-128">有关详细信息`try` / `finally`模式，请参阅[重试...Catch...Finally 语句](~/docs/visual-basic/language-reference/statements/try-catch-finally-statement.md)，[的 try-finally](~/docs/csharp/language-reference/keywords/try-finally.md)，或[try-finally 语句](http://msdn.microsoft.com/library/514400c1-c322-4bf3-9e48-3047240b8a82)。</span><span class="sxs-lookup"><span data-stu-id="002f0-128">For more information about the `try`/`finally` pattern, see [Try...Catch...Finally Statement](~/docs/visual-basic/language-reference/statements/try-catch-finally-statement.md), [try-finally](~/docs/csharp/language-reference/keywords/try-finally.md), or [try-finally Statement](http://msdn.microsoft.com/library/514400c1-c322-4bf3-9e48-3047240b8a82).</span></span>  
-  
-## <a name="implementing-idisposable"></a><span data-ttu-id="002f0-129">正在实现 IDisposable</span><span class="sxs-lookup"><span data-stu-id="002f0-129">Implementing IDisposable</span></span>  
- <span data-ttu-id="002f0-130">应实现<xref:System.IDisposable>仅当你的类型直接使用非托管的资源。</span><span class="sxs-lookup"><span data-stu-id="002f0-130">You should implement <xref:System.IDisposable> only if your type uses unmanaged resources directly.</span></span> <span data-ttu-id="002f0-131">你的类型的使用者可以调用你<xref:System.IDisposable.Dispose%2A?displayProperty=nameWithType>实现实例不再需要时释放资源。</span><span class="sxs-lookup"><span data-stu-id="002f0-131">The consumers of your type can call your <xref:System.IDisposable.Dispose%2A?displayProperty=nameWithType> implementation to free resources when the instance is no longer needed.</span></span> <span data-ttu-id="002f0-132">若要处理它们无法调用的情况<xref:System.IDisposable.Dispose%2A>，应从派生的类使用<xref:System.Runtime.InteropServices.SafeHandle>来包装非托管的资源，或你应该重写<xref:System.Object.Finalize%2A?displayProperty=nameWithType>对于引用类型的方法。</span><span class="sxs-lookup"><span data-stu-id="002f0-132">To handle cases in which they fail to call <xref:System.IDisposable.Dispose%2A>, you should either use a class derived from <xref:System.Runtime.InteropServices.SafeHandle> to wrap the unmanaged resources, or you should override the <xref:System.Object.Finalize%2A?displayProperty=nameWithType> method for a reference type.</span></span> <span data-ttu-id="002f0-133">在任一情况下，你使用<xref:System.IDisposable.Dispose%2A>方法来执行任何清理后必须使用的非托管的资源，如释放或重置非托管的资源。</span><span class="sxs-lookup"><span data-stu-id="002f0-133">In either case, you use the <xref:System.IDisposable.Dispose%2A> method to perform whatever cleanup is necessary after using the unmanaged resources, such as freeing, releasing, or resetting the unmanaged resources.</span></span>  
-  
-> [!IMPORTANT]
->  <span data-ttu-id="002f0-134">如果你正在定义的基类，它使用非托管的资源和，具有，或可能有，应释放的子类，则应实现<xref:System.IDisposable.Dispose%2A?displayProperty=nameWithType>方法并提供的第二个重载`Dispose`，下一步中所述部分。</span><span class="sxs-lookup"><span data-stu-id="002f0-134">If you are defining a base class that uses unmanaged resources and that either has, or is likely to have, subclasses that should be disposed, you should implement the <xref:System.IDisposable.Dispose%2A?displayProperty=nameWithType> method and provide a second overload of `Dispose`, as discussed in the next section.</span></span>  
-  
-<a name="BaseClasses"></a>   
-## <a name="idisposable-and-the-inheritance-hierarchy"></a><span data-ttu-id="002f0-135">IDisposable 和继承层次结构</span><span class="sxs-lookup"><span data-stu-id="002f0-135">IDisposable and the inheritance hierarchy</span></span>  
- <span data-ttu-id="002f0-136">具有应该是可释放的子类的基类必须实现<xref:System.IDisposable>，如下所示。</span><span class="sxs-lookup"><span data-stu-id="002f0-136">A base class with subclasses that should be disposable must implement <xref:System.IDisposable> as follows.</span></span> <span data-ttu-id="002f0-137">每当你实现时，应使用此模式<xref:System.IDisposable>上不是任何类型`sealed`(`NotInheritable`在 Visual Basic 中)。</span><span class="sxs-lookup"><span data-stu-id="002f0-137">You should use this pattern whenever you implement <xref:System.IDisposable> on any type that isn't `sealed` (`NotInheritable` in Visual Basic).</span></span>  
-  
--   <span data-ttu-id="002f0-138">它应提供一个公共、 非虚拟<xref:System.IDisposable.Dispose>方法和受保护虚拟`Dispose(Boolean disposing)`方法。</span><span class="sxs-lookup"><span data-stu-id="002f0-138">It should provide one public, non-virtual <xref:System.IDisposable.Dispose> method and a protected virtual `Dispose(Boolean disposing)` method.</span></span>  
-  
--   <span data-ttu-id="002f0-139"><xref:System.IDisposable.Dispose>方法必须调用`Dispose(true)`和应该禁止显示性能的终止。</span><span class="sxs-lookup"><span data-stu-id="002f0-139">The <xref:System.IDisposable.Dispose> method must call `Dispose(true)` and should suppress finalization for performance.</span></span>  
-  
--   <span data-ttu-id="002f0-140">基类型不应包括任何终结器。</span><span class="sxs-lookup"><span data-stu-id="002f0-140">The base type should not include any finalizers.</span></span>  
-  
- <span data-ttu-id="002f0-141">下面的代码段反映基类的释放模式。</span><span class="sxs-lookup"><span data-stu-id="002f0-141">The following code fragment reflects the dispose pattern for base classes.</span></span> <span data-ttu-id="002f0-142">它假定你的类型不会覆盖<xref:System.Object.Finalize%2A?displayProperty=nameWithType>方法。</span><span class="sxs-lookup"><span data-stu-id="002f0-142">It assumes that your type does not override the <xref:System.Object.Finalize%2A?displayProperty=nameWithType> method.</span></span>  
-  
- [!code-csharp[System.IDisposable#3](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.idisposable/cs/base1.cs#3)]
- [!code-vb[System.IDisposable#3](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.idisposable/vb/base1.vb#3)]  
-  
- <span data-ttu-id="002f0-143">如果你重写<xref:System.Object.Finalize%2A?displayProperty=nameWithType>方法，你的类应实现以下模式。</span><span class="sxs-lookup"><span data-stu-id="002f0-143">If you do override the <xref:System.Object.Finalize%2A?displayProperty=nameWithType> method, your class should implement the following pattern.</span></span>  
-  
- [!code-csharp[System.IDisposable#5](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.idisposable/cs/base2.cs#5)]
- [!code-vb[System.IDisposable#5](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.idisposable/vb/base2.vb#5)]  
-  
- <span data-ttu-id="002f0-144">子类应实现以下可释放模式：</span><span class="sxs-lookup"><span data-stu-id="002f0-144">Subclasses should implement the disposable pattern as follows:</span></span>  
-  
--   <span data-ttu-id="002f0-145">它们必须重写 `Dispose(Boolean)` 并调用基类 `Dispose(Boolean)` 实现。</span><span class="sxs-lookup"><span data-stu-id="002f0-145">They must override `Dispose(Boolean)` and call the base class `Dispose(Boolean)` implementation.</span></span>  
-  
--   <span data-ttu-id="002f0-146">如果需要，他们可以提供终结器。</span><span class="sxs-lookup"><span data-stu-id="002f0-146">They can provide a finalizer if needed.</span></span> <span data-ttu-id="002f0-147">终结器必须调用 `Dispose(false)`。</span><span class="sxs-lookup"><span data-stu-id="002f0-147">The finalizer must call `Dispose(false)`.</span></span>  
-  
- <span data-ttu-id="002f0-148">请注意，派生的类未本身实现<xref:System.IDisposable>接口，但不包括无参数<xref:System.IDisposable.Dispose%2A>方法。</span><span class="sxs-lookup"><span data-stu-id="002f0-148">Note that derived classes do not themselves implement the <xref:System.IDisposable> interface and do not include a parameterless <xref:System.IDisposable.Dispose%2A> method.</span></span> <span data-ttu-id="002f0-149">它们仅重写基类`Dispose(Boolean)`方法。</span><span class="sxs-lookup"><span data-stu-id="002f0-149">They only override the base class `Dispose(Boolean)` method.</span></span>  
-  
- <span data-ttu-id="002f0-150">下面的代码段反映派生类的释放模式。</span><span class="sxs-lookup"><span data-stu-id="002f0-150">The following code fragment reflects the dispose pattern for derived classes.</span></span> <span data-ttu-id="002f0-151">它假定你的类型不会覆盖<xref:System.Object.Finalize%2A?displayProperty=nameWithType>方法。</span><span class="sxs-lookup"><span data-stu-id="002f0-151">It assumes that your type does not override the <xref:System.Object.Finalize%2A?displayProperty=nameWithType> method.</span></span>  
-  
- [!code-csharp[System.IDisposable#4](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.idisposable/cs/derived1.cs#4)]
- [!code-vb[System.IDisposable#4](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.idisposable/vb/derived1.vb#4)]  
-  
-   
-  
-## Examples  
- <span data-ttu-id="002f0-152">下面的示例演示如何实现资源类创建<xref:System.IDisposable>接口。</span><span class="sxs-lookup"><span data-stu-id="002f0-152">The following example demonstrates how to create a resource class that implements the <xref:System.IDisposable> interface.</span></span>  
-  
- [!code-cpp[System.IDisposable.Dispose Example#1](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.IDisposable.Dispose Example/CPP/idisposabledispose.cpp#1)]
- [!code-csharp[System.IDisposable.Dispose Example#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.IDisposable.Dispose Example/CS/idisposabledispose.cs#1)]
- [!code-vb[System.IDisposable.Dispose Example#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.IDisposable.Dispose Example/VB/idisposabledispose.vb#1)]  
-  
- ]]></format>
-    </remarks>
-    <altmember cref="T:Microsoft.Win32.SafeHandles.SafeFileHandle" />
-  </Docs>
-  <Members>
-    <Member MemberName="Dispose">
-      <MemberSignature Language="C#" Value="public void Dispose ();" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void Dispose() cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.IDisposable.Dispose" />
-      <MemberSignature Language="VB.NET" Value="Public Sub Dispose ()" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; void Dispose();" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Runtime</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-        <AssemblyVersion>4.0.10.0</AssemblyVersion>
-        <AssemblyVersion>4.0.20.0</AssemblyVersion>
-        <AssemblyVersion>4.1.0.0</AssemblyVersion>
-        <AssemblyVersion>4.2.0.0</AssemblyVersion>
-        <AssemblyVersion>4.2.1.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>mscorlib</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>netstandard</AssemblyName>
-        <AssemblyVersion>2.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters />
-      <Docs>
-        <summary>
-          <span data-ttu-id="002f0-153">执行与释放或重置非托管资源关联的应用程序定义的任务。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="002f0-153">Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="002f0-154">使用此方法关闭或释放非托管的资源，如文件、 流和由实现此接口的类实例所持有的句柄。</span><span class="sxs-lookup"><span data-stu-id="002f0-154">Use this method to close or release unmanaged resources such as files, streams, and handles held by an instance of the class that implements this interface.</span></span> <span data-ttu-id="002f0-155">按照约定，此方法用于与释放对象，保持的资源的所有任务或准备对象以便重复使用。</span><span class="sxs-lookup"><span data-stu-id="002f0-155">By convention, this method is used for all tasks associated with freeing resources held by an object, or preparing an object for reuse.</span></span>  
-  
-> [!WARNING]
->  <span data-ttu-id="002f0-156">如果你使用的一个类以实现<xref:System.IDisposable>接口，应调用其<xref:System.IDisposable.Dispose%2A>实现在完成使用类时。</span><span class="sxs-lookup"><span data-stu-id="002f0-156">If you are using a class that implements the <xref:System.IDisposable> interface, you should call its <xref:System.IDisposable.Dispose%2A> implementation when you are finished using the class.</span></span> <span data-ttu-id="002f0-157">有关详细信息，请参阅中的"使用实现 IDisposable 的对象"一节<xref:System.IDisposable>主题。</span><span class="sxs-lookup"><span data-stu-id="002f0-157">For more information, see the "Using an object that implements IDisposable" section in the <xref:System.IDisposable> topic.</span></span>  
-  
- <span data-ttu-id="002f0-158">实现此方法时，请确保所有持有中传播的包含层次结构通过调用来释放资源。</span><span class="sxs-lookup"><span data-stu-id="002f0-158">When implementing this method, ensure that all held resources are freed by propagating the call through the containment hierarchy.</span></span> <span data-ttu-id="002f0-159">例如，如果对象 A 分配一个对象 B，并且对象 B 分配对象 C，然后 A 的<xref:System.IDisposable.Dispose%2A>实现必须调用<xref:System.IDisposable.Dispose%2A>在 B 上，其必须反过来调用<xref:System.IDisposable.Dispose%2A>C 上</span><span class="sxs-lookup"><span data-stu-id="002f0-159">For example, if an object A allocates an object B, and object B allocates an object C, then A's <xref:System.IDisposable.Dispose%2A> implementation must call <xref:System.IDisposable.Dispose%2A> on B, which must in turn call <xref:System.IDisposable.Dispose%2A> on C.</span></span>  
-  
-> [!IMPORTANT]
->  <span data-ttu-id="002f0-160">C + + 编译器支持的资源进行确定性处置，并且不允许直接实现<xref:System.IDisposable.Dispose%2A>方法。</span><span class="sxs-lookup"><span data-stu-id="002f0-160">The C++ compiler supports deterministic disposal of resources and does not allow direct implementation of the <xref:System.IDisposable.Dispose%2A> method.</span></span>  
-  
- <span data-ttu-id="002f0-161">对象还必须调用<xref:System.IDisposable.Dispose%2A>如果基类实现其基本类的方法<xref:System.IDisposable>。</span><span class="sxs-lookup"><span data-stu-id="002f0-161">An object must also call the <xref:System.IDisposable.Dispose%2A> method of its base class if the base class implements <xref:System.IDisposable>.</span></span> <span data-ttu-id="002f0-162">有关实现详细信息<xref:System.IDisposable>上基类和其子类，请参阅中的"IDisposable 和继承层次结构"部分<xref:System.IDisposable>主题。</span><span class="sxs-lookup"><span data-stu-id="002f0-162">For more information about implementing <xref:System.IDisposable> on a base class and its subclasses, see the "IDisposable and the inheritance hierarchy" section in the <xref:System.IDisposable> topic.</span></span>  
-  
- <span data-ttu-id="002f0-163">如果对象的<xref:System.IDisposable.Dispose%2A>不止一次调用方法，该对象必须在第一个后忽略所有调用。</span><span class="sxs-lookup"><span data-stu-id="002f0-163">If an object's <xref:System.IDisposable.Dispose%2A> method is called more than once, the object must ignore all calls after the first one.</span></span> <span data-ttu-id="002f0-164">该对象一定不会引发异常，如果其<xref:System.IDisposable.Dispose%2A>多次调用方法。</span><span class="sxs-lookup"><span data-stu-id="002f0-164">The object must not throw an exception if its <xref:System.IDisposable.Dispose%2A> method is called multiple times.</span></span> <span data-ttu-id="002f0-165">实例方法以外<xref:System.IDisposable.Dispose%2A>可以引发<xref:System.ObjectDisposedException>已释放资源。</span><span class="sxs-lookup"><span data-stu-id="002f0-165">Instance methods other than <xref:System.IDisposable.Dispose%2A> can throw an <xref:System.ObjectDisposedException> when resources are already disposed.</span></span>  
-  
- <span data-ttu-id="002f0-166">用户可能经历的资源类型，以使用特定的约定来表示已分配的状态和已释放的状态。</span><span class="sxs-lookup"><span data-stu-id="002f0-166">Users might expect a resource type to use a particular convention to denote an allocated state versus a freed state.</span></span> <span data-ttu-id="002f0-167">此示例是流类，该类通常想象成打开或关闭。</span><span class="sxs-lookup"><span data-stu-id="002f0-167">An example of this is stream classes, which are traditionally thought of as open or closed.</span></span> <span data-ttu-id="002f0-168">具有此类的约定的类实施者可以选择实现具有自定义名称的公共方法，如`Close`，则该调用<xref:System.IDisposable.Dispose%2A>方法。</span><span class="sxs-lookup"><span data-stu-id="002f0-168">The implementer of a class that has such a convention might choose to implement a public method with a customized name, such as `Close`, that calls the <xref:System.IDisposable.Dispose%2A> method.</span></span>  
-  
- <span data-ttu-id="002f0-169">因为<xref:System.IDisposable.Dispose%2A>方法必须显式调用时，还有很危险的非托管的资源不会释放，因为对象的使用者无法调用其<xref:System.IDisposable.Dispose%2A>方法。</span><span class="sxs-lookup"><span data-stu-id="002f0-169">Because the <xref:System.IDisposable.Dispose%2A> method must be called explicitly, there is always a danger that the unmanaged resources will not be released, because the consumer of an object fails to call its <xref:System.IDisposable.Dispose%2A> method.</span></span> <span data-ttu-id="002f0-170">有两种方法来避免这种情况：</span><span class="sxs-lookup"><span data-stu-id="002f0-170">There are two ways to avoid this:</span></span>  
-  
--   <span data-ttu-id="002f0-171">在从派生的对象中包装的托管的资源<xref:System.Runtime.InteropServices.SafeHandle?displayProperty=nameWithType>。</span><span class="sxs-lookup"><span data-stu-id="002f0-171">Wrap the managed resource in an object derived from <xref:System.Runtime.InteropServices.SafeHandle?displayProperty=nameWithType>.</span></span> <span data-ttu-id="002f0-172">你<xref:System.IDisposable.Dispose%2A>实现然后调用<xref:System.IDisposable.Dispose%2A>方法<xref:System.Runtime.InteropServices.SafeHandle?displayProperty=nameWithType>实例。</span><span class="sxs-lookup"><span data-stu-id="002f0-172">Your <xref:System.IDisposable.Dispose%2A> implementation then calls the <xref:System.IDisposable.Dispose%2A> method of the <xref:System.Runtime.InteropServices.SafeHandle?displayProperty=nameWithType> instances.</span></span> <span data-ttu-id="002f0-173">有关详细信息，请参阅中的"SafeHandle 备用方法"部分<xref:System.Object.Finalize%2A?displayProperty=nameWithType>主题。</span><span class="sxs-lookup"><span data-stu-id="002f0-173">For more information, see "The SafeHandle alternative" section in the <xref:System.Object.Finalize%2A?displayProperty=nameWithType> topic.</span></span>  
-  
--   <span data-ttu-id="002f0-174">实现终结器释放资源时<xref:System.IDisposable.Dispose%2A>不调用。</span><span class="sxs-lookup"><span data-stu-id="002f0-174">Implement a finalizer to free resources when <xref:System.IDisposable.Dispose%2A> is not called.</span></span> <span data-ttu-id="002f0-175">默认情况下，垃圾回收器自动回收其内存前调用对象的终结器。</span><span class="sxs-lookup"><span data-stu-id="002f0-175">By default, the garbage collector automatically calls an object's finalizer before reclaiming its memory.</span></span> <span data-ttu-id="002f0-176">但是，如果<xref:System.IDisposable.Dispose%2A>方法已被调用，它通常是不必要的垃圾回收器调用已释放的对象的终结器。</span><span class="sxs-lookup"><span data-stu-id="002f0-176">However, if the <xref:System.IDisposable.Dispose%2A> method has been called, it is typically unnecessary for the garbage collector to call the disposed object's finalizer.</span></span> <span data-ttu-id="002f0-177">若要防止自动终止，<xref:System.IDisposable.Dispose%2A>实现可以调用<xref:System.GC.SuppressFinalize%2A?displayProperty=nameWithType>方法。</span><span class="sxs-lookup"><span data-stu-id="002f0-177">To prevent automatic finalization, <xref:System.IDisposable.Dispose%2A> implementations can call the <xref:System.GC.SuppressFinalize%2A?displayProperty=nameWithType> method.</span></span>  
-  
- <span data-ttu-id="002f0-178">当你使用一个对象，如访问非托管的资源， <xref:System.IO.StreamWriter>，很好的做法是创建与实例`using`语句。</span><span class="sxs-lookup"><span data-stu-id="002f0-178">When you use an object that accesses unmanaged resources, such as a <xref:System.IO.StreamWriter>, a good practice is to create the instance with a `using` statement.</span></span> <span data-ttu-id="002f0-179">`using`语句会自动关闭的流和调用<xref:System.IDisposable.Dispose%2A>上正在使用它的代码已完成的对象。</span><span class="sxs-lookup"><span data-stu-id="002f0-179">The `using` statement automatically closes the stream and calls <xref:System.IDisposable.Dispose%2A> on the object when the code that is using it has completed.</span></span> <span data-ttu-id="002f0-180">有关示例，请参阅<xref:System.IO.StreamWriter>类。</span><span class="sxs-lookup"><span data-stu-id="002f0-180">For an example, see the <xref:System.IO.StreamWriter> class.</span></span>  
-  
-   
-  
-## Examples  
- <span data-ttu-id="002f0-181">下面的示例演示如何实现<xref:System.IDisposable.Dispose%2A>方法。</span><span class="sxs-lookup"><span data-stu-id="002f0-181">The following example shows how you can implement the <xref:System.IDisposable.Dispose%2A> method.</span></span>  
-  
- [!code-cpp[System.IDisposable.Dispose Example#1](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.IDisposable.Dispose Example/CPP/idisposabledispose.cpp#1)]
- [!code-csharp[System.IDisposable.Dispose Example#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.IDisposable.Dispose Example/CS/idisposabledispose.cs#1)]
- [!code-vb[System.IDisposable.Dispose Example#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.IDisposable.Dispose Example/VB/idisposabledispose.vb#1)]  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-  </Members>
-</Type>
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.2" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 xliff-core-1.2-transitional.xsd">
+  <file datatype="xml" original="IDisposable.xml" source-language="en-US" target-language="zh-CN">
+    <header>
+      <tool tool-id="mdxliff" tool-name="mdxliff" tool-version="1.0-15c36f0" tool-company="Microsoft" />
+      <xliffext:skl_file_name xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">02cd5861-7ce2-4a82-b358-31f8435a0ac50f129b9e6cc6b4ce4a818f23df9a72208cdccc21.skl</xliffext:skl_file_name>
+      <xliffext:version xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">1.2</xliffext:version>
+      <xliffext:ms.openlocfilehash xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">0f129b9e6cc6b4ce4a818f23df9a72208cdccc21</xliffext:ms.openlocfilehash>
+      <xliffext:ms.sourcegitcommit xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b</xliffext:ms.sourcegitcommit>
+      <xliffext:ms.lasthandoff xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">04/03/2018</xliffext:ms.lasthandoff>
+      <xliffext:moniker_ids xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">netcore-1.0,netcore-1.1,netcore-2.0,netcore-2.1,netframework-4.5.1,netframework-4.5.2,netframework-4.5,netframework-4.6.1,netframework-4.6.2,netframework-4.6,netframework-4.7.1,netframework-4.7,netstandard-1.0,netstandard-1.1,netstandard-1.2,netstandard-1.3,netstandard-1.4,netstandard-1.5,netstandard-1.6,netstandard-2.0,xamarinandroid-7.1,xamarinios-10.8,xamarinmac-3.0</xliffext:moniker_ids>
+    </header>
+    <body>
+      <group id="content" extype="content">
+        <trans-unit id="101" translate="yes" xml:space="preserve" uid="T:System.IDisposable">
+          <source>Provides a mechanism for releasing unmanaged resources.</source>
+          <target state="translated">提供一种用于释放非托管资源的机制。</target>       </trans-unit>
+        <trans-unit id="102" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.IDisposable">
+          <source>The primary use of this interface is to release unmanaged resources.</source>
+          <target state="translated">此接口的主要用途是释放非托管的资源。</target>       </trans-unit>
+        <trans-unit id="103" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.IDisposable">
+          <source>The garbage collector automatically releases the memory allocated to a managed object when that object is no longer used.</source>
+          <target state="translated">垃圾回收器自动释放不再使用该对象时分配给托管对象的内存。</target>       </trans-unit>
+        <trans-unit id="104" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.IDisposable">
+          <source>However, it is not possible to predict when garbage collection will occur.</source>
+          <target state="translated">但是，不可能预测将发生垃圾回收。</target>       </trans-unit>
+        <trans-unit id="105" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.IDisposable">
+          <source>Furthermore, the garbage collector has no knowledge of unmanaged resources such as window handles, or open files and streams.</source>
+          <target state="translated">此外，垃圾回收器具有不知道如窗口句柄的非托管资源，或打开文件和流。</target>       </trans-unit>
+        <trans-unit id="106" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.IDisposable">
+          <source>Use the <ph id="ph1">&lt;xref:System.IDisposable.Dispose%2A&gt;</ph> method of this interface to explicitly release unmanaged resources in conjunction with the garbage collector.</source>
+          <target state="translated">使用<ph id="ph1">&lt;xref:System.IDisposable.Dispose%2A&gt;</ph>的此接口可显式释放垃圾回收器结合使用的非托管的资源的方法。</target>       </trans-unit>
+        <trans-unit id="107" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.IDisposable">
+          <source>The consumer of an object can call this method when the object is no longer needed.</source>
+          <target state="translated">不再需要该对象时，对象的使用者可以调用此方法。</target>       </trans-unit>
+        <trans-unit id="108" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.IDisposable">
+          <source>It is a breaking change to add the <ph id="ph1">&lt;xref:System.IDisposable&gt;</ph> interface to an existing class.</source>
+          <target state="translated">它是一项重大更改添加<ph id="ph1">&lt;xref:System.IDisposable&gt;</ph>到现有类的接口。</target>       </trans-unit>
+        <trans-unit id="109" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.IDisposable">
+          <source>Because pre-existing consumers of your type cannot call <ph id="ph1">&lt;xref:System.IDisposable.Dispose%2A&gt;</ph>, you cannot be certain that unmanaged resources held by your type will be released.</source>
+          <target state="translated">因为你类型的预先存在的使用者不能调用<ph id="ph1">&lt;xref:System.IDisposable.Dispose%2A&gt;</ph>，则无法确保将释放由您的类型所持有的非托管的资源。</target>       </trans-unit>
+        <trans-unit id="110" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.IDisposable">
+          <source>Because the <ph id="ph1">&lt;xref:System.IDisposable.Dispose%2A?displayProperty=nameWithType&gt;</ph> implementation is called by the consumer of a type when the resources owned by an instance are no longer needed, you should either wrap the managed object in a <ph id="ph2">&lt;xref:System.Runtime.InteropServices.SafeHandle&gt;</ph> (the recommended alternative), or you should override <ph id="ph3">&lt;xref:System.Object.Finalize%2A?displayProperty=nameWithType&gt;</ph> to free unmanaged resources in the event that the consumer forgets to call <ph id="ph4">&lt;xref:System.IDisposable.Dispose%2A&gt;</ph>.</source>
+          <target state="translated">因为<ph id="ph1">&lt;xref:System.IDisposable.Dispose%2A?displayProperty=nameWithType&gt;</ph>不再需要实例拥有的资源时，调用将实现由一种类型的使用者，应当换行中的托管的对象<ph id="ph2">&lt;xref:System.Runtime.InteropServices.SafeHandle&gt;</ph>（建议的替代项），也应重写<ph id="ph3">&lt;xref:System.Object.Finalize%2A?displayProperty=nameWithType&gt;</ph>释放非托管的资源中，使用者忘记调用<ph id="ph4">&lt;xref:System.IDisposable.Dispose%2A&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="111" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.IDisposable">
+          <source>In the .NET Framework, the C++ compiler supports deterministic disposal of resources and does not allow direct implementation of the <ph id="ph1">&lt;xref:System.IDisposable.Dispose%2A&gt;</ph> method.</source>
+          <target state="translated">在.NET Framework 中，c + + 编译器支持的资源进行确定性处置，并且不允许直接实现<ph id="ph1">&lt;xref:System.IDisposable.Dispose%2A&gt;</ph>方法。</target>       </trans-unit>
+        <trans-unit id="112" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.IDisposable">
+          <source>For a detailed discussion about how this interface and the <ph id="ph1">&lt;xref:System.Object.Finalize%2A?displayProperty=nameWithType&gt;</ph> method are used, see the <bpt id="p1">[</bpt>Garbage Collection<ept id="p1">](http://msdn.microsoft.com/library/22b6cb97-0c80-4eeb-a2cf-5ed7655e37f9)</ept> and <bpt id="p2">[</bpt>Implementing a Dispose Method<ept id="p2">](~/docs/standard/garbage-collection/implementing-dispose.md)</ept> topics.</source>
+          <target state="translated">有关如何的详细讨论此接口与<ph id="ph1">&lt;xref:System.Object.Finalize%2A?displayProperty=nameWithType&gt;</ph>方法使用，请参阅<bpt id="p1">[</bpt>垃圾回收<ept id="p1">](http://msdn.microsoft.com/library/22b6cb97-0c80-4eeb-a2cf-5ed7655e37f9)</ept>和<bpt id="p2">[</bpt>实现 Dispose 方法<ept id="p2">](~/docs/standard/garbage-collection/implementing-dispose.md)</ept>主题。</target>       </trans-unit>
+        <trans-unit id="113" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.IDisposable">
+          <source>Using an object that implements IDisposable</source>
+          <target state="translated">使用实现 IDisposable 的对象</target>       </trans-unit>
+        <trans-unit id="114" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.IDisposable">
+          <source>If your app simply uses an object that implements the <ph id="ph1">&lt;xref:System.IDisposable&gt;</ph> interface, you should call the object's <ph id="ph2">&lt;xref:System.IDisposable.Dispose%2A?displayProperty=nameWithType&gt;</ph> implementation when you are finished using it.</source>
+          <target state="translated">如果你的应用程序只需使用实现的对象<ph id="ph1">&lt;xref:System.IDisposable&gt;</ph>接口，你应调用对象的<ph id="ph2">&lt;xref:System.IDisposable.Dispose%2A?displayProperty=nameWithType&gt;</ph>实现在完成使用它时。</target>       </trans-unit>
+        <trans-unit id="115" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.IDisposable">
+          <source>Depending on your programming language, you can do this in one of two ways:</source>
+          <target state="translated">具体取决于您的编程语言，可以实现这两种方式之一：</target>       </trans-unit>
+        <trans-unit id="116" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.IDisposable">
+          <source>By using a language construct such as the <ph id="ph1">`using`</ph> statement in C# and Visual Basic.</source>
+          <target state="translated">通过使用一种语言构造 （如<ph id="ph1">`using`</ph>C# 和 Visual Basic 中的语句。</target>       </trans-unit>
+        <trans-unit id="117" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.IDisposable">
+          <source>By wrapping the call to the <ph id="ph1">&lt;xref:System.IDisposable.Dispose%2A?displayProperty=nameWithType&gt;</ph> implementation in a <ph id="ph2">`try`</ph><ph id="ph3">/</ph><ph id="ph4">`finally`</ph> block.</source>
+          <target state="translated">通过包装到调用来<ph id="ph1">&lt;xref:System.IDisposable.Dispose%2A?displayProperty=nameWithType&gt;</ph>中的实现<ph id="ph2">`try`</ph> <ph id="ph3">/</ph> <ph id="ph4">`finally`</ph>块。</target>       </trans-unit>
+        <trans-unit id="118" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.IDisposable">
+          <source>Documentation for types that implement <ph id="ph1">&lt;xref:System.IDisposable&gt;</ph> note that fact and include a reminder to call its <ph id="ph2">&lt;xref:System.IDisposable.Dispose%2A&gt;</ph> implementation.</source>
+          <target state="translated">文档类型实现<ph id="ph1">&lt;xref:System.IDisposable&gt;</ph>请注意这一事实，包括提醒调用其<ph id="ph2">&lt;xref:System.IDisposable.Dispose%2A&gt;</ph>实现。</target>       </trans-unit>
+        <trans-unit id="119" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.IDisposable">
+          <source>The C# and Visual Basic Using statement</source>
+          <target state="translated">C# 和 Visual Basic 使用语句</target>       </trans-unit>
+        <trans-unit id="120" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.IDisposable">
+          <source>If your language supports a construct such as the <bpt id="p1">[</bpt>using<ept id="p1">](~/docs/csharp/language-reference/keywords/using.md)</ept> statement in C# and the <bpt id="p2">[</bpt>Using<ept id="p2">](~/docs/visual-basic/language-reference/statements/using-statement.md)</ept> statement in Visual Basic, you can use it instead of explicitly calling <ph id="ph1">&lt;xref:System.IDisposable.Dispose%2A?displayProperty=nameWithType&gt;</ph> yourself.</source>
+          <target state="translated">如果你的语言支持一种构造，如<bpt id="p1">[</bpt>使用<ept id="p1">](~/docs/csharp/language-reference/keywords/using.md)</ept>C# 中的语句和<bpt id="p2">[</bpt>使用<ept id="p2">](~/docs/visual-basic/language-reference/statements/using-statement.md)</ept>在 Visual Basic 中的语句，你可以使用它而不是显式调用<ph id="ph1">&lt;xref:System.IDisposable.Dispose%2A?displayProperty=nameWithType&gt;</ph>自己。</target>       </trans-unit>
+        <trans-unit id="121" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.IDisposable">
+          <source>The following example uses this approach in defining a <ph id="ph1">`WordCount`</ph> class that preserves information about a file and the number of words in it.</source>
+          <target state="translated">下面的示例使用此方法中定义<ph id="ph1">`WordCount`</ph>会保留有关文件和在其中的单词数的信息的类。</target>       </trans-unit>
+        <trans-unit id="122" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.IDisposable">
+          <source>The <ph id="ph1">`using`</ph> statement is actually a syntactic convenience.</source>
+          <target state="translated"><ph id="ph1">`using`</ph>语句是实际在语法上方便。</target>       </trans-unit>
+        <trans-unit id="123" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.IDisposable">
+          <source>At compile time, the language compiler implements the intermediate language (IL) for a <ph id="ph1">`try`</ph><ph id="ph2">/</ph><ph id="ph3">`finally`</ph> block.</source>
+          <target state="translated">在编译时的语言编译器实现的中间语言 (IL) 以<ph id="ph1">`try`</ph> <ph id="ph2">/</ph> <ph id="ph3">`finally`</ph>块。</target>       </trans-unit>
+        <trans-unit id="124" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.IDisposable">
+          <source>For more information about the <ph id="ph1">`using`</ph> statement, see the <bpt id="p1">[</bpt>Using Statement<ept id="p1">](~/docs/visual-basic/language-reference/statements/using-statement.md)</ept> or <bpt id="p2">[</bpt>using Statement<ept id="p2">](~/docs/csharp/language-reference/keywords/using-statement.md)</ept> topics.</source>
+          <target state="translated">有关详细信息<ph id="ph1">`using`</ph>语句，请参阅<bpt id="p1">[</bpt>Using 语句<ept id="p1">](~/docs/visual-basic/language-reference/statements/using-statement.md)</ept>或<bpt id="p2">[</bpt>using 语句<ept id="p2">](~/docs/csharp/language-reference/keywords/using-statement.md)</ept>主题。</target>       </trans-unit>
+        <trans-unit id="125" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.IDisposable">
+          <source>The Try/Finally block</source>
+          <target state="translated">Try/Finally 块</target>       </trans-unit>
+        <trans-unit id="126" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.IDisposable">
+          <source>If your programming language does not support a construct like the <ph id="ph1">`using`</ph> statement in C# or Visual Basic, or if you prefer not to use it, you can call the <ph id="ph2">&lt;xref:System.IDisposable.Dispose%2A?displayProperty=nameWithType&gt;</ph> implementation from the <ph id="ph3">`finally`</ph> block of a <ph id="ph4">`try`</ph><ph id="ph5">/</ph><ph id="ph6">`finally`</ph> statement.</source>
+          <target state="translated">如果您的编程语言不支持类似的构造<ph id="ph1">`using`</ph>C# 或 Visual Basic 中的语句或如果你不希望使用它，则可以调用<ph id="ph2">&lt;xref:System.IDisposable.Dispose%2A?displayProperty=nameWithType&gt;</ph>实现从<ph id="ph3">`finally`</ph>块<ph id="ph4">`try`</ph> <ph id="ph5">/</ph> <ph id="ph6">`finally`</ph>语句。</target>       </trans-unit>
+        <trans-unit id="127" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.IDisposable">
+          <source>The following example replaces the <ph id="ph1">`using`</ph> block in the previous example with a <ph id="ph2">`try`</ph><ph id="ph3">/</ph><ph id="ph4">`finally`</ph> block.</source>
+          <target state="translated">下面的示例替换<ph id="ph1">`using`</ph>块中，与前面的示例在<ph id="ph2">`try`</ph> <ph id="ph3">/</ph> <ph id="ph4">`finally`</ph>块。</target>       </trans-unit>
+        <trans-unit id="128" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.IDisposable">
+          <source>For more information about the <ph id="ph1">`try`</ph><ph id="ph2">/</ph><ph id="ph3">`finally`</ph> pattern, see <bpt id="p1">[</bpt>Try...Catch...Finally Statement<ept id="p1">](~/docs/visual-basic/language-reference/statements/try-catch-finally-statement.md)</ept>, <bpt id="p2">[</bpt>try-finally<ept id="p2">](~/docs/csharp/language-reference/keywords/try-finally.md)</ept>, or <bpt id="p3">[</bpt>try-finally Statement<ept id="p3">](http://msdn.microsoft.com/library/514400c1-c322-4bf3-9e48-3047240b8a82)</ept>.</source>
+          <target state="translated">有关详细信息<ph id="ph1">`try`</ph> <ph id="ph2">/</ph> <ph id="ph3">`finally`</ph>模式，请参阅<bpt id="p1">[</bpt>重试...Catch...Finally 语句<ept id="p1">](~/docs/visual-basic/language-reference/statements/try-catch-finally-statement.md)</ept>，<bpt id="p2">[</bpt>的 try-finally<ept id="p2">](~/docs/csharp/language-reference/keywords/try-finally.md)</ept>，或<bpt id="p3">[</bpt>try-finally 语句<ept id="p3">](http://msdn.microsoft.com/library/514400c1-c322-4bf3-9e48-3047240b8a82)</ept>。</target>       </trans-unit>
+        <trans-unit id="129" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.IDisposable">
+          <source>Implementing IDisposable</source>
+          <target state="translated">正在实现 IDisposable</target>       </trans-unit>
+        <trans-unit id="130" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.IDisposable">
+          <source>You should implement <ph id="ph1">&lt;xref:System.IDisposable&gt;</ph> only if your type uses unmanaged resources directly.</source>
+          <target state="translated">应实现<ph id="ph1">&lt;xref:System.IDisposable&gt;</ph>仅当你的类型直接使用非托管的资源。</target>       </trans-unit>
+        <trans-unit id="131" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.IDisposable">
+          <source>The consumers of your type can call your <ph id="ph1">&lt;xref:System.IDisposable.Dispose%2A?displayProperty=nameWithType&gt;</ph> implementation to free resources when the instance is no longer needed.</source>
+          <target state="translated">你的类型的使用者可以调用你<ph id="ph1">&lt;xref:System.IDisposable.Dispose%2A?displayProperty=nameWithType&gt;</ph>实现实例不再需要时释放资源。</target>       </trans-unit>
+        <trans-unit id="132" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.IDisposable">
+          <source>To handle cases in which they fail to call <ph id="ph1">&lt;xref:System.IDisposable.Dispose%2A&gt;</ph>, you should either use a class derived from <ph id="ph2">&lt;xref:System.Runtime.InteropServices.SafeHandle&gt;</ph> to wrap the unmanaged resources, or you should override the <ph id="ph3">&lt;xref:System.Object.Finalize%2A?displayProperty=nameWithType&gt;</ph> method for a reference type.</source>
+          <target state="translated">若要处理它们无法调用的情况<ph id="ph1">&lt;xref:System.IDisposable.Dispose%2A&gt;</ph>，应从派生的类使用<ph id="ph2">&lt;xref:System.Runtime.InteropServices.SafeHandle&gt;</ph>来包装非托管的资源，或你应该重写<ph id="ph3">&lt;xref:System.Object.Finalize%2A?displayProperty=nameWithType&gt;</ph>对于引用类型的方法。</target>       </trans-unit>
+        <trans-unit id="133" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.IDisposable">
+          <source>In either case, you use the <ph id="ph1">&lt;xref:System.IDisposable.Dispose%2A&gt;</ph> method to perform whatever cleanup is necessary after using the unmanaged resources, such as freeing, releasing, or resetting the unmanaged resources.</source>
+          <target state="translated">在任一情况下，你使用<ph id="ph1">&lt;xref:System.IDisposable.Dispose%2A&gt;</ph>方法来执行任何清理后必须使用的非托管的资源，如释放或重置非托管的资源。</target>       </trans-unit>
+        <trans-unit id="134" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.IDisposable">
+          <source>If you are defining a base class that uses unmanaged resources and that either has, or is likely to have, subclasses that should be disposed, you should implement the <ph id="ph1">&lt;xref:System.IDisposable.Dispose%2A?displayProperty=nameWithType&gt;</ph> method and provide a second overload of <ph id="ph2">`Dispose`</ph>, as discussed in the next section.</source>
+          <target state="translated">如果你正在定义的基类，它使用非托管的资源和，具有，或可能有，应释放的子类，则应实现<ph id="ph1">&lt;xref:System.IDisposable.Dispose%2A?displayProperty=nameWithType&gt;</ph>方法并提供的第二个重载<ph id="ph2">`Dispose`</ph>，下一步中所述部分。</target>       </trans-unit>
+        <trans-unit id="135" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.IDisposable">
+          <source>IDisposable and the inheritance hierarchy</source>
+          <target state="translated">IDisposable 和继承层次结构</target>       </trans-unit>
+        <trans-unit id="136" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.IDisposable">
+          <source>A base class with subclasses that should be disposable must implement <ph id="ph1">&lt;xref:System.IDisposable&gt;</ph> as follows.</source>
+          <target state="translated">具有应该是可释放的子类的基类必须实现<ph id="ph1">&lt;xref:System.IDisposable&gt;</ph>，如下所示。</target>       </trans-unit>
+        <trans-unit id="137" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.IDisposable">
+          <source>You should use this pattern whenever you implement <ph id="ph1">&lt;xref:System.IDisposable&gt;</ph> on any type that isn't <ph id="ph2">`sealed`</ph> (<ph id="ph3">`NotInheritable`</ph> in Visual Basic).</source>
+          <target state="translated">每当你实现时，应使用此模式<ph id="ph1">&lt;xref:System.IDisposable&gt;</ph>上不是任何类型<ph id="ph2">`sealed`</ph>(<ph id="ph3">`NotInheritable`</ph>在 Visual Basic 中)。</target>       </trans-unit>
+        <trans-unit id="138" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.IDisposable">
+          <source>It should provide one public, non-virtual <ph id="ph1">&lt;xref:System.IDisposable.Dispose&gt;</ph> method and a protected virtual <ph id="ph2">`Dispose(Boolean disposing)`</ph> method.</source>
+          <target state="translated">它应提供一个公共、 非虚拟<ph id="ph1">&lt;xref:System.IDisposable.Dispose&gt;</ph>方法和受保护虚拟<ph id="ph2">`Dispose(Boolean disposing)`</ph>方法。</target>       </trans-unit>
+        <trans-unit id="139" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.IDisposable">
+          <source>The <ph id="ph1">&lt;xref:System.IDisposable.Dispose&gt;</ph> method must call <ph id="ph2">`Dispose(true)`</ph> and should suppress finalization for performance.</source>
+          <target state="translated"><ph id="ph1">&lt;xref:System.IDisposable.Dispose&gt;</ph>方法必须调用<ph id="ph2">`Dispose(true)`</ph>和应该禁止显示性能的终止。</target>       </trans-unit>
+        <trans-unit id="140" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.IDisposable">
+          <source>The base type should not include any finalizers.</source>
+          <target state="translated">基类型不应包括任何终结器。</target>       </trans-unit>
+        <trans-unit id="141" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.IDisposable">
+          <source>The following code fragment reflects the dispose pattern for base classes.</source>
+          <target state="translated">下面的代码段反映基类的释放模式。</target>       </trans-unit>
+        <trans-unit id="142" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.IDisposable">
+          <source>It assumes that your type does not override the <ph id="ph1">&lt;xref:System.Object.Finalize%2A?displayProperty=nameWithType&gt;</ph> method.</source>
+          <target state="translated">它假定你的类型不会覆盖<ph id="ph1">&lt;xref:System.Object.Finalize%2A?displayProperty=nameWithType&gt;</ph>方法。</target>       </trans-unit>
+        <trans-unit id="143" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.IDisposable">
+          <source>If you do override the <ph id="ph1">&lt;xref:System.Object.Finalize%2A?displayProperty=nameWithType&gt;</ph> method, your class should implement the following pattern.</source>
+          <target state="translated">如果你重写<ph id="ph1">&lt;xref:System.Object.Finalize%2A?displayProperty=nameWithType&gt;</ph>方法，你的类应实现以下模式。</target>       </trans-unit>
+        <trans-unit id="144" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.IDisposable">
+          <source>Subclasses should implement the disposable pattern as follows:</source>
+          <target state="translated">子类应实现以下可释放模式：</target>       </trans-unit>
+        <trans-unit id="145" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.IDisposable">
+          <source>They must override <ph id="ph1">`Dispose(Boolean)`</ph> and call the base class <ph id="ph2">`Dispose(Boolean)`</ph> implementation.</source>
+          <target state="translated">它们必须重写 <ph id="ph1">`Dispose(Boolean)`</ph> 并调用基类 <ph id="ph2">`Dispose(Boolean)`</ph> 实现。</target>       </trans-unit>
+        <trans-unit id="146" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.IDisposable">
+          <source>They can provide a finalizer if needed.</source>
+          <target state="translated">如果需要，他们可以提供终结器。</target>       </trans-unit>
+        <trans-unit id="147" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.IDisposable">
+          <source>The finalizer must call <ph id="ph1">`Dispose(false)`</ph>.</source>
+          <target state="translated">终结器必须调用 <ph id="ph1">`Dispose(false)`</ph>。</target>       </trans-unit>
+        <trans-unit id="148" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.IDisposable">
+          <source>Note that derived classes do not themselves implement the <ph id="ph1">&lt;xref:System.IDisposable&gt;</ph> interface and do not include a parameterless <ph id="ph2">&lt;xref:System.IDisposable.Dispose%2A&gt;</ph> method.</source>
+          <target state="translated">请注意，派生的类未本身实现<ph id="ph1">&lt;xref:System.IDisposable&gt;</ph>接口，但不包括无参数<ph id="ph2">&lt;xref:System.IDisposable.Dispose%2A&gt;</ph>方法。</target>       </trans-unit>
+        <trans-unit id="149" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.IDisposable">
+          <source>They only override the base class <ph id="ph1">`Dispose(Boolean)`</ph> method.</source>
+          <target state="translated">它们仅重写基类<ph id="ph1">`Dispose(Boolean)`</ph>方法。</target>       </trans-unit>
+        <trans-unit id="150" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.IDisposable">
+          <source>The following code fragment reflects the dispose pattern for derived classes.</source>
+          <target state="translated">下面的代码段反映派生类的释放模式。</target>       </trans-unit>
+        <trans-unit id="151" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.IDisposable">
+          <source>It assumes that your type does not override the <ph id="ph1">&lt;xref:System.Object.Finalize%2A?displayProperty=nameWithType&gt;</ph> method.</source>
+          <target state="translated">它假定你的类型不会覆盖<ph id="ph1">&lt;xref:System.Object.Finalize%2A?displayProperty=nameWithType&gt;</ph>方法。</target>       </trans-unit>
+        <trans-unit id="152" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.IDisposable">
+          <source>The following example demonstrates how to create a resource class that implements the <ph id="ph1">&lt;xref:System.IDisposable&gt;</ph> interface.</source>
+          <target state="translated">下面的示例演示如何实现资源类创建<ph id="ph1">&lt;xref:System.IDisposable&gt;</ph>接口。</target>       </trans-unit>
+        <trans-unit id="153" translate="yes" xml:space="preserve" uid="M:System.IDisposable.Dispose">
+          <source>Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.</source>
+          <target state="translated">执行与释放或重置非托管资源关联的应用程序定义的任务。</target>       </trans-unit>
+        <trans-unit id="154" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IDisposable.Dispose">
+          <source>Use this method to close or release unmanaged resources such as files, streams, and handles held by an instance of the class that implements this interface.</source>
+          <target state="translated">使用此方法关闭或释放非托管的资源，如文件、 流和由实现此接口的类实例所持有的句柄。</target>       </trans-unit>
+        <trans-unit id="155" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IDisposable.Dispose">
+          <source>By convention, this method is used for all tasks associated with freeing resources held by an object, or preparing an object for reuse.</source>
+          <target state="translated">按照约定，此方法用于与释放对象，保持的资源的所有任务或准备对象以便重复使用。</target>       </trans-unit>
+        <trans-unit id="156" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IDisposable.Dispose">
+          <source>If you are using a class that implements the <ph id="ph1">&lt;xref:System.IDisposable&gt;</ph> interface, you should call its <ph id="ph2">&lt;xref:System.IDisposable.Dispose%2A&gt;</ph> implementation when you are finished using the class.</source>
+          <target state="translated">如果你使用的一个类以实现<ph id="ph1">&lt;xref:System.IDisposable&gt;</ph>接口，应调用其<ph id="ph2">&lt;xref:System.IDisposable.Dispose%2A&gt;</ph>实现在完成使用类时。</target>       </trans-unit>
+        <trans-unit id="157" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IDisposable.Dispose">
+          <source>For more information, see the "Using an object that implements IDisposable" section in the <ph id="ph1">&lt;xref:System.IDisposable&gt;</ph> topic.</source>
+          <target state="translated">有关详细信息，请参阅中的"使用实现 IDisposable 的对象"一节<ph id="ph1">&lt;xref:System.IDisposable&gt;</ph>主题。</target>       </trans-unit>
+        <trans-unit id="158" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IDisposable.Dispose">
+          <source>When implementing this method, ensure that all held resources are freed by propagating the call through the containment hierarchy.</source>
+          <target state="translated">实现此方法时，请确保所有持有中传播的包含层次结构通过调用来释放资源。</target>       </trans-unit>
+        <trans-unit id="159" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IDisposable.Dispose">
+          <source>For example, if an object A allocates an object B, and object B allocates an object C, then A's <ph id="ph1">&lt;xref:System.IDisposable.Dispose%2A&gt;</ph> implementation must call <ph id="ph2">&lt;xref:System.IDisposable.Dispose%2A&gt;</ph> on B, which must in turn call <ph id="ph3">&lt;xref:System.IDisposable.Dispose%2A&gt;</ph> on C.</source>
+          <target state="translated">例如，如果对象 A 分配一个对象 B，并且对象 B 分配对象 C，然后 A 的<ph id="ph1">&lt;xref:System.IDisposable.Dispose%2A&gt;</ph>实现必须调用<ph id="ph2">&lt;xref:System.IDisposable.Dispose%2A&gt;</ph>在 B 上，其必须反过来调用<ph id="ph3">&lt;xref:System.IDisposable.Dispose%2A&gt;</ph>C 上</target>       </trans-unit>
+        <trans-unit id="160" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IDisposable.Dispose">
+          <source>The C++ compiler supports deterministic disposal of resources and does not allow direct implementation of the <ph id="ph1">&lt;xref:System.IDisposable.Dispose%2A&gt;</ph> method.</source>
+          <target state="translated">C + + 编译器支持的资源进行确定性处置，并且不允许直接实现<ph id="ph1">&lt;xref:System.IDisposable.Dispose%2A&gt;</ph>方法。</target>       </trans-unit>
+        <trans-unit id="161" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IDisposable.Dispose">
+          <source>An object must also call the <ph id="ph1">&lt;xref:System.IDisposable.Dispose%2A&gt;</ph> method of its base class if the base class implements <ph id="ph2">&lt;xref:System.IDisposable&gt;</ph>.</source>
+          <target state="translated">对象还必须调用<ph id="ph1">&lt;xref:System.IDisposable.Dispose%2A&gt;</ph>如果基类实现其基本类的方法<ph id="ph2">&lt;xref:System.IDisposable&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="162" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IDisposable.Dispose">
+          <source>For more information about implementing <ph id="ph1">&lt;xref:System.IDisposable&gt;</ph> on a base class and its subclasses, see the "IDisposable and the inheritance hierarchy" section in the <ph id="ph2">&lt;xref:System.IDisposable&gt;</ph> topic.</source>
+          <target state="translated">有关实现详细信息<ph id="ph1">&lt;xref:System.IDisposable&gt;</ph>上基类和其子类，请参阅中的"IDisposable 和继承层次结构"部分<ph id="ph2">&lt;xref:System.IDisposable&gt;</ph>主题。</target>       </trans-unit>
+        <trans-unit id="163" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IDisposable.Dispose">
+          <source>If an object's <ph id="ph1">&lt;xref:System.IDisposable.Dispose%2A&gt;</ph> method is called more than once, the object must ignore all calls after the first one.</source>
+          <target state="translated">如果对象的<ph id="ph1">&lt;xref:System.IDisposable.Dispose%2A&gt;</ph>不止一次调用方法，该对象必须在第一个后忽略所有调用。</target>       </trans-unit>
+        <trans-unit id="164" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IDisposable.Dispose">
+          <source>The object must not throw an exception if its <ph id="ph1">&lt;xref:System.IDisposable.Dispose%2A&gt;</ph> method is called multiple times.</source>
+          <target state="translated">该对象一定不会引发异常，如果其<ph id="ph1">&lt;xref:System.IDisposable.Dispose%2A&gt;</ph>多次调用方法。</target>       </trans-unit>
+        <trans-unit id="165" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IDisposable.Dispose">
+          <source>Instance methods other than <ph id="ph1">&lt;xref:System.IDisposable.Dispose%2A&gt;</ph> can throw an <ph id="ph2">&lt;xref:System.ObjectDisposedException&gt;</ph> when resources are already disposed.</source>
+          <target state="translated">实例方法以外<ph id="ph1">&lt;xref:System.IDisposable.Dispose%2A&gt;</ph>可以引发<ph id="ph2">&lt;xref:System.ObjectDisposedException&gt;</ph>已释放资源。</target>       </trans-unit>
+        <trans-unit id="166" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IDisposable.Dispose">
+          <source>Users might expect a resource type to use a particular convention to denote an allocated state versus a freed state.</source>
+          <target state="translated">用户可能经历的资源类型，以使用特定的约定来表示已分配的状态和已释放的状态。</target>       </trans-unit>
+        <trans-unit id="167" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IDisposable.Dispose">
+          <source>An example of this is stream classes, which are traditionally thought of as open or closed.</source>
+          <target state="translated">此示例是流类，该类通常想象成打开或关闭。</target>       </trans-unit>
+        <trans-unit id="168" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IDisposable.Dispose">
+          <source>The implementer of a class that has such a convention might choose to implement a public method with a customized name, such as <ph id="ph1">`Close`</ph>, that calls the <ph id="ph2">&lt;xref:System.IDisposable.Dispose%2A&gt;</ph> method.</source>
+          <target state="translated">具有此类的约定的类实施者可以选择实现具有自定义名称的公共方法，如<ph id="ph1">`Close`</ph>，则该调用<ph id="ph2">&lt;xref:System.IDisposable.Dispose%2A&gt;</ph>方法。</target>       </trans-unit>
+        <trans-unit id="169" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IDisposable.Dispose">
+          <source>Because the <ph id="ph1">&lt;xref:System.IDisposable.Dispose%2A&gt;</ph> method must be called explicitly, there is always a danger that the unmanaged resources will not be released, because the consumer of an object fails to call its <ph id="ph2">&lt;xref:System.IDisposable.Dispose%2A&gt;</ph> method.</source>
+          <target state="translated">因为<ph id="ph1">&lt;xref:System.IDisposable.Dispose%2A&gt;</ph>方法必须显式调用时，还有很危险的非托管的资源不会释放，因为对象的使用者无法调用其<ph id="ph2">&lt;xref:System.IDisposable.Dispose%2A&gt;</ph>方法。</target>       </trans-unit>
+        <trans-unit id="170" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IDisposable.Dispose">
+          <source>There are two ways to avoid this:</source>
+          <target state="translated">有两种方法来避免这种情况：</target>       </trans-unit>
+        <trans-unit id="171" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IDisposable.Dispose">
+          <source>Wrap the managed resource in an object derived from <ph id="ph1">&lt;xref:System.Runtime.InteropServices.SafeHandle?displayProperty=nameWithType&gt;</ph>.</source>
+          <target state="translated">在从派生的对象中包装的托管的资源<ph id="ph1">&lt;xref:System.Runtime.InteropServices.SafeHandle?displayProperty=nameWithType&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="172" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IDisposable.Dispose">
+          <source>Your <ph id="ph1">&lt;xref:System.IDisposable.Dispose%2A&gt;</ph> implementation then calls the <ph id="ph2">&lt;xref:System.IDisposable.Dispose%2A&gt;</ph> method of the <ph id="ph3">&lt;xref:System.Runtime.InteropServices.SafeHandle?displayProperty=nameWithType&gt;</ph> instances.</source>
+          <target state="translated">你<ph id="ph1">&lt;xref:System.IDisposable.Dispose%2A&gt;</ph>实现然后调用<ph id="ph2">&lt;xref:System.IDisposable.Dispose%2A&gt;</ph>方法<ph id="ph3">&lt;xref:System.Runtime.InteropServices.SafeHandle?displayProperty=nameWithType&gt;</ph>实例。</target>       </trans-unit>
+        <trans-unit id="173" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IDisposable.Dispose">
+          <source>For more information, see "The SafeHandle alternative" section in the <ph id="ph1">&lt;xref:System.Object.Finalize%2A?displayProperty=nameWithType&gt;</ph> topic.</source>
+          <target state="translated">有关详细信息，请参阅中的"SafeHandle 备用方法"部分<ph id="ph1">&lt;xref:System.Object.Finalize%2A?displayProperty=nameWithType&gt;</ph>主题。</target>       </trans-unit>
+        <trans-unit id="174" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IDisposable.Dispose">
+          <source>Implement a finalizer to free resources when <ph id="ph1">&lt;xref:System.IDisposable.Dispose%2A&gt;</ph> is not called.</source>
+          <target state="translated">实现终结器释放资源时<ph id="ph1">&lt;xref:System.IDisposable.Dispose%2A&gt;</ph>不调用。</target>       </trans-unit>
+        <trans-unit id="175" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IDisposable.Dispose">
+          <source>By default, the garbage collector automatically calls an object's finalizer before reclaiming its memory.</source>
+          <target state="translated">默认情况下，垃圾回收器自动回收其内存前调用对象的终结器。</target>       </trans-unit>
+        <trans-unit id="176" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IDisposable.Dispose">
+          <source>However, if the <ph id="ph1">&lt;xref:System.IDisposable.Dispose%2A&gt;</ph> method has been called, it is typically unnecessary for the garbage collector to call the disposed object's finalizer.</source>
+          <target state="translated">但是，如果<ph id="ph1">&lt;xref:System.IDisposable.Dispose%2A&gt;</ph>方法已被调用，它通常是不必要的垃圾回收器调用已释放的对象的终结器。</target>       </trans-unit>
+        <trans-unit id="177" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IDisposable.Dispose">
+          <source>To prevent automatic finalization, <ph id="ph1">&lt;xref:System.IDisposable.Dispose%2A&gt;</ph> implementations can call the <ph id="ph2">&lt;xref:System.GC.SuppressFinalize%2A?displayProperty=nameWithType&gt;</ph> method.</source>
+          <target state="translated">若要防止自动终止，<ph id="ph1">&lt;xref:System.IDisposable.Dispose%2A&gt;</ph>实现可以调用<ph id="ph2">&lt;xref:System.GC.SuppressFinalize%2A?displayProperty=nameWithType&gt;</ph>方法。</target>       </trans-unit>
+        <trans-unit id="178" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IDisposable.Dispose">
+          <source>When you use an object that accesses unmanaged resources, such as a <ph id="ph1">&lt;xref:System.IO.StreamWriter&gt;</ph>, a good practice is to create the instance with a <ph id="ph2">`using`</ph> statement.</source>
+          <target state="translated">当你使用一个对象，如访问非托管的资源， <ph id="ph1">&lt;xref:System.IO.StreamWriter&gt;</ph>，很好的做法是创建与实例<ph id="ph2">`using`</ph>语句。</target>       </trans-unit>
+        <trans-unit id="179" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IDisposable.Dispose">
+          <source>The <ph id="ph1">`using`</ph> statement automatically closes the stream and calls <ph id="ph2">&lt;xref:System.IDisposable.Dispose%2A&gt;</ph> on the object when the code that is using it has completed.</source>
+          <target state="translated"><ph id="ph1">`using`</ph>语句会自动关闭的流和调用<ph id="ph2">&lt;xref:System.IDisposable.Dispose%2A&gt;</ph>上正在使用它的代码已完成的对象。</target>       </trans-unit>
+        <trans-unit id="180" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IDisposable.Dispose">
+          <source>For an example, see the <ph id="ph1">&lt;xref:System.IO.StreamWriter&gt;</ph> class.</source>
+          <target state="translated">有关示例，请参阅<ph id="ph1">&lt;xref:System.IO.StreamWriter&gt;</ph>类。</target>       </trans-unit>
+        <trans-unit id="181" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IDisposable.Dispose">
+          <source>The following example shows how you can implement the <ph id="ph1">&lt;xref:System.IDisposable.Dispose%2A&gt;</ph> method.</source>
+          <target state="translated">下面的示例演示如何实现<ph id="ph1">&lt;xref:System.IDisposable.Dispose%2A&gt;</ph>方法。</target>       </trans-unit>
+      </group>
+    </body>
+  </file>
+</xliff>

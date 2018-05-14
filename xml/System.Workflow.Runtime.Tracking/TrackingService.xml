@@ -1,439 +1,282 @@
-<Type Name="TrackingService" FullName="System.Workflow.Runtime.Tracking.TrackingService">
-  <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="feed2535eb90a6edb63dd27936cbd93e91e38746" />
-    <Meta Name="ms.sourcegitcommit" Value="1b899505ed6d42225f2b3c9150bfdc080d0d1f9b" />
-    <Meta Name="ms.translationtype" Value="HT" />
-    <Meta Name="ms.contentlocale" Value="zh-CN" />
-    <Meta Name="ms.lasthandoff" Value="04/28/2018" />
-  </Metadata>
-  <TypeSignature Language="C#" Value="public abstract class TrackingService : System.Workflow.Runtime.Hosting.WorkflowRuntimeService" />
-  <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract beforefieldinit TrackingService extends System.Workflow.Runtime.Hosting.WorkflowRuntimeService" />
-  <TypeSignature Language="DocId" Value="T:System.Workflow.Runtime.Tracking.TrackingService" />
-  <TypeSignature Language="VB.NET" Value="Public MustInherit Class TrackingService&#xA;Inherits WorkflowRuntimeService" />
-  <TypeSignature Language="C++ CLI" Value="public ref class TrackingService abstract : System::Workflow::Runtime::Hosting::WorkflowRuntimeService" />
-  <AssemblyInfo>
-    <AssemblyName>System.Workflow.Runtime</AssemblyName>
-    <AssemblyVersion>4.0.0.0</AssemblyVersion>
-  </AssemblyInfo>
-  <Base>
-    <BaseTypeName>System.Workflow.Runtime.Hosting.WorkflowRuntimeService</BaseTypeName>
-  </Base>
-  <Interfaces />
-  <Attributes>
-    <Attribute>
-      <AttributeName>System.Obsolete("The System.Workflow.* types are deprecated.  Instead, please use the new types from System.Activities.*")</AttributeName>
-    </Attribute>
-  </Attributes>
-  <Docs>
-    <summary>
-      <span data-ttu-id="2d93d-101">提供在跟踪服务与运行时跟踪基础结构之间的基本接口。</span>
-      <span class="sxs-lookup">
-        <span data-stu-id="2d93d-101">Provides the basic interface between a tracking service and the run-time tracking infrastructure.</span>
-      </span>
-    </summary>
-    <remarks>
-      <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
-  
-> [!NOTE]
->  [!INCLUDE[DeprecatedContent](~/includes/deprecatedcontent-md.md)]  
-  
- <span data-ttu-id="2d93d-102">跟踪服务负责向工作流运行时引擎提供跟踪通道和跟踪配置文件。</span><span class="sxs-lookup"><span data-stu-id="2d93d-102">A tracking service is responsible for supplying tracking channels and tracking profiles to the workflow run-time engine.</span></span> <span data-ttu-id="2d93d-103">工作流运行时引擎为它具有 <xref:System.Workflow.Runtime.Tracking.TrackingChannel> 的每个工作流实例从跟踪服务请求一个 <xref:System.Workflow.Runtime.Tracking.TrackingProfile>。</span><span class="sxs-lookup"><span data-stu-id="2d93d-103">The workflow run-time engine requests one <xref:System.Workflow.Runtime.Tracking.TrackingChannel> from a tracking service for each workflow instance for which it has a <xref:System.Workflow.Runtime.Tracking.TrackingProfile>.</span></span> <span data-ttu-id="2d93d-104">工作流运时引擎使用此 <xref:System.Workflow.Runtime.Tracking.TrackingChannel> 发送与该工作流实例关联的跟踪记录。</span><span class="sxs-lookup"><span data-stu-id="2d93d-104">The workflow run-time engine uses this <xref:System.Workflow.Runtime.Tracking.TrackingChannel> to send tracking records associated with that workflow instance.</span></span> <span data-ttu-id="2d93d-105"><xref:System.Workflow.Runtime.Tracking.TrackingProfile> 包含指定一组跟踪事件的跟踪点，运行时跟踪基础结构应为这些事件发送跟踪记录。</span><span class="sxs-lookup"><span data-stu-id="2d93d-105">A <xref:System.Workflow.Runtime.Tracking.TrackingProfile> contains track points that specify a set of tracking events for which the run-time tracking infrastructure should send tracking records.</span></span> <span data-ttu-id="2d93d-106"><xref:System.Workflow.Runtime.Tracking.TrackingProfile> 还可以指定在其中一个跟踪事件发生时要从工作流实例中提取的数据。</span><span class="sxs-lookup"><span data-stu-id="2d93d-106">A <xref:System.Workflow.Runtime.Tracking.TrackingProfile> may also specify data to be extracted from the workflow instance when one of these tracking events occurs.</span></span>  
-  
- <span data-ttu-id="2d93d-107">运行时跟踪基础结构使用 <xref:System.Workflow.Runtime.Tracking.TrackingProfile> 以筛选由工作流实例发出的跟踪事件。</span><span class="sxs-lookup"><span data-stu-id="2d93d-107">The run-time tracking infrastructure uses a <xref:System.Workflow.Runtime.Tracking.TrackingProfile> to filter tracking events emitted by a workflow instance.</span></span> <span data-ttu-id="2d93d-108">在发出了与 <xref:System.Workflow.Runtime.Tracking.TrackingProfile> 中的跟踪点匹配的跟踪事件时，运行时跟踪基础结构将从工作流实例中提取在 <xref:System.Workflow.Runtime.Tracking.TrackingProfile> 中指定的任何数据，并将此数据和有关跟踪事件的信息包装在跟踪记录中。</span><span class="sxs-lookup"><span data-stu-id="2d93d-108">When a tracking event is emitted that matches a track point in the <xref:System.Workflow.Runtime.Tracking.TrackingProfile>, the run-time tracking infrastructure extracts any data specified in the <xref:System.Workflow.Runtime.Tracking.TrackingProfile> from the workflow instance and encapsulates this data and information about the tracking event in a tracking record.</span></span> <span data-ttu-id="2d93d-109">然后，将通过与工作流实例关联的 <xref:System.Workflow.Runtime.Tracking.TrackingChannel> 发送此跟踪记录。</span><span class="sxs-lookup"><span data-stu-id="2d93d-109">This tracking record is then sent over the <xref:System.Workflow.Runtime.Tracking.TrackingChannel> associated with the workflow instance.</span></span> <span data-ttu-id="2d93d-110">跟踪记录可能为以下某一类型：</span><span class="sxs-lookup"><span data-stu-id="2d93d-110">A tracking record may be one of the following kinds:</span></span>  
-  
- <xref:System.Workflow.Runtime.Tracking.ActivityTrackingRecord>  
-  
- <xref:System.Workflow.Runtime.Tracking.UserTrackingRecord>  
-  
- <xref:System.Workflow.Runtime.Tracking.WorkflowTrackingRecord>  
-  
- <span data-ttu-id="2d93d-111">主机应用程序可以通过它选择的任何方式使用跟踪记录。</span><span class="sxs-lookup"><span data-stu-id="2d93d-111">The host application can use the tracking record in any way that it chooses.</span></span> <span data-ttu-id="2d93d-112">例如，宿主应用程序可以将跟踪信息存储在数据库中并使用它来实现复杂的用户界面，或者，它可以使用该信息将需要某种操作的情况通知管理员。</span><span class="sxs-lookup"><span data-stu-id="2d93d-112">For example, the host application may store the tracking information in a database and use it to implement a sophisticated user interface, or it may use the information to inform an administrator of a condition that requires some action.</span></span> <span data-ttu-id="2d93d-113">通过调用 <xref:System.Workflow.Runtime.WorkflowRuntime.AddService%2A?displayProperty=nameWithType> 或在应用程序配置文件中包括适当的条目，您可以向工作流运行时引擎注册跟踪服务。</span><span class="sxs-lookup"><span data-stu-id="2d93d-113">You can register a tracking service with the workflow run-time engine by calling <xref:System.Workflow.Runtime.WorkflowRuntime.AddService%2A?displayProperty=nameWithType> or by including the appropriate entry in the application configuration file.</span></span>  
-  
- <span data-ttu-id="2d93d-114">所有跟踪服务都必须从 <xref:System.Workflow.Runtime.Tracking.TrackingService> 抽象类继承。</span><span class="sxs-lookup"><span data-stu-id="2d93d-114">All tracking services must inherit from the <xref:System.Workflow.Runtime.Tracking.TrackingService> abstract class.</span></span> <span data-ttu-id="2d93d-115">此类在跟踪服务与运行时跟踪基础结构之间定义基本接口。</span><span class="sxs-lookup"><span data-stu-id="2d93d-115">This class defines the basic interface between a tracking service and the run-time tracking infrastructure.</span></span> <span data-ttu-id="2d93d-116">工作流运行时引擎通过调用某个重载 <xref:System.Workflow.Runtime.Tracking.TrackingProfile> 方法或 <xref:System.Type> 方法，为特定工作流实例或工作流 <xref:System.Workflow.Runtime.Tracking.TrackingService.GetProfile%2A> 请求 <xref:System.Workflow.Runtime.Tracking.TrackingService.TryGetProfile%2A>。</span><span class="sxs-lookup"><span data-stu-id="2d93d-116">The workflow run-time engine requests a <xref:System.Workflow.Runtime.Tracking.TrackingProfile> for a specific workflow instance or workflow <xref:System.Type> by calling one of the overloaded <xref:System.Workflow.Runtime.Tracking.TrackingService.GetProfile%2A> methods or the <xref:System.Workflow.Runtime.Tracking.TrackingService.TryGetProfile%2A> method.</span></span> <span data-ttu-id="2d93d-117">工作流运行时引擎调用 <xref:System.Workflow.Runtime.Tracking.TrackingService.GetTrackingChannel%2A> 以请求 <xref:System.Workflow.Runtime.Tracking.TrackingChannel>。</span><span class="sxs-lookup"><span data-stu-id="2d93d-117">The workflow run-time engine calls <xref:System.Workflow.Runtime.Tracking.TrackingService.GetTrackingChannel%2A> to request a <xref:System.Workflow.Runtime.Tracking.TrackingChannel>.</span></span>  
-  
- <span data-ttu-id="2d93d-118">在创建工作流实例或从持久性存储区中加载工作流实例时，工作流跟踪运行时将调用 <xref:System.Workflow.Runtime.Tracking.TrackingService.GetProfile%2A> 和 <xref:System.Workflow.Runtime.Tracking.TrackingService.TryGetProfile%2A> 方法。</span><span class="sxs-lookup"><span data-stu-id="2d93d-118">The workflow tracking runtime calls the <xref:System.Workflow.Runtime.Tracking.TrackingService.GetProfile%2A> and <xref:System.Workflow.Runtime.Tracking.TrackingService.TryGetProfile%2A> methods whenever a workflow instance is created or loaded from the persistence store.</span></span> <span data-ttu-id="2d93d-119">与这些调用关联的系统开销对于跟踪服务而言可能很大（举例来说，多个数据库调用）。</span><span class="sxs-lookup"><span data-stu-id="2d93d-119">The overhead associated with these calls can be costly to the tracking service (many database calls, for example).</span></span> <span data-ttu-id="2d93d-120">您可以在跟踪服务中实现 <xref:System.Workflow.Runtime.Tracking.IProfileNotification> 接口以避开这种基于调用的机制，并使用事件将 <xref:System.Workflow.Runtime.Tracking.TrackingProfile> 的更改通知工作流运行时引擎。</span><span class="sxs-lookup"><span data-stu-id="2d93d-120">You can implement the <xref:System.Workflow.Runtime.Tracking.IProfileNotification> interface in your tracking service to circumvent this call-based mechanism and use events to notify the workflow runtime engine of changes to a <xref:System.Workflow.Runtime.Tracking.TrackingProfile>.</span></span> <span data-ttu-id="2d93d-121">对于实现 <xref:System.Workflow.Runtime.Tracking.IProfileNotification> 接口的跟踪服务，工作流运行时引擎将订阅 <xref:System.Workflow.Runtime.Tracking.IProfileNotification.ProfileUpdated> 和 <xref:System.Workflow.Runtime.Tracking.IProfileNotification.ProfileRemoved> 事件。</span><span class="sxs-lookup"><span data-stu-id="2d93d-121">For tracking services that implement the <xref:System.Workflow.Runtime.Tracking.IProfileNotification> interface, the workflow run-time engine subscribes to the <xref:System.Workflow.Runtime.Tracking.IProfileNotification.ProfileUpdated> and <xref:System.Workflow.Runtime.Tracking.IProfileNotification.ProfileRemoved> events.</span></span> <span data-ttu-id="2d93d-122">当它的某个跟踪配置文件发生更改时，跟踪服务可以引发适当的事件。</span><span class="sxs-lookup"><span data-stu-id="2d93d-122">Your tracking service can raise the appropriate event when a change to one of its tracking profiles occurs.</span></span> <span data-ttu-id="2d93d-123"><xref:System.Workflow.Runtime.Tracking.SqlTrackingService> 类实现了此接口。</span><span class="sxs-lookup"><span data-stu-id="2d93d-123">The <xref:System.Workflow.Runtime.Tracking.SqlTrackingService> class implements this interface.</span></span>  
-  
- <span data-ttu-id="2d93d-124">工作流运行时引擎调用 <xref:System.Workflow.Runtime.Tracking.TrackingService.TryReloadProfile%2A> 方法，以测试 <xref:System.Workflow.Runtime.Tracking.TrackingProfile> 是否已因为宿主或服务在工作流实例上显式调用了 <xref:System.Workflow.Runtime.WorkflowInstance.ReloadTrackingProfiles%2A> 而更新或被移除。</span><span class="sxs-lookup"><span data-stu-id="2d93d-124">The workflow run-time engine calls the <xref:System.Workflow.Runtime.Tracking.TrackingService.TryReloadProfile%2A> method to test whether a <xref:System.Workflow.Runtime.Tracking.TrackingProfile> has been updated or removed as a result of an explicit call by a host or a service to <xref:System.Workflow.Runtime.WorkflowInstance.ReloadTrackingProfiles%2A> on a workflow instance.</span></span> <span data-ttu-id="2d93d-125">此过程使宿主或服务能够动态地更改正用于特定工作流实例的跟踪配置文件。</span><span class="sxs-lookup"><span data-stu-id="2d93d-125">This process enables a host or service to dynamically change the tracking profile that is being used for a specific workflow instance.</span></span>  
-  
- ]]></format>
-    </remarks>
-    <block subset="none" type="overrides">
-      <para>-   <span data-ttu-id="2d93d-126">从 <see cref="T:System.Workflow.Runtime.Tracking.TrackingService" /> 继承时，必须重写以下成员：<see cref="M:System.Workflow.Runtime.Tracking.TrackingService.GetProfile(System.Guid)" />。</span><span class="sxs-lookup"><span data-stu-id="2d93d-126">When you inherit from <see cref="T:System.Workflow.Runtime.Tracking.TrackingService" />, you must override the following members: <see cref="M:System.Workflow.Runtime.Tracking.TrackingService.GetProfile(System.Guid)" /></span></span>  
-  
--   <see cref="M:System.Workflow.Runtime.Tracking.TrackingService.GetProfile(System.Type,System.Version)" />  
-  
--   <see cref="M:System.Workflow.Runtime.Tracking.TrackingService.TryGetProfile(System.Type,System.Workflow.Runtime.Tracking.TrackingProfile@)" />  
-  
--   <see cref="M:System.Workflow.Runtime.Tracking.TrackingService.GetTrackingChannel(System.Workflow.Runtime.Tracking.TrackingParameters)" />  
-  
--   <see cref="M:System.Workflow.Runtime.Tracking.TrackingService.TryReloadProfile(System.Type,System.Guid,System.Workflow.Runtime.Tracking.TrackingProfile@)" /></para>
-    </block>
-    <altmember cref="T:System.Workflow.Runtime.Tracking.IProfileNotification" />
-  </Docs>
-  <Members>
-    <Member MemberName=".ctor">
-      <MemberSignature Language="C#" Value="protected TrackingService ();" />
-      <MemberSignature Language="ILAsm" Value=".method familyhidebysig specialname rtspecialname instance void .ctor() cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Workflow.Runtime.Tracking.TrackingService.#ctor" />
-      <MemberSignature Language="VB.NET" Value="Protected Sub New ()" />
-      <MemberSignature Language="C++ CLI" Value="protected:&#xA; TrackingService();" />
-      <MemberType>Constructor</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Workflow.Runtime</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Parameters />
-      <Docs>
-        <summary>
-          <span data-ttu-id="2d93d-127">在派生类中实现时，初始化 <see cref="T:System.Workflow.Runtime.Tracking.TrackingService" /> 类的新实例。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="2d93d-127">When implemented in a derived class, initializes a new instance of the <see cref="T:System.Workflow.Runtime.Tracking.TrackingService" /> class.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Examples  
- <span data-ttu-id="2d93d-128">下面的示例演示如何为具有从 `TerminationTrackingService` 派生的类型的 `TrackingService` 对象创建新实例。</span><span class="sxs-lookup"><span data-stu-id="2d93d-128">The following example shows how to create a new instance of a `TerminationTrackingService` object, of a type that derives from `TrackingService`.</span></span> <span data-ttu-id="2d93d-129">此示例摘自“终止跟踪服务”SDK 示例。</span><span class="sxs-lookup"><span data-stu-id="2d93d-129">This sample is from the Termination Tracking Service SDK sample.</span></span> <span data-ttu-id="2d93d-130">有关详细信息，请参阅[终止跟踪服务示例](http://msdn.microsoft.com/library/29b7c0d7-cece-4bb9-96d0-c5b6c6e14439)。</span><span class="sxs-lookup"><span data-stu-id="2d93d-130">For more information, see [Termination Tracking Service Sample](http://msdn.microsoft.com/library/29b7c0d7-cece-4bb9-96d0-c5b6c6e14439).</span></span>  
-  
- [!code-csharp[WF_Samples#111](~/samples/snippets/csharp/VS_Snippets_CFX/wf_samples/cs/snippets1.cs#111)]
- [!code-vb[WF_Samples#111](~/samples/snippets/visualbasic/VS_Snippets_CFX/wf_samples/vb/snippets1.vb#111)]  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-    <MemberGroup MemberName="GetProfile">
-      <AssemblyInfo>
-        <AssemblyName>System.Workflow.Runtime</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Docs>
-        <summary>
-          <span data-ttu-id="2d93d-131">必须在派生类中重写，并且在实现后为指定的工作流实例或工作流类型获取跟踪配置文件。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="2d93d-131">Must be overridden in the derived class, and when implemented, gets the tracking profile for a specified workflow instance or workflow type.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="2d93d-132">跟踪服务负责管理可用于特定工作流类型和特定工作流实例的跟踪配置文件。</span><span class="sxs-lookup"><span data-stu-id="2d93d-132">A tracking service is responsible for managing the tracking profiles available for specific workflow types and specific workflow instances.</span></span> <span data-ttu-id="2d93d-133">可以采用您选择的任何方式实现此管理。</span><span class="sxs-lookup"><span data-stu-id="2d93d-133">You can implement this management in whatever manner you choose.</span></span> <span data-ttu-id="2d93d-134">例如，您可以为每个工作流 <xref:System.Workflow.Runtime.Tracking.TrackingProfile> 和工作流实例返回相同的 <xref:System.Type>；或者，您可以管理工作流实例、工作流 <xref:System.Type> 和 <xref:System.Version> 引用的跟踪配置文件的复杂存储。</span><span class="sxs-lookup"><span data-stu-id="2d93d-134">For example, you can return the same <xref:System.Workflow.Runtime.Tracking.TrackingProfile> for every workflow <xref:System.Type> and workflow instance; or you can manage a sophisticated store of tracking profiles referenced by workflow instance, workflow <xref:System.Type>, and <xref:System.Version>.</span></span>  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </MemberGroup>
-    <Member MemberName="GetProfile">
-      <MemberSignature Language="C#" Value="protected internal abstract System.Workflow.Runtime.Tracking.TrackingProfile GetProfile (Guid workflowInstanceId);" />
-      <MemberSignature Language="ILAsm" Value=".method familyorassemblyhidebysig newslot virtual instance class System.Workflow.Runtime.Tracking.TrackingProfile GetProfile(valuetype System.Guid workflowInstanceId) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Workflow.Runtime.Tracking.TrackingService.GetProfile(System.Guid)" />
-      <MemberSignature Language="VB.NET" Value="Protected Friend MustOverride Function GetProfile (workflowInstanceId As Guid) As TrackingProfile" />
-      <MemberSignature Language="C++ CLI" Value="protected public:&#xA; abstract System::Workflow::Runtime::Tracking::TrackingProfile ^ GetProfile(Guid workflowInstanceId);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Workflow.Runtime</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Workflow.Runtime.Tracking.TrackingProfile</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="workflowInstanceId" Type="System.Guid" />
-      </Parameters>
-      <Docs>
-        <param name="workflowInstanceId">
-          <span data-ttu-id="2d93d-135">工作流实例的 <see cref="T:System.Guid" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="2d93d-135">The <see cref="T:System.Guid" /> of the workflow instance.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="2d93d-136">必须在派生类中重写，并且在实现后为指定的工作流实例返回跟踪配置文件。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="2d93d-136">Must be overridden in the derived class, and when implemented, returns the tracking profile for the specified workflow instance.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="2d93d-137">指定工作流实例的跟踪配置文件。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="2d93d-137">The tracking profile for the specified workflow instance.</span>
-          </span>
-        </returns>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="2d93d-138">跟踪服务负责管理可用于特定工作流类型和特定工作流实例的跟踪配置文件。</span><span class="sxs-lookup"><span data-stu-id="2d93d-138">A tracking service is responsible for managing the tracking profiles available for specific workflow types and specific workflow instances.</span></span> <span data-ttu-id="2d93d-139">可以采用您选择的任何方式实现此管理。</span><span class="sxs-lookup"><span data-stu-id="2d93d-139">You can implement this management in whatever manner you choose.</span></span> <span data-ttu-id="2d93d-140">例如，您可以为每个工作流 <xref:System.Workflow.Runtime.Tracking.TrackingProfile> 和工作流实例返回相同的 <xref:System.Type>；或者，您可以管理工作流实例、工作流 <xref:System.Type> 和 <xref:System.Version> 引用的跟踪配置文件的复杂存储。</span><span class="sxs-lookup"><span data-stu-id="2d93d-140">For example, you can return the same <xref:System.Workflow.Runtime.Tracking.TrackingProfile> for every workflow <xref:System.Type> and workflow instance; or you can manage a sophisticated store of tracking profiles referenced by workflow instance, workflow <xref:System.Type>, and <xref:System.Version>.</span></span>  
-  
-   
-  
-## Examples  
- <span data-ttu-id="2d93d-141">下面的示例演示 `GetProfile` 方法的实现。</span><span class="sxs-lookup"><span data-stu-id="2d93d-141">The following example shows an implementation of the `GetProfile` method.</span></span> <span data-ttu-id="2d93d-142">在本例中，`GetProfile` 方法的若干重载将调用单一的私有 `GetProfile` 方法，后者将返回硬编码的默认跟踪配置文件。</span><span class="sxs-lookup"><span data-stu-id="2d93d-142">In this example, several overloads of the `GetProfile` method call a single private `GetProfile` method, which returns a hard-coded, default tracking profile.</span></span> <span data-ttu-id="2d93d-143">此示例摘自“终止跟踪服务”SDK 示例。</span><span class="sxs-lookup"><span data-stu-id="2d93d-143">This example is from the Termination Tracking Service SDK sample.</span></span> <span data-ttu-id="2d93d-144">有关详细信息，请参阅[终止跟踪服务示例](http://msdn.microsoft.com/library/29b7c0d7-cece-4bb9-96d0-c5b6c6e14439)。</span><span class="sxs-lookup"><span data-stu-id="2d93d-144">For more information, see [Termination Tracking Service Sample](http://msdn.microsoft.com/library/29b7c0d7-cece-4bb9-96d0-c5b6c6e14439).</span></span>  
-  
- [!code-csharp[WF_Samples#115](~/samples/snippets/csharp/VS_Snippets_CFX/wf_samples/cs/snippets1.cs#115)]
- [!code-vb[WF_Samples#115](~/samples/snippets/visualbasic/VS_Snippets_CFX/wf_samples/vb/snippets1.vb#115)]  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="GetProfile">
-      <MemberSignature Language="C#" Value="protected internal abstract System.Workflow.Runtime.Tracking.TrackingProfile GetProfile (Type workflowType, Version profileVersionId);" />
-      <MemberSignature Language="ILAsm" Value=".method familyorassemblyhidebysig newslot virtual instance class System.Workflow.Runtime.Tracking.TrackingProfile GetProfile(class System.Type workflowType, class System.Version profileVersionId) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Workflow.Runtime.Tracking.TrackingService.GetProfile(System.Type,System.Version)" />
-      <MemberSignature Language="VB.NET" Value="Protected Friend MustOverride Function GetProfile (workflowType As Type, profileVersionId As Version) As TrackingProfile" />
-      <MemberSignature Language="C++ CLI" Value="protected public:&#xA; abstract System::Workflow::Runtime::Tracking::TrackingProfile ^ GetProfile(Type ^ workflowType, Version ^ profileVersionId);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Workflow.Runtime</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Workflow.Runtime.Tracking.TrackingProfile</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="workflowType" Type="System.Type" />
-        <Parameter Name="profileVersionId" Type="System.Version" />
-      </Parameters>
-      <Docs>
-        <param name="workflowType">
-          <span data-ttu-id="2d93d-145">工作流的 <see cref="T:System.Type" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="2d93d-145">The <see cref="T:System.Type" /> of the workflow.</span>
-          </span>
-        </param>
-        <param name="profileVersionId">
-          <span data-ttu-id="2d93d-146">跟踪配置文件的 <see cref="T:System.Version" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="2d93d-146">The <see cref="T:System.Version" /> of the tracking profile.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="2d93d-147">必须在派生类中重写，并且在实现后为指定的工作流 <see cref="T:System.Type" /> 返回由版本限定的跟踪配置文件。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="2d93d-147">Must be overridden in the derived class, and when implemented, returns the tracking profile, qualified by version, for the specified workflow <see cref="T:System.Type" />.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="2d93d-148">指定工作流类型的跟踪配置文件。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="2d93d-148">The tracking profile for the specified workflow type.</span>
-          </span>
-        </returns>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="2d93d-149">跟踪服务负责管理可用于特定工作流类型和特定工作流实例的跟踪配置文件。</span><span class="sxs-lookup"><span data-stu-id="2d93d-149">A tracking service is responsible for managing the tracking profiles available for specific workflow types and specific workflow instances.</span></span> <span data-ttu-id="2d93d-150">可以采用您选择的任何方式实现此管理。</span><span class="sxs-lookup"><span data-stu-id="2d93d-150">You can implement this management in whatever manner you choose.</span></span> <span data-ttu-id="2d93d-151">例如，您可以为每个工作流 <xref:System.Workflow.Runtime.Tracking.TrackingProfile> 和工作流实例返回相同的 <xref:System.Type>；或者，您可以管理工作流实例、工作流 <xref:System.Type> 和 <xref:System.Version> 引用的跟踪配置文件的复杂存储。</span><span class="sxs-lookup"><span data-stu-id="2d93d-151">For example, you can return the same <xref:System.Workflow.Runtime.Tracking.TrackingProfile> for every workflow <xref:System.Type> and workflow instance; or you can manage a sophisticated store of tracking profiles referenced by workflow instance, workflow <xref:System.Type>, and <xref:System.Version>.</span></span>  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="GetTrackingChannel">
-      <MemberSignature Language="C#" Value="protected internal abstract System.Workflow.Runtime.Tracking.TrackingChannel GetTrackingChannel (System.Workflow.Runtime.Tracking.TrackingParameters parameters);" />
-      <MemberSignature Language="ILAsm" Value=".method familyorassemblyhidebysig newslot virtual instance class System.Workflow.Runtime.Tracking.TrackingChannel GetTrackingChannel(class System.Workflow.Runtime.Tracking.TrackingParameters parameters) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Workflow.Runtime.Tracking.TrackingService.GetTrackingChannel(System.Workflow.Runtime.Tracking.TrackingParameters)" />
-      <MemberSignature Language="VB.NET" Value="Protected Friend MustOverride Function GetTrackingChannel (parameters As TrackingParameters) As TrackingChannel" />
-      <MemberSignature Language="C++ CLI" Value="protected public:&#xA; abstract System::Workflow::Runtime::Tracking::TrackingChannel ^ GetTrackingChannel(System::Workflow::Runtime::Tracking::TrackingParameters ^ parameters);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Workflow.Runtime</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Workflow.Runtime.Tracking.TrackingChannel</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="parameters" Type="System.Workflow.Runtime.Tracking.TrackingParameters" />
-      </Parameters>
-      <Docs>
-        <param name="parameters">
-          <span data-ttu-id="2d93d-152">与工作流实例关联的 <see cref="T:System.Workflow.Runtime.Tracking.TrackingParameters" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="2d93d-152">The <see cref="T:System.Workflow.Runtime.Tracking.TrackingParameters" /> associated with the workflow instance.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="2d93d-153">必须在派生类中重写，并且在实现后返回运行时跟踪基础结构用于向跟踪服务发送跟踪记录的通道。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="2d93d-153">Must be overridden in the derived class, and when implemented, returns the channel that the run-time tracking infrastructure uses to send tracking records to the tracking service.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="2d93d-154">用于向跟踪服务发送跟踪记录的 <see cref="T:System.Workflow.Runtime.Tracking.TrackingChannel" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="2d93d-154">The <see cref="T:System.Workflow.Runtime.Tracking.TrackingChannel" /> that is used to send tracking records to the tracking service.</span>
-          </span>
-        </returns>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="2d93d-155">运行时跟踪基础结构按照每个跟踪服务为每个工作流实例使用一个 <xref:System.Workflow.Runtime.Tracking.TrackingChannel>。</span><span class="sxs-lookup"><span data-stu-id="2d93d-155">The run-time tracking infrastructure uses one <xref:System.Workflow.Runtime.Tracking.TrackingChannel> for each tracking service for each workflow instance.</span></span> <span data-ttu-id="2d93d-156">工作流运行时引擎对每个跟踪服务调用 <xref:System.Workflow.Runtime.Tracking.TrackingService.GetTrackingChannel%2A>，以便为该服务获取 <xref:System.Workflow.Runtime.Tracking.TrackingChannel>。</span><span class="sxs-lookup"><span data-stu-id="2d93d-156">The workflow run-time engine calls <xref:System.Workflow.Runtime.Tracking.TrackingService.GetTrackingChannel%2A> on each tracking service to get the <xref:System.Workflow.Runtime.Tracking.TrackingChannel> for that service.</span></span> <span data-ttu-id="2d93d-157">您可以使用传入 <xref:System.Workflow.Runtime.Tracking.TrackingParameters> 的信息将为跟踪服务在 <xref:System.Workflow.Runtime.Tracking.TrackingChannel> 上发送的跟踪数据与特定的根工作流实例关联。</span><span class="sxs-lookup"><span data-stu-id="2d93d-157">You can use the information passed in <xref:System.Workflow.Runtime.Tracking.TrackingParameters> to associate tracking data sent on the <xref:System.Workflow.Runtime.Tracking.TrackingChannel> for your tracking service with a particular root workflow instance.</span></span>  
-  
-   
-  
-## Examples  
- <span data-ttu-id="2d93d-158">下面的示例演示 `GetTrackingChannel` 方法的实现。</span><span class="sxs-lookup"><span data-stu-id="2d93d-158">The following example shows an implementation of the `GetTrackingChannel` method.</span></span> <span data-ttu-id="2d93d-159">此示例摘自“终止跟踪服务”SDK 示例。</span><span class="sxs-lookup"><span data-stu-id="2d93d-159">This example is from the Termination Tracking Service SDK sample.</span></span> <span data-ttu-id="2d93d-160">有关详细信息，请参阅[终止跟踪服务示例](http://msdn.microsoft.com/library/29b7c0d7-cece-4bb9-96d0-c5b6c6e14439)。</span><span class="sxs-lookup"><span data-stu-id="2d93d-160">For more information, see [Termination Tracking Service Sample](http://msdn.microsoft.com/library/29b7c0d7-cece-4bb9-96d0-c5b6c6e14439).</span></span>  
-  
- [!code-csharp[WF_Samples#113](~/samples/snippets/csharp/VS_Snippets_CFX/wf_samples/cs/snippets1.cs#113)]
- [!code-vb[WF_Samples#113](~/samples/snippets/visualbasic/VS_Snippets_CFX/wf_samples/vb/snippets1.vb#113)]  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="TryGetProfile">
-      <MemberSignature Language="C#" Value="protected internal abstract bool TryGetProfile (Type workflowType, out System.Workflow.Runtime.Tracking.TrackingProfile profile);" />
-      <MemberSignature Language="ILAsm" Value=".method familyorassemblyhidebysig newslot virtual instance bool TryGetProfile(class System.Type workflowType, [out] class System.Workflow.Runtime.Tracking.TrackingProfile&amp; profile) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Workflow.Runtime.Tracking.TrackingService.TryGetProfile(System.Type,System.Workflow.Runtime.Tracking.TrackingProfile@)" />
-      <MemberSignature Language="VB.NET" Value="Protected Friend MustOverride Function TryGetProfile (workflowType As Type, ByRef profile As TrackingProfile) As Boolean" />
-      <MemberSignature Language="C++ CLI" Value="protected public:&#xA; abstract bool TryGetProfile(Type ^ workflowType, [Runtime::InteropServices::Out] System::Workflow::Runtime::Tracking::TrackingProfile ^ % profile);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Workflow.Runtime</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Boolean</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="workflowType" Type="System.Type" />
-        <Parameter Name="profile" Type="System.Workflow.Runtime.Tracking.TrackingProfile&amp;" RefType="out" />
-      </Parameters>
-      <Docs>
-        <param name="workflowType">
-          <span data-ttu-id="2d93d-161">要为其获取跟踪配置文件的工作流的 <see cref="T:System.Type" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="2d93d-161">The <see cref="T:System.Type" /> of the workflow for which to get the tracking profile.</span>
-          </span>
-        </param>
-        <param name="profile">
-          <span data-ttu-id="2d93d-162">此方法返回时，将包含要加载的 <see cref="T:System.Workflow.Runtime.Tracking.TrackingProfile" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="2d93d-162">When this method returns, contains the <see cref="T:System.Workflow.Runtime.Tracking.TrackingProfile" /> to load.</span>
-          </span>
-          <span data-ttu-id="2d93d-163">此参数未经初始化即被传递。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="2d93d-163">This parameter is passed uninitialized.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="2d93d-164">必须在派生类中重写，并且在实现后为指定的工作流类型（如果有）检索跟踪配置文件。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="2d93d-164">Must be overridden in the derived class, and when implemented, retrieves the tracking profile for the specified workflow type if one is available.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="2d93d-165">如果指定工作流 <see langword="true" /> 的 <see cref="T:System.Workflow.Runtime.Tracking.TrackingProfile" /> 可用，则为 <see cref="T:System.Type" />；否则为 <see langword="false" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="2d93d-165">
-              <see langword="true" /> if a <see cref="T:System.Workflow.Runtime.Tracking.TrackingProfile" /> for the specified workflow <see cref="T:System.Type" /> is available; otherwise, <see langword="false" />.</span>
-          </span>
-          <span data-ttu-id="2d93d-166">如果为 <see langword="true" />，则会在 <see cref="T:System.Workflow.Runtime.Tracking.TrackingProfile" /> 中返回 <paramref name="profile" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="2d93d-166">If <see langword="true" />, the <see cref="T:System.Workflow.Runtime.Tracking.TrackingProfile" /> is returned in <paramref name="profile" />.</span>
-          </span>
-        </returns>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="2d93d-167">跟踪服务负责管理可用于特定工作流类型和特定工作流实例的跟踪配置文件。</span><span class="sxs-lookup"><span data-stu-id="2d93d-167">A tracking service is responsible for managing the tracking profiles available for specific workflow types and specific workflow instances.</span></span> <span data-ttu-id="2d93d-168">可以采用您选择的任何方式实现此管理。</span><span class="sxs-lookup"><span data-stu-id="2d93d-168">You can implement this management in whatever manner you choose.</span></span> <span data-ttu-id="2d93d-169">例如，您可以为每个工作流 <xref:System.Workflow.Runtime.Tracking.TrackingProfile> 和工作流实例返回相同的 <xref:System.Type>；或者，您可以管理工作流实例、工作流 <xref:System.Type> 和 <xref:System.Version> 引用的跟踪配置文件的复杂存储。</span><span class="sxs-lookup"><span data-stu-id="2d93d-169">For example, you can return the same <xref:System.Workflow.Runtime.Tracking.TrackingProfile> for every workflow <xref:System.Type> and workflow instance; or you can manage a sophisticated store of tracking profiles referenced by workflow instance, workflow <xref:System.Type>, and <xref:System.Version>.</span></span>  
-  
-   
-  
-## Examples  
- <span data-ttu-id="2d93d-170">下面的示例演示 `TryGetProfile` 方法的实现，该方法调用私有 `GetProfile` 方法。</span><span class="sxs-lookup"><span data-stu-id="2d93d-170">The following example demonstrates an implementation of the `TryGetProfile` method, which calls a private `GetProfile` method.</span></span> <span data-ttu-id="2d93d-171">此示例摘自“终止跟踪服务”SDK 示例。</span><span class="sxs-lookup"><span data-stu-id="2d93d-171">This example is from the Termination Tracking Service SDK sample.</span></span> <span data-ttu-id="2d93d-172">有关详细信息，请参阅[终止跟踪服务示例](http://msdn.microsoft.com/library/29b7c0d7-cece-4bb9-96d0-c5b6c6e14439)。</span><span class="sxs-lookup"><span data-stu-id="2d93d-172">For more information, see [Termination Tracking Service Sample](http://msdn.microsoft.com/library/29b7c0d7-cece-4bb9-96d0-c5b6c6e14439).</span></span>  
-  
- [!code-csharp[Wf_samples#209](~/samples/snippets/csharp/VS_Snippets_CFX/wf_samples/cs/snippets19.cs#209)]
- [!code-vb[Wf_samples#209](~/samples/snippets/visualbasic/VS_Snippets_CFX/wf_samples/vb/snippets19.vb#209)]  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="TryReloadProfile">
-      <MemberSignature Language="C#" Value="protected internal abstract bool TryReloadProfile (Type workflowType, Guid workflowInstanceId, out System.Workflow.Runtime.Tracking.TrackingProfile profile);" />
-      <MemberSignature Language="ILAsm" Value=".method familyorassemblyhidebysig newslot virtual instance bool TryReloadProfile(class System.Type workflowType, valuetype System.Guid workflowInstanceId, [out] class System.Workflow.Runtime.Tracking.TrackingProfile&amp; profile) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Workflow.Runtime.Tracking.TrackingService.TryReloadProfile(System.Type,System.Guid,System.Workflow.Runtime.Tracking.TrackingProfile@)" />
-      <MemberSignature Language="VB.NET" Value="Protected Friend MustOverride Function TryReloadProfile (workflowType As Type, workflowInstanceId As Guid, ByRef profile As TrackingProfile) As Boolean" />
-      <MemberSignature Language="C++ CLI" Value="protected public:&#xA; abstract bool TryReloadProfile(Type ^ workflowType, Guid workflowInstanceId, [Runtime::InteropServices::Out] System::Workflow::Runtime::Tracking::TrackingProfile ^ % profile);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Workflow.Runtime</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Boolean</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="workflowType" Type="System.Type" />
-        <Parameter Name="workflowInstanceId" Type="System.Guid" />
-        <Parameter Name="profile" Type="System.Workflow.Runtime.Tracking.TrackingProfile&amp;" RefType="out" />
-      </Parameters>
-      <Docs>
-        <param name="workflowType">
-          <span data-ttu-id="2d93d-173">工作流实例的 <see cref="T:System.Type" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="2d93d-173">The <see cref="T:System.Type" /> of the workflow instance.</span>
-          </span>
-        </param>
-        <param name="workflowInstanceId">
-          <span data-ttu-id="2d93d-174">工作流实例的 <see cref="T:System.Guid" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="2d93d-174">The <see cref="T:System.Guid" /> of the workflow instance.</span>
-          </span>
-        </param>
-        <param name="profile">
-          <span data-ttu-id="2d93d-175">此方法返回时，将包含要加载的 <see cref="T:System.Workflow.Runtime.Tracking.TrackingProfile" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="2d93d-175">When this method returns, contains the <see cref="T:System.Workflow.Runtime.Tracking.TrackingProfile" /> to load.</span>
-          </span>
-          <span data-ttu-id="2d93d-176">此参数未经初始化即被传递。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="2d93d-176">This parameter is passed uninitialized.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="2d93d-177">必须在派生类中重写，并且在实现后为指定的工作流实例检索新的跟踪配置文件（如果跟踪配置文件自上次加载后已更改）。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="2d93d-177">Must be overridden in the derived class, and when implemented, retrieves a new tracking profile for the specified workflow instance if the tracking profile has changed since it was last loaded.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="2d93d-178">如果应加载新的 <see cref="T:System.Workflow.Runtime.Tracking.TrackingProfile" />，则为 <see langword="true" />；否则为 <see langword="false" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="2d93d-178">
-              <see langword="true" /> if a new <see cref="T:System.Workflow.Runtime.Tracking.TrackingProfile" /> should be loaded; otherwise, <see langword="false" />.</span>
-          </span>
-          <span data-ttu-id="2d93d-179">如果为 <see langword="true" />，则会在 <see cref="T:System.Workflow.Runtime.Tracking.TrackingProfile" /> 中返回 <paramref name="profile" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="2d93d-179">If <see langword="true" />, the <see cref="T:System.Workflow.Runtime.Tracking.TrackingProfile" /> is returned in <paramref name="profile" />.</span>
-          </span>
-        </returns>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="2d93d-180">运行时跟踪基础结构调用 <xref:System.Workflow.Runtime.Tracking.TrackingService.TryReloadProfile%2A> 以确定是否应为指定的工作流实例加载新的 <xref:System.Workflow.Runtime.Tracking.TrackingProfile>。</span><span class="sxs-lookup"><span data-stu-id="2d93d-180"><xref:System.Workflow.Runtime.Tracking.TrackingService.TryReloadProfile%2A> is called by the run-time tracking infrastructure to determine whether a new <xref:System.Workflow.Runtime.Tracking.TrackingProfile> should be loaded for the specified workflow instance.</span></span> <span data-ttu-id="2d93d-181">如果需要新的 <xref:System.Workflow.Runtime.Tracking.TrackingProfile>，它将在 `profile` 中返回。</span><span class="sxs-lookup"><span data-stu-id="2d93d-181">If a new <xref:System.Workflow.Runtime.Tracking.TrackingProfile> is required, it is returned in `profile`.</span></span> <span data-ttu-id="2d93d-182">如果希望运行时跟踪基础结构停止跟踪某个工作流实例，则跟踪服务应返回 `true`，并将 `profile` 设置为等于空引用（在 Visual Basic 中为 `Nothing`）。</span><span class="sxs-lookup"><span data-stu-id="2d93d-182">If you want the run-time tracking infrastructure to stop tracking a workflow instance, your tracking service should return `true` and set `profile` equal to a null reference (`Nothing` in Visual Basic).</span></span> <span data-ttu-id="2d93d-183">跟踪服务可以采用您选择的任何方式使用 `workflowType` 或 `workflowInstanceId`，以确定是否应重新加载跟踪配置文件。</span><span class="sxs-lookup"><span data-stu-id="2d93d-183">Your tracking service can use `workflowType` or `workflowInstanceId` in whatever manner you choose to determine whether a tracking profile should be reloaded.</span></span> <span data-ttu-id="2d93d-184">例如，<xref:System.Workflow.Runtime.Tracking.SqlTrackingService> 只使用 `workflowInstanceId` 来决定是否应重新加载跟踪配置文件。</span><span class="sxs-lookup"><span data-stu-id="2d93d-184">For example, the <xref:System.Workflow.Runtime.Tracking.SqlTrackingService> only uses `workflowInstanceId` to decide whether the tracking profile should be reloaded.</span></span> <span data-ttu-id="2d93d-185">运行时跟踪基础结构根据其自己的跟踪语义或响应对工作流实例调用 <xref:System.Workflow.Runtime.Tracking.TrackingService.TryReloadProfile%2A> 的宿主或服务，以调用 <xref:System.Workflow.Runtime.WorkflowInstance.ReloadTrackingProfiles%2A?displayProperty=nameWithType>。</span><span class="sxs-lookup"><span data-stu-id="2d93d-185"><xref:System.Workflow.Runtime.Tracking.TrackingService.TryReloadProfile%2A> is called by the run-time tracking infrastructure according to its own tracking semantics, or in response to the host or a service calling <xref:System.Workflow.Runtime.WorkflowInstance.ReloadTrackingProfiles%2A?displayProperty=nameWithType> on a workflow instance.</span></span>  
-  
-   
-  
-## Examples  
- <span data-ttu-id="2d93d-186">下面的示例演示 `TryReloadProfile` 方法的基本实现。</span><span class="sxs-lookup"><span data-stu-id="2d93d-186">The following example shows a basic implementation of the `TryReloadProfile` method.</span></span> <span data-ttu-id="2d93d-187">此示例摘自“终止跟踪服务”SDK 示例。</span><span class="sxs-lookup"><span data-stu-id="2d93d-187">This example is from the Termination Tracking Service SDK sample.</span></span> <span data-ttu-id="2d93d-188">有关详细信息，请参阅[终止跟踪服务示例](http://msdn.microsoft.com/library/29b7c0d7-cece-4bb9-96d0-c5b6c6e14439)。</span><span class="sxs-lookup"><span data-stu-id="2d93d-188">For more information, see [Termination Tracking Service Sample](http://msdn.microsoft.com/library/29b7c0d7-cece-4bb9-96d0-c5b6c6e14439).</span></span>  
-  
- [!code-csharp[WF_Samples#116](~/samples/snippets/csharp/VS_Snippets_CFX/wf_samples/cs/snippets1.cs#116)]
- [!code-vb[WF_Samples#116](~/samples/snippets/visualbasic/VS_Snippets_CFX/wf_samples/vb/snippets1.vb#116)]  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-  </Members>
-</Type>
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.2" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 xliff-core-1.2-transitional.xsd">
+  <file datatype="xml" original="TrackingService.xml" source-language="en-US" target-language="zh-CN">
+    <header>
+      <tool tool-id="mdxliff" tool-name="mdxliff" tool-version="1.0-efd8310" tool-company="Microsoft" />
+      <xliffext:skl_file_name xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">ae25fbb5-14a8-44f2-90c2-3c6d6fcaae7ffeed2535eb90a6edb63dd27936cbd93e91e38746.skl</xliffext:skl_file_name>
+      <xliffext:version xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">1.2</xliffext:version>
+      <xliffext:ms.openlocfilehash xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">feed2535eb90a6edb63dd27936cbd93e91e38746</xliffext:ms.openlocfilehash>
+      <xliffext:ms.sourcegitcommit xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">1b899505ed6d42225f2b3c9150bfdc080d0d1f9b</xliffext:ms.sourcegitcommit>
+      <xliffext:ms.lasthandoff xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">04/28/2018</xliffext:ms.lasthandoff>
+      <xliffext:moniker_ids xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">netframework-4.5.1,netframework-4.5.2,netframework-4.5,netframework-4.6.1,netframework-4.6.2,netframework-4.6,netframework-4.7.1,netframework-4.7.2,netframework-4.7</xliffext:moniker_ids>
+    </header>
+    <body>
+      <group id="content" extype="content">
+        <trans-unit id="101" translate="yes" xml:space="preserve" uid="T:System.Workflow.Runtime.Tracking.TrackingService">
+          <source>Provides the basic interface between a tracking service and the run-time tracking infrastructure.</source>
+          <target state="translated">提供在跟踪服务与运行时跟踪基础结构之间的基本接口。</target>       </trans-unit>
+        <trans-unit id="102" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Workflow.Runtime.Tracking.TrackingService">
+          <source>A tracking service is responsible for supplying tracking channels and tracking profiles to the workflow run-time engine.</source>
+          <target state="translated">跟踪服务负责向工作流运行时引擎提供跟踪通道和跟踪配置文件。</target>       </trans-unit>
+        <trans-unit id="103" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Workflow.Runtime.Tracking.TrackingService">
+          <source>The workflow run-time engine requests one <ph id="ph1">&lt;xref:System.Workflow.Runtime.Tracking.TrackingChannel&gt;</ph> from a tracking service for each workflow instance for which it has a <ph id="ph2">&lt;xref:System.Workflow.Runtime.Tracking.TrackingProfile&gt;</ph>.</source>
+          <target state="translated">工作流运行时引擎为它具有 <ph id="ph1">&lt;xref:System.Workflow.Runtime.Tracking.TrackingChannel&gt;</ph> 的每个工作流实例从跟踪服务请求一个 <ph id="ph2">&lt;xref:System.Workflow.Runtime.Tracking.TrackingProfile&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="104" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Workflow.Runtime.Tracking.TrackingService">
+          <source>The workflow run-time engine uses this <ph id="ph1">&lt;xref:System.Workflow.Runtime.Tracking.TrackingChannel&gt;</ph> to send tracking records associated with that workflow instance.</source>
+          <target state="translated">工作流运时引擎使用此 <ph id="ph1">&lt;xref:System.Workflow.Runtime.Tracking.TrackingChannel&gt;</ph> 发送与该工作流实例关联的跟踪记录。</target>       </trans-unit>
+        <trans-unit id="105" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Workflow.Runtime.Tracking.TrackingService">
+          <source>A <ph id="ph1">&lt;xref:System.Workflow.Runtime.Tracking.TrackingProfile&gt;</ph> contains track points that specify a set of tracking events for which the run-time tracking infrastructure should send tracking records.</source>
+          <target state="translated"><ph id="ph1">&lt;xref:System.Workflow.Runtime.Tracking.TrackingProfile&gt;</ph> 包含指定一组跟踪事件的跟踪点，运行时跟踪基础结构应为这些事件发送跟踪记录。</target>       </trans-unit>
+        <trans-unit id="106" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Workflow.Runtime.Tracking.TrackingService">
+          <source>A <ph id="ph1">&lt;xref:System.Workflow.Runtime.Tracking.TrackingProfile&gt;</ph> may also specify data to be extracted from the workflow instance when one of these tracking events occurs.</source>
+          <target state="translated"><ph id="ph1">&lt;xref:System.Workflow.Runtime.Tracking.TrackingProfile&gt;</ph> 还可以指定在其中一个跟踪事件发生时要从工作流实例中提取的数据。</target>       </trans-unit>
+        <trans-unit id="107" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Workflow.Runtime.Tracking.TrackingService">
+          <source>The run-time tracking infrastructure uses a <ph id="ph1">&lt;xref:System.Workflow.Runtime.Tracking.TrackingProfile&gt;</ph> to filter tracking events emitted by a workflow instance.</source>
+          <target state="translated">运行时跟踪基础结构使用 <ph id="ph1">&lt;xref:System.Workflow.Runtime.Tracking.TrackingProfile&gt;</ph> 以筛选由工作流实例发出的跟踪事件。</target>       </trans-unit>
+        <trans-unit id="108" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Workflow.Runtime.Tracking.TrackingService">
+          <source>When a tracking event is emitted that matches a track point in the <ph id="ph1">&lt;xref:System.Workflow.Runtime.Tracking.TrackingProfile&gt;</ph>, the run-time tracking infrastructure extracts any data specified in the <ph id="ph2">&lt;xref:System.Workflow.Runtime.Tracking.TrackingProfile&gt;</ph> from the workflow instance and encapsulates this data and information about the tracking event in a tracking record.</source>
+          <target state="translated">在发出了与 <ph id="ph1">&lt;xref:System.Workflow.Runtime.Tracking.TrackingProfile&gt;</ph> 中的跟踪点匹配的跟踪事件时，运行时跟踪基础结构将从工作流实例中提取在 <ph id="ph2">&lt;xref:System.Workflow.Runtime.Tracking.TrackingProfile&gt;</ph> 中指定的任何数据，并将此数据和有关跟踪事件的信息包装在跟踪记录中。</target>       </trans-unit>
+        <trans-unit id="109" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Workflow.Runtime.Tracking.TrackingService">
+          <source>This tracking record is then sent over the <ph id="ph1">&lt;xref:System.Workflow.Runtime.Tracking.TrackingChannel&gt;</ph> associated with the workflow instance.</source>
+          <target state="translated">然后，将通过与工作流实例关联的 <ph id="ph1">&lt;xref:System.Workflow.Runtime.Tracking.TrackingChannel&gt;</ph> 发送此跟踪记录。</target>       </trans-unit>
+        <trans-unit id="110" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Workflow.Runtime.Tracking.TrackingService">
+          <source>A tracking record may be one of the following kinds:</source>
+          <target state="translated">跟踪记录可能为以下某一类型：</target>       </trans-unit>
+        <trans-unit id="111" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Workflow.Runtime.Tracking.TrackingService">
+          <source>The host application can use the tracking record in any way that it chooses.</source>
+          <target state="translated">主机应用程序可以通过它选择的任何方式使用跟踪记录。</target>       </trans-unit>
+        <trans-unit id="112" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Workflow.Runtime.Tracking.TrackingService">
+          <source>For example, the host application may store the tracking information in a database and use it to implement a sophisticated user interface, or it may use the information to inform an administrator of a condition that requires some action.</source>
+          <target state="translated">例如，宿主应用程序可以将跟踪信息存储在数据库中并使用它来实现复杂的用户界面，或者，它可以使用该信息将需要某种操作的情况通知管理员。</target>       </trans-unit>
+        <trans-unit id="113" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Workflow.Runtime.Tracking.TrackingService">
+          <source>You can register a tracking service with the workflow run-time engine by calling <ph id="ph1">&lt;xref:System.Workflow.Runtime.WorkflowRuntime.AddService%2A?displayProperty=nameWithType&gt;</ph> or by including the appropriate entry in the application configuration file.</source>
+          <target state="translated">通过调用 <ph id="ph1">&lt;xref:System.Workflow.Runtime.WorkflowRuntime.AddService%2A?displayProperty=nameWithType&gt;</ph> 或在应用程序配置文件中包括适当的条目，您可以向工作流运行时引擎注册跟踪服务。</target>       </trans-unit>
+        <trans-unit id="114" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Workflow.Runtime.Tracking.TrackingService">
+          <source>All tracking services must inherit from the <ph id="ph1">&lt;xref:System.Workflow.Runtime.Tracking.TrackingService&gt;</ph> abstract class.</source>
+          <target state="translated">所有跟踪服务都必须从 <ph id="ph1">&lt;xref:System.Workflow.Runtime.Tracking.TrackingService&gt;</ph> 抽象类继承。</target>       </trans-unit>
+        <trans-unit id="115" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Workflow.Runtime.Tracking.TrackingService">
+          <source>This class defines the basic interface between a tracking service and the run-time tracking infrastructure.</source>
+          <target state="translated">此类在跟踪服务与运行时跟踪基础结构之间定义基本接口。</target>       </trans-unit>
+        <trans-unit id="116" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Workflow.Runtime.Tracking.TrackingService">
+          <source>The workflow run-time engine requests a <ph id="ph1">&lt;xref:System.Workflow.Runtime.Tracking.TrackingProfile&gt;</ph> for a specific workflow instance or workflow <ph id="ph2">&lt;xref:System.Type&gt;</ph> by calling one of the overloaded <ph id="ph3">&lt;xref:System.Workflow.Runtime.Tracking.TrackingService.GetProfile%2A&gt;</ph> methods or the <ph id="ph4">&lt;xref:System.Workflow.Runtime.Tracking.TrackingService.TryGetProfile%2A&gt;</ph> method.</source>
+          <target state="translated">工作流运行时引擎通过调用某个重载 <ph id="ph1">&lt;xref:System.Workflow.Runtime.Tracking.TrackingProfile&gt;</ph> 方法或 <ph id="ph2">&lt;xref:System.Type&gt;</ph> 方法，为特定工作流实例或工作流 <ph id="ph3">&lt;xref:System.Workflow.Runtime.Tracking.TrackingService.GetProfile%2A&gt;</ph> 请求 <ph id="ph4">&lt;xref:System.Workflow.Runtime.Tracking.TrackingService.TryGetProfile%2A&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="117" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Workflow.Runtime.Tracking.TrackingService">
+          <source>The workflow run-time engine calls <ph id="ph1">&lt;xref:System.Workflow.Runtime.Tracking.TrackingService.GetTrackingChannel%2A&gt;</ph> to request a <ph id="ph2">&lt;xref:System.Workflow.Runtime.Tracking.TrackingChannel&gt;</ph>.</source>
+          <target state="translated">工作流运行时引擎调用 <ph id="ph1">&lt;xref:System.Workflow.Runtime.Tracking.TrackingService.GetTrackingChannel%2A&gt;</ph> 以请求 <ph id="ph2">&lt;xref:System.Workflow.Runtime.Tracking.TrackingChannel&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="118" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Workflow.Runtime.Tracking.TrackingService">
+          <source>The workflow tracking runtime calls the <ph id="ph1">&lt;xref:System.Workflow.Runtime.Tracking.TrackingService.GetProfile%2A&gt;</ph> and <ph id="ph2">&lt;xref:System.Workflow.Runtime.Tracking.TrackingService.TryGetProfile%2A&gt;</ph> methods whenever a workflow instance is created or loaded from the persistence store.</source>
+          <target state="translated">在创建工作流实例或从持久性存储区中加载工作流实例时，工作流跟踪运行时将调用 <ph id="ph1">&lt;xref:System.Workflow.Runtime.Tracking.TrackingService.GetProfile%2A&gt;</ph> 和 <ph id="ph2">&lt;xref:System.Workflow.Runtime.Tracking.TrackingService.TryGetProfile%2A&gt;</ph> 方法。</target>       </trans-unit>
+        <trans-unit id="119" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Workflow.Runtime.Tracking.TrackingService">
+          <source>The overhead associated with these calls can be costly to the tracking service (many database calls, for example).</source>
+          <target state="translated">与这些调用关联的系统开销对于跟踪服务而言可能很大（举例来说，多个数据库调用）。</target>       </trans-unit>
+        <trans-unit id="120" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Workflow.Runtime.Tracking.TrackingService">
+          <source>You can implement the <ph id="ph1">&lt;xref:System.Workflow.Runtime.Tracking.IProfileNotification&gt;</ph> interface in your tracking service to circumvent this call-based mechanism and use events to notify the workflow runtime engine of changes to a <ph id="ph2">&lt;xref:System.Workflow.Runtime.Tracking.TrackingProfile&gt;</ph>.</source>
+          <target state="translated">您可以在跟踪服务中实现 <ph id="ph1">&lt;xref:System.Workflow.Runtime.Tracking.IProfileNotification&gt;</ph> 接口以避开这种基于调用的机制，并使用事件将 <ph id="ph2">&lt;xref:System.Workflow.Runtime.Tracking.TrackingProfile&gt;</ph> 的更改通知工作流运行时引擎。</target>       </trans-unit>
+        <trans-unit id="121" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Workflow.Runtime.Tracking.TrackingService">
+          <source>For tracking services that implement the <ph id="ph1">&lt;xref:System.Workflow.Runtime.Tracking.IProfileNotification&gt;</ph> interface, the workflow run-time engine subscribes to the <ph id="ph2">&lt;xref:System.Workflow.Runtime.Tracking.IProfileNotification.ProfileUpdated&gt;</ph> and <ph id="ph3">&lt;xref:System.Workflow.Runtime.Tracking.IProfileNotification.ProfileRemoved&gt;</ph> events.</source>
+          <target state="translated">对于实现 <ph id="ph1">&lt;xref:System.Workflow.Runtime.Tracking.IProfileNotification&gt;</ph> 接口的跟踪服务，工作流运行时引擎将订阅 <ph id="ph2">&lt;xref:System.Workflow.Runtime.Tracking.IProfileNotification.ProfileUpdated&gt;</ph> 和 <ph id="ph3">&lt;xref:System.Workflow.Runtime.Tracking.IProfileNotification.ProfileRemoved&gt;</ph> 事件。</target>       </trans-unit>
+        <trans-unit id="122" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Workflow.Runtime.Tracking.TrackingService">
+          <source>Your tracking service can raise the appropriate event when a change to one of its tracking profiles occurs.</source>
+          <target state="translated">当它的某个跟踪配置文件发生更改时，跟踪服务可以引发适当的事件。</target>       </trans-unit>
+        <trans-unit id="123" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Workflow.Runtime.Tracking.TrackingService">
+          <source>The <ph id="ph1">&lt;xref:System.Workflow.Runtime.Tracking.SqlTrackingService&gt;</ph> class implements this interface.</source>
+          <target state="translated"><ph id="ph1">&lt;xref:System.Workflow.Runtime.Tracking.SqlTrackingService&gt;</ph> 类实现了此接口。</target>       </trans-unit>
+        <trans-unit id="124" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Workflow.Runtime.Tracking.TrackingService">
+          <source>The workflow run-time engine calls the <ph id="ph1">&lt;xref:System.Workflow.Runtime.Tracking.TrackingService.TryReloadProfile%2A&gt;</ph> method to test whether a <ph id="ph2">&lt;xref:System.Workflow.Runtime.Tracking.TrackingProfile&gt;</ph> has been updated or removed as a result of an explicit call by a host or a service to <ph id="ph3">&lt;xref:System.Workflow.Runtime.WorkflowInstance.ReloadTrackingProfiles%2A&gt;</ph> on a workflow instance.</source>
+          <target state="translated">工作流运行时引擎调用 <ph id="ph1">&lt;xref:System.Workflow.Runtime.Tracking.TrackingService.TryReloadProfile%2A&gt;</ph> 方法，以测试 <ph id="ph2">&lt;xref:System.Workflow.Runtime.Tracking.TrackingProfile&gt;</ph> 是否已因为宿主或服务在工作流实例上显式调用了 <ph id="ph3">&lt;xref:System.Workflow.Runtime.WorkflowInstance.ReloadTrackingProfiles%2A&gt;</ph> 而更新或被移除。</target>       </trans-unit>
+        <trans-unit id="125" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Workflow.Runtime.Tracking.TrackingService">
+          <source>This process enables a host or service to dynamically change the tracking profile that is being used for a specific workflow instance.</source>
+          <target state="translated">此过程使宿主或服务能够动态地更改正用于特定工作流实例的跟踪配置文件。</target>       </trans-unit>
+        <trans-unit id="126" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Workflow.Runtime.Tracking.TrackingService">
+          <source>When you inherit from <ph id="ph1">&lt;see cref="T:System.Workflow.Runtime.Tracking.TrackingService" /&gt;</ph>, you must override the following members: <ph id="ph2">&lt;see cref="M:System.Workflow.Runtime.Tracking.TrackingService.GetProfile(System.Guid)" /&gt;</ph></source>
+          <target state="translated">从 <ph id="ph1">&lt;see cref="T:System.Workflow.Runtime.Tracking.TrackingService" /&gt;</ph> 继承时，必须重写以下成员：<ph id="ph2">&lt;see cref="M:System.Workflow.Runtime.Tracking.TrackingService.GetProfile(System.Guid)" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="127" translate="yes" xml:space="preserve" uid="M:System.Workflow.Runtime.Tracking.TrackingService.#ctor">
+          <source>When implemented in a derived class, initializes a new instance of the <ph id="ph1">&lt;see cref="T:System.Workflow.Runtime.Tracking.TrackingService" /&gt;</ph> class.</source>
+          <target state="translated">在派生类中实现时，初始化 <ph id="ph1">&lt;see cref="T:System.Workflow.Runtime.Tracking.TrackingService" /&gt;</ph> 类的新实例。</target>       </trans-unit>
+        <trans-unit id="128" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Workflow.Runtime.Tracking.TrackingService.#ctor">
+          <source>The following example shows how to create a new instance of a <ph id="ph1">`TerminationTrackingService`</ph> object, of a type that derives from <ph id="ph2">`TrackingService`</ph>.</source>
+          <target state="translated">下面的示例演示如何为具有从 <ph id="ph1">`TerminationTrackingService`</ph> 派生的类型的 <ph id="ph2">`TrackingService`</ph> 对象创建新实例。</target>       </trans-unit>
+        <trans-unit id="129" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Workflow.Runtime.Tracking.TrackingService.#ctor">
+          <source>This sample is from the Termination Tracking Service SDK sample.</source>
+          <target state="translated">此示例摘自“终止跟踪服务”SDK 示例。</target>       </trans-unit>
+        <trans-unit id="130" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Workflow.Runtime.Tracking.TrackingService.#ctor">
+          <source>For more information, see <bpt id="p1">[</bpt>Termination Tracking Service Sample<ept id="p1">](http://msdn.microsoft.com/library/29b7c0d7-cece-4bb9-96d0-c5b6c6e14439)</ept>.</source>
+          <target state="translated">有关详细信息，请参阅<bpt id="p1">[</bpt>终止跟踪服务示例<ept id="p1">](http://msdn.microsoft.com/library/29b7c0d7-cece-4bb9-96d0-c5b6c6e14439)</ept>。</target>       </trans-unit>
+        <trans-unit id="131" translate="yes" xml:space="preserve" uid="T:System.Workflow.Runtime.Tracking.TrackingService">
+          <source>Must be overridden in the derived class, and when implemented, gets the tracking profile for a specified workflow instance or workflow type.</source>
+          <target state="translated">必须在派生类中重写，并且在实现后为指定的工作流实例或工作流类型获取跟踪配置文件。</target>       </trans-unit>
+        <trans-unit id="132" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Workflow.Runtime.Tracking.TrackingService">
+          <source>A tracking service is responsible for managing the tracking profiles available for specific workflow types and specific workflow instances.</source>
+          <target state="translated">跟踪服务负责管理可用于特定工作流类型和特定工作流实例的跟踪配置文件。</target>       </trans-unit>
+        <trans-unit id="133" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Workflow.Runtime.Tracking.TrackingService">
+          <source>You can implement this management in whatever manner you choose.</source>
+          <target state="translated">可以采用您选择的任何方式实现此管理。</target>       </trans-unit>
+        <trans-unit id="134" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Workflow.Runtime.Tracking.TrackingService">
+          <source>For example, you can return the same <ph id="ph1">&lt;xref:System.Workflow.Runtime.Tracking.TrackingProfile&gt;</ph> for every workflow <ph id="ph2">&lt;xref:System.Type&gt;</ph> and workflow instance; or you can manage a sophisticated store of tracking profiles referenced by workflow instance, workflow <ph id="ph3">&lt;xref:System.Type&gt;</ph>, and <ph id="ph4">&lt;xref:System.Version&gt;</ph>.</source>
+          <target state="translated">例如，您可以为每个工作流 <ph id="ph1">&lt;xref:System.Workflow.Runtime.Tracking.TrackingProfile&gt;</ph> 和工作流实例返回相同的 <ph id="ph2">&lt;xref:System.Type&gt;</ph>；或者，您可以管理工作流实例、工作流 <ph id="ph3">&lt;xref:System.Type&gt;</ph> 和 <ph id="ph4">&lt;xref:System.Version&gt;</ph> 引用的跟踪配置文件的复杂存储。</target>       </trans-unit>
+        <trans-unit id="135" translate="yes" xml:space="preserve" uid="M:System.Workflow.Runtime.Tracking.TrackingService.GetProfile(System.Guid)">
+          <source>The <ph id="ph1">&lt;see cref="T:System.Guid" /&gt;</ph> of the workflow instance.</source>
+          <target state="translated">工作流实例的 <ph id="ph1">&lt;see cref="T:System.Guid" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="136" translate="yes" xml:space="preserve" uid="M:System.Workflow.Runtime.Tracking.TrackingService.GetProfile(System.Guid)">
+          <source>Must be overridden in the derived class, and when implemented, returns the tracking profile for the specified workflow instance.</source>
+          <target state="translated">必须在派生类中重写，并且在实现后为指定的工作流实例返回跟踪配置文件。</target>       </trans-unit>
+        <trans-unit id="137" translate="yes" xml:space="preserve" uid="M:System.Workflow.Runtime.Tracking.TrackingService.GetProfile(System.Guid)">
+          <source>The tracking profile for the specified workflow instance.</source>
+          <target state="translated">指定工作流实例的跟踪配置文件。</target>       </trans-unit>
+        <trans-unit id="138" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Workflow.Runtime.Tracking.TrackingService.GetProfile(System.Guid)">
+          <source>A tracking service is responsible for managing the tracking profiles available for specific workflow types and specific workflow instances.</source>
+          <target state="translated">跟踪服务负责管理可用于特定工作流类型和特定工作流实例的跟踪配置文件。</target>       </trans-unit>
+        <trans-unit id="139" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Workflow.Runtime.Tracking.TrackingService.GetProfile(System.Guid)">
+          <source>You can implement this management in whatever manner you choose.</source>
+          <target state="translated">可以采用您选择的任何方式实现此管理。</target>       </trans-unit>
+        <trans-unit id="140" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Workflow.Runtime.Tracking.TrackingService.GetProfile(System.Guid)">
+          <source>For example, you can return the same <ph id="ph1">&lt;xref:System.Workflow.Runtime.Tracking.TrackingProfile&gt;</ph> for every workflow <ph id="ph2">&lt;xref:System.Type&gt;</ph> and workflow instance; or you can manage a sophisticated store of tracking profiles referenced by workflow instance, workflow <ph id="ph3">&lt;xref:System.Type&gt;</ph>, and <ph id="ph4">&lt;xref:System.Version&gt;</ph>.</source>
+          <target state="translated">例如，您可以为每个工作流 <ph id="ph1">&lt;xref:System.Workflow.Runtime.Tracking.TrackingProfile&gt;</ph> 和工作流实例返回相同的 <ph id="ph2">&lt;xref:System.Type&gt;</ph>；或者，您可以管理工作流实例、工作流 <ph id="ph3">&lt;xref:System.Type&gt;</ph> 和 <ph id="ph4">&lt;xref:System.Version&gt;</ph> 引用的跟踪配置文件的复杂存储。</target>       </trans-unit>
+        <trans-unit id="141" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Workflow.Runtime.Tracking.TrackingService.GetProfile(System.Guid)">
+          <source>The following example shows an implementation of the <ph id="ph1">`GetProfile`</ph> method.</source>
+          <target state="translated">下面的示例演示 <ph id="ph1">`GetProfile`</ph> 方法的实现。</target>       </trans-unit>
+        <trans-unit id="142" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Workflow.Runtime.Tracking.TrackingService.GetProfile(System.Guid)">
+          <source>In this example, several overloads of the <ph id="ph1">`GetProfile`</ph> method call a single private <ph id="ph2">`GetProfile`</ph> method, which returns a hard-coded, default tracking profile.</source>
+          <target state="translated">在本例中，<ph id="ph1">`GetProfile`</ph> 方法的若干重载将调用单一的私有 <ph id="ph2">`GetProfile`</ph> 方法，后者将返回硬编码的默认跟踪配置文件。</target>       </trans-unit>
+        <trans-unit id="143" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Workflow.Runtime.Tracking.TrackingService.GetProfile(System.Guid)">
+          <source>This example is from the Termination Tracking Service SDK sample.</source>
+          <target state="translated">此示例摘自“终止跟踪服务”SDK 示例。</target>       </trans-unit>
+        <trans-unit id="144" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Workflow.Runtime.Tracking.TrackingService.GetProfile(System.Guid)">
+          <source>For more information, see <bpt id="p1">[</bpt>Termination Tracking Service Sample<ept id="p1">](http://msdn.microsoft.com/library/29b7c0d7-cece-4bb9-96d0-c5b6c6e14439)</ept>.</source>
+          <target state="translated">有关详细信息，请参阅<bpt id="p1">[</bpt>终止跟踪服务示例<ept id="p1">](http://msdn.microsoft.com/library/29b7c0d7-cece-4bb9-96d0-c5b6c6e14439)</ept>。</target>       </trans-unit>
+        <trans-unit id="145" translate="yes" xml:space="preserve" uid="M:System.Workflow.Runtime.Tracking.TrackingService.GetProfile(System.Type,System.Version)">
+          <source>The <ph id="ph1">&lt;see cref="T:System.Type" /&gt;</ph> of the workflow.</source>
+          <target state="translated">工作流的 <ph id="ph1">&lt;see cref="T:System.Type" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="146" translate="yes" xml:space="preserve" uid="M:System.Workflow.Runtime.Tracking.TrackingService.GetProfile(System.Type,System.Version)">
+          <source>The <ph id="ph1">&lt;see cref="T:System.Version" /&gt;</ph> of the tracking profile.</source>
+          <target state="translated">跟踪配置文件的 <ph id="ph1">&lt;see cref="T:System.Version" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="147" translate="yes" xml:space="preserve" uid="M:System.Workflow.Runtime.Tracking.TrackingService.GetProfile(System.Type,System.Version)">
+          <source>Must be overridden in the derived class, and when implemented, returns the tracking profile, qualified by version, for the specified workflow <ph id="ph1">&lt;see cref="T:System.Type" /&gt;</ph>.</source>
+          <target state="translated">必须在派生类中重写，并且在实现后为指定的工作流 <ph id="ph1">&lt;see cref="T:System.Type" /&gt;</ph> 返回由版本限定的跟踪配置文件。</target>       </trans-unit>
+        <trans-unit id="148" translate="yes" xml:space="preserve" uid="M:System.Workflow.Runtime.Tracking.TrackingService.GetProfile(System.Type,System.Version)">
+          <source>The tracking profile for the specified workflow type.</source>
+          <target state="translated">指定工作流类型的跟踪配置文件。</target>       </trans-unit>
+        <trans-unit id="149" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Workflow.Runtime.Tracking.TrackingService.GetProfile(System.Type,System.Version)">
+          <source>A tracking service is responsible for managing the tracking profiles available for specific workflow types and specific workflow instances.</source>
+          <target state="translated">跟踪服务负责管理可用于特定工作流类型和特定工作流实例的跟踪配置文件。</target>       </trans-unit>
+        <trans-unit id="150" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Workflow.Runtime.Tracking.TrackingService.GetProfile(System.Type,System.Version)">
+          <source>You can implement this management in whatever manner you choose.</source>
+          <target state="translated">可以采用您选择的任何方式实现此管理。</target>       </trans-unit>
+        <trans-unit id="151" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Workflow.Runtime.Tracking.TrackingService.GetProfile(System.Type,System.Version)">
+          <source>For example, you can return the same <ph id="ph1">&lt;xref:System.Workflow.Runtime.Tracking.TrackingProfile&gt;</ph> for every workflow <ph id="ph2">&lt;xref:System.Type&gt;</ph> and workflow instance; or you can manage a sophisticated store of tracking profiles referenced by workflow instance, workflow <ph id="ph3">&lt;xref:System.Type&gt;</ph>, and <ph id="ph4">&lt;xref:System.Version&gt;</ph>.</source>
+          <target state="translated">例如，您可以为每个工作流 <ph id="ph1">&lt;xref:System.Workflow.Runtime.Tracking.TrackingProfile&gt;</ph> 和工作流实例返回相同的 <ph id="ph2">&lt;xref:System.Type&gt;</ph>；或者，您可以管理工作流实例、工作流 <ph id="ph3">&lt;xref:System.Type&gt;</ph> 和 <ph id="ph4">&lt;xref:System.Version&gt;</ph> 引用的跟踪配置文件的复杂存储。</target>       </trans-unit>
+        <trans-unit id="152" translate="yes" xml:space="preserve" uid="M:System.Workflow.Runtime.Tracking.TrackingService.GetTrackingChannel(System.Workflow.Runtime.Tracking.TrackingParameters)">
+          <source>The <ph id="ph1">&lt;see cref="T:System.Workflow.Runtime.Tracking.TrackingParameters" /&gt;</ph> associated with the workflow instance.</source>
+          <target state="translated">与工作流实例关联的 <ph id="ph1">&lt;see cref="T:System.Workflow.Runtime.Tracking.TrackingParameters" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="153" translate="yes" xml:space="preserve" uid="M:System.Workflow.Runtime.Tracking.TrackingService.GetTrackingChannel(System.Workflow.Runtime.Tracking.TrackingParameters)">
+          <source>Must be overridden in the derived class, and when implemented, returns the channel that the run-time tracking infrastructure uses to send tracking records to the tracking service.</source>
+          <target state="translated">必须在派生类中重写，并且在实现后返回运行时跟踪基础结构用于向跟踪服务发送跟踪记录的通道。</target>       </trans-unit>
+        <trans-unit id="154" translate="yes" xml:space="preserve" uid="M:System.Workflow.Runtime.Tracking.TrackingService.GetTrackingChannel(System.Workflow.Runtime.Tracking.TrackingParameters)">
+          <source>The <ph id="ph1">&lt;see cref="T:System.Workflow.Runtime.Tracking.TrackingChannel" /&gt;</ph> that is used to send tracking records to the tracking service.</source>
+          <target state="translated">用于向跟踪服务发送跟踪记录的 <ph id="ph1">&lt;see cref="T:System.Workflow.Runtime.Tracking.TrackingChannel" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="155" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Workflow.Runtime.Tracking.TrackingService.GetTrackingChannel(System.Workflow.Runtime.Tracking.TrackingParameters)">
+          <source>The run-time tracking infrastructure uses one <ph id="ph1">&lt;xref:System.Workflow.Runtime.Tracking.TrackingChannel&gt;</ph> for each tracking service for each workflow instance.</source>
+          <target state="translated">运行时跟踪基础结构按照每个跟踪服务为每个工作流实例使用一个 <ph id="ph1">&lt;xref:System.Workflow.Runtime.Tracking.TrackingChannel&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="156" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Workflow.Runtime.Tracking.TrackingService.GetTrackingChannel(System.Workflow.Runtime.Tracking.TrackingParameters)">
+          <source>The workflow run-time engine calls <ph id="ph1">&lt;xref:System.Workflow.Runtime.Tracking.TrackingService.GetTrackingChannel%2A&gt;</ph> on each tracking service to get the <ph id="ph2">&lt;xref:System.Workflow.Runtime.Tracking.TrackingChannel&gt;</ph> for that service.</source>
+          <target state="translated">工作流运行时引擎对每个跟踪服务调用 <ph id="ph1">&lt;xref:System.Workflow.Runtime.Tracking.TrackingService.GetTrackingChannel%2A&gt;</ph>，以便为该服务获取 <ph id="ph2">&lt;xref:System.Workflow.Runtime.Tracking.TrackingChannel&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="157" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Workflow.Runtime.Tracking.TrackingService.GetTrackingChannel(System.Workflow.Runtime.Tracking.TrackingParameters)">
+          <source>You can use the information passed in <ph id="ph1">&lt;xref:System.Workflow.Runtime.Tracking.TrackingParameters&gt;</ph> to associate tracking data sent on the <ph id="ph2">&lt;xref:System.Workflow.Runtime.Tracking.TrackingChannel&gt;</ph> for your tracking service with a particular root workflow instance.</source>
+          <target state="translated">您可以使用传入 <ph id="ph1">&lt;xref:System.Workflow.Runtime.Tracking.TrackingParameters&gt;</ph> 的信息将为跟踪服务在 <ph id="ph2">&lt;xref:System.Workflow.Runtime.Tracking.TrackingChannel&gt;</ph> 上发送的跟踪数据与特定的根工作流实例关联。</target>       </trans-unit>
+        <trans-unit id="158" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Workflow.Runtime.Tracking.TrackingService.GetTrackingChannel(System.Workflow.Runtime.Tracking.TrackingParameters)">
+          <source>The following example shows an implementation of the <ph id="ph1">`GetTrackingChannel`</ph> method.</source>
+          <target state="translated">下面的示例演示 <ph id="ph1">`GetTrackingChannel`</ph> 方法的实现。</target>       </trans-unit>
+        <trans-unit id="159" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Workflow.Runtime.Tracking.TrackingService.GetTrackingChannel(System.Workflow.Runtime.Tracking.TrackingParameters)">
+          <source>This example is from the Termination Tracking Service SDK sample.</source>
+          <target state="translated">此示例摘自“终止跟踪服务”SDK 示例。</target>       </trans-unit>
+        <trans-unit id="160" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Workflow.Runtime.Tracking.TrackingService.GetTrackingChannel(System.Workflow.Runtime.Tracking.TrackingParameters)">
+          <source>For more information, see <bpt id="p1">[</bpt>Termination Tracking Service Sample<ept id="p1">](http://msdn.microsoft.com/library/29b7c0d7-cece-4bb9-96d0-c5b6c6e14439)</ept>.</source>
+          <target state="translated">有关详细信息，请参阅<bpt id="p1">[</bpt>终止跟踪服务示例<ept id="p1">](http://msdn.microsoft.com/library/29b7c0d7-cece-4bb9-96d0-c5b6c6e14439)</ept>。</target>       </trans-unit>
+        <trans-unit id="161" translate="yes" xml:space="preserve" uid="M:System.Workflow.Runtime.Tracking.TrackingService.TryGetProfile(System.Type,System.Workflow.Runtime.Tracking.TrackingProfile@)">
+          <source>The <ph id="ph1">&lt;see cref="T:System.Type" /&gt;</ph> of the workflow for which to get the tracking profile.</source>
+          <target state="translated">要为其获取跟踪配置文件的工作流的 <ph id="ph1">&lt;see cref="T:System.Type" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="162" translate="yes" xml:space="preserve" uid="M:System.Workflow.Runtime.Tracking.TrackingService.TryGetProfile(System.Type,System.Workflow.Runtime.Tracking.TrackingProfile@)">
+          <source>When this method returns, contains the <ph id="ph1">&lt;see cref="T:System.Workflow.Runtime.Tracking.TrackingProfile" /&gt;</ph> to load.</source>
+          <target state="translated">此方法返回时，将包含要加载的 <ph id="ph1">&lt;see cref="T:System.Workflow.Runtime.Tracking.TrackingProfile" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="163" translate="yes" xml:space="preserve" uid="M:System.Workflow.Runtime.Tracking.TrackingService.TryGetProfile(System.Type,System.Workflow.Runtime.Tracking.TrackingProfile@)">
+          <source>This parameter is passed uninitialized.</source>
+          <target state="translated">此参数未经初始化即被传递。</target>       </trans-unit>
+        <trans-unit id="164" translate="yes" xml:space="preserve" uid="M:System.Workflow.Runtime.Tracking.TrackingService.TryGetProfile(System.Type,System.Workflow.Runtime.Tracking.TrackingProfile@)">
+          <source>Must be overridden in the derived class, and when implemented, retrieves the tracking profile for the specified workflow type if one is available.</source>
+          <target state="translated">必须在派生类中重写，并且在实现后为指定的工作流类型（如果有）检索跟踪配置文件。</target>       </trans-unit>
+        <trans-unit id="165" translate="yes" xml:space="preserve" uid="M:System.Workflow.Runtime.Tracking.TrackingService.TryGetProfile(System.Type,System.Workflow.Runtime.Tracking.TrackingProfile@)">
+          <source><ph id="ph1">&lt;see langword="true" /&gt;</ph> if a <ph id="ph2">&lt;see cref="T:System.Workflow.Runtime.Tracking.TrackingProfile" /&gt;</ph> for the specified workflow <ph id="ph3">&lt;see cref="T:System.Type" /&gt;</ph> is available; otherwise, <ph id="ph4">&lt;see langword="false" /&gt;</ph>.</source>
+          <target state="translated">如果指定工作流 <ph id="ph1">&lt;see langword="true" /&gt;</ph> 的 <ph id="ph2">&lt;see cref="T:System.Workflow.Runtime.Tracking.TrackingProfile" /&gt;</ph> 可用，则为 <ph id="ph3">&lt;see cref="T:System.Type" /&gt;</ph>；否则为 <ph id="ph4">&lt;see langword="false" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="166" translate="yes" xml:space="preserve" uid="M:System.Workflow.Runtime.Tracking.TrackingService.TryGetProfile(System.Type,System.Workflow.Runtime.Tracking.TrackingProfile@)">
+          <source>If <ph id="ph1">&lt;see langword="true" /&gt;</ph>, the <ph id="ph2">&lt;see cref="T:System.Workflow.Runtime.Tracking.TrackingProfile" /&gt;</ph> is returned in <ph id="ph3">&lt;paramref name="profile" /&gt;</ph>.</source>
+          <target state="translated">如果为 <ph id="ph1">&lt;see langword="true" /&gt;</ph>，则会在 <ph id="ph2">&lt;see cref="T:System.Workflow.Runtime.Tracking.TrackingProfile" /&gt;</ph> 中返回 <ph id="ph3">&lt;paramref name="profile" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="167" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Workflow.Runtime.Tracking.TrackingService.TryGetProfile(System.Type,System.Workflow.Runtime.Tracking.TrackingProfile@)">
+          <source>A tracking service is responsible for managing the tracking profiles available for specific workflow types and specific workflow instances.</source>
+          <target state="translated">跟踪服务负责管理可用于特定工作流类型和特定工作流实例的跟踪配置文件。</target>       </trans-unit>
+        <trans-unit id="168" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Workflow.Runtime.Tracking.TrackingService.TryGetProfile(System.Type,System.Workflow.Runtime.Tracking.TrackingProfile@)">
+          <source>You can implement this management in whatever manner you choose.</source>
+          <target state="translated">可以采用您选择的任何方式实现此管理。</target>       </trans-unit>
+        <trans-unit id="169" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Workflow.Runtime.Tracking.TrackingService.TryGetProfile(System.Type,System.Workflow.Runtime.Tracking.TrackingProfile@)">
+          <source>For example, you can return the same <ph id="ph1">&lt;xref:System.Workflow.Runtime.Tracking.TrackingProfile&gt;</ph> for every workflow <ph id="ph2">&lt;xref:System.Type&gt;</ph> and workflow instance; or you can manage a sophisticated store of tracking profiles referenced by workflow instance, workflow <ph id="ph3">&lt;xref:System.Type&gt;</ph>, and <ph id="ph4">&lt;xref:System.Version&gt;</ph>.</source>
+          <target state="translated">例如，您可以为每个工作流 <ph id="ph1">&lt;xref:System.Workflow.Runtime.Tracking.TrackingProfile&gt;</ph> 和工作流实例返回相同的 <ph id="ph2">&lt;xref:System.Type&gt;</ph>；或者，您可以管理工作流实例、工作流 <ph id="ph3">&lt;xref:System.Type&gt;</ph> 和 <ph id="ph4">&lt;xref:System.Version&gt;</ph> 引用的跟踪配置文件的复杂存储。</target>       </trans-unit>
+        <trans-unit id="170" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Workflow.Runtime.Tracking.TrackingService.TryGetProfile(System.Type,System.Workflow.Runtime.Tracking.TrackingProfile@)">
+          <source>The following example demonstrates an implementation of the <ph id="ph1">`TryGetProfile`</ph> method, which calls a private <ph id="ph2">`GetProfile`</ph> method.</source>
+          <target state="translated">下面的示例演示 <ph id="ph1">`TryGetProfile`</ph> 方法的实现，该方法调用私有 <ph id="ph2">`GetProfile`</ph> 方法。</target>       </trans-unit>
+        <trans-unit id="171" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Workflow.Runtime.Tracking.TrackingService.TryGetProfile(System.Type,System.Workflow.Runtime.Tracking.TrackingProfile@)">
+          <source>This example is from the Termination Tracking Service SDK sample.</source>
+          <target state="translated">此示例摘自“终止跟踪服务”SDK 示例。</target>       </trans-unit>
+        <trans-unit id="172" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Workflow.Runtime.Tracking.TrackingService.TryGetProfile(System.Type,System.Workflow.Runtime.Tracking.TrackingProfile@)">
+          <source>For more information, see <bpt id="p1">[</bpt>Termination Tracking Service Sample<ept id="p1">](http://msdn.microsoft.com/library/29b7c0d7-cece-4bb9-96d0-c5b6c6e14439)</ept>.</source>
+          <target state="translated">有关详细信息，请参阅<bpt id="p1">[</bpt>终止跟踪服务示例<ept id="p1">](http://msdn.microsoft.com/library/29b7c0d7-cece-4bb9-96d0-c5b6c6e14439)</ept>。</target>       </trans-unit>
+        <trans-unit id="173" translate="yes" xml:space="preserve" uid="M:System.Workflow.Runtime.Tracking.TrackingService.TryReloadProfile(System.Type,System.Guid,System.Workflow.Runtime.Tracking.TrackingProfile@)">
+          <source>The <ph id="ph1">&lt;see cref="T:System.Type" /&gt;</ph> of the workflow instance.</source>
+          <target state="translated">工作流实例的 <ph id="ph1">&lt;see cref="T:System.Type" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="174" translate="yes" xml:space="preserve" uid="M:System.Workflow.Runtime.Tracking.TrackingService.TryReloadProfile(System.Type,System.Guid,System.Workflow.Runtime.Tracking.TrackingProfile@)">
+          <source>The <ph id="ph1">&lt;see cref="T:System.Guid" /&gt;</ph> of the workflow instance.</source>
+          <target state="translated">工作流实例的 <ph id="ph1">&lt;see cref="T:System.Guid" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="175" translate="yes" xml:space="preserve" uid="M:System.Workflow.Runtime.Tracking.TrackingService.TryReloadProfile(System.Type,System.Guid,System.Workflow.Runtime.Tracking.TrackingProfile@)">
+          <source>When this method returns, contains the <ph id="ph1">&lt;see cref="T:System.Workflow.Runtime.Tracking.TrackingProfile" /&gt;</ph> to load.</source>
+          <target state="translated">此方法返回时，将包含要加载的 <ph id="ph1">&lt;see cref="T:System.Workflow.Runtime.Tracking.TrackingProfile" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="176" translate="yes" xml:space="preserve" uid="M:System.Workflow.Runtime.Tracking.TrackingService.TryReloadProfile(System.Type,System.Guid,System.Workflow.Runtime.Tracking.TrackingProfile@)">
+          <source>This parameter is passed uninitialized.</source>
+          <target state="translated">此参数未经初始化即被传递。</target>       </trans-unit>
+        <trans-unit id="177" translate="yes" xml:space="preserve" uid="M:System.Workflow.Runtime.Tracking.TrackingService.TryReloadProfile(System.Type,System.Guid,System.Workflow.Runtime.Tracking.TrackingProfile@)">
+          <source>Must be overridden in the derived class, and when implemented, retrieves a new tracking profile for the specified workflow instance if the tracking profile has changed since it was last loaded.</source>
+          <target state="translated">必须在派生类中重写，并且在实现后为指定的工作流实例检索新的跟踪配置文件（如果跟踪配置文件自上次加载后已更改）。</target>       </trans-unit>
+        <trans-unit id="178" translate="yes" xml:space="preserve" uid="M:System.Workflow.Runtime.Tracking.TrackingService.TryReloadProfile(System.Type,System.Guid,System.Workflow.Runtime.Tracking.TrackingProfile@)">
+          <source><ph id="ph1">&lt;see langword="true" /&gt;</ph> if a new <ph id="ph2">&lt;see cref="T:System.Workflow.Runtime.Tracking.TrackingProfile" /&gt;</ph> should be loaded; otherwise, <ph id="ph3">&lt;see langword="false" /&gt;</ph>.</source>
+          <target state="translated">如果应加载新的 <ph id="ph2">&lt;see cref="T:System.Workflow.Runtime.Tracking.TrackingProfile" /&gt;</ph>，则为 <ph id="ph1">&lt;see langword="true" /&gt;</ph>；否则为 <ph id="ph3">&lt;see langword="false" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="179" translate="yes" xml:space="preserve" uid="M:System.Workflow.Runtime.Tracking.TrackingService.TryReloadProfile(System.Type,System.Guid,System.Workflow.Runtime.Tracking.TrackingProfile@)">
+          <source>If <ph id="ph1">&lt;see langword="true" /&gt;</ph>, the <ph id="ph2">&lt;see cref="T:System.Workflow.Runtime.Tracking.TrackingProfile" /&gt;</ph> is returned in <ph id="ph3">&lt;paramref name="profile" /&gt;</ph>.</source>
+          <target state="translated">如果为 <ph id="ph1">&lt;see langword="true" /&gt;</ph>，则会在 <ph id="ph2">&lt;see cref="T:System.Workflow.Runtime.Tracking.TrackingProfile" /&gt;</ph> 中返回 <ph id="ph3">&lt;paramref name="profile" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="180" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Workflow.Runtime.Tracking.TrackingService.TryReloadProfile(System.Type,System.Guid,System.Workflow.Runtime.Tracking.TrackingProfile@)">
+          <source><ph id="ph1">&lt;xref:System.Workflow.Runtime.Tracking.TrackingService.TryReloadProfile%2A&gt;</ph> is called by the run-time tracking infrastructure to determine whether a new <ph id="ph2">&lt;xref:System.Workflow.Runtime.Tracking.TrackingProfile&gt;</ph> should be loaded for the specified workflow instance.</source>
+          <target state="translated">运行时跟踪基础结构调用 <ph id="ph1">&lt;xref:System.Workflow.Runtime.Tracking.TrackingService.TryReloadProfile%2A&gt;</ph> 以确定是否应为指定的工作流实例加载新的 <ph id="ph2">&lt;xref:System.Workflow.Runtime.Tracking.TrackingProfile&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="181" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Workflow.Runtime.Tracking.TrackingService.TryReloadProfile(System.Type,System.Guid,System.Workflow.Runtime.Tracking.TrackingProfile@)">
+          <source>If a new <ph id="ph1">&lt;xref:System.Workflow.Runtime.Tracking.TrackingProfile&gt;</ph> is required, it is returned in <ph id="ph2">`profile`</ph>.</source>
+          <target state="translated">如果需要新的 <ph id="ph1">&lt;xref:System.Workflow.Runtime.Tracking.TrackingProfile&gt;</ph>，它将在 <ph id="ph2">`profile`</ph> 中返回。</target>       </trans-unit>
+        <trans-unit id="182" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Workflow.Runtime.Tracking.TrackingService.TryReloadProfile(System.Type,System.Guid,System.Workflow.Runtime.Tracking.TrackingProfile@)">
+          <source>If you want the run-time tracking infrastructure to stop tracking a workflow instance, your tracking service should return <ph id="ph1">`true`</ph> and set <ph id="ph2">`profile`</ph> equal to a null reference (<ph id="ph3">`Nothing`</ph> in Visual Basic).</source>
+          <target state="translated">如果希望运行时跟踪基础结构停止跟踪某个工作流实例，则跟踪服务应返回 <ph id="ph1">`true`</ph>，并将 <ph id="ph2">`profile`</ph> 设置为等于空引用（在 Visual Basic 中为 <ph id="ph3">`Nothing`</ph>）。</target>       </trans-unit>
+        <trans-unit id="183" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Workflow.Runtime.Tracking.TrackingService.TryReloadProfile(System.Type,System.Guid,System.Workflow.Runtime.Tracking.TrackingProfile@)">
+          <source>Your tracking service can use <ph id="ph1">`workflowType`</ph> or <ph id="ph2">`workflowInstanceId`</ph> in whatever manner you choose to determine whether a tracking profile should be reloaded.</source>
+          <target state="translated">跟踪服务可以采用您选择的任何方式使用 <ph id="ph1">`workflowType`</ph> 或 <ph id="ph2">`workflowInstanceId`</ph>，以确定是否应重新加载跟踪配置文件。</target>       </trans-unit>
+        <trans-unit id="184" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Workflow.Runtime.Tracking.TrackingService.TryReloadProfile(System.Type,System.Guid,System.Workflow.Runtime.Tracking.TrackingProfile@)">
+          <source>For example, the <ph id="ph1">&lt;xref:System.Workflow.Runtime.Tracking.SqlTrackingService&gt;</ph> only uses <ph id="ph2">`workflowInstanceId`</ph> to decide whether the tracking profile should be reloaded.</source>
+          <target state="translated">例如，<ph id="ph1">&lt;xref:System.Workflow.Runtime.Tracking.SqlTrackingService&gt;</ph> 只使用 <ph id="ph2">`workflowInstanceId`</ph> 来决定是否应重新加载跟踪配置文件。</target>       </trans-unit>
+        <trans-unit id="185" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Workflow.Runtime.Tracking.TrackingService.TryReloadProfile(System.Type,System.Guid,System.Workflow.Runtime.Tracking.TrackingProfile@)">
+          <source><ph id="ph1">&lt;xref:System.Workflow.Runtime.Tracking.TrackingService.TryReloadProfile%2A&gt;</ph> is called by the run-time tracking infrastructure according to its own tracking semantics, or in response to the host or a service calling <ph id="ph2">&lt;xref:System.Workflow.Runtime.WorkflowInstance.ReloadTrackingProfiles%2A?displayProperty=nameWithType&gt;</ph> on a workflow instance.</source>
+          <target state="translated">运行时跟踪基础结构根据其自己的跟踪语义或响应对工作流实例调用 <ph id="ph1">&lt;xref:System.Workflow.Runtime.Tracking.TrackingService.TryReloadProfile%2A&gt;</ph> 的宿主或服务，以调用 <ph id="ph2">&lt;xref:System.Workflow.Runtime.WorkflowInstance.ReloadTrackingProfiles%2A?displayProperty=nameWithType&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="186" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Workflow.Runtime.Tracking.TrackingService.TryReloadProfile(System.Type,System.Guid,System.Workflow.Runtime.Tracking.TrackingProfile@)">
+          <source>The following example shows a basic implementation of the <ph id="ph1">`TryReloadProfile`</ph> method.</source>
+          <target state="translated">下面的示例演示 <ph id="ph1">`TryReloadProfile`</ph> 方法的基本实现。</target>       </trans-unit>
+        <trans-unit id="187" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Workflow.Runtime.Tracking.TrackingService.TryReloadProfile(System.Type,System.Guid,System.Workflow.Runtime.Tracking.TrackingProfile@)">
+          <source>This example is from the Termination Tracking Service SDK sample.</source>
+          <target state="translated">此示例摘自“终止跟踪服务”SDK 示例。</target>       </trans-unit>
+        <trans-unit id="188" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Workflow.Runtime.Tracking.TrackingService.TryReloadProfile(System.Type,System.Guid,System.Workflow.Runtime.Tracking.TrackingProfile@)">
+          <source>For more information, see <bpt id="p1">[</bpt>Termination Tracking Service Sample<ept id="p1">](http://msdn.microsoft.com/library/29b7c0d7-cece-4bb9-96d0-c5b6c6e14439)</ept>.</source>
+          <target state="translated">有关详细信息，请参阅<bpt id="p1">[</bpt>终止跟踪服务示例<ept id="p1">](http://msdn.microsoft.com/library/29b7c0d7-cece-4bb9-96d0-c5b6c6e14439)</ept>。</target>       </trans-unit>
+      </group>
+    </body>
+  </file>
+</xliff>

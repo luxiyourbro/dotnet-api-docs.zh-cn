@@ -1,958 +1,393 @@
-<Type Name="VirtualPathUtility" FullName="System.Web.VirtualPathUtility">
-  <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="466ee68d7b69b803793258fd12dc6f5418956a9f" />
-    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
-    <Meta Name="ms.translationtype" Value="HT" />
-    <Meta Name="ms.contentlocale" Value="zh-CN" />
-    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
-  </Metadata>
-  <TypeSignature Language="C#" Value="public static class VirtualPathUtility" />
-  <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract sealed beforefieldinit VirtualPathUtility extends System.Object" />
-  <TypeSignature Language="DocId" Value="T:System.Web.VirtualPathUtility" />
-  <TypeSignature Language="VB.NET" Value="Public Class VirtualPathUtility" />
-  <TypeSignature Language="C++ CLI" Value="public ref class VirtualPathUtility abstract sealed" />
-  <AssemblyInfo>
-    <AssemblyName>System.Web</AssemblyName>
-    <AssemblyVersion>4.0.0.0</AssemblyVersion>
-  </AssemblyInfo>
-  <Base>
-    <BaseTypeName>System.Object</BaseTypeName>
-  </Base>
-  <Interfaces />
-  <Docs>
-    <summary>
-      <span data-ttu-id="1b612-101">为常见的虚拟路径操作提供实用工具方法。</span>
-      <span class="sxs-lookup">
-        <span data-stu-id="1b612-101">Provides utility methods for common virtual path operations.</span>
-      </span>
-    </summary>
-    <remarks>
-      <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="1b612-102"><xref:System.Web.VirtualPathUtility>类提供了对常见操作涉及虚拟路径的实用工具方法。</span><span class="sxs-lookup"><span data-stu-id="1b612-102">The <xref:System.Web.VirtualPathUtility> class provides utility methods for common operations involving virtual paths.</span></span> <span data-ttu-id="1b612-103">有关 ASP.NET 服务器控件和服务器代码，使用 Web 应用程序根目录运算符的虚拟路径波形符 （~），通常用于而不是相对和绝对路径。</span><span class="sxs-lookup"><span data-stu-id="1b612-103">For ASP.NET server controls and server code, virtual paths using the Web application root operator, the tilde (~), commonly are used instead of relative and absolute paths.</span></span> <span data-ttu-id="1b612-104">有关详细信息，请参阅[ASP.NET Web 项目路径](http://msdn.microsoft.com/library/2447f50c-b849-483c-8093-85ed53e7a5bd)。</span><span class="sxs-lookup"><span data-stu-id="1b612-104">For more information, see [ASP.NET Web Project Paths](http://msdn.microsoft.com/library/2447f50c-b849-483c-8093-85ed53e7a5bd).</span></span>  
-  
- <span data-ttu-id="1b612-105">使用<xref:System.Web.VirtualPathUtility>类时需要将相对于应用程序路径转换为绝对虚拟路径，如可能是这种情况在开发自定义 Web 服务处理程序。</span><span class="sxs-lookup"><span data-stu-id="1b612-105">Use the <xref:System.Web.VirtualPathUtility> class when you need to convert application-relative paths to absolute virtual paths, as might be the case in developing a custom Web service handler.</span></span>  
-  
- <span data-ttu-id="1b612-106">绝对的虚拟路径以斜杠 （/） 开头。</span><span class="sxs-lookup"><span data-stu-id="1b612-106">An absolute virtual path starts with the literal slash mark (/).</span></span> <span data-ttu-id="1b612-107">相对虚拟路径是相对于应用程序根目录中，如果只是波形符 （~） 或开头颚化符和使用双反斜杠 (~\\\\) 或颚化符和斜杠标记 (~ /)。</span><span class="sxs-lookup"><span data-stu-id="1b612-107">A relative virtual path is relative to the application root directory, if it is just a tilde (~) or starts with the tilde and a double backslash (~\\\\) or the tilde and a slash mark (~/).</span></span> <span data-ttu-id="1b612-108">使虚拟路径相对使得独立于应用程序路径。</span><span class="sxs-lookup"><span data-stu-id="1b612-108">Making a virtual path relative makes the path independent of the application.</span></span>  
-  
- <span data-ttu-id="1b612-109">可以从获取应用程序的虚拟目录<xref:System.Web.HttpRuntime.AppDomainAppVirtualPath%2A>和<xref:System.Web.HttpRequest.ApplicationPath%2A>属性。</span><span class="sxs-lookup"><span data-stu-id="1b612-109">The virtual directory for the application can be obtained from the <xref:System.Web.HttpRuntime.AppDomainAppVirtualPath%2A> and <xref:System.Web.HttpRequest.ApplicationPath%2A> properties.</span></span>  
-  
-> [!NOTE]
->  <span data-ttu-id="1b612-110"><xref:System.Web.VirtualPathUtility>类不用于安全或规范化目的。</span><span class="sxs-lookup"><span data-stu-id="1b612-110">The <xref:System.Web.VirtualPathUtility> class is not intended for security or canonicalization purposes.</span></span> <span data-ttu-id="1b612-111">有关 Web 应用程序安全性的详细信息，请参阅[Web 应用程序安全威胁概述](http://msdn.microsoft.com/library/88d61678-f84e-4622-ae80-53128821855a)。</span><span class="sxs-lookup"><span data-stu-id="1b612-111">For more information about Web application security, see [Overview of Web Application Security Threats](http://msdn.microsoft.com/library/88d61678-f84e-4622-ae80-53128821855a).</span></span> <span data-ttu-id="1b612-112">有关一般 URL 处理功能，请参阅<xref:System.Uri>。</span><span class="sxs-lookup"><span data-stu-id="1b612-112">For generic URL processing functionality, see <xref:System.Uri>.</span></span>  
-  
-   
-  
-## Examples  
- <span data-ttu-id="1b612-113">下面的代码示例演示如何使用<xref:System.Web.VirtualPathUtility>类和一些方法。</span><span class="sxs-lookup"><span data-stu-id="1b612-113">The following code example demonstrates how to use the <xref:System.Web.VirtualPathUtility> class and some of its methods.</span></span> <span data-ttu-id="1b612-114">首先，<xref:System.Web.HttpRequest.FilePath%2A>属性生成网页上的虚拟路径。</span><span class="sxs-lookup"><span data-stu-id="1b612-114">First, the <xref:System.Web.HttpRequest.FilePath%2A> property generates the virtual path to the Web page.</span></span> <span data-ttu-id="1b612-115"><xref:System.Web.VirtualPathUtility.GetFileName%2A>， <xref:System.Web.VirtualPathUtility.GetExtension%2A>，和<xref:System.Web.VirtualPathUtility.GetDirectory%2A>方法返回的虚拟路径相关信息。</span><span class="sxs-lookup"><span data-stu-id="1b612-115">The <xref:System.Web.VirtualPathUtility.GetFileName%2A>, <xref:System.Web.VirtualPathUtility.GetExtension%2A>, and <xref:System.Web.VirtualPathUtility.GetDirectory%2A> methods return information about the virtual path.</span></span> <span data-ttu-id="1b612-116">接下来，<xref:System.Web.HttpRequest.CurrentExecutionFilePath%2A>属性生成当前请求，这可能是从不同的虚拟路径<xref:System.Web.HttpRequest.FilePath%2A>属性，如果<xref:System.Web.HttpResponse.Redirect%2A>调用了方法。</span><span class="sxs-lookup"><span data-stu-id="1b612-116">Next, the <xref:System.Web.HttpRequest.CurrentExecutionFilePath%2A> property generates a virtual path of the current request, which might be different from the <xref:System.Web.HttpRequest.FilePath%2A> property, if a <xref:System.Web.HttpResponse.Redirect%2A> method was called.</span></span> <span data-ttu-id="1b612-117"><xref:System.Web.VirtualPathUtility.IsAbsolute%2A>， <xref:System.Web.VirtualPathUtility.IsAppRelative%2A>，和<xref:System.Web.VirtualPathUtility.ToAppRelative%2A>方法返回的虚拟路径相关信息。</span><span class="sxs-lookup"><span data-stu-id="1b612-117">The <xref:System.Web.VirtualPathUtility.IsAbsolute%2A>, <xref:System.Web.VirtualPathUtility.IsAppRelative%2A>, and <xref:System.Web.VirtualPathUtility.ToAppRelative%2A> methods return information about the virtual path.</span></span>  
-  
- [!code-aspx-csharp[System.Web.VirtualPathUtility#1](~/samples/snippets/csharp/VS_Snippets_WebNet/System.Web.VirtualPathUtility/cs/virtualpathutilitycs.aspx#1)]
- [!code-aspx-vb[System.Web.VirtualPathUtility#1](~/samples/snippets/visualbasic/VS_Snippets_WebNet/System.Web.VirtualPathUtility/vb/virtualpathutilityvb.aspx#1)]  
-  
- ]]></format>
-    </remarks>
-    <altmember cref="T:System.Web.HttpRequest" />
-  </Docs>
-  <Members>
-    <Member MemberName="AppendTrailingSlash">
-      <MemberSignature Language="C#" Value="public static string AppendTrailingSlash (string virtualPath);" />
-      <MemberSignature Language="ILAsm" Value=".method public static hidebysig string AppendTrailingSlash(string virtualPath) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Web.VirtualPathUtility.AppendTrailingSlash(System.String)" />
-      <MemberSignature Language="VB.NET" Value="Public Shared Function AppendTrailingSlash (virtualPath As String) As String" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; static System::String ^ AppendTrailingSlash(System::String ^ virtualPath);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Web</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.String</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="virtualPath" Type="System.String" />
-      </Parameters>
-      <Docs>
-        <param name="virtualPath">
-          <span data-ttu-id="1b612-118">要向其追加正斜杠的虚拟路径。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="1b612-118">The virtual path to append the slash mark to.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="1b612-119">将正斜杠 (/) 追加到虚拟路径的末尾（如果尚不存在正斜杠）。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="1b612-119">Appends the literal slash mark (/) to the end of the virtual path, if one does not already exist.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="1b612-120">修改后的虚拟路径。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="1b612-120">The modified virtual path.</span>
-          </span>
-        </returns>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="1b612-121">如果文本斜杠标记 （/） 存在的虚拟路径的末尾，则不会修改的虚拟路径。</span><span class="sxs-lookup"><span data-stu-id="1b612-121">If the literal slash mark (/) exists at the end of the virtual path, the virtual path is not modified.</span></span>  
-  
- ]]></format>
-        </remarks>
-        <altmember cref="M:System.Web.VirtualPathUtility.RemoveTrailingSlash(System.String)" />
-      </Docs>
-    </Member>
-    <Member MemberName="Combine">
-      <MemberSignature Language="C#" Value="public static string Combine (string basePath, string relativePath);" />
-      <MemberSignature Language="ILAsm" Value=".method public static hidebysig string Combine(string basePath, string relativePath) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Web.VirtualPathUtility.Combine(System.String,System.String)" />
-      <MemberSignature Language="VB.NET" Value="Public Shared Function Combine (basePath As String, relativePath As String) As String" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; static System::String ^ Combine(System::String ^ basePath, System::String ^ relativePath);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Web</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.String</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="basePath" Type="System.String" />
-        <Parameter Name="relativePath" Type="System.String" />
-      </Parameters>
-      <Docs>
-        <param name="basePath">
-          <span data-ttu-id="1b612-122">基路径。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="1b612-122">The base path.</span>
-          </span>
-        </param>
-        <param name="relativePath">
-          <span data-ttu-id="1b612-123">相对路径。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="1b612-123">The relative path.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="1b612-124">将一个基路径和一个相对路径进行组合。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="1b612-124">Combines a base path and a relative path.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="1b612-125">组合后的 <paramref name="basePath" /> 和 <paramref name="relativePath" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="1b612-125">The combined <paramref name="basePath" /> and <paramref name="relativePath" />.</span>
-          </span>
-        </returns>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="1b612-126"><xref:System.Web.VirtualPathUtility.Combine%2A>方法返回的值<xref:System.Web.HttpRuntime.AppDomainAppVirtualPath%2A>如果相对路径是完全波形符 （~） 的属性。</span><span class="sxs-lookup"><span data-stu-id="1b612-126">The <xref:System.Web.VirtualPathUtility.Combine%2A> method returns the value of the <xref:System.Web.HttpRuntime.AppDomainAppVirtualPath%2A> property if the relative path is exactly a tilde (~).</span></span>  
-  
- <span data-ttu-id="1b612-127"><xref:System.Web.VirtualPathUtility.Combine%2A>方法使用<xref:System.Web.HttpRuntime.AppDomainAppVirtualPath%2A>属性值而不是基路径中，如果以波形符和斜杠标记开头的相对路径 (~ /); 否则为<xref:System.Web.VirtualPathUtility.Combine%2A>方法使用的基路径。</span><span class="sxs-lookup"><span data-stu-id="1b612-127">The <xref:System.Web.VirtualPathUtility.Combine%2A> method uses the <xref:System.Web.HttpRuntime.AppDomainAppVirtualPath%2A> property value rather than the base path, if the relative path starts with a tilde and a slash mark (~/); otherwise, the <xref:System.Web.VirtualPathUtility.Combine%2A> method uses the base path.</span></span>  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.Web.HttpException">
-          <span data-ttu-id="1b612-128">
-            <paramref name="relativePath" /> 是一个物理路径。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="1b612-128">
-              <paramref name="relativePath" /> is a physical path.</span>
-          </span>
-          <span data-ttu-id="1b612-129">或</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="1b612-129">-or-</span>
-          </span>
-          <span data-ttu-id="1b612-130">
-            <paramref name="relativePath" /> 包含一个或多个冒号。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="1b612-130">
-              <paramref name="relativePath" /> includes one or more colons.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.ArgumentNullException">
-          <span data-ttu-id="1b612-131">
-            <paramref name="relativePath" /> 为 <see langword="null" /> 或空字符串。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="1b612-131">
-              <paramref name="relativePath" /> is <see langword="null" /> or an empty string.</span>
-          </span>
-          <span data-ttu-id="1b612-132">或</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="1b612-132">-or-</span>
-          </span>
-          <span data-ttu-id="1b612-133">
-            <paramref name="basePath" /> 为 <see langword="null" /> 或空字符串。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="1b612-133">
-              <paramref name="basePath" /> is <see langword="null" /> or an empty string.</span>
-          </span>
-        </exception>
-        <altmember cref="P:System.Web.HttpRuntime.AppDomainAppVirtualPath" />
-        <altmember cref="M:System.Web.Hosting.VirtualPathProvider.CombineVirtualPaths(System.String,System.String)" />
-      </Docs>
-    </Member>
-    <Member MemberName="GetDirectory">
-      <MemberSignature Language="C#" Value="public static string GetDirectory (string virtualPath);" />
-      <MemberSignature Language="ILAsm" Value=".method public static hidebysig string GetDirectory(string virtualPath) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Web.VirtualPathUtility.GetDirectory(System.String)" />
-      <MemberSignature Language="VB.NET" Value="Public Shared Function GetDirectory (virtualPath As String) As String" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; static System::String ^ GetDirectory(System::String ^ virtualPath);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Web</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.String</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="virtualPath" Type="System.String" />
-      </Parameters>
-      <Docs>
-        <param name="virtualPath">
-          <span data-ttu-id="1b612-134">虚拟路径。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="1b612-134">The virtual path.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="1b612-135">返回虚拟路径的目录部分。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="1b612-135">Returns the directory portion of a virtual path.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="1b612-136">虚拟路径中引用的目录。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="1b612-136">The directory referenced in the virtual path.</span>
-          </span>
-        </returns>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="1b612-137">如果`virtualPath`不根路径; 也就是说，它不等于根目录运算符 （波形符 [~]），不以开头波形符 （~），例如波形符和斜杠标记 (~ /) 或波形符和使用双反斜杠 (~ / /)，或不以斜杠标记 （/） 开头<xref:System.ArgumentException>异常 则会引发。</span><span class="sxs-lookup"><span data-stu-id="1b612-137">If `virtualPath` is not rooted; that is, it does not equal the root operator (the tilde [~]), does not start with a tilde (~), such as a tilde and a slash mark (~/) or a tilde and a double backslash (~//), or does not start with a slash mark (/), an <xref:System.ArgumentException> exception is thrown.</span></span>  
-  
- <span data-ttu-id="1b612-138">如果传递到的虚拟路径<xref:System.Web.VirtualPathUtility.GetDirectory%2A>方法是`"/images/image1.gif"`，则返回的目录是`"/images"`。</span><span class="sxs-lookup"><span data-stu-id="1b612-138">If the virtual path that is passed into the <xref:System.Web.VirtualPathUtility.GetDirectory%2A> method is `"/images/image1.gif"`, the returned directory is `"/images"`.</span></span>  
-  
-   
-  
-## Examples  
- <span data-ttu-id="1b612-139">下面的代码示例演示如何使用<xref:System.Web.VirtualPathUtility.GetFileName%2A>， <xref:System.Web.VirtualPathUtility.GetExtension%2A>，和<xref:System.Web.VirtualPathUtility.GetDirectory%2A>方法。</span><span class="sxs-lookup"><span data-stu-id="1b612-139">The following code example demonstrates how to use the <xref:System.Web.VirtualPathUtility.GetFileName%2A>, <xref:System.Web.VirtualPathUtility.GetExtension%2A>, and <xref:System.Web.VirtualPathUtility.GetDirectory%2A> methods.</span></span>  
-  
- [!code-csharp[System.Web.VirtualPathUtility#2](~/samples/snippets/csharp/VS_Snippets_WebNet/System.Web.VirtualPathUtility/cs/virtualpathutilitycs.aspx#2)]
- [!code-vb[System.Web.VirtualPathUtility#2](~/samples/snippets/visualbasic/VS_Snippets_WebNet/System.Web.VirtualPathUtility/vb/virtualpathutilityvb.aspx#2)]  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.ArgumentException">
-          <span data-ttu-id="1b612-140">
-            <paramref name="virtualPath" /> 不含有根路径。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="1b612-140">
-              <paramref name="virtualPath" /> is not rooted.</span>
-          </span>
-          <span data-ttu-id="1b612-141">\- 或 -</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="1b612-141">\- or -</span>
-          </span>
-          <span data-ttu-id="1b612-142">
-            <paramref name="virtualPath" /> 为 <see langword="null" /> 或空字符串。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="1b612-142">
-              <paramref name="virtualPath" /> is <see langword="null" /> or an empty string.</span>
-          </span>
-        </exception>
-        <altmember cref="M:System.Web.VirtualPathUtility.GetExtension(System.String)" />
-        <altmember cref="M:System.Web.VirtualPathUtility.GetFileName(System.String)" />
-      </Docs>
-    </Member>
-    <Member MemberName="GetExtension">
-      <MemberSignature Language="C#" Value="public static string GetExtension (string virtualPath);" />
-      <MemberSignature Language="ILAsm" Value=".method public static hidebysig string GetExtension(string virtualPath) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Web.VirtualPathUtility.GetExtension(System.String)" />
-      <MemberSignature Language="VB.NET" Value="Public Shared Function GetExtension (virtualPath As String) As String" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; static System::String ^ GetExtension(System::String ^ virtualPath);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Web</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.String</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="virtualPath" Type="System.String" />
-      </Parameters>
-      <Docs>
-        <param name="virtualPath">
-          <span data-ttu-id="1b612-143">虚拟路径。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="1b612-143">The virtual path.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="1b612-144">检索虚拟路径中引用的文件的扩展名。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="1b612-144">Retrieves the extension of the file that is referenced in the virtual path.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="1b612-145">文件扩展名字符串，包括句点 (.)、<see langword="null" /> 或空字符串 ("")。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="1b612-145">The file name extension string literal, including the period (.), <see langword="null" />, or an empty string ("").</span>
-          </span>
-        </returns>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="1b612-146">如果传递到的虚拟路径<xref:System.Web.VirtualPathUtility.GetExtension%2A>方法是`"/images/image1.gif"`，返回的扩展名是`".gif"`。</span><span class="sxs-lookup"><span data-stu-id="1b612-146">If the virtual path that is passed into the <xref:System.Web.VirtualPathUtility.GetExtension%2A> method is `"/images/image1.gif"`, the returned extension is `".gif"`.</span></span>  
-  
-   
-  
-## Examples  
- <span data-ttu-id="1b612-147">下面的代码示例演示如何使用<xref:System.Web.VirtualPathUtility.GetFileName%2A>， <xref:System.Web.VirtualPathUtility.GetExtension%2A>，和<xref:System.Web.VirtualPathUtility.GetDirectory%2A>方法。</span><span class="sxs-lookup"><span data-stu-id="1b612-147">The following code example demonstrates how to use the <xref:System.Web.VirtualPathUtility.GetFileName%2A>, <xref:System.Web.VirtualPathUtility.GetExtension%2A>, and <xref:System.Web.VirtualPathUtility.GetDirectory%2A> methods.</span></span>  
-  
- [!code-csharp[System.Web.VirtualPathUtility#2](~/samples/snippets/csharp/VS_Snippets_WebNet/System.Web.VirtualPathUtility/cs/virtualpathutilitycs.aspx#2)]
- [!code-vb[System.Web.VirtualPathUtility#2](~/samples/snippets/visualbasic/VS_Snippets_WebNet/System.Web.VirtualPathUtility/vb/virtualpathutilityvb.aspx#2)]  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.ArgumentException">
-          <span data-ttu-id="1b612-148">
-            <paramref name="virtualPath" /> 包含 <see cref="F:System.IO.Path.InvalidPathChars" /> 中定义的一个或多个无效字符。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="1b612-148">
-              <paramref name="virtualPath" /> contains one or more characters that are not valid, as defined in <see cref="F:System.IO.Path.InvalidPathChars" />.</span>
-          </span>
-        </exception>
-        <altmember cref="M:System.Web.VirtualPathUtility.GetDirectory(System.String)" />
-        <altmember cref="M:System.Web.VirtualPathUtility.GetFileName(System.String)" />
-        <altmember cref="M:System.IO.Path.GetExtension(System.String)" />
-      </Docs>
-    </Member>
-    <Member MemberName="GetFileName">
-      <MemberSignature Language="C#" Value="public static string GetFileName (string virtualPath);" />
-      <MemberSignature Language="ILAsm" Value=".method public static hidebysig string GetFileName(string virtualPath) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Web.VirtualPathUtility.GetFileName(System.String)" />
-      <MemberSignature Language="VB.NET" Value="Public Shared Function GetFileName (virtualPath As String) As String" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; static System::String ^ GetFileName(System::String ^ virtualPath);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Web</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.String</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="virtualPath" Type="System.String" />
-      </Parameters>
-      <Docs>
-        <param name="virtualPath">
-          <span data-ttu-id="1b612-149">虚拟路径。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="1b612-149">The virtual path.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="1b612-150">检索虚拟路径中引用的文件的文件名。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="1b612-150">Retrieves the file name of the file that is referenced in the virtual path.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="1b612-151">
-            <paramref name="virtualPath" /> 中的最后的目录字符后面的文件名文本；否则为最后的目录名称（如果 <paramref name="virtualPath" /> 的最后一个字符是目录字符或卷分隔符)。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="1b612-151">The file name literal after the last directory character in <paramref name="virtualPath" />; otherwise, the last directory name if the last character of <paramref name="virtualPath" /> is a directory or volume separator character.</span>
-          </span>
-        </returns>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="1b612-152">如果传递到的虚拟路径<xref:System.Web.VirtualPathUtility.GetFileName%2A>方法是`"/images/image1.gif"`，返回的文件名是`"image1.gif"`。</span><span class="sxs-lookup"><span data-stu-id="1b612-152">If the virtual path that is passed into the <xref:System.Web.VirtualPathUtility.GetFileName%2A> method is `"/images/image1.gif"`, the returned file name is `"image1.gif"`.</span></span>  
-  
-   
-  
-## Examples  
- <span data-ttu-id="1b612-153">下面的代码示例演示如何使用<xref:System.Web.VirtualPathUtility.GetFileName%2A>， <xref:System.Web.VirtualPathUtility.GetExtension%2A>，和<xref:System.Web.VirtualPathUtility.GetDirectory%2A>方法。</span><span class="sxs-lookup"><span data-stu-id="1b612-153">The following code example demonstrates how to use the <xref:System.Web.VirtualPathUtility.GetFileName%2A>, <xref:System.Web.VirtualPathUtility.GetExtension%2A>, and <xref:System.Web.VirtualPathUtility.GetDirectory%2A> methods.</span></span>  
-  
- [!code-csharp[System.Web.VirtualPathUtility#2](~/samples/snippets/csharp/VS_Snippets_WebNet/System.Web.VirtualPathUtility/cs/virtualpathutilitycs.aspx#2)]
- [!code-vb[System.Web.VirtualPathUtility#2](~/samples/snippets/visualbasic/VS_Snippets_WebNet/System.Web.VirtualPathUtility/vb/virtualpathutilityvb.aspx#2)]  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.ArgumentException">
-          <span data-ttu-id="1b612-154">
-            <paramref name="virtualPath" /> 包含 <see cref="F:System.IO.Path.InvalidPathChars" /> 中定义的一个或多个无效字符。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="1b612-154">
-              <paramref name="virtualPath" /> contains one or more characters that are not valid, as defined in <see cref="F:System.IO.Path.InvalidPathChars" />.</span>
-          </span>
-        </exception>
-        <altmember cref="M:System.Web.VirtualPathUtility.GetExtension(System.String)" />
-        <altmember cref="M:System.Web.VirtualPathUtility.GetDirectory(System.String)" />
-        <altmember cref="M:System.IO.Path.GetFileName(System.String)" />
-      </Docs>
-    </Member>
-    <Member MemberName="IsAbsolute">
-      <MemberSignature Language="C#" Value="public static bool IsAbsolute (string virtualPath);" />
-      <MemberSignature Language="ILAsm" Value=".method public static hidebysig bool IsAbsolute(string virtualPath) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Web.VirtualPathUtility.IsAbsolute(System.String)" />
-      <MemberSignature Language="VB.NET" Value="Public Shared Function IsAbsolute (virtualPath As String) As Boolean" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; static bool IsAbsolute(System::String ^ virtualPath);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Web</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Boolean</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="virtualPath" Type="System.String" />
-      </Parameters>
-      <Docs>
-        <param name="virtualPath">
-          <span data-ttu-id="1b612-155">要检查的虚拟路径。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="1b612-155">The virtual path to check.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="1b612-156">返回一个布尔值，该值指示指定的虚拟路径是否为绝对路径，也就是以正斜杠 (/) 开头。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="1b612-156">Returns a Boolean value indicating whether the specified virtual path is absolute; that is, it starts with a literal slash mark (/).</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="1b612-157">如果 <paramref name="virtualPath" /> 是绝对路径，并且不为 <see langword="true" /> 或空字符串 ("")，则为 <see langword="null" />；否则为 <see langword="false" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="1b612-157">
-              <see langword="true" /> if <paramref name="virtualPath" /> is an absolute path and is not <see langword="null" /> or an empty string (""); otherwise, <see langword="false" />.</span>
-          </span>
-        </returns>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="1b612-158">虚拟路径是绝对地址，如果以斜杠 （/）。</span><span class="sxs-lookup"><span data-stu-id="1b612-158">A virtual path is absolute if it begins with a literal slash mark (/).</span></span> <span data-ttu-id="1b612-159">例如，<xref:System.Web.HttpRequest.Path%2A>属性将返回绝对的虚拟路径。</span><span class="sxs-lookup"><span data-stu-id="1b612-159">For example, the <xref:System.Web.HttpRequest.Path%2A> property returns an absolute virtual path.</span></span>  
-  
-   
-  
-## Examples  
- <span data-ttu-id="1b612-160">下面的代码示例演示如何使用<xref:System.Web.VirtualPathUtility.IsAbsolute%2A>， <xref:System.Web.VirtualPathUtility.IsAppRelative%2A>，和<xref:System.Web.VirtualPathUtility.ToAppRelative%2A>方法。</span><span class="sxs-lookup"><span data-stu-id="1b612-160">The following code example demonstrates how to use the <xref:System.Web.VirtualPathUtility.IsAbsolute%2A>, <xref:System.Web.VirtualPathUtility.IsAppRelative%2A>, and <xref:System.Web.VirtualPathUtility.ToAppRelative%2A> methods.</span></span>  
-  
- [!code-csharp[System.Web.VirtualPathUtility#3](~/samples/snippets/csharp/VS_Snippets_WebNet/System.Web.VirtualPathUtility/cs/virtualpathutilitycs.aspx#3)]
- [!code-vb[System.Web.VirtualPathUtility#3](~/samples/snippets/visualbasic/VS_Snippets_WebNet/System.Web.VirtualPathUtility/vb/virtualpathutilityvb.aspx#3)]  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.ArgumentNullException">
-          <span data-ttu-id="1b612-161">
-            <paramref name="virtualPath" /> 为 <see langword="null" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="1b612-161">
-              <paramref name="virtualPath" /> is <see langword="null" />.</span>
-          </span>
-        </exception>
-        <altmember cref="P:System.Web.HttpRequest.Path" />
-        <altmember cref="M:System.Web.VirtualPathUtility.IsAppRelative(System.String)" />
-      </Docs>
-    </Member>
-    <Member MemberName="IsAppRelative">
-      <MemberSignature Language="C#" Value="public static bool IsAppRelative (string virtualPath);" />
-      <MemberSignature Language="ILAsm" Value=".method public static hidebysig bool IsAppRelative(string virtualPath) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Web.VirtualPathUtility.IsAppRelative(System.String)" />
-      <MemberSignature Language="VB.NET" Value="Public Shared Function IsAppRelative (virtualPath As String) As Boolean" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; static bool IsAppRelative(System::String ^ virtualPath);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Web</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Boolean</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="virtualPath" Type="System.String" />
-      </Parameters>
-      <Docs>
-        <param name="virtualPath">
-          <span data-ttu-id="1b612-162">要检查的虚拟路径。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="1b612-162">The virtual path to check.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="1b612-163">返回一个布尔值，该值指示指定的虚拟路径是否为相对于应用程序的相对路径。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="1b612-163">Returns a Boolean value indicating whether the specified virtual path is relative to the application.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="1b612-164">如果 <paramref name="virtualPath" /> 相对于应用程序，则为 <see langword="true" />；否则为 <see langword="false" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="1b612-164">
-              <see langword="true" /> if <paramref name="virtualPath" /> is relative to the application; otherwise, <see langword="false" />.</span>
-          </span>
-        </returns>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="1b612-165">虚拟路径可以是只需根目录运算符 （波形符 [~]），也可以开头根目录运算符。</span><span class="sxs-lookup"><span data-stu-id="1b612-165">The virtual path can be just the root operator (the tilde [~]), or it can begin with the root operator.</span></span> <span data-ttu-id="1b612-166">如果`virtualPath`是`null`、<xref:System.ArgumentNullException>引发异常。</span><span class="sxs-lookup"><span data-stu-id="1b612-166">If `virtualPath` is `null`, an <xref:System.ArgumentNullException> exception is raised.</span></span> <span data-ttu-id="1b612-167">如果`virtualPath`为空字符串 ("")，则<xref:System.Web.VirtualPathUtility.IsAppRelative%2A>方法返回`false`。</span><span class="sxs-lookup"><span data-stu-id="1b612-167">If `virtualPath` is an empty string (""), the <xref:System.Web.VirtualPathUtility.IsAppRelative%2A> method returns `false`.</span></span>  
-  
-> [!NOTE]
->  <span data-ttu-id="1b612-168">`"~` `filename` `"` 不是有效的虚拟路径，并返回`false`为<xref:System.Web.VirtualPathUtility.IsAppRelative%2A>方法。</span><span class="sxs-lookup"><span data-stu-id="1b612-168">`"~` `filename` `"` is not a valid virtual path and returns `false` for the <xref:System.Web.VirtualPathUtility.IsAppRelative%2A> method.</span></span>  
-  
-   
-  
-## Examples  
- <span data-ttu-id="1b612-169">下面的代码示例演示如何使用<xref:System.Web.VirtualPathUtility.IsAbsolute%2A>， <xref:System.Web.VirtualPathUtility.IsAppRelative%2A>，和<xref:System.Web.VirtualPathUtility.ToAppRelative%2A>方法。</span><span class="sxs-lookup"><span data-stu-id="1b612-169">The following code example demonstrates how to use the <xref:System.Web.VirtualPathUtility.IsAbsolute%2A>, <xref:System.Web.VirtualPathUtility.IsAppRelative%2A>, and <xref:System.Web.VirtualPathUtility.ToAppRelative%2A> methods.</span></span>  
-  
- [!code-csharp[System.Web.VirtualPathUtility#3](~/samples/snippets/csharp/VS_Snippets_WebNet/System.Web.VirtualPathUtility/cs/virtualpathutilitycs.aspx#3)]
- [!code-vb[System.Web.VirtualPathUtility#3](~/samples/snippets/visualbasic/VS_Snippets_WebNet/System.Web.VirtualPathUtility/vb/virtualpathutilityvb.aspx#3)]  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.ArgumentNullException">
-          <span data-ttu-id="1b612-170">
-            <paramref name="virtualPath" /> 为 <see langword="null" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="1b612-170">
-              <paramref name="virtualPath" /> is <see langword="null" />.</span>
-          </span>
-        </exception>
-        <altmember cref="M:System.Web.VirtualPathUtility.IsAbsolute(System.String)" />
-      </Docs>
-    </Member>
-    <Member MemberName="MakeRelative">
-      <MemberSignature Language="C#" Value="public static string MakeRelative (string fromPath, string toPath);" />
-      <MemberSignature Language="ILAsm" Value=".method public static hidebysig string MakeRelative(string fromPath, string toPath) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Web.VirtualPathUtility.MakeRelative(System.String,System.String)" />
-      <MemberSignature Language="VB.NET" Value="Public Shared Function MakeRelative (fromPath As String, toPath As String) As String" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; static System::String ^ MakeRelative(System::String ^ fromPath, System::String ^ toPath);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Web</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.String</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="fromPath" Type="System.String" />
-        <Parameter Name="toPath" Type="System.String" />
-      </Parameters>
-      <Docs>
-        <param name="fromPath">
-          <span data-ttu-id="1b612-171">要返回的相对虚拟路径的起始虚拟路径。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="1b612-171">The starting virtual path to return the relative virtual path from.</span>
-          </span>
-        </param>
-        <param name="toPath">
-          <span data-ttu-id="1b612-172">要返回的相对虚拟路径的结束虚拟路径。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="1b612-172">The ending virtual path to return the relative virtual path to.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="1b612-173">返回从一个包含根操作符（波形符 [~]）的虚拟路径到另一个此类虚拟路径的相对虚拟路径。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="1b612-173">Returns the relative virtual path from one virtual path containing the root operator (the tilde [~]) to another.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="1b612-174">从 <paramref name="fromPath" /> 到 <paramref name="toPath" /> 的相对虚拟路径。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="1b612-174">The relative virtual path from <paramref name="fromPath" /> to <paramref name="toPath" />.</span>
-          </span>
-        </returns>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="1b612-175">如果`fromPath`和`toPath`参数不取得 root 权限; 也就是说，它们不相等根目录运算符 （波形符 [~]），不会启动与波形符 （~），例如波形符和斜杠标记 (~ /) 或波形符和使用双反斜杠 (~ / /)，或使用的斜杠标记 （不启动/），<xref:System.ArgumentException>引发异常。</span><span class="sxs-lookup"><span data-stu-id="1b612-175">If the `fromPath` and `toPath` parameters are not rooted; that is, they do not equal the root operator (the tilde [~]), do not start with a tilde (~), such as a tilde and a slash mark (~/) or a tilde and a double backslash (~//), or do not start with a slash mark (/), an <xref:System.ArgumentException> exception is thrown.</span></span>  
-  
- <span data-ttu-id="1b612-176">确定的相对路径不使用查询字符串参数和 URI 中使用的 HTML 定位点。</span><span class="sxs-lookup"><span data-stu-id="1b612-176">Query string parameters and HTML anchors that are used in the URI are not used in determining the relative path.</span></span>  
-  
- <span data-ttu-id="1b612-177">如果`fromPath`是`"/directory1/file1.aspx"`和`toPath`是`"/directory2/file2.aspx"`、<xref:System.Web.VirtualPathUtility.MakeRelative%2A>方法返回`"../directory2/file2.aspx"`。</span><span class="sxs-lookup"><span data-stu-id="1b612-177">If `fromPath` is `"/directory1/file1.aspx"` and `toPath` is `"/directory2/file2.aspx"`, the <xref:System.Web.VirtualPathUtility.MakeRelative%2A> method returns `"../directory2/file2.aspx"`.</span></span>  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.ArgumentException">
-          <span data-ttu-id="1b612-178">
-            <paramref name="fromPath" /> 不含有根路径。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="1b612-178">
-              <paramref name="fromPath" /> is not rooted.</span>
-          </span>
-          <span data-ttu-id="1b612-179">\- 或 -</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="1b612-179">\- or -</span>
-          </span>
-          <span data-ttu-id="1b612-180">
-            <paramref name="toPath" /> 不含有根路径。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="1b612-180">
-              <paramref name="toPath" /> is not rooted.</span>
-          </span>
-        </exception>
-        <altmember cref="M:System.Uri.MakeRelative(System.Uri)" />
-      </Docs>
-    </Member>
-    <Member MemberName="RemoveTrailingSlash">
-      <MemberSignature Language="C#" Value="public static string RemoveTrailingSlash (string virtualPath);" />
-      <MemberSignature Language="ILAsm" Value=".method public static hidebysig string RemoveTrailingSlash(string virtualPath) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Web.VirtualPathUtility.RemoveTrailingSlash(System.String)" />
-      <MemberSignature Language="VB.NET" Value="Public Shared Function RemoveTrailingSlash (virtualPath As String) As String" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; static System::String ^ RemoveTrailingSlash(System::String ^ virtualPath);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Web</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.String</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="virtualPath" Type="System.String" />
-      </Parameters>
-      <Docs>
-        <param name="virtualPath">
-          <span data-ttu-id="1b612-181">要移除末尾的任何正斜杠的虚拟路径。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="1b612-181">The virtual path to remove any trailing slash mark from.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="1b612-182">从虚拟路径移除末尾的正斜杠 (/)。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="1b612-182">Removes a trailing slash mark (/) from a virtual path.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="1b612-183">如果虚拟路径尚不是根目录 ("/")，则返回末尾没有正斜杠的虚拟路径；否则返回 <see langword="null" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="1b612-183">A virtual path without a trailing slash mark, if the virtual path is not already the root directory ("/"); otherwise, <see langword="null" />.</span>
-          </span>
-        </returns>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="1b612-184"><xref:System.Web.VirtualPathUtility.RemoveTrailingSlash%2A>方法从虚拟路径的末尾移除斜杠标记 （/）。</span><span class="sxs-lookup"><span data-stu-id="1b612-184">The <xref:System.Web.VirtualPathUtility.RemoveTrailingSlash%2A> method removes a slash mark (/) from the end of the virtual path.</span></span> <span data-ttu-id="1b612-185">如果已指定的虚拟路径的根目录 (`"/"`)，不执行任何操作。</span><span class="sxs-lookup"><span data-stu-id="1b612-185">If the virtual path is already the root directory (`"/"`), no action is taken.</span></span> <span data-ttu-id="1b612-186">如果虚拟路径`null`或空字符串 ("")，则<xref:System.Web.VirtualPathUtility.RemoveTrailingSlash%2A>方法返回`null`。</span><span class="sxs-lookup"><span data-stu-id="1b612-186">If the virtual path is `null` or an empty string (""), the <xref:System.Web.VirtualPathUtility.RemoveTrailingSlash%2A> method returns `null`.</span></span>  
-  
- ]]></format>
-        </remarks>
-        <altmember cref="M:System.Web.VirtualPathUtility.AppendTrailingSlash(System.String)" />
-      </Docs>
-    </Member>
-    <MemberGroup MemberName="ToAbsolute">
-      <AssemblyInfo>
-        <AssemblyName>System.Web</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Docs>
-        <summary>
-          <span data-ttu-id="1b612-187">将虚拟路径转换为应用程序绝对路径。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="1b612-187">Converts a virtual path to an application absolute path.</span>
-          </span>
-        </summary>
-      </Docs>
-    </MemberGroup>
-    <Member MemberName="ToAbsolute">
-      <MemberSignature Language="C#" Value="public static string ToAbsolute (string virtualPath);" />
-      <MemberSignature Language="ILAsm" Value=".method public static hidebysig string ToAbsolute(string virtualPath) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Web.VirtualPathUtility.ToAbsolute(System.String)" />
-      <MemberSignature Language="VB.NET" Value="Public Shared Function ToAbsolute (virtualPath As String) As String" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; static System::String ^ ToAbsolute(System::String ^ virtualPath);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Web</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.String</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="virtualPath" Type="System.String" />
-      </Parameters>
-      <Docs>
-        <param name="virtualPath">
-          <span data-ttu-id="1b612-188">要转换为应用程序相对路径的虚拟路径。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="1b612-188">The virtual path to convert to an application-relative path.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="1b612-189">将虚拟路径转换为应用程序绝对路径。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="1b612-189">Converts a virtual path to an application absolute path.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="1b612-190">指定的虚拟路径的绝对路径表示形式。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="1b612-190">The absolute path representation of the specified virtual path.</span>
-          </span>
-        </returns>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="1b612-191">应用程序绝对路径是应用程序路径使用而不是根目录运算符 （波形符 [~]） 的位置。</span><span class="sxs-lookup"><span data-stu-id="1b612-191">An application absolute path is one where the application path is used instead of the root operator (the tilde [~]).</span></span>  
-  
- <span data-ttu-id="1b612-192">如果`virtualPath`是：</span><span class="sxs-lookup"><span data-stu-id="1b612-192">If `virtualPath` is:</span></span>  
-  
--   <span data-ttu-id="1b612-193">绝对，<xref:System.Web.VirtualPathUtility.ToAbsolute%2A>方法返回未更改的虚拟路径。</span><span class="sxs-lookup"><span data-stu-id="1b612-193">Absolute, the <xref:System.Web.VirtualPathUtility.ToAbsolute%2A> method returns the virtual path unchanged.</span></span>  
-  
--   <span data-ttu-id="1b612-194">相对于应用程序，<xref:System.Web.VirtualPathUtility.ToAbsolute%2A>方法将当前的应用程序虚拟目录路径追加到的开头`virtualPath`。</span><span class="sxs-lookup"><span data-stu-id="1b612-194">Application relative, the <xref:System.Web.VirtualPathUtility.ToAbsolute%2A> method appends the current application virtual directory path to the beginning of the `virtualPath`.</span></span> <span data-ttu-id="1b612-195">例如，可以从访问当前的应用程序虚拟目录路径<xref:System.Web.HttpRuntime.AppDomainAppVirtualPath%2A>属性。</span><span class="sxs-lookup"><span data-stu-id="1b612-195">For example, the current application virtual directory path can be accessed from the <xref:System.Web.HttpRuntime.AppDomainAppVirtualPath%2A> property.</span></span>  
-  
--   <span data-ttu-id="1b612-196">未取得 root 权限，<xref:System.Web.VirtualPathUtility.ToAbsolute%2A>方法引发<xref:System.ArgumentOutOfRangeException>异常。</span><span class="sxs-lookup"><span data-stu-id="1b612-196">Not rooted, the <xref:System.Web.VirtualPathUtility.ToAbsolute%2A> method raises an <xref:System.ArgumentOutOfRangeException> exception.</span></span>  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.ArgumentOutOfRangeException">
-          <span data-ttu-id="1b612-197">
-            <paramref name="virtualPath" /> 不含有根路径。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="1b612-197">
-              <paramref name="virtualPath" /> is not rooted.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.Web.HttpException">
-          <span data-ttu-id="1b612-198">前导双句点 (..) 用于退出顶级目录。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="1b612-198">A leading double period (..) is used to exit above the top directory.</span>
-          </span>
-        </exception>
-        <altmember cref="P:System.Web.HttpRuntime.AppDomainAppVirtualPath" />
-      </Docs>
-    </Member>
-    <Member MemberName="ToAbsolute">
-      <MemberSignature Language="C#" Value="public static string ToAbsolute (string virtualPath, string applicationPath);" />
-      <MemberSignature Language="ILAsm" Value=".method public static hidebysig string ToAbsolute(string virtualPath, string applicationPath) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Web.VirtualPathUtility.ToAbsolute(System.String,System.String)" />
-      <MemberSignature Language="VB.NET" Value="Public Shared Function ToAbsolute (virtualPath As String, applicationPath As String) As String" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; static System::String ^ ToAbsolute(System::String ^ virtualPath, System::String ^ applicationPath);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Web</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.String</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="virtualPath" Type="System.String" />
-        <Parameter Name="applicationPath" Type="System.String" />
-      </Parameters>
-      <Docs>
-        <param name="virtualPath">
-          <span data-ttu-id="1b612-199">要转换为应用程序相对路径的虚拟路径。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="1b612-199">The virtual path to convert to an application-relative path.</span>
-          </span>
-        </param>
-        <param name="applicationPath">
-          <span data-ttu-id="1b612-200">要用于将 <c>virtualPath</c> 转换为相对路径的应用程序路径。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="1b612-200">The application path to use to convert <c>virtualPath</c> to a relative path.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="1b612-201">使用指定的应用程序路径将虚拟路径转换为应用程序绝对路径。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="1b612-201">Converts a virtual path to an application absolute path using the specified application path.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="1b612-202">
-            <paramref name="virtualPath" /> 的绝对虚拟路径表示形式。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="1b612-202">The absolute virtual path representation of <paramref name="virtualPath" />.</span>
-          </span>
-        </returns>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="1b612-203"><xref:System.Web.VirtualPathUtility.ToAbsolute%2A>重载<xref:System.Web.VirtualPathUtility.ToAbsolute%2A>方法使用提供的应用程序路径而不是当前的应用程序路径。</span><span class="sxs-lookup"><span data-stu-id="1b612-203">The <xref:System.Web.VirtualPathUtility.ToAbsolute%2A> overload of the <xref:System.Web.VirtualPathUtility.ToAbsolute%2A> method uses the supplied application path rather than the current application path.</span></span>  
-  
- <span data-ttu-id="1b612-204">如果`virtualPath`是：</span><span class="sxs-lookup"><span data-stu-id="1b612-204">If `virtualPath` is:</span></span>  
-  
--   <span data-ttu-id="1b612-205">绝对，<xref:System.Web.VirtualPathUtility.ToAbsolute%2A>方法返回未更改的虚拟路径。</span><span class="sxs-lookup"><span data-stu-id="1b612-205">Absolute, the <xref:System.Web.VirtualPathUtility.ToAbsolute%2A> method returns the virtual path with no changes.</span></span>  
-  
--   <span data-ttu-id="1b612-206">相对于应用程序，<xref:System.Web.VirtualPathUtility.ToAbsolute%2A>方法将添加`applicationPath`到的虚拟路径的开头。</span><span class="sxs-lookup"><span data-stu-id="1b612-206">Application relative, the <xref:System.Web.VirtualPathUtility.ToAbsolute%2A> method adds `applicationPath` to the beginning of the virtual path.</span></span>  
-  
--   <span data-ttu-id="1b612-207">未取得 root 权限，<xref:System.Web.VirtualPathUtility.ToAbsolute%2A>方法引发<xref:System.ArgumentOutOfRangeException>异常。</span><span class="sxs-lookup"><span data-stu-id="1b612-207">Not rooted, the <xref:System.Web.VirtualPathUtility.ToAbsolute%2A> method raises an <xref:System.ArgumentOutOfRangeException> exception.</span></span>  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.ArgumentOutOfRangeException">
-          <span data-ttu-id="1b612-208">
-            <paramref name="applicationPath" /> 不含有根路径。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="1b612-208">
-              <paramref name="applicationPath" /> is not rooted.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.Web.HttpException">
-          <span data-ttu-id="1b612-209">前导双句点 (..) 在应用程序路径中用于退出顶级目录。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="1b612-209">A leading double period (..) is used in the application path to exit above the top directory.</span>
-          </span>
-        </exception>
-        <altmember cref="P:System.Web.HttpRuntime.AppDomainAppVirtualPath" />
-      </Docs>
-    </Member>
-    <MemberGroup MemberName="ToAppRelative">
-      <AssemblyInfo>
-        <AssemblyName>System.Web</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Docs>
-        <summary>
-          <span data-ttu-id="1b612-210">将虚拟路径转换为应用程序相对路径。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="1b612-210">Converts a virtual path into an application-relative path.</span>
-          </span>
-        </summary>
-      </Docs>
-    </MemberGroup>
-    <Member MemberName="ToAppRelative">
-      <MemberSignature Language="C#" Value="public static string ToAppRelative (string virtualPath);" />
-      <MemberSignature Language="ILAsm" Value=".method public static hidebysig string ToAppRelative(string virtualPath) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Web.VirtualPathUtility.ToAppRelative(System.String)" />
-      <MemberSignature Language="VB.NET" Value="Public Shared Function ToAppRelative (virtualPath As String) As String" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; static System::String ^ ToAppRelative(System::String ^ virtualPath);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Web</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.String</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="virtualPath" Type="System.String" />
-      </Parameters>
-      <Docs>
-        <param name="virtualPath">
-          <span data-ttu-id="1b612-211">要转换为应用程序相对路径的虚拟路径。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="1b612-211">The virtual path to convert to an application-relative path.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="1b612-212">使用 <see cref="P:System.Web.HttpRuntime.AppDomainAppVirtualPath" /> 属性中的应用程序虚拟路径将虚拟路径转换为应用程序相对路径。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="1b612-212">Converts a virtual path to an application-relative path using the application virtual path that is in the <see cref="P:System.Web.HttpRuntime.AppDomainAppVirtualPath" /> property.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="1b612-213">
-            <paramref name="virtualPath" /> 的应用程序相对路径表示形式。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="1b612-213">The application-relative path representation of <paramref name="virtualPath" />.</span>
-          </span>
-        </returns>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="1b612-214">如果应用程序的虚拟路径是`"myapp"`和虚拟路径`"/myApp/sub/default.asp"`传递到<xref:System.Web.VirtualPathUtility.ToAppRelative%2A>方法，生成的应用程序相对路径是`"~/sub/default.aspx"`。</span><span class="sxs-lookup"><span data-stu-id="1b612-214">If the virtual path for the application is `"myapp"` and the virtual path `"/myApp/sub/default.asp"` is passed into the <xref:System.Web.VirtualPathUtility.ToAppRelative%2A> method, the resulting application-relative path is `"~/sub/default.aspx"`.</span></span>  
-  
- <span data-ttu-id="1b612-215">如果`virtualPath`才会使用当前的应用程序路径、<xref:System.Web.VirtualPathUtility.ToAppRelative%2A>方法返回未更改的虚拟路径。</span><span class="sxs-lookup"><span data-stu-id="1b612-215">If `virtualPath` does not start with the current application path, the <xref:System.Web.VirtualPathUtility.ToAppRelative%2A> method returns the virtual path unchanged.</span></span>  
-  
- <span data-ttu-id="1b612-216">如果`virtualPath`是应用程序路径中，相同根目录运算符 （波形符 [~]），将返回。</span><span class="sxs-lookup"><span data-stu-id="1b612-216">If `virtualPath` is the same as the application path, the root operator (the tilde [~]), is returned.</span></span> <span data-ttu-id="1b612-217">例如，可以从访问当前的应用程序虚拟目录路径<xref:System.Web.HttpRuntime.AppDomainAppVirtualPath%2A>属性。</span><span class="sxs-lookup"><span data-stu-id="1b612-217">For example, the current application virtual directory path can be accessed from the <xref:System.Web.HttpRuntime.AppDomainAppVirtualPath%2A> property.</span></span>  
-  
-   
-  
-## Examples  
- <span data-ttu-id="1b612-218">下面的代码示例演示如何使用<xref:System.Web.VirtualPathUtility.IsAbsolute%2A>， <xref:System.Web.VirtualPathUtility.IsAppRelative%2A>，和<xref:System.Web.VirtualPathUtility.ToAppRelative%2A>方法。</span><span class="sxs-lookup"><span data-stu-id="1b612-218">The following code example demonstrates how to use the <xref:System.Web.VirtualPathUtility.IsAbsolute%2A>, <xref:System.Web.VirtualPathUtility.IsAppRelative%2A>, and <xref:System.Web.VirtualPathUtility.ToAppRelative%2A> methods.</span></span>  
-  
- [!code-csharp[System.Web.VirtualPathUtility#3](~/samples/snippets/csharp/VS_Snippets_WebNet/System.Web.VirtualPathUtility/cs/virtualpathutilitycs.aspx#3)]
- [!code-vb[System.Web.VirtualPathUtility#3](~/samples/snippets/visualbasic/VS_Snippets_WebNet/System.Web.VirtualPathUtility/vb/virtualpathutilityvb.aspx#3)]  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.ArgumentException">
-          <span data-ttu-id="1b612-219">
-            <paramref name="virtualPath" /> 为 <see langword="null" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="1b612-219">
-              <paramref name="virtualPath" /> is <see langword="null" />.</span>
-          </span>
-        </exception>
-        <altmember cref="M:System.Web.VirtualPathUtility.ToAppRelative(System.String,System.String)" />
-        <altmember cref="P:System.Web.HttpRuntime.AppDomainAppVirtualPath" />
-      </Docs>
-    </Member>
-    <Member MemberName="ToAppRelative">
-      <MemberSignature Language="C#" Value="public static string ToAppRelative (string virtualPath, string applicationPath);" />
-      <MemberSignature Language="ILAsm" Value=".method public static hidebysig string ToAppRelative(string virtualPath, string applicationPath) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Web.VirtualPathUtility.ToAppRelative(System.String,System.String)" />
-      <MemberSignature Language="VB.NET" Value="Public Shared Function ToAppRelative (virtualPath As String, applicationPath As String) As String" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; static System::String ^ ToAppRelative(System::String ^ virtualPath, System::String ^ applicationPath);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Web</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.String</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="virtualPath" Type="System.String" />
-        <Parameter Name="applicationPath" Type="System.String" />
-      </Parameters>
-      <Docs>
-        <param name="virtualPath">
-          <span data-ttu-id="1b612-220">要转换为应用程序相对路径的虚拟路径。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="1b612-220">The virtual path to convert to an application-relative path.</span>
-          </span>
-        </param>
-        <param name="applicationPath">
-          <span data-ttu-id="1b612-221">要用于将 <c>virtualPath</c> 转换为相对路径的应用程序路径。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="1b612-221">The application path to use to convert <c>virtualPath</c> to a relative path.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="1b612-222">使用指定的应用程序路径将虚拟路径转换为应用程序相对路径。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="1b612-222">Converts a virtual path to an application-relative path using a specified application path.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="1b612-223">
-            <paramref name="virtualPath" /> 的应用程序相对路径表示形式。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="1b612-223">The application-relative path representation of <paramref name="virtualPath" />.</span>
-          </span>
-        </returns>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="1b612-224"><xref:System.Web.VirtualPathUtility.ToAppRelative%2A>重载<xref:System.Web.VirtualPathUtility.ToAppRelative%2A>方法使用`applicationPath`而不是当前的应用程序路径。</span><span class="sxs-lookup"><span data-stu-id="1b612-224">The <xref:System.Web.VirtualPathUtility.ToAppRelative%2A> overload of the <xref:System.Web.VirtualPathUtility.ToAppRelative%2A> method uses `applicationPath` rather than the current application path.</span></span> <span data-ttu-id="1b612-225">如果`virtualPath`开头不`applicationPath`、<xref:System.Web.VirtualPathUtility.ToAppRelative%2A>方法返回未更改的虚拟路径。</span><span class="sxs-lookup"><span data-stu-id="1b612-225">If `virtualPath` does not start with `applicationPath`, the <xref:System.Web.VirtualPathUtility.ToAppRelative%2A> method returns the virtual path unchanged.</span></span>  
-  
- ]]></format>
-        </remarks>
-        <altmember cref="M:System.Web.VirtualPathUtility.ToAppRelative(System.String)" />
-      </Docs>
-    </Member>
-  </Members>
-</Type>
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.2" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 xliff-core-1.2-transitional.xsd">
+  <file datatype="xml" original="VirtualPathUtility.xml" source-language="en-US" target-language="zh-CN">
+    <header>
+      <tool tool-id="mdxliff" tool-name="mdxliff" tool-version="1.0-15c36f0" tool-company="Microsoft" />
+      <xliffext:skl_file_name xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">02cd5861-7ce2-4a82-b358-31f8435a0ac5466ee68d7b69b803793258fd12dc6f5418956a9f.skl</xliffext:skl_file_name>
+      <xliffext:version xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">1.2</xliffext:version>
+      <xliffext:ms.openlocfilehash xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">466ee68d7b69b803793258fd12dc6f5418956a9f</xliffext:ms.openlocfilehash>
+      <xliffext:ms.sourcegitcommit xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b</xliffext:ms.sourcegitcommit>
+      <xliffext:ms.lasthandoff xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">04/03/2018</xliffext:ms.lasthandoff>
+      <xliffext:moniker_ids xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">netframework-4.5.1,netframework-4.5.2,netframework-4.5,netframework-4.6.1,netframework-4.6.2,netframework-4.6,netframework-4.7.1,netframework-4.7</xliffext:moniker_ids>
+    </header>
+    <body>
+      <group id="content" extype="content">
+        <trans-unit id="101" translate="yes" xml:space="preserve" uid="T:System.Web.VirtualPathUtility">
+          <source>Provides utility methods for common virtual path operations.</source>
+          <target state="translated">为常见的虚拟路径操作提供实用工具方法。</target>       </trans-unit>
+        <trans-unit id="102" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Web.VirtualPathUtility">
+          <source>The <ph id="ph1">&lt;xref:System.Web.VirtualPathUtility&gt;</ph> class provides utility methods for common operations involving virtual paths.</source>
+          <target state="translated"><ph id="ph1">&lt;xref:System.Web.VirtualPathUtility&gt;</ph>类提供了对常见操作涉及虚拟路径的实用工具方法。</target>       </trans-unit>
+        <trans-unit id="103" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Web.VirtualPathUtility">
+          <source>For ASP.NET server controls and server code, virtual paths using the Web application root operator, the tilde (~), commonly are used instead of relative and absolute paths.</source>
+          <target state="translated">有关 ASP.NET 服务器控件和服务器代码，使用 Web 应用程序根目录运算符的虚拟路径波形符 （~），通常用于而不是相对和绝对路径。</target>       </trans-unit>
+        <trans-unit id="104" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Web.VirtualPathUtility">
+          <source>For more information, see <bpt id="p1">[</bpt>ASP.NET Web Project Paths<ept id="p1">](http://msdn.microsoft.com/library/2447f50c-b849-483c-8093-85ed53e7a5bd)</ept>.</source>
+          <target state="translated">有关详细信息，请参阅<bpt id="p1">[</bpt>ASP.NET Web 项目路径<ept id="p1">](http://msdn.microsoft.com/library/2447f50c-b849-483c-8093-85ed53e7a5bd)</ept>。</target>       </trans-unit>
+        <trans-unit id="105" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Web.VirtualPathUtility">
+          <source>Use the <ph id="ph1">&lt;xref:System.Web.VirtualPathUtility&gt;</ph> class when you need to convert application-relative paths to absolute virtual paths, as might be the case in developing a custom Web service handler.</source>
+          <target state="translated">使用<ph id="ph1">&lt;xref:System.Web.VirtualPathUtility&gt;</ph>类时需要将相对于应用程序路径转换为绝对虚拟路径，如可能是这种情况在开发自定义 Web 服务处理程序。</target>       </trans-unit>
+        <trans-unit id="106" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Web.VirtualPathUtility">
+          <source>An absolute virtual path starts with the literal slash mark (/).</source>
+          <target state="translated">绝对的虚拟路径以斜杠 （/） 开头。</target>       </trans-unit>
+        <trans-unit id="107" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Web.VirtualPathUtility">
+          <source>A relative virtual path is relative to the application root directory, if it is just a tilde (~) or starts with the tilde and a double backslash (~<ph id="ph1">\\</ph><ph id="ph2">\\</ph>) or the tilde and a slash mark (~/).</source>
+          <target state="translated">相对虚拟路径是相对于应用程序根目录中，如果只是波形符 （~） 或开头颚化符和使用双反斜杠 (~<ph id="ph1">\\</ph><ph id="ph2">\\</ph>) 或颚化符和斜杠标记 (~ /)。</target>       </trans-unit>
+        <trans-unit id="108" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Web.VirtualPathUtility">
+          <source>Making a virtual path relative makes the path independent of the application.</source>
+          <target state="translated">使虚拟路径相对使得独立于应用程序路径。</target>       </trans-unit>
+        <trans-unit id="109" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Web.VirtualPathUtility">
+          <source>The virtual directory for the application can be obtained from the <ph id="ph1">&lt;xref:System.Web.HttpRuntime.AppDomainAppVirtualPath%2A&gt;</ph> and <ph id="ph2">&lt;xref:System.Web.HttpRequest.ApplicationPath%2A&gt;</ph> properties.</source>
+          <target state="translated">可以从获取应用程序的虚拟目录<ph id="ph1">&lt;xref:System.Web.HttpRuntime.AppDomainAppVirtualPath%2A&gt;</ph>和<ph id="ph2">&lt;xref:System.Web.HttpRequest.ApplicationPath%2A&gt;</ph>属性。</target>       </trans-unit>
+        <trans-unit id="110" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Web.VirtualPathUtility">
+          <source>The <ph id="ph1">&lt;xref:System.Web.VirtualPathUtility&gt;</ph> class is not intended for security or canonicalization purposes.</source>
+          <target state="translated"><ph id="ph1">&lt;xref:System.Web.VirtualPathUtility&gt;</ph>类不用于安全或规范化目的。</target>       </trans-unit>
+        <trans-unit id="111" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Web.VirtualPathUtility">
+          <source>For more information about Web application security, see <bpt id="p1">[</bpt>Overview of Web Application Security Threats<ept id="p1">](http://msdn.microsoft.com/library/88d61678-f84e-4622-ae80-53128821855a)</ept>.</source>
+          <target state="translated">有关 Web 应用程序安全性的详细信息，请参阅<bpt id="p1">[</bpt>Web 应用程序安全威胁概述<ept id="p1">](http://msdn.microsoft.com/library/88d61678-f84e-4622-ae80-53128821855a)</ept>。</target>       </trans-unit>
+        <trans-unit id="112" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Web.VirtualPathUtility">
+          <source>For generic URL processing functionality, see <ph id="ph1">&lt;xref:System.Uri&gt;</ph>.</source>
+          <target state="translated">有关一般 URL 处理功能，请参阅<ph id="ph1">&lt;xref:System.Uri&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="113" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Web.VirtualPathUtility">
+          <source>The following code example demonstrates how to use the <ph id="ph1">&lt;xref:System.Web.VirtualPathUtility&gt;</ph> class and some of its methods.</source>
+          <target state="translated">下面的代码示例演示如何使用<ph id="ph1">&lt;xref:System.Web.VirtualPathUtility&gt;</ph>类和一些方法。</target>       </trans-unit>
+        <trans-unit id="114" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Web.VirtualPathUtility">
+          <source>First, the <ph id="ph1">&lt;xref:System.Web.HttpRequest.FilePath%2A&gt;</ph> property generates the virtual path to the Web page.</source>
+          <target state="translated">首先，<ph id="ph1">&lt;xref:System.Web.HttpRequest.FilePath%2A&gt;</ph>属性生成网页上的虚拟路径。</target>       </trans-unit>
+        <trans-unit id="115" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Web.VirtualPathUtility">
+          <source>The <ph id="ph1">&lt;xref:System.Web.VirtualPathUtility.GetFileName%2A&gt;</ph>, <ph id="ph2">&lt;xref:System.Web.VirtualPathUtility.GetExtension%2A&gt;</ph>, and <ph id="ph3">&lt;xref:System.Web.VirtualPathUtility.GetDirectory%2A&gt;</ph> methods return information about the virtual path.</source>
+          <target state="translated"><ph id="ph1">&lt;xref:System.Web.VirtualPathUtility.GetFileName%2A&gt;</ph>， <ph id="ph2">&lt;xref:System.Web.VirtualPathUtility.GetExtension%2A&gt;</ph>，和<ph id="ph3">&lt;xref:System.Web.VirtualPathUtility.GetDirectory%2A&gt;</ph>方法返回的虚拟路径相关信息。</target>       </trans-unit>
+        <trans-unit id="116" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Web.VirtualPathUtility">
+          <source>Next, the <ph id="ph1">&lt;xref:System.Web.HttpRequest.CurrentExecutionFilePath%2A&gt;</ph> property generates a virtual path of the current request, which might be different from the <ph id="ph2">&lt;xref:System.Web.HttpRequest.FilePath%2A&gt;</ph> property, if a <ph id="ph3">&lt;xref:System.Web.HttpResponse.Redirect%2A&gt;</ph> method was called.</source>
+          <target state="translated">接下来，<ph id="ph1">&lt;xref:System.Web.HttpRequest.CurrentExecutionFilePath%2A&gt;</ph>属性生成当前请求，这可能是从不同的虚拟路径<ph id="ph2">&lt;xref:System.Web.HttpRequest.FilePath%2A&gt;</ph>属性，如果<ph id="ph3">&lt;xref:System.Web.HttpResponse.Redirect%2A&gt;</ph>调用了方法。</target>       </trans-unit>
+        <trans-unit id="117" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Web.VirtualPathUtility">
+          <source>The <ph id="ph1">&lt;xref:System.Web.VirtualPathUtility.IsAbsolute%2A&gt;</ph>, <ph id="ph2">&lt;xref:System.Web.VirtualPathUtility.IsAppRelative%2A&gt;</ph>, and <ph id="ph3">&lt;xref:System.Web.VirtualPathUtility.ToAppRelative%2A&gt;</ph> methods return information about the virtual path.</source>
+          <target state="translated"><ph id="ph1">&lt;xref:System.Web.VirtualPathUtility.IsAbsolute%2A&gt;</ph>， <ph id="ph2">&lt;xref:System.Web.VirtualPathUtility.IsAppRelative%2A&gt;</ph>，和<ph id="ph3">&lt;xref:System.Web.VirtualPathUtility.ToAppRelative%2A&gt;</ph>方法返回的虚拟路径相关信息。</target>       </trans-unit>
+        <trans-unit id="118" translate="yes" xml:space="preserve" uid="M:System.Web.VirtualPathUtility.AppendTrailingSlash(System.String)">
+          <source>The virtual path to append the slash mark to.</source>
+          <target state="translated">要向其追加正斜杠的虚拟路径。</target>       </trans-unit>
+        <trans-unit id="119" translate="yes" xml:space="preserve" uid="M:System.Web.VirtualPathUtility.AppendTrailingSlash(System.String)">
+          <source>Appends the literal slash mark (/) to the end of the virtual path, if one does not already exist.</source>
+          <target state="translated">将正斜杠 (/) 追加到虚拟路径的末尾（如果尚不存在正斜杠）。</target>       </trans-unit>
+        <trans-unit id="120" translate="yes" xml:space="preserve" uid="M:System.Web.VirtualPathUtility.AppendTrailingSlash(System.String)">
+          <source>The modified virtual path.</source>
+          <target state="translated">修改后的虚拟路径。</target>       </trans-unit>
+        <trans-unit id="121" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.VirtualPathUtility.AppendTrailingSlash(System.String)">
+          <source>If the literal slash mark (/) exists at the end of the virtual path, the virtual path is not modified.</source>
+          <target state="translated">如果文本斜杠标记 （/） 存在的虚拟路径的末尾，则不会修改的虚拟路径。</target>       </trans-unit>
+        <trans-unit id="122" translate="yes" xml:space="preserve" uid="M:System.Web.VirtualPathUtility.Combine(System.String,System.String)">
+          <source>The base path.</source>
+          <target state="translated">基路径。</target>       </trans-unit>
+        <trans-unit id="123" translate="yes" xml:space="preserve" uid="M:System.Web.VirtualPathUtility.Combine(System.String,System.String)">
+          <source>The relative path.</source>
+          <target state="translated">相对路径。</target>       </trans-unit>
+        <trans-unit id="124" translate="yes" xml:space="preserve" uid="M:System.Web.VirtualPathUtility.Combine(System.String,System.String)">
+          <source>Combines a base path and a relative path.</source>
+          <target state="translated">将一个基路径和一个相对路径进行组合。</target>       </trans-unit>
+        <trans-unit id="125" translate="yes" xml:space="preserve" uid="M:System.Web.VirtualPathUtility.Combine(System.String,System.String)">
+          <source>The combined <ph id="ph1">&lt;paramref name="basePath" /&gt;</ph> and <ph id="ph2">&lt;paramref name="relativePath" /&gt;</ph>.</source>
+          <target state="translated">组合后的 <ph id="ph1">&lt;paramref name="basePath" /&gt;</ph> 和 <ph id="ph2">&lt;paramref name="relativePath" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="126" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.VirtualPathUtility.Combine(System.String,System.String)">
+          <source>The <ph id="ph1">&lt;xref:System.Web.VirtualPathUtility.Combine%2A&gt;</ph> method returns the value of the <ph id="ph2">&lt;xref:System.Web.HttpRuntime.AppDomainAppVirtualPath%2A&gt;</ph> property if the relative path is exactly a tilde (~).</source>
+          <target state="translated"><ph id="ph1">&lt;xref:System.Web.VirtualPathUtility.Combine%2A&gt;</ph>方法返回的值<ph id="ph2">&lt;xref:System.Web.HttpRuntime.AppDomainAppVirtualPath%2A&gt;</ph>如果相对路径是完全波形符 （~） 的属性。</target>       </trans-unit>
+        <trans-unit id="127" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.VirtualPathUtility.Combine(System.String,System.String)">
+          <source>The <ph id="ph1">&lt;xref:System.Web.VirtualPathUtility.Combine%2A&gt;</ph> method uses the <ph id="ph2">&lt;xref:System.Web.HttpRuntime.AppDomainAppVirtualPath%2A&gt;</ph> property value rather than the base path, if the relative path starts with a tilde and a slash mark (~/); otherwise, the <ph id="ph3">&lt;xref:System.Web.VirtualPathUtility.Combine%2A&gt;</ph> method uses the base path.</source>
+          <target state="translated"><ph id="ph1">&lt;xref:System.Web.VirtualPathUtility.Combine%2A&gt;</ph>方法使用<ph id="ph2">&lt;xref:System.Web.HttpRuntime.AppDomainAppVirtualPath%2A&gt;</ph>属性值而不是基路径中，如果以波形符和斜杠标记开头的相对路径 (~ /); 否则为<ph id="ph3">&lt;xref:System.Web.VirtualPathUtility.Combine%2A&gt;</ph>方法使用的基路径。</target>       </trans-unit>
+        <trans-unit id="128" translate="yes" xml:space="preserve" uid="M:System.Web.VirtualPathUtility.Combine(System.String,System.String)">
+          <source><ph id="ph1">&lt;paramref name="relativePath" /&gt;</ph> is a physical path.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="relativePath" /&gt;</ph> 是一个物理路径。</target>       </trans-unit>
+        <trans-unit id="129" translate="yes" xml:space="preserve" uid="M:System.Web.VirtualPathUtility.Combine(System.String,System.String)">
+          <source>-or-</source>
+          <target state="translated">或</target>       </trans-unit>
+        <trans-unit id="130" translate="yes" xml:space="preserve" uid="M:System.Web.VirtualPathUtility.Combine(System.String,System.String)">
+          <source><ph id="ph1">&lt;paramref name="relativePath" /&gt;</ph> includes one or more colons.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="relativePath" /&gt;</ph> 包含一个或多个冒号。</target>       </trans-unit>
+        <trans-unit id="131" translate="yes" xml:space="preserve" uid="M:System.Web.VirtualPathUtility.Combine(System.String,System.String)">
+          <source><ph id="ph1">&lt;paramref name="relativePath" /&gt;</ph> is <ph id="ph2">&lt;see langword="null" /&gt;</ph> or an empty string.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="relativePath" /&gt;</ph> 为 <ph id="ph2">&lt;see langword="null" /&gt;</ph> 或空字符串。</target>       </trans-unit>
+        <trans-unit id="132" translate="yes" xml:space="preserve" uid="M:System.Web.VirtualPathUtility.Combine(System.String,System.String)">
+          <source>-or-</source>
+          <target state="translated">或</target>       </trans-unit>
+        <trans-unit id="133" translate="yes" xml:space="preserve" uid="M:System.Web.VirtualPathUtility.Combine(System.String,System.String)">
+          <source><ph id="ph1">&lt;paramref name="basePath" /&gt;</ph> is <ph id="ph2">&lt;see langword="null" /&gt;</ph> or an empty string.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="basePath" /&gt;</ph> 为 <ph id="ph2">&lt;see langword="null" /&gt;</ph> 或空字符串。</target>       </trans-unit>
+        <trans-unit id="134" translate="yes" xml:space="preserve" uid="M:System.Web.VirtualPathUtility.GetDirectory(System.String)">
+          <source>The virtual path.</source>
+          <target state="translated">虚拟路径。</target>       </trans-unit>
+        <trans-unit id="135" translate="yes" xml:space="preserve" uid="M:System.Web.VirtualPathUtility.GetDirectory(System.String)">
+          <source>Returns the directory portion of a virtual path.</source>
+          <target state="translated">返回虚拟路径的目录部分。</target>       </trans-unit>
+        <trans-unit id="136" translate="yes" xml:space="preserve" uid="M:System.Web.VirtualPathUtility.GetDirectory(System.String)">
+          <source>The directory referenced in the virtual path.</source>
+          <target state="translated">虚拟路径中引用的目录。</target>       </trans-unit>
+        <trans-unit id="137" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.VirtualPathUtility.GetDirectory(System.String)">
+          <source>If <ph id="ph1">`virtualPath`</ph> is not rooted; that is, it does not equal the root operator (the tilde [~]), does not start with a tilde (~), such as a tilde and a slash mark (~/) or a tilde and a double backslash (~//), or does not start with a slash mark (/), an <ph id="ph2">&lt;xref:System.ArgumentException&gt;</ph> exception is thrown.</source>
+          <target state="translated">如果<ph id="ph1">`virtualPath`</ph>不根路径; 也就是说，它不等于根目录运算符 （波形符 [~]），不以开头波形符 （~），例如波形符和斜杠标记 (~ /) 或波形符和使用双反斜杠 (~ / /)，或不以斜杠标记 （/） 开头<ph id="ph2">&lt;xref:System.ArgumentException&gt;</ph>异常 则会引发。</target>       </trans-unit>
+        <trans-unit id="138" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.VirtualPathUtility.GetDirectory(System.String)">
+          <source>If the virtual path that is passed into the <ph id="ph1">&lt;xref:System.Web.VirtualPathUtility.GetDirectory%2A&gt;</ph> method is <ph id="ph2">`"/images/image1.gif"`</ph>, the returned directory is <ph id="ph3">`"/images"`</ph>.</source>
+          <target state="translated">如果传递到的虚拟路径<ph id="ph1">&lt;xref:System.Web.VirtualPathUtility.GetDirectory%2A&gt;</ph>方法是<ph id="ph2">`"/images/image1.gif"`</ph>，则返回的目录是<ph id="ph3">`"/images"`</ph>。</target>       </trans-unit>
+        <trans-unit id="139" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.VirtualPathUtility.GetDirectory(System.String)">
+          <source>The following code example demonstrates how to use the <ph id="ph1">&lt;xref:System.Web.VirtualPathUtility.GetFileName%2A&gt;</ph>, <ph id="ph2">&lt;xref:System.Web.VirtualPathUtility.GetExtension%2A&gt;</ph>, and <ph id="ph3">&lt;xref:System.Web.VirtualPathUtility.GetDirectory%2A&gt;</ph> methods.</source>
+          <target state="translated">下面的代码示例演示如何使用<ph id="ph1">&lt;xref:System.Web.VirtualPathUtility.GetFileName%2A&gt;</ph>， <ph id="ph2">&lt;xref:System.Web.VirtualPathUtility.GetExtension%2A&gt;</ph>，和<ph id="ph3">&lt;xref:System.Web.VirtualPathUtility.GetDirectory%2A&gt;</ph>方法。</target>       </trans-unit>
+        <trans-unit id="140" translate="yes" xml:space="preserve" uid="M:System.Web.VirtualPathUtility.GetDirectory(System.String)">
+          <source><ph id="ph1">&lt;paramref name="virtualPath" /&gt;</ph> is not rooted.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="virtualPath" /&gt;</ph> 不含有根路径。</target>       </trans-unit>
+        <trans-unit id="141" translate="yes" xml:space="preserve" uid="M:System.Web.VirtualPathUtility.GetDirectory(System.String)">
+          <source><ph id="ph1">\-</ph> or -</source>
+          <target state="translated"><ph id="ph1">\-</ph> 或 -</target>       </trans-unit>
+        <trans-unit id="142" translate="yes" xml:space="preserve" uid="M:System.Web.VirtualPathUtility.GetDirectory(System.String)">
+          <source><ph id="ph1">&lt;paramref name="virtualPath" /&gt;</ph> is <ph id="ph2">&lt;see langword="null" /&gt;</ph> or an empty string.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="virtualPath" /&gt;</ph> 为 <ph id="ph2">&lt;see langword="null" /&gt;</ph> 或空字符串。</target>       </trans-unit>
+        <trans-unit id="143" translate="yes" xml:space="preserve" uid="M:System.Web.VirtualPathUtility.GetExtension(System.String)">
+          <source>The virtual path.</source>
+          <target state="translated">虚拟路径。</target>       </trans-unit>
+        <trans-unit id="144" translate="yes" xml:space="preserve" uid="M:System.Web.VirtualPathUtility.GetExtension(System.String)">
+          <source>Retrieves the extension of the file that is referenced in the virtual path.</source>
+          <target state="translated">检索虚拟路径中引用的文件的扩展名。</target>       </trans-unit>
+        <trans-unit id="145" translate="yes" xml:space="preserve" uid="M:System.Web.VirtualPathUtility.GetExtension(System.String)">
+          <source>The file name extension string literal, including the period (.), <ph id="ph1">&lt;see langword="null" /&gt;</ph>, or an empty string ("").</source>
+          <target state="translated">文件扩展名字符串，包括句点 (.)、<ph id="ph1">&lt;see langword="null" /&gt;</ph> 或空字符串 ("")。</target>       </trans-unit>
+        <trans-unit id="146" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.VirtualPathUtility.GetExtension(System.String)">
+          <source>If the virtual path that is passed into the <ph id="ph1">&lt;xref:System.Web.VirtualPathUtility.GetExtension%2A&gt;</ph> method is <ph id="ph2">`"/images/image1.gif"`</ph>, the returned extension is <ph id="ph3">`".gif"`</ph>.</source>
+          <target state="translated">如果传递到的虚拟路径<ph id="ph1">&lt;xref:System.Web.VirtualPathUtility.GetExtension%2A&gt;</ph>方法是<ph id="ph2">`"/images/image1.gif"`</ph>，返回的扩展名是<ph id="ph3">`".gif"`</ph>。</target>       </trans-unit>
+        <trans-unit id="147" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.VirtualPathUtility.GetExtension(System.String)">
+          <source>The following code example demonstrates how to use the <ph id="ph1">&lt;xref:System.Web.VirtualPathUtility.GetFileName%2A&gt;</ph>, <ph id="ph2">&lt;xref:System.Web.VirtualPathUtility.GetExtension%2A&gt;</ph>, and <ph id="ph3">&lt;xref:System.Web.VirtualPathUtility.GetDirectory%2A&gt;</ph> methods.</source>
+          <target state="translated">下面的代码示例演示如何使用<ph id="ph1">&lt;xref:System.Web.VirtualPathUtility.GetFileName%2A&gt;</ph>， <ph id="ph2">&lt;xref:System.Web.VirtualPathUtility.GetExtension%2A&gt;</ph>，和<ph id="ph3">&lt;xref:System.Web.VirtualPathUtility.GetDirectory%2A&gt;</ph>方法。</target>       </trans-unit>
+        <trans-unit id="148" translate="yes" xml:space="preserve" uid="M:System.Web.VirtualPathUtility.GetExtension(System.String)">
+          <source><ph id="ph1">&lt;paramref name="virtualPath" /&gt;</ph> contains one or more characters that are not valid, as defined in <ph id="ph2">&lt;see cref="F:System.IO.Path.InvalidPathChars" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="virtualPath" /&gt;</ph> 包含 <ph id="ph2">&lt;see cref="F:System.IO.Path.InvalidPathChars" /&gt;</ph> 中定义的一个或多个无效字符。</target>       </trans-unit>
+        <trans-unit id="149" translate="yes" xml:space="preserve" uid="M:System.Web.VirtualPathUtility.GetFileName(System.String)">
+          <source>The virtual path.</source>
+          <target state="translated">虚拟路径。</target>       </trans-unit>
+        <trans-unit id="150" translate="yes" xml:space="preserve" uid="M:System.Web.VirtualPathUtility.GetFileName(System.String)">
+          <source>Retrieves the file name of the file that is referenced in the virtual path.</source>
+          <target state="translated">检索虚拟路径中引用的文件的文件名。</target>       </trans-unit>
+        <trans-unit id="151" translate="yes" xml:space="preserve" uid="M:System.Web.VirtualPathUtility.GetFileName(System.String)">
+          <source>The file name literal after the last directory character in <ph id="ph1">&lt;paramref name="virtualPath" /&gt;</ph>; otherwise, the last directory name if the last character of <ph id="ph2">&lt;paramref name="virtualPath" /&gt;</ph> is a directory or volume separator character.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="virtualPath" /&gt;</ph> 中的最后的目录字符后面的文件名文本；否则为最后的目录名称（如果 <ph id="ph2">&lt;paramref name="virtualPath" /&gt;</ph> 的最后一个字符是目录字符或卷分隔符)。</target>       </trans-unit>
+        <trans-unit id="152" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.VirtualPathUtility.GetFileName(System.String)">
+          <source>If the virtual path that is passed into the <ph id="ph1">&lt;xref:System.Web.VirtualPathUtility.GetFileName%2A&gt;</ph> method is <ph id="ph2">`"/images/image1.gif"`</ph>, the returned file name is <ph id="ph3">`"image1.gif"`</ph>.</source>
+          <target state="translated">如果传递到的虚拟路径<ph id="ph1">&lt;xref:System.Web.VirtualPathUtility.GetFileName%2A&gt;</ph>方法是<ph id="ph2">`"/images/image1.gif"`</ph>，返回的文件名是<ph id="ph3">`"image1.gif"`</ph>。</target>       </trans-unit>
+        <trans-unit id="153" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.VirtualPathUtility.GetFileName(System.String)">
+          <source>The following code example demonstrates how to use the <ph id="ph1">&lt;xref:System.Web.VirtualPathUtility.GetFileName%2A&gt;</ph>, <ph id="ph2">&lt;xref:System.Web.VirtualPathUtility.GetExtension%2A&gt;</ph>, and <ph id="ph3">&lt;xref:System.Web.VirtualPathUtility.GetDirectory%2A&gt;</ph> methods.</source>
+          <target state="translated">下面的代码示例演示如何使用<ph id="ph1">&lt;xref:System.Web.VirtualPathUtility.GetFileName%2A&gt;</ph>， <ph id="ph2">&lt;xref:System.Web.VirtualPathUtility.GetExtension%2A&gt;</ph>，和<ph id="ph3">&lt;xref:System.Web.VirtualPathUtility.GetDirectory%2A&gt;</ph>方法。</target>       </trans-unit>
+        <trans-unit id="154" translate="yes" xml:space="preserve" uid="M:System.Web.VirtualPathUtility.GetFileName(System.String)">
+          <source><ph id="ph1">&lt;paramref name="virtualPath" /&gt;</ph> contains one or more characters that are not valid, as defined in <ph id="ph2">&lt;see cref="F:System.IO.Path.InvalidPathChars" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="virtualPath" /&gt;</ph> 包含 <ph id="ph2">&lt;see cref="F:System.IO.Path.InvalidPathChars" /&gt;</ph> 中定义的一个或多个无效字符。</target>       </trans-unit>
+        <trans-unit id="155" translate="yes" xml:space="preserve" uid="M:System.Web.VirtualPathUtility.IsAbsolute(System.String)">
+          <source>The virtual path to check.</source>
+          <target state="translated">要检查的虚拟路径。</target>       </trans-unit>
+        <trans-unit id="156" translate="yes" xml:space="preserve" uid="M:System.Web.VirtualPathUtility.IsAbsolute(System.String)">
+          <source>Returns a Boolean value indicating whether the specified virtual path is absolute; that is, it starts with a literal slash mark (/).</source>
+          <target state="translated">返回一个布尔值，该值指示指定的虚拟路径是否为绝对路径，也就是以正斜杠 (/) 开头。</target>       </trans-unit>
+        <trans-unit id="157" translate="yes" xml:space="preserve" uid="M:System.Web.VirtualPathUtility.IsAbsolute(System.String)">
+          <source><ph id="ph1">&lt;see langword="true" /&gt;</ph> if <ph id="ph2">&lt;paramref name="virtualPath" /&gt;</ph> is an absolute path and is not <ph id="ph3">&lt;see langword="null" /&gt;</ph> or an empty string (""); otherwise, <ph id="ph4">&lt;see langword="false" /&gt;</ph>.</source>
+          <target state="translated">如果 <ph id="ph2">&lt;paramref name="virtualPath" /&gt;</ph> 是绝对路径，并且不为 <ph id="ph1">&lt;see langword="true" /&gt;</ph> 或空字符串 ("")，则为 <ph id="ph3">&lt;see langword="null" /&gt;</ph>；否则为 <ph id="ph4">&lt;see langword="false" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="158" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.VirtualPathUtility.IsAbsolute(System.String)">
+          <source>A virtual path is absolute if it begins with a literal slash mark (/).</source>
+          <target state="translated">虚拟路径是绝对地址，如果以斜杠 （/）。</target>       </trans-unit>
+        <trans-unit id="159" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.VirtualPathUtility.IsAbsolute(System.String)">
+          <source>For example, the <ph id="ph1">&lt;xref:System.Web.HttpRequest.Path%2A&gt;</ph> property returns an absolute virtual path.</source>
+          <target state="translated">例如，<ph id="ph1">&lt;xref:System.Web.HttpRequest.Path%2A&gt;</ph>属性将返回绝对的虚拟路径。</target>       </trans-unit>
+        <trans-unit id="160" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.VirtualPathUtility.IsAbsolute(System.String)">
+          <source>The following code example demonstrates how to use the <ph id="ph1">&lt;xref:System.Web.VirtualPathUtility.IsAbsolute%2A&gt;</ph>, <ph id="ph2">&lt;xref:System.Web.VirtualPathUtility.IsAppRelative%2A&gt;</ph>, and <ph id="ph3">&lt;xref:System.Web.VirtualPathUtility.ToAppRelative%2A&gt;</ph> methods.</source>
+          <target state="translated">下面的代码示例演示如何使用<ph id="ph1">&lt;xref:System.Web.VirtualPathUtility.IsAbsolute%2A&gt;</ph>， <ph id="ph2">&lt;xref:System.Web.VirtualPathUtility.IsAppRelative%2A&gt;</ph>，和<ph id="ph3">&lt;xref:System.Web.VirtualPathUtility.ToAppRelative%2A&gt;</ph>方法。</target>       </trans-unit>
+        <trans-unit id="161" translate="yes" xml:space="preserve" uid="M:System.Web.VirtualPathUtility.IsAbsolute(System.String)">
+          <source><ph id="ph1">&lt;paramref name="virtualPath" /&gt;</ph> is <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="virtualPath" /&gt;</ph> 为 <ph id="ph2">&lt;see langword="null" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="162" translate="yes" xml:space="preserve" uid="M:System.Web.VirtualPathUtility.IsAppRelative(System.String)">
+          <source>The virtual path to check.</source>
+          <target state="translated">要检查的虚拟路径。</target>       </trans-unit>
+        <trans-unit id="163" translate="yes" xml:space="preserve" uid="M:System.Web.VirtualPathUtility.IsAppRelative(System.String)">
+          <source>Returns a Boolean value indicating whether the specified virtual path is relative to the application.</source>
+          <target state="translated">返回一个布尔值，该值指示指定的虚拟路径是否为相对于应用程序的相对路径。</target>       </trans-unit>
+        <trans-unit id="164" translate="yes" xml:space="preserve" uid="M:System.Web.VirtualPathUtility.IsAppRelative(System.String)">
+          <source><ph id="ph1">&lt;see langword="true" /&gt;</ph> if <ph id="ph2">&lt;paramref name="virtualPath" /&gt;</ph> is relative to the application; otherwise, <ph id="ph3">&lt;see langword="false" /&gt;</ph>.</source>
+          <target state="translated">如果 <ph id="ph2">&lt;paramref name="virtualPath" /&gt;</ph> 相对于应用程序，则为 <ph id="ph1">&lt;see langword="true" /&gt;</ph>；否则为 <ph id="ph3">&lt;see langword="false" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="165" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.VirtualPathUtility.IsAppRelative(System.String)">
+          <source>The virtual path can be just the root operator (the tilde [~]), or it can begin with the root operator.</source>
+          <target state="translated">虚拟路径可以是只需根目录运算符 （波形符 [~]），也可以开头根目录运算符。</target>       </trans-unit>
+        <trans-unit id="166" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.VirtualPathUtility.IsAppRelative(System.String)">
+          <source>If <ph id="ph1">`virtualPath`</ph> is <ph id="ph2">`null`</ph>, an <ph id="ph3">&lt;xref:System.ArgumentNullException&gt;</ph> exception is raised.</source>
+          <target state="translated">如果<ph id="ph1">`virtualPath`</ph>是<ph id="ph2">`null`</ph>、<ph id="ph3">&lt;xref:System.ArgumentNullException&gt;</ph>引发异常。</target>       </trans-unit>
+        <trans-unit id="167" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.VirtualPathUtility.IsAppRelative(System.String)">
+          <source>If <ph id="ph1">`virtualPath`</ph> is an empty string (""), the <ph id="ph2">&lt;xref:System.Web.VirtualPathUtility.IsAppRelative%2A&gt;</ph> method returns <ph id="ph3">`false`</ph>.</source>
+          <target state="translated">如果<ph id="ph1">`virtualPath`</ph>为空字符串 ("")，则<ph id="ph2">&lt;xref:System.Web.VirtualPathUtility.IsAppRelative%2A&gt;</ph>方法返回<ph id="ph3">`false`</ph>。</target>       </trans-unit>
+        <trans-unit id="168" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.VirtualPathUtility.IsAppRelative(System.String)">
+          <source><ph id="ph1">`"~`</ph> <ph id="ph2">`filename`</ph> <ph id="ph3">`"`</ph> is not a valid virtual path and returns <ph id="ph4">`false`</ph> for the <ph id="ph5">&lt;xref:System.Web.VirtualPathUtility.IsAppRelative%2A&gt;</ph> method.</source>
+          <target state="translated"><ph id="ph1">`"~`</ph> <ph id="ph2">`filename`</ph> <ph id="ph3">`"`</ph> 不是有效的虚拟路径，并返回<ph id="ph4">`false`</ph>为<ph id="ph5">&lt;xref:System.Web.VirtualPathUtility.IsAppRelative%2A&gt;</ph>方法。</target>       </trans-unit>
+        <trans-unit id="169" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.VirtualPathUtility.IsAppRelative(System.String)">
+          <source>The following code example demonstrates how to use the <ph id="ph1">&lt;xref:System.Web.VirtualPathUtility.IsAbsolute%2A&gt;</ph>, <ph id="ph2">&lt;xref:System.Web.VirtualPathUtility.IsAppRelative%2A&gt;</ph>, and <ph id="ph3">&lt;xref:System.Web.VirtualPathUtility.ToAppRelative%2A&gt;</ph> methods.</source>
+          <target state="translated">下面的代码示例演示如何使用<ph id="ph1">&lt;xref:System.Web.VirtualPathUtility.IsAbsolute%2A&gt;</ph>， <ph id="ph2">&lt;xref:System.Web.VirtualPathUtility.IsAppRelative%2A&gt;</ph>，和<ph id="ph3">&lt;xref:System.Web.VirtualPathUtility.ToAppRelative%2A&gt;</ph>方法。</target>       </trans-unit>
+        <trans-unit id="170" translate="yes" xml:space="preserve" uid="M:System.Web.VirtualPathUtility.IsAppRelative(System.String)">
+          <source><ph id="ph1">&lt;paramref name="virtualPath" /&gt;</ph> is <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="virtualPath" /&gt;</ph> 为 <ph id="ph2">&lt;see langword="null" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="171" translate="yes" xml:space="preserve" uid="M:System.Web.VirtualPathUtility.MakeRelative(System.String,System.String)">
+          <source>The starting virtual path to return the relative virtual path from.</source>
+          <target state="translated">要返回的相对虚拟路径的起始虚拟路径。</target>       </trans-unit>
+        <trans-unit id="172" translate="yes" xml:space="preserve" uid="M:System.Web.VirtualPathUtility.MakeRelative(System.String,System.String)">
+          <source>The ending virtual path to return the relative virtual path to.</source>
+          <target state="translated">要返回的相对虚拟路径的结束虚拟路径。</target>       </trans-unit>
+        <trans-unit id="173" translate="yes" xml:space="preserve" uid="M:System.Web.VirtualPathUtility.MakeRelative(System.String,System.String)">
+          <source>Returns the relative virtual path from one virtual path containing the root operator (the tilde [~]) to another.</source>
+          <target state="translated">返回从一个包含根操作符（波形符 [~]）的虚拟路径到另一个此类虚拟路径的相对虚拟路径。</target>       </trans-unit>
+        <trans-unit id="174" translate="yes" xml:space="preserve" uid="M:System.Web.VirtualPathUtility.MakeRelative(System.String,System.String)">
+          <source>The relative virtual path from <ph id="ph1">&lt;paramref name="fromPath" /&gt;</ph> to <ph id="ph2">&lt;paramref name="toPath" /&gt;</ph>.</source>
+          <target state="translated">从 <ph id="ph1">&lt;paramref name="fromPath" /&gt;</ph> 到 <ph id="ph2">&lt;paramref name="toPath" /&gt;</ph> 的相对虚拟路径。</target>       </trans-unit>
+        <trans-unit id="175" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.VirtualPathUtility.MakeRelative(System.String,System.String)">
+          <source>If the <ph id="ph1">`fromPath`</ph> and <ph id="ph2">`toPath`</ph> parameters are not rooted; that is, they do not equal the root operator (the tilde [~]), do not start with a tilde (~), such as a tilde and a slash mark (~/) or a tilde and a double backslash (~//), or do not start with a slash mark (/), an <ph id="ph3">&lt;xref:System.ArgumentException&gt;</ph> exception is thrown.</source>
+          <target state="translated">如果<ph id="ph1">`fromPath`</ph>和<ph id="ph2">`toPath`</ph>参数不取得 root 权限; 也就是说，它们不相等根目录运算符 （波形符 [~]），不会启动与波形符 （~），例如波形符和斜杠标记 (~ /) 或波形符和使用双反斜杠 (~ / /)，或使用的斜杠标记 （不启动/），<ph id="ph3">&lt;xref:System.ArgumentException&gt;</ph>引发异常。</target>       </trans-unit>
+        <trans-unit id="176" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.VirtualPathUtility.MakeRelative(System.String,System.String)">
+          <source>Query string parameters and HTML anchors that are used in the URI are not used in determining the relative path.</source>
+          <target state="translated">确定的相对路径不使用查询字符串参数和 URI 中使用的 HTML 定位点。</target>       </trans-unit>
+        <trans-unit id="177" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.VirtualPathUtility.MakeRelative(System.String,System.String)">
+          <source>If <ph id="ph1">`fromPath`</ph> is <ph id="ph2">`"/directory1/file1.aspx"`</ph> and <ph id="ph3">`toPath`</ph> is <ph id="ph4">`"/directory2/file2.aspx"`</ph>, the <ph id="ph5">&lt;xref:System.Web.VirtualPathUtility.MakeRelative%2A&gt;</ph> method returns <ph id="ph6">`"../directory2/file2.aspx"`</ph>.</source>
+          <target state="translated">如果<ph id="ph1">`fromPath`</ph>是<ph id="ph2">`"/directory1/file1.aspx"`</ph>和<ph id="ph3">`toPath`</ph>是<ph id="ph4">`"/directory2/file2.aspx"`</ph>、<ph id="ph5">&lt;xref:System.Web.VirtualPathUtility.MakeRelative%2A&gt;</ph>方法返回<ph id="ph6">`"../directory2/file2.aspx"`</ph>。</target>       </trans-unit>
+        <trans-unit id="178" translate="yes" xml:space="preserve" uid="M:System.Web.VirtualPathUtility.MakeRelative(System.String,System.String)">
+          <source><ph id="ph1">&lt;paramref name="fromPath" /&gt;</ph> is not rooted.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="fromPath" /&gt;</ph> 不含有根路径。</target>       </trans-unit>
+        <trans-unit id="179" translate="yes" xml:space="preserve" uid="M:System.Web.VirtualPathUtility.MakeRelative(System.String,System.String)">
+          <source><ph id="ph1">\-</ph> or -</source>
+          <target state="translated"><ph id="ph1">\-</ph> 或 -</target>       </trans-unit>
+        <trans-unit id="180" translate="yes" xml:space="preserve" uid="M:System.Web.VirtualPathUtility.MakeRelative(System.String,System.String)">
+          <source><ph id="ph1">&lt;paramref name="toPath" /&gt;</ph> is not rooted.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="toPath" /&gt;</ph> 不含有根路径。</target>       </trans-unit>
+        <trans-unit id="181" translate="yes" xml:space="preserve" uid="M:System.Web.VirtualPathUtility.RemoveTrailingSlash(System.String)">
+          <source>The virtual path to remove any trailing slash mark from.</source>
+          <target state="translated">要移除末尾的任何正斜杠的虚拟路径。</target>       </trans-unit>
+        <trans-unit id="182" translate="yes" xml:space="preserve" uid="M:System.Web.VirtualPathUtility.RemoveTrailingSlash(System.String)">
+          <source>Removes a trailing slash mark (/) from a virtual path.</source>
+          <target state="translated">从虚拟路径移除末尾的正斜杠 (/)。</target>       </trans-unit>
+        <trans-unit id="183" translate="yes" xml:space="preserve" uid="M:System.Web.VirtualPathUtility.RemoveTrailingSlash(System.String)">
+          <source>A virtual path without a trailing slash mark, if the virtual path is not already the root directory ("/"); otherwise, <ph id="ph1">&lt;see langword="null" /&gt;</ph>.</source>
+          <target state="translated">如果虚拟路径尚不是根目录 ("/")，则返回末尾没有正斜杠的虚拟路径；否则返回 <ph id="ph1">&lt;see langword="null" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="184" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.VirtualPathUtility.RemoveTrailingSlash(System.String)">
+          <source>The <ph id="ph1">&lt;xref:System.Web.VirtualPathUtility.RemoveTrailingSlash%2A&gt;</ph> method removes a slash mark (/) from the end of the virtual path.</source>
+          <target state="translated"><ph id="ph1">&lt;xref:System.Web.VirtualPathUtility.RemoveTrailingSlash%2A&gt;</ph>方法从虚拟路径的末尾移除斜杠标记 （/）。</target>       </trans-unit>
+        <trans-unit id="185" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.VirtualPathUtility.RemoveTrailingSlash(System.String)">
+          <source>If the virtual path is already the root directory (<ph id="ph1">`"/"`</ph>), no action is taken.</source>
+          <target state="translated">如果已指定的虚拟路径的根目录 (<ph id="ph1">`"/"`</ph>)，不执行任何操作。</target>       </trans-unit>
+        <trans-unit id="186" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.VirtualPathUtility.RemoveTrailingSlash(System.String)">
+          <source>If the virtual path is <ph id="ph1">`null`</ph> or an empty string (""), the <ph id="ph2">&lt;xref:System.Web.VirtualPathUtility.RemoveTrailingSlash%2A&gt;</ph> method returns <ph id="ph3">`null`</ph>.</source>
+          <target state="translated">如果虚拟路径<ph id="ph1">`null`</ph>或空字符串 ("")，则<ph id="ph2">&lt;xref:System.Web.VirtualPathUtility.RemoveTrailingSlash%2A&gt;</ph>方法返回<ph id="ph3">`null`</ph>。</target>       </trans-unit>
+        <trans-unit id="187" translate="yes" xml:space="preserve" uid="T:System.Web.VirtualPathUtility">
+          <source>Converts a virtual path to an application absolute path.</source>
+          <target state="translated">将虚拟路径转换为应用程序绝对路径。</target>       </trans-unit>
+        <trans-unit id="188" translate="yes" xml:space="preserve" uid="M:System.Web.VirtualPathUtility.ToAbsolute(System.String)">
+          <source>The virtual path to convert to an application-relative path.</source>
+          <target state="translated">要转换为应用程序相对路径的虚拟路径。</target>       </trans-unit>
+        <trans-unit id="189" translate="yes" xml:space="preserve" uid="M:System.Web.VirtualPathUtility.ToAbsolute(System.String)">
+          <source>Converts a virtual path to an application absolute path.</source>
+          <target state="translated">将虚拟路径转换为应用程序绝对路径。</target>       </trans-unit>
+        <trans-unit id="190" translate="yes" xml:space="preserve" uid="M:System.Web.VirtualPathUtility.ToAbsolute(System.String)">
+          <source>The absolute path representation of the specified virtual path.</source>
+          <target state="translated">指定的虚拟路径的绝对路径表示形式。</target>       </trans-unit>
+        <trans-unit id="191" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.VirtualPathUtility.ToAbsolute(System.String)">
+          <source>An application absolute path is one where the application path is used instead of the root operator (the tilde [~]).</source>
+          <target state="translated">应用程序绝对路径是应用程序路径使用而不是根目录运算符 （波形符 [~]） 的位置。</target>       </trans-unit>
+        <trans-unit id="192" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.VirtualPathUtility.ToAbsolute(System.String)">
+          <source>If <ph id="ph1">`virtualPath`</ph> is:</source>
+          <target state="translated">如果<ph id="ph1">`virtualPath`</ph>是：</target>       </trans-unit>
+        <trans-unit id="193" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.VirtualPathUtility.ToAbsolute(System.String)">
+          <source>Absolute, the <ph id="ph1">&lt;xref:System.Web.VirtualPathUtility.ToAbsolute%2A&gt;</ph> method returns the virtual path unchanged.</source>
+          <target state="translated">绝对，<ph id="ph1">&lt;xref:System.Web.VirtualPathUtility.ToAbsolute%2A&gt;</ph>方法返回未更改的虚拟路径。</target>       </trans-unit>
+        <trans-unit id="194" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.VirtualPathUtility.ToAbsolute(System.String)">
+          <source>Application relative, the <ph id="ph1">&lt;xref:System.Web.VirtualPathUtility.ToAbsolute%2A&gt;</ph> method appends the current application virtual directory path to the beginning of the <ph id="ph2">`virtualPath`</ph>.</source>
+          <target state="translated">相对于应用程序，<ph id="ph1">&lt;xref:System.Web.VirtualPathUtility.ToAbsolute%2A&gt;</ph>方法将当前的应用程序虚拟目录路径追加到的开头<ph id="ph2">`virtualPath`</ph>。</target>       </trans-unit>
+        <trans-unit id="195" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.VirtualPathUtility.ToAbsolute(System.String)">
+          <source>For example, the current application virtual directory path can be accessed from the <ph id="ph1">&lt;xref:System.Web.HttpRuntime.AppDomainAppVirtualPath%2A&gt;</ph> property.</source>
+          <target state="translated">例如，可以从访问当前的应用程序虚拟目录路径<ph id="ph1">&lt;xref:System.Web.HttpRuntime.AppDomainAppVirtualPath%2A&gt;</ph>属性。</target>       </trans-unit>
+        <trans-unit id="196" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.VirtualPathUtility.ToAbsolute(System.String)">
+          <source>Not rooted, the <ph id="ph1">&lt;xref:System.Web.VirtualPathUtility.ToAbsolute%2A&gt;</ph> method raises an <ph id="ph2">&lt;xref:System.ArgumentOutOfRangeException&gt;</ph> exception.</source>
+          <target state="translated">未取得 root 权限，<ph id="ph1">&lt;xref:System.Web.VirtualPathUtility.ToAbsolute%2A&gt;</ph>方法引发<ph id="ph2">&lt;xref:System.ArgumentOutOfRangeException&gt;</ph>异常。</target>       </trans-unit>
+        <trans-unit id="197" translate="yes" xml:space="preserve" uid="M:System.Web.VirtualPathUtility.ToAbsolute(System.String)">
+          <source><ph id="ph1">&lt;paramref name="virtualPath" /&gt;</ph> is not rooted.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="virtualPath" /&gt;</ph> 不含有根路径。</target>       </trans-unit>
+        <trans-unit id="198" translate="yes" xml:space="preserve" uid="M:System.Web.VirtualPathUtility.ToAbsolute(System.String)">
+          <source>A leading double period (..) is used to exit above the top directory.</source>
+          <target state="translated">前导双句点 (..) 用于退出顶级目录。</target>       </trans-unit>
+        <trans-unit id="199" translate="yes" xml:space="preserve" uid="M:System.Web.VirtualPathUtility.ToAbsolute(System.String,System.String)">
+          <source>The virtual path to convert to an application-relative path.</source>
+          <target state="translated">要转换为应用程序相对路径的虚拟路径。</target>       </trans-unit>
+        <trans-unit id="200" translate="yes" xml:space="preserve" uid="M:System.Web.VirtualPathUtility.ToAbsolute(System.String,System.String)">
+          <source>The application path to use to convert <bpt id="p1">&lt;c&gt;</bpt>virtualPath<ept id="p1">&lt;/c&gt;</ept> to a relative path.</source>
+          <target state="translated">要用于将 <bpt id="p1">&lt;c&gt;</bpt>virtualPath<ept id="p1">&lt;/c&gt;</ept> 转换为相对路径的应用程序路径。</target>       </trans-unit>
+        <trans-unit id="201" translate="yes" xml:space="preserve" uid="M:System.Web.VirtualPathUtility.ToAbsolute(System.String,System.String)">
+          <source>Converts a virtual path to an application absolute path using the specified application path.</source>
+          <target state="translated">使用指定的应用程序路径将虚拟路径转换为应用程序绝对路径。</target>       </trans-unit>
+        <trans-unit id="202" translate="yes" xml:space="preserve" uid="M:System.Web.VirtualPathUtility.ToAbsolute(System.String,System.String)">
+          <source>The absolute virtual path representation of <ph id="ph1">&lt;paramref name="virtualPath" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="virtualPath" /&gt;</ph> 的绝对虚拟路径表示形式。</target>       </trans-unit>
+        <trans-unit id="203" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.VirtualPathUtility.ToAbsolute(System.String,System.String)">
+          <source>The <ph id="ph1">&lt;xref:System.Web.VirtualPathUtility.ToAbsolute%2A&gt;</ph> overload of the <ph id="ph2">&lt;xref:System.Web.VirtualPathUtility.ToAbsolute%2A&gt;</ph> method uses the supplied application path rather than the current application path.</source>
+          <target state="translated"><ph id="ph1">&lt;xref:System.Web.VirtualPathUtility.ToAbsolute%2A&gt;</ph>重载<ph id="ph2">&lt;xref:System.Web.VirtualPathUtility.ToAbsolute%2A&gt;</ph>方法使用提供的应用程序路径而不是当前的应用程序路径。</target>       </trans-unit>
+        <trans-unit id="204" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.VirtualPathUtility.ToAbsolute(System.String,System.String)">
+          <source>If <ph id="ph1">`virtualPath`</ph> is:</source>
+          <target state="translated">如果<ph id="ph1">`virtualPath`</ph>是：</target>       </trans-unit>
+        <trans-unit id="205" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.VirtualPathUtility.ToAbsolute(System.String,System.String)">
+          <source>Absolute, the <ph id="ph1">&lt;xref:System.Web.VirtualPathUtility.ToAbsolute%2A&gt;</ph> method returns the virtual path with no changes.</source>
+          <target state="translated">绝对，<ph id="ph1">&lt;xref:System.Web.VirtualPathUtility.ToAbsolute%2A&gt;</ph>方法返回未更改的虚拟路径。</target>       </trans-unit>
+        <trans-unit id="206" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.VirtualPathUtility.ToAbsolute(System.String,System.String)">
+          <source>Application relative, the <ph id="ph1">&lt;xref:System.Web.VirtualPathUtility.ToAbsolute%2A&gt;</ph> method adds <ph id="ph2">`applicationPath`</ph> to the beginning of the virtual path.</source>
+          <target state="translated">相对于应用程序，<ph id="ph1">&lt;xref:System.Web.VirtualPathUtility.ToAbsolute%2A&gt;</ph>方法将添加<ph id="ph2">`applicationPath`</ph>到的虚拟路径的开头。</target>       </trans-unit>
+        <trans-unit id="207" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.VirtualPathUtility.ToAbsolute(System.String,System.String)">
+          <source>Not rooted, the <ph id="ph1">&lt;xref:System.Web.VirtualPathUtility.ToAbsolute%2A&gt;</ph> method raises an <ph id="ph2">&lt;xref:System.ArgumentOutOfRangeException&gt;</ph> exception.</source>
+          <target state="translated">未取得 root 权限，<ph id="ph1">&lt;xref:System.Web.VirtualPathUtility.ToAbsolute%2A&gt;</ph>方法引发<ph id="ph2">&lt;xref:System.ArgumentOutOfRangeException&gt;</ph>异常。</target>       </trans-unit>
+        <trans-unit id="208" translate="yes" xml:space="preserve" uid="M:System.Web.VirtualPathUtility.ToAbsolute(System.String,System.String)">
+          <source><ph id="ph1">&lt;paramref name="applicationPath" /&gt;</ph> is not rooted.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="applicationPath" /&gt;</ph> 不含有根路径。</target>       </trans-unit>
+        <trans-unit id="209" translate="yes" xml:space="preserve" uid="M:System.Web.VirtualPathUtility.ToAbsolute(System.String,System.String)">
+          <source>A leading double period (..) is used in the application path to exit above the top directory.</source>
+          <target state="translated">前导双句点 (..) 在应用程序路径中用于退出顶级目录。</target>       </trans-unit>
+        <trans-unit id="210" translate="yes" xml:space="preserve" uid="T:System.Web.VirtualPathUtility">
+          <source>Converts a virtual path into an application-relative path.</source>
+          <target state="translated">将虚拟路径转换为应用程序相对路径。</target>       </trans-unit>
+        <trans-unit id="211" translate="yes" xml:space="preserve" uid="M:System.Web.VirtualPathUtility.ToAppRelative(System.String)">
+          <source>The virtual path to convert to an application-relative path.</source>
+          <target state="translated">要转换为应用程序相对路径的虚拟路径。</target>       </trans-unit>
+        <trans-unit id="212" translate="yes" xml:space="preserve" uid="M:System.Web.VirtualPathUtility.ToAppRelative(System.String)">
+          <source>Converts a virtual path to an application-relative path using the application virtual path that is in the <ph id="ph1">&lt;see cref="P:System.Web.HttpRuntime.AppDomainAppVirtualPath" /&gt;</ph> property.</source>
+          <target state="translated">使用 <ph id="ph1">&lt;see cref="P:System.Web.HttpRuntime.AppDomainAppVirtualPath" /&gt;</ph> 属性中的应用程序虚拟路径将虚拟路径转换为应用程序相对路径。</target>       </trans-unit>
+        <trans-unit id="213" translate="yes" xml:space="preserve" uid="M:System.Web.VirtualPathUtility.ToAppRelative(System.String)">
+          <source>The application-relative path representation of <ph id="ph1">&lt;paramref name="virtualPath" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="virtualPath" /&gt;</ph> 的应用程序相对路径表示形式。</target>       </trans-unit>
+        <trans-unit id="214" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.VirtualPathUtility.ToAppRelative(System.String)">
+          <source>If the virtual path for the application is <ph id="ph1">`"myapp"`</ph> and the virtual path <ph id="ph2">`"/myApp/sub/default.asp"`</ph> is passed into the <ph id="ph3">&lt;xref:System.Web.VirtualPathUtility.ToAppRelative%2A&gt;</ph> method, the resulting application-relative path is <ph id="ph4">`"~/sub/default.aspx"`</ph>.</source>
+          <target state="translated">如果应用程序的虚拟路径是<ph id="ph1">`"myapp"`</ph>和虚拟路径<ph id="ph2">`"/myApp/sub/default.asp"`</ph>传递到<ph id="ph3">&lt;xref:System.Web.VirtualPathUtility.ToAppRelative%2A&gt;</ph>方法，生成的应用程序相对路径是<ph id="ph4">`"~/sub/default.aspx"`</ph>。</target>       </trans-unit>
+        <trans-unit id="215" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.VirtualPathUtility.ToAppRelative(System.String)">
+          <source>If <ph id="ph1">`virtualPath`</ph> does not start with the current application path, the <ph id="ph2">&lt;xref:System.Web.VirtualPathUtility.ToAppRelative%2A&gt;</ph> method returns the virtual path unchanged.</source>
+          <target state="translated">如果<ph id="ph1">`virtualPath`</ph>才会使用当前的应用程序路径、<ph id="ph2">&lt;xref:System.Web.VirtualPathUtility.ToAppRelative%2A&gt;</ph>方法返回未更改的虚拟路径。</target>       </trans-unit>
+        <trans-unit id="216" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.VirtualPathUtility.ToAppRelative(System.String)">
+          <source>If <ph id="ph1">`virtualPath`</ph> is the same as the application path, the root operator (the tilde [~]), is returned.</source>
+          <target state="translated">如果<ph id="ph1">`virtualPath`</ph>是应用程序路径中，相同根目录运算符 （波形符 [~]），将返回。</target>       </trans-unit>
+        <trans-unit id="217" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.VirtualPathUtility.ToAppRelative(System.String)">
+          <source>For example, the current application virtual directory path can be accessed from the <ph id="ph1">&lt;xref:System.Web.HttpRuntime.AppDomainAppVirtualPath%2A&gt;</ph> property.</source>
+          <target state="translated">例如，可以从访问当前的应用程序虚拟目录路径<ph id="ph1">&lt;xref:System.Web.HttpRuntime.AppDomainAppVirtualPath%2A&gt;</ph>属性。</target>       </trans-unit>
+        <trans-unit id="218" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.VirtualPathUtility.ToAppRelative(System.String)">
+          <source>The following code example demonstrates how to use the <ph id="ph1">&lt;xref:System.Web.VirtualPathUtility.IsAbsolute%2A&gt;</ph>, <ph id="ph2">&lt;xref:System.Web.VirtualPathUtility.IsAppRelative%2A&gt;</ph>, and <ph id="ph3">&lt;xref:System.Web.VirtualPathUtility.ToAppRelative%2A&gt;</ph> methods.</source>
+          <target state="translated">下面的代码示例演示如何使用<ph id="ph1">&lt;xref:System.Web.VirtualPathUtility.IsAbsolute%2A&gt;</ph>， <ph id="ph2">&lt;xref:System.Web.VirtualPathUtility.IsAppRelative%2A&gt;</ph>，和<ph id="ph3">&lt;xref:System.Web.VirtualPathUtility.ToAppRelative%2A&gt;</ph>方法。</target>       </trans-unit>
+        <trans-unit id="219" translate="yes" xml:space="preserve" uid="M:System.Web.VirtualPathUtility.ToAppRelative(System.String)">
+          <source><ph id="ph1">&lt;paramref name="virtualPath" /&gt;</ph> is <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="virtualPath" /&gt;</ph> 为 <ph id="ph2">&lt;see langword="null" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="220" translate="yes" xml:space="preserve" uid="M:System.Web.VirtualPathUtility.ToAppRelative(System.String,System.String)">
+          <source>The virtual path to convert to an application-relative path.</source>
+          <target state="translated">要转换为应用程序相对路径的虚拟路径。</target>       </trans-unit>
+        <trans-unit id="221" translate="yes" xml:space="preserve" uid="M:System.Web.VirtualPathUtility.ToAppRelative(System.String,System.String)">
+          <source>The application path to use to convert <bpt id="p1">&lt;c&gt;</bpt>virtualPath<ept id="p1">&lt;/c&gt;</ept> to a relative path.</source>
+          <target state="translated">要用于将 <bpt id="p1">&lt;c&gt;</bpt>virtualPath<ept id="p1">&lt;/c&gt;</ept> 转换为相对路径的应用程序路径。</target>       </trans-unit>
+        <trans-unit id="222" translate="yes" xml:space="preserve" uid="M:System.Web.VirtualPathUtility.ToAppRelative(System.String,System.String)">
+          <source>Converts a virtual path to an application-relative path using a specified application path.</source>
+          <target state="translated">使用指定的应用程序路径将虚拟路径转换为应用程序相对路径。</target>       </trans-unit>
+        <trans-unit id="223" translate="yes" xml:space="preserve" uid="M:System.Web.VirtualPathUtility.ToAppRelative(System.String,System.String)">
+          <source>The application-relative path representation of <ph id="ph1">&lt;paramref name="virtualPath" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="virtualPath" /&gt;</ph> 的应用程序相对路径表示形式。</target>       </trans-unit>
+        <trans-unit id="224" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.VirtualPathUtility.ToAppRelative(System.String,System.String)">
+          <source>The <ph id="ph1">&lt;xref:System.Web.VirtualPathUtility.ToAppRelative%2A&gt;</ph> overload of the <ph id="ph2">&lt;xref:System.Web.VirtualPathUtility.ToAppRelative%2A&gt;</ph> method uses <ph id="ph3">`applicationPath`</ph> rather than the current application path.</source>
+          <target state="translated"><ph id="ph1">&lt;xref:System.Web.VirtualPathUtility.ToAppRelative%2A&gt;</ph>重载<ph id="ph2">&lt;xref:System.Web.VirtualPathUtility.ToAppRelative%2A&gt;</ph>方法使用<ph id="ph3">`applicationPath`</ph>而不是当前的应用程序路径。</target>       </trans-unit>
+        <trans-unit id="225" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.VirtualPathUtility.ToAppRelative(System.String,System.String)">
+          <source>If <ph id="ph1">`virtualPath`</ph> does not start with <ph id="ph2">`applicationPath`</ph>, the <ph id="ph3">&lt;xref:System.Web.VirtualPathUtility.ToAppRelative%2A&gt;</ph> method returns the virtual path unchanged.</source>
+          <target state="translated">如果<ph id="ph1">`virtualPath`</ph>开头不<ph id="ph2">`applicationPath`</ph>、<ph id="ph3">&lt;xref:System.Web.VirtualPathUtility.ToAppRelative%2A&gt;</ph>方法返回未更改的虚拟路径。</target>       </trans-unit>
+      </group>
+    </body>
+  </file>
+</xliff>

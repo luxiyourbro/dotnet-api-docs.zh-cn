@@ -1,921 +1,339 @@
-<Type Name="HttpServerChannel" FullName="System.Runtime.Remoting.Channels.Http.HttpServerChannel">
-  <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="281d7edfbcc5c91b03aaf31493da3d2520129e8f" />
-    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
-    <Meta Name="ms.translationtype" Value="HT" />
-    <Meta Name="ms.contentlocale" Value="zh-CN" />
-    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
-  </Metadata>
-  <TypeSignature Language="C#" Value="public class HttpServerChannel : System.Runtime.Remoting.Channels.BaseChannelWithProperties, System.Runtime.Remoting.Channels.IChannel, System.Runtime.Remoting.Channels.IChannelReceiver, System.Runtime.Remoting.Channels.IChannelReceiverHook" />
-  <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit HttpServerChannel extends System.Runtime.Remoting.Channels.BaseChannelWithProperties implements class System.Runtime.Remoting.Channels.IChannel, class System.Runtime.Remoting.Channels.IChannelReceiver, class System.Runtime.Remoting.Channels.IChannelReceiverHook" />
-  <TypeSignature Language="DocId" Value="T:System.Runtime.Remoting.Channels.Http.HttpServerChannel" />
-  <TypeSignature Language="VB.NET" Value="Public Class HttpServerChannel&#xA;Inherits BaseChannelWithProperties&#xA;Implements IChannel, IChannelReceiver, IChannelReceiverHook" />
-  <TypeSignature Language="C++ CLI" Value="public ref class HttpServerChannel : System::Runtime::Remoting::Channels::BaseChannelWithProperties, System::Runtime::Remoting::Channels::IChannel, System::Runtime::Remoting::Channels::IChannelReceiver, System::Runtime::Remoting::Channels::IChannelReceiverHook" />
-  <AssemblyInfo>
-    <AssemblyName>System.Runtime.Remoting</AssemblyName>
-    <AssemblyVersion>4.0.0.0</AssemblyVersion>
-  </AssemblyInfo>
-  <Base>
-    <BaseTypeName>System.Runtime.Remoting.Channels.BaseChannelWithProperties</BaseTypeName>
-  </Base>
-  <Interfaces>
-    <Interface>
-      <InterfaceName>System.Runtime.Remoting.Channels.IChannel</InterfaceName>
-    </Interface>
-    <Interface>
-      <InterfaceName>System.Runtime.Remoting.Channels.IChannelReceiver</InterfaceName>
-    </Interface>
-    <Interface>
-      <InterfaceName>System.Runtime.Remoting.Channels.IChannelReceiverHook</InterfaceName>
-    </Interface>
-  </Interfaces>
-  <Docs>
-    <summary>
-      <span data-ttu-id="26deb-101">为远程调用实现使用 HTTP 协议传输消息的服务器信道。</span>
-      <span class="sxs-lookup">
-        <span data-stu-id="26deb-101">Implements a server channel for remote calls that uses the HTTP protocol to transmit messages.</span>
-      </span>
-    </summary>
-    <remarks>
-      <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="26deb-102">信道跨越远程处理边界 （例如，在应用程序域的计算机） 之间传输消息。</span><span class="sxs-lookup"><span data-stu-id="26deb-102">Channels transport messages across remoting boundaries (for example, between computers on application domains).</span></span> <span data-ttu-id="26deb-103"><xref:System.Runtime.Remoting.Channels.Http.HttpServerChannel>类传输使用 HTTP 协议的消息。</span><span class="sxs-lookup"><span data-stu-id="26deb-103">The <xref:System.Runtime.Remoting.Channels.Http.HttpServerChannel> class transports messages using the HTTP protocol.</span></span>  
-  
- <span data-ttu-id="26deb-104">.NET Framework 远程处理基础结构使用的通道用于传输远程调用。</span><span class="sxs-lookup"><span data-stu-id="26deb-104">Channels are used by the .NET Framework remoting infrastructure to transport remote calls.</span></span> <span data-ttu-id="26deb-105">当客户端进行到的远程对象调用时，则会将调用序列化到一条消息是由客户端通道发送和接收的服务器信道。</span><span class="sxs-lookup"><span data-stu-id="26deb-105">When a client makes a call to a remote object, the call is serialized into a message that is sent by a client channel and received by a server channel.</span></span> <span data-ttu-id="26deb-106">然后，它是反序列化和处理。</span><span class="sxs-lookup"><span data-stu-id="26deb-106">It is then deserialized and processed.</span></span> <span data-ttu-id="26deb-107">任何返回的值是由服务器通道传输和接收的客户端通道。</span><span class="sxs-lookup"><span data-stu-id="26deb-107">Any returned values are transmitted by the server channel and received by the client channel.</span></span>  
-  
- <span data-ttu-id="26deb-108">若要执行其他处理的消息在服务器端，你可以指定的实现<xref:System.Runtime.Remoting.Channels.IServerChannelSinkProvider>通过由其处理的所有消息<xref:System.Runtime.Remoting.Channels.Http.HttpServerChannel>传递。</span><span class="sxs-lookup"><span data-stu-id="26deb-108">To perform additional processing of messages on the server-side, you can specify an implementation of the <xref:System.Runtime.Remoting.Channels.IServerChannelSinkProvider> through which all messages processed by the <xref:System.Runtime.Remoting.Channels.Http.HttpServerChannel> are passed.</span></span>  
-  
- <span data-ttu-id="26deb-109"><xref:System.Runtime.Remoting.Channels.Http.HttpServerChannel>接受二进制或 SOAP 格式中序列化的消息。</span><span class="sxs-lookup"><span data-stu-id="26deb-109">The <xref:System.Runtime.Remoting.Channels.Http.HttpServerChannel> accepts messages serialized in either binary or SOAP format.</span></span>  
-  
- <span data-ttu-id="26deb-110">A<xref:System.Runtime.Remoting.Channels.Http.HttpServerChannel>对象有关联的配置属性，可以在设置配置文件在运行时 (通过调用静态<xref:System.Runtime.Remoting.RemotingConfiguration.Configure%2A?displayProperty=nameWithType>方法) 或以编程方式 (通过将传递<xref:System.Collections.IDictionary>集合到<xref:System.Runtime.Remoting.Channels.Http.HttpServerChannel.%23ctor%2A>构造函数）。</span><span class="sxs-lookup"><span data-stu-id="26deb-110">A <xref:System.Runtime.Remoting.Channels.Http.HttpServerChannel> object has associated configuration properties that can be set at run time either in a configuration file (by invoking the static <xref:System.Runtime.Remoting.RemotingConfiguration.Configure%2A?displayProperty=nameWithType> method) or programmatically (by passing a <xref:System.Collections.IDictionary> collection to the <xref:System.Runtime.Remoting.Channels.Http.HttpServerChannel.%23ctor%2A> constructor).</span></span> <span data-ttu-id="26deb-111">有关这些配置属性的列表，请参阅的文档<xref:System.Runtime.Remoting.Channels.Http.HttpServerChannel.%23ctor%2A>。</span><span class="sxs-lookup"><span data-stu-id="26deb-111">For a list of these configuration properties, see the documentation for <xref:System.Runtime.Remoting.Channels.Http.HttpServerChannel.%23ctor%2A>.</span></span>  
-  
-   
-  
-## Examples  
- <span data-ttu-id="26deb-112">下面的代码示例演示如何使用<xref:System.Runtime.Remoting.Channels.Http.HttpServerChannel>要设置远程处理服务器和其客户端对象。</span><span class="sxs-lookup"><span data-stu-id="26deb-112">The following code example shows how to use a <xref:System.Runtime.Remoting.Channels.Http.HttpServerChannel> object to set up a remoting server and its client.</span></span> <span data-ttu-id="26deb-113">此示例包含三个部分：</span><span class="sxs-lookup"><span data-stu-id="26deb-113">The example contains three parts:</span></span>  
-  
--   <span data-ttu-id="26deb-114">一台服务器</span><span class="sxs-lookup"><span data-stu-id="26deb-114">A server</span></span>  
-  
--   <span data-ttu-id="26deb-115">客户端</span><span class="sxs-lookup"><span data-stu-id="26deb-115">A client</span></span>  
-  
--   <span data-ttu-id="26deb-116">使用服务器和客户端的远程对象</span><span class="sxs-lookup"><span data-stu-id="26deb-116">A remote object used by the server and the client</span></span>  
-  
- <span data-ttu-id="26deb-117">下面的代码示例演示服务器。</span><span class="sxs-lookup"><span data-stu-id="26deb-117">The following code example shows a server.</span></span>  
-  
- [!code-cpp[System.Runtime.Remoting.Channels.Http.HttpServerChannel#20](~/samples/snippets/cpp/VS_Snippets_Remoting/System.Runtime.Remoting.Channels.Http.HttpServerChannel/CPP/server.cpp#20)]
- [!code-csharp[System.Runtime.Remoting.Channels.Http.HttpServerChannel#20](~/samples/snippets/csharp/VS_Snippets_Remoting/System.Runtime.Remoting.Channels.Http.HttpServerChannel/CS/server.cs#20)]  
-  
- <span data-ttu-id="26deb-118">下面的代码示例演示了此服务器的客户端。</span><span class="sxs-lookup"><span data-stu-id="26deb-118">The following code example shows a client for this server.</span></span>  
-  
- [!code-cpp[System.Runtime.Remoting.Channels.Http.HttpServerChannel#30](~/samples/snippets/cpp/VS_Snippets_Remoting/System.Runtime.Remoting.Channels.Http.HttpServerChannel/CPP/client.cpp#30)]
- [!code-csharp[System.Runtime.Remoting.Channels.Http.HttpServerChannel#30](~/samples/snippets/csharp/VS_Snippets_Remoting/System.Runtime.Remoting.Channels.Http.HttpServerChannel/CS/client.cs#30)]  
-  
- <span data-ttu-id="26deb-119">下面的代码示例演示使用在服务器和客户端的远程对象。</span><span class="sxs-lookup"><span data-stu-id="26deb-119">The following code example shows the remote object used by the server and the client.</span></span>  
-  
- [!code-cpp[System.Runtime.Remoting.Channels.Http.HttpServerChannel#40](~/samples/snippets/cpp/VS_Snippets_Remoting/System.Runtime.Remoting.Channels.Http.HttpServerChannel/CPP/common.cpp#40)]
- [!code-csharp[System.Runtime.Remoting.Channels.Http.HttpServerChannel#40](~/samples/snippets/csharp/VS_Snippets_Remoting/System.Runtime.Remoting.Channels.Http.HttpServerChannel/CS/common.cs#40)]  
-  
- ]]></format>
-    </remarks>
-  </Docs>
-  <Members>
-    <MemberGroup MemberName=".ctor">
-      <AssemblyInfo>
-        <AssemblyName>System.Runtime.Remoting</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Docs>
-        <summary>
-          <span data-ttu-id="26deb-120">初始化 <see cref="T:System.Runtime.Remoting.Channels.Http.HttpServerChannel" /> 类的新实例。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="26deb-120">Initializes a new instance of the <see cref="T:System.Runtime.Remoting.Channels.Http.HttpServerChannel" /> class.</span>
-          </span>
-        </summary>
-      </Docs>
-    </MemberGroup>
-    <Member MemberName=".ctor">
-      <MemberSignature Language="C#" Value="public HttpServerChannel ();" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor() cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Runtime.Remoting.Channels.Http.HttpServerChannel.#ctor" />
-      <MemberSignature Language="VB.NET" Value="Public Sub New ()" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; HttpServerChannel();" />
-      <MemberType>Constructor</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Runtime.Remoting</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Parameters />
-      <Docs>
-        <summary>
-          <span data-ttu-id="26deb-121">初始化 <see cref="T:System.Runtime.Remoting.Channels.Http.HttpServerChannel" /> 类的新实例。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="26deb-121">Initializes a new instance of the <see cref="T:System.Runtime.Remoting.Channels.Http.HttpServerChannel" /> class.</span>
-          </span>
-        </summary>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName=".ctor">
-      <MemberSignature Language="C#" Value="public HttpServerChannel (int port);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(int32 port) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Runtime.Remoting.Channels.Http.HttpServerChannel.#ctor(System.Int32)" />
-      <MemberSignature Language="VB.NET" Value="Public Sub New (port As Integer)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; HttpServerChannel(int port);" />
-      <MemberType>Constructor</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Runtime.Remoting</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Parameters>
-        <Parameter Name="port" Type="System.Int32" />
-      </Parameters>
-      <Docs>
-        <param name="port">
-          <span data-ttu-id="26deb-122">信道侦听的端口。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="26deb-122">The port on which the channel listens.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="26deb-123">初始化在指定端口上侦听的 <see cref="T:System.Runtime.Remoting.Channels.Http.HttpServerChannel" /> 类的新实例。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="26deb-123">Initializes a new instance of the <see cref="T:System.Runtime.Remoting.Channels.Http.HttpServerChannel" /> class that listens on the specified port.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="26deb-124">若要请求，动态分配可用的端口，设置`port`参数设为 0 （零）。</span><span class="sxs-lookup"><span data-stu-id="26deb-124">To request that an available port be dynamically assigned, set the `port` parameter to 0 (zero).</span></span>  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-    <Member MemberName=".ctor">
-      <MemberSignature Language="C#" Value="public HttpServerChannel (System.Collections.IDictionary properties, System.Runtime.Remoting.Channels.IServerChannelSinkProvider sinkProvider);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(class System.Collections.IDictionary properties, class System.Runtime.Remoting.Channels.IServerChannelSinkProvider sinkProvider) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Runtime.Remoting.Channels.Http.HttpServerChannel.#ctor(System.Collections.IDictionary,System.Runtime.Remoting.Channels.IServerChannelSinkProvider)" />
-      <MemberSignature Language="VB.NET" Value="Public Sub New (properties As IDictionary, sinkProvider As IServerChannelSinkProvider)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; HttpServerChannel(System::Collections::IDictionary ^ properties, System::Runtime::Remoting::Channels::IServerChannelSinkProvider ^ sinkProvider);" />
-      <MemberType>Constructor</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Runtime.Remoting</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Parameters>
-        <Parameter Name="properties" Type="System.Collections.IDictionary" />
-        <Parameter Name="sinkProvider" Type="System.Runtime.Remoting.Channels.IServerChannelSinkProvider" />
-      </Parameters>
-      <Docs>
-        <param name="properties">
-          <span data-ttu-id="26deb-125">包含当前信道配置信息的信道属性的 <see cref="T:System.Collections.IDictionary" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="26deb-125">A <see cref="T:System.Collections.IDictionary" /> of the channel properties that hold the configuration information for the current channel.</span>
-          </span>
-        </param>
-        <param name="sinkProvider">
-          <span data-ttu-id="26deb-126">要用于 <see cref="T:System.Runtime.Remoting.Channels.IServerChannelSinkProvider" /> 的新实例的 <see cref="T:System.Runtime.Remoting.Channels.Http.HttpServerChannel" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="26deb-126">The <see cref="T:System.Runtime.Remoting.Channels.IServerChannelSinkProvider" /> to use with the new instance of the <see cref="T:System.Runtime.Remoting.Channels.Http.HttpServerChannel" />.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="26deb-127">使用指定的信道属性和接收器初始化 <see cref="T:System.Runtime.Remoting.Channels.Http.HttpServerChannel" /> 类的新实例。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="26deb-127">Initializes a new instance of the <see cref="T:System.Runtime.Remoting.Channels.Http.HttpServerChannel" /> class with the specified channel properties and sink.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="26deb-128">有关通道配置属性的详细信息，请参阅[通道和格式化程序配置属性](http://msdn.microsoft.com/library/226ecf74-ebbd-4ea0-a701-dcf4441deefe)。</span><span class="sxs-lookup"><span data-stu-id="26deb-128">For more information about channel configuration properties, see [Channel and Formatter Configuration Properties](http://msdn.microsoft.com/library/226ecf74-ebbd-4ea0-a701-dcf4441deefe).</span></span>  
-  
- <span data-ttu-id="26deb-129">如果不需要接收器功能，设置`sinkProvider`参数`null`。</span><span class="sxs-lookup"><span data-stu-id="26deb-129">If you do not require sink functionality, set the `sinkProvider` parameter to `null`.</span></span>  
-  
-   
-  
-## Examples  
- <span data-ttu-id="26deb-130">下面的代码示例演示如何使用此构造函数。</span><span class="sxs-lookup"><span data-stu-id="26deb-130">The following code example shows how to use this constructor.</span></span>  
-  
- [!code-cpp[System.Runtime.Remoting.Channels.Http.HttpServerChannel#12](~/samples/snippets/cpp/VS_Snippets_Remoting/System.Runtime.Remoting.Channels.Http.HttpServerChannel/CPP/server2.cpp#12)]
- [!code-csharp[System.Runtime.Remoting.Channels.Http.HttpServerChannel#12](~/samples/snippets/csharp/VS_Snippets_Remoting/System.Runtime.Remoting.Channels.Http.HttpServerChannel/CS/server2.cs#12)]  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.ArgumentException">
-          <span data-ttu-id="26deb-131">配置属性的格式设置不正确。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="26deb-131">A configuration property was incorrectly formatted.</span>
-          </span>
-        </exception>
-      </Docs>
-    </Member>
-    <Member MemberName=".ctor">
-      <MemberSignature Language="C#" Value="public HttpServerChannel (string name, int port);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(string name, int32 port) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Runtime.Remoting.Channels.Http.HttpServerChannel.#ctor(System.String,System.Int32)" />
-      <MemberSignature Language="VB.NET" Value="Public Sub New (name As String, port As Integer)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; HttpServerChannel(System::String ^ name, int port);" />
-      <MemberType>Constructor</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Runtime.Remoting</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Parameters>
-        <Parameter Name="name" Type="System.String" />
-        <Parameter Name="port" Type="System.Int32" />
-      </Parameters>
-      <Docs>
-        <param name="name">
-          <span data-ttu-id="26deb-132">信道的名称。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="26deb-132">The name of the channel.</span>
-          </span>
-        </param>
-        <param name="port">
-          <span data-ttu-id="26deb-133">信道侦听的端口。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="26deb-133">The port on which the channel listens.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="26deb-134">使用给定名称初始化 <see cref="T:System.Runtime.Remoting.Channels.Http.HttpServerChannel" /> 类的新实例，该实例侦听指定的端口。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="26deb-134">Initializes a new instance of the <see cref="T:System.Runtime.Remoting.Channels.Http.HttpServerChannel" /> class with the given name and that listens on the specified port.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="26deb-135">此构造函数设置<xref:System.Runtime.Remoting.Channels.Http.HttpServerChannel.ChannelName%2A>属性使用`name`参数。</span><span class="sxs-lookup"><span data-stu-id="26deb-135">This constructor sets the <xref:System.Runtime.Remoting.Channels.Http.HttpServerChannel.ChannelName%2A> property by using the `name` parameter.</span></span> <span data-ttu-id="26deb-136">如果你想要注册多个通道，每个通道都必须具有唯一的名称。</span><span class="sxs-lookup"><span data-stu-id="26deb-136">If you want to register more than one channel, each channel must have a unique name.</span></span>  
-  
- <span data-ttu-id="26deb-137">若要请求，动态分配可用的端口，设置`port`参数设为 0 （零）。</span><span class="sxs-lookup"><span data-stu-id="26deb-137">To request that an available port be dynamically assigned, set the `port` parameter to 0 (zero).</span></span>  
-  
-   
-  
-## Examples  
- <span data-ttu-id="26deb-138">下面的代码示例演示如何使用此构造函数。</span><span class="sxs-lookup"><span data-stu-id="26deb-138">The following code example shows how to use this constructor.</span></span>  
-  
- [!code-cpp[System.Runtime.Remoting.Channels.Http.HttpServerChannel#13](~/samples/snippets/cpp/VS_Snippets_Remoting/System.Runtime.Remoting.Channels.Http.HttpServerChannel/CPP/server2.cpp#13)]
- [!code-csharp[System.Runtime.Remoting.Channels.Http.HttpServerChannel#13](~/samples/snippets/csharp/VS_Snippets_Remoting/System.Runtime.Remoting.Channels.Http.HttpServerChannel/CS/server2.cs#13)]  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-    <Member MemberName=".ctor">
-      <MemberSignature Language="C#" Value="public HttpServerChannel (string name, int port, System.Runtime.Remoting.Channels.IServerChannelSinkProvider sinkProvider);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(string name, int32 port, class System.Runtime.Remoting.Channels.IServerChannelSinkProvider sinkProvider) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Runtime.Remoting.Channels.Http.HttpServerChannel.#ctor(System.String,System.Int32,System.Runtime.Remoting.Channels.IServerChannelSinkProvider)" />
-      <MemberSignature Language="VB.NET" Value="Public Sub New (name As String, port As Integer, sinkProvider As IServerChannelSinkProvider)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; HttpServerChannel(System::String ^ name, int port, System::Runtime::Remoting::Channels::IServerChannelSinkProvider ^ sinkProvider);" />
-      <MemberType>Constructor</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Runtime.Remoting</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Parameters>
-        <Parameter Name="name" Type="System.String" />
-        <Parameter Name="port" Type="System.Int32" />
-        <Parameter Name="sinkProvider" Type="System.Runtime.Remoting.Channels.IServerChannelSinkProvider" />
-      </Parameters>
-      <Docs>
-        <param name="name">
-          <span data-ttu-id="26deb-139">信道的名称。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="26deb-139">The name of the channel.</span>
-          </span>
-        </param>
-        <param name="port">
-          <span data-ttu-id="26deb-140">信道侦听的端口。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="26deb-140">The port on which the channel listens.</span>
-          </span>
-        </param>
-        <param name="sinkProvider">
-          <span data-ttu-id="26deb-141">要由信道使用的 <see cref="T:System.Runtime.Remoting.Channels.IServerChannelSinkProvider" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="26deb-141">The <see cref="T:System.Runtime.Remoting.Channels.IServerChannelSinkProvider" /> to be used by the channel.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="26deb-142">在指定的端口以给定的名称初始化 <see cref="T:System.Runtime.Remoting.Channels.Http.HttpServerChannel" /> 类的新实例，该实例侦听指定的端口并使用指定的接收器。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="26deb-142">Initializes a new instance of the <see cref="T:System.Runtime.Remoting.Channels.Http.HttpServerChannel" /> class at the specified port with the given name, which listens on the specified port, and uses the specified sink.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="26deb-143">此构造函数设置<xref:System.Runtime.Remoting.Channels.Http.HttpServerChannel.ChannelName%2A>属性使用`name`参数。</span><span class="sxs-lookup"><span data-stu-id="26deb-143">This constructor sets the <xref:System.Runtime.Remoting.Channels.Http.HttpServerChannel.ChannelName%2A> property using the `name` parameter.</span></span>  
-  
- <span data-ttu-id="26deb-144">若要请求，动态分配可用的端口，设置`port`参数设为 0 （零）。</span><span class="sxs-lookup"><span data-stu-id="26deb-144">To request that an available port be dynamically assigned, set the `port` parameter to 0 (zero).</span></span>  
-  
- <span data-ttu-id="26deb-145">如果不需要接收器功能，设置`sinkProvider`参数`null`。</span><span class="sxs-lookup"><span data-stu-id="26deb-145">If you do not require sink functionality, set the `sinkProvider` parameter to `null`.</span></span>  
-  
-   
-  
-## Examples  
- <span data-ttu-id="26deb-146">下面的代码示例演示如何使用此构造函数。</span><span class="sxs-lookup"><span data-stu-id="26deb-146">The following code example shows how to use this constructor.</span></span>  
-  
- [!code-cpp[System.Runtime.Remoting.Channels.Http.HttpServerChannel#14](~/samples/snippets/cpp/VS_Snippets_Remoting/System.Runtime.Remoting.Channels.Http.HttpServerChannel/CPP/server2.cpp#14)]
- [!code-csharp[System.Runtime.Remoting.Channels.Http.HttpServerChannel#14](~/samples/snippets/csharp/VS_Snippets_Remoting/System.Runtime.Remoting.Channels.Http.HttpServerChannel/CS/server2.cs#14)]  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="AddHookChannelUri">
-      <MemberSignature Language="C#" Value="public void AddHookChannelUri (string channelUri);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void AddHookChannelUri(string channelUri) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Runtime.Remoting.Channels.Http.HttpServerChannel.AddHookChannelUri(System.String)" />
-      <MemberSignature Language="VB.NET" Value="Public Sub AddHookChannelUri (channelUri As String)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual void AddHookChannelUri(System::String ^ channelUri);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Runtime.Remoting</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="channelUri" Type="System.String" />
-      </Parameters>
-      <Docs>
-        <param name="channelUri">
-          <span data-ttu-id="26deb-147">信道挂钩必须对其进行侦听的 URI。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="26deb-147">A URI on which the channel hook must listen.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="26deb-148">添加信道挂钩必须对其进行侦听的 URI。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="26deb-148">Adds a URI on which the channel hook must listen.</span>
-          </span>
-        </summary>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="ChannelData">
-      <MemberSignature Language="C#" Value="public object ChannelData { get; }" />
-      <MemberSignature Language="ILAsm" Value=".property instance object ChannelData" />
-      <MemberSignature Language="DocId" Value="P:System.Runtime.Remoting.Channels.Http.HttpServerChannel.ChannelData" />
-      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property ChannelData As Object" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::Object ^ ChannelData { System::Object ^ get(); };" />
-      <MemberType>Property</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Runtime.Remoting</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Object</ReturnType>
-      </ReturnValue>
-      <Docs>
-        <summary>
-          <span data-ttu-id="26deb-149">获取通道特定的数据。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="26deb-149">Gets channel-specific data.</span>
-          </span>
-        </summary>
-        <value>
-          <span data-ttu-id="26deb-150">包含特定于信道的数据的 <see cref="T:System.Runtime.Remoting.Channels.ChannelDataStore" /> 实例。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="26deb-150">A <see cref="T:System.Runtime.Remoting.Channels.ChannelDataStore" /> instance that contains channel-specific data.</span>
-          </span>
-        </value>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="26deb-151">尽管实例的形式返回<xref:System.Object?displayProperty=nameWithType>，此属性的值可以强制转换为的实例<xref:System.Runtime.Remoting.Channels.ChannelDataStore>描述的通道<xref:System.Runtime.Remoting.Channels.Http.HttpServerChannel>对象侦听。</span><span class="sxs-lookup"><span data-stu-id="26deb-151">Although returned as an instance of <xref:System.Object?displayProperty=nameWithType>, the value of this property can be cast to an instance of <xref:System.Runtime.Remoting.Channels.ChannelDataStore> describing the channel to which the <xref:System.Runtime.Remoting.Channels.Http.HttpServerChannel> object listens.</span></span>  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="ChannelName">
-      <MemberSignature Language="C#" Value="public string ChannelName { get; }" />
-      <MemberSignature Language="ILAsm" Value=".property instance string ChannelName" />
-      <MemberSignature Language="DocId" Value="P:System.Runtime.Remoting.Channels.Http.HttpServerChannel.ChannelName" />
-      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property ChannelName As String" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::String ^ ChannelName { System::String ^ get(); };" />
-      <MemberType>Property</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Runtime.Remoting</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.String</ReturnType>
-      </ReturnValue>
-      <Docs>
-        <summary>
-          <span data-ttu-id="26deb-152">获取当前信道的名称。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="26deb-152">Gets the name of the current channel.</span>
-          </span>
-        </summary>
-        <value>
-          <span data-ttu-id="26deb-153">一个包含信道名称的 <see cref="T:System.String" /> 对象。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="26deb-153">A <see cref="T:System.String" /> object that contains the name of the channel.</span>
-          </span>
-        </value>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="26deb-154">每个已注册的通道具有一个唯一名称。</span><span class="sxs-lookup"><span data-stu-id="26deb-154">Every registered channel has a unique name.</span></span> <span data-ttu-id="26deb-155">此名称用于检索特定通道时调用<xref:System.Runtime.Remoting.Channels.ChannelServices.GetChannel%2A>。</span><span class="sxs-lookup"><span data-stu-id="26deb-155">This name is used to retrieve a specific channel when calling <xref:System.Runtime.Remoting.Channels.ChannelServices.GetChannel%2A>.</span></span>  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="ChannelPriority">
-      <MemberSignature Language="C#" Value="public int ChannelPriority { get; }" />
-      <MemberSignature Language="ILAsm" Value=".property instance int32 ChannelPriority" />
-      <MemberSignature Language="DocId" Value="P:System.Runtime.Remoting.Channels.Http.HttpServerChannel.ChannelPriority" />
-      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property ChannelPriority As Integer" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; property int ChannelPriority { int get(); };" />
-      <MemberType>Property</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Runtime.Remoting</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Int32</ReturnType>
-      </ReturnValue>
-      <Docs>
-        <summary>
-          <span data-ttu-id="26deb-156">获取当前信道的优先级。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="26deb-156">Gets the priority of the current channel.</span>
-          </span>
-        </summary>
-        <value>
-          <span data-ttu-id="26deb-157">一个整数，表示分配给该信道的优先级。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="26deb-157">An integer that represents the priority assigned to the channel.</span>
-          </span>
-        </value>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="26deb-158">优先级控制在哪个通道将出现在的数据的顺序<xref:System.Runtime.Remoting.ObjRef>实例; 出现在较低的优先级通道之前的更高优先级通道。</span><span class="sxs-lookup"><span data-stu-id="26deb-158">The priority controls the order in which channel data appears in a <xref:System.Runtime.Remoting.ObjRef> instance; higher priority channels appear before lower priority channels.</span></span> <span data-ttu-id="26deb-159">客户端尝试连接到中列出的顺序中的服务器信道<xref:System.Runtime.Remoting.ObjRef>实例。</span><span class="sxs-lookup"><span data-stu-id="26deb-159">Clients try to connect to the server channels in the order that they are listed in the <xref:System.Runtime.Remoting.ObjRef> instance.</span></span> <span data-ttu-id="26deb-160">默认优先级为 1;允许负的优先级。</span><span class="sxs-lookup"><span data-stu-id="26deb-160">The default priority is 1; negative priorities are allowed.</span></span>  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="ChannelScheme">
-      <MemberSignature Language="C#" Value="public string ChannelScheme { get; }" />
-      <MemberSignature Language="ILAsm" Value=".property instance string ChannelScheme" />
-      <MemberSignature Language="DocId" Value="P:System.Runtime.Remoting.Channels.Http.HttpServerChannel.ChannelScheme" />
-      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property ChannelScheme As String" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::String ^ ChannelScheme { System::String ^ get(); };" />
-      <MemberType>Property</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Runtime.Remoting</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.String</ReturnType>
-      </ReturnValue>
-      <Docs>
-        <summary>
-          <span data-ttu-id="26deb-161">获取要挂钩到的侦听器的类型（例如“http”）。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="26deb-161">Gets the type of listener to hook into (for example, "http").</span>
-          </span>
-        </summary>
-        <value>
-          <span data-ttu-id="26deb-162">要挂钩到的侦听器类型。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="26deb-162">The type of listener to hook into.</span>
-          </span>
-        </value>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="26deb-163">此值不区分大小写。</span><span class="sxs-lookup"><span data-stu-id="26deb-163">This value is not case-sensitive.</span></span>  
-  
-   
-  
-## Examples  
- <span data-ttu-id="26deb-164">下面的代码示例说明如何使用 <xref:System.Runtime.Remoting.Channels.Http.HttpServerChannel.ChannelScheme%2A> 属性。</span><span class="sxs-lookup"><span data-stu-id="26deb-164">The following code example shows how to use the <xref:System.Runtime.Remoting.Channels.Http.HttpServerChannel.ChannelScheme%2A> property.</span></span> <span data-ttu-id="26deb-165">此代码示例摘自更大的示例为提供<xref:System.Runtime.Remoting.Channels.Http.HttpServerChannel>类。</span><span class="sxs-lookup"><span data-stu-id="26deb-165">This code example is part of a larger example provided for the <xref:System.Runtime.Remoting.Channels.Http.HttpServerChannel> class.</span></span>  
-  
- [!code-cpp[System.Runtime.Remoting.Channels.Http.HttpServerChannel#21](~/samples/snippets/cpp/VS_Snippets_Remoting/System.Runtime.Remoting.Channels.Http.HttpServerChannel/CPP/server.cpp#21)]
- [!code-csharp[System.Runtime.Remoting.Channels.Http.HttpServerChannel#21](~/samples/snippets/csharp/VS_Snippets_Remoting/System.Runtime.Remoting.Channels.Http.HttpServerChannel/CS/server.cs#21)]  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="ChannelSinkChain">
-      <MemberSignature Language="C#" Value="public System.Runtime.Remoting.Channels.IServerChannelSink ChannelSinkChain { get; }" />
-      <MemberSignature Language="ILAsm" Value=".property instance class System.Runtime.Remoting.Channels.IServerChannelSink ChannelSinkChain" />
-      <MemberSignature Language="DocId" Value="P:System.Runtime.Remoting.Channels.Http.HttpServerChannel.ChannelSinkChain" />
-      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property ChannelSinkChain As IServerChannelSink" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::Runtime::Remoting::Channels::IServerChannelSink ^ ChannelSinkChain { System::Runtime::Remoting::Channels::IServerChannelSink ^ get(); };" />
-      <MemberType>Property</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Runtime.Remoting</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Runtime.Remoting.Channels.IServerChannelSink</ReturnType>
-      </ReturnValue>
-      <Docs>
-        <summary>
-          <span data-ttu-id="26deb-166">获取当前信道正在使用的信道接收器链。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="26deb-166">Gets the channel sink chain that the current channel is using.</span>
-          </span>
-        </summary>
-        <value>
-          <span data-ttu-id="26deb-167">当前信道正在使用的信道接收器链。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="26deb-167">The channel sink chain that the current channel is using.</span>
-          </span>
-        </value>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Examples  
- <span data-ttu-id="26deb-168">下面的代码示例说明如何使用 <xref:System.Runtime.Remoting.Channels.Http.HttpServerChannel.ChannelSinkChain%2A> 属性。</span><span class="sxs-lookup"><span data-stu-id="26deb-168">The following code example shows how to use the <xref:System.Runtime.Remoting.Channels.Http.HttpServerChannel.ChannelSinkChain%2A> property.</span></span> <span data-ttu-id="26deb-169">此代码示例摘自更大的示例为提供<xref:System.Runtime.Remoting.Channels.Http.HttpServerChannel>类。</span><span class="sxs-lookup"><span data-stu-id="26deb-169">This code example is part of a larger example provided for the <xref:System.Runtime.Remoting.Channels.Http.HttpServerChannel> class.</span></span>  
-  
- [!code-cpp[System.Runtime.Remoting.Channels.Http.HttpServerChannel#23](~/samples/snippets/cpp/VS_Snippets_Remoting/System.Runtime.Remoting.Channels.Http.HttpServerChannel/CPP/server.cpp#23)]
- [!code-csharp[System.Runtime.Remoting.Channels.Http.HttpServerChannel#23](~/samples/snippets/csharp/VS_Snippets_Remoting/System.Runtime.Remoting.Channels.Http.HttpServerChannel/CS/server.cs#23)]  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="GetChannelUri">
-      <MemberSignature Language="C#" Value="public string GetChannelUri ();" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance string GetChannelUri() cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Runtime.Remoting.Channels.Http.HttpServerChannel.GetChannelUri" />
-      <MemberSignature Language="VB.NET" Value="Public Function GetChannelUri () As String" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; System::String ^ GetChannelUri();" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Runtime.Remoting</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.String</ReturnType>
-      </ReturnValue>
-      <Parameters />
-      <Docs>
-        <summary>
-          <span data-ttu-id="26deb-170">返回当前信道的 URI。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="26deb-170">Returns the URI of the current channel.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="26deb-171">当前信道的 URI。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="26deb-171">The URI of the current channel.</span>
-          </span>
-        </returns>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Examples  
- <span data-ttu-id="26deb-172">下面的代码示例说明如何使用 <xref:System.Runtime.Remoting.Channels.Http.HttpServerChannel.GetChannelUri%2A> 方法。</span><span class="sxs-lookup"><span data-stu-id="26deb-172">The following code example shows how to use the <xref:System.Runtime.Remoting.Channels.Http.HttpServerChannel.GetChannelUri%2A> method.</span></span> <span data-ttu-id="26deb-173">此代码示例摘自更大的示例为提供<xref:System.Runtime.Remoting.Channels.Http.HttpServerChannel>类。</span><span class="sxs-lookup"><span data-stu-id="26deb-173">This code example is part of a larger example provided for the <xref:System.Runtime.Remoting.Channels.Http.HttpServerChannel> class.</span></span>  
-  
- [!code-cpp[System.Runtime.Remoting.Channels.Http.HttpServerChannel#22](~/samples/snippets/cpp/VS_Snippets_Remoting/System.Runtime.Remoting.Channels.Http.HttpServerChannel/CPP/server.cpp#22)]
- [!code-csharp[System.Runtime.Remoting.Channels.Http.HttpServerChannel#22](~/samples/snippets/csharp/VS_Snippets_Remoting/System.Runtime.Remoting.Channels.Http.HttpServerChannel/CS/server.cs#22)]  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="GetUrlsForUri">
-      <MemberSignature Language="C#" Value="public virtual string[] GetUrlsForUri (string objectUri);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance string[] GetUrlsForUri(string objectUri) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Runtime.Remoting.Channels.Http.HttpServerChannel.GetUrlsForUri(System.String)" />
-      <MemberSignature Language="VB.NET" Value="Public Overridable Function GetUrlsForUri (objectUri As String) As String()" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual cli::array &lt;System::String ^&gt; ^ GetUrlsForUri(System::String ^ objectUri);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Runtime.Remoting</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.String[]</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="objectUri" Type="System.String" />
-      </Parameters>
-      <Docs>
-        <param name="objectUri">
-          <span data-ttu-id="26deb-174">需要其 URL 的对象的 URI。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="26deb-174">The URI of the object for which URLs are required.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="26deb-175">返回具有指定 URI 的对象的所有 URL 的数组，该对象承载在当前的 <see cref="T:System.Runtime.Remoting.Channels.Http.HttpChannel" /> 上。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="26deb-175">Returns an array of all the URLs for an object with the specified URI, hosted on the current <see cref="T:System.Runtime.Remoting.Channels.Http.HttpChannel" />.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="26deb-176">具有指定 URI 的对象的所有 URL 的数组，该对象承载在当前的 <see cref="T:System.Runtime.Remoting.Channels.Http.HttpChannel" /> 上。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="26deb-176">An array of the URLs for an object with the specified URI, hosted on the current <see cref="T:System.Runtime.Remoting.Channels.Http.HttpChannel" />.</span>
-          </span>
-        </returns>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="26deb-177">将使用当前方法的<xref:System.Runtime.Remoting.Channels.ChannelServices.GetUrlsForObject%2A?displayProperty=nameWithType>。</span><span class="sxs-lookup"><span data-stu-id="26deb-177">The current method is used by <xref:System.Runtime.Remoting.Channels.ChannelServices.GetUrlsForObject%2A?displayProperty=nameWithType>.</span></span>  
-  
-   
-  
-## Examples  
- <span data-ttu-id="26deb-178">下面的代码示例说明如何使用 <xref:System.Runtime.Remoting.Channels.Http.HttpServerChannel.GetUrlsForUri%2A> 方法。</span><span class="sxs-lookup"><span data-stu-id="26deb-178">The following code example shows how to use the <xref:System.Runtime.Remoting.Channels.Http.HttpServerChannel.GetUrlsForUri%2A> method.</span></span> <span data-ttu-id="26deb-179">此代码示例摘自更大的示例为提供<xref:System.Runtime.Remoting.Channels.Http.HttpServerChannel>类。</span><span class="sxs-lookup"><span data-stu-id="26deb-179">This code example is part of a larger example provided for the <xref:System.Runtime.Remoting.Channels.Http.HttpServerChannel> class.</span></span>  
-  
- [!code-cpp[HttpChannel.GetUrlsFromUri#1](~/samples/snippets/cpp/VS_Snippets_Remoting/HttpChannel.GetUrlsFromUri/CPP/class1.cpp#1)]
- [!code-csharp[HttpChannel.GetUrlsFromUri#1](~/samples/snippets/csharp/VS_Snippets_Remoting/HttpChannel.GetUrlsFromUri/CS/class1.cs#1)]
- [!code-vb[HttpChannel.GetUrlsFromUri#1](~/samples/snippets/visualbasic/VS_Snippets_Remoting/HttpChannel.GetUrlsFromUri/VB/class1.vb#1)]  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="Item">
-      <MemberSignature Language="C#" Value="public override object this[object key] { get; set; }" />
-      <MemberSignature Language="ILAsm" Value=".property instance object Item(object)" />
-      <MemberSignature Language="DocId" Value="P:System.Runtime.Remoting.Channels.Http.HttpServerChannel.Item(System.Object)" />
-      <MemberSignature Language="VB.NET" Value="Default Public Overrides Property Item(key As Object) As Object" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual property System::Object ^ default[System::Object ^] { System::Object ^ get(System::Object ^ key); void set(System::Object ^ key, System::Object ^ value); };" />
-      <MemberType>Property</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Runtime.Remoting</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Object</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="key" Type="System.Object" />
-      </Parameters>
-      <Docs>
-        <param name="key">
-          <span data-ttu-id="26deb-180">要检索的信道属性的键。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="26deb-180">The key of the channel property to retrieve.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="26deb-181">返回指定的信道属性。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="26deb-181">Returns the specified channel property.</span>
-          </span>
-        </summary>
-        <value>
-          <span data-ttu-id="26deb-182">一个 <see cref="T:System.Object" />，表示由 <paramref name="key" /> 指定的信道属性。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="26deb-182">A <see cref="T:System.Object" /> that represents the channel property specified by <paramref name="key" />.</span>
-          </span>
-        </value>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="Keys">
-      <MemberSignature Language="C#" Value="public override System.Collections.ICollection Keys { get; }" />
-      <MemberSignature Language="ILAsm" Value=".property instance class System.Collections.ICollection Keys" />
-      <MemberSignature Language="DocId" Value="P:System.Runtime.Remoting.Channels.Http.HttpServerChannel.Keys" />
-      <MemberSignature Language="VB.NET" Value="Public Overrides ReadOnly Property Keys As ICollection" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual property System::Collections::ICollection ^ Keys { System::Collections::ICollection ^ get(); };" />
-      <MemberType>Property</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Runtime.Remoting</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Collections.ICollection</ReturnType>
-      </ReturnValue>
-      <Docs>
-        <summary>
-          <span data-ttu-id="26deb-183">获取与信道属性关联的键的 <see cref="T:System.Collections.ICollection" /> 。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="26deb-183">Gets a <see cref="T:System.Collections.ICollection" /> of keys the channel properties are associated with.</span>
-          </span>
-        </summary>
-        <value>
-          <span data-ttu-id="26deb-184">与信道属性关联的键的 <see cref="T:System.Collections.ICollection" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="26deb-184">A <see cref="T:System.Collections.ICollection" /> of keys the channel properties are associated with.</span>
-          </span>
-        </value>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="26deb-185">通道属性用于在运行时配置通道。</span><span class="sxs-lookup"><span data-stu-id="26deb-185">Channel properties are used to configure the channel at run time.</span></span> <span data-ttu-id="26deb-186">有关可能通道属性和示例的列表，请参阅[ &#91; \<topic://cpconchannelformatterconfigurationproperties >&#93;](http://msdn.microsoft.com/library/226ecf74-ebbd-4ea0-a701-dcf4441deefe)。</span><span class="sxs-lookup"><span data-stu-id="26deb-186">For a list of possible channel properties and an example, see [&#91;\<topic://cpconchannelformatterconfigurationproperties>&#93;](http://msdn.microsoft.com/library/226ecf74-ebbd-4ea0-a701-dcf4441deefe).</span></span>  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="Parse">
-      <MemberSignature Language="C#" Value="public string Parse (string url, out string objectURI);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance string Parse(string url, [out] string&amp; objectURI) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Runtime.Remoting.Channels.Http.HttpServerChannel.Parse(System.String,System.String@)" />
-      <MemberSignature Language="VB.NET" Value="Public Function Parse (url As String, ByRef objectURI As String) As String" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual System::String ^ Parse(System::String ^ url, [Runtime::InteropServices::Out] System::String ^ % objectURI);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Runtime.Remoting</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.String</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="url" Type="System.String" />
-        <Parameter Name="objectURI" Type="System.String&amp;" RefType="out" />
-      </Parameters>
-      <Docs>
-        <param name="url">
-          <span data-ttu-id="26deb-187">从中提取 URI 的 URL。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="26deb-187">The URL from which to extract the URIs.</span>
-          </span>
-        </param>
-        <param name="objectURI">
-          <span data-ttu-id="26deb-188">当此方法返回时，包含含有远程已知对象的 URI 的 <see cref="T:System.String" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="26deb-188">When this method returns, contains a <see cref="T:System.String" /> that holds the URI of the remote well-known object.</span>
-          </span>
-          <span data-ttu-id="26deb-189">此参数未经初始化即被传递。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="26deb-189">This parameter is passed uninitialized.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="26deb-190">从指定 URL 提取信道 URI 和远程已知对象 URI。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="26deb-190">Extracts the channel URI and the remote well-known object URI from the specified URL.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="26deb-191">信道 URI。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="26deb-191">The channel URI.</span>
-          </span>
-        </returns>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Examples  
- <span data-ttu-id="26deb-192">下面的代码示例说明如何使用 <xref:System.Runtime.Remoting.Channels.Http.HttpServerChannel.Parse%2A> 方法。</span><span class="sxs-lookup"><span data-stu-id="26deb-192">The following code example shows how to use the <xref:System.Runtime.Remoting.Channels.Http.HttpServerChannel.Parse%2A> method.</span></span> <span data-ttu-id="26deb-193">此代码示例摘自更大的示例为提供<xref:System.Runtime.Remoting.Channels.Http.HttpServerChannel>类。</span><span class="sxs-lookup"><span data-stu-id="26deb-193">This code example is part of a larger example provided for the <xref:System.Runtime.Remoting.Channels.Http.HttpServerChannel> class.</span></span>  
-  
- [!code-cpp[System.Runtime.Remoting.Channels.Http.HttpServerChannel#25](~/samples/snippets/cpp/VS_Snippets_Remoting/System.Runtime.Remoting.Channels.Http.HttpServerChannel/CPP/server.cpp#25)]
- [!code-csharp[System.Runtime.Remoting.Channels.Http.HttpServerChannel#25](~/samples/snippets/csharp/VS_Snippets_Remoting/System.Runtime.Remoting.Channels.Http.HttpServerChannel/CS/server.cs#25)]  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="StartListening">
-      <MemberSignature Language="C#" Value="public void StartListening (object data);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void StartListening(object data) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Runtime.Remoting.Channels.Http.HttpServerChannel.StartListening(System.Object)" />
-      <MemberSignature Language="VB.NET" Value="Public Sub StartListening (data As Object)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual void StartListening(System::Object ^ data);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Runtime.Remoting</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="data" Type="System.Object" />
-      </Parameters>
-      <Docs>
-        <param name="data">
-          <span data-ttu-id="26deb-194">对于 <see cref="T:System.Runtime.Remoting.Channels.Http.HttpChannel" />，应始终为 <see langword="null" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="26deb-194">Should always be <see langword="null" /> for <see cref="T:System.Runtime.Remoting.Channels.Http.HttpChannel" />.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="26deb-195">指示当前信道开始侦听请求。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="26deb-195">Instructs the current channel to start listening for requests.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="26deb-196">不需要调用此方法以开始侦听新初始化的通道。</span><span class="sxs-lookup"><span data-stu-id="26deb-196">It is not necessary to call this method to begin listening on a newly initialized channel.</span></span>  
-  
- <span data-ttu-id="26deb-197">使用此方法重新启动后的通道上侦听<xref:System.Runtime.Remoting.Channels.Http.HttpServerChannel.StopListening%2A>调用方法来停止侦听通道。</span><span class="sxs-lookup"><span data-stu-id="26deb-197">Use this method to restart listening on a channel after the <xref:System.Runtime.Remoting.Channels.Http.HttpServerChannel.StopListening%2A> method has been called to stop listening on the channel.</span></span>  
-  
- <span data-ttu-id="26deb-198">如果您的通道使用动态分配的端口号，则重新开始侦听时，可能会更改端口号。</span><span class="sxs-lookup"><span data-stu-id="26deb-198">If your channel uses a dynamically assigned port number, your port number might change when you restart listening.</span></span>  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="StopListening">
-      <MemberSignature Language="C#" Value="public void StopListening (object data);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void StopListening(object data) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Runtime.Remoting.Channels.Http.HttpServerChannel.StopListening(System.Object)" />
-      <MemberSignature Language="VB.NET" Value="Public Sub StopListening (data As Object)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual void StopListening(System::Object ^ data);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Runtime.Remoting</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="data" Type="System.Object" />
-      </Parameters>
-      <Docs>
-        <param name="data">
-          <span data-ttu-id="26deb-199">对于 <see cref="T:System.Runtime.Remoting.Channels.Http.HttpChannel" />，应始终为 <see langword="null" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="26deb-199">Should always be <see langword="null" /> for <see cref="T:System.Runtime.Remoting.Channels.Http.HttpChannel" />.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="26deb-200">指示当前信道停止侦听请求。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="26deb-200">Instructs the current channel to stop listening for requests.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="26deb-201">使用此方法以停止侦听通道上。</span><span class="sxs-lookup"><span data-stu-id="26deb-201">Use this method to stop listening on a channel.</span></span> <span data-ttu-id="26deb-202">若要重新开始侦听，使用<xref:System.Runtime.Remoting.Channels.Http.HttpServerChannel.StartListening%2A>方法。</span><span class="sxs-lookup"><span data-stu-id="26deb-202">To restart listening, use the <xref:System.Runtime.Remoting.Channels.Http.HttpServerChannel.StartListening%2A> method.</span></span>  
-  
- <span data-ttu-id="26deb-203">如果您的通道使用动态分配的端口号，则重新开始侦听时，可能会更改端口号。</span><span class="sxs-lookup"><span data-stu-id="26deb-203">If your channel uses a dynamically assigned port number, your port number might change when you restart listening.</span></span>  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="WantsToListen">
-      <MemberSignature Language="C#" Value="public bool WantsToListen { get; set; }" />
-      <MemberSignature Language="ILAsm" Value=".property instance bool WantsToListen" />
-      <MemberSignature Language="DocId" Value="P:System.Runtime.Remoting.Channels.Http.HttpServerChannel.WantsToListen" />
-      <MemberSignature Language="VB.NET" Value="Public Property WantsToListen As Boolean" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; property bool WantsToListen { bool get(); void set(bool value); };" />
-      <MemberType>Property</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Runtime.Remoting</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Boolean</ReturnType>
-      </ReturnValue>
-      <Docs>
-        <summary>
-          <span data-ttu-id="26deb-204">获取一个布尔值，该值指示是否需要将 <see cref="T:System.Runtime.Remoting.Channels.IChannelReceiverHook" /> 挂接到外部侦听器服务。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="26deb-204">Gets a Boolean value that indicates whether <see cref="T:System.Runtime.Remoting.Channels.IChannelReceiverHook" /> wants to be hooked into the outside listener service.</span>
-          </span>
-        </summary>
-        <value>
-          <span data-ttu-id="26deb-205">一个布尔值，该值指示是否需要将 <see cref="T:System.Runtime.Remoting.Channels.IChannelReceiverHook" /> 挂接到外部侦听器服务。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="26deb-205">A Boolean value that indicates whether <see cref="T:System.Runtime.Remoting.Channels.IChannelReceiverHook" /> wants to be hooked into the outside listener service.</span>
-          </span>
-        </value>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Examples  
- <span data-ttu-id="26deb-206">下面的代码示例说明如何使用 <xref:System.Runtime.Remoting.Channels.Http.HttpServerChannel.WantsToListen%2A> 属性。</span><span class="sxs-lookup"><span data-stu-id="26deb-206">The following code example shows how to use the <xref:System.Runtime.Remoting.Channels.Http.HttpServerChannel.WantsToListen%2A> property.</span></span> <span data-ttu-id="26deb-207">此代码示例摘自更大的示例为提供<xref:System.Runtime.Remoting.Channels.Http.HttpServerChannel>类。</span><span class="sxs-lookup"><span data-stu-id="26deb-207">This code example is part of a larger example provided for the <xref:System.Runtime.Remoting.Channels.Http.HttpServerChannel> class.</span></span>  
-  
- [!code-cpp[System.Runtime.Remoting.Channels.Http.HttpServerChannel#24](~/samples/snippets/cpp/VS_Snippets_Remoting/System.Runtime.Remoting.Channels.Http.HttpServerChannel/CPP/server.cpp#24)]
- [!code-csharp[System.Runtime.Remoting.Channels.Http.HttpServerChannel#24](~/samples/snippets/csharp/VS_Snippets_Remoting/System.Runtime.Remoting.Channels.Http.HttpServerChannel/CS/server.cs#24)]  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-  </Members>
-</Type>
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.2" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 xliff-core-1.2-transitional.xsd">
+  <file datatype="xml" original="HttpServerChannel.xml" source-language="en-US" target-language="zh-CN">
+    <header>
+      <tool tool-id="mdxliff" tool-name="mdxliff" tool-version="1.0-15c36f0" tool-company="Microsoft" />
+      <xliffext:skl_file_name xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">02cd5861-7ce2-4a82-b358-31f8435a0ac5281d7edfbcc5c91b03aaf31493da3d2520129e8f.skl</xliffext:skl_file_name>
+      <xliffext:version xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">1.2</xliffext:version>
+      <xliffext:ms.openlocfilehash xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">281d7edfbcc5c91b03aaf31493da3d2520129e8f</xliffext:ms.openlocfilehash>
+      <xliffext:ms.sourcegitcommit xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b</xliffext:ms.sourcegitcommit>
+      <xliffext:ms.lasthandoff xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">04/03/2018</xliffext:ms.lasthandoff>
+      <xliffext:moniker_ids xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">netframework-4.5.1,netframework-4.5.2,netframework-4.5,netframework-4.6.1,netframework-4.6.2,netframework-4.6,netframework-4.7.1,netframework-4.7</xliffext:moniker_ids>
+    </header>
+    <body>
+      <group id="content" extype="content">
+        <trans-unit id="101" translate="yes" xml:space="preserve" uid="T:System.Runtime.Remoting.Channels.Http.HttpServerChannel">
+          <source>Implements a server channel for remote calls that uses the HTTP protocol to transmit messages.</source>
+          <target state="translated">为远程调用实现使用 HTTP 协议传输消息的服务器信道。</target>       </trans-unit>
+        <trans-unit id="102" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Runtime.Remoting.Channels.Http.HttpServerChannel">
+          <source>Channels transport messages across remoting boundaries (for example, between computers on application domains).</source>
+          <target state="translated">信道跨越远程处理边界 （例如，在应用程序域的计算机） 之间传输消息。</target>       </trans-unit>
+        <trans-unit id="103" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Runtime.Remoting.Channels.Http.HttpServerChannel">
+          <source>The <ph id="ph1">&lt;xref:System.Runtime.Remoting.Channels.Http.HttpServerChannel&gt;</ph> class transports messages using the HTTP protocol.</source>
+          <target state="translated"><ph id="ph1">&lt;xref:System.Runtime.Remoting.Channels.Http.HttpServerChannel&gt;</ph>类传输使用 HTTP 协议的消息。</target>       </trans-unit>
+        <trans-unit id="104" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Runtime.Remoting.Channels.Http.HttpServerChannel">
+          <source>Channels are used by the .NET Framework remoting infrastructure to transport remote calls.</source>
+          <target state="translated">.NET Framework 远程处理基础结构使用的通道用于传输远程调用。</target>       </trans-unit>
+        <trans-unit id="105" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Runtime.Remoting.Channels.Http.HttpServerChannel">
+          <source>When a client makes a call to a remote object, the call is serialized into a message that is sent by a client channel and received by a server channel.</source>
+          <target state="translated">当客户端进行到的远程对象调用时，则会将调用序列化到一条消息是由客户端通道发送和接收的服务器信道。</target>       </trans-unit>
+        <trans-unit id="106" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Runtime.Remoting.Channels.Http.HttpServerChannel">
+          <source>It is then deserialized and processed.</source>
+          <target state="translated">然后，它是反序列化和处理。</target>       </trans-unit>
+        <trans-unit id="107" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Runtime.Remoting.Channels.Http.HttpServerChannel">
+          <source>Any returned values are transmitted by the server channel and received by the client channel.</source>
+          <target state="translated">任何返回的值是由服务器通道传输和接收的客户端通道。</target>       </trans-unit>
+        <trans-unit id="108" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Runtime.Remoting.Channels.Http.HttpServerChannel">
+          <source>To perform additional processing of messages on the server-side, you can specify an implementation of the <ph id="ph1">&lt;xref:System.Runtime.Remoting.Channels.IServerChannelSinkProvider&gt;</ph> through which all messages processed by the <ph id="ph2">&lt;xref:System.Runtime.Remoting.Channels.Http.HttpServerChannel&gt;</ph> are passed.</source>
+          <target state="translated">若要执行其他处理的消息在服务器端，你可以指定的实现<ph id="ph1">&lt;xref:System.Runtime.Remoting.Channels.IServerChannelSinkProvider&gt;</ph>通过由其处理的所有消息<ph id="ph2">&lt;xref:System.Runtime.Remoting.Channels.Http.HttpServerChannel&gt;</ph>传递。</target>       </trans-unit>
+        <trans-unit id="109" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Runtime.Remoting.Channels.Http.HttpServerChannel">
+          <source>The <ph id="ph1">&lt;xref:System.Runtime.Remoting.Channels.Http.HttpServerChannel&gt;</ph> accepts messages serialized in either binary or SOAP format.</source>
+          <target state="translated"><ph id="ph1">&lt;xref:System.Runtime.Remoting.Channels.Http.HttpServerChannel&gt;</ph>接受二进制或 SOAP 格式中序列化的消息。</target>       </trans-unit>
+        <trans-unit id="110" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Runtime.Remoting.Channels.Http.HttpServerChannel">
+          <source>A <ph id="ph1">&lt;xref:System.Runtime.Remoting.Channels.Http.HttpServerChannel&gt;</ph> object has associated configuration properties that can be set at run time either in a configuration file (by invoking the static <ph id="ph2">&lt;xref:System.Runtime.Remoting.RemotingConfiguration.Configure%2A?displayProperty=nameWithType&gt;</ph> method) or programmatically (by passing a <ph id="ph3">&lt;xref:System.Collections.IDictionary&gt;</ph> collection to the <ph id="ph4">&lt;xref:System.Runtime.Remoting.Channels.Http.HttpServerChannel.%23ctor%2A&gt;</ph> constructor).</source>
+          <target state="translated">A<ph id="ph1">&lt;xref:System.Runtime.Remoting.Channels.Http.HttpServerChannel&gt;</ph>对象有关联的配置属性，可以在设置配置文件在运行时 (通过调用静态<ph id="ph2">&lt;xref:System.Runtime.Remoting.RemotingConfiguration.Configure%2A?displayProperty=nameWithType&gt;</ph>方法) 或以编程方式 (通过将传递<ph id="ph3">&lt;xref:System.Collections.IDictionary&gt;</ph>集合到<ph id="ph4">&lt;xref:System.Runtime.Remoting.Channels.Http.HttpServerChannel.%23ctor%2A&gt;</ph>构造函数）。</target>       </trans-unit>
+        <trans-unit id="111" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Runtime.Remoting.Channels.Http.HttpServerChannel">
+          <source>For a list of these configuration properties, see the documentation for <ph id="ph1">&lt;xref:System.Runtime.Remoting.Channels.Http.HttpServerChannel.%23ctor%2A&gt;</ph>.</source>
+          <target state="translated">有关这些配置属性的列表，请参阅的文档<ph id="ph1">&lt;xref:System.Runtime.Remoting.Channels.Http.HttpServerChannel.%23ctor%2A&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="112" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Runtime.Remoting.Channels.Http.HttpServerChannel">
+          <source>The following code example shows how to use a <ph id="ph1">&lt;xref:System.Runtime.Remoting.Channels.Http.HttpServerChannel&gt;</ph> object to set up a remoting server and its client.</source>
+          <target state="translated">下面的代码示例演示如何使用<ph id="ph1">&lt;xref:System.Runtime.Remoting.Channels.Http.HttpServerChannel&gt;</ph>要设置远程处理服务器和其客户端对象。</target>       </trans-unit>
+        <trans-unit id="113" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Runtime.Remoting.Channels.Http.HttpServerChannel">
+          <source>The example contains three parts:</source>
+          <target state="translated">此示例包含三个部分：</target>       </trans-unit>
+        <trans-unit id="114" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Runtime.Remoting.Channels.Http.HttpServerChannel">
+          <source>A server</source>
+          <target state="translated">一台服务器</target>       </trans-unit>
+        <trans-unit id="115" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Runtime.Remoting.Channels.Http.HttpServerChannel">
+          <source>A client</source>
+          <target state="translated">客户端</target>       </trans-unit>
+        <trans-unit id="116" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Runtime.Remoting.Channels.Http.HttpServerChannel">
+          <source>A remote object used by the server and the client</source>
+          <target state="translated">使用服务器和客户端的远程对象</target>       </trans-unit>
+        <trans-unit id="117" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Runtime.Remoting.Channels.Http.HttpServerChannel">
+          <source>The following code example shows a server.</source>
+          <target state="translated">下面的代码示例演示服务器。</target>       </trans-unit>
+        <trans-unit id="118" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Runtime.Remoting.Channels.Http.HttpServerChannel">
+          <source>The following code example shows a client for this server.</source>
+          <target state="translated">下面的代码示例演示了此服务器的客户端。</target>       </trans-unit>
+        <trans-unit id="119" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Runtime.Remoting.Channels.Http.HttpServerChannel">
+          <source>The following code example shows the remote object used by the server and the client.</source>
+          <target state="translated">下面的代码示例演示使用在服务器和客户端的远程对象。</target>       </trans-unit>
+        <trans-unit id="120" translate="yes" xml:space="preserve" uid="T:System.Runtime.Remoting.Channels.Http.HttpServerChannel">
+          <source>Initializes a new instance of the <ph id="ph1">&lt;see cref="T:System.Runtime.Remoting.Channels.Http.HttpServerChannel" /&gt;</ph> class.</source>
+          <target state="translated">初始化 <ph id="ph1">&lt;see cref="T:System.Runtime.Remoting.Channels.Http.HttpServerChannel" /&gt;</ph> 类的新实例。</target>       </trans-unit>
+        <trans-unit id="121" translate="yes" xml:space="preserve" uid="M:System.Runtime.Remoting.Channels.Http.HttpServerChannel.#ctor">
+          <source>Initializes a new instance of the <ph id="ph1">&lt;see cref="T:System.Runtime.Remoting.Channels.Http.HttpServerChannel" /&gt;</ph> class.</source>
+          <target state="translated">初始化 <ph id="ph1">&lt;see cref="T:System.Runtime.Remoting.Channels.Http.HttpServerChannel" /&gt;</ph> 类的新实例。</target>       </trans-unit>
+        <trans-unit id="122" translate="yes" xml:space="preserve" uid="M:System.Runtime.Remoting.Channels.Http.HttpServerChannel.#ctor(System.Int32)">
+          <source>The port on which the channel listens.</source>
+          <target state="translated">信道侦听的端口。</target>       </trans-unit>
+        <trans-unit id="123" translate="yes" xml:space="preserve" uid="M:System.Runtime.Remoting.Channels.Http.HttpServerChannel.#ctor(System.Int32)">
+          <source>Initializes a new instance of the <ph id="ph1">&lt;see cref="T:System.Runtime.Remoting.Channels.Http.HttpServerChannel" /&gt;</ph> class that listens on the specified port.</source>
+          <target state="translated">初始化在指定端口上侦听的 <ph id="ph1">&lt;see cref="T:System.Runtime.Remoting.Channels.Http.HttpServerChannel" /&gt;</ph> 类的新实例。</target>       </trans-unit>
+        <trans-unit id="124" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Runtime.Remoting.Channels.Http.HttpServerChannel.#ctor(System.Int32)">
+          <source>To request that an available port be dynamically assigned, set the <ph id="ph1">`port`</ph> parameter to 0 (zero).</source>
+          <target state="translated">若要请求，动态分配可用的端口，设置<ph id="ph1">`port`</ph>参数设为 0 （零）。</target>       </trans-unit>
+        <trans-unit id="125" translate="yes" xml:space="preserve" uid="M:System.Runtime.Remoting.Channels.Http.HttpServerChannel.#ctor(System.Collections.IDictionary,System.Runtime.Remoting.Channels.IServerChannelSinkProvider)">
+          <source>A <ph id="ph1">&lt;see cref="T:System.Collections.IDictionary" /&gt;</ph> of the channel properties that hold the configuration information for the current channel.</source>
+          <target state="translated">包含当前信道配置信息的信道属性的 <ph id="ph1">&lt;see cref="T:System.Collections.IDictionary" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="126" translate="yes" xml:space="preserve" uid="M:System.Runtime.Remoting.Channels.Http.HttpServerChannel.#ctor(System.Collections.IDictionary,System.Runtime.Remoting.Channels.IServerChannelSinkProvider)">
+          <source>The <ph id="ph1">&lt;see cref="T:System.Runtime.Remoting.Channels.IServerChannelSinkProvider" /&gt;</ph> to use with the new instance of the <ph id="ph2">&lt;see cref="T:System.Runtime.Remoting.Channels.Http.HttpServerChannel" /&gt;</ph>.</source>
+          <target state="translated">要用于 <ph id="ph1">&lt;see cref="T:System.Runtime.Remoting.Channels.IServerChannelSinkProvider" /&gt;</ph> 的新实例的 <ph id="ph2">&lt;see cref="T:System.Runtime.Remoting.Channels.Http.HttpServerChannel" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="127" translate="yes" xml:space="preserve" uid="M:System.Runtime.Remoting.Channels.Http.HttpServerChannel.#ctor(System.Collections.IDictionary,System.Runtime.Remoting.Channels.IServerChannelSinkProvider)">
+          <source>Initializes a new instance of the <ph id="ph1">&lt;see cref="T:System.Runtime.Remoting.Channels.Http.HttpServerChannel" /&gt;</ph> class with the specified channel properties and sink.</source>
+          <target state="translated">使用指定的信道属性和接收器初始化 <ph id="ph1">&lt;see cref="T:System.Runtime.Remoting.Channels.Http.HttpServerChannel" /&gt;</ph> 类的新实例。</target>       </trans-unit>
+        <trans-unit id="128" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Runtime.Remoting.Channels.Http.HttpServerChannel.#ctor(System.Collections.IDictionary,System.Runtime.Remoting.Channels.IServerChannelSinkProvider)">
+          <source>For more information about channel configuration properties, see <bpt id="p1">[</bpt>Channel and Formatter Configuration Properties<ept id="p1">](http://msdn.microsoft.com/library/226ecf74-ebbd-4ea0-a701-dcf4441deefe)</ept>.</source>
+          <target state="translated">有关通道配置属性的详细信息，请参阅<bpt id="p1">[</bpt>通道和格式化程序配置属性<ept id="p1">](http://msdn.microsoft.com/library/226ecf74-ebbd-4ea0-a701-dcf4441deefe)</ept>。</target>       </trans-unit>
+        <trans-unit id="129" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Runtime.Remoting.Channels.Http.HttpServerChannel.#ctor(System.Collections.IDictionary,System.Runtime.Remoting.Channels.IServerChannelSinkProvider)">
+          <source>If you do not require sink functionality, set the <ph id="ph1">`sinkProvider`</ph> parameter to <ph id="ph2">`null`</ph>.</source>
+          <target state="translated">如果不需要接收器功能，设置<ph id="ph1">`sinkProvider`</ph>参数<ph id="ph2">`null`</ph>。</target>       </trans-unit>
+        <trans-unit id="130" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Runtime.Remoting.Channels.Http.HttpServerChannel.#ctor(System.Collections.IDictionary,System.Runtime.Remoting.Channels.IServerChannelSinkProvider)">
+          <source>The following code example shows how to use this constructor.</source>
+          <target state="translated">下面的代码示例演示如何使用此构造函数。</target>       </trans-unit>
+        <trans-unit id="131" translate="yes" xml:space="preserve" uid="M:System.Runtime.Remoting.Channels.Http.HttpServerChannel.#ctor(System.Collections.IDictionary,System.Runtime.Remoting.Channels.IServerChannelSinkProvider)">
+          <source>A configuration property was incorrectly formatted.</source>
+          <target state="translated">配置属性的格式设置不正确。</target>       </trans-unit>
+        <trans-unit id="132" translate="yes" xml:space="preserve" uid="M:System.Runtime.Remoting.Channels.Http.HttpServerChannel.#ctor(System.String,System.Int32)">
+          <source>The name of the channel.</source>
+          <target state="translated">信道的名称。</target>       </trans-unit>
+        <trans-unit id="133" translate="yes" xml:space="preserve" uid="M:System.Runtime.Remoting.Channels.Http.HttpServerChannel.#ctor(System.String,System.Int32)">
+          <source>The port on which the channel listens.</source>
+          <target state="translated">信道侦听的端口。</target>       </trans-unit>
+        <trans-unit id="134" translate="yes" xml:space="preserve" uid="M:System.Runtime.Remoting.Channels.Http.HttpServerChannel.#ctor(System.String,System.Int32)">
+          <source>Initializes a new instance of the <ph id="ph1">&lt;see cref="T:System.Runtime.Remoting.Channels.Http.HttpServerChannel" /&gt;</ph> class with the given name and that listens on the specified port.</source>
+          <target state="translated">使用给定名称初始化 <ph id="ph1">&lt;see cref="T:System.Runtime.Remoting.Channels.Http.HttpServerChannel" /&gt;</ph> 类的新实例，该实例侦听指定的端口。</target>       </trans-unit>
+        <trans-unit id="135" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Runtime.Remoting.Channels.Http.HttpServerChannel.#ctor(System.String,System.Int32)">
+          <source>This constructor sets the <ph id="ph1">&lt;xref:System.Runtime.Remoting.Channels.Http.HttpServerChannel.ChannelName%2A&gt;</ph> property by using the <ph id="ph2">`name`</ph> parameter.</source>
+          <target state="translated">此构造函数设置<ph id="ph1">&lt;xref:System.Runtime.Remoting.Channels.Http.HttpServerChannel.ChannelName%2A&gt;</ph>属性使用<ph id="ph2">`name`</ph>参数。</target>       </trans-unit>
+        <trans-unit id="136" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Runtime.Remoting.Channels.Http.HttpServerChannel.#ctor(System.String,System.Int32)">
+          <source>If you want to register more than one channel, each channel must have a unique name.</source>
+          <target state="translated">如果你想要注册多个通道，每个通道都必须具有唯一的名称。</target>       </trans-unit>
+        <trans-unit id="137" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Runtime.Remoting.Channels.Http.HttpServerChannel.#ctor(System.String,System.Int32)">
+          <source>To request that an available port be dynamically assigned, set the <ph id="ph1">`port`</ph> parameter to 0 (zero).</source>
+          <target state="translated">若要请求，动态分配可用的端口，设置<ph id="ph1">`port`</ph>参数设为 0 （零）。</target>       </trans-unit>
+        <trans-unit id="138" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Runtime.Remoting.Channels.Http.HttpServerChannel.#ctor(System.String,System.Int32)">
+          <source>The following code example shows how to use this constructor.</source>
+          <target state="translated">下面的代码示例演示如何使用此构造函数。</target>       </trans-unit>
+        <trans-unit id="139" translate="yes" xml:space="preserve" uid="M:System.Runtime.Remoting.Channels.Http.HttpServerChannel.#ctor(System.String,System.Int32,System.Runtime.Remoting.Channels.IServerChannelSinkProvider)">
+          <source>The name of the channel.</source>
+          <target state="translated">信道的名称。</target>       </trans-unit>
+        <trans-unit id="140" translate="yes" xml:space="preserve" uid="M:System.Runtime.Remoting.Channels.Http.HttpServerChannel.#ctor(System.String,System.Int32,System.Runtime.Remoting.Channels.IServerChannelSinkProvider)">
+          <source>The port on which the channel listens.</source>
+          <target state="translated">信道侦听的端口。</target>       </trans-unit>
+        <trans-unit id="141" translate="yes" xml:space="preserve" uid="M:System.Runtime.Remoting.Channels.Http.HttpServerChannel.#ctor(System.String,System.Int32,System.Runtime.Remoting.Channels.IServerChannelSinkProvider)">
+          <source>The <ph id="ph1">&lt;see cref="T:System.Runtime.Remoting.Channels.IServerChannelSinkProvider" /&gt;</ph> to be used by the channel.</source>
+          <target state="translated">要由信道使用的 <ph id="ph1">&lt;see cref="T:System.Runtime.Remoting.Channels.IServerChannelSinkProvider" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="142" translate="yes" xml:space="preserve" uid="M:System.Runtime.Remoting.Channels.Http.HttpServerChannel.#ctor(System.String,System.Int32,System.Runtime.Remoting.Channels.IServerChannelSinkProvider)">
+          <source>Initializes a new instance of the <ph id="ph1">&lt;see cref="T:System.Runtime.Remoting.Channels.Http.HttpServerChannel" /&gt;</ph> class at the specified port with the given name, which listens on the specified port, and uses the specified sink.</source>
+          <target state="translated">在指定的端口以给定的名称初始化 <ph id="ph1">&lt;see cref="T:System.Runtime.Remoting.Channels.Http.HttpServerChannel" /&gt;</ph> 类的新实例，该实例侦听指定的端口并使用指定的接收器。</target>       </trans-unit>
+        <trans-unit id="143" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Runtime.Remoting.Channels.Http.HttpServerChannel.#ctor(System.String,System.Int32,System.Runtime.Remoting.Channels.IServerChannelSinkProvider)">
+          <source>This constructor sets the <ph id="ph1">&lt;xref:System.Runtime.Remoting.Channels.Http.HttpServerChannel.ChannelName%2A&gt;</ph> property using the <ph id="ph2">`name`</ph> parameter.</source>
+          <target state="translated">此构造函数设置<ph id="ph1">&lt;xref:System.Runtime.Remoting.Channels.Http.HttpServerChannel.ChannelName%2A&gt;</ph>属性使用<ph id="ph2">`name`</ph>参数。</target>       </trans-unit>
+        <trans-unit id="144" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Runtime.Remoting.Channels.Http.HttpServerChannel.#ctor(System.String,System.Int32,System.Runtime.Remoting.Channels.IServerChannelSinkProvider)">
+          <source>To request that an available port be dynamically assigned, set the <ph id="ph1">`port`</ph> parameter to 0 (zero).</source>
+          <target state="translated">若要请求，动态分配可用的端口，设置<ph id="ph1">`port`</ph>参数设为 0 （零）。</target>       </trans-unit>
+        <trans-unit id="145" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Runtime.Remoting.Channels.Http.HttpServerChannel.#ctor(System.String,System.Int32,System.Runtime.Remoting.Channels.IServerChannelSinkProvider)">
+          <source>If you do not require sink functionality, set the <ph id="ph1">`sinkProvider`</ph> parameter to <ph id="ph2">`null`</ph>.</source>
+          <target state="translated">如果不需要接收器功能，设置<ph id="ph1">`sinkProvider`</ph>参数<ph id="ph2">`null`</ph>。</target>       </trans-unit>
+        <trans-unit id="146" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Runtime.Remoting.Channels.Http.HttpServerChannel.#ctor(System.String,System.Int32,System.Runtime.Remoting.Channels.IServerChannelSinkProvider)">
+          <source>The following code example shows how to use this constructor.</source>
+          <target state="translated">下面的代码示例演示如何使用此构造函数。</target>       </trans-unit>
+        <trans-unit id="147" translate="yes" xml:space="preserve" uid="M:System.Runtime.Remoting.Channels.Http.HttpServerChannel.AddHookChannelUri(System.String)">
+          <source>A URI on which the channel hook must listen.</source>
+          <target state="translated">信道挂钩必须对其进行侦听的 URI。</target>       </trans-unit>
+        <trans-unit id="148" translate="yes" xml:space="preserve" uid="M:System.Runtime.Remoting.Channels.Http.HttpServerChannel.AddHookChannelUri(System.String)">
+          <source>Adds a URI on which the channel hook must listen.</source>
+          <target state="translated">添加信道挂钩必须对其进行侦听的 URI。</target>       </trans-unit>
+        <trans-unit id="149" translate="yes" xml:space="preserve" uid="P:System.Runtime.Remoting.Channels.Http.HttpServerChannel.ChannelData">
+          <source>Gets channel-specific data.</source>
+          <target state="translated">获取通道特定的数据。</target>       </trans-unit>
+        <trans-unit id="150" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Runtime.Remoting.Channels.Http.HttpServerChannel.ChannelData">
+          <source>A <ph id="ph1">&lt;see cref="T:System.Runtime.Remoting.Channels.ChannelDataStore" /&gt;</ph> instance that contains channel-specific data.</source>
+          <target state="translated">包含特定于信道的数据的 <ph id="ph1">&lt;see cref="T:System.Runtime.Remoting.Channels.ChannelDataStore" /&gt;</ph> 实例。</target>       </trans-unit>
+        <trans-unit id="151" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Runtime.Remoting.Channels.Http.HttpServerChannel.ChannelData">
+          <source>Although returned as an instance of <ph id="ph1">&lt;xref:System.Object?displayProperty=nameWithType&gt;</ph>, the value of this property can be cast to an instance of <ph id="ph2">&lt;xref:System.Runtime.Remoting.Channels.ChannelDataStore&gt;</ph> describing the channel to which the <ph id="ph3">&lt;xref:System.Runtime.Remoting.Channels.Http.HttpServerChannel&gt;</ph> object listens.</source>
+          <target state="translated">尽管实例的形式返回<ph id="ph1">&lt;xref:System.Object?displayProperty=nameWithType&gt;</ph>，此属性的值可以强制转换为的实例<ph id="ph2">&lt;xref:System.Runtime.Remoting.Channels.ChannelDataStore&gt;</ph>描述的通道<ph id="ph3">&lt;xref:System.Runtime.Remoting.Channels.Http.HttpServerChannel&gt;</ph>对象侦听。</target>       </trans-unit>
+        <trans-unit id="152" translate="yes" xml:space="preserve" uid="P:System.Runtime.Remoting.Channels.Http.HttpServerChannel.ChannelName">
+          <source>Gets the name of the current channel.</source>
+          <target state="translated">获取当前信道的名称。</target>       </trans-unit>
+        <trans-unit id="153" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Runtime.Remoting.Channels.Http.HttpServerChannel.ChannelName">
+          <source>A <ph id="ph1">&lt;see cref="T:System.String" /&gt;</ph> object that contains the name of the channel.</source>
+          <target state="translated">一个包含信道名称的 <ph id="ph1">&lt;see cref="T:System.String" /&gt;</ph> 对象。</target>       </trans-unit>
+        <trans-unit id="154" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Runtime.Remoting.Channels.Http.HttpServerChannel.ChannelName">
+          <source>Every registered channel has a unique name.</source>
+          <target state="translated">每个已注册的通道具有一个唯一名称。</target>       </trans-unit>
+        <trans-unit id="155" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Runtime.Remoting.Channels.Http.HttpServerChannel.ChannelName">
+          <source>This name is used to retrieve a specific channel when calling <ph id="ph1">&lt;xref:System.Runtime.Remoting.Channels.ChannelServices.GetChannel%2A&gt;</ph>.</source>
+          <target state="translated">此名称用于检索特定通道时调用<ph id="ph1">&lt;xref:System.Runtime.Remoting.Channels.ChannelServices.GetChannel%2A&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="156" translate="yes" xml:space="preserve" uid="P:System.Runtime.Remoting.Channels.Http.HttpServerChannel.ChannelPriority">
+          <source>Gets the priority of the current channel.</source>
+          <target state="translated">获取当前信道的优先级。</target>       </trans-unit>
+        <trans-unit id="157" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Runtime.Remoting.Channels.Http.HttpServerChannel.ChannelPriority">
+          <source>An integer that represents the priority assigned to the channel.</source>
+          <target state="translated">一个整数，表示分配给该信道的优先级。</target>       </trans-unit>
+        <trans-unit id="158" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Runtime.Remoting.Channels.Http.HttpServerChannel.ChannelPriority">
+          <source>The priority controls the order in which channel data appears in a <ph id="ph1">&lt;xref:System.Runtime.Remoting.ObjRef&gt;</ph> instance; higher priority channels appear before lower priority channels.</source>
+          <target state="translated">优先级控制在哪个通道将出现在的数据的顺序<ph id="ph1">&lt;xref:System.Runtime.Remoting.ObjRef&gt;</ph>实例; 出现在较低的优先级通道之前的更高优先级通道。</target>       </trans-unit>
+        <trans-unit id="159" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Runtime.Remoting.Channels.Http.HttpServerChannel.ChannelPriority">
+          <source>Clients try to connect to the server channels in the order that they are listed in the <ph id="ph1">&lt;xref:System.Runtime.Remoting.ObjRef&gt;</ph> instance.</source>
+          <target state="translated">客户端尝试连接到中列出的顺序中的服务器信道<ph id="ph1">&lt;xref:System.Runtime.Remoting.ObjRef&gt;</ph>实例。</target>       </trans-unit>
+        <trans-unit id="160" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Runtime.Remoting.Channels.Http.HttpServerChannel.ChannelPriority">
+          <source>The default priority is 1; negative priorities are allowed.</source>
+          <target state="translated">默认优先级为 1;允许负的优先级。</target>       </trans-unit>
+        <trans-unit id="161" translate="yes" xml:space="preserve" uid="P:System.Runtime.Remoting.Channels.Http.HttpServerChannel.ChannelScheme">
+          <source>Gets the type of listener to hook into (for example, "http").</source>
+          <target state="translated">获取要挂钩到的侦听器的类型（例如“http”）。</target>       </trans-unit>
+        <trans-unit id="162" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Runtime.Remoting.Channels.Http.HttpServerChannel.ChannelScheme">
+          <source>The type of listener to hook into.</source>
+          <target state="translated">要挂钩到的侦听器类型。</target>       </trans-unit>
+        <trans-unit id="163" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Runtime.Remoting.Channels.Http.HttpServerChannel.ChannelScheme">
+          <source>This value is not case-sensitive.</source>
+          <target state="translated">此值不区分大小写。</target>       </trans-unit>
+        <trans-unit id="164" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Runtime.Remoting.Channels.Http.HttpServerChannel.ChannelScheme">
+          <source>The following code example shows how to use the <ph id="ph1">&lt;xref:System.Runtime.Remoting.Channels.Http.HttpServerChannel.ChannelScheme%2A&gt;</ph> property.</source>
+          <target state="translated">下面的代码示例说明如何使用 <ph id="ph1">&lt;xref:System.Runtime.Remoting.Channels.Http.HttpServerChannel.ChannelScheme%2A&gt;</ph> 属性。</target>       </trans-unit>
+        <trans-unit id="165" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Runtime.Remoting.Channels.Http.HttpServerChannel.ChannelScheme">
+          <source>This code example is part of a larger example provided for the <ph id="ph1">&lt;xref:System.Runtime.Remoting.Channels.Http.HttpServerChannel&gt;</ph> class.</source>
+          <target state="translated">此代码示例摘自更大的示例为提供<ph id="ph1">&lt;xref:System.Runtime.Remoting.Channels.Http.HttpServerChannel&gt;</ph>类。</target>       </trans-unit>
+        <trans-unit id="166" translate="yes" xml:space="preserve" uid="P:System.Runtime.Remoting.Channels.Http.HttpServerChannel.ChannelSinkChain">
+          <source>Gets the channel sink chain that the current channel is using.</source>
+          <target state="translated">获取当前信道正在使用的信道接收器链。</target>       </trans-unit>
+        <trans-unit id="167" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Runtime.Remoting.Channels.Http.HttpServerChannel.ChannelSinkChain">
+          <source>The channel sink chain that the current channel is using.</source>
+          <target state="translated">当前信道正在使用的信道接收器链。</target>       </trans-unit>
+        <trans-unit id="168" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Runtime.Remoting.Channels.Http.HttpServerChannel.ChannelSinkChain">
+          <source>The following code example shows how to use the <ph id="ph1">&lt;xref:System.Runtime.Remoting.Channels.Http.HttpServerChannel.ChannelSinkChain%2A&gt;</ph> property.</source>
+          <target state="translated">下面的代码示例说明如何使用 <ph id="ph1">&lt;xref:System.Runtime.Remoting.Channels.Http.HttpServerChannel.ChannelSinkChain%2A&gt;</ph> 属性。</target>       </trans-unit>
+        <trans-unit id="169" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Runtime.Remoting.Channels.Http.HttpServerChannel.ChannelSinkChain">
+          <source>This code example is part of a larger example provided for the <ph id="ph1">&lt;xref:System.Runtime.Remoting.Channels.Http.HttpServerChannel&gt;</ph> class.</source>
+          <target state="translated">此代码示例摘自更大的示例为提供<ph id="ph1">&lt;xref:System.Runtime.Remoting.Channels.Http.HttpServerChannel&gt;</ph>类。</target>       </trans-unit>
+        <trans-unit id="170" translate="yes" xml:space="preserve" uid="M:System.Runtime.Remoting.Channels.Http.HttpServerChannel.GetChannelUri">
+          <source>Returns the URI of the current channel.</source>
+          <target state="translated">返回当前信道的 URI。</target>       </trans-unit>
+        <trans-unit id="171" translate="yes" xml:space="preserve" uid="M:System.Runtime.Remoting.Channels.Http.HttpServerChannel.GetChannelUri">
+          <source>The URI of the current channel.</source>
+          <target state="translated">当前信道的 URI。</target>       </trans-unit>
+        <trans-unit id="172" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Runtime.Remoting.Channels.Http.HttpServerChannel.GetChannelUri">
+          <source>The following code example shows how to use the <ph id="ph1">&lt;xref:System.Runtime.Remoting.Channels.Http.HttpServerChannel.GetChannelUri%2A&gt;</ph> method.</source>
+          <target state="translated">下面的代码示例说明如何使用 <ph id="ph1">&lt;xref:System.Runtime.Remoting.Channels.Http.HttpServerChannel.GetChannelUri%2A&gt;</ph> 方法。</target>       </trans-unit>
+        <trans-unit id="173" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Runtime.Remoting.Channels.Http.HttpServerChannel.GetChannelUri">
+          <source>This code example is part of a larger example provided for the <ph id="ph1">&lt;xref:System.Runtime.Remoting.Channels.Http.HttpServerChannel&gt;</ph> class.</source>
+          <target state="translated">此代码示例摘自更大的示例为提供<ph id="ph1">&lt;xref:System.Runtime.Remoting.Channels.Http.HttpServerChannel&gt;</ph>类。</target>       </trans-unit>
+        <trans-unit id="174" translate="yes" xml:space="preserve" uid="M:System.Runtime.Remoting.Channels.Http.HttpServerChannel.GetUrlsForUri(System.String)">
+          <source>The URI of the object for which URLs are required.</source>
+          <target state="translated">需要其 URL 的对象的 URI。</target>       </trans-unit>
+        <trans-unit id="175" translate="yes" xml:space="preserve" uid="M:System.Runtime.Remoting.Channels.Http.HttpServerChannel.GetUrlsForUri(System.String)">
+          <source>Returns an array of all the URLs for an object with the specified URI, hosted on the current <ph id="ph1">&lt;see cref="T:System.Runtime.Remoting.Channels.Http.HttpChannel" /&gt;</ph>.</source>
+          <target state="translated">返回具有指定 URI 的对象的所有 URL 的数组，该对象承载在当前的 <ph id="ph1">&lt;see cref="T:System.Runtime.Remoting.Channels.Http.HttpChannel" /&gt;</ph> 上。</target>       </trans-unit>
+        <trans-unit id="176" translate="yes" xml:space="preserve" uid="M:System.Runtime.Remoting.Channels.Http.HttpServerChannel.GetUrlsForUri(System.String)">
+          <source>An array of the URLs for an object with the specified URI, hosted on the current <ph id="ph1">&lt;see cref="T:System.Runtime.Remoting.Channels.Http.HttpChannel" /&gt;</ph>.</source>
+          <target state="translated">具有指定 URI 的对象的所有 URL 的数组，该对象承载在当前的 <ph id="ph1">&lt;see cref="T:System.Runtime.Remoting.Channels.Http.HttpChannel" /&gt;</ph> 上。</target>       </trans-unit>
+        <trans-unit id="177" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Runtime.Remoting.Channels.Http.HttpServerChannel.GetUrlsForUri(System.String)">
+          <source>The current method is used by <ph id="ph1">&lt;xref:System.Runtime.Remoting.Channels.ChannelServices.GetUrlsForObject%2A?displayProperty=nameWithType&gt;</ph>.</source>
+          <target state="translated">将使用当前方法的<ph id="ph1">&lt;xref:System.Runtime.Remoting.Channels.ChannelServices.GetUrlsForObject%2A?displayProperty=nameWithType&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="178" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Runtime.Remoting.Channels.Http.HttpServerChannel.GetUrlsForUri(System.String)">
+          <source>The following code example shows how to use the <ph id="ph1">&lt;xref:System.Runtime.Remoting.Channels.Http.HttpServerChannel.GetUrlsForUri%2A&gt;</ph> method.</source>
+          <target state="translated">下面的代码示例说明如何使用 <ph id="ph1">&lt;xref:System.Runtime.Remoting.Channels.Http.HttpServerChannel.GetUrlsForUri%2A&gt;</ph> 方法。</target>       </trans-unit>
+        <trans-unit id="179" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Runtime.Remoting.Channels.Http.HttpServerChannel.GetUrlsForUri(System.String)">
+          <source>This code example is part of a larger example provided for the <ph id="ph1">&lt;xref:System.Runtime.Remoting.Channels.Http.HttpServerChannel&gt;</ph> class.</source>
+          <target state="translated">此代码示例摘自更大的示例为提供<ph id="ph1">&lt;xref:System.Runtime.Remoting.Channels.Http.HttpServerChannel&gt;</ph>类。</target>       </trans-unit>
+        <trans-unit id="180" translate="yes" xml:space="preserve" uid="P:System.Runtime.Remoting.Channels.Http.HttpServerChannel.Item(System.Object)">
+          <source>The key of the channel property to retrieve.</source>
+          <target state="translated">要检索的信道属性的键。</target>       </trans-unit>
+        <trans-unit id="181" translate="yes" xml:space="preserve" uid="P:System.Runtime.Remoting.Channels.Http.HttpServerChannel.Item(System.Object)">
+          <source>Returns the specified channel property.</source>
+          <target state="translated">返回指定的信道属性。</target>       </trans-unit>
+        <trans-unit id="182" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Runtime.Remoting.Channels.Http.HttpServerChannel.Item(System.Object)">
+          <source>A <ph id="ph1">&lt;see cref="T:System.Object" /&gt;</ph> that represents the channel property specified by <ph id="ph2">&lt;paramref name="key" /&gt;</ph>.</source>
+          <target state="translated">一个 <ph id="ph1">&lt;see cref="T:System.Object" /&gt;</ph>，表示由 <ph id="ph2">&lt;paramref name="key" /&gt;</ph> 指定的信道属性。</target>       </trans-unit>
+        <trans-unit id="183" translate="yes" xml:space="preserve" uid="P:System.Runtime.Remoting.Channels.Http.HttpServerChannel.Keys">
+          <source>Gets a <ph id="ph1">&lt;see cref="T:System.Collections.ICollection" /&gt;</ph> of keys the channel properties are associated with.</source>
+          <target state="translated">获取与信道属性关联的键的 <ph id="ph1">&lt;see cref="T:System.Collections.ICollection" /&gt;</ph> 。</target>       </trans-unit>
+        <trans-unit id="184" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Runtime.Remoting.Channels.Http.HttpServerChannel.Keys">
+          <source>A <ph id="ph1">&lt;see cref="T:System.Collections.ICollection" /&gt;</ph> of keys the channel properties are associated with.</source>
+          <target state="translated">与信道属性关联的键的 <ph id="ph1">&lt;see cref="T:System.Collections.ICollection" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="185" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Runtime.Remoting.Channels.Http.HttpServerChannel.Keys">
+          <source>Channel properties are used to configure the channel at run time.</source>
+          <target state="translated">通道属性用于在运行时配置通道。</target>       </trans-unit>
+        <trans-unit id="186" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Runtime.Remoting.Channels.Http.HttpServerChannel.Keys">
+          <source>For a list of possible channel properties and an example, see <bpt id="p1">[</bpt>&amp;#91;<ph id="ph1">\&lt;</ph>topic://cpconchannelformatterconfigurationproperties&gt;&amp;#93;<ept id="p1">](http://msdn.microsoft.com/library/226ecf74-ebbd-4ea0-a701-dcf4441deefe)</ept>.</source>
+          <target state="translated">有关可能通道属性和示例的列表，请参阅<bpt id="p1">[</bpt> &amp;#91; <ph id="ph1">\&lt;</ph>topic://cpconchannelformatterconfigurationproperties &gt;&amp;#93;<ept id="p1">](http://msdn.microsoft.com/library/226ecf74-ebbd-4ea0-a701-dcf4441deefe)</ept>。</target>       </trans-unit>
+        <trans-unit id="187" translate="yes" xml:space="preserve" uid="M:System.Runtime.Remoting.Channels.Http.HttpServerChannel.Parse(System.String,System.String@)">
+          <source>The URL from which to extract the URIs.</source>
+          <target state="translated">从中提取 URI 的 URL。</target>       </trans-unit>
+        <trans-unit id="188" translate="yes" xml:space="preserve" uid="M:System.Runtime.Remoting.Channels.Http.HttpServerChannel.Parse(System.String,System.String@)">
+          <source>When this method returns, contains a <ph id="ph1">&lt;see cref="T:System.String" /&gt;</ph> that holds the URI of the remote well-known object.</source>
+          <target state="translated">当此方法返回时，包含含有远程已知对象的 URI 的 <ph id="ph1">&lt;see cref="T:System.String" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="189" translate="yes" xml:space="preserve" uid="M:System.Runtime.Remoting.Channels.Http.HttpServerChannel.Parse(System.String,System.String@)">
+          <source>This parameter is passed uninitialized.</source>
+          <target state="translated">此参数未经初始化即被传递。</target>       </trans-unit>
+        <trans-unit id="190" translate="yes" xml:space="preserve" uid="M:System.Runtime.Remoting.Channels.Http.HttpServerChannel.Parse(System.String,System.String@)">
+          <source>Extracts the channel URI and the remote well-known object URI from the specified URL.</source>
+          <target state="translated">从指定 URL 提取信道 URI 和远程已知对象 URI。</target>       </trans-unit>
+        <trans-unit id="191" translate="yes" xml:space="preserve" uid="M:System.Runtime.Remoting.Channels.Http.HttpServerChannel.Parse(System.String,System.String@)">
+          <source>The channel URI.</source>
+          <target state="translated">信道 URI。</target>       </trans-unit>
+        <trans-unit id="192" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Runtime.Remoting.Channels.Http.HttpServerChannel.Parse(System.String,System.String@)">
+          <source>The following code example shows how to use the <ph id="ph1">&lt;xref:System.Runtime.Remoting.Channels.Http.HttpServerChannel.Parse%2A&gt;</ph> method.</source>
+          <target state="translated">下面的代码示例说明如何使用 <ph id="ph1">&lt;xref:System.Runtime.Remoting.Channels.Http.HttpServerChannel.Parse%2A&gt;</ph> 方法。</target>       </trans-unit>
+        <trans-unit id="193" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Runtime.Remoting.Channels.Http.HttpServerChannel.Parse(System.String,System.String@)">
+          <source>This code example is part of a larger example provided for the <ph id="ph1">&lt;xref:System.Runtime.Remoting.Channels.Http.HttpServerChannel&gt;</ph> class.</source>
+          <target state="translated">此代码示例摘自更大的示例为提供<ph id="ph1">&lt;xref:System.Runtime.Remoting.Channels.Http.HttpServerChannel&gt;</ph>类。</target>       </trans-unit>
+        <trans-unit id="194" translate="yes" xml:space="preserve" uid="M:System.Runtime.Remoting.Channels.Http.HttpServerChannel.StartListening(System.Object)">
+          <source>Should always be <ph id="ph1">&lt;see langword="null" /&gt;</ph> for <ph id="ph2">&lt;see cref="T:System.Runtime.Remoting.Channels.Http.HttpChannel" /&gt;</ph>.</source>
+          <target state="translated">对于 <ph id="ph2">&lt;see cref="T:System.Runtime.Remoting.Channels.Http.HttpChannel" /&gt;</ph>，应始终为 <ph id="ph1">&lt;see langword="null" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="195" translate="yes" xml:space="preserve" uid="M:System.Runtime.Remoting.Channels.Http.HttpServerChannel.StartListening(System.Object)">
+          <source>Instructs the current channel to start listening for requests.</source>
+          <target state="translated">指示当前信道开始侦听请求。</target>       </trans-unit>
+        <trans-unit id="196" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Runtime.Remoting.Channels.Http.HttpServerChannel.StartListening(System.Object)">
+          <source>It is not necessary to call this method to begin listening on a newly initialized channel.</source>
+          <target state="translated">不需要调用此方法以开始侦听新初始化的通道。</target>       </trans-unit>
+        <trans-unit id="197" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Runtime.Remoting.Channels.Http.HttpServerChannel.StartListening(System.Object)">
+          <source>Use this method to restart listening on a channel after the <ph id="ph1">&lt;xref:System.Runtime.Remoting.Channels.Http.HttpServerChannel.StopListening%2A&gt;</ph> method has been called to stop listening on the channel.</source>
+          <target state="translated">使用此方法重新启动后的通道上侦听<ph id="ph1">&lt;xref:System.Runtime.Remoting.Channels.Http.HttpServerChannel.StopListening%2A&gt;</ph>调用方法来停止侦听通道。</target>       </trans-unit>
+        <trans-unit id="198" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Runtime.Remoting.Channels.Http.HttpServerChannel.StartListening(System.Object)">
+          <source>If your channel uses a dynamically assigned port number, your port number might change when you restart listening.</source>
+          <target state="translated">如果您的通道使用动态分配的端口号，则重新开始侦听时，可能会更改端口号。</target>       </trans-unit>
+        <trans-unit id="199" translate="yes" xml:space="preserve" uid="M:System.Runtime.Remoting.Channels.Http.HttpServerChannel.StopListening(System.Object)">
+          <source>Should always be <ph id="ph1">&lt;see langword="null" /&gt;</ph> for <ph id="ph2">&lt;see cref="T:System.Runtime.Remoting.Channels.Http.HttpChannel" /&gt;</ph>.</source>
+          <target state="translated">对于 <ph id="ph2">&lt;see cref="T:System.Runtime.Remoting.Channels.Http.HttpChannel" /&gt;</ph>，应始终为 <ph id="ph1">&lt;see langword="null" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="200" translate="yes" xml:space="preserve" uid="M:System.Runtime.Remoting.Channels.Http.HttpServerChannel.StopListening(System.Object)">
+          <source>Instructs the current channel to stop listening for requests.</source>
+          <target state="translated">指示当前信道停止侦听请求。</target>       </trans-unit>
+        <trans-unit id="201" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Runtime.Remoting.Channels.Http.HttpServerChannel.StopListening(System.Object)">
+          <source>Use this method to stop listening on a channel.</source>
+          <target state="translated">使用此方法以停止侦听通道上。</target>       </trans-unit>
+        <trans-unit id="202" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Runtime.Remoting.Channels.Http.HttpServerChannel.StopListening(System.Object)">
+          <source>To restart listening, use the <ph id="ph1">&lt;xref:System.Runtime.Remoting.Channels.Http.HttpServerChannel.StartListening%2A&gt;</ph> method.</source>
+          <target state="translated">若要重新开始侦听，使用<ph id="ph1">&lt;xref:System.Runtime.Remoting.Channels.Http.HttpServerChannel.StartListening%2A&gt;</ph>方法。</target>       </trans-unit>
+        <trans-unit id="203" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Runtime.Remoting.Channels.Http.HttpServerChannel.StopListening(System.Object)">
+          <source>If your channel uses a dynamically assigned port number, your port number might change when you restart listening.</source>
+          <target state="translated">如果您的通道使用动态分配的端口号，则重新开始侦听时，可能会更改端口号。</target>       </trans-unit>
+        <trans-unit id="204" translate="yes" xml:space="preserve" uid="P:System.Runtime.Remoting.Channels.Http.HttpServerChannel.WantsToListen">
+          <source>Gets a Boolean value that indicates whether <ph id="ph1">&lt;see cref="T:System.Runtime.Remoting.Channels.IChannelReceiverHook" /&gt;</ph> wants to be hooked into the outside listener service.</source>
+          <target state="translated">获取一个布尔值，该值指示是否需要将 <ph id="ph1">&lt;see cref="T:System.Runtime.Remoting.Channels.IChannelReceiverHook" /&gt;</ph> 挂接到外部侦听器服务。</target>       </trans-unit>
+        <trans-unit id="205" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Runtime.Remoting.Channels.Http.HttpServerChannel.WantsToListen">
+          <source>A Boolean value that indicates whether <ph id="ph1">&lt;see cref="T:System.Runtime.Remoting.Channels.IChannelReceiverHook" /&gt;</ph> wants to be hooked into the outside listener service.</source>
+          <target state="translated">一个布尔值，该值指示是否需要将 <ph id="ph1">&lt;see cref="T:System.Runtime.Remoting.Channels.IChannelReceiverHook" /&gt;</ph> 挂接到外部侦听器服务。</target>       </trans-unit>
+        <trans-unit id="206" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Runtime.Remoting.Channels.Http.HttpServerChannel.WantsToListen">
+          <source>The following code example shows how to use the <ph id="ph1">&lt;xref:System.Runtime.Remoting.Channels.Http.HttpServerChannel.WantsToListen%2A&gt;</ph> property.</source>
+          <target state="translated">下面的代码示例说明如何使用 <ph id="ph1">&lt;xref:System.Runtime.Remoting.Channels.Http.HttpServerChannel.WantsToListen%2A&gt;</ph> 属性。</target>       </trans-unit>
+        <trans-unit id="207" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Runtime.Remoting.Channels.Http.HttpServerChannel.WantsToListen">
+          <source>This code example is part of a larger example provided for the <ph id="ph1">&lt;xref:System.Runtime.Remoting.Channels.Http.HttpServerChannel&gt;</ph> class.</source>
+          <target state="translated">此代码示例摘自更大的示例为提供<ph id="ph1">&lt;xref:System.Runtime.Remoting.Channels.Http.HttpServerChannel&gt;</ph>类。</target>       </trans-unit>
+      </group>
+    </body>
+  </file>
+</xliff>

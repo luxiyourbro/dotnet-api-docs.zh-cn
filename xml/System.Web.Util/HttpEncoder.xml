@@ -1,703 +1,429 @@
-<Type Name="HttpEncoder" FullName="System.Web.Util.HttpEncoder">
-  <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="4e35efb72622eb52376091974f022482dc3d28df" />
-    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
-    <Meta Name="ms.translationtype" Value="HT" />
-    <Meta Name="ms.contentlocale" Value="zh-CN" />
-    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
-  </Metadata>
-  <TypeSignature Language="C#" Value="public class HttpEncoder" />
-  <TypeSignature Language="ILAsm" Value=".class public auto ansi HttpEncoder extends System.Object" />
-  <TypeSignature Language="DocId" Value="T:System.Web.Util.HttpEncoder" />
-  <TypeSignature Language="VB.NET" Value="Public Class HttpEncoder" />
-  <TypeSignature Language="C++ CLI" Value="public ref class HttpEncoder" />
-  <AssemblyInfo>
-    <AssemblyName>System.Web</AssemblyName>
-    <AssemblyVersion>4.0.0.0</AssemblyVersion>
-  </AssemblyInfo>
-  <AssemblyInfo>
-    <AssemblyName>System.Web.Services</AssemblyName>
-    <AssemblyVersion>2.0.5.0</AssemblyVersion>
-    <AssemblyVersion>4.0.0.0</AssemblyVersion>
-  </AssemblyInfo>
-  <Base>
-    <BaseTypeName>System.Object</BaseTypeName>
-  </Base>
-  <Interfaces />
-  <Docs>
-    <summary>
-      <span data-ttu-id="a027d-101">提供编码和解码逻辑。</span>
-      <span class="sxs-lookup">
-        <span data-stu-id="a027d-101">Provides encoding and decoding logic.</span>
-      </span>
-    </summary>
-    <remarks>
-      <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="a027d-102">类包含编码和解码类中的方法使用如的逻辑<xref:System.Web.HttpUtility>， <xref:System.Web.HttpServerUtility>，和<xref:System.Net.HttpResponseHeader>。</span><span class="sxs-lookup"><span data-stu-id="a027d-102">The class contains encoding and decoding logic that is used by methods in classes such as <xref:System.Web.HttpUtility>, <xref:System.Web.HttpServerUtility>, and <xref:System.Net.HttpResponseHeader>.</span></span>  
-  
- <span data-ttu-id="a027d-103">可以从继承<xref:System.Web.Util.HttpEncoder>类并重写其行为以进行自定义默认编码和解码的 ASP.NET 的行为。</span><span class="sxs-lookup"><span data-stu-id="a027d-103">You can inherit from the <xref:System.Web.Util.HttpEncoder> class and override its behavior to customize the default encoding and decoding behavior of ASP.NET.</span></span> <span data-ttu-id="a027d-104">然后设置<xref:System.Web.Configuration.HttpRuntimeSection.EncoderType%2A>属性<xref:System.Web.Configuration.HttpRuntimeSection>类来配置自定义类。</span><span class="sxs-lookup"><span data-stu-id="a027d-104">You then set the <xref:System.Web.Configuration.HttpRuntimeSection.EncoderType%2A> property of the <xref:System.Web.Configuration.HttpRuntimeSection> class to configure your custom class.</span></span>  
-  
- <span data-ttu-id="a027d-105">用于编码和解码的自定义类派生自<xref:System.Web.Util.HttpEncoder>可以重写内置 ASP.NET 编码和解码行为或仅选择改变它的方面。</span><span class="sxs-lookup"><span data-stu-id="a027d-105">A custom class for encoding and decoding that derives from <xref:System.Web.Util.HttpEncoder> can override the built-in ASP.NET encoding and decoding behavior or change only selected aspects of it.</span></span>  
-  
- <span data-ttu-id="a027d-106">你可以在 ASP.NET 中来替换或补充以下编码行为配置的自定义编码类型：</span><span class="sxs-lookup"><span data-stu-id="a027d-106">You can configure the custom encoding type for in ASP.NET to replace or supplement the following encoding behavior:</span></span>  
-  
--   <span data-ttu-id="a027d-107">HTML 编码</span><span class="sxs-lookup"><span data-stu-id="a027d-107">HTML encoding</span></span>  
-  
--   <span data-ttu-id="a027d-108">HTML 特性编码</span><span class="sxs-lookup"><span data-stu-id="a027d-108">HTML attribute encoding</span></span>  
-  
--   <span data-ttu-id="a027d-109">URL 编码</span><span class="sxs-lookup"><span data-stu-id="a027d-109">URL encoding</span></span>  
-  
--   <span data-ttu-id="a027d-110">URL 路径编码</span><span class="sxs-lookup"><span data-stu-id="a027d-110">URL path encoding</span></span>  
-  
--   <span data-ttu-id="a027d-111">HTTP 标头名称和标头值编码</span><span class="sxs-lookup"><span data-stu-id="a027d-111">HTTP header name and header value encoding</span></span>  
-  
- <span data-ttu-id="a027d-112">默认情况下，ASP.NET 应用程序配置为使用<xref:System.Web.Security.AntiXss.AntiXssEncoder>键入对于所有输出编码。</span><span class="sxs-lookup"><span data-stu-id="a027d-112">By default, ASP.NET applications are configured to use the <xref:System.Web.Security.AntiXss.AntiXssEncoder> type for all output encoding.</span></span>  
-  
- <span data-ttu-id="a027d-113">下面的示例应用程序级 Web.config 文件所示如何<xref:System.Web.Security.AntiXss.AntiXssEncoder>类型设置 ASP.NET 应用程序：</span><span class="sxs-lookup"><span data-stu-id="a027d-113">The following example from an application-level Web.config file shows how the <xref:System.Web.Security.AntiXss.AntiXssEncoder> type is set for an ASP.NET application:</span></span>  
-  
- `<httpRuntime requestValidationMode="4.5" encoderType="System.Web.Security.AntiXss.AntiXssEncoder, System.Web, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"/>`  
-  
- <span data-ttu-id="a027d-114">中的示例设置的配置设置<xref:System.Web.Security.AntiXss.AntiXssEncoder>类来执行所有输出应用程序中的编码。</span><span class="sxs-lookup"><span data-stu-id="a027d-114">The configuration setting in the example sets the <xref:System.Web.Security.AntiXss.AntiXssEncoder> class to perform all output encoding in the application.</span></span> <span data-ttu-id="a027d-115">有关详细信息，请参阅<xref:System.Web.Security.AntiXss.AntiXssEncoder>类概述。</span><span class="sxs-lookup"><span data-stu-id="a027d-115">For more information, see the <xref:System.Web.Security.AntiXss.AntiXssEncoder> class overview.</span></span>  
-  
- ]]></format>
-    </remarks>
-    <block subset="none" type="overrides">
-      <para>
-        <span data-ttu-id="a027d-116">你创建一个自定义编码器类后，重写基方法的基类时派生的编码器可能会引发任何重写方法中的发生异常。</span>
-        <span class="sxs-lookup">
-          <span data-stu-id="a027d-116">When you create a custom encoder class and override the base methods of the base class, the derived encoder might throw an exception from any of the overridden methods.</span>
-        </span>
-        <span data-ttu-id="a027d-117">但是，在以下情况下引发此异常可能导致在 ASP.NET 中的意外行为：</span>
-        <span class="sxs-lookup">
-          <span data-stu-id="a027d-117">However, in the following cases throwing such an exception could lead to unexpected behavior in ASP.NET:</span>
-        </span>  
-  
--   <span data-ttu-id="a027d-118">如果 ASP.NET 呈现引起未经处理的异常自定义编码器引发一个错误页面，ASP.NET 将不会尝试通过调入自定义编码器编码其错误输出。</span><span class="sxs-lookup"><span data-stu-id="a027d-118">If ASP.NET is rendering an error page that is caused by an unhandled exception that was thrown from a custom encoder, ASP.NET does not attempt to encode its error output by calling into the custom encoder.</span></span><span data-ttu-id="a027d-119">这样就避免了递归错误条件。</span><span class="sxs-lookup"><span data-stu-id="a027d-119">This avoids recursive error conditions.</span></span>  
-  
--   <span data-ttu-id="a027d-120">ASP.NET 向 IIS 发送 HTTP 标头时, ASP.NET 将有没有硬性要求未经处理的异常。</span><span class="sxs-lookup"><span data-stu-id="a027d-120">When ASP.NET is sending HTTP headers to IIS, ASP.NET has no provision for unhandled exceptions.</span></span><span data-ttu-id="a027d-121">因此，（如果配置设置允许此页后，可以显示），则将呈现标准的 ASP.NET 错误页。</span><span class="sxs-lookup"><span data-stu-id="a027d-121">Therefore, the standard ASP.NET error page will be rendered (if configuration settings allows this page to be displayed).</span></span></para>
-    </block>
-    <altmember cref="T:System.Web.HttpUtility" />
-    <altmember cref="T:System.Web.HttpServerUtility" />
-    <altmember cref="T:System.Web.Configuration.HttpRuntimeSection" />
-    <altmember cref="T:System.Web.Security.AntiXss.AntiXssEncoder" />
-  </Docs>
-  <Members>
-    <Member MemberName=".ctor">
-      <MemberSignature Language="C#" Value="public HttpEncoder ();" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor() cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Web.Util.HttpEncoder.#ctor" />
-      <MemberSignature Language="VB.NET" Value="Public Sub New ()" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; HttpEncoder();" />
-      <MemberType>Constructor</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Web</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>System.Web.Services</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Parameters />
-      <Docs>
-        <summary>
-          <span data-ttu-id="a027d-122">初始化 <see cref="T:System.Web.Util.HttpEncoder" /> 类的新实例。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="a027d-122">Initializes a new instance of the <see cref="T:System.Web.Util.HttpEncoder" /> class.</span>
-          </span>
-        </summary>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="Current">
-      <MemberSignature Language="C#" Value="public static System.Web.Util.HttpEncoder Current { get; set; }" />
-      <MemberSignature Language="ILAsm" Value=".property class System.Web.Util.HttpEncoder Current" />
-      <MemberSignature Language="DocId" Value="P:System.Web.Util.HttpEncoder.Current" />
-      <MemberSignature Language="VB.NET" Value="Public Shared Property Current As HttpEncoder" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; static property System::Web::Util::HttpEncoder ^ Current { System::Web::Util::HttpEncoder ^ get(); void set(System::Web::Util::HttpEncoder ^ value); };" />
-      <MemberType>Property</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Web</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>System.Web.Services</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Web.Util.HttpEncoder</ReturnType>
-      </ReturnValue>
-      <Docs>
-        <summary>
-          <span data-ttu-id="a027d-123">获取或设置将在应用程序中使用的 <see cref="T:System.Web.Util.HttpEncoder" /> 类型。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="a027d-123">Gets or set the <see cref="T:System.Web.Util.HttpEncoder" /> type that will be used in an application.</span>
-          </span>
-        </summary>
-        <value>
-          <span data-ttu-id="a027d-124">对将要使用的编码器/解码器类型的引用。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="a027d-124">A reference to the encoder/decoder type that will be used.</span>
-          </span>
-        </value>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="a027d-125">如果派生<xref:System.Web.Util.HttpEncoder>在配置文件中，指定类型<xref:System.Web.Util.HttpEncoder.Current%2A>属性返回对自定义类型的引用。</span><span class="sxs-lookup"><span data-stu-id="a027d-125">If a derived <xref:System.Web.Util.HttpEncoder> type is specified in the configuration file, the <xref:System.Web.Util.HttpEncoder.Current%2A> property returns a reference to the custom type.</span></span> <span data-ttu-id="a027d-126">但是，如果使用没有自定义编码器，则该属性将返回对默认 ASP.NET 的引用<xref:System.Web.Util.HttpEncoder>实例。</span><span class="sxs-lookup"><span data-stu-id="a027d-126">However, if no custom encoder is used, the property returns a reference to the default ASP.NET <xref:System.Web.Util.HttpEncoder> instance.</span></span>  
-  
- <span data-ttu-id="a027d-127"><xref:System.Web.Util.HttpEncoder.Current%2A>属性不是线程安全。</span><span class="sxs-lookup"><span data-stu-id="a027d-127">The <xref:System.Web.Util.HttpEncoder.Current%2A> property is not thread-safe.</span></span> <span data-ttu-id="a027d-128">将此属性设置仅在应用程序的`Application_Start`方法，因为`Application_Start`在单个线程上运行。</span><span class="sxs-lookup"><span data-stu-id="a027d-128">Set this property only in the application's `Application_Start` method, because `Application_Start` runs on a single thread.</span></span>  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.ArgumentNullException">
-          <span data-ttu-id="a027d-129">分配给此属性的编码器实例是 <see langword="null" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="a027d-129">The encoder instance that is being assigned to this property is <see langword="null" />.</span>
-          </span>
-        </exception>
-      </Docs>
-    </Member>
-    <Member MemberName="Default">
-      <MemberSignature Language="C#" Value="public static System.Web.Util.HttpEncoder Default { get; }" />
-      <MemberSignature Language="ILAsm" Value=".property class System.Web.Util.HttpEncoder Default" />
-      <MemberSignature Language="DocId" Value="P:System.Web.Util.HttpEncoder.Default" />
-      <MemberSignature Language="VB.NET" Value="Public Shared ReadOnly Property Default As HttpEncoder" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; static property System::Web::Util::HttpEncoder ^ Default { System::Web::Util::HttpEncoder ^ get(); };" />
-      <MemberType>Property</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Web</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>System.Web.Services</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Web.Util.HttpEncoder</ReturnType>
-      </ReturnValue>
-      <Docs>
-        <summary>
-          <span data-ttu-id="a027d-130">获取对 ASP.NET 的默认编码器的引用。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="a027d-130">Gets a reference to the default encoder for ASP.NET.</span>
-          </span>
-        </summary>
-        <value>
-          <span data-ttu-id="a027d-131">对默认编码器的引用。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="a027d-131">A reference to the default encoder.</span>
-          </span>
-        </value>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="a027d-132">常见的编码问题在于默认 ASP.NET<xref:System.Web.Util.HttpEncoder.UrlEncode%2A>行为将空间转换为"+"字符。</span><span class="sxs-lookup"><span data-stu-id="a027d-132">A common encoding issue is that the default ASP.NET <xref:System.Web.Util.HttpEncoder.UrlEncode%2A> behavior converts spaces into the "+" character.</span></span> <span data-ttu-id="a027d-133">从历史上看，"+"字符已成为 Internet 约定，在 URL 中的空格字符编码到更易于阅读的方式。</span><span class="sxs-lookup"><span data-stu-id="a027d-133">Historically, the "+" character has been an Internet convention for encoding space characters in a URL into a more human-readable manner.</span></span> <span data-ttu-id="a027d-134">但是，根据标准，空格字符应为"%20"和而不是编码为"+"字符。</span><span class="sxs-lookup"><span data-stu-id="a027d-134">However, according to standards, the space character is supposed to be encoded as "%20" and instead of as the "+" character.</span></span> <span data-ttu-id="a027d-135">ASP.NET 使您可以实现更多的标准符合编码算法。</span><span class="sxs-lookup"><span data-stu-id="a027d-135">ASP.NET lets you implement a more standards compliant encoding algorithm.</span></span>  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="HeaderNameValueEncode">
-      <MemberSignature Language="C#" Value="protected internal virtual void HeaderNameValueEncode (string headerName, string headerValue, out string encodedHeaderName, out string encodedHeaderValue);" />
-      <MemberSignature Language="ILAsm" Value=".method familyorassemblyhidebysig newslot virtual instance void HeaderNameValueEncode(string headerName, string headerValue, [out] string&amp; encodedHeaderName, [out] string&amp; encodedHeaderValue) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Web.Util.HttpEncoder.HeaderNameValueEncode(System.String,System.String,System.String@,System.String@)" />
-      <MemberSignature Language="VB.NET" Value="Protected Friend Overridable Sub HeaderNameValueEncode (headerName As String, headerValue As String, ByRef encodedHeaderName As String, ByRef encodedHeaderValue As String)" />
-      <MemberSignature Language="C++ CLI" Value="protected public:&#xA; virtual void HeaderNameValueEncode(System::String ^ headerName, System::String ^ headerValue, [Runtime::InteropServices::Out] System::String ^ % encodedHeaderName, [Runtime::InteropServices::Out] System::String ^ % encodedHeaderValue);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Web</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>System.Web.Services</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="headerName" Type="System.String" />
-        <Parameter Name="headerValue" Type="System.String" />
-        <Parameter Name="encodedHeaderName" Type="System.String&amp;" RefType="out" />
-        <Parameter Name="encodedHeaderValue" Type="System.String&amp;" RefType="out" />
-      </Parameters>
-      <Docs>
-        <param name="headerName">
-          <span data-ttu-id="a027d-136">要编码的 HTTP 标头名称。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="a027d-136">The HTTP header name to encode.</span>
-          </span>
-        </param>
-        <param name="headerValue">
-          <span data-ttu-id="a027d-137">要编码的 HTTP 标头值。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="a027d-137">The HTTP header value to encode.</span>
-          </span>
-        </param>
-        <param name="encodedHeaderName">
-          <span data-ttu-id="a027d-138">当此方法返回时，返回值包含要用于 HTTP 标头的已编码名称。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="a027d-138">When this method returns, contains the encoded name to use for an HTTP header.</span>
-          </span>
-          <span data-ttu-id="a027d-139">此参数未经初始化即被传递。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="a027d-139">This parameter is passed uninitialized.</span>
-          </span>
-        </param>
-        <param name="encodedHeaderValue">
-          <span data-ttu-id="a027d-140">当此方法返回时，返回值包含要用于 HTTP 标头的已编码值。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="a027d-140">When this method returns, contains the encoded value to use for an HTTP header.</span>
-          </span>
-          <span data-ttu-id="a027d-141">此参数未经初始化即被传递。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="a027d-141">This parameter is passed uninitialized.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="a027d-142">将标头名称和值编码为可用作 HTTP 标头的字符串。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="a027d-142">Encodes a header name and value into a string that can be used as an HTTP header.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="a027d-143"><xref:System.Web.Util.HttpEncoder.HeaderNameValueEncode%2A>方法采用从输入的字符串`headerName`和`headerValue`参数并对它们进行编码。</span><span class="sxs-lookup"><span data-stu-id="a027d-143">The <xref:System.Web.Util.HttpEncoder.HeaderNameValueEncode%2A> method takes input strings from the `headerName` and `headerValue` parameters and encodes them.</span></span> <span data-ttu-id="a027d-144">将编码的值作为输出参数返回。</span><span class="sxs-lookup"><span data-stu-id="a027d-144">The encoded values are returned as out parameters.</span></span>  
-  
- <span data-ttu-id="a027d-145"><xref:System.Web.Util.HttpEncoder.HeaderNameValueEncode%2A>方法使用以下逻辑进行编码标头名称和值：</span><span class="sxs-lookup"><span data-stu-id="a027d-145">The <xref:System.Web.Util.HttpEncoder.HeaderNameValueEncode%2A> method uses the following logic to encode header names and values:</span></span>  
-  
--   <span data-ttu-id="a027d-146">其 Unicode 值小于 ASCII 字符 32，除 ASCII 字符 9，以外的所有字符都是 URL 编码到的格式为`%NN`其中`N`字符表示十六进制值。</span><span class="sxs-lookup"><span data-stu-id="a027d-146">All characters whose Unicode value is less than ASCII character 32, except ASCII character 9, are URL-encoded into a format of `%NN` where the `N` characters represent hexadecimal values.</span></span>  
-  
--   <span data-ttu-id="a027d-147">ASCII 字符 9 （水平制表符） 不是 URL 编码。</span><span class="sxs-lookup"><span data-stu-id="a027d-147">ASCII character 9 (the horizontal tab character) is not URL-encoded.</span></span>  
-  
--   <span data-ttu-id="a027d-148">ASCII 字符 127 编码为`%7F`。</span><span class="sxs-lookup"><span data-stu-id="a027d-148">ASCII character 127 is encoded as `%7F`.</span></span>  
-  
--   <span data-ttu-id="a027d-149">所有其他字符编码。</span><span class="sxs-lookup"><span data-stu-id="a027d-149">All other characters are not encoded.</span></span>  
-  
-    > [!NOTE]
-    >  <span data-ttu-id="a027d-150">尽管此方法可以用于 Unicode 值，它通常用于 ASCII 范围内的值。</span><span class="sxs-lookup"><span data-stu-id="a027d-150">Although this method can be used for Unicode values, it is typically used for values in the ASCII range.</span></span>  
-  
- <span data-ttu-id="a027d-151">默认实现<xref:System.Web.Util.HttpEncoder.HeaderNameValueEncode%2A>方法返回的值`headerValue`中`encodedHeaderValue`如果`headerValue`是`null`或为空字符串。</span><span class="sxs-lookup"><span data-stu-id="a027d-151">The default implementation of the <xref:System.Web.Util.HttpEncoder.HeaderNameValueEncode%2A> method returns the value of `headerValue` in `encodedHeaderValue` if `headerValue` is `null` or is an empty string.</span></span> <span data-ttu-id="a027d-152">同样，默认实现返回的值`headerName`中`encodedHeaderName`如果`headerName`是`null`或为空字符串。</span><span class="sxs-lookup"><span data-stu-id="a027d-152">Similarly, the default implementation returns the value of `headerName` in `encodedHeaderName` if `headerName` is `null` or is an empty string.</span></span>  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="HtmlAttributeEncode">
-      <MemberSignature Language="C#" Value="protected internal virtual void HtmlAttributeEncode (string value, System.IO.TextWriter output);" />
-      <MemberSignature Language="ILAsm" Value=".method familyorassemblyhidebysig newslot virtual instance void HtmlAttributeEncode(string value, class System.IO.TextWriter output) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Web.Util.HttpEncoder.HtmlAttributeEncode(System.String,System.IO.TextWriter)" />
-      <MemberSignature Language="VB.NET" Value="Protected Friend Overridable Sub HtmlAttributeEncode (value As String, output As TextWriter)" />
-      <MemberSignature Language="C++ CLI" Value="protected public:&#xA; virtual void HtmlAttributeEncode(System::String ^ value, System::IO::TextWriter ^ output);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Web</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>System.Web.Services</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="value" Type="System.String" />
-        <Parameter Name="output" Type="System.IO.TextWriter" />
-      </Parameters>
-      <Docs>
-        <param name="value">
-          <span data-ttu-id="a027d-153">要编码的字符串。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="a027d-153">The string to encode.</span>
-          </span>
-        </param>
-        <param name="output">
-          <span data-ttu-id="a027d-154">要将已编码值写入到的文本编写器。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="a027d-154">The text writer to write the encoded value to.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="a027d-155">将传入值编码为可插入 HTML 特性（由单引号或双引号分隔）的字符串。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="a027d-155">Encodes an incoming value into a string that can be inserted into an HTML attribute that is delimited by using single or double quotation marks.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="a027d-156"><xref:System.Web.Util.HttpEncoder.HtmlAttributeEncode%2A>方法通过使用标准的 HTML 实体编码字符。</span><span class="sxs-lookup"><span data-stu-id="a027d-156">The <xref:System.Web.Util.HttpEncoder.HtmlAttributeEncode%2A> method encodes characters by using the standard HTML entities.</span></span> <span data-ttu-id="a027d-157">例如， `<` （左的尖括号） 编码为`&lt;`和`\`（反斜杠） 编码为`&#92;`。</span><span class="sxs-lookup"><span data-stu-id="a027d-157">For example, the `<` (left angle bracket) is encoded as `&lt;` and the `\` (backslash) is encoded as `&#92;`.</span></span>  
-  
- <span data-ttu-id="a027d-158">则可以安全地使用<xref:System.Web.Util.HttpEncoder.HtmlAttributeEncode%2A>单引号和双引号括起来属性中。</span><span class="sxs-lookup"><span data-stu-id="a027d-158">It is safe to use <xref:System.Web.Util.HttpEncoder.HtmlAttributeEncode%2A> within single-quoted and double-quoted attributes.</span></span> <span data-ttu-id="a027d-159">值必须用引号引起来。</span><span class="sxs-lookup"><span data-stu-id="a027d-159">The values must be quoted.</span></span>  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.ArgumentNullException">
-          <span data-ttu-id="a027d-160">
-            <paramref name="output" /> 为 <see langword="null" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="a027d-160">
-              <paramref name="output" /> is <see langword="null" />.</span>
-          </span>
-        </exception>
-      </Docs>
-    </Member>
-    <Member MemberName="HtmlDecode">
-      <MemberSignature Language="C#" Value="protected internal virtual void HtmlDecode (string value, System.IO.TextWriter output);" />
-      <MemberSignature Language="ILAsm" Value=".method familyorassemblyhidebysig newslot virtual instance void HtmlDecode(string value, class System.IO.TextWriter output) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Web.Util.HttpEncoder.HtmlDecode(System.String,System.IO.TextWriter)" />
-      <MemberSignature Language="VB.NET" Value="Protected Friend Overridable Sub HtmlDecode (value As String, output As TextWriter)" />
-      <MemberSignature Language="C++ CLI" Value="protected public:&#xA; virtual void HtmlDecode(System::String ^ value, System::IO::TextWriter ^ output);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Web</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>System.Web.Services</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="value" Type="System.String" />
-        <Parameter Name="output" Type="System.IO.TextWriter" />
-      </Parameters>
-      <Docs>
-        <param name="value">
-          <span data-ttu-id="a027d-161">要解码的字符串。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="a027d-161">The string to decode.</span>
-          </span>
-        </param>
-        <param name="output">
-          <span data-ttu-id="a027d-162">要将已解码值写入到的文本编写器。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="a027d-162">The text writer to write the decoded value to.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="a027d-163">解码 HTML 编码的字符串中的值。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="a027d-163">Decodes a value from an HTML-encoded string.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="a027d-164">下表列出的 ASP.NET 解码逻辑可以解码的字符序列。</span><span class="sxs-lookup"><span data-stu-id="a027d-164">The following table lists the character sequences that the ASP.NET decoding logic can decode.</span></span>  
-  
-|<span data-ttu-id="a027d-165">字符序列</span><span class="sxs-lookup"><span data-stu-id="a027d-165">Character sequence</span></span>|<span data-ttu-id="a027d-166">规则</span><span class="sxs-lookup"><span data-stu-id="a027d-166">Rule</span></span>|  
-|------------------------|----------|  
-|<span data-ttu-id="a027d-167">`&#NNN;` （为 ASCII 字符的时为十进制代码）。</span><span class="sxs-lookup"><span data-stu-id="a027d-167">`&#NNN;` (decimal codes for ASCII characters).</span></span>|<span data-ttu-id="a027d-168">解码为指定的 ASCII 字符。</span><span class="sxs-lookup"><span data-stu-id="a027d-168">Decoded as the specified ASCII character.</span></span> <span data-ttu-id="a027d-169">字符序列 # 字符之后开始时的第一个数字，并在分号结束。</span><span class="sxs-lookup"><span data-stu-id="a027d-169">The character sequence starts at the first digit after the # character and finishes at the semicolon.</span></span>|  
-|<span data-ttu-id="a027d-170">`&#xZZ;` （ASCII 字符的十六进制代码）。</span><span class="sxs-lookup"><span data-stu-id="a027d-170">`&#xZZ;` (hexadecimal codes for ASCII characters).</span></span>|<span data-ttu-id="a027d-171">解码为指定的 ASCII 字符。</span><span class="sxs-lookup"><span data-stu-id="a027d-171">Decoded as the specified ASCII character.</span></span> <span data-ttu-id="a027d-172">编码的形式指定使用而不是十进制值的十六进制字符的字符。</span><span class="sxs-lookup"><span data-stu-id="a027d-172">The encoded form specifies the character by using hexadecimal characters instead of a decimal value.</span></span> <span data-ttu-id="a027d-173">字符序列 # 字符之后开始时的第一个数字，并在分号结束。</span><span class="sxs-lookup"><span data-stu-id="a027d-173">The character sequence starts at the first digit after the # character and finishes at the semicolon.</span></span>|  
-|<span data-ttu-id="a027d-174">命名的 HTML 实体。</span><span class="sxs-lookup"><span data-stu-id="a027d-174">Named HTML entities.</span></span>|<span data-ttu-id="a027d-175">解码为等效的 ASCII 字符。</span><span class="sxs-lookup"><span data-stu-id="a027d-175">Decoded as the equivalent ASCII character.</span></span>|  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.ArgumentNullException">
-          <span data-ttu-id="a027d-176">
-            <paramref name="output" /> 为 <see langword="null" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="a027d-176">
-              <paramref name="output" /> is <see langword="null" />.</span>
-          </span>
-        </exception>
-      </Docs>
-    </Member>
-    <Member MemberName="HtmlEncode">
-      <MemberSignature Language="C#" Value="protected internal virtual void HtmlEncode (string value, System.IO.TextWriter output);" />
-      <MemberSignature Language="ILAsm" Value=".method familyorassemblyhidebysig newslot virtual instance void HtmlEncode(string value, class System.IO.TextWriter output) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Web.Util.HttpEncoder.HtmlEncode(System.String,System.IO.TextWriter)" />
-      <MemberSignature Language="VB.NET" Value="Protected Friend Overridable Sub HtmlEncode (value As String, output As TextWriter)" />
-      <MemberSignature Language="C++ CLI" Value="protected public:&#xA; virtual void HtmlEncode(System::String ^ value, System::IO::TextWriter ^ output);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Web</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>System.Web.Services</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="value" Type="System.String" />
-        <Parameter Name="output" Type="System.IO.TextWriter" />
-      </Parameters>
-      <Docs>
-        <param name="value">
-          <span data-ttu-id="a027d-177">要编码的字符串。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="a027d-177">The string to encode.</span>
-          </span>
-        </param>
-        <param name="output">
-          <span data-ttu-id="a027d-178">要将已编码值写入到的文本编写器。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="a027d-178">The text writer to write the encoded value to.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="a027d-179">将字符串编码为 HTML 编码的字符串。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="a027d-179">Encodes a string into an HTML-encoded string.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="a027d-180">下表列出的 ASP.NET 编码逻辑可以解码的字符序列。</span><span class="sxs-lookup"><span data-stu-id="a027d-180">The following table lists the character sequences that the ASP.NET encoding logic can decode.</span></span>  
-  
-|<span data-ttu-id="a027d-181">字符</span><span class="sxs-lookup"><span data-stu-id="a027d-181">Character</span></span>|<span data-ttu-id="a027d-182">编码为</span><span class="sxs-lookup"><span data-stu-id="a027d-182">Encoded as</span></span>|  
-|---------------|----------------|  
-|<span data-ttu-id="a027d-183">`<` （左的尖括号）</span><span class="sxs-lookup"><span data-stu-id="a027d-183">`<` (left angle bracket)</span></span>|`&lt;`|  
-|<span data-ttu-id="a027d-184">`>` （右尖括号）</span><span class="sxs-lookup"><span data-stu-id="a027d-184">`>` (right angle bracket)</span></span>|`&gt;`|  
-|<span data-ttu-id="a027d-185">`"` （双引号）</span><span class="sxs-lookup"><span data-stu-id="a027d-185">`"` (double quotation marks)</span></span>|`&quot;`|  
-|<span data-ttu-id="a027d-186">`&` （and 符）</span><span class="sxs-lookup"><span data-stu-id="a027d-186">`&` (ampersand)</span></span>|`&amp;`|  
-|<span data-ttu-id="a027d-187">`\` （反斜杠）</span><span class="sxs-lookup"><span data-stu-id="a027d-187">`\` (backslash)</span></span>|`&#92;`|  
-|<span data-ttu-id="a027d-188">从 160 到 255 之间的 ASCII 字符</span><span class="sxs-lookup"><span data-stu-id="a027d-188">ASCII characters from 160 to 255</span></span>|<span data-ttu-id="a027d-189">`&#NNN;`其中`NNN`是三位数十进制字符代码</span><span class="sxs-lookup"><span data-stu-id="a027d-189">`&#NNN;`, where `NNN` is the three-digit decimal character code</span></span>|  
-  
- <span data-ttu-id="a027d-190">如果你重写<xref:System.Web.Util.HttpEncoder.HtmlEncode%2A>方法，必须生成输出，则也可以安全中带双引号或单引号的 HTML 特性。</span><span class="sxs-lookup"><span data-stu-id="a027d-190">If you override the <xref:System.Web.Util.HttpEncoder.HtmlEncode%2A> method, you must produce output that is also safe within double-quoted or single-quoted HTML attributes.</span></span> <span data-ttu-id="a027d-191">这样就能适应由 Razor 引擎，其中标记和代码可以结合使用，如分析\<标记 attr ="@value">。</span><span class="sxs-lookup"><span data-stu-id="a027d-191">This accommodates parsing by the Razor engine, where markup and code can be combined, such as \<tag attr="@value">.</span></span> <span data-ttu-id="a027d-192">此外，@ 运算符不是上下文感知型当由 Razor 引擎处理，因此它将调用<xref:System.Web.Util.HttpEncoder.HtmlEncode%2A>而非<xref:System.Web.Util.HttpEncoder.HtmlAttributeEncode%2A>。</span><span class="sxs-lookup"><span data-stu-id="a027d-192">In addition, the @ operator is not context-aware when processed by the Razor engine, therefore it calls <xref:System.Web.Util.HttpEncoder.HtmlEncode%2A> rather than <xref:System.Web.Util.HttpEncoder.HtmlAttributeEncode%2A>.</span></span>  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.ArgumentNullException">
-          <span data-ttu-id="a027d-193">
-            <paramref name="output" /> 为 <see langword="null" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="a027d-193">
-              <paramref name="output" /> is <see langword="null" />.</span>
-          </span>
-        </exception>
-      </Docs>
-    </Member>
-    <Member MemberName="JavaScriptStringEncode">
-      <MemberSignature Language="C#" Value="protected internal virtual string JavaScriptStringEncode (string value);" />
-      <MemberSignature Language="ILAsm" Value=".method familyorassemblyhidebysig newslot virtual instance string JavaScriptStringEncode(string value) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Web.Util.HttpEncoder.JavaScriptStringEncode(System.String)" />
-      <MemberSignature Language="VB.NET" Value="Protected Friend Overridable Function JavaScriptStringEncode (value As String) As String" />
-      <MemberSignature Language="C++ CLI" Value="protected public:&#xA; virtual System::String ^ JavaScriptStringEncode(System::String ^ value);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Web</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.String</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="value" Type="System.String" />
-      </Parameters>
-      <Docs>
-        <param name="value">
-          <span data-ttu-id="a027d-194">要编码的字符串。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="a027d-194">The string to encode.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="a027d-195">对字符串进行编码。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="a027d-195">Encodes a string.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="a027d-196">已编码的字符串。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="a027d-196">An encoded string.</span>
-          </span>
-        </returns>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="a027d-197">URL 编码可确保所有浏览器正确地传输 URL 字符串中的文本。</span><span class="sxs-lookup"><span data-stu-id="a027d-197">URL encoding makes sure that all browsers correctly transmit text in URL strings.</span></span> <span data-ttu-id="a027d-198">如问号 （？）、 and 符 (&)、 斜杠 （/） 和空格的字符可能截断，或某些浏览器已损坏。</span><span class="sxs-lookup"><span data-stu-id="a027d-198">Characters such as a question mark (?), ampersand (&), slash (/), and spaces might be truncated or corrupted by some browsers.</span></span> <span data-ttu-id="a027d-199">因此，必须对这些字符进行编码。</span><span class="sxs-lookup"><span data-stu-id="a027d-199">Therefore, these characters must be encoded.</span></span>  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="UrlEncode">
-      <MemberSignature Language="C#" Value="protected internal virtual byte[] UrlEncode (byte[] bytes, int offset, int count);" />
-      <MemberSignature Language="ILAsm" Value=".method familyorassemblyhidebysig newslot virtual instance unsigned int8[] UrlEncode(unsigned int8[] bytes, int32 offset, int32 count) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Web.Util.HttpEncoder.UrlEncode(System.Byte[],System.Int32,System.Int32)" />
-      <MemberSignature Language="VB.NET" Value="Protected Friend Overridable Function UrlEncode (bytes As Byte(), offset As Integer, count As Integer) As Byte()" />
-      <MemberSignature Language="C++ CLI" Value="protected public:&#xA; virtual cli::array &lt;System::Byte&gt; ^ UrlEncode(cli::array &lt;System::Byte&gt; ^ bytes, int offset, int count);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Web</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>System.Web.Services</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Byte[]</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="bytes" Type="System.Byte[]" />
-        <Parameter Name="offset" Type="System.Int32" />
-        <Parameter Name="count" Type="System.Int32" />
-      </Parameters>
-      <Docs>
-        <param name="bytes">
-          <span data-ttu-id="a027d-200">要编码的字节数组。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="a027d-200">An array of bytes to encode.</span>
-          </span>
-        </param>
-        <param name="offset">
-          <span data-ttu-id="a027d-201">
-            <c>bytes</c> 数组中开始编码的位置。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="a027d-201">The position in the <c>bytes</c> array at which to begin encoding.</span>
-          </span>
-        </param>
-        <param name="count">
-          <span data-ttu-id="a027d-202">
-            <c>bytes</c> 数组中要编码的项数。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="a027d-202">The number of items in the <c>bytes</c> array to encode.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="a027d-203">将 URL 中不允许使用的字符数组编码为等效十六进制字符实体。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="a027d-203">Encodes an array of characters that are not allowed in a URL into a hexadecimal character-entity equivalent.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="a027d-204">已编码字符的数组。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="a027d-204">An array of encoded characters.</span>
-          </span>
-        </returns>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="a027d-205"><xref:System.Web.Util.HttpEncoder.UrlEncode%2A>方法由多个 URL 编码方法中调用<xref:System.Web.HttpUtility>类。</span><span class="sxs-lookup"><span data-stu-id="a027d-205">The <xref:System.Web.Util.HttpEncoder.UrlEncode%2A> method is called by several URL encoding methods in the <xref:System.Web.HttpUtility> class.</span></span>  
-  
- <span data-ttu-id="a027d-206"><xref:System.Web.Util.HttpEncoder.UrlEncode%2A>进行 URL 编码不是组的 ASCII 字符的任何字符被视为可 URL 安全的方法。</span><span class="sxs-lookup"><span data-stu-id="a027d-206">The <xref:System.Web.Util.HttpEncoder.UrlEncode%2A> method URL-encodes any character that is not in the set of ASCII characters that is considered to be URL-safe.</span></span> <span data-ttu-id="a027d-207">空格被编码为 ASCII"`+"`字符。</span><span class="sxs-lookup"><span data-stu-id="a027d-207">Spaces are encoded as the ASCII "`+"` character.</span></span> <span data-ttu-id="a027d-208">URL 安全 ASCII 字符包括 ASCI 字符 (A 到 Z 和一个到 z)，数字 (0 到 9)，以及某些标点符号。</span><span class="sxs-lookup"><span data-stu-id="a027d-208">URL-safe ASCII characters include the ASCI characters (A to Z and a to z), numerals (0 to 9), and some punctuation marks.</span></span> <span data-ttu-id="a027d-209">下表列出被视为 URL 安全 ASCII 字符的标点符号。</span><span class="sxs-lookup"><span data-stu-id="a027d-209">The following table lists the punctuation marks that are considered URL-safe ASCII characters.</span></span>  
-  
-|<span data-ttu-id="a027d-210">字符</span><span class="sxs-lookup"><span data-stu-id="a027d-210">Character</span></span>|<span data-ttu-id="a027d-211">描述</span><span class="sxs-lookup"><span data-stu-id="a027d-211">Description</span></span>|  
-|---------------|-----------------|  
-|-|<span data-ttu-id="a027d-212">连字符</span><span class="sxs-lookup"><span data-stu-id="a027d-212">Hyphen</span></span>|  
-|<span data-ttu-id="a027d-213">_</span><span class="sxs-lookup"><span data-stu-id="a027d-213">_</span></span>|<span data-ttu-id="a027d-214">下划线</span><span class="sxs-lookup"><span data-stu-id="a027d-214">Underscore</span></span>|  
-|<span data-ttu-id="a027d-215">.</span><span class="sxs-lookup"><span data-stu-id="a027d-215">.</span></span>|<span data-ttu-id="a027d-216">期间 （点）</span><span class="sxs-lookup"><span data-stu-id="a027d-216">Period (dot)</span></span>|  
-|<span data-ttu-id="a027d-217">!</span><span class="sxs-lookup"><span data-stu-id="a027d-217">!</span></span>|<span data-ttu-id="a027d-218">感叹号</span><span class="sxs-lookup"><span data-stu-id="a027d-218">Exclamation mark</span></span>|  
-|*|<span data-ttu-id="a027d-219">星号 （\*）</span><span class="sxs-lookup"><span data-stu-id="a027d-219">Asterisk (star)</span></span>|  
-|<span data-ttu-id="a027d-220">(</span><span class="sxs-lookup"><span data-stu-id="a027d-220">(</span></span>|<span data-ttu-id="a027d-221">左括号</span><span class="sxs-lookup"><span data-stu-id="a027d-221">Opening parenthesis</span></span>|  
-|<span data-ttu-id="a027d-222">)</span><span class="sxs-lookup"><span data-stu-id="a027d-222">)</span></span>|<span data-ttu-id="a027d-223">右括号</span><span class="sxs-lookup"><span data-stu-id="a027d-223">Closing parenthesis</span></span>|  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.ArgumentOutOfRangeException">
-          <span data-ttu-id="a027d-224">
-            <paramref name="offset" /> 小于零或大于 <paramref name="bytes" /> 数组的长度。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="a027d-224">
-              <paramref name="offset" /> is less than zero or greater than the length of the <paramref name="bytes" /> array.</span>
-          </span>
-          <span data-ttu-id="a027d-225">或</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="a027d-225">-or-</span>
-          </span>
-          <span data-ttu-id="a027d-226">
-            <paramref name="count" /> 小于零或 <paramref name="count" /> 加上 <paramref name="offset" /> 大于 <paramref name="bytes" /> 数组的长度。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="a027d-226">
-              <paramref name="count" /> is less than zero or <paramref name="count" /> plus <paramref name="offset" /> is greater than the length of the <paramref name="bytes" /> array.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.ArgumentNullException">
-          <span data-ttu-id="a027d-227">
-            <paramref name="bytes" /> 为 <see langword="null" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="a027d-227">
-              <paramref name="bytes" /> is <see langword="null" />.</span>
-          </span>
-        </exception>
-      </Docs>
-    </Member>
-    <Member MemberName="UrlPathEncode">
-      <MemberSignature Language="C#" Value="protected internal virtual string UrlPathEncode (string value);" />
-      <MemberSignature Language="ILAsm" Value=".method familyorassemblyhidebysig newslot virtual instance string UrlPathEncode(string value) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Web.Util.HttpEncoder.UrlPathEncode(System.String)" />
-      <MemberSignature Language="VB.NET" Value="Protected Friend Overridable Function UrlPathEncode (value As String) As String" />
-      <MemberSignature Language="C++ CLI" Value="protected public:&#xA; virtual System::String ^ UrlPathEncode(System::String ^ value);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Web</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>System.Web.Services</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.String</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="value" Type="System.String" />
-      </Parameters>
-      <Docs>
-        <param name="value">
-          <span data-ttu-id="a027d-228">要编码的字符串。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="a027d-228">The string to encode.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="a027d-229">对 URL 的子节进行编码。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="a027d-229">Encodes a subsection of a URL.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="a027d-230">URL 编码的字符串。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="a027d-230">A URL-encoded string.</span>
-          </span>
-        </returns>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="a027d-231"><xref:System.Web.Util.HttpEncoder.UrlPathEncode%2A> 方法由 <xref:System.Web.HttpUtility.UrlPathEncode%2A> 方法调用。</span><span class="sxs-lookup"><span data-stu-id="a027d-231">The <xref:System.Web.Util.HttpEncoder.UrlPathEncode%2A> method is called by the <xref:System.Web.HttpUtility.UrlPathEncode%2A> method.</span></span> <span data-ttu-id="a027d-232"><xref:System.Web.HttpUtility.UrlPathEncode%2A>方法执行以下步骤：</span><span class="sxs-lookup"><span data-stu-id="a027d-232">The <xref:System.Web.HttpUtility.UrlPathEncode%2A> method performs the following steps:</span></span>  
-  
--   <span data-ttu-id="a027d-233">适用的编码逻辑<xref:System.Web.Util.HttpEncoder.UrlPathEncode%2A>到的 URL (不包括查询字符串） 的路径部分的方法。</span><span class="sxs-lookup"><span data-stu-id="a027d-233">Applies the encoding logic of the <xref:System.Web.Util.HttpEncoder.UrlPathEncode%2A> method to only the path part of the URL (which excludes the query string).</span></span> <span data-ttu-id="a027d-234">该方法假定 URL 被编码为 utf-8 字符串。</span><span class="sxs-lookup"><span data-stu-id="a027d-234">The method assumes that the URL is encoded as a UTF-8 string.</span></span>  
-  
--   <span data-ttu-id="a027d-235">将非空格编码以便在生成编码的字符串中使用的前 128 个 ASCII 字符的一个子集。</span><span class="sxs-lookup"><span data-stu-id="a027d-235">Encodes non-spaces so that only a subset of the first 128 ASCII characters is used in the resulting encoded string.</span></span> <span data-ttu-id="a027d-236">在 Unicode 值 128 和更高版本或 32 且小于，任何字符是 URL 编码。</span><span class="sxs-lookup"><span data-stu-id="a027d-236">Any characters at Unicode value 128 and greater, or 32 and less, are URL-encoded.</span></span>  
-  
--   <span data-ttu-id="a027d-237">将空格编码为 %20。</span><span class="sxs-lookup"><span data-stu-id="a027d-237">Encodes spaces as %20.</span></span>  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-  </Members>
-</Type>
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.2" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 xliff-core-1.2-transitional.xsd">
+  <file datatype="xml" original="HttpEncoder.xml" source-language="en-US" target-language="zh-CN">
+    <header>
+      <tool tool-id="mdxliff" tool-name="mdxliff" tool-version="1.0-15c36f0" tool-company="Microsoft" />
+      <xliffext:skl_file_name xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">02cd5861-7ce2-4a82-b358-31f8435a0ac54e35efb72622eb52376091974f022482dc3d28df.skl</xliffext:skl_file_name>
+      <xliffext:version xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">1.2</xliffext:version>
+      <xliffext:ms.openlocfilehash xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">4e35efb72622eb52376091974f022482dc3d28df</xliffext:ms.openlocfilehash>
+      <xliffext:ms.sourcegitcommit xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b</xliffext:ms.sourcegitcommit>
+      <xliffext:ms.lasthandoff xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">04/03/2018</xliffext:ms.lasthandoff>
+      <xliffext:moniker_ids xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">netframework-4.5.1,netframework-4.5.2,netframework-4.5,netframework-4.6.1,netframework-4.6.2,netframework-4.6,netframework-4.7.1,netframework-4.7,xamarinandroid-7.1,xamarinios-10.8,xamarinmac-3.0</xliffext:moniker_ids>
+    </header>
+    <body>
+      <group id="content" extype="content">
+        <trans-unit id="101" translate="yes" xml:space="preserve" uid="T:System.Web.Util.HttpEncoder">
+          <source>Provides encoding and decoding logic.</source>
+          <target state="translated">提供编码和解码逻辑。</target>       </trans-unit>
+        <trans-unit id="102" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Web.Util.HttpEncoder">
+          <source>The class contains encoding and decoding logic that is used by methods in classes such as <ph id="ph1">&lt;xref:System.Web.HttpUtility&gt;</ph>, <ph id="ph2">&lt;xref:System.Web.HttpServerUtility&gt;</ph>, and <ph id="ph3">&lt;xref:System.Net.HttpResponseHeader&gt;</ph>.</source>
+          <target state="translated">类包含编码和解码类中的方法使用如的逻辑<ph id="ph1">&lt;xref:System.Web.HttpUtility&gt;</ph>， <ph id="ph2">&lt;xref:System.Web.HttpServerUtility&gt;</ph>，和<ph id="ph3">&lt;xref:System.Net.HttpResponseHeader&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="103" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Web.Util.HttpEncoder">
+          <source>You can inherit from the <ph id="ph1">&lt;xref:System.Web.Util.HttpEncoder&gt;</ph> class and override its behavior to customize the default encoding and decoding behavior of ASP.NET.</source>
+          <target state="translated">可以从继承<ph id="ph1">&lt;xref:System.Web.Util.HttpEncoder&gt;</ph>类并重写其行为以进行自定义默认编码和解码的 ASP.NET 的行为。</target>       </trans-unit>
+        <trans-unit id="104" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Web.Util.HttpEncoder">
+          <source>You then set the <ph id="ph1">&lt;xref:System.Web.Configuration.HttpRuntimeSection.EncoderType%2A&gt;</ph> property of the <ph id="ph2">&lt;xref:System.Web.Configuration.HttpRuntimeSection&gt;</ph> class to configure your custom class.</source>
+          <target state="translated">然后设置<ph id="ph1">&lt;xref:System.Web.Configuration.HttpRuntimeSection.EncoderType%2A&gt;</ph>属性<ph id="ph2">&lt;xref:System.Web.Configuration.HttpRuntimeSection&gt;</ph>类来配置自定义类。</target>       </trans-unit>
+        <trans-unit id="105" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Web.Util.HttpEncoder">
+          <source>A custom class for encoding and decoding that derives from <ph id="ph1">&lt;xref:System.Web.Util.HttpEncoder&gt;</ph> can override the built-in ASP.NET encoding and decoding behavior or change only selected aspects of it.</source>
+          <target state="translated">用于编码和解码的自定义类派生自<ph id="ph1">&lt;xref:System.Web.Util.HttpEncoder&gt;</ph>可以重写内置 ASP.NET 编码和解码行为或仅选择改变它的方面。</target>       </trans-unit>
+        <trans-unit id="106" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Web.Util.HttpEncoder">
+          <source>You can configure the custom encoding type for in ASP.NET to replace or supplement the following encoding behavior:</source>
+          <target state="translated">你可以在 ASP.NET 中来替换或补充以下编码行为配置的自定义编码类型：</target>       </trans-unit>
+        <trans-unit id="107" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Web.Util.HttpEncoder">
+          <source>HTML encoding</source>
+          <target state="translated">HTML 编码</target>       </trans-unit>
+        <trans-unit id="108" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Web.Util.HttpEncoder">
+          <source>HTML attribute encoding</source>
+          <target state="translated">HTML 特性编码</target>       </trans-unit>
+        <trans-unit id="109" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Web.Util.HttpEncoder">
+          <source>URL encoding</source>
+          <target state="translated">URL 编码</target>       </trans-unit>
+        <trans-unit id="110" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Web.Util.HttpEncoder">
+          <source>URL path encoding</source>
+          <target state="translated">URL 路径编码</target>       </trans-unit>
+        <trans-unit id="111" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Web.Util.HttpEncoder">
+          <source>HTTP header name and header value encoding</source>
+          <target state="translated">HTTP 标头名称和标头值编码</target>       </trans-unit>
+        <trans-unit id="112" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Web.Util.HttpEncoder">
+          <source>By default, ASP.NET applications are configured to use the <ph id="ph1">&lt;xref:System.Web.Security.AntiXss.AntiXssEncoder&gt;</ph> type for all output encoding.</source>
+          <target state="translated">默认情况下，ASP.NET 应用程序配置为使用<ph id="ph1">&lt;xref:System.Web.Security.AntiXss.AntiXssEncoder&gt;</ph>键入对于所有输出编码。</target>       </trans-unit>
+        <trans-unit id="113" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Web.Util.HttpEncoder">
+          <source>The following example from an application-level Web.config file shows how the <ph id="ph1">&lt;xref:System.Web.Security.AntiXss.AntiXssEncoder&gt;</ph> type is set for an ASP.NET application:</source>
+          <target state="translated">下面的示例应用程序级 Web.config 文件所示如何<ph id="ph1">&lt;xref:System.Web.Security.AntiXss.AntiXssEncoder&gt;</ph>类型设置 ASP.NET 应用程序：</target>       </trans-unit>
+        <trans-unit id="114" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Web.Util.HttpEncoder">
+          <source>The configuration setting in the example sets the <ph id="ph1">&lt;xref:System.Web.Security.AntiXss.AntiXssEncoder&gt;</ph> class to perform all output encoding in the application.</source>
+          <target state="translated">中的示例设置的配置设置<ph id="ph1">&lt;xref:System.Web.Security.AntiXss.AntiXssEncoder&gt;</ph>类来执行所有输出应用程序中的编码。</target>       </trans-unit>
+        <trans-unit id="115" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Web.Util.HttpEncoder">
+          <source>For more information, see the <ph id="ph1">&lt;xref:System.Web.Security.AntiXss.AntiXssEncoder&gt;</ph> class overview.</source>
+          <target state="translated">有关详细信息，请参阅<ph id="ph1">&lt;xref:System.Web.Security.AntiXss.AntiXssEncoder&gt;</ph>类概述。</target>       </trans-unit>
+        <trans-unit id="116" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Web.Util.HttpEncoder">
+          <source>When you create a custom encoder class and override the base methods of the base class, the derived encoder might throw an exception from any of the overridden methods.</source>
+          <target state="translated">你创建一个自定义编码器类后，重写基方法的基类时派生的编码器可能会引发任何重写方法中的发生异常。</target>       </trans-unit>
+        <trans-unit id="117" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Web.Util.HttpEncoder">
+          <source>However, in the following cases throwing such an exception could lead to unexpected behavior in ASP.NET:</source>
+          <target state="translated">但是，在以下情况下引发此异常可能导致在 ASP.NET 中的意外行为：</target>       </trans-unit>
+        <trans-unit id="118" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Web.Util.HttpEncoder">
+          <source>If ASP.NET is rendering an error page that is caused by an unhandled exception that was thrown from a custom encoder, ASP.NET does not attempt to encode its error output by calling into the custom encoder.</source>
+          <target state="translated">如果 ASP.NET 呈现引起未经处理的异常自定义编码器引发一个错误页面，ASP.NET 将不会尝试通过调入自定义编码器编码其错误输出。</target>       </trans-unit>
+        <trans-unit id="119" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Web.Util.HttpEncoder">
+          <source>This avoids recursive error conditions.</source>
+          <target state="translated">这样就避免了递归错误条件。</target>       </trans-unit>
+        <trans-unit id="120" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Web.Util.HttpEncoder">
+          <source>When ASP.NET is sending HTTP headers to IIS, ASP.NET has no provision for unhandled exceptions.</source>
+          <target state="translated">ASP.NET 向 IIS 发送 HTTP 标头时, ASP.NET 将有没有硬性要求未经处理的异常。</target>       </trans-unit>
+        <trans-unit id="121" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Web.Util.HttpEncoder">
+          <source>Therefore, the standard ASP.NET error page will be rendered (if configuration settings allows this page to be displayed).</source>
+          <target state="translated">因此，（如果配置设置允许此页后，可以显示），则将呈现标准的 ASP.NET 错误页。</target>       </trans-unit>
+        <trans-unit id="122" translate="yes" xml:space="preserve" uid="M:System.Web.Util.HttpEncoder.#ctor">
+          <source>Initializes a new instance of the <ph id="ph1">&lt;see cref="T:System.Web.Util.HttpEncoder" /&gt;</ph> class.</source>
+          <target state="translated">初始化 <ph id="ph1">&lt;see cref="T:System.Web.Util.HttpEncoder" /&gt;</ph> 类的新实例。</target>       </trans-unit>
+        <trans-unit id="123" translate="yes" xml:space="preserve" uid="P:System.Web.Util.HttpEncoder.Current">
+          <source>Gets or set the <ph id="ph1">&lt;see cref="T:System.Web.Util.HttpEncoder" /&gt;</ph> type that will be used in an application.</source>
+          <target state="translated">获取或设置将在应用程序中使用的 <ph id="ph1">&lt;see cref="T:System.Web.Util.HttpEncoder" /&gt;</ph> 类型。</target>       </trans-unit>
+        <trans-unit id="124" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Web.Util.HttpEncoder.Current">
+          <source>A reference to the encoder/decoder type that will be used.</source>
+          <target state="translated">对将要使用的编码器/解码器类型的引用。</target>       </trans-unit>
+        <trans-unit id="125" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Web.Util.HttpEncoder.Current">
+          <source>If a derived <ph id="ph1">&lt;xref:System.Web.Util.HttpEncoder&gt;</ph> type is specified in the configuration file, the <ph id="ph2">&lt;xref:System.Web.Util.HttpEncoder.Current%2A&gt;</ph> property returns a reference to the custom type.</source>
+          <target state="translated">如果派生<ph id="ph1">&lt;xref:System.Web.Util.HttpEncoder&gt;</ph>在配置文件中，指定类型<ph id="ph2">&lt;xref:System.Web.Util.HttpEncoder.Current%2A&gt;</ph>属性返回对自定义类型的引用。</target>       </trans-unit>
+        <trans-unit id="126" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Web.Util.HttpEncoder.Current">
+          <source>However, if no custom encoder is used, the property returns a reference to the default ASP.NET <ph id="ph1">&lt;xref:System.Web.Util.HttpEncoder&gt;</ph> instance.</source>
+          <target state="translated">但是，如果使用没有自定义编码器，则该属性将返回对默认 ASP.NET 的引用<ph id="ph1">&lt;xref:System.Web.Util.HttpEncoder&gt;</ph>实例。</target>       </trans-unit>
+        <trans-unit id="127" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Web.Util.HttpEncoder.Current">
+          <source>The <ph id="ph1">&lt;xref:System.Web.Util.HttpEncoder.Current%2A&gt;</ph> property is not thread-safe.</source>
+          <target state="translated"><ph id="ph1">&lt;xref:System.Web.Util.HttpEncoder.Current%2A&gt;</ph>属性不是线程安全。</target>       </trans-unit>
+        <trans-unit id="128" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Web.Util.HttpEncoder.Current">
+          <source>Set this property only in the application's <ph id="ph1">`Application_Start`</ph> method, because <ph id="ph2">`Application_Start`</ph> runs on a single thread.</source>
+          <target state="translated">将此属性设置仅在应用程序的<ph id="ph1">`Application_Start`</ph>方法，因为<ph id="ph2">`Application_Start`</ph>在单个线程上运行。</target>       </trans-unit>
+        <trans-unit id="129" translate="yes" xml:space="preserve" uid="P:System.Web.Util.HttpEncoder.Current">
+          <source>The encoder instance that is being assigned to this property is <ph id="ph1">&lt;see langword="null" /&gt;</ph>.</source>
+          <target state="translated">分配给此属性的编码器实例是 <ph id="ph1">&lt;see langword="null" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="130" translate="yes" xml:space="preserve" uid="P:System.Web.Util.HttpEncoder.Default">
+          <source>Gets a reference to the default encoder for ASP.NET.</source>
+          <target state="translated">获取对 ASP.NET 的默认编码器的引用。</target>       </trans-unit>
+        <trans-unit id="131" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Web.Util.HttpEncoder.Default">
+          <source>A reference to the default encoder.</source>
+          <target state="translated">对默认编码器的引用。</target>       </trans-unit>
+        <trans-unit id="132" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Web.Util.HttpEncoder.Default">
+          <source>A common encoding issue is that the default ASP.NET <ph id="ph1">&lt;xref:System.Web.Util.HttpEncoder.UrlEncode%2A&gt;</ph> behavior converts spaces into the "+" character.</source>
+          <target state="translated">常见的编码问题在于默认 ASP.NET<ph id="ph1">&lt;xref:System.Web.Util.HttpEncoder.UrlEncode%2A&gt;</ph>行为将空间转换为"+"字符。</target>       </trans-unit>
+        <trans-unit id="133" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Web.Util.HttpEncoder.Default">
+          <source>Historically, the "+" character has been an Internet convention for encoding space characters in a URL into a more human-readable manner.</source>
+          <target state="translated">从历史上看，"+"字符已成为 Internet 约定，在 URL 中的空格字符编码到更易于阅读的方式。</target>       </trans-unit>
+        <trans-unit id="134" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Web.Util.HttpEncoder.Default">
+          <source>However, according to standards, the space character is supposed to be encoded as "%20" and instead of as the "+" character.</source>
+          <target state="translated">但是，根据标准，空格字符应为"%20"和而不是编码为"+"字符。</target>       </trans-unit>
+        <trans-unit id="135" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Web.Util.HttpEncoder.Default">
+          <source>ASP.NET lets you implement a more standards compliant encoding algorithm.</source>
+          <target state="translated">ASP.NET 使您可以实现更多的标准符合编码算法。</target>       </trans-unit>
+        <trans-unit id="136" translate="yes" xml:space="preserve" uid="M:System.Web.Util.HttpEncoder.HeaderNameValueEncode(System.String,System.String,System.String@,System.String@)">
+          <source>The HTTP header name to encode.</source>
+          <target state="translated">要编码的 HTTP 标头名称。</target>       </trans-unit>
+        <trans-unit id="137" translate="yes" xml:space="preserve" uid="M:System.Web.Util.HttpEncoder.HeaderNameValueEncode(System.String,System.String,System.String@,System.String@)">
+          <source>The HTTP header value to encode.</source>
+          <target state="translated">要编码的 HTTP 标头值。</target>       </trans-unit>
+        <trans-unit id="138" translate="yes" xml:space="preserve" uid="M:System.Web.Util.HttpEncoder.HeaderNameValueEncode(System.String,System.String,System.String@,System.String@)">
+          <source>When this method returns, contains the encoded name to use for an HTTP header.</source>
+          <target state="translated">当此方法返回时，返回值包含要用于 HTTP 标头的已编码名称。</target>       </trans-unit>
+        <trans-unit id="139" translate="yes" xml:space="preserve" uid="M:System.Web.Util.HttpEncoder.HeaderNameValueEncode(System.String,System.String,System.String@,System.String@)">
+          <source>This parameter is passed uninitialized.</source>
+          <target state="translated">此参数未经初始化即被传递。</target>       </trans-unit>
+        <trans-unit id="140" translate="yes" xml:space="preserve" uid="M:System.Web.Util.HttpEncoder.HeaderNameValueEncode(System.String,System.String,System.String@,System.String@)">
+          <source>When this method returns, contains the encoded value to use for an HTTP header.</source>
+          <target state="translated">当此方法返回时，返回值包含要用于 HTTP 标头的已编码值。</target>       </trans-unit>
+        <trans-unit id="141" translate="yes" xml:space="preserve" uid="M:System.Web.Util.HttpEncoder.HeaderNameValueEncode(System.String,System.String,System.String@,System.String@)">
+          <source>This parameter is passed uninitialized.</source>
+          <target state="translated">此参数未经初始化即被传递。</target>       </trans-unit>
+        <trans-unit id="142" translate="yes" xml:space="preserve" uid="M:System.Web.Util.HttpEncoder.HeaderNameValueEncode(System.String,System.String,System.String@,System.String@)">
+          <source>Encodes a header name and value into a string that can be used as an HTTP header.</source>
+          <target state="translated">将标头名称和值编码为可用作 HTTP 标头的字符串。</target>       </trans-unit>
+        <trans-unit id="143" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.Util.HttpEncoder.HeaderNameValueEncode(System.String,System.String,System.String@,System.String@)">
+          <source>The <ph id="ph1">&lt;xref:System.Web.Util.HttpEncoder.HeaderNameValueEncode%2A&gt;</ph> method takes input strings from the <ph id="ph2">`headerName`</ph> and <ph id="ph3">`headerValue`</ph> parameters and encodes them.</source>
+          <target state="translated"><ph id="ph1">&lt;xref:System.Web.Util.HttpEncoder.HeaderNameValueEncode%2A&gt;</ph>方法采用从输入的字符串<ph id="ph2">`headerName`</ph>和<ph id="ph3">`headerValue`</ph>参数并对它们进行编码。</target>       </trans-unit>
+        <trans-unit id="144" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.Util.HttpEncoder.HeaderNameValueEncode(System.String,System.String,System.String@,System.String@)">
+          <source>The encoded values are returned as out parameters.</source>
+          <target state="translated">将编码的值作为输出参数返回。</target>       </trans-unit>
+        <trans-unit id="145" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.Util.HttpEncoder.HeaderNameValueEncode(System.String,System.String,System.String@,System.String@)">
+          <source>The <ph id="ph1">&lt;xref:System.Web.Util.HttpEncoder.HeaderNameValueEncode%2A&gt;</ph> method uses the following logic to encode header names and values:</source>
+          <target state="translated"><ph id="ph1">&lt;xref:System.Web.Util.HttpEncoder.HeaderNameValueEncode%2A&gt;</ph>方法使用以下逻辑进行编码标头名称和值：</target>       </trans-unit>
+        <trans-unit id="146" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.Util.HttpEncoder.HeaderNameValueEncode(System.String,System.String,System.String@,System.String@)">
+          <source>All characters whose Unicode value is less than ASCII character 32, except ASCII character 9, are URL-encoded into a format of <ph id="ph1">`%NN`</ph> where the <ph id="ph2">`N`</ph> characters represent hexadecimal values.</source>
+          <target state="translated">其 Unicode 值小于 ASCII 字符 32，除 ASCII 字符 9，以外的所有字符都是 URL 编码到的格式为<ph id="ph1">`%NN`</ph>其中<ph id="ph2">`N`</ph>字符表示十六进制值。</target>       </trans-unit>
+        <trans-unit id="147" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.Util.HttpEncoder.HeaderNameValueEncode(System.String,System.String,System.String@,System.String@)">
+          <source>ASCII character 9 (the horizontal tab character) is not URL-encoded.</source>
+          <target state="translated">ASCII 字符 9 （水平制表符） 不是 URL 编码。</target>       </trans-unit>
+        <trans-unit id="148" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.Util.HttpEncoder.HeaderNameValueEncode(System.String,System.String,System.String@,System.String@)">
+          <source>ASCII character 127 is encoded as <ph id="ph1">`%7F`</ph>.</source>
+          <target state="translated">ASCII 字符 127 编码为<ph id="ph1">`%7F`</ph>。</target>       </trans-unit>
+        <trans-unit id="149" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.Util.HttpEncoder.HeaderNameValueEncode(System.String,System.String,System.String@,System.String@)">
+          <source>All other characters are not encoded.</source>
+          <target state="translated">所有其他字符编码。</target>       </trans-unit>
+        <trans-unit id="150" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.Util.HttpEncoder.HeaderNameValueEncode(System.String,System.String,System.String@,System.String@)">
+          <source>Although this method can be used for Unicode values, it is typically used for values in the ASCII range.</source>
+          <target state="translated">尽管此方法可以用于 Unicode 值，它通常用于 ASCII 范围内的值。</target>       </trans-unit>
+        <trans-unit id="151" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.Util.HttpEncoder.HeaderNameValueEncode(System.String,System.String,System.String@,System.String@)">
+          <source>The default implementation of the <ph id="ph1">&lt;xref:System.Web.Util.HttpEncoder.HeaderNameValueEncode%2A&gt;</ph> method returns the value of <ph id="ph2">`headerValue`</ph> in <ph id="ph3">`encodedHeaderValue`</ph> if <ph id="ph4">`headerValue`</ph> is <ph id="ph5">`null`</ph> or is an empty string.</source>
+          <target state="translated">默认实现<ph id="ph1">&lt;xref:System.Web.Util.HttpEncoder.HeaderNameValueEncode%2A&gt;</ph>方法返回的值<ph id="ph2">`headerValue`</ph>中<ph id="ph3">`encodedHeaderValue`</ph>如果<ph id="ph4">`headerValue`</ph>是<ph id="ph5">`null`</ph>或为空字符串。</target>       </trans-unit>
+        <trans-unit id="152" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.Util.HttpEncoder.HeaderNameValueEncode(System.String,System.String,System.String@,System.String@)">
+          <source>Similarly, the default implementation returns the value of <ph id="ph1">`headerName`</ph> in <ph id="ph2">`encodedHeaderName`</ph> if <ph id="ph3">`headerName`</ph> is <ph id="ph4">`null`</ph> or is an empty string.</source>
+          <target state="translated">同样，默认实现返回的值<ph id="ph1">`headerName`</ph>中<ph id="ph2">`encodedHeaderName`</ph>如果<ph id="ph3">`headerName`</ph>是<ph id="ph4">`null`</ph>或为空字符串。</target>       </trans-unit>
+        <trans-unit id="153" translate="yes" xml:space="preserve" uid="M:System.Web.Util.HttpEncoder.HtmlAttributeEncode(System.String,System.IO.TextWriter)">
+          <source>The string to encode.</source>
+          <target state="translated">要编码的字符串。</target>       </trans-unit>
+        <trans-unit id="154" translate="yes" xml:space="preserve" uid="M:System.Web.Util.HttpEncoder.HtmlAttributeEncode(System.String,System.IO.TextWriter)">
+          <source>The text writer to write the encoded value to.</source>
+          <target state="translated">要将已编码值写入到的文本编写器。</target>       </trans-unit>
+        <trans-unit id="155" translate="yes" xml:space="preserve" uid="M:System.Web.Util.HttpEncoder.HtmlAttributeEncode(System.String,System.IO.TextWriter)">
+          <source>Encodes an incoming value into a string that can be inserted into an HTML attribute that is delimited by using single or double quotation marks.</source>
+          <target state="translated">将传入值编码为可插入 HTML 特性（由单引号或双引号分隔）的字符串。</target>       </trans-unit>
+        <trans-unit id="156" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.Util.HttpEncoder.HtmlAttributeEncode(System.String,System.IO.TextWriter)">
+          <source>The <ph id="ph1">&lt;xref:System.Web.Util.HttpEncoder.HtmlAttributeEncode%2A&gt;</ph> method encodes characters by using the standard HTML entities.</source>
+          <target state="translated"><ph id="ph1">&lt;xref:System.Web.Util.HttpEncoder.HtmlAttributeEncode%2A&gt;</ph>方法通过使用标准的 HTML 实体编码字符。</target>       </trans-unit>
+        <trans-unit id="157" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.Util.HttpEncoder.HtmlAttributeEncode(System.String,System.IO.TextWriter)">
+          <source>For example, the <ph id="ph1">`&lt;`</ph> (left angle bracket) is encoded as <ph id="ph2">`&amp;lt;`</ph> and the <ph id="ph3">`\`</ph> (backslash) is encoded as <ph id="ph4">`&amp;#92;`</ph>.</source>
+          <target state="translated">例如， <ph id="ph1">`&lt;`</ph> （左的尖括号） 编码为<ph id="ph2">`&amp;lt;`</ph>和<ph id="ph3">`\`</ph>（反斜杠） 编码为<ph id="ph4">`&amp;#92;`</ph>。</target>       </trans-unit>
+        <trans-unit id="158" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.Util.HttpEncoder.HtmlAttributeEncode(System.String,System.IO.TextWriter)">
+          <source>It is safe to use <ph id="ph1">&lt;xref:System.Web.Util.HttpEncoder.HtmlAttributeEncode%2A&gt;</ph> within single-quoted and double-quoted attributes.</source>
+          <target state="translated">则可以安全地使用<ph id="ph1">&lt;xref:System.Web.Util.HttpEncoder.HtmlAttributeEncode%2A&gt;</ph>单引号和双引号括起来属性中。</target>       </trans-unit>
+        <trans-unit id="159" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.Util.HttpEncoder.HtmlAttributeEncode(System.String,System.IO.TextWriter)">
+          <source>The values must be quoted.</source>
+          <target state="translated">值必须用引号引起来。</target>       </trans-unit>
+        <trans-unit id="160" translate="yes" xml:space="preserve" uid="M:System.Web.Util.HttpEncoder.HtmlAttributeEncode(System.String,System.IO.TextWriter)">
+          <source><ph id="ph1">&lt;paramref name="output" /&gt;</ph> is <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="output" /&gt;</ph> 为 <ph id="ph2">&lt;see langword="null" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="161" translate="yes" xml:space="preserve" uid="M:System.Web.Util.HttpEncoder.HtmlDecode(System.String,System.IO.TextWriter)">
+          <source>The string to decode.</source>
+          <target state="translated">要解码的字符串。</target>       </trans-unit>
+        <trans-unit id="162" translate="yes" xml:space="preserve" uid="M:System.Web.Util.HttpEncoder.HtmlDecode(System.String,System.IO.TextWriter)">
+          <source>The text writer to write the decoded value to.</source>
+          <target state="translated">要将已解码值写入到的文本编写器。</target>       </trans-unit>
+        <trans-unit id="163" translate="yes" xml:space="preserve" uid="M:System.Web.Util.HttpEncoder.HtmlDecode(System.String,System.IO.TextWriter)">
+          <source>Decodes a value from an HTML-encoded string.</source>
+          <target state="translated">解码 HTML 编码的字符串中的值。</target>       </trans-unit>
+        <trans-unit id="164" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.Util.HttpEncoder.HtmlDecode(System.String,System.IO.TextWriter)">
+          <source>The following table lists the character sequences that the ASP.NET decoding logic can decode.</source>
+          <target state="translated">下表列出的 ASP.NET 解码逻辑可以解码的字符序列。</target>       </trans-unit>
+        <trans-unit id="165" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.Util.HttpEncoder.HtmlDecode(System.String,System.IO.TextWriter)">
+          <source>Character sequence</source>
+          <target state="translated">字符序列</target>       </trans-unit>
+        <trans-unit id="166" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.Util.HttpEncoder.HtmlDecode(System.String,System.IO.TextWriter)">
+          <source>Rule</source>
+          <target state="translated">规则</target>       </trans-unit>
+        <trans-unit id="167" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.Util.HttpEncoder.HtmlDecode(System.String,System.IO.TextWriter)">
+          <source><ph id="ph1">`&amp;#NNN;`</ph> (decimal codes for ASCII characters).</source>
+          <target state="translated"><ph id="ph1">`&amp;#NNN;`</ph> （为 ASCII 字符的时为十进制代码）。</target>       </trans-unit>
+        <trans-unit id="168" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.Util.HttpEncoder.HtmlDecode(System.String,System.IO.TextWriter)">
+          <source>Decoded as the specified ASCII character.</source>
+          <target state="translated">解码为指定的 ASCII 字符。</target>       </trans-unit>
+        <trans-unit id="169" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.Util.HttpEncoder.HtmlDecode(System.String,System.IO.TextWriter)">
+          <source>The character sequence starts at the first digit after the # character and finishes at the semicolon.</source>
+          <target state="translated">字符序列 # 字符之后开始时的第一个数字，并在分号结束。</target>       </trans-unit>
+        <trans-unit id="170" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.Util.HttpEncoder.HtmlDecode(System.String,System.IO.TextWriter)">
+          <source><ph id="ph1">`&amp;#xZZ;`</ph> (hexadecimal codes for ASCII characters).</source>
+          <target state="translated"><ph id="ph1">`&amp;#xZZ;`</ph> （ASCII 字符的十六进制代码）。</target>       </trans-unit>
+        <trans-unit id="171" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.Util.HttpEncoder.HtmlDecode(System.String,System.IO.TextWriter)">
+          <source>Decoded as the specified ASCII character.</source>
+          <target state="translated">解码为指定的 ASCII 字符。</target>       </trans-unit>
+        <trans-unit id="172" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.Util.HttpEncoder.HtmlDecode(System.String,System.IO.TextWriter)">
+          <source>The encoded form specifies the character by using hexadecimal characters instead of a decimal value.</source>
+          <target state="translated">编码的形式指定使用而不是十进制值的十六进制字符的字符。</target>       </trans-unit>
+        <trans-unit id="173" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.Util.HttpEncoder.HtmlDecode(System.String,System.IO.TextWriter)">
+          <source>The character sequence starts at the first digit after the # character and finishes at the semicolon.</source>
+          <target state="translated">字符序列 # 字符之后开始时的第一个数字，并在分号结束。</target>       </trans-unit>
+        <trans-unit id="174" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.Util.HttpEncoder.HtmlDecode(System.String,System.IO.TextWriter)">
+          <source>Named HTML entities.</source>
+          <target state="translated">命名的 HTML 实体。</target>       </trans-unit>
+        <trans-unit id="175" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.Util.HttpEncoder.HtmlDecode(System.String,System.IO.TextWriter)">
+          <source>Decoded as the equivalent ASCII character.</source>
+          <target state="translated">解码为等效的 ASCII 字符。</target>       </trans-unit>
+        <trans-unit id="176" translate="yes" xml:space="preserve" uid="M:System.Web.Util.HttpEncoder.HtmlDecode(System.String,System.IO.TextWriter)">
+          <source><ph id="ph1">&lt;paramref name="output" /&gt;</ph> is <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="output" /&gt;</ph> 为 <ph id="ph2">&lt;see langword="null" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="177" translate="yes" xml:space="preserve" uid="M:System.Web.Util.HttpEncoder.HtmlEncode(System.String,System.IO.TextWriter)">
+          <source>The string to encode.</source>
+          <target state="translated">要编码的字符串。</target>       </trans-unit>
+        <trans-unit id="178" translate="yes" xml:space="preserve" uid="M:System.Web.Util.HttpEncoder.HtmlEncode(System.String,System.IO.TextWriter)">
+          <source>The text writer to write the encoded value to.</source>
+          <target state="translated">要将已编码值写入到的文本编写器。</target>       </trans-unit>
+        <trans-unit id="179" translate="yes" xml:space="preserve" uid="M:System.Web.Util.HttpEncoder.HtmlEncode(System.String,System.IO.TextWriter)">
+          <source>Encodes a string into an HTML-encoded string.</source>
+          <target state="translated">将字符串编码为 HTML 编码的字符串。</target>       </trans-unit>
+        <trans-unit id="180" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.Util.HttpEncoder.HtmlEncode(System.String,System.IO.TextWriter)">
+          <source>The following table lists the character sequences that the ASP.NET encoding logic can decode.</source>
+          <target state="translated">下表列出的 ASP.NET 编码逻辑可以解码的字符序列。</target>       </trans-unit>
+        <trans-unit id="181" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.Util.HttpEncoder.HtmlEncode(System.String,System.IO.TextWriter)">
+          <source>Character</source>
+          <target state="translated">字符</target>       </trans-unit>
+        <trans-unit id="182" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.Util.HttpEncoder.HtmlEncode(System.String,System.IO.TextWriter)">
+          <source>Encoded as</source>
+          <target state="translated">编码为</target>       </trans-unit>
+        <trans-unit id="183" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.Util.HttpEncoder.HtmlEncode(System.String,System.IO.TextWriter)">
+          <source><ph id="ph1">`&lt;`</ph> (left angle bracket)</source>
+          <target state="translated"><ph id="ph1">`&lt;`</ph> （左的尖括号）</target>       </trans-unit>
+        <trans-unit id="184" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.Util.HttpEncoder.HtmlEncode(System.String,System.IO.TextWriter)">
+          <source><ph id="ph1">`&gt;`</ph> (right angle bracket)</source>
+          <target state="translated"><ph id="ph1">`&gt;`</ph> （右尖括号）</target>       </trans-unit>
+        <trans-unit id="185" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.Util.HttpEncoder.HtmlEncode(System.String,System.IO.TextWriter)">
+          <source><ph id="ph1">`"`</ph> (double quotation marks)</source>
+          <target state="translated"><ph id="ph1">`"`</ph> （双引号）</target>       </trans-unit>
+        <trans-unit id="186" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.Util.HttpEncoder.HtmlEncode(System.String,System.IO.TextWriter)">
+          <source><ph id="ph1">`&amp;`</ph> (ampersand)</source>
+          <target state="translated"><ph id="ph1">`&amp;`</ph> （and 符）</target>       </trans-unit>
+        <trans-unit id="187" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.Util.HttpEncoder.HtmlEncode(System.String,System.IO.TextWriter)">
+          <source><ph id="ph1">`\`</ph> (backslash)</source>
+          <target state="translated"><ph id="ph1">`\`</ph> （反斜杠）</target>       </trans-unit>
+        <trans-unit id="188" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.Util.HttpEncoder.HtmlEncode(System.String,System.IO.TextWriter)">
+          <source>ASCII characters from 160 to 255</source>
+          <target state="translated">从 160 到 255 之间的 ASCII 字符</target>       </trans-unit>
+        <trans-unit id="189" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.Util.HttpEncoder.HtmlEncode(System.String,System.IO.TextWriter)">
+          <source><ph id="ph1">`&amp;#NNN;`</ph>, where <ph id="ph2">`NNN`</ph> is the three-digit decimal character code</source>
+          <target state="translated"><ph id="ph1">`&amp;#NNN;`</ph>其中<ph id="ph2">`NNN`</ph>是三位数十进制字符代码</target>       </trans-unit>
+        <trans-unit id="190" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.Util.HttpEncoder.HtmlEncode(System.String,System.IO.TextWriter)">
+          <source>If you override the <ph id="ph1">&lt;xref:System.Web.Util.HttpEncoder.HtmlEncode%2A&gt;</ph> method, you must produce output that is also safe within double-quoted or single-quoted HTML attributes.</source>
+          <target state="translated">如果你重写<ph id="ph1">&lt;xref:System.Web.Util.HttpEncoder.HtmlEncode%2A&gt;</ph>方法，必须生成输出，则也可以安全中带双引号或单引号的 HTML 特性。</target>       </trans-unit>
+        <trans-unit id="191" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.Util.HttpEncoder.HtmlEncode(System.String,System.IO.TextWriter)">
+          <source>This accommodates parsing by the Razor engine, where markup and code can be combined, such as <ph id="ph1">\&lt;</ph>tag attr="<ph id="ph2">@value</ph>"&gt;.</source>
+          <target state="translated">这样就能适应由 Razor 引擎，其中标记和代码可以结合使用，如分析<ph id="ph1">\&lt;</ph>标记 attr ="<ph id="ph2">@value</ph>"&gt;。</target>       </trans-unit>
+        <trans-unit id="192" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.Util.HttpEncoder.HtmlEncode(System.String,System.IO.TextWriter)">
+          <source>In addition, the @ operator is not context-aware when processed by the Razor engine, therefore it calls <ph id="ph1">&lt;xref:System.Web.Util.HttpEncoder.HtmlEncode%2A&gt;</ph> rather than <ph id="ph2">&lt;xref:System.Web.Util.HttpEncoder.HtmlAttributeEncode%2A&gt;</ph>.</source>
+          <target state="translated">此外，@ 运算符不是上下文感知型当由 Razor 引擎处理，因此它将调用<ph id="ph1">&lt;xref:System.Web.Util.HttpEncoder.HtmlEncode%2A&gt;</ph>而非<ph id="ph2">&lt;xref:System.Web.Util.HttpEncoder.HtmlAttributeEncode%2A&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="193" translate="yes" xml:space="preserve" uid="M:System.Web.Util.HttpEncoder.HtmlEncode(System.String,System.IO.TextWriter)">
+          <source><ph id="ph1">&lt;paramref name="output" /&gt;</ph> is <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="output" /&gt;</ph> 为 <ph id="ph2">&lt;see langword="null" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="194" translate="yes" xml:space="preserve" uid="M:System.Web.Util.HttpEncoder.JavaScriptStringEncode(System.String)">
+          <source>The string to encode.</source>
+          <target state="translated">要编码的字符串。</target>       </trans-unit>
+        <trans-unit id="195" translate="yes" xml:space="preserve" uid="M:System.Web.Util.HttpEncoder.JavaScriptStringEncode(System.String)">
+          <source>Encodes a string.</source>
+          <target state="translated">对字符串进行编码。</target>       </trans-unit>
+        <trans-unit id="196" translate="yes" xml:space="preserve" uid="M:System.Web.Util.HttpEncoder.JavaScriptStringEncode(System.String)">
+          <source>An encoded string.</source>
+          <target state="translated">已编码的字符串。</target>       </trans-unit>
+        <trans-unit id="197" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.Util.HttpEncoder.JavaScriptStringEncode(System.String)">
+          <source>URL encoding makes sure that all browsers correctly transmit text in URL strings.</source>
+          <target state="translated">URL 编码可确保所有浏览器正确地传输 URL 字符串中的文本。</target>       </trans-unit>
+        <trans-unit id="198" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.Util.HttpEncoder.JavaScriptStringEncode(System.String)">
+          <source>Characters such as a question mark (?), ampersand (&amp;), slash (/), and spaces might be truncated or corrupted by some browsers.</source>
+          <target state="translated">如问号 （？）、 and 符 (&amp;)、 斜杠 （/） 和空格的字符可能截断，或某些浏览器已损坏。</target>       </trans-unit>
+        <trans-unit id="199" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.Util.HttpEncoder.JavaScriptStringEncode(System.String)">
+          <source>Therefore, these characters must be encoded.</source>
+          <target state="translated">因此，必须对这些字符进行编码。</target>       </trans-unit>
+        <trans-unit id="200" translate="yes" xml:space="preserve" uid="M:System.Web.Util.HttpEncoder.UrlEncode(System.Byte[],System.Int32,System.Int32)">
+          <source>An array of bytes to encode.</source>
+          <target state="translated">要编码的字节数组。</target>       </trans-unit>
+        <trans-unit id="201" translate="yes" xml:space="preserve" uid="M:System.Web.Util.HttpEncoder.UrlEncode(System.Byte[],System.Int32,System.Int32)">
+          <source>The position in the <bpt id="p1">&lt;c&gt;</bpt>bytes<ept id="p1">&lt;/c&gt;</ept> array at which to begin encoding.</source>
+          <target state="translated"><bpt id="p1">&lt;c&gt;</bpt>bytes<ept id="p1">&lt;/c&gt;</ept> 数组中开始编码的位置。</target>       </trans-unit>
+        <trans-unit id="202" translate="yes" xml:space="preserve" uid="M:System.Web.Util.HttpEncoder.UrlEncode(System.Byte[],System.Int32,System.Int32)">
+          <source>The number of items in the <bpt id="p1">&lt;c&gt;</bpt>bytes<ept id="p1">&lt;/c&gt;</ept> array to encode.</source>
+          <target state="translated"><bpt id="p1">&lt;c&gt;</bpt>bytes<ept id="p1">&lt;/c&gt;</ept> 数组中要编码的项数。</target>       </trans-unit>
+        <trans-unit id="203" translate="yes" xml:space="preserve" uid="M:System.Web.Util.HttpEncoder.UrlEncode(System.Byte[],System.Int32,System.Int32)">
+          <source>Encodes an array of characters that are not allowed in a URL into a hexadecimal character-entity equivalent.</source>
+          <target state="translated">将 URL 中不允许使用的字符数组编码为等效十六进制字符实体。</target>       </trans-unit>
+        <trans-unit id="204" translate="yes" xml:space="preserve" uid="M:System.Web.Util.HttpEncoder.UrlEncode(System.Byte[],System.Int32,System.Int32)">
+          <source>An array of encoded characters.</source>
+          <target state="translated">已编码字符的数组。</target>       </trans-unit>
+        <trans-unit id="205" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.Util.HttpEncoder.UrlEncode(System.Byte[],System.Int32,System.Int32)">
+          <source>The <ph id="ph1">&lt;xref:System.Web.Util.HttpEncoder.UrlEncode%2A&gt;</ph> method is called by several URL encoding methods in the <ph id="ph2">&lt;xref:System.Web.HttpUtility&gt;</ph> class.</source>
+          <target state="translated"><ph id="ph1">&lt;xref:System.Web.Util.HttpEncoder.UrlEncode%2A&gt;</ph>方法由多个 URL 编码方法中调用<ph id="ph2">&lt;xref:System.Web.HttpUtility&gt;</ph>类。</target>       </trans-unit>
+        <trans-unit id="206" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.Util.HttpEncoder.UrlEncode(System.Byte[],System.Int32,System.Int32)">
+          <source>The <ph id="ph1">&lt;xref:System.Web.Util.HttpEncoder.UrlEncode%2A&gt;</ph> method URL-encodes any character that is not in the set of ASCII characters that is considered to be URL-safe.</source>
+          <target state="translated"><ph id="ph1">&lt;xref:System.Web.Util.HttpEncoder.UrlEncode%2A&gt;</ph>进行 URL 编码不是组的 ASCII 字符的任何字符被视为可 URL 安全的方法。</target>       </trans-unit>
+        <trans-unit id="207" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.Util.HttpEncoder.UrlEncode(System.Byte[],System.Int32,System.Int32)">
+          <source>Spaces are encoded as the ASCII "<ph id="ph1">`+"`</ph> character.</source>
+          <target state="translated">空格被编码为 ASCII"<ph id="ph1">`+"`</ph>字符。</target>       </trans-unit>
+        <trans-unit id="208" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.Util.HttpEncoder.UrlEncode(System.Byte[],System.Int32,System.Int32)">
+          <source>URL-safe ASCII characters include the ASCI characters (A to Z and a to z), numerals (0 to 9), and some punctuation marks.</source>
+          <target state="translated">URL 安全 ASCII 字符包括 ASCI 字符 (A 到 Z 和一个到 z)，数字 (0 到 9)，以及某些标点符号。</target>       </trans-unit>
+        <trans-unit id="209" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.Util.HttpEncoder.UrlEncode(System.Byte[],System.Int32,System.Int32)">
+          <source>The following table lists the punctuation marks that are considered URL-safe ASCII characters.</source>
+          <target state="translated">下表列出被视为 URL 安全 ASCII 字符的标点符号。</target>       </trans-unit>
+        <trans-unit id="210" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.Util.HttpEncoder.UrlEncode(System.Byte[],System.Int32,System.Int32)">
+          <source>Character</source>
+          <target state="translated">字符</target>       </trans-unit>
+        <trans-unit id="211" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.Util.HttpEncoder.UrlEncode(System.Byte[],System.Int32,System.Int32)">
+          <source>Description</source>
+          <target state="translated">描述</target>       </trans-unit>
+        <trans-unit id="212" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.Util.HttpEncoder.UrlEncode(System.Byte[],System.Int32,System.Int32)">
+          <source>Hyphen</source>
+          <target state="translated">连字符</target>       </trans-unit>
+        <trans-unit id="213" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.Util.HttpEncoder.UrlEncode(System.Byte[],System.Int32,System.Int32)">
+          <source>_</source>
+          <target state="translated">_</target>       </trans-unit>
+        <trans-unit id="214" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.Util.HttpEncoder.UrlEncode(System.Byte[],System.Int32,System.Int32)">
+          <source>Underscore</source>
+          <target state="translated">下划线</target>       </trans-unit>
+        <trans-unit id="215" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.Util.HttpEncoder.UrlEncode(System.Byte[],System.Int32,System.Int32)">
+          <source>.</source>
+          <target state="translated">.</target>       </trans-unit>
+        <trans-unit id="216" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.Util.HttpEncoder.UrlEncode(System.Byte[],System.Int32,System.Int32)">
+          <source>Period (dot)</source>
+          <target state="translated">期间 （点）</target>       </trans-unit>
+        <trans-unit id="217" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.Util.HttpEncoder.UrlEncode(System.Byte[],System.Int32,System.Int32)">
+          <source>!</source>
+          <target state="translated">!</target>       </trans-unit>
+        <trans-unit id="218" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.Util.HttpEncoder.UrlEncode(System.Byte[],System.Int32,System.Int32)">
+          <source>Exclamation mark</source>
+          <target state="translated">感叹号</target>       </trans-unit>
+        <trans-unit id="219" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.Util.HttpEncoder.UrlEncode(System.Byte[],System.Int32,System.Int32)">
+          <source>Asterisk (star)</source>
+          <target state="translated">星号 （*）</target>       </trans-unit>
+        <trans-unit id="220" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.Util.HttpEncoder.UrlEncode(System.Byte[],System.Int32,System.Int32)">
+          <source>(</source>
+          <target state="translated">(</target>       </trans-unit>
+        <trans-unit id="221" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.Util.HttpEncoder.UrlEncode(System.Byte[],System.Int32,System.Int32)">
+          <source>Opening parenthesis</source>
+          <target state="translated">左括号</target>       </trans-unit>
+        <trans-unit id="222" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.Util.HttpEncoder.UrlEncode(System.Byte[],System.Int32,System.Int32)">
+          <source>)</source>
+          <target state="translated">)</target>       </trans-unit>
+        <trans-unit id="223" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.Util.HttpEncoder.UrlEncode(System.Byte[],System.Int32,System.Int32)">
+          <source>Closing parenthesis</source>
+          <target state="translated">右括号</target>       </trans-unit>
+        <trans-unit id="224" translate="yes" xml:space="preserve" uid="M:System.Web.Util.HttpEncoder.UrlEncode(System.Byte[],System.Int32,System.Int32)">
+          <source><ph id="ph1">&lt;paramref name="offset" /&gt;</ph> is less than zero or greater than the length of the <ph id="ph2">&lt;paramref name="bytes" /&gt;</ph> array.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="offset" /&gt;</ph> 小于零或大于 <ph id="ph2">&lt;paramref name="bytes" /&gt;</ph> 数组的长度。</target>       </trans-unit>
+        <trans-unit id="225" translate="yes" xml:space="preserve" uid="M:System.Web.Util.HttpEncoder.UrlEncode(System.Byte[],System.Int32,System.Int32)">
+          <source>-or-</source>
+          <target state="translated">或</target>       </trans-unit>
+        <trans-unit id="226" translate="yes" xml:space="preserve" uid="M:System.Web.Util.HttpEncoder.UrlEncode(System.Byte[],System.Int32,System.Int32)">
+          <source><ph id="ph1">&lt;paramref name="count" /&gt;</ph> is less than zero or <ph id="ph2">&lt;paramref name="count" /&gt;</ph> plus <ph id="ph3">&lt;paramref name="offset" /&gt;</ph> is greater than the length of the <ph id="ph4">&lt;paramref name="bytes" /&gt;</ph> array.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="count" /&gt;</ph> 小于零或 <ph id="ph2">&lt;paramref name="count" /&gt;</ph> 加上 <ph id="ph3">&lt;paramref name="offset" /&gt;</ph> 大于 <ph id="ph4">&lt;paramref name="bytes" /&gt;</ph> 数组的长度。</target>       </trans-unit>
+        <trans-unit id="227" translate="yes" xml:space="preserve" uid="M:System.Web.Util.HttpEncoder.UrlEncode(System.Byte[],System.Int32,System.Int32)">
+          <source><ph id="ph1">&lt;paramref name="bytes" /&gt;</ph> is <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="bytes" /&gt;</ph> 为 <ph id="ph2">&lt;see langword="null" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="228" translate="yes" xml:space="preserve" uid="M:System.Web.Util.HttpEncoder.UrlPathEncode(System.String)">
+          <source>The string to encode.</source>
+          <target state="translated">要编码的字符串。</target>       </trans-unit>
+        <trans-unit id="229" translate="yes" xml:space="preserve" uid="M:System.Web.Util.HttpEncoder.UrlPathEncode(System.String)">
+          <source>Encodes a subsection of a URL.</source>
+          <target state="translated">对 URL 的子节进行编码。</target>       </trans-unit>
+        <trans-unit id="230" translate="yes" xml:space="preserve" uid="M:System.Web.Util.HttpEncoder.UrlPathEncode(System.String)">
+          <source>A URL-encoded string.</source>
+          <target state="translated">URL 编码的字符串。</target>       </trans-unit>
+        <trans-unit id="231" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.Util.HttpEncoder.UrlPathEncode(System.String)">
+          <source>The <ph id="ph1">&lt;xref:System.Web.Util.HttpEncoder.UrlPathEncode%2A&gt;</ph> method is called by the <ph id="ph2">&lt;xref:System.Web.HttpUtility.UrlPathEncode%2A&gt;</ph> method.</source>
+          <target state="translated"><ph id="ph1">&lt;xref:System.Web.Util.HttpEncoder.UrlPathEncode%2A&gt;</ph> 方法由 <ph id="ph2">&lt;xref:System.Web.HttpUtility.UrlPathEncode%2A&gt;</ph> 方法调用。</target>       </trans-unit>
+        <trans-unit id="232" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.Util.HttpEncoder.UrlPathEncode(System.String)">
+          <source>The <ph id="ph1">&lt;xref:System.Web.HttpUtility.UrlPathEncode%2A&gt;</ph> method performs the following steps:</source>
+          <target state="translated"><ph id="ph1">&lt;xref:System.Web.HttpUtility.UrlPathEncode%2A&gt;</ph>方法执行以下步骤：</target>       </trans-unit>
+        <trans-unit id="233" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.Util.HttpEncoder.UrlPathEncode(System.String)">
+          <source>Applies the encoding logic of the <ph id="ph1">&lt;xref:System.Web.Util.HttpEncoder.UrlPathEncode%2A&gt;</ph> method to only the path part of the URL (which excludes the query string).</source>
+          <target state="translated">适用的编码逻辑<ph id="ph1">&lt;xref:System.Web.Util.HttpEncoder.UrlPathEncode%2A&gt;</ph>到的 URL (不包括查询字符串） 的路径部分的方法。</target>       </trans-unit>
+        <trans-unit id="234" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.Util.HttpEncoder.UrlPathEncode(System.String)">
+          <source>The method assumes that the URL is encoded as a UTF-8 string.</source>
+          <target state="translated">该方法假定 URL 被编码为 utf-8 字符串。</target>       </trans-unit>
+        <trans-unit id="235" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.Util.HttpEncoder.UrlPathEncode(System.String)">
+          <source>Encodes non-spaces so that only a subset of the first 128 ASCII characters is used in the resulting encoded string.</source>
+          <target state="translated">将非空格编码以便在生成编码的字符串中使用的前 128 个 ASCII 字符的一个子集。</target>       </trans-unit>
+        <trans-unit id="236" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.Util.HttpEncoder.UrlPathEncode(System.String)">
+          <source>Any characters at Unicode value 128 and greater, or 32 and less, are URL-encoded.</source>
+          <target state="translated">在 Unicode 值 128 和更高版本或 32 且小于，任何字符是 URL 编码。</target>       </trans-unit>
+        <trans-unit id="237" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.Util.HttpEncoder.UrlPathEncode(System.String)">
+          <source>Encodes spaces as %20.</source>
+          <target state="translated">将空格编码为 %20。</target>       </trans-unit>
+      </group>
+    </body>
+  </file>
+</xliff>

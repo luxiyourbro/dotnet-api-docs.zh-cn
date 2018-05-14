@@ -1,1046 +1,492 @@
-<Type Name="ZipArchive" FullName="System.IO.Compression.ZipArchive">
-  <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="69d8f68c04b20c5dff55edf31c96edfb5b763433" />
-    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
-    <Meta Name="ms.translationtype" Value="HT" />
-    <Meta Name="ms.contentlocale" Value="zh-CN" />
-    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
-  </Metadata>
-  <TypeSignature Language="C#" Value="public class ZipArchive : IDisposable" />
-  <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit ZipArchive extends System.Object implements class System.IDisposable" />
-  <TypeSignature Language="DocId" Value="T:System.IO.Compression.ZipArchive" />
-  <TypeSignature Language="VB.NET" Value="Public Class ZipArchive&#xA;Implements IDisposable" />
-  <TypeSignature Language="C++ CLI" Value="public ref class ZipArchive : IDisposable" />
-  <AssemblyInfo>
-    <AssemblyName>System.IO.Compression</AssemblyName>
-    <AssemblyVersion>2.0.5.0</AssemblyVersion>
-    <AssemblyVersion>4.0.0.0</AssemblyVersion>
-    <AssemblyVersion>4.1.1.0</AssemblyVersion>
-    <AssemblyVersion>4.2.0.0</AssemblyVersion>
-    <AssemblyVersion>4.2.1.0</AssemblyVersion>
-  </AssemblyInfo>
-  <AssemblyInfo>
-    <AssemblyName>netstandard</AssemblyName>
-    <AssemblyVersion>2.0.0.0</AssemblyVersion>
-  </AssemblyInfo>
-  <Base>
-    <BaseTypeName>System.Object</BaseTypeName>
-  </Base>
-  <Interfaces>
-    <Interface>
-      <InterfaceName>System.IDisposable</InterfaceName>
-    </Interface>
-  </Interfaces>
-  <Docs>
-    <summary>
-      <span data-ttu-id="90205-101">表示 Zip 存档格式中的一个压缩文件包。</span>
-      <span class="sxs-lookup">
-        <span data-stu-id="90205-101">Represents a package of compressed files in the zip archive format.</span>
-      </span>
-    </summary>
-    <remarks>
-      <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="90205-102">用于操作的 zip 存档和其文件条目的方法将分布在三个类： <xref:System.IO.Compression.ZipFile>， <xref:System.IO.Compression.ZipArchive>，和<xref:System.IO.Compression.ZipArchiveEntry>。</span><span class="sxs-lookup"><span data-stu-id="90205-102">The methods for manipulating zip archives and their file entries are spread across three classes: <xref:System.IO.Compression.ZipFile>, <xref:System.IO.Compression.ZipArchive>, and <xref:System.IO.Compression.ZipArchiveEntry>.</span></span>  
-  
-|<span data-ttu-id="90205-103">到</span><span class="sxs-lookup"><span data-stu-id="90205-103">To</span></span>|<span data-ttu-id="90205-104">使用</span><span class="sxs-lookup"><span data-stu-id="90205-104">Use</span></span>|  
-|--------|---------|  
-|<span data-ttu-id="90205-105">从目录中创建的 zip 存档</span><span class="sxs-lookup"><span data-stu-id="90205-105">Create a zip archive from a directory</span></span>|<xref:System.IO.Compression.ZipFile.CreateFromDirectory%2A?displayProperty=nameWithType>|  
-|<span data-ttu-id="90205-106">提取到目录的 zip 存档的内容</span><span class="sxs-lookup"><span data-stu-id="90205-106">Extract the contents of a zip archive to a directory</span></span>|<xref:System.IO.Compression.ZipFile.ExtractToDirectory%2A?displayProperty=nameWithType>|  
-|<span data-ttu-id="90205-107">将新文件添加到现有的 zip 存档</span><span class="sxs-lookup"><span data-stu-id="90205-107">Add new files to an existing zip archive</span></span>|<xref:System.IO.Compression.ZipArchive.CreateEntry%2A?displayProperty=nameWithType>|  
-|<span data-ttu-id="90205-108">从 zip 存档文件中检索</span><span class="sxs-lookup"><span data-stu-id="90205-108">Retrieve a file from a zip archive</span></span>|<xref:System.IO.Compression.ZipArchive.GetEntry%2A?displayProperty=nameWithType>|  
-|<span data-ttu-id="90205-109">从 zip 存档中检索所有文件</span><span class="sxs-lookup"><span data-stu-id="90205-109">Retrieve all the files from a zip archive</span></span>|<xref:System.IO.Compression.ZipArchive.Entries%2A?displayProperty=nameWithType>|  
-|<span data-ttu-id="90205-110">打开 zip 存档中包含的单一文件的流</span><span class="sxs-lookup"><span data-stu-id="90205-110">Open a stream to a single file contained in a zip archive</span></span>|<xref:System.IO.Compression.ZipArchiveEntry.Open%2A?displayProperty=nameWithType>|  
-|<span data-ttu-id="90205-111">从 zip 存档中删除文件</span><span class="sxs-lookup"><span data-stu-id="90205-111">Delete a file from a zip archive</span></span>|<xref:System.IO.Compression.ZipArchiveEntry.Delete%2A?displayProperty=nameWithType>|  
-  
- <span data-ttu-id="90205-112">当你创建新的条目时，该文件被压缩，并添加到的 zip 包。</span><span class="sxs-lookup"><span data-stu-id="90205-112">When you create a new entry, the file is compressed and added to the zip package.</span></span> <span data-ttu-id="90205-113"><xref:System.IO.Compression.ZipArchive.CreateEntry%2A>方法可指定目录层次结构时将项添加。</span><span class="sxs-lookup"><span data-stu-id="90205-113">The <xref:System.IO.Compression.ZipArchive.CreateEntry%2A> method enables you to specify a directory hierarchy when adding the entry.</span></span> <span data-ttu-id="90205-114">包括新的条目的 zip 包中的相对路径。</span><span class="sxs-lookup"><span data-stu-id="90205-114">You include the relative path of the new entry within the zip package.</span></span> <span data-ttu-id="90205-115">例如，使用的相对路径创建新的条目`AddedFolder\NewFile.txt`在一个名为 AddedFolder 目录中创建压缩的文本文件。</span><span class="sxs-lookup"><span data-stu-id="90205-115">For example, creating a new entry with a relative path of `AddedFolder\NewFile.txt` creates a compressed text file in a directory named AddedFolder.</span></span>  
-  
- <span data-ttu-id="90205-116">如果引用`System.IO.Compression.FileSystem`程序集在项目中，你可以访问三个扩展方法 (从<xref:System.IO.Compression.ZipFileExtensions>类) 的<xref:System.IO.Compression.ZipArchive>类： <xref:System.IO.Compression.ZipFileExtensions.CreateEntryFromFile%2A>， <xref:System.IO.Compression.ZipFileExtensions.CreateEntryFromFile%2A>，和<xref:System.IO.Compression.ZipFileExtensions.ExtractToDirectory%2A>。</span><span class="sxs-lookup"><span data-stu-id="90205-116">If you reference the `System.IO.Compression.FileSystem` assembly in your project, you can access three extension methods (from the <xref:System.IO.Compression.ZipFileExtensions> class) for the <xref:System.IO.Compression.ZipArchive> class: <xref:System.IO.Compression.ZipFileExtensions.CreateEntryFromFile%2A>, <xref:System.IO.Compression.ZipFileExtensions.CreateEntryFromFile%2A>, and <xref:System.IO.Compression.ZipFileExtensions.ExtractToDirectory%2A>.</span></span> <span data-ttu-id="90205-117">这些扩展方法，可以压缩和解压缩到文件的项的内容。</span><span class="sxs-lookup"><span data-stu-id="90205-117">These extension methods enable you to compress and decompress the contents of the entry to a file.</span></span> <span data-ttu-id="90205-118">`System.IO.Compression.FileSystem`程序集不可用于[!INCLUDE[win8_appname_long](~/includes/win8-appname-long-md.md)]应用。</span><span class="sxs-lookup"><span data-stu-id="90205-118">The `System.IO.Compression.FileSystem` assembly is not available for [!INCLUDE[win8_appname_long](~/includes/win8-appname-long-md.md)] apps.</span></span> <span data-ttu-id="90205-119">在[!INCLUDE[win8_appname_long](~/includes/win8-appname-long-md.md)]应用，你可以压缩和解压缩文件使用<xref:System.IO.Compression.DeflateStream>或<xref:System.IO.Compression.GZipStream>类，也可以使用[!INCLUDE[wrt](~/includes/wrt-md.md)]类型[压缩程序](http://go.microsoft.com/fwlink/p/?LinkID=246357)和[解压缩程序](http://go.microsoft.com/fwlink/p/?LinkID=246358)。</span><span class="sxs-lookup"><span data-stu-id="90205-119">In [!INCLUDE[win8_appname_long](~/includes/win8-appname-long-md.md)] apps, you can compress and decompress files by using the <xref:System.IO.Compression.DeflateStream> or <xref:System.IO.Compression.GZipStream> class, or you can use the [!INCLUDE[wrt](~/includes/wrt-md.md)] types [Compressor](http://go.microsoft.com/fwlink/p/?LinkID=246357) and [Decompressor](http://go.microsoft.com/fwlink/p/?LinkID=246358).</span></span>  
-  
-   
-  
-## Examples  
- <span data-ttu-id="90205-120">第一个示例演示如何创建新的条目，并向其中写入使用流。</span><span class="sxs-lookup"><span data-stu-id="90205-120">The first example shows how to create a new entry and write to it by using a stream.</span></span>  
-  
- [!code-csharp[System.IO.Compression.ZipArchiveMode#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.io.compression.ziparchivemode/cs/program1.cs#1)]
- [!code-vb[System.IO.Compression.ZipArchiveMode#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.io.compression.ziparchivemode/vb/program1.vb#1)]  
-  
- <span data-ttu-id="90205-121">下面的示例演示如何打开 zip 存档，并循环访问的项的集合。</span><span class="sxs-lookup"><span data-stu-id="90205-121">The following example shows how to open a zip archive and iterate through the collection of entries.</span></span>  
-  
- [!code-csharp[System.IO.Compression.ZipArchive#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.io.compression.ziparchive/cs/program1.cs#1)]
- [!code-vb[System.IO.Compression.ZipArchive#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.io.compression.ziparchive/vb/program1.vb#1)]  
-  
- <span data-ttu-id="90205-122">第三个示例演示如何使用扩展方法在从现有的文件的 zip 存档中创建新的条目和提取存档内容。</span><span class="sxs-lookup"><span data-stu-id="90205-122">The third example shows how to use extension methods to create a new entry in a zip archive from an existing file and extract the archive contents.</span></span> <span data-ttu-id="90205-123">必须引用`System.IO.Compression.FileSystem`程序集执行代码。</span><span class="sxs-lookup"><span data-stu-id="90205-123">You must reference the `System.IO.Compression.FileSystem` assembly to execute the code.</span></span>  
-  
- [!code-csharp[System.IO.Compression.ZipArchive#3](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.io.compression.ziparchive/cs/program3.cs#3)]
- [!code-vb[System.IO.Compression.ZipArchive#3](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.io.compression.ziparchive/vb/program3.vb#3)]  
-  
- ]]></format>
-    </remarks>
-    <altmember cref="T:System.IO.Compression.ZipFile" />
-  </Docs>
-  <Members>
-    <MemberGroup MemberName=".ctor">
-      <AssemblyInfo>
-        <AssemblyName>System.IO.Compression</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-        <AssemblyVersion>4.1.1.0</AssemblyVersion>
-        <AssemblyVersion>4.2.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Docs>
-        <summary>
-          <span data-ttu-id="90205-124">初始化 <see cref="T:System.IO.Compression.ZipArchive" /> 类的新实例。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="90205-124">Initializes a new instance of the <see cref="T:System.IO.Compression.ZipArchive" /> class.</span>
-          </span>
-        </summary>
-      </Docs>
-    </MemberGroup>
-    <Member MemberName=".ctor">
-      <MemberSignature Language="C#" Value="public ZipArchive (System.IO.Stream stream);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(class System.IO.Stream stream) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.IO.Compression.ZipArchive.#ctor(System.IO.Stream)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; ZipArchive(System::IO::Stream ^ stream);" />
-      <MemberType>Constructor</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.IO.Compression</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-        <AssemblyVersion>4.1.1.0</AssemblyVersion>
-        <AssemblyVersion>4.2.0.0</AssemblyVersion>
-        <AssemblyVersion>4.2.1.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>netstandard</AssemblyName>
-        <AssemblyVersion>2.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Parameters>
-        <Parameter Name="stream" Type="System.IO.Stream" />
-      </Parameters>
-      <Docs>
-        <param name="stream">
-          <span data-ttu-id="90205-125">即包含待读取的存档的流。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="90205-125">The stream that contains the archive to be read.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="90205-126">从指定的流初始化 <see cref="T:System.IO.Compression.ZipArchive" /> 类的新实例。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="90205-126">Initializes a new instance of the <see cref="T:System.IO.Compression.ZipArchive" /> class from the specified stream.</span>
-          </span>
-        </summary>
-        <remarks>To be added.</remarks>
-        <exception cref="T:System.ArgumentException">
-          <span data-ttu-id="90205-127">该流已关闭或不支持读取。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="90205-127">The stream is already closed or does not support reading.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.ArgumentNullException">
-          <span data-ttu-id="90205-128">
-            <paramref name="stream" /> 为 <see langword="null" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="90205-128">
-              <paramref name="stream" /> is <see langword="null" />.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.IO.InvalidDataException">
-          <span data-ttu-id="90205-129">流的内容不是 zip 存档格式。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="90205-129">The contents of the stream are not in the zip archive format.</span>
-          </span>
-        </exception>
-      </Docs>
-    </Member>
-    <Member MemberName=".ctor">
-      <MemberSignature Language="C#" Value="public ZipArchive (System.IO.Stream stream, System.IO.Compression.ZipArchiveMode mode);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(class System.IO.Stream stream, valuetype System.IO.Compression.ZipArchiveMode mode) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.IO.Compression.ZipArchive.#ctor(System.IO.Stream,System.IO.Compression.ZipArchiveMode)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; ZipArchive(System::IO::Stream ^ stream, System::IO::Compression::ZipArchiveMode mode);" />
-      <MemberType>Constructor</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.IO.Compression</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-        <AssemblyVersion>4.1.1.0</AssemblyVersion>
-        <AssemblyVersion>4.2.0.0</AssemblyVersion>
-        <AssemblyVersion>4.2.1.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>netstandard</AssemblyName>
-        <AssemblyVersion>2.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Parameters>
-        <Parameter Name="stream" Type="System.IO.Stream" />
-        <Parameter Name="mode" Type="System.IO.Compression.ZipArchiveMode" />
-      </Parameters>
-      <Docs>
-        <param name="stream">
-          <span data-ttu-id="90205-130">输入流或输出流。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="90205-130">The input or output stream.</span>
-          </span>
-        </param>
-        <param name="mode">
-          <span data-ttu-id="90205-131">指示 zip 存档是否用于读取、创建或更新项的一个枚举值。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="90205-131">One of the enumeration values that indicates whether the zip archive is used to read, create, or update entries.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="90205-132">从指定的流并使用指定的模式初始化 <see cref="T:System.IO.Compression.ZipArchive" /> 类的新实例。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="90205-132">Initializes a new instance of the <see cref="T:System.IO.Compression.ZipArchive" /> class from the specified stream and with the specified mode.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="90205-133">如果`mode`参数设置为<xref:System.IO.Compression.ZipArchiveMode.Read>，流必须支持读取。</span><span class="sxs-lookup"><span data-stu-id="90205-133">If the `mode` parameter is set to <xref:System.IO.Compression.ZipArchiveMode.Read>, the stream must support reading.</span></span> <span data-ttu-id="90205-134">如果`mode`参数设置为<xref:System.IO.Compression.ZipArchiveMode.Create>，流必须支持写入。</span><span class="sxs-lookup"><span data-stu-id="90205-134">If the `mode` parameter is set to <xref:System.IO.Compression.ZipArchiveMode.Create>, the stream must support writing.</span></span> <span data-ttu-id="90205-135">如果`mode`参数设置为<xref:System.IO.Compression.ZipArchiveMode.Update>，该流必须支持读取、 写入和查找。</span><span class="sxs-lookup"><span data-stu-id="90205-135">If the `mode` parameter is set to <xref:System.IO.Compression.ZipArchiveMode.Update>, the stream must support reading, writing, and seeking.</span></span>  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.ArgumentException">
-          <span data-ttu-id="90205-136">流已关闭，或流的功能与模式不相匹配。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="90205-136">The stream is already closed, or the capabilities of the stream do not match the mode.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.ArgumentNullException">
-          <span data-ttu-id="90205-137">
-            <paramref name="stream" /> 为 <see langword="null" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="90205-137">
-              <paramref name="stream" /> is <see langword="null" />.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.ArgumentOutOfRangeException">
-          <span data-ttu-id="90205-138">
-            <paramref name="mode" /> 为无效值。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="90205-138">
-              <paramref name="mode" /> is an invalid value.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.IO.InvalidDataException">
-          <span data-ttu-id="90205-139">流的内容无法被解释为 zip 存档。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="90205-139">The contents of the stream could not be interpreted as a zip archive.</span>
-          </span>
-          <span data-ttu-id="90205-140">或</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="90205-140">-or-</span>
-          </span>
-          <span data-ttu-id="90205-141">
-            <paramref name="mode" /> 是 <see cref="F:System.IO.Compression.ZipArchiveMode.Update" />，但存档中缺少项，或者项已损坏且无法读取。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="90205-141">
-              <paramref name="mode" /> is <see cref="F:System.IO.Compression.ZipArchiveMode.Update" /> and an entry is missing from the archive or is corrupt and cannot be read.</span>
-          </span>
-          <span data-ttu-id="90205-142">或</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="90205-142">-or-</span>
-          </span>
-          <span data-ttu-id="90205-143">
-            <paramref name="mode" /> 是 <see cref="F:System.IO.Compression.ZipArchiveMode.Update" />，但项太大，无法装入内存。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="90205-143">
-              <paramref name="mode" /> is <see cref="F:System.IO.Compression.ZipArchiveMode.Update" /> and an entry is too large to fit into memory.</span>
-          </span>
-        </exception>
-      </Docs>
-    </Member>
-    <Member MemberName=".ctor">
-      <MemberSignature Language="C#" Value="public ZipArchive (System.IO.Stream stream, System.IO.Compression.ZipArchiveMode mode, bool leaveOpen);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(class System.IO.Stream stream, valuetype System.IO.Compression.ZipArchiveMode mode, bool leaveOpen) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.IO.Compression.ZipArchive.#ctor(System.IO.Stream,System.IO.Compression.ZipArchiveMode,System.Boolean)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; ZipArchive(System::IO::Stream ^ stream, System::IO::Compression::ZipArchiveMode mode, bool leaveOpen);" />
-      <MemberType>Constructor</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.IO.Compression</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-        <AssemblyVersion>4.1.1.0</AssemblyVersion>
-        <AssemblyVersion>4.2.0.0</AssemblyVersion>
-        <AssemblyVersion>4.2.1.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>netstandard</AssemblyName>
-        <AssemblyVersion>2.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Parameters>
-        <Parameter Name="stream" Type="System.IO.Stream" />
-        <Parameter Name="mode" Type="System.IO.Compression.ZipArchiveMode" />
-        <Parameter Name="leaveOpen" Type="System.Boolean" />
-      </Parameters>
-      <Docs>
-        <param name="stream">
-          <span data-ttu-id="90205-144">输入流或输出流。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="90205-144">The input or output stream.</span>
-          </span>
-        </param>
-        <param name="mode">
-          <span data-ttu-id="90205-145">指示 zip 存档是否用于读取、创建或更新项的一个枚举值。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="90205-145">One of the enumeration values that indicates whether the zip archive is used to read, create, or update entries.</span>
-          </span>
-        </param>
-        <param name="leaveOpen">
-          <span data-ttu-id="90205-146">如果在释放 <see cref="T:System.IO.Compression.ZipArchive" /> 对象后保持流处于打开状态，则为 <see langword="true" />；否则为 <see langword="false" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="90205-146">
-              <see langword="true" /> to leave the stream open after the <see cref="T:System.IO.Compression.ZipArchive" /> object is disposed; otherwise, <see langword="false" />.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="90205-147">对于指定的模式，初始化指定流上的 <see cref="T:System.IO.Compression.ZipArchive" /> 类的新实例，并选择性地使流保持打开状态。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="90205-147">Initializes a new instance of the <see cref="T:System.IO.Compression.ZipArchive" /> class on the specified stream for the specified mode, and optionally leaves the stream open.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="90205-148">如果`mode`参数设置为<xref:System.IO.Compression.ZipArchiveMode.Read>，流必须支持读取。</span><span class="sxs-lookup"><span data-stu-id="90205-148">If the `mode` parameter is set to <xref:System.IO.Compression.ZipArchiveMode.Read>, the stream must support reading.</span></span> <span data-ttu-id="90205-149">如果`mode`参数设置为<xref:System.IO.Compression.ZipArchiveMode.Create>，流必须支持写入。</span><span class="sxs-lookup"><span data-stu-id="90205-149">If the `mode` parameter is set to <xref:System.IO.Compression.ZipArchiveMode.Create>, the stream must support writing.</span></span> <span data-ttu-id="90205-150">如果`mode`参数设置为<xref:System.IO.Compression.ZipArchiveMode.Update>，该流必须支持读取、 写入和查找。</span><span class="sxs-lookup"><span data-stu-id="90205-150">If the `mode` parameter is set to <xref:System.IO.Compression.ZipArchiveMode.Update>, the stream must support reading, writing, and seeking.</span></span>  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.ArgumentException">
-          <span data-ttu-id="90205-151">流已关闭，或流的功能与模式不相匹配。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="90205-151">The stream is already closed, or the capabilities of the stream do not match the mode.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.ArgumentNullException">
-          <span data-ttu-id="90205-152">
-            <paramref name="stream" /> 为 <see langword="null" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="90205-152">
-              <paramref name="stream" /> is <see langword="null" />.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.ArgumentOutOfRangeException">
-          <span data-ttu-id="90205-153">
-            <paramref name="mode" /> 为无效值。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="90205-153">
-              <paramref name="mode" /> is an invalid value.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.IO.InvalidDataException">
-          <span data-ttu-id="90205-154">流的内容无法被解释为 zip 存档。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="90205-154">The contents of the stream could not be interpreted as a zip archive.</span>
-          </span>
-          <span data-ttu-id="90205-155">或</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="90205-155">-or-</span>
-          </span>
-          <span data-ttu-id="90205-156">
-            <paramref name="mode" /> 是 <see cref="F:System.IO.Compression.ZipArchiveMode.Update" />，但存档中缺少项，或者项已损坏且无法读取。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="90205-156">
-              <paramref name="mode" /> is <see cref="F:System.IO.Compression.ZipArchiveMode.Update" /> and an entry is missing from the archive or is corrupt and cannot be read.</span>
-          </span>
-          <span data-ttu-id="90205-157">或</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="90205-157">-or-</span>
-          </span>
-          <span data-ttu-id="90205-158">
-            <paramref name="mode" /> 是 <see cref="F:System.IO.Compression.ZipArchiveMode.Update" />，但项太大，无法装入内存。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="90205-158">
-              <paramref name="mode" /> is <see cref="F:System.IO.Compression.ZipArchiveMode.Update" /> and an entry is too large to fit into memory.</span>
-          </span>
-        </exception>
-      </Docs>
-    </Member>
-    <Member MemberName=".ctor">
-      <MemberSignature Language="C#" Value="public ZipArchive (System.IO.Stream stream, System.IO.Compression.ZipArchiveMode mode, bool leaveOpen, System.Text.Encoding entryNameEncoding);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(class System.IO.Stream stream, valuetype System.IO.Compression.ZipArchiveMode mode, bool leaveOpen, class System.Text.Encoding entryNameEncoding) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.IO.Compression.ZipArchive.#ctor(System.IO.Stream,System.IO.Compression.ZipArchiveMode,System.Boolean,System.Text.Encoding)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; ZipArchive(System::IO::Stream ^ stream, System::IO::Compression::ZipArchiveMode mode, bool leaveOpen, System::Text::Encoding ^ entryNameEncoding);" />
-      <MemberType>Constructor</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.IO.Compression</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-        <AssemblyVersion>4.1.1.0</AssemblyVersion>
-        <AssemblyVersion>4.2.0.0</AssemblyVersion>
-        <AssemblyVersion>4.2.1.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>netstandard</AssemblyName>
-        <AssemblyVersion>2.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Parameters>
-        <Parameter Name="stream" Type="System.IO.Stream" />
-        <Parameter Name="mode" Type="System.IO.Compression.ZipArchiveMode" />
-        <Parameter Name="leaveOpen" Type="System.Boolean" />
-        <Parameter Name="entryNameEncoding" Type="System.Text.Encoding" />
-      </Parameters>
-      <Docs>
-        <param name="stream">
-          <span data-ttu-id="90205-159">输入流或输出流。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="90205-159">The input or output stream.</span>
-          </span>
-        </param>
-        <param name="mode">
-          <span data-ttu-id="90205-160">指示 zip 存档是否用于读取、创建或更新项的一个枚举值。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="90205-160">One of the enumeration values that indicates whether the zip archive is used to read, create, or update entries.</span>
-          </span>
-        </param>
-        <param name="leaveOpen">
-          <span data-ttu-id="90205-161">如果在释放 <see cref="T:System.IO.Compression.ZipArchive" /> 对象后保持流处于打开状态，则为 <see langword="true" />；否则为 <see langword="false" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="90205-161">
-              <see langword="true" /> to leave the stream open after the <see cref="T:System.IO.Compression.ZipArchive" /> object is disposed; otherwise, <see langword="false" />.</span>
-          </span>
-        </param>
-        <param name="entryNameEncoding">
-          <span data-ttu-id="90205-162">在存档中读取或写入项名时使用的编码。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="90205-162">The encoding to use when reading or writing entry names in this archive.</span>
-          </span>
-          <span data-ttu-id="90205-163">仅当需要针对具有不支持项名的 UTF-8 编码的 zip 归档工具和库的互操作性进行编码时，为此参数指定一个值。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="90205-163">Specify a value for this parameter only when an encoding is required for interoperability with zip archive tools and libraries that do not support UTF-8 encoding for entry names.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="90205-164">对于指定的模式，初始化指定流上的 <see cref="T:System.IO.Compression.ZipArchive" /> 类的新实例，使用项名的指定编码，并选择性地使流保持打开状态。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="90205-164">Initializes a new instance of the <see cref="T:System.IO.Compression.ZipArchive" /> class on the specified stream for the specified mode, uses the specified encoding for entry names, and optionally leaves the stream open.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="90205-165">如果`mode`参数设置为<xref:System.IO.Compression.ZipArchiveMode.Read>，流必须支持读取。</span><span class="sxs-lookup"><span data-stu-id="90205-165">If the `mode` parameter is set to <xref:System.IO.Compression.ZipArchiveMode.Read>, the stream must support reading.</span></span> <span data-ttu-id="90205-166">如果`mode`参数设置为<xref:System.IO.Compression.ZipArchiveMode.Create>，流必须支持写入。</span><span class="sxs-lookup"><span data-stu-id="90205-166">If the `mode` parameter is set to <xref:System.IO.Compression.ZipArchiveMode.Create>, the stream must support writing.</span></span> <span data-ttu-id="90205-167">如果`mode`参数设置为<xref:System.IO.Compression.ZipArchiveMode.Update>，该流必须支持读取、 写入和查找。</span><span class="sxs-lookup"><span data-stu-id="90205-167">If the `mode` parameter is set to <xref:System.IO.Compression.ZipArchiveMode.Update>, the stream must support reading, writing, and seeking.</span></span>  
-  
- <span data-ttu-id="90205-168">当打开读取的 zip 存档文件和`entryNameEncoding`设置为`null`，条目名称解码根据下列规则：</span><span class="sxs-lookup"><span data-stu-id="90205-168">When you open a zip archive file for reading and `entryNameEncoding` is set to `null`, entry names are decoded according to the following rules:</span></span>  
-  
--   <span data-ttu-id="90205-169">如果未设置编码标志 （在本地文件头的通用的位标志） 的语言，当前的系统默认代码页用于解码条目名称。</span><span class="sxs-lookup"><span data-stu-id="90205-169">When the language encoding flag (in the general-purpose bit flag of the local file header) is not set, the current system default code page is used to decode the entry name.</span></span>  
-  
--   <span data-ttu-id="90205-170">设置语言编码标志后，utf-8 用于对条目名称解码。</span><span class="sxs-lookup"><span data-stu-id="90205-170">When the language encoding flag is set, UTF-8 is used to decode the entry name.</span></span>  
-  
- <span data-ttu-id="90205-171">当打开读取的 zip 存档文件和`entryNameEncoding`设置一个值为非`null`，条目名称解码根据下列规则：</span><span class="sxs-lookup"><span data-stu-id="90205-171">When you open a zip archive file for reading and `entryNameEncoding` is set to a value other than `null`, entry names are decoded according to the following rules:</span></span>  
-  
--   <span data-ttu-id="90205-172">编码标志的语言未设置时，指定`entryNameEncoding`用于解码条目名称。</span><span class="sxs-lookup"><span data-stu-id="90205-172">When the language encoding flag is not set, the specified `entryNameEncoding` is used to decode the entry name.</span></span>  
-  
--   <span data-ttu-id="90205-173">设置语言编码标志后，utf-8 用于对条目名称解码。</span><span class="sxs-lookup"><span data-stu-id="90205-173">When the language encoding flag is set, UTF-8 is used to decode the entry name.</span></span>  
-  
- <span data-ttu-id="90205-174">当你编写以将文件存档和`entryNameEncoding`设置为`null`，条目名称是根据以下规则进行编码：</span><span class="sxs-lookup"><span data-stu-id="90205-174">When you write to archive files and `entryNameEncoding` is set to `null`, entry names are encoded according to the following rules:</span></span>  
-  
--   <span data-ttu-id="90205-175">包含 ASCII 范围外的字符的项名称，设置语言编码标志，并通过使用 utf-8 条目名称进行编码。</span><span class="sxs-lookup"><span data-stu-id="90205-175">For entry names that contain characters outside the ASCII range, the language encoding flag is set, and entry names are encoded by using UTF-8.</span></span>  
-  
--   <span data-ttu-id="90205-176">仅包含 ASCII 字符的项名称，未设置语言编码标志，并通过使用当前的系统默认代码页的条目名称进行编码。</span><span class="sxs-lookup"><span data-stu-id="90205-176">For entry names that contain only ASCII characters, the language encoding flag is not set, and entry names are encoded by using the current system default code page.</span></span>  
-  
- <span data-ttu-id="90205-177">当你编写以将文件存档和`entryNameEncoding`设置一个值为非`null`，指定`entryNameEncoding`用于转换为字节编码条目名称。</span><span class="sxs-lookup"><span data-stu-id="90205-177">When you write to archive files and `entryNameEncoding` is set to a value other than `null`, the specified `entryNameEncoding` is used to encode the entry names into bytes.</span></span> <span data-ttu-id="90205-178">仅当指定的编码为 utf-8 编码时设置编码标志 （在本地文件头的通用的位标志） 的语言。</span><span class="sxs-lookup"><span data-stu-id="90205-178">The language encoding flag (in the general-purpose bit flag of the local file header) is set only when the specified encoding is a UTF-8 encoding.</span></span>  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.ArgumentException">
-          <span data-ttu-id="90205-179">流已关闭，或流的功能与模式不相匹配。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="90205-179">The stream is already closed, or the capabilities of the stream do not match the mode.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.ArgumentNullException">
-          <span data-ttu-id="90205-180">
-            <paramref name="stream" /> 为 <see langword="null" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="90205-180">
-              <paramref name="stream" /> is <see langword="null" />.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.ArgumentOutOfRangeException">
-          <span data-ttu-id="90205-181">
-            <paramref name="mode" /> 为无效值。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="90205-181">
-              <paramref name="mode" /> is an invalid value.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.IO.InvalidDataException">
-          <span data-ttu-id="90205-182">流的内容无法被解释为 zip 存档。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="90205-182">The contents of the stream could not be interpreted as a zip archive.</span>
-          </span>
-          <span data-ttu-id="90205-183">或</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="90205-183">-or-</span>
-          </span>
-          <span data-ttu-id="90205-184">
-            <paramref name="mode" /> 是 <see cref="F:System.IO.Compression.ZipArchiveMode.Update" />，但存档中缺少项，或者项已损坏且无法读取。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="90205-184">
-              <paramref name="mode" /> is <see cref="F:System.IO.Compression.ZipArchiveMode.Update" /> and an entry is missing from the archive or is corrupt and cannot be read.</span>
-          </span>
-          <span data-ttu-id="90205-185">或</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="90205-185">-or-</span>
-          </span>
-          <span data-ttu-id="90205-186">
-            <paramref name="mode" /> 是 <see cref="F:System.IO.Compression.ZipArchiveMode.Update" />，但项太大，无法装入内存。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="90205-186">
-              <paramref name="mode" /> is <see cref="F:System.IO.Compression.ZipArchiveMode.Update" /> and an entry is too large to fit into memory.</span>
-          </span>
-        </exception>
-      </Docs>
-    </Member>
-    <MemberGroup MemberName="CreateEntry">
-      <AssemblyInfo>
-        <AssemblyName>System.IO.Compression</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-        <AssemblyVersion>4.1.1.0</AssemblyVersion>
-        <AssemblyVersion>4.2.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Docs>
-        <summary>
-          <span data-ttu-id="90205-187">在 zip 存档中创建空项。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="90205-187">Creates an empty entry in the zip archive.</span>
-          </span>
-        </summary>
-      </Docs>
-    </MemberGroup>
-    <Member MemberName="CreateEntry">
-      <MemberSignature Language="C#" Value="public System.IO.Compression.ZipArchiveEntry CreateEntry (string entryName);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class System.IO.Compression.ZipArchiveEntry CreateEntry(string entryName) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.IO.Compression.ZipArchive.CreateEntry(System.String)" />
-      <MemberSignature Language="VB.NET" Value="Public Function CreateEntry (entryName As String) As ZipArchiveEntry" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; System::IO::Compression::ZipArchiveEntry ^ CreateEntry(System::String ^ entryName);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.IO.Compression</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-        <AssemblyVersion>4.1.1.0</AssemblyVersion>
-        <AssemblyVersion>4.2.0.0</AssemblyVersion>
-        <AssemblyVersion>4.2.1.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>netstandard</AssemblyName>
-        <AssemblyVersion>2.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.IO.Compression.ZipArchiveEntry</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="entryName" Type="System.String" />
-      </Parameters>
-      <Docs>
-        <param name="entryName">
-          <span data-ttu-id="90205-188">相对于存档的根的路径指定了要创建项的名称。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="90205-188">A path, relative to the root of the archive, that specifies the name of the entry to be created.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="90205-189">创建在 zip 存档中有指定路径和项名的空项。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="90205-189">Creates an empty entry that has the specified path and entry name in the zip archive.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="90205-190">在 zip 存档中的空项。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="90205-190">An empty entry in the zip archive.</span>
-          </span>
-        </returns>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="90205-191">`entryName`字符串应反映你想要在 zip 存档中创建的项的相对路径。</span><span class="sxs-lookup"><span data-stu-id="90205-191">The `entryName` string should reflect the relative path of the entry you want to create within the zip archive.</span></span> <span data-ttu-id="90205-192">没有您提供的字符串受限制。</span><span class="sxs-lookup"><span data-stu-id="90205-192">There is no restriction on the string you provide.</span></span> <span data-ttu-id="90205-193">但是，如果它未格式化为相对路径，创建项，但提取 zip 存档的内容时，可能会收到异常。</span><span class="sxs-lookup"><span data-stu-id="90205-193">However, if it is not formatted as a relative path, the entry is created, but you may get an exception when you extract the contents of the zip archive.</span></span> <span data-ttu-id="90205-194">如果在存档中已存在具有指定的路径和名称的项，第二个条目被创建具有相同的路径和名称。</span><span class="sxs-lookup"><span data-stu-id="90205-194">If an entry with the specified path and name already exists in the archive, a second entry is created with the same path and name.</span></span>  
-  
- <span data-ttu-id="90205-195">值<xref:System.IO.Compression.ZipArchiveEntry.LastWriteTime%2A>新项的属性设置为当前时间。</span><span class="sxs-lookup"><span data-stu-id="90205-195">The value of the <xref:System.IO.Compression.ZipArchiveEntry.LastWriteTime%2A> property for the new entry is set to the current time.</span></span> <span data-ttu-id="90205-196">使用默认压缩级别的基础的压缩算法来压缩条目。</span><span class="sxs-lookup"><span data-stu-id="90205-196">The entry is compressed using the default compression level of the underlying compression algorithm.</span></span> <span data-ttu-id="90205-197">如果你想要指定不同的压缩级别，使用<xref:System.IO.Compression.ZipArchive.CreateEntry%2A>方法。</span><span class="sxs-lookup"><span data-stu-id="90205-197">If you want to specify a different compression level, use the <xref:System.IO.Compression.ZipArchive.CreateEntry%2A> method.</span></span>  
-  
-   
-  
-## Examples  
- <span data-ttu-id="90205-198">下面的示例演示如何创建一个条目，并向其中写入使用流。</span><span class="sxs-lookup"><span data-stu-id="90205-198">The following example shows how to create an entry and write to it by using a stream.</span></span>  
-  
- [!code-csharp[System.IO.Compression.ZipArchiveMode#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.io.compression.ziparchivemode/cs/program1.cs#1)]
- [!code-vb[System.IO.Compression.ZipArchiveMode#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.io.compression.ziparchivemode/vb/program1.vb#1)]  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.ArgumentException">
-          <span data-ttu-id="90205-199">
-            <paramref name="entryName" /> 为 <see cref="F:System.String.Empty" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="90205-199">
-              <paramref name="entryName" /> is <see cref="F:System.String.Empty" />.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.ArgumentNullException">
-          <span data-ttu-id="90205-200">
-            <paramref name="entryName" /> 为 <see langword="null" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="90205-200">
-              <paramref name="entryName" /> is <see langword="null" />.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.NotSupportedException">
-          <span data-ttu-id="90205-201">zip 存档不支持写入。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="90205-201">The zip archive does not support writing.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.ObjectDisposedException">
-          <span data-ttu-id="90205-202">zip 存档已释放。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="90205-202">The zip archive has been disposed.</span>
-          </span>
-        </exception>
-      </Docs>
-    </Member>
-    <Member MemberName="CreateEntry">
-      <MemberSignature Language="C#" Value="public System.IO.Compression.ZipArchiveEntry CreateEntry (string entryName, System.IO.Compression.CompressionLevel compressionLevel);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class System.IO.Compression.ZipArchiveEntry CreateEntry(string entryName, valuetype System.IO.Compression.CompressionLevel compressionLevel) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.IO.Compression.ZipArchive.CreateEntry(System.String,System.IO.Compression.CompressionLevel)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; System::IO::Compression::ZipArchiveEntry ^ CreateEntry(System::String ^ entryName, System::IO::Compression::CompressionLevel compressionLevel);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.IO.Compression</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-        <AssemblyVersion>4.1.1.0</AssemblyVersion>
-        <AssemblyVersion>4.2.0.0</AssemblyVersion>
-        <AssemblyVersion>4.2.1.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>netstandard</AssemblyName>
-        <AssemblyVersion>2.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.IO.Compression.ZipArchiveEntry</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="entryName" Type="System.String" />
-        <Parameter Name="compressionLevel" Type="System.IO.Compression.CompressionLevel" />
-      </Parameters>
-      <Docs>
-        <param name="entryName">
-          <span data-ttu-id="90205-203">相对于存档的根的路径指定了要创建项的名称。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="90205-203">A path, relative to the root of the archive, that specifies the name of the entry to be created.</span>
-          </span>
-        </param>
-        <param name="compressionLevel">
-          <span data-ttu-id="90205-204">指示创建项时是否强调速度或压缩有效性的枚举值之一。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="90205-204">One of the enumeration values that indicates whether to emphasize speed or compression effectiveness when creating the entry.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="90205-205">创建在 zip 存档中有指定项名和压缩级别的空项。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="90205-205">Creates an empty entry that has the specified entry name and compression level in the zip archive.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="90205-206">在 zip 存档中的空项。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="90205-206">An empty entry in the zip archive.</span>
-          </span>
-        </returns>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="90205-207">`entryName`字符串应反映你想要在 zip 存档中创建的项的相对路径。</span><span class="sxs-lookup"><span data-stu-id="90205-207">The `entryName` string should reflect the relative path of the entry you want to create within the zip archive.</span></span> <span data-ttu-id="90205-208">没有您提供的字符串受限制。</span><span class="sxs-lookup"><span data-stu-id="90205-208">There is no restriction on the string you provide.</span></span> <span data-ttu-id="90205-209">但是，如果它未格式化为相对路径，创建项，但提取 zip 存档的内容时，可能会收到异常。</span><span class="sxs-lookup"><span data-stu-id="90205-209">However, if it is not formatted as a relative path, the entry is created, but you may get an exception when you extract the contents of the zip archive.</span></span> <span data-ttu-id="90205-210">如果在存档中已存在一个具有指定名称的项，第二个条目被创建具有相同的名称。</span><span class="sxs-lookup"><span data-stu-id="90205-210">If an entry with the specified name already exists in the archive, a second entry is created with the same name.</span></span>  
-  
- <span data-ttu-id="90205-211">值<xref:System.IO.Compression.ZipArchiveEntry.LastWriteTime%2A>新项的属性设置为当前时间。</span><span class="sxs-lookup"><span data-stu-id="90205-211">The value of the <xref:System.IO.Compression.ZipArchiveEntry.LastWriteTime%2A> property for the new entry is set to the current time.</span></span> <span data-ttu-id="90205-212">设置`compressionLevel`参数<xref:System.IO.Compression.CompressionLevel.Optimal>如果你想要压缩的文件尽可能多地。</span><span class="sxs-lookup"><span data-stu-id="90205-212">Set the `compressionLevel` parameter to <xref:System.IO.Compression.CompressionLevel.Optimal> if you want the file to be compressed as much as possible.</span></span> <span data-ttu-id="90205-213">设置`compressionLevel`参数<xref:System.IO.Compression.CompressionLevel.Fastest>仅当您担心，压缩操作将完成速度是否足够快为你的方案。</span><span class="sxs-lookup"><span data-stu-id="90205-213">Set the `compressionLevel` parameter to <xref:System.IO.Compression.CompressionLevel.Fastest> only if you are concerned that the compression operation will not complete quickly enough for your scenario.</span></span>  
-  
-   
-  
-## Examples  
- <span data-ttu-id="90205-214">下面的示例演示如何创建一个条目，以实现最佳压缩级别。</span><span class="sxs-lookup"><span data-stu-id="90205-214">The following example shows how to create an entry with the optimal compression level.</span></span> <span data-ttu-id="90205-215">通过使用一个流，它还可写入新条目的速度。</span><span class="sxs-lookup"><span data-stu-id="90205-215">It also writes to the new entry by using a stream.</span></span>  
-  
- [!code-csharp[System.IO.Compression.ZipArchiveMode#2](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.io.compression.ziparchivemode/cs/program2.cs#2)]
- [!code-vb[System.IO.Compression.ZipArchiveMode#2](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.io.compression.ziparchivemode/vb/program2.vb#2)]  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.ArgumentException">
-          <span data-ttu-id="90205-216">
-            <paramref name="entryName" /> 为 <see cref="F:System.String.Empty" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="90205-216">
-              <paramref name="entryName" /> is <see cref="F:System.String.Empty" />.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.ArgumentNullException">
-          <span data-ttu-id="90205-217">
-            <paramref name="entryName" /> 为 <see langword="null" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="90205-217">
-              <paramref name="entryName" /> is <see langword="null" />.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.NotSupportedException">
-          <span data-ttu-id="90205-218">zip 存档不支持写入。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="90205-218">The zip archive does not support writing.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.ObjectDisposedException">
-          <span data-ttu-id="90205-219">zip 存档已释放。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="90205-219">The zip archive has been disposed.</span>
-          </span>
-        </exception>
-      </Docs>
-    </Member>
-    <MemberGroup MemberName="Dispose">
-      <AssemblyInfo>
-        <AssemblyName>System.IO.Compression</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-        <AssemblyVersion>4.1.1.0</AssemblyVersion>
-        <AssemblyVersion>4.2.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Docs>
-        <summary>
-          <span data-ttu-id="90205-220">释放由 <see cref="T:System.IO.Compression.ZipArchive" /> 对象使用的所有资源。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="90205-220">Releases all resources used by the <see cref="T:System.IO.Compression.ZipArchive" /> object.</span>
-          </span>
-        </summary>
-      </Docs>
-    </MemberGroup>
-    <Member MemberName="Dispose">
-      <MemberSignature Language="C#" Value="public void Dispose ();" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void Dispose() cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.IO.Compression.ZipArchive.Dispose" />
-      <MemberSignature Language="VB.NET" Value="Public Sub Dispose ()" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual void Dispose();" />
-      <MemberType>Method</MemberType>
-      <Implements>
-        <InterfaceMember>M:System.IDisposable.Dispose</InterfaceMember>
-      </Implements>
-      <AssemblyInfo>
-        <AssemblyName>System.IO.Compression</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-        <AssemblyVersion>4.1.1.0</AssemblyVersion>
-        <AssemblyVersion>4.2.0.0</AssemblyVersion>
-        <AssemblyVersion>4.2.1.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>netstandard</AssemblyName>
-        <AssemblyVersion>2.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters />
-      <Docs>
-        <summary>
-          <span data-ttu-id="90205-221">释放 <see cref="T:System.IO.Compression.ZipArchive" /> 类的当前实例使用的资源。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="90205-221">Releases the resources used by the current instance of the <see cref="T:System.IO.Compression.ZipArchive" /> class.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="90205-222">此方法完成写入存档，释放使用的所有资源<xref:System.IO.Compression.ZipArchive>对象。</span><span class="sxs-lookup"><span data-stu-id="90205-222">This method finishes writing the archive and releases all resources used by the <xref:System.IO.Compression.ZipArchive> object.</span></span> <span data-ttu-id="90205-223">除非通过使用构造对象<xref:System.IO.Compression.ZipArchive.%23ctor%28System.IO.Stream%2CSystem.IO.Compression.ZipArchiveMode%2CSystem.Boolean%29>构造函数重载并设置其`leaveOpen`参数`true`，所有的基础流已关闭不再可用于的后续写入操作。</span><span class="sxs-lookup"><span data-stu-id="90205-223">Unless you construct the object by using the <xref:System.IO.Compression.ZipArchive.%23ctor%28System.IO.Stream%2CSystem.IO.Compression.ZipArchiveMode%2CSystem.Boolean%29> constructor overload and set its `leaveOpen` parameter to `true`, all underlying streams are closed and no longer available for subsequent write operations.</span></span>  
-  
- <span data-ttu-id="90205-224">在完成使用的此实例时<xref:System.IO.Compression.ZipArchive>，调用<xref:System.IO.Compression.ZipArchive.Dispose>释放此实例所使用的所有资源。</span><span class="sxs-lookup"><span data-stu-id="90205-224">When you are finished using this instance of <xref:System.IO.Compression.ZipArchive>, call <xref:System.IO.Compression.ZipArchive.Dispose> to release all resources used by this instance.</span></span> <span data-ttu-id="90205-225">你应该可以消除进一步引用到此<xref:System.IO.Compression.ZipArchive>实例，以便垃圾回收器才能回收而不是保留它终止的实例的内存。</span><span class="sxs-lookup"><span data-stu-id="90205-225">You should eliminate further references to this <xref:System.IO.Compression.ZipArchive> instance so that the garbage collector can reclaim the memory of the instance instead of keeping it alive for finalization.</span></span>  
-  
- <span data-ttu-id="90205-226"><xref:System.IO.Compression.ZipArchive.Dispose> 调用<xref:System.IO.Compression.ZipArchive.Dispose%28System.Boolean%29>方法，其中包含要释放托管和非托管资源的代码。</span><span class="sxs-lookup"><span data-stu-id="90205-226"><xref:System.IO.Compression.ZipArchive.Dispose> calls the <xref:System.IO.Compression.ZipArchive.Dispose%28System.Boolean%29> method, which contains the code to release managed and unmanaged resources.</span></span> <span data-ttu-id="90205-227">有关详细信息，请参阅。</span><span class="sxs-lookup"><span data-stu-id="90205-227">For more information, see .</span></span>  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="Dispose">
-      <MemberSignature Language="C#" Value="protected virtual void Dispose (bool disposing);" />
-      <MemberSignature Language="ILAsm" Value=".method familyhidebysig newslot virtual instance void Dispose(bool disposing) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.IO.Compression.ZipArchive.Dispose(System.Boolean)" />
-      <MemberSignature Language="VB.NET" Value="Protected Overridable Sub Dispose (disposing As Boolean)" />
-      <MemberSignature Language="C++ CLI" Value="protected:&#xA; virtual void Dispose(bool disposing);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.IO.Compression</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-        <AssemblyVersion>4.1.1.0</AssemblyVersion>
-        <AssemblyVersion>4.2.0.0</AssemblyVersion>
-        <AssemblyVersion>4.2.1.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>netstandard</AssemblyName>
-        <AssemblyVersion>2.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="disposing" Type="System.Boolean" />
-      </Parameters>
-      <Docs>
-        <param name="disposing">
-          <span data-ttu-id="90205-228">
-            <see langword="true" /> 表示完成存档的写入并释放未托管和托管资源；<see langword="false" /> 则仅释放未托管资源。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="90205-228">
-              <see langword="true" /> to finish writing the archive and release unmanaged and managed resources; <see langword="false" /> to release only unmanaged resources.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="90205-229">由 <see cref="M:System.IO.Compression.ZipArchive.Dispose" /> 和 <see cref="M:System.Object.Finalize" /> 方法调用，以释放 <see cref="T:System.IO.Compression.ZipArchive" /> 类的当前实例使用的未托管资源，并选择性地完成存档的写入和释放托管资源。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="90205-229">Called by the <see cref="M:System.IO.Compression.ZipArchive.Dispose" /> and <see cref="M:System.Object.Finalize" /> methods to release the unmanaged resources used by the current instance of the <see cref="T:System.IO.Compression.ZipArchive" /> class, and optionally finishes writing the archive and releases the managed resources.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="90205-230">如果`disposing`设置为`true`，所有的基础流已关闭不再可用于的后续写入操作，除非通过使用构造对象<xref:System.IO.Compression.ZipArchive.%23ctor%28System.IO.Stream%2CSystem.IO.Compression.ZipArchiveMode%2CSystem.Boolean%29>构造函数重载并设置其`leaveOpen`参数`true`.</span><span class="sxs-lookup"><span data-stu-id="90205-230">If `disposing` is set to `true`, all underlying streams are closed and no longer available for subsequent write operations, unless you construct the object by using the <xref:System.IO.Compression.ZipArchive.%23ctor%28System.IO.Stream%2CSystem.IO.Compression.ZipArchiveMode%2CSystem.Boolean%29> constructor overload and set its `leaveOpen` parameter to `true`.</span></span>  
-  
- <span data-ttu-id="90205-231">此方法称为仅由公共<xref:System.IO.Compression.ZipArchive.Dispose>和<xref:System.Object.Finalize>方法; 这些方法不直接调用此方法。</span><span class="sxs-lookup"><span data-stu-id="90205-231">This method is called only by the public <xref:System.IO.Compression.ZipArchive.Dispose> and <xref:System.Object.Finalize> methods; do not call this method directly.</span></span>  
-  
- <span data-ttu-id="90205-232">当实现的释放模式的布尔参数<xref:System.IO.Compression.ZipArchive.Dispose%28System.Boolean%29>方法应在使用，如下所示：</span><span class="sxs-lookup"><span data-stu-id="90205-232">When you implement the dispose pattern, the Boolean parameter of the <xref:System.IO.Compression.ZipArchive.Dispose%28System.Boolean%29> method should be used as follows:</span></span>  
-  
--   <span data-ttu-id="90205-233"><xref:System.IO.Compression.ZipArchive.Dispose>当前对象的方法应调用<xref:System.IO.Compression.ZipArchive.Dispose%28System.Boolean%29>布尔参数设置为`true`释放托管和非托管资源。</span><span class="sxs-lookup"><span data-stu-id="90205-233">The <xref:System.IO.Compression.ZipArchive.Dispose> method of the current object should call <xref:System.IO.Compression.ZipArchive.Dispose%28System.Boolean%29> with the Boolean parameter set to `true` to release both managed and unmanaged resources.</span></span>  
-  
--   <span data-ttu-id="90205-234"><xref:System.Object.Finalize>当前对象的方法应调用<xref:System.IO.Compression.ZipArchive.Dispose%28System.Boolean%29>布尔参数设置为`false`若要仅释放非托管的资源。</span><span class="sxs-lookup"><span data-stu-id="90205-234">The <xref:System.Object.Finalize> method of the current object should call <xref:System.IO.Compression.ZipArchive.Dispose%28System.Boolean%29> with the Boolean parameter set to `false` to release only unmanaged resources.</span></span>  
-  
- <span data-ttu-id="90205-235">有关详细信息，请参阅。</span><span class="sxs-lookup"><span data-stu-id="90205-235">For more information, see .</span></span>  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="Entries">
-      <MemberSignature Language="C#" Value="public System.Collections.ObjectModel.ReadOnlyCollection&lt;System.IO.Compression.ZipArchiveEntry&gt; Entries { get; }" />
-      <MemberSignature Language="ILAsm" Value=".property instance class System.Collections.ObjectModel.ReadOnlyCollection`1&lt;class System.IO.Compression.ZipArchiveEntry&gt; Entries" />
-      <MemberSignature Language="DocId" Value="P:System.IO.Compression.ZipArchive.Entries" />
-      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property Entries As ReadOnlyCollection(Of ZipArchiveEntry)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::Collections::ObjectModel::ReadOnlyCollection&lt;System::IO::Compression::ZipArchiveEntry ^&gt; ^ Entries { System::Collections::ObjectModel::ReadOnlyCollection&lt;System::IO::Compression::ZipArchiveEntry ^&gt; ^ get(); };" />
-      <MemberType>Property</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.IO.Compression</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-        <AssemblyVersion>4.1.1.0</AssemblyVersion>
-        <AssemblyVersion>4.2.0.0</AssemblyVersion>
-        <AssemblyVersion>4.2.1.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>netstandard</AssemblyName>
-        <AssemblyVersion>2.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Collections.ObjectModel.ReadOnlyCollection&lt;System.IO.Compression.ZipArchiveEntry&gt;</ReturnType>
-      </ReturnValue>
-      <Docs>
-        <summary>
-          <span data-ttu-id="90205-236">获取 zip 存档中当前存在的项的集合。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="90205-236">Gets the collection of entries that are currently in the zip archive.</span>
-          </span>
-        </summary>
-        <value>
-          <span data-ttu-id="90205-237">在 zip 存档中当前存在的项的集合。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="90205-237">The collection of entries that are currently in the zip archive.</span>
-          </span>
-        </value>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="90205-238">使用<xref:System.IO.Compression.ZipArchive.Entries%2A>要检索的项的整个集合属性。</span><span class="sxs-lookup"><span data-stu-id="90205-238">Use the <xref:System.IO.Compression.ZipArchive.Entries%2A> property to retrieve the entire collection of entries.</span></span> <span data-ttu-id="90205-239">使用<xref:System.IO.Compression.ZipArchive.GetEntry%2A>方法来按名称检索单个条目。</span><span class="sxs-lookup"><span data-stu-id="90205-239">Use the <xref:System.IO.Compression.ZipArchive.GetEntry%2A> method to retrieve a single entry by name.</span></span>  
-  
-   
-  
-## Examples  
- <span data-ttu-id="90205-240">下面的示例演示如何打开 zip 存档，并循环访问的项的集合。</span><span class="sxs-lookup"><span data-stu-id="90205-240">The following example shows how to open a zip archive and iterate through the collection of entries.</span></span>  
-  
- [!code-csharp[System.IO.Compression.ZipArchive#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.io.compression.ziparchive/cs/program1.cs#1)]
- [!code-vb[System.IO.Compression.ZipArchive#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.io.compression.ziparchive/vb/program1.vb#1)]  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.NotSupportedException">
-          <span data-ttu-id="90205-241">zip 存档不支持读取。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="90205-241">The zip archive does not support reading.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.ObjectDisposedException">
-          <span data-ttu-id="90205-242">zip 存档已释放。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="90205-242">The zip archive has been disposed.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.IO.InvalidDataException">
-          <span data-ttu-id="90205-243">zip 存档已损坏，不能检索其项。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="90205-243">The zip archive is corrupt, and its entries cannot be retrieved.</span>
-          </span>
-        </exception>
-      </Docs>
-    </Member>
-    <Member MemberName="GetEntry">
-      <MemberSignature Language="C#" Value="public System.IO.Compression.ZipArchiveEntry GetEntry (string entryName);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class System.IO.Compression.ZipArchiveEntry GetEntry(string entryName) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.IO.Compression.ZipArchive.GetEntry(System.String)" />
-      <MemberSignature Language="VB.NET" Value="Public Function GetEntry (entryName As String) As ZipArchiveEntry" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; System::IO::Compression::ZipArchiveEntry ^ GetEntry(System::String ^ entryName);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.IO.Compression</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-        <AssemblyVersion>4.1.1.0</AssemblyVersion>
-        <AssemblyVersion>4.2.0.0</AssemblyVersion>
-        <AssemblyVersion>4.2.1.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>netstandard</AssemblyName>
-        <AssemblyVersion>2.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.IO.Compression.ZipArchiveEntry</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="entryName" Type="System.String" />
-      </Parameters>
-      <Docs>
-        <param name="entryName">
-          <span data-ttu-id="90205-244">识别要检索的项、相对于存档的根的路径。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="90205-244">A path, relative to the root of the archive, that identifies the entry to retrieve.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="90205-245">在 zip 存档中检索指定项的包装。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="90205-245">Retrieves a wrapper for the specified entry in the zip archive.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="90205-246">存档中指定项的包装器；如果存档中不存在此项，则为 <see langword="null" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="90205-246">A wrapper for the specified entry in the archive; <see langword="null" /> if the entry does not exist in the archive.</span>
-          </span>
-        </returns>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="90205-247">如果在存档中存在具有指定的名称的多个条目，则返回第一个。</span><span class="sxs-lookup"><span data-stu-id="90205-247">If multiple entries that have the specified name exist in the archive, the first one is returned.</span></span> <span data-ttu-id="90205-248">项名称相比`entryName`使用序号比较。</span><span class="sxs-lookup"><span data-stu-id="90205-248">The name of the entry is compared to `entryName` using ordinal comparison.</span></span>  
-  
-   
-  
-## Examples  
- <span data-ttu-id="90205-249">下面的示例演示如何使用<xref:System.IO.Compression.ZipArchive.GetEntry%2A>方法来检索一个条目。</span><span class="sxs-lookup"><span data-stu-id="90205-249">The following example shows how to use the <xref:System.IO.Compression.ZipArchive.GetEntry%2A> method to retrieve an entry.</span></span>  
-  
- [!code-csharp[System.IO.Compression.ZipArchiveEntry#2](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.io.compression.ziparchiveentry/cs/program2.cs#2)]
- [!code-vb[System.IO.Compression.ZipArchiveEntry#2](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.io.compression.ziparchiveentry/vb/program2.vb#2)]  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.ArgumentException">
-          <span data-ttu-id="90205-250">
-            <paramref name="entryName" /> 为 <see cref="F:System.String.Empty" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="90205-250">
-              <paramref name="entryName" /> is <see cref="F:System.String.Empty" />.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.ArgumentNullException">
-          <span data-ttu-id="90205-251">
-            <paramref name="entryName" /> 为 <see langword="null" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="90205-251">
-              <paramref name="entryName" /> is <see langword="null" />.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.NotSupportedException">
-          <span data-ttu-id="90205-252">zip 存档不支持读取。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="90205-252">The zip archive does not support reading.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.ObjectDisposedException">
-          <span data-ttu-id="90205-253">zip 存档已释放。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="90205-253">The zip archive has been disposed.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.IO.InvalidDataException">
-          <span data-ttu-id="90205-254">zip 存档已损坏，不能检索其项。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="90205-254">The zip archive is corrupt, and its entries cannot be retrieved.</span>
-          </span>
-        </exception>
-      </Docs>
-    </Member>
-    <Member MemberName="Mode">
-      <MemberSignature Language="C#" Value="public System.IO.Compression.ZipArchiveMode Mode { get; }" />
-      <MemberSignature Language="ILAsm" Value=".property instance valuetype System.IO.Compression.ZipArchiveMode Mode" />
-      <MemberSignature Language="DocId" Value="P:System.IO.Compression.ZipArchive.Mode" />
-      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property Mode As ZipArchiveMode" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::IO::Compression::ZipArchiveMode Mode { System::IO::Compression::ZipArchiveMode get(); };" />
-      <MemberType>Property</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.IO.Compression</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-        <AssemblyVersion>4.1.1.0</AssemblyVersion>
-        <AssemblyVersion>4.2.0.0</AssemblyVersion>
-        <AssemblyVersion>4.2.1.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>netstandard</AssemblyName>
-        <AssemblyVersion>2.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.IO.Compression.ZipArchiveMode</ReturnType>
-      </ReturnValue>
-      <Docs>
-        <summary>
-          <span data-ttu-id="90205-255">获取描述 zip 存档可在项上执行的操作类型的一个值。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="90205-255">Gets a value that describes the type of action the zip archive can perform on entries.</span>
-          </span>
-        </summary>
-        <value>
-          <span data-ttu-id="90205-256">描述 zip 存档可在项上执行的操作类型（读取、创建或更新）的一个枚举值。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="90205-256">One of the enumeration values that describes the type of action (read, create, or update) the zip archive can perform on entries.</span>
-          </span>
-        </value>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="90205-257">指定的值<xref:System.IO.Compression.ZipArchive>当你创建的实例时，属性<xref:System.IO.Compression.ZipArchive>类。</span><span class="sxs-lookup"><span data-stu-id="90205-257">You specify a value for the <xref:System.IO.Compression.ZipArchive> property when you create an instance of the <xref:System.IO.Compression.ZipArchive> class.</span></span> <span data-ttu-id="90205-258">使用<xref:System.IO.Compression.ZipArchive.%23ctor%28System.IO.Stream%2CSystem.IO.Compression.ZipArchiveMode%29>或<xref:System.IO.Compression.ZipArchive.%23ctor%28System.IO.Stream%2CSystem.IO.Compression.ZipArchiveMode%2CSystem.Boolean%29>构造函数提供的值<xref:System.IO.Compression.ZipArchive.Mode%2A>属性。</span><span class="sxs-lookup"><span data-stu-id="90205-258">Use the <xref:System.IO.Compression.ZipArchive.%23ctor%28System.IO.Stream%2CSystem.IO.Compression.ZipArchiveMode%29> or <xref:System.IO.Compression.ZipArchive.%23ctor%28System.IO.Stream%2CSystem.IO.Compression.ZipArchiveMode%2CSystem.Boolean%29> constructor to provide a value for the <xref:System.IO.Compression.ZipArchive.Mode%2A> property.</span></span>  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-  </Members>
-</Type>
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.2" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 xliff-core-1.2-transitional.xsd">
+  <file datatype="xml" original="ZipArchive.xml" source-language="en-US" target-language="zh-CN">
+    <header>
+      <tool tool-id="mdxliff" tool-name="mdxliff" tool-version="1.0-15c36f0" tool-company="Microsoft" />
+      <xliffext:skl_file_name xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">02cd5861-7ce2-4a82-b358-31f8435a0ac569d8f68c04b20c5dff55edf31c96edfb5b763433.skl</xliffext:skl_file_name>
+      <xliffext:version xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">1.2</xliffext:version>
+      <xliffext:ms.openlocfilehash xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">69d8f68c04b20c5dff55edf31c96edfb5b763433</xliffext:ms.openlocfilehash>
+      <xliffext:ms.sourcegitcommit xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b</xliffext:ms.sourcegitcommit>
+      <xliffext:ms.lasthandoff xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">04/03/2018</xliffext:ms.lasthandoff>
+      <xliffext:moniker_ids xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">netcore-1.0,netcore-1.1,netcore-2.0,netcore-2.1,netframework-4.5.1,netframework-4.5.2,netframework-4.5,netframework-4.6.1,netframework-4.6.2,netframework-4.6,netframework-4.7.1,netframework-4.7,netstandard-1.1,netstandard-1.2,netstandard-1.3,netstandard-1.4,netstandard-1.6,netstandard-2.0,xamarinandroid-7.1,xamarinios-10.8,xamarinmac-3.0</xliffext:moniker_ids>
+    </header>
+    <body>
+      <group id="content" extype="content">
+        <trans-unit id="101" translate="yes" xml:space="preserve" uid="T:System.IO.Compression.ZipArchive">
+          <source>Represents a package of compressed files in the zip archive format.</source>
+          <target state="translated">表示 Zip 存档格式中的一个压缩文件包。</target>       </trans-unit>
+        <trans-unit id="102" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.IO.Compression.ZipArchive">
+          <source>The methods for manipulating zip archives and their file entries are spread across three classes: <ph id="ph1">&lt;xref:System.IO.Compression.ZipFile&gt;</ph>, <ph id="ph2">&lt;xref:System.IO.Compression.ZipArchive&gt;</ph>, and <ph id="ph3">&lt;xref:System.IO.Compression.ZipArchiveEntry&gt;</ph>.</source>
+          <target state="translated">用于操作的 zip 存档和其文件条目的方法将分布在三个类： <ph id="ph1">&lt;xref:System.IO.Compression.ZipFile&gt;</ph>， <ph id="ph2">&lt;xref:System.IO.Compression.ZipArchive&gt;</ph>，和<ph id="ph3">&lt;xref:System.IO.Compression.ZipArchiveEntry&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="103" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.IO.Compression.ZipArchive">
+          <source>To</source>
+          <target state="translated">到</target>       </trans-unit>
+        <trans-unit id="104" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.IO.Compression.ZipArchive">
+          <source>Use</source>
+          <target state="translated">使用</target>       </trans-unit>
+        <trans-unit id="105" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.IO.Compression.ZipArchive">
+          <source>Create a zip archive from a directory</source>
+          <target state="translated">从目录中创建的 zip 存档</target>       </trans-unit>
+        <trans-unit id="106" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.IO.Compression.ZipArchive">
+          <source>Extract the contents of a zip archive to a directory</source>
+          <target state="translated">提取到目录的 zip 存档的内容</target>       </trans-unit>
+        <trans-unit id="107" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.IO.Compression.ZipArchive">
+          <source>Add new files to an existing zip archive</source>
+          <target state="translated">将新文件添加到现有的 zip 存档</target>       </trans-unit>
+        <trans-unit id="108" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.IO.Compression.ZipArchive">
+          <source>Retrieve a file from a zip archive</source>
+          <target state="translated">从 zip 存档文件中检索</target>       </trans-unit>
+        <trans-unit id="109" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.IO.Compression.ZipArchive">
+          <source>Retrieve all the files from a zip archive</source>
+          <target state="translated">从 zip 存档中检索所有文件</target>       </trans-unit>
+        <trans-unit id="110" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.IO.Compression.ZipArchive">
+          <source>Open a stream to a single file contained in a zip archive</source>
+          <target state="translated">打开 zip 存档中包含的单一文件的流</target>       </trans-unit>
+        <trans-unit id="111" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.IO.Compression.ZipArchive">
+          <source>Delete a file from a zip archive</source>
+          <target state="translated">从 zip 存档中删除文件</target>       </trans-unit>
+        <trans-unit id="112" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.IO.Compression.ZipArchive">
+          <source>When you create a new entry, the file is compressed and added to the zip package.</source>
+          <target state="translated">当你创建新的条目时，该文件被压缩，并添加到的 zip 包。</target>       </trans-unit>
+        <trans-unit id="113" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.IO.Compression.ZipArchive">
+          <source>The <ph id="ph1">&lt;xref:System.IO.Compression.ZipArchive.CreateEntry%2A&gt;</ph> method enables you to specify a directory hierarchy when adding the entry.</source>
+          <target state="translated"><ph id="ph1">&lt;xref:System.IO.Compression.ZipArchive.CreateEntry%2A&gt;</ph>方法可指定目录层次结构时将项添加。</target>       </trans-unit>
+        <trans-unit id="114" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.IO.Compression.ZipArchive">
+          <source>You include the relative path of the new entry within the zip package.</source>
+          <target state="translated">包括新的条目的 zip 包中的相对路径。</target>       </trans-unit>
+        <trans-unit id="115" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.IO.Compression.ZipArchive">
+          <source>For example, creating a new entry with a relative path of <ph id="ph1">`AddedFolder\NewFile.txt`</ph> creates a compressed text file in a directory named AddedFolder.</source>
+          <target state="translated">例如，使用的相对路径创建新的条目<ph id="ph1">`AddedFolder\NewFile.txt`</ph>在一个名为 AddedFolder 目录中创建压缩的文本文件。</target>       </trans-unit>
+        <trans-unit id="116" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.IO.Compression.ZipArchive">
+          <source>If you reference the <ph id="ph1">`System.IO.Compression.FileSystem`</ph> assembly in your project, you can access three extension methods (from the <ph id="ph2">&lt;xref:System.IO.Compression.ZipFileExtensions&gt;</ph> class) for the <ph id="ph3">&lt;xref:System.IO.Compression.ZipArchive&gt;</ph> class: <ph id="ph4">&lt;xref:System.IO.Compression.ZipFileExtensions.CreateEntryFromFile%2A&gt;</ph>, <ph id="ph5">&lt;xref:System.IO.Compression.ZipFileExtensions.CreateEntryFromFile%2A&gt;</ph>, and <ph id="ph6">&lt;xref:System.IO.Compression.ZipFileExtensions.ExtractToDirectory%2A&gt;</ph>.</source>
+          <target state="translated">如果引用<ph id="ph1">`System.IO.Compression.FileSystem`</ph>程序集在项目中，你可以访问三个扩展方法 (从<ph id="ph2">&lt;xref:System.IO.Compression.ZipFileExtensions&gt;</ph>类) 的<ph id="ph3">&lt;xref:System.IO.Compression.ZipArchive&gt;</ph>类： <ph id="ph4">&lt;xref:System.IO.Compression.ZipFileExtensions.CreateEntryFromFile%2A&gt;</ph>， <ph id="ph5">&lt;xref:System.IO.Compression.ZipFileExtensions.CreateEntryFromFile%2A&gt;</ph>，和<ph id="ph6">&lt;xref:System.IO.Compression.ZipFileExtensions.ExtractToDirectory%2A&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="117" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.IO.Compression.ZipArchive">
+          <source>These extension methods enable you to compress and decompress the contents of the entry to a file.</source>
+          <target state="translated">这些扩展方法，可以压缩和解压缩到文件的项的内容。</target>       </trans-unit>
+        <trans-unit id="118" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.IO.Compression.ZipArchive">
+          <source>The <ph id="ph1">`System.IO.Compression.FileSystem`</ph> assembly is not available for <ph id="ph2">[!INCLUDE[win8_appname_long](~/includes/win8-appname-long-md.md)]</ph> apps.</source>
+          <target state="translated"><ph id="ph1">`System.IO.Compression.FileSystem`</ph>程序集不可用于<ph id="ph2">[!INCLUDE[win8_appname_long](~/includes/win8-appname-long-md.md)]</ph>应用。</target>       </trans-unit>
+        <trans-unit id="119" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.IO.Compression.ZipArchive">
+          <source>In <ph id="ph1">[!INCLUDE[win8_appname_long](~/includes/win8-appname-long-md.md)]</ph> apps, you can compress and decompress files by using the <ph id="ph2">&lt;xref:System.IO.Compression.DeflateStream&gt;</ph> or <ph id="ph3">&lt;xref:System.IO.Compression.GZipStream&gt;</ph> class, or you can use the <ph id="ph4">[!INCLUDE[wrt](~/includes/wrt-md.md)]</ph> types <bpt id="p1">[</bpt>Compressor<ept id="p1">](http://go.microsoft.com/fwlink/p/?LinkID=246357)</ept> and <bpt id="p2">[</bpt>Decompressor<ept id="p2">](http://go.microsoft.com/fwlink/p/?LinkID=246358)</ept>.</source>
+          <target state="translated">在<ph id="ph1">[!INCLUDE[win8_appname_long](~/includes/win8-appname-long-md.md)]</ph>应用，你可以压缩和解压缩文件使用<ph id="ph2">&lt;xref:System.IO.Compression.DeflateStream&gt;</ph>或<ph id="ph3">&lt;xref:System.IO.Compression.GZipStream&gt;</ph>类，也可以使用<ph id="ph4">[!INCLUDE[wrt](~/includes/wrt-md.md)]</ph>类型<bpt id="p1">[</bpt>压缩程序<ept id="p1">](http://go.microsoft.com/fwlink/p/?LinkID=246357)</ept>和<bpt id="p2">[</bpt>解压缩程序<ept id="p2">](http://go.microsoft.com/fwlink/p/?LinkID=246358)</ept>。</target>       </trans-unit>
+        <trans-unit id="120" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.IO.Compression.ZipArchive">
+          <source>The first example shows how to create a new entry and write to it by using a stream.</source>
+          <target state="translated">第一个示例演示如何创建新的条目，并向其中写入使用流。</target>       </trans-unit>
+        <trans-unit id="121" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.IO.Compression.ZipArchive">
+          <source>The following example shows how to open a zip archive and iterate through the collection of entries.</source>
+          <target state="translated">下面的示例演示如何打开 zip 存档，并循环访问的项的集合。</target>       </trans-unit>
+        <trans-unit id="122" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.IO.Compression.ZipArchive">
+          <source>The third example shows how to use extension methods to create a new entry in a zip archive from an existing file and extract the archive contents.</source>
+          <target state="translated">第三个示例演示如何使用扩展方法在从现有的文件的 zip 存档中创建新的条目和提取存档内容。</target>       </trans-unit>
+        <trans-unit id="123" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.IO.Compression.ZipArchive">
+          <source>You must reference the <ph id="ph1">`System.IO.Compression.FileSystem`</ph> assembly to execute the code.</source>
+          <target state="translated">必须引用<ph id="ph1">`System.IO.Compression.FileSystem`</ph>程序集执行代码。</target>       </trans-unit>
+        <trans-unit id="124" translate="yes" xml:space="preserve" uid="T:System.IO.Compression.ZipArchive">
+          <source>Initializes a new instance of the <ph id="ph1">&lt;see cref="T:System.IO.Compression.ZipArchive" /&gt;</ph> class.</source>
+          <target state="translated">初始化 <ph id="ph1">&lt;see cref="T:System.IO.Compression.ZipArchive" /&gt;</ph> 类的新实例。</target>       </trans-unit>
+        <trans-unit id="125" translate="yes" xml:space="preserve" uid="M:System.IO.Compression.ZipArchive.#ctor(System.IO.Stream)">
+          <source>The stream that contains the archive to be read.</source>
+          <target state="translated">即包含待读取的存档的流。</target>       </trans-unit>
+        <trans-unit id="126" translate="yes" xml:space="preserve" uid="M:System.IO.Compression.ZipArchive.#ctor(System.IO.Stream)">
+          <source>Initializes a new instance of the <ph id="ph1">&lt;see cref="T:System.IO.Compression.ZipArchive" /&gt;</ph> class from the specified stream.</source>
+          <target state="translated">从指定的流初始化 <ph id="ph1">&lt;see cref="T:System.IO.Compression.ZipArchive" /&gt;</ph> 类的新实例。</target>       </trans-unit>
+        <trans-unit id="127" translate="yes" xml:space="preserve" uid="M:System.IO.Compression.ZipArchive.#ctor(System.IO.Stream)">
+          <source>The stream is already closed or does not support reading.</source>
+          <target state="translated">该流已关闭或不支持读取。</target>       </trans-unit>
+        <trans-unit id="128" translate="yes" xml:space="preserve" uid="M:System.IO.Compression.ZipArchive.#ctor(System.IO.Stream)">
+          <source><ph id="ph1">&lt;paramref name="stream" /&gt;</ph> is <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="stream" /&gt;</ph> 为 <ph id="ph2">&lt;see langword="null" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="129" translate="yes" xml:space="preserve" uid="M:System.IO.Compression.ZipArchive.#ctor(System.IO.Stream)">
+          <source>The contents of the stream are not in the zip archive format.</source>
+          <target state="translated">流的内容不是 zip 存档格式。</target>       </trans-unit>
+        <trans-unit id="130" translate="yes" xml:space="preserve" uid="M:System.IO.Compression.ZipArchive.#ctor(System.IO.Stream,System.IO.Compression.ZipArchiveMode)">
+          <source>The input or output stream.</source>
+          <target state="translated">输入流或输出流。</target>       </trans-unit>
+        <trans-unit id="131" translate="yes" xml:space="preserve" uid="M:System.IO.Compression.ZipArchive.#ctor(System.IO.Stream,System.IO.Compression.ZipArchiveMode)">
+          <source>One of the enumeration values that indicates whether the zip archive is used to read, create, or update entries.</source>
+          <target state="translated">指示 zip 存档是否用于读取、创建或更新项的一个枚举值。</target>       </trans-unit>
+        <trans-unit id="132" translate="yes" xml:space="preserve" uid="M:System.IO.Compression.ZipArchive.#ctor(System.IO.Stream,System.IO.Compression.ZipArchiveMode)">
+          <source>Initializes a new instance of the <ph id="ph1">&lt;see cref="T:System.IO.Compression.ZipArchive" /&gt;</ph> class from the specified stream and with the specified mode.</source>
+          <target state="translated">从指定的流并使用指定的模式初始化 <ph id="ph1">&lt;see cref="T:System.IO.Compression.ZipArchive" /&gt;</ph> 类的新实例。</target>       </trans-unit>
+        <trans-unit id="133" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IO.Compression.ZipArchive.#ctor(System.IO.Stream,System.IO.Compression.ZipArchiveMode)">
+          <source>If the <ph id="ph1">`mode`</ph> parameter is set to <ph id="ph2">&lt;xref:System.IO.Compression.ZipArchiveMode.Read&gt;</ph>, the stream must support reading.</source>
+          <target state="translated">如果<ph id="ph1">`mode`</ph>参数设置为<ph id="ph2">&lt;xref:System.IO.Compression.ZipArchiveMode.Read&gt;</ph>，流必须支持读取。</target>       </trans-unit>
+        <trans-unit id="134" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IO.Compression.ZipArchive.#ctor(System.IO.Stream,System.IO.Compression.ZipArchiveMode)">
+          <source>If the <ph id="ph1">`mode`</ph> parameter is set to <ph id="ph2">&lt;xref:System.IO.Compression.ZipArchiveMode.Create&gt;</ph>, the stream must support writing.</source>
+          <target state="translated">如果<ph id="ph1">`mode`</ph>参数设置为<ph id="ph2">&lt;xref:System.IO.Compression.ZipArchiveMode.Create&gt;</ph>，流必须支持写入。</target>       </trans-unit>
+        <trans-unit id="135" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IO.Compression.ZipArchive.#ctor(System.IO.Stream,System.IO.Compression.ZipArchiveMode)">
+          <source>If the <ph id="ph1">`mode`</ph> parameter is set to <ph id="ph2">&lt;xref:System.IO.Compression.ZipArchiveMode.Update&gt;</ph>, the stream must support reading, writing, and seeking.</source>
+          <target state="translated">如果<ph id="ph1">`mode`</ph>参数设置为<ph id="ph2">&lt;xref:System.IO.Compression.ZipArchiveMode.Update&gt;</ph>，该流必须支持读取、 写入和查找。</target>       </trans-unit>
+        <trans-unit id="136" translate="yes" xml:space="preserve" uid="M:System.IO.Compression.ZipArchive.#ctor(System.IO.Stream,System.IO.Compression.ZipArchiveMode)">
+          <source>The stream is already closed, or the capabilities of the stream do not match the mode.</source>
+          <target state="translated">流已关闭，或流的功能与模式不相匹配。</target>       </trans-unit>
+        <trans-unit id="137" translate="yes" xml:space="preserve" uid="M:System.IO.Compression.ZipArchive.#ctor(System.IO.Stream,System.IO.Compression.ZipArchiveMode)">
+          <source><ph id="ph1">&lt;paramref name="stream" /&gt;</ph> is <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="stream" /&gt;</ph> 为 <ph id="ph2">&lt;see langword="null" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="138" translate="yes" xml:space="preserve" uid="M:System.IO.Compression.ZipArchive.#ctor(System.IO.Stream,System.IO.Compression.ZipArchiveMode)">
+          <source><ph id="ph1">&lt;paramref name="mode" /&gt;</ph> is an invalid value.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="mode" /&gt;</ph> 为无效值。</target>       </trans-unit>
+        <trans-unit id="139" translate="yes" xml:space="preserve" uid="M:System.IO.Compression.ZipArchive.#ctor(System.IO.Stream,System.IO.Compression.ZipArchiveMode)">
+          <source>The contents of the stream could not be interpreted as a zip archive.</source>
+          <target state="translated">流的内容无法被解释为 zip 存档。</target>       </trans-unit>
+        <trans-unit id="140" translate="yes" xml:space="preserve" uid="M:System.IO.Compression.ZipArchive.#ctor(System.IO.Stream,System.IO.Compression.ZipArchiveMode)">
+          <source>-or-</source>
+          <target state="translated">或</target>       </trans-unit>
+        <trans-unit id="141" translate="yes" xml:space="preserve" uid="M:System.IO.Compression.ZipArchive.#ctor(System.IO.Stream,System.IO.Compression.ZipArchiveMode)">
+          <source><ph id="ph1">&lt;paramref name="mode" /&gt;</ph> is <ph id="ph2">&lt;see cref="F:System.IO.Compression.ZipArchiveMode.Update" /&gt;</ph> and an entry is missing from the archive or is corrupt and cannot be read.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="mode" /&gt;</ph> 是 <ph id="ph2">&lt;see cref="F:System.IO.Compression.ZipArchiveMode.Update" /&gt;</ph>，但存档中缺少项，或者项已损坏且无法读取。</target>       </trans-unit>
+        <trans-unit id="142" translate="yes" xml:space="preserve" uid="M:System.IO.Compression.ZipArchive.#ctor(System.IO.Stream,System.IO.Compression.ZipArchiveMode)">
+          <source>-or-</source>
+          <target state="translated">或</target>       </trans-unit>
+        <trans-unit id="143" translate="yes" xml:space="preserve" uid="M:System.IO.Compression.ZipArchive.#ctor(System.IO.Stream,System.IO.Compression.ZipArchiveMode)">
+          <source><ph id="ph1">&lt;paramref name="mode" /&gt;</ph> is <ph id="ph2">&lt;see cref="F:System.IO.Compression.ZipArchiveMode.Update" /&gt;</ph> and an entry is too large to fit into memory.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="mode" /&gt;</ph> 是 <ph id="ph2">&lt;see cref="F:System.IO.Compression.ZipArchiveMode.Update" /&gt;</ph>，但项太大，无法装入内存。</target>       </trans-unit>
+        <trans-unit id="144" translate="yes" xml:space="preserve" uid="M:System.IO.Compression.ZipArchive.#ctor(System.IO.Stream,System.IO.Compression.ZipArchiveMode,System.Boolean)">
+          <source>The input or output stream.</source>
+          <target state="translated">输入流或输出流。</target>       </trans-unit>
+        <trans-unit id="145" translate="yes" xml:space="preserve" uid="M:System.IO.Compression.ZipArchive.#ctor(System.IO.Stream,System.IO.Compression.ZipArchiveMode,System.Boolean)">
+          <source>One of the enumeration values that indicates whether the zip archive is used to read, create, or update entries.</source>
+          <target state="translated">指示 zip 存档是否用于读取、创建或更新项的一个枚举值。</target>       </trans-unit>
+        <trans-unit id="146" translate="yes" xml:space="preserve" uid="M:System.IO.Compression.ZipArchive.#ctor(System.IO.Stream,System.IO.Compression.ZipArchiveMode,System.Boolean)">
+          <source><ph id="ph1">&lt;see langword="true" /&gt;</ph> to leave the stream open after the <ph id="ph2">&lt;see cref="T:System.IO.Compression.ZipArchive" /&gt;</ph> object is disposed; otherwise, <ph id="ph3">&lt;see langword="false" /&gt;</ph>.</source>
+          <target state="translated">如果在释放 <ph id="ph2">&lt;see cref="T:System.IO.Compression.ZipArchive" /&gt;</ph> 对象后保持流处于打开状态，则为 <ph id="ph1">&lt;see langword="true" /&gt;</ph>；否则为 <ph id="ph3">&lt;see langword="false" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="147" translate="yes" xml:space="preserve" uid="M:System.IO.Compression.ZipArchive.#ctor(System.IO.Stream,System.IO.Compression.ZipArchiveMode,System.Boolean)">
+          <source>Initializes a new instance of the <ph id="ph1">&lt;see cref="T:System.IO.Compression.ZipArchive" /&gt;</ph> class on the specified stream for the specified mode, and optionally leaves the stream open.</source>
+          <target state="translated">对于指定的模式，初始化指定流上的 <ph id="ph1">&lt;see cref="T:System.IO.Compression.ZipArchive" /&gt;</ph> 类的新实例，并选择性地使流保持打开状态。</target>       </trans-unit>
+        <trans-unit id="148" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IO.Compression.ZipArchive.#ctor(System.IO.Stream,System.IO.Compression.ZipArchiveMode,System.Boolean)">
+          <source>If the <ph id="ph1">`mode`</ph> parameter is set to <ph id="ph2">&lt;xref:System.IO.Compression.ZipArchiveMode.Read&gt;</ph>, the stream must support reading.</source>
+          <target state="translated">如果<ph id="ph1">`mode`</ph>参数设置为<ph id="ph2">&lt;xref:System.IO.Compression.ZipArchiveMode.Read&gt;</ph>，流必须支持读取。</target>       </trans-unit>
+        <trans-unit id="149" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IO.Compression.ZipArchive.#ctor(System.IO.Stream,System.IO.Compression.ZipArchiveMode,System.Boolean)">
+          <source>If the <ph id="ph1">`mode`</ph> parameter is set to <ph id="ph2">&lt;xref:System.IO.Compression.ZipArchiveMode.Create&gt;</ph>, the stream must support writing.</source>
+          <target state="translated">如果<ph id="ph1">`mode`</ph>参数设置为<ph id="ph2">&lt;xref:System.IO.Compression.ZipArchiveMode.Create&gt;</ph>，流必须支持写入。</target>       </trans-unit>
+        <trans-unit id="150" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IO.Compression.ZipArchive.#ctor(System.IO.Stream,System.IO.Compression.ZipArchiveMode,System.Boolean)">
+          <source>If the <ph id="ph1">`mode`</ph> parameter is set to <ph id="ph2">&lt;xref:System.IO.Compression.ZipArchiveMode.Update&gt;</ph>, the stream must support reading, writing, and seeking.</source>
+          <target state="translated">如果<ph id="ph1">`mode`</ph>参数设置为<ph id="ph2">&lt;xref:System.IO.Compression.ZipArchiveMode.Update&gt;</ph>，该流必须支持读取、 写入和查找。</target>       </trans-unit>
+        <trans-unit id="151" translate="yes" xml:space="preserve" uid="M:System.IO.Compression.ZipArchive.#ctor(System.IO.Stream,System.IO.Compression.ZipArchiveMode,System.Boolean)">
+          <source>The stream is already closed, or the capabilities of the stream do not match the mode.</source>
+          <target state="translated">流已关闭，或流的功能与模式不相匹配。</target>       </trans-unit>
+        <trans-unit id="152" translate="yes" xml:space="preserve" uid="M:System.IO.Compression.ZipArchive.#ctor(System.IO.Stream,System.IO.Compression.ZipArchiveMode,System.Boolean)">
+          <source><ph id="ph1">&lt;paramref name="stream" /&gt;</ph> is <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="stream" /&gt;</ph> 为 <ph id="ph2">&lt;see langword="null" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="153" translate="yes" xml:space="preserve" uid="M:System.IO.Compression.ZipArchive.#ctor(System.IO.Stream,System.IO.Compression.ZipArchiveMode,System.Boolean)">
+          <source><ph id="ph1">&lt;paramref name="mode" /&gt;</ph> is an invalid value.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="mode" /&gt;</ph> 为无效值。</target>       </trans-unit>
+        <trans-unit id="154" translate="yes" xml:space="preserve" uid="M:System.IO.Compression.ZipArchive.#ctor(System.IO.Stream,System.IO.Compression.ZipArchiveMode,System.Boolean)">
+          <source>The contents of the stream could not be interpreted as a zip archive.</source>
+          <target state="translated">流的内容无法被解释为 zip 存档。</target>       </trans-unit>
+        <trans-unit id="155" translate="yes" xml:space="preserve" uid="M:System.IO.Compression.ZipArchive.#ctor(System.IO.Stream,System.IO.Compression.ZipArchiveMode,System.Boolean)">
+          <source>-or-</source>
+          <target state="translated">或</target>       </trans-unit>
+        <trans-unit id="156" translate="yes" xml:space="preserve" uid="M:System.IO.Compression.ZipArchive.#ctor(System.IO.Stream,System.IO.Compression.ZipArchiveMode,System.Boolean)">
+          <source><ph id="ph1">&lt;paramref name="mode" /&gt;</ph> is <ph id="ph2">&lt;see cref="F:System.IO.Compression.ZipArchiveMode.Update" /&gt;</ph> and an entry is missing from the archive or is corrupt and cannot be read.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="mode" /&gt;</ph> 是 <ph id="ph2">&lt;see cref="F:System.IO.Compression.ZipArchiveMode.Update" /&gt;</ph>，但存档中缺少项，或者项已损坏且无法读取。</target>       </trans-unit>
+        <trans-unit id="157" translate="yes" xml:space="preserve" uid="M:System.IO.Compression.ZipArchive.#ctor(System.IO.Stream,System.IO.Compression.ZipArchiveMode,System.Boolean)">
+          <source>-or-</source>
+          <target state="translated">或</target>       </trans-unit>
+        <trans-unit id="158" translate="yes" xml:space="preserve" uid="M:System.IO.Compression.ZipArchive.#ctor(System.IO.Stream,System.IO.Compression.ZipArchiveMode,System.Boolean)">
+          <source><ph id="ph1">&lt;paramref name="mode" /&gt;</ph> is <ph id="ph2">&lt;see cref="F:System.IO.Compression.ZipArchiveMode.Update" /&gt;</ph> and an entry is too large to fit into memory.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="mode" /&gt;</ph> 是 <ph id="ph2">&lt;see cref="F:System.IO.Compression.ZipArchiveMode.Update" /&gt;</ph>，但项太大，无法装入内存。</target>       </trans-unit>
+        <trans-unit id="159" translate="yes" xml:space="preserve" uid="M:System.IO.Compression.ZipArchive.#ctor(System.IO.Stream,System.IO.Compression.ZipArchiveMode,System.Boolean,System.Text.Encoding)">
+          <source>The input or output stream.</source>
+          <target state="translated">输入流或输出流。</target>       </trans-unit>
+        <trans-unit id="160" translate="yes" xml:space="preserve" uid="M:System.IO.Compression.ZipArchive.#ctor(System.IO.Stream,System.IO.Compression.ZipArchiveMode,System.Boolean,System.Text.Encoding)">
+          <source>One of the enumeration values that indicates whether the zip archive is used to read, create, or update entries.</source>
+          <target state="translated">指示 zip 存档是否用于读取、创建或更新项的一个枚举值。</target>       </trans-unit>
+        <trans-unit id="161" translate="yes" xml:space="preserve" uid="M:System.IO.Compression.ZipArchive.#ctor(System.IO.Stream,System.IO.Compression.ZipArchiveMode,System.Boolean,System.Text.Encoding)">
+          <source><ph id="ph1">&lt;see langword="true" /&gt;</ph> to leave the stream open after the <ph id="ph2">&lt;see cref="T:System.IO.Compression.ZipArchive" /&gt;</ph> object is disposed; otherwise, <ph id="ph3">&lt;see langword="false" /&gt;</ph>.</source>
+          <target state="translated">如果在释放 <ph id="ph2">&lt;see cref="T:System.IO.Compression.ZipArchive" /&gt;</ph> 对象后保持流处于打开状态，则为 <ph id="ph1">&lt;see langword="true" /&gt;</ph>；否则为 <ph id="ph3">&lt;see langword="false" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="162" translate="yes" xml:space="preserve" uid="M:System.IO.Compression.ZipArchive.#ctor(System.IO.Stream,System.IO.Compression.ZipArchiveMode,System.Boolean,System.Text.Encoding)">
+          <source>The encoding to use when reading or writing entry names in this archive.</source>
+          <target state="translated">在存档中读取或写入项名时使用的编码。</target>       </trans-unit>
+        <trans-unit id="163" translate="yes" xml:space="preserve" uid="M:System.IO.Compression.ZipArchive.#ctor(System.IO.Stream,System.IO.Compression.ZipArchiveMode,System.Boolean,System.Text.Encoding)">
+          <source>Specify a value for this parameter only when an encoding is required for interoperability with zip archive tools and libraries that do not support UTF-8 encoding for entry names.</source>
+          <target state="translated">仅当需要针对具有不支持项名的 UTF-8 编码的 zip 归档工具和库的互操作性进行编码时，为此参数指定一个值。</target>       </trans-unit>
+        <trans-unit id="164" translate="yes" xml:space="preserve" uid="M:System.IO.Compression.ZipArchive.#ctor(System.IO.Stream,System.IO.Compression.ZipArchiveMode,System.Boolean,System.Text.Encoding)">
+          <source>Initializes a new instance of the <ph id="ph1">&lt;see cref="T:System.IO.Compression.ZipArchive" /&gt;</ph> class on the specified stream for the specified mode, uses the specified encoding for entry names, and optionally leaves the stream open.</source>
+          <target state="translated">对于指定的模式，初始化指定流上的 <ph id="ph1">&lt;see cref="T:System.IO.Compression.ZipArchive" /&gt;</ph> 类的新实例，使用项名的指定编码，并选择性地使流保持打开状态。</target>       </trans-unit>
+        <trans-unit id="165" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IO.Compression.ZipArchive.#ctor(System.IO.Stream,System.IO.Compression.ZipArchiveMode,System.Boolean,System.Text.Encoding)">
+          <source>If the <ph id="ph1">`mode`</ph> parameter is set to <ph id="ph2">&lt;xref:System.IO.Compression.ZipArchiveMode.Read&gt;</ph>, the stream must support reading.</source>
+          <target state="translated">如果<ph id="ph1">`mode`</ph>参数设置为<ph id="ph2">&lt;xref:System.IO.Compression.ZipArchiveMode.Read&gt;</ph>，流必须支持读取。</target>       </trans-unit>
+        <trans-unit id="166" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IO.Compression.ZipArchive.#ctor(System.IO.Stream,System.IO.Compression.ZipArchiveMode,System.Boolean,System.Text.Encoding)">
+          <source>If the <ph id="ph1">`mode`</ph> parameter is set to <ph id="ph2">&lt;xref:System.IO.Compression.ZipArchiveMode.Create&gt;</ph>, the stream must support writing.</source>
+          <target state="translated">如果<ph id="ph1">`mode`</ph>参数设置为<ph id="ph2">&lt;xref:System.IO.Compression.ZipArchiveMode.Create&gt;</ph>，流必须支持写入。</target>       </trans-unit>
+        <trans-unit id="167" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IO.Compression.ZipArchive.#ctor(System.IO.Stream,System.IO.Compression.ZipArchiveMode,System.Boolean,System.Text.Encoding)">
+          <source>If the <ph id="ph1">`mode`</ph> parameter is set to <ph id="ph2">&lt;xref:System.IO.Compression.ZipArchiveMode.Update&gt;</ph>, the stream must support reading, writing, and seeking.</source>
+          <target state="translated">如果<ph id="ph1">`mode`</ph>参数设置为<ph id="ph2">&lt;xref:System.IO.Compression.ZipArchiveMode.Update&gt;</ph>，该流必须支持读取、 写入和查找。</target>       </trans-unit>
+        <trans-unit id="168" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IO.Compression.ZipArchive.#ctor(System.IO.Stream,System.IO.Compression.ZipArchiveMode,System.Boolean,System.Text.Encoding)">
+          <source>When you open a zip archive file for reading and <ph id="ph1">`entryNameEncoding`</ph> is set to <ph id="ph2">`null`</ph>, entry names are decoded according to the following rules:</source>
+          <target state="translated">当打开读取的 zip 存档文件和<ph id="ph1">`entryNameEncoding`</ph>设置为<ph id="ph2">`null`</ph>，条目名称解码根据下列规则：</target>       </trans-unit>
+        <trans-unit id="169" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IO.Compression.ZipArchive.#ctor(System.IO.Stream,System.IO.Compression.ZipArchiveMode,System.Boolean,System.Text.Encoding)">
+          <source>When the language encoding flag (in the general-purpose bit flag of the local file header) is not set, the current system default code page is used to decode the entry name.</source>
+          <target state="translated">如果未设置编码标志 （在本地文件头的通用的位标志） 的语言，当前的系统默认代码页用于解码条目名称。</target>       </trans-unit>
+        <trans-unit id="170" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IO.Compression.ZipArchive.#ctor(System.IO.Stream,System.IO.Compression.ZipArchiveMode,System.Boolean,System.Text.Encoding)">
+          <source>When the language encoding flag is set, UTF-8 is used to decode the entry name.</source>
+          <target state="translated">设置语言编码标志后，utf-8 用于对条目名称解码。</target>       </trans-unit>
+        <trans-unit id="171" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IO.Compression.ZipArchive.#ctor(System.IO.Stream,System.IO.Compression.ZipArchiveMode,System.Boolean,System.Text.Encoding)">
+          <source>When you open a zip archive file for reading and <ph id="ph1">`entryNameEncoding`</ph> is set to a value other than <ph id="ph2">`null`</ph>, entry names are decoded according to the following rules:</source>
+          <target state="translated">当打开读取的 zip 存档文件和<ph id="ph1">`entryNameEncoding`</ph>设置一个值为非<ph id="ph2">`null`</ph>，条目名称解码根据下列规则：</target>       </trans-unit>
+        <trans-unit id="172" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IO.Compression.ZipArchive.#ctor(System.IO.Stream,System.IO.Compression.ZipArchiveMode,System.Boolean,System.Text.Encoding)">
+          <source>When the language encoding flag is not set, the specified <ph id="ph1">`entryNameEncoding`</ph> is used to decode the entry name.</source>
+          <target state="translated">编码标志的语言未设置时，指定<ph id="ph1">`entryNameEncoding`</ph>用于解码条目名称。</target>       </trans-unit>
+        <trans-unit id="173" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IO.Compression.ZipArchive.#ctor(System.IO.Stream,System.IO.Compression.ZipArchiveMode,System.Boolean,System.Text.Encoding)">
+          <source>When the language encoding flag is set, UTF-8 is used to decode the entry name.</source>
+          <target state="translated">设置语言编码标志后，utf-8 用于对条目名称解码。</target>       </trans-unit>
+        <trans-unit id="174" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IO.Compression.ZipArchive.#ctor(System.IO.Stream,System.IO.Compression.ZipArchiveMode,System.Boolean,System.Text.Encoding)">
+          <source>When you write to archive files and <ph id="ph1">`entryNameEncoding`</ph> is set to <ph id="ph2">`null`</ph>, entry names are encoded according to the following rules:</source>
+          <target state="translated">当你编写以将文件存档和<ph id="ph1">`entryNameEncoding`</ph>设置为<ph id="ph2">`null`</ph>，条目名称是根据以下规则进行编码：</target>       </trans-unit>
+        <trans-unit id="175" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IO.Compression.ZipArchive.#ctor(System.IO.Stream,System.IO.Compression.ZipArchiveMode,System.Boolean,System.Text.Encoding)">
+          <source>For entry names that contain characters outside the ASCII range, the language encoding flag is set, and entry names are encoded by using UTF-8.</source>
+          <target state="translated">包含 ASCII 范围外的字符的项名称，设置语言编码标志，并通过使用 utf-8 条目名称进行编码。</target>       </trans-unit>
+        <trans-unit id="176" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IO.Compression.ZipArchive.#ctor(System.IO.Stream,System.IO.Compression.ZipArchiveMode,System.Boolean,System.Text.Encoding)">
+          <source>For entry names that contain only ASCII characters, the language encoding flag is not set, and entry names are encoded by using the current system default code page.</source>
+          <target state="translated">仅包含 ASCII 字符的项名称，未设置语言编码标志，并通过使用当前的系统默认代码页的条目名称进行编码。</target>       </trans-unit>
+        <trans-unit id="177" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IO.Compression.ZipArchive.#ctor(System.IO.Stream,System.IO.Compression.ZipArchiveMode,System.Boolean,System.Text.Encoding)">
+          <source>When you write to archive files and <ph id="ph1">`entryNameEncoding`</ph> is set to a value other than <ph id="ph2">`null`</ph>, the specified <ph id="ph3">`entryNameEncoding`</ph> is used to encode the entry names into bytes.</source>
+          <target state="translated">当你编写以将文件存档和<ph id="ph1">`entryNameEncoding`</ph>设置一个值为非<ph id="ph2">`null`</ph>，指定<ph id="ph3">`entryNameEncoding`</ph>用于转换为字节编码条目名称。</target>       </trans-unit>
+        <trans-unit id="178" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IO.Compression.ZipArchive.#ctor(System.IO.Stream,System.IO.Compression.ZipArchiveMode,System.Boolean,System.Text.Encoding)">
+          <source>The language encoding flag (in the general-purpose bit flag of the local file header) is set only when the specified encoding is a UTF-8 encoding.</source>
+          <target state="translated">仅当指定的编码为 utf-8 编码时设置编码标志 （在本地文件头的通用的位标志） 的语言。</target>       </trans-unit>
+        <trans-unit id="179" translate="yes" xml:space="preserve" uid="M:System.IO.Compression.ZipArchive.#ctor(System.IO.Stream,System.IO.Compression.ZipArchiveMode,System.Boolean,System.Text.Encoding)">
+          <source>The stream is already closed, or the capabilities of the stream do not match the mode.</source>
+          <target state="translated">流已关闭，或流的功能与模式不相匹配。</target>       </trans-unit>
+        <trans-unit id="180" translate="yes" xml:space="preserve" uid="M:System.IO.Compression.ZipArchive.#ctor(System.IO.Stream,System.IO.Compression.ZipArchiveMode,System.Boolean,System.Text.Encoding)">
+          <source><ph id="ph1">&lt;paramref name="stream" /&gt;</ph> is <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="stream" /&gt;</ph> 为 <ph id="ph2">&lt;see langword="null" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="181" translate="yes" xml:space="preserve" uid="M:System.IO.Compression.ZipArchive.#ctor(System.IO.Stream,System.IO.Compression.ZipArchiveMode,System.Boolean,System.Text.Encoding)">
+          <source><ph id="ph1">&lt;paramref name="mode" /&gt;</ph> is an invalid value.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="mode" /&gt;</ph> 为无效值。</target>       </trans-unit>
+        <trans-unit id="182" translate="yes" xml:space="preserve" uid="M:System.IO.Compression.ZipArchive.#ctor(System.IO.Stream,System.IO.Compression.ZipArchiveMode,System.Boolean,System.Text.Encoding)">
+          <source>The contents of the stream could not be interpreted as a zip archive.</source>
+          <target state="translated">流的内容无法被解释为 zip 存档。</target>       </trans-unit>
+        <trans-unit id="183" translate="yes" xml:space="preserve" uid="M:System.IO.Compression.ZipArchive.#ctor(System.IO.Stream,System.IO.Compression.ZipArchiveMode,System.Boolean,System.Text.Encoding)">
+          <source>-or-</source>
+          <target state="translated">或</target>       </trans-unit>
+        <trans-unit id="184" translate="yes" xml:space="preserve" uid="M:System.IO.Compression.ZipArchive.#ctor(System.IO.Stream,System.IO.Compression.ZipArchiveMode,System.Boolean,System.Text.Encoding)">
+          <source><ph id="ph1">&lt;paramref name="mode" /&gt;</ph> is <ph id="ph2">&lt;see cref="F:System.IO.Compression.ZipArchiveMode.Update" /&gt;</ph> and an entry is missing from the archive or is corrupt and cannot be read.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="mode" /&gt;</ph> 是 <ph id="ph2">&lt;see cref="F:System.IO.Compression.ZipArchiveMode.Update" /&gt;</ph>，但存档中缺少项，或者项已损坏且无法读取。</target>       </trans-unit>
+        <trans-unit id="185" translate="yes" xml:space="preserve" uid="M:System.IO.Compression.ZipArchive.#ctor(System.IO.Stream,System.IO.Compression.ZipArchiveMode,System.Boolean,System.Text.Encoding)">
+          <source>-or-</source>
+          <target state="translated">或</target>       </trans-unit>
+        <trans-unit id="186" translate="yes" xml:space="preserve" uid="M:System.IO.Compression.ZipArchive.#ctor(System.IO.Stream,System.IO.Compression.ZipArchiveMode,System.Boolean,System.Text.Encoding)">
+          <source><ph id="ph1">&lt;paramref name="mode" /&gt;</ph> is <ph id="ph2">&lt;see cref="F:System.IO.Compression.ZipArchiveMode.Update" /&gt;</ph> and an entry is too large to fit into memory.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="mode" /&gt;</ph> 是 <ph id="ph2">&lt;see cref="F:System.IO.Compression.ZipArchiveMode.Update" /&gt;</ph>，但项太大，无法装入内存。</target>       </trans-unit>
+        <trans-unit id="187" translate="yes" xml:space="preserve" uid="T:System.IO.Compression.ZipArchive">
+          <source>Creates an empty entry in the zip archive.</source>
+          <target state="translated">在 zip 存档中创建空项。</target>       </trans-unit>
+        <trans-unit id="188" translate="yes" xml:space="preserve" uid="M:System.IO.Compression.ZipArchive.CreateEntry(System.String)">
+          <source>A path, relative to the root of the archive, that specifies the name of the entry to be created.</source>
+          <target state="translated">相对于存档的根的路径指定了要创建项的名称。</target>       </trans-unit>
+        <trans-unit id="189" translate="yes" xml:space="preserve" uid="M:System.IO.Compression.ZipArchive.CreateEntry(System.String)">
+          <source>Creates an empty entry that has the specified path and entry name in the zip archive.</source>
+          <target state="translated">创建在 zip 存档中有指定路径和项名的空项。</target>       </trans-unit>
+        <trans-unit id="190" translate="yes" xml:space="preserve" uid="M:System.IO.Compression.ZipArchive.CreateEntry(System.String)">
+          <source>An empty entry in the zip archive.</source>
+          <target state="translated">在 zip 存档中的空项。</target>       </trans-unit>
+        <trans-unit id="191" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IO.Compression.ZipArchive.CreateEntry(System.String)">
+          <source>The <ph id="ph1">`entryName`</ph> string should reflect the relative path of the entry you want to create within the zip archive.</source>
+          <target state="translated"><ph id="ph1">`entryName`</ph>字符串应反映你想要在 zip 存档中创建的项的相对路径。</target>       </trans-unit>
+        <trans-unit id="192" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IO.Compression.ZipArchive.CreateEntry(System.String)">
+          <source>There is no restriction on the string you provide.</source>
+          <target state="translated">没有您提供的字符串受限制。</target>       </trans-unit>
+        <trans-unit id="193" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IO.Compression.ZipArchive.CreateEntry(System.String)">
+          <source>However, if it is not formatted as a relative path, the entry is created, but you may get an exception when you extract the contents of the zip archive.</source>
+          <target state="translated">但是，如果它未格式化为相对路径，创建项，但提取 zip 存档的内容时，可能会收到异常。</target>       </trans-unit>
+        <trans-unit id="194" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IO.Compression.ZipArchive.CreateEntry(System.String)">
+          <source>If an entry with the specified path and name already exists in the archive, a second entry is created with the same path and name.</source>
+          <target state="translated">如果在存档中已存在具有指定的路径和名称的项，第二个条目被创建具有相同的路径和名称。</target>       </trans-unit>
+        <trans-unit id="195" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IO.Compression.ZipArchive.CreateEntry(System.String)">
+          <source>The value of the <ph id="ph1">&lt;xref:System.IO.Compression.ZipArchiveEntry.LastWriteTime%2A&gt;</ph> property for the new entry is set to the current time.</source>
+          <target state="translated">值<ph id="ph1">&lt;xref:System.IO.Compression.ZipArchiveEntry.LastWriteTime%2A&gt;</ph>新项的属性设置为当前时间。</target>       </trans-unit>
+        <trans-unit id="196" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IO.Compression.ZipArchive.CreateEntry(System.String)">
+          <source>The entry is compressed using the default compression level of the underlying compression algorithm.</source>
+          <target state="translated">使用默认压缩级别的基础的压缩算法来压缩条目。</target>       </trans-unit>
+        <trans-unit id="197" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IO.Compression.ZipArchive.CreateEntry(System.String)">
+          <source>If you want to specify a different compression level, use the <ph id="ph1">&lt;xref:System.IO.Compression.ZipArchive.CreateEntry%2A&gt;</ph> method.</source>
+          <target state="translated">如果你想要指定不同的压缩级别，使用<ph id="ph1">&lt;xref:System.IO.Compression.ZipArchive.CreateEntry%2A&gt;</ph>方法。</target>       </trans-unit>
+        <trans-unit id="198" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IO.Compression.ZipArchive.CreateEntry(System.String)">
+          <source>The following example shows how to create an entry and write to it by using a stream.</source>
+          <target state="translated">下面的示例演示如何创建一个条目，并向其中写入使用流。</target>       </trans-unit>
+        <trans-unit id="199" translate="yes" xml:space="preserve" uid="M:System.IO.Compression.ZipArchive.CreateEntry(System.String)">
+          <source><ph id="ph1">&lt;paramref name="entryName" /&gt;</ph> is <ph id="ph2">&lt;see cref="F:System.String.Empty" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="entryName" /&gt;</ph> 为 <ph id="ph2">&lt;see cref="F:System.String.Empty" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="200" translate="yes" xml:space="preserve" uid="M:System.IO.Compression.ZipArchive.CreateEntry(System.String)">
+          <source><ph id="ph1">&lt;paramref name="entryName" /&gt;</ph> is <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="entryName" /&gt;</ph> 为 <ph id="ph2">&lt;see langword="null" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="201" translate="yes" xml:space="preserve" uid="M:System.IO.Compression.ZipArchive.CreateEntry(System.String)">
+          <source>The zip archive does not support writing.</source>
+          <target state="translated">zip 存档不支持写入。</target>       </trans-unit>
+        <trans-unit id="202" translate="yes" xml:space="preserve" uid="M:System.IO.Compression.ZipArchive.CreateEntry(System.String)">
+          <source>The zip archive has been disposed.</source>
+          <target state="translated">zip 存档已释放。</target>       </trans-unit>
+        <trans-unit id="203" translate="yes" xml:space="preserve" uid="M:System.IO.Compression.ZipArchive.CreateEntry(System.String,System.IO.Compression.CompressionLevel)">
+          <source>A path, relative to the root of the archive, that specifies the name of the entry to be created.</source>
+          <target state="translated">相对于存档的根的路径指定了要创建项的名称。</target>       </trans-unit>
+        <trans-unit id="204" translate="yes" xml:space="preserve" uid="M:System.IO.Compression.ZipArchive.CreateEntry(System.String,System.IO.Compression.CompressionLevel)">
+          <source>One of the enumeration values that indicates whether to emphasize speed or compression effectiveness when creating the entry.</source>
+          <target state="translated">指示创建项时是否强调速度或压缩有效性的枚举值之一。</target>       </trans-unit>
+        <trans-unit id="205" translate="yes" xml:space="preserve" uid="M:System.IO.Compression.ZipArchive.CreateEntry(System.String,System.IO.Compression.CompressionLevel)">
+          <source>Creates an empty entry that has the specified entry name and compression level in the zip archive.</source>
+          <target state="translated">创建在 zip 存档中有指定项名和压缩级别的空项。</target>       </trans-unit>
+        <trans-unit id="206" translate="yes" xml:space="preserve" uid="M:System.IO.Compression.ZipArchive.CreateEntry(System.String,System.IO.Compression.CompressionLevel)">
+          <source>An empty entry in the zip archive.</source>
+          <target state="translated">在 zip 存档中的空项。</target>       </trans-unit>
+        <trans-unit id="207" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IO.Compression.ZipArchive.CreateEntry(System.String,System.IO.Compression.CompressionLevel)">
+          <source>The <ph id="ph1">`entryName`</ph> string should reflect the relative path of the entry you want to create within the zip archive.</source>
+          <target state="translated"><ph id="ph1">`entryName`</ph>字符串应反映你想要在 zip 存档中创建的项的相对路径。</target>       </trans-unit>
+        <trans-unit id="208" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IO.Compression.ZipArchive.CreateEntry(System.String,System.IO.Compression.CompressionLevel)">
+          <source>There is no restriction on the string you provide.</source>
+          <target state="translated">没有您提供的字符串受限制。</target>       </trans-unit>
+        <trans-unit id="209" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IO.Compression.ZipArchive.CreateEntry(System.String,System.IO.Compression.CompressionLevel)">
+          <source>However, if it is not formatted as a relative path, the entry is created, but you may get an exception when you extract the contents of the zip archive.</source>
+          <target state="translated">但是，如果它未格式化为相对路径，创建项，但提取 zip 存档的内容时，可能会收到异常。</target>       </trans-unit>
+        <trans-unit id="210" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IO.Compression.ZipArchive.CreateEntry(System.String,System.IO.Compression.CompressionLevel)">
+          <source>If an entry with the specified name already exists in the archive, a second entry is created with the same name.</source>
+          <target state="translated">如果在存档中已存在一个具有指定名称的项，第二个条目被创建具有相同的名称。</target>       </trans-unit>
+        <trans-unit id="211" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IO.Compression.ZipArchive.CreateEntry(System.String,System.IO.Compression.CompressionLevel)">
+          <source>The value of the <ph id="ph1">&lt;xref:System.IO.Compression.ZipArchiveEntry.LastWriteTime%2A&gt;</ph> property for the new entry is set to the current time.</source>
+          <target state="translated">值<ph id="ph1">&lt;xref:System.IO.Compression.ZipArchiveEntry.LastWriteTime%2A&gt;</ph>新项的属性设置为当前时间。</target>       </trans-unit>
+        <trans-unit id="212" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IO.Compression.ZipArchive.CreateEntry(System.String,System.IO.Compression.CompressionLevel)">
+          <source>Set the <ph id="ph1">`compressionLevel`</ph> parameter to <ph id="ph2">&lt;xref:System.IO.Compression.CompressionLevel.Optimal&gt;</ph> if you want the file to be compressed as much as possible.</source>
+          <target state="translated">设置<ph id="ph1">`compressionLevel`</ph>参数<ph id="ph2">&lt;xref:System.IO.Compression.CompressionLevel.Optimal&gt;</ph>如果你想要压缩的文件尽可能多地。</target>       </trans-unit>
+        <trans-unit id="213" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IO.Compression.ZipArchive.CreateEntry(System.String,System.IO.Compression.CompressionLevel)">
+          <source>Set the <ph id="ph1">`compressionLevel`</ph> parameter to <ph id="ph2">&lt;xref:System.IO.Compression.CompressionLevel.Fastest&gt;</ph> only if you are concerned that the compression operation will not complete quickly enough for your scenario.</source>
+          <target state="translated">设置<ph id="ph1">`compressionLevel`</ph>参数<ph id="ph2">&lt;xref:System.IO.Compression.CompressionLevel.Fastest&gt;</ph>仅当您担心，压缩操作将完成速度是否足够快为你的方案。</target>       </trans-unit>
+        <trans-unit id="214" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IO.Compression.ZipArchive.CreateEntry(System.String,System.IO.Compression.CompressionLevel)">
+          <source>The following example shows how to create an entry with the optimal compression level.</source>
+          <target state="translated">下面的示例演示如何创建一个条目，以实现最佳压缩级别。</target>       </trans-unit>
+        <trans-unit id="215" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IO.Compression.ZipArchive.CreateEntry(System.String,System.IO.Compression.CompressionLevel)">
+          <source>It also writes to the new entry by using a stream.</source>
+          <target state="translated">通过使用一个流，它还可写入新条目的速度。</target>       </trans-unit>
+        <trans-unit id="216" translate="yes" xml:space="preserve" uid="M:System.IO.Compression.ZipArchive.CreateEntry(System.String,System.IO.Compression.CompressionLevel)">
+          <source><ph id="ph1">&lt;paramref name="entryName" /&gt;</ph> is <ph id="ph2">&lt;see cref="F:System.String.Empty" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="entryName" /&gt;</ph> 为 <ph id="ph2">&lt;see cref="F:System.String.Empty" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="217" translate="yes" xml:space="preserve" uid="M:System.IO.Compression.ZipArchive.CreateEntry(System.String,System.IO.Compression.CompressionLevel)">
+          <source><ph id="ph1">&lt;paramref name="entryName" /&gt;</ph> is <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="entryName" /&gt;</ph> 为 <ph id="ph2">&lt;see langword="null" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="218" translate="yes" xml:space="preserve" uid="M:System.IO.Compression.ZipArchive.CreateEntry(System.String,System.IO.Compression.CompressionLevel)">
+          <source>The zip archive does not support writing.</source>
+          <target state="translated">zip 存档不支持写入。</target>       </trans-unit>
+        <trans-unit id="219" translate="yes" xml:space="preserve" uid="M:System.IO.Compression.ZipArchive.CreateEntry(System.String,System.IO.Compression.CompressionLevel)">
+          <source>The zip archive has been disposed.</source>
+          <target state="translated">zip 存档已释放。</target>       </trans-unit>
+        <trans-unit id="220" translate="yes" xml:space="preserve" uid="T:System.IO.Compression.ZipArchive">
+          <source>Releases all resources used by the <ph id="ph1">&lt;see cref="T:System.IO.Compression.ZipArchive" /&gt;</ph> object.</source>
+          <target state="translated">释放由 <ph id="ph1">&lt;see cref="T:System.IO.Compression.ZipArchive" /&gt;</ph> 对象使用的所有资源。</target>       </trans-unit>
+        <trans-unit id="221" translate="yes" xml:space="preserve" uid="M:System.IO.Compression.ZipArchive.Dispose">
+          <source>Releases the resources used by the current instance of the <ph id="ph1">&lt;see cref="T:System.IO.Compression.ZipArchive" /&gt;</ph> class.</source>
+          <target state="translated">释放 <ph id="ph1">&lt;see cref="T:System.IO.Compression.ZipArchive" /&gt;</ph> 类的当前实例使用的资源。</target>       </trans-unit>
+        <trans-unit id="222" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IO.Compression.ZipArchive.Dispose">
+          <source>This method finishes writing the archive and releases all resources used by the <ph id="ph1">&lt;xref:System.IO.Compression.ZipArchive&gt;</ph> object.</source>
+          <target state="translated">此方法完成写入存档，释放使用的所有资源<ph id="ph1">&lt;xref:System.IO.Compression.ZipArchive&gt;</ph>对象。</target>       </trans-unit>
+        <trans-unit id="223" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IO.Compression.ZipArchive.Dispose">
+          <source>Unless you construct the object by using the <ph id="ph1">&lt;xref:System.IO.Compression.ZipArchive.%23ctor%28System.IO.Stream%2CSystem.IO.Compression.ZipArchiveMode%2CSystem.Boolean%29&gt;</ph> constructor overload and set its <ph id="ph2">`leaveOpen`</ph> parameter to <ph id="ph3">`true`</ph>, all underlying streams are closed and no longer available for subsequent write operations.</source>
+          <target state="translated">除非通过使用构造对象<ph id="ph1">&lt;xref:System.IO.Compression.ZipArchive.%23ctor%28System.IO.Stream%2CSystem.IO.Compression.ZipArchiveMode%2CSystem.Boolean%29&gt;</ph>构造函数重载并设置其<ph id="ph2">`leaveOpen`</ph>参数<ph id="ph3">`true`</ph>，所有的基础流已关闭不再可用于的后续写入操作。</target>       </trans-unit>
+        <trans-unit id="224" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IO.Compression.ZipArchive.Dispose">
+          <source>When you are finished using this instance of <ph id="ph1">&lt;xref:System.IO.Compression.ZipArchive&gt;</ph>, call <ph id="ph2">&lt;xref:System.IO.Compression.ZipArchive.Dispose&gt;</ph> to release all resources used by this instance.</source>
+          <target state="translated">在完成使用的此实例时<ph id="ph1">&lt;xref:System.IO.Compression.ZipArchive&gt;</ph>，调用<ph id="ph2">&lt;xref:System.IO.Compression.ZipArchive.Dispose&gt;</ph>释放此实例所使用的所有资源。</target>       </trans-unit>
+        <trans-unit id="225" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IO.Compression.ZipArchive.Dispose">
+          <source>You should eliminate further references to this <ph id="ph1">&lt;xref:System.IO.Compression.ZipArchive&gt;</ph> instance so that the garbage collector can reclaim the memory of the instance instead of keeping it alive for finalization.</source>
+          <target state="translated">你应该可以消除进一步引用到此<ph id="ph1">&lt;xref:System.IO.Compression.ZipArchive&gt;</ph>实例，以便垃圾回收器才能回收而不是保留它终止的实例的内存。</target>       </trans-unit>
+        <trans-unit id="226" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IO.Compression.ZipArchive.Dispose">
+          <source><ph id="ph1">&lt;xref:System.IO.Compression.ZipArchive.Dispose&gt;</ph> calls the <ph id="ph2">&lt;xref:System.IO.Compression.ZipArchive.Dispose%28System.Boolean%29&gt;</ph> method, which contains the code to release managed and unmanaged resources.</source>
+          <target state="translated"><ph id="ph1">&lt;xref:System.IO.Compression.ZipArchive.Dispose&gt;</ph> 调用<ph id="ph2">&lt;xref:System.IO.Compression.ZipArchive.Dispose%28System.Boolean%29&gt;</ph>方法，其中包含要释放托管和非托管资源的代码。</target>       </trans-unit>
+        <trans-unit id="227" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IO.Compression.ZipArchive.Dispose">
+          <source>For more information, see .</source>
+          <target state="translated">有关详细信息，请参阅。</target>       </trans-unit>
+        <trans-unit id="228" translate="yes" xml:space="preserve" uid="M:System.IO.Compression.ZipArchive.Dispose(System.Boolean)">
+          <source><ph id="ph1">&lt;see langword="true" /&gt;</ph> to finish writing the archive and release unmanaged and managed resources; <ph id="ph2">&lt;see langword="false" /&gt;</ph> to release only unmanaged resources.</source>
+          <target state="translated"><ph id="ph1">&lt;see langword="true" /&gt;</ph> 表示完成存档的写入并释放未托管和托管资源；<ph id="ph2">&lt;see langword="false" /&gt;</ph> 则仅释放未托管资源。</target>       </trans-unit>
+        <trans-unit id="229" translate="yes" xml:space="preserve" uid="M:System.IO.Compression.ZipArchive.Dispose(System.Boolean)">
+          <source>Called by the <ph id="ph1">&lt;see cref="M:System.IO.Compression.ZipArchive.Dispose" /&gt;</ph> and <ph id="ph2">&lt;see cref="M:System.Object.Finalize" /&gt;</ph> methods to release the unmanaged resources used by the current instance of the <ph id="ph3">&lt;see cref="T:System.IO.Compression.ZipArchive" /&gt;</ph> class, and optionally finishes writing the archive and releases the managed resources.</source>
+          <target state="translated">由 <ph id="ph1">&lt;see cref="M:System.IO.Compression.ZipArchive.Dispose" /&gt;</ph> 和 <ph id="ph2">&lt;see cref="M:System.Object.Finalize" /&gt;</ph> 方法调用，以释放 <ph id="ph3">&lt;see cref="T:System.IO.Compression.ZipArchive" /&gt;</ph> 类的当前实例使用的未托管资源，并选择性地完成存档的写入和释放托管资源。</target>       </trans-unit>
+        <trans-unit id="230" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IO.Compression.ZipArchive.Dispose(System.Boolean)">
+          <source>If <ph id="ph1">`disposing`</ph> is set to <ph id="ph2">`true`</ph>, all underlying streams are closed and no longer available for subsequent write operations, unless you construct the object by using the <ph id="ph3">&lt;xref:System.IO.Compression.ZipArchive.%23ctor%28System.IO.Stream%2CSystem.IO.Compression.ZipArchiveMode%2CSystem.Boolean%29&gt;</ph> constructor overload and set its <ph id="ph4">`leaveOpen`</ph> parameter to <ph id="ph5">`true`</ph>.</source>
+          <target state="translated">如果<ph id="ph1">`disposing`</ph>设置为<ph id="ph2">`true`</ph>，所有的基础流已关闭不再可用于的后续写入操作，除非通过使用构造对象<ph id="ph3">&lt;xref:System.IO.Compression.ZipArchive.%23ctor%28System.IO.Stream%2CSystem.IO.Compression.ZipArchiveMode%2CSystem.Boolean%29&gt;</ph>构造函数重载并设置其<ph id="ph4">`leaveOpen`</ph>参数<ph id="ph5">`true`</ph>.</target>       </trans-unit>
+        <trans-unit id="231" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IO.Compression.ZipArchive.Dispose(System.Boolean)">
+          <source>This method is called only by the public <ph id="ph1">&lt;xref:System.IO.Compression.ZipArchive.Dispose&gt;</ph> and <ph id="ph2">&lt;xref:System.Object.Finalize&gt;</ph> methods; do not call this method directly.</source>
+          <target state="translated">此方法称为仅由公共<ph id="ph1">&lt;xref:System.IO.Compression.ZipArchive.Dispose&gt;</ph>和<ph id="ph2">&lt;xref:System.Object.Finalize&gt;</ph>方法; 这些方法不直接调用此方法。</target>       </trans-unit>
+        <trans-unit id="232" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IO.Compression.ZipArchive.Dispose(System.Boolean)">
+          <source>When you implement the dispose pattern, the Boolean parameter of the <ph id="ph1">&lt;xref:System.IO.Compression.ZipArchive.Dispose%28System.Boolean%29&gt;</ph> method should be used as follows:</source>
+          <target state="translated">当实现的释放模式的布尔参数<ph id="ph1">&lt;xref:System.IO.Compression.ZipArchive.Dispose%28System.Boolean%29&gt;</ph>方法应在使用，如下所示：</target>       </trans-unit>
+        <trans-unit id="233" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IO.Compression.ZipArchive.Dispose(System.Boolean)">
+          <source>The <ph id="ph1">&lt;xref:System.IO.Compression.ZipArchive.Dispose&gt;</ph> method of the current object should call <ph id="ph2">&lt;xref:System.IO.Compression.ZipArchive.Dispose%28System.Boolean%29&gt;</ph> with the Boolean parameter set to <ph id="ph3">`true`</ph> to release both managed and unmanaged resources.</source>
+          <target state="translated"><ph id="ph1">&lt;xref:System.IO.Compression.ZipArchive.Dispose&gt;</ph>当前对象的方法应调用<ph id="ph2">&lt;xref:System.IO.Compression.ZipArchive.Dispose%28System.Boolean%29&gt;</ph>布尔参数设置为<ph id="ph3">`true`</ph>释放托管和非托管资源。</target>       </trans-unit>
+        <trans-unit id="234" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IO.Compression.ZipArchive.Dispose(System.Boolean)">
+          <source>The <ph id="ph1">&lt;xref:System.Object.Finalize&gt;</ph> method of the current object should call <ph id="ph2">&lt;xref:System.IO.Compression.ZipArchive.Dispose%28System.Boolean%29&gt;</ph> with the Boolean parameter set to <ph id="ph3">`false`</ph> to release only unmanaged resources.</source>
+          <target state="translated"><ph id="ph1">&lt;xref:System.Object.Finalize&gt;</ph>当前对象的方法应调用<ph id="ph2">&lt;xref:System.IO.Compression.ZipArchive.Dispose%28System.Boolean%29&gt;</ph>布尔参数设置为<ph id="ph3">`false`</ph>若要仅释放非托管的资源。</target>       </trans-unit>
+        <trans-unit id="235" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IO.Compression.ZipArchive.Dispose(System.Boolean)">
+          <source>For more information, see .</source>
+          <target state="translated">有关详细信息，请参阅。</target>       </trans-unit>
+        <trans-unit id="236" translate="yes" xml:space="preserve" uid="P:System.IO.Compression.ZipArchive.Entries">
+          <source>Gets the collection of entries that are currently in the zip archive.</source>
+          <target state="translated">获取 zip 存档中当前存在的项的集合。</target>       </trans-unit>
+        <trans-unit id="237" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.IO.Compression.ZipArchive.Entries">
+          <source>The collection of entries that are currently in the zip archive.</source>
+          <target state="translated">在 zip 存档中当前存在的项的集合。</target>       </trans-unit>
+        <trans-unit id="238" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.IO.Compression.ZipArchive.Entries">
+          <source>Use the <ph id="ph1">&lt;xref:System.IO.Compression.ZipArchive.Entries%2A&gt;</ph> property to retrieve the entire collection of entries.</source>
+          <target state="translated">使用<ph id="ph1">&lt;xref:System.IO.Compression.ZipArchive.Entries%2A&gt;</ph>要检索的项的整个集合属性。</target>       </trans-unit>
+        <trans-unit id="239" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.IO.Compression.ZipArchive.Entries">
+          <source>Use the <ph id="ph1">&lt;xref:System.IO.Compression.ZipArchive.GetEntry%2A&gt;</ph> method to retrieve a single entry by name.</source>
+          <target state="translated">使用<ph id="ph1">&lt;xref:System.IO.Compression.ZipArchive.GetEntry%2A&gt;</ph>方法来按名称检索单个条目。</target>       </trans-unit>
+        <trans-unit id="240" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.IO.Compression.ZipArchive.Entries">
+          <source>The following example shows how to open a zip archive and iterate through the collection of entries.</source>
+          <target state="translated">下面的示例演示如何打开 zip 存档，并循环访问的项的集合。</target>       </trans-unit>
+        <trans-unit id="241" translate="yes" xml:space="preserve" uid="P:System.IO.Compression.ZipArchive.Entries">
+          <source>The zip archive does not support reading.</source>
+          <target state="translated">zip 存档不支持读取。</target>       </trans-unit>
+        <trans-unit id="242" translate="yes" xml:space="preserve" uid="P:System.IO.Compression.ZipArchive.Entries">
+          <source>The zip archive has been disposed.</source>
+          <target state="translated">zip 存档已释放。</target>       </trans-unit>
+        <trans-unit id="243" translate="yes" xml:space="preserve" uid="P:System.IO.Compression.ZipArchive.Entries">
+          <source>The zip archive is corrupt, and its entries cannot be retrieved.</source>
+          <target state="translated">zip 存档已损坏，不能检索其项。</target>       </trans-unit>
+        <trans-unit id="244" translate="yes" xml:space="preserve" uid="M:System.IO.Compression.ZipArchive.GetEntry(System.String)">
+          <source>A path, relative to the root of the archive, that identifies the entry to retrieve.</source>
+          <target state="translated">识别要检索的项、相对于存档的根的路径。</target>       </trans-unit>
+        <trans-unit id="245" translate="yes" xml:space="preserve" uid="M:System.IO.Compression.ZipArchive.GetEntry(System.String)">
+          <source>Retrieves a wrapper for the specified entry in the zip archive.</source>
+          <target state="translated">在 zip 存档中检索指定项的包装。</target>       </trans-unit>
+        <trans-unit id="246" translate="yes" xml:space="preserve" uid="M:System.IO.Compression.ZipArchive.GetEntry(System.String)">
+          <source>A wrapper for the specified entry in the archive; <ph id="ph1">&lt;see langword="null" /&gt;</ph> if the entry does not exist in the archive.</source>
+          <target state="translated">存档中指定项的包装器；如果存档中不存在此项，则为 <ph id="ph1">&lt;see langword="null" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="247" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IO.Compression.ZipArchive.GetEntry(System.String)">
+          <source>If multiple entries that have the specified name exist in the archive, the first one is returned.</source>
+          <target state="translated">如果在存档中存在具有指定的名称的多个条目，则返回第一个。</target>       </trans-unit>
+        <trans-unit id="248" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IO.Compression.ZipArchive.GetEntry(System.String)">
+          <source>The name of the entry is compared to <ph id="ph1">`entryName`</ph> using ordinal comparison.</source>
+          <target state="translated">项名称相比<ph id="ph1">`entryName`</ph>使用序号比较。</target>       </trans-unit>
+        <trans-unit id="249" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IO.Compression.ZipArchive.GetEntry(System.String)">
+          <source>The following example shows how to use the <ph id="ph1">&lt;xref:System.IO.Compression.ZipArchive.GetEntry%2A&gt;</ph> method to retrieve an entry.</source>
+          <target state="translated">下面的示例演示如何使用<ph id="ph1">&lt;xref:System.IO.Compression.ZipArchive.GetEntry%2A&gt;</ph>方法来检索一个条目。</target>       </trans-unit>
+        <trans-unit id="250" translate="yes" xml:space="preserve" uid="M:System.IO.Compression.ZipArchive.GetEntry(System.String)">
+          <source><ph id="ph1">&lt;paramref name="entryName" /&gt;</ph> is <ph id="ph2">&lt;see cref="F:System.String.Empty" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="entryName" /&gt;</ph> 为 <ph id="ph2">&lt;see cref="F:System.String.Empty" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="251" translate="yes" xml:space="preserve" uid="M:System.IO.Compression.ZipArchive.GetEntry(System.String)">
+          <source><ph id="ph1">&lt;paramref name="entryName" /&gt;</ph> is <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="entryName" /&gt;</ph> 为 <ph id="ph2">&lt;see langword="null" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="252" translate="yes" xml:space="preserve" uid="M:System.IO.Compression.ZipArchive.GetEntry(System.String)">
+          <source>The zip archive does not support reading.</source>
+          <target state="translated">zip 存档不支持读取。</target>       </trans-unit>
+        <trans-unit id="253" translate="yes" xml:space="preserve" uid="M:System.IO.Compression.ZipArchive.GetEntry(System.String)">
+          <source>The zip archive has been disposed.</source>
+          <target state="translated">zip 存档已释放。</target>       </trans-unit>
+        <trans-unit id="254" translate="yes" xml:space="preserve" uid="M:System.IO.Compression.ZipArchive.GetEntry(System.String)">
+          <source>The zip archive is corrupt, and its entries cannot be retrieved.</source>
+          <target state="translated">zip 存档已损坏，不能检索其项。</target>       </trans-unit>
+        <trans-unit id="255" translate="yes" xml:space="preserve" uid="P:System.IO.Compression.ZipArchive.Mode">
+          <source>Gets a value that describes the type of action the zip archive can perform on entries.</source>
+          <target state="translated">获取描述 zip 存档可在项上执行的操作类型的一个值。</target>       </trans-unit>
+        <trans-unit id="256" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.IO.Compression.ZipArchive.Mode">
+          <source>One of the enumeration values that describes the type of action (read, create, or update) the zip archive can perform on entries.</source>
+          <target state="translated">描述 zip 存档可在项上执行的操作类型（读取、创建或更新）的一个枚举值。</target>       </trans-unit>
+        <trans-unit id="257" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.IO.Compression.ZipArchive.Mode">
+          <source>You specify a value for the <ph id="ph1">&lt;xref:System.IO.Compression.ZipArchive&gt;</ph> property when you create an instance of the <ph id="ph2">&lt;xref:System.IO.Compression.ZipArchive&gt;</ph> class.</source>
+          <target state="translated">指定的值<ph id="ph1">&lt;xref:System.IO.Compression.ZipArchive&gt;</ph>当你创建的实例时，属性<ph id="ph2">&lt;xref:System.IO.Compression.ZipArchive&gt;</ph>类。</target>       </trans-unit>
+        <trans-unit id="258" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.IO.Compression.ZipArchive.Mode">
+          <source>Use the <ph id="ph1">&lt;xref:System.IO.Compression.ZipArchive.%23ctor%28System.IO.Stream%2CSystem.IO.Compression.ZipArchiveMode%29&gt;</ph> or <ph id="ph2">&lt;xref:System.IO.Compression.ZipArchive.%23ctor%28System.IO.Stream%2CSystem.IO.Compression.ZipArchiveMode%2CSystem.Boolean%29&gt;</ph> constructor to provide a value for the <ph id="ph3">&lt;xref:System.IO.Compression.ZipArchive.Mode%2A&gt;</ph> property.</source>
+          <target state="translated">使用<ph id="ph1">&lt;xref:System.IO.Compression.ZipArchive.%23ctor%28System.IO.Stream%2CSystem.IO.Compression.ZipArchiveMode%29&gt;</ph>或<ph id="ph2">&lt;xref:System.IO.Compression.ZipArchive.%23ctor%28System.IO.Stream%2CSystem.IO.Compression.ZipArchiveMode%2CSystem.Boolean%29&gt;</ph>构造函数提供的值<ph id="ph3">&lt;xref:System.IO.Compression.ZipArchive.Mode%2A&gt;</ph>属性。</target>       </trans-unit>
+      </group>
+    </body>
+  </file>
+</xliff>

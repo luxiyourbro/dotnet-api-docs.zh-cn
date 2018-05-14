@@ -1,1409 +1,363 @@
-<Type Name="ChannelFactory&lt;TChannel&gt;" FullName="System.ServiceModel.ChannelFactory&lt;TChannel&gt;">
-  <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="368818ed2065e467ff129ac2211cb2dee4418dac" />
-    <Meta Name="ms.sourcegitcommit" Value="3507e865a3613c00760f25ad1045aaa11bae4dd8" />
-    <Meta Name="ms.translationtype" Value="HT" />
-    <Meta Name="ms.contentlocale" Value="zh-CN" />
-    <Meta Name="ms.lasthandoff" Value="04/23/2018" />
-  </Metadata>
-  <TypeSignature Language="C#" Value="public class ChannelFactory&lt;TChannel&gt; : System.ServiceModel.ChannelFactory, System.ServiceModel.Channels.IChannelFactory&lt;TChannel&gt;" />
-  <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit ChannelFactory`1&lt;TChannel&gt; extends System.ServiceModel.ChannelFactory implements class System.ServiceModel.Channels.IChannelFactory, class System.ServiceModel.Channels.IChannelFactory`1&lt;!TChannel&gt;, class System.ServiceModel.ICommunicationObject" />
-  <TypeSignature Language="DocId" Value="T:System.ServiceModel.ChannelFactory`1" />
-  <TypeSignature Language="VB.NET" Value="Public Class ChannelFactory(Of TChannel)&#xA;Inherits ChannelFactory&#xA;Implements IChannelFactory(Of TChannel)" />
-  <TypeSignature Language="C++ CLI" Value="generic &lt;typename TChannel&gt;&#xA;public ref class ChannelFactory : System::ServiceModel::ChannelFactory, System::ServiceModel::Channels::IChannelFactory&lt;TChannel&gt;" />
-  <AssemblyInfo>
-    <AssemblyName>System.ServiceModel</AssemblyName>
-    <AssemblyVersion>2.0.5.0</AssemblyVersion>
-    <AssemblyVersion>4.0.0.0</AssemblyVersion>
-  </AssemblyInfo>
-  <AssemblyInfo>
-    <AssemblyName>System.ServiceModel.Primitives</AssemblyName>
-    <AssemblyVersion>4.1.0.0</AssemblyVersion>
-    <AssemblyVersion>4.1.1.0</AssemblyVersion>
-    <AssemblyVersion>4.2.0.0</AssemblyVersion>
-  </AssemblyInfo>
-  <TypeParameters>
-    <TypeParameter Name="TChannel" />
-  </TypeParameters>
-  <Base>
-    <BaseTypeName>System.ServiceModel.ChannelFactory</BaseTypeName>
-  </Base>
-  <Interfaces>
-    <Interface>
-      <InterfaceName>System.ServiceModel.Channels.IChannelFactory&lt;TChannel&gt;</InterfaceName>
-    </Interface>
-  </Interfaces>
-  <Docs>
-    <typeparam name="TChannel">
-      <span data-ttu-id="7fef9-101">由通道工厂生成的通道类型。</span>
-      <span class="sxs-lookup">
-        <span data-stu-id="7fef9-101">The type of channel produced by the channel factory.</span>
-      </span>
-      <span data-ttu-id="7fef9-102">此类型必须为 <see cref="T:System.ServiceModel.Channels.IOutputChannel" /> 或 <see cref="T:System.ServiceModel.Channels.IRequestChannel" />。</span>
-      <span class="sxs-lookup">
-        <span data-stu-id="7fef9-102">This type must be either <see cref="T:System.ServiceModel.Channels.IOutputChannel" /> or <see cref="T:System.ServiceModel.Channels.IRequestChannel" />.</span>
-      </span>
-    </typeparam>
-    <summary>
-      <span data-ttu-id="7fef9-103">一个创建不同类型通道的工厂，客户端使用这些通道将消息发送到不同配置的服务终结点。</span>
-      <span class="sxs-lookup">
-        <span data-stu-id="7fef9-103">A factory that creates channels of different types that are used by clients to send messages to variously configured service endpoints.</span>
-      </span>
-    </summary>
-    <remarks>
-      <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="7fef9-104">使用此泛型类可实现一些更高级的方案，在这些方案中有创建通道工厂（可用于创建多个通道类型）的要求。</span><span class="sxs-lookup"><span data-stu-id="7fef9-104">This generic class enables more advanced scenarios where there is a requirement to create a channel factory that can be used to create more than one type of channel.</span></span>  
-  
- <span data-ttu-id="7fef9-105">以编程方式添加行为时，可以在创建任何通道之前将行为添加到 `Behaviors` 上相应的 <xref:System.ServiceModel.ChannelFactory> 属性。</span><span class="sxs-lookup"><span data-stu-id="7fef9-105">When adding behaviors programmatically, the behavior is added to the appropriate `Behaviors` property on the <xref:System.ServiceModel.ChannelFactory> prior to the creation of any channel.</span></span> <span data-ttu-id="7fef9-106">有关代码示例，请参见“示例”部分。</span><span class="sxs-lookup"><span data-stu-id="7fef9-106">See the example section for a code sample.</span></span>  
-  
- <span data-ttu-id="7fef9-107">频繁使用此类型的客户端或调用应用程序（例如，中层应用程序也是客户端应用程序）也具有复杂的状态管理需求和性能需求。</span><span class="sxs-lookup"><span data-stu-id="7fef9-107">Frequently client or calling applications (for example, middle-tier applications are client applications, too) using this type also have complex state management needs as well as performance needs.</span></span> <span data-ttu-id="7fef9-108">有关这些方案的详细信息，请参阅[中间层客户端应用程序](~/docs/framework/wcf/feature-details/middle-tier-client-applications.md)。</span><span class="sxs-lookup"><span data-stu-id="7fef9-108">For more information about these scenarios, please see [Middle-Tier Client Applications](~/docs/framework/wcf/feature-details/middle-tier-client-applications.md).</span></span>  
-  
-   
-  
-## Examples  
- <span data-ttu-id="7fef9-109">下面的示例演示如何创建通道工厂并用它来创建和管理通道。</span><span class="sxs-lookup"><span data-stu-id="7fef9-109">The following sample shows how to create a channel factory and use it to create and manage channels.</span></span>  
-  
- [!code-csharp[S_UEChannels#21](~/samples/snippets/csharp/VS_Snippets_CFX/s_uechannels/cs/clientsnippets.cs#21)]  
-  
- <span data-ttu-id="7fef9-110">下面的代码示例演示如何在工厂创建通道对象前，以编程方式插入客户端行为。</span><span class="sxs-lookup"><span data-stu-id="7fef9-110">The following code example shows how to insert programmatically a client behavior prior to the creation of the channel object by the factory.</span></span>  
-  
- [!code-csharp[ChannelFactoryBehaviors#10](~/samples/snippets/csharp/VS_Snippets_CFX/channelfactorybehaviors/cs/client.cs#10)]
- [!code-vb[ChannelFactoryBehaviors#10](~/samples/snippets/visualbasic/VS_Snippets_CFX/channelfactorybehaviors/vb/client.vb#10)]  
-  
- ]]></format>
-    </remarks>
-    <threadsafe>
-      <span data-ttu-id="7fef9-111">此类型是线程安全的。</span>
-      <span class="sxs-lookup">
-        <span data-stu-id="7fef9-111">This type is thread safe.</span>
-      </span>
-    </threadsafe>
-  </Docs>
-  <Members>
-    <MemberGroup MemberName=".ctor">
-      <AssemblyInfo>
-        <AssemblyName>System.ServiceModel</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Docs>
-        <summary>
-          <span data-ttu-id="7fef9-112">初始化 <see cref="T:System.ServiceModel.ChannelFactory`1" /> 类的新实例。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="7fef9-112">Initializes a new instance of the <see cref="T:System.ServiceModel.ChannelFactory`1" /> class.</span>
-          </span>
-        </summary>
-      </Docs>
-    </MemberGroup>
-    <Member MemberName=".ctor">
-      <MemberSignature Language="C#" Value="public ChannelFactory ();" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor() cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.ServiceModel.ChannelFactory`1.#ctor" />
-      <MemberSignature Language="VB.NET" Value="Public Sub New ()" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; ChannelFactory();" />
-      <MemberType>Constructor</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.ServiceModel</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Parameters />
-      <Docs>
-        <summary>
-          <span data-ttu-id="7fef9-113">初始化 <see cref="T:System.ServiceModel.ChannelFactory`1" /> 类的新实例。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="7fef9-113">Initializes a new instance of the <see cref="T:System.ServiceModel.ChannelFactory`1" /> class.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Examples  
- <span data-ttu-id="7fef9-114">此示例演示如何使用 <xref:System.ServiceModel.ChannelFactory%601> 接口创建 `IRequestChannel` 类的新对象。</span><span class="sxs-lookup"><span data-stu-id="7fef9-114">This example shows how to create a new object of the <xref:System.ServiceModel.ChannelFactory%601> class with the `IRequestChannel` interface.</span></span>  
-  
- [!code-csharp[S_UEChannels#24](~/samples/snippets/csharp/VS_Snippets_CFX/s_uechannels/cs/clientsnippets.cs#24)]  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-    <Member MemberName=".ctor">
-      <MemberSignature Language="C#" Value="public ChannelFactory (System.ServiceModel.Channels.Binding binding);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(class System.ServiceModel.Channels.Binding binding) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.ServiceModel.ChannelFactory`1.#ctor(System.ServiceModel.Channels.Binding)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; ChannelFactory(System::ServiceModel::Channels::Binding ^ binding);" />
-      <MemberType>Constructor</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.ServiceModel</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Parameters>
-        <Parameter Name="binding" Type="System.ServiceModel.Channels.Binding" />
-      </Parameters>
-      <Docs>
-        <param name="binding">
-          <span data-ttu-id="7fef9-115">为由工厂生成的通道指定的 <see cref="T:System.ServiceModel.Channels.Binding" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="7fef9-115">The <see cref="T:System.ServiceModel.Channels.Binding" /> specified for the channels produced by the factory.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="7fef9-116">初始化 <see cref="T:System.ServiceModel.ChannelFactory`1" /> 类的新实例。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="7fef9-116">Initializes a new instance of the <see cref="T:System.ServiceModel.ChannelFactory`1" /> class.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="7fef9-117">在要以编程方式而不是使用应用程序配置文件传递绑定信息时，使用此构造函数。</span><span class="sxs-lookup"><span data-stu-id="7fef9-117">Use this constructor when you want to pass the binding information programmatically rather than using an application configuration file.</span></span>  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-    <Member MemberName=".ctor">
-      <MemberSignature Language="C#" Value="public ChannelFactory (System.ServiceModel.Description.ServiceEndpoint endpoint);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(class System.ServiceModel.Description.ServiceEndpoint endpoint) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.ServiceModel.ChannelFactory`1.#ctor(System.ServiceModel.Description.ServiceEndpoint)" />
-      <MemberSignature Language="VB.NET" Value="Public Sub New (endpoint As ServiceEndpoint)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; ChannelFactory(System::ServiceModel::Description::ServiceEndpoint ^ endpoint);" />
-      <MemberType>Constructor</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.ServiceModel</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Parameters>
-        <Parameter Name="endpoint" Type="System.ServiceModel.Description.ServiceEndpoint" />
-      </Parameters>
-      <Docs>
-        <param name="endpoint">
-          <span data-ttu-id="7fef9-118">由工厂生成的通道的 <see cref="T:System.ServiceModel.Description.ServiceEndpoint" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="7fef9-118">The <see cref="T:System.ServiceModel.Description.ServiceEndpoint" /> for the channels produced by the factory.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="7fef9-119">使用指定的终结点初始化生成通道的 <see cref="T:System.ServiceModel.ChannelFactory`1" /> 类的新实例。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="7fef9-119">Initializes a new instance of the <see cref="T:System.ServiceModel.ChannelFactory`1" /> class that produces channels with a specified endpoint.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="7fef9-120">在要以编程方式而不是使用应用程序配置文件传递服务终结点信息时，使用此构造函数。</span><span class="sxs-lookup"><span data-stu-id="7fef9-120">Use this constructor when you want to pass the service endpoint information programmatically rather than using an application configuration file.</span></span>  
-  
-   
-  
-## Examples  
- [!code-csharp[S_UEChannels#25](~/samples/snippets/csharp/VS_Snippets_CFX/s_uechannels/cs/clientsnippets.cs#25)]  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.ArgumentNullException">
-          <span data-ttu-id="7fef9-121">
-            <paramref name="endpoint" /> 为 <see langword="null" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="7fef9-121">The <paramref name="endpoint" /> is <see langword="null" />.</span>
-          </span>
-        </exception>
-      </Docs>
-    </Member>
-    <Member MemberName=".ctor">
-      <MemberSignature Language="C#" Value="public ChannelFactory (string endpointConfigurationName);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(string endpointConfigurationName) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.ServiceModel.ChannelFactory`1.#ctor(System.String)" />
-      <MemberSignature Language="VB.NET" Value="Public Sub New (endpointConfigurationName As String)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; ChannelFactory(System::String ^ endpointConfigurationName);" />
-      <MemberType>Constructor</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.ServiceModel</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>System.ServiceModel.Primitives</AssemblyName>
-        <AssemblyVersion>4.1.0.0</AssemblyVersion>
-        <AssemblyVersion>4.1.1.0</AssemblyVersion>
-        <AssemblyVersion>4.2.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Parameters>
-        <Parameter Name="endpointConfigurationName" Type="System.String" />
-      </Parameters>
-      <Docs>
-        <param name="endpointConfigurationName">
-          <span data-ttu-id="7fef9-122">用于终结点的配置名称。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="7fef9-122">The configuration name used for the endpoint.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="7fef9-123">使用指定的终结点配置名称初始化 <see cref="T:System.ServiceModel.ChannelFactory`1" /> 类的新实例。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="7fef9-123">Initializes a new instance of the <see cref="T:System.ServiceModel.ChannelFactory`1" /> class with a specified endpoint configuration name.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="7fef9-124">当应用程序配置文件中有一个以上的目标终结点时，使用此构造函数。</span><span class="sxs-lookup"><span data-stu-id="7fef9-124">Use this constructor when there is more than one target endpoint in the application configuration file.</span></span>  
-  
-   
-  
-## Examples  
- [!code-csharp[S_UEChannels#23](~/samples/snippets/csharp/VS_Snippets_CFX/s_uechannels/cs/clientsnippets.cs#23)]  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.ArgumentNullException">
-          <span data-ttu-id="7fef9-125">
-            <paramref name="endpointConfigurationName" /> 为 <see langword="null" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="7fef9-125">
-              <paramref name="endpointConfigurationName" /> is <see langword="null" />.</span>
-          </span>
-        </exception>
-      </Docs>
-    </Member>
-    <Member MemberName=".ctor">
-      <MemberSignature Language="C#" Value="protected ChannelFactory (Type channelType);" />
-      <MemberSignature Language="ILAsm" Value=".method familyhidebysig specialname rtspecialname instance void .ctor(class System.Type channelType) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.ServiceModel.ChannelFactory`1.#ctor(System.Type)" />
-      <MemberSignature Language="VB.NET" Value="Protected Sub New (channelType As Type)" />
-      <MemberSignature Language="C++ CLI" Value="protected:&#xA; ChannelFactory(Type ^ channelType);" />
-      <MemberType>Constructor</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.ServiceModel</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>System.ServiceModel.Primitives</AssemblyName>
-        <AssemblyVersion>4.1.0.0</AssemblyVersion>
-        <AssemblyVersion>4.1.1.0</AssemblyVersion>
-        <AssemblyVersion>4.2.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Parameters>
-        <Parameter Name="channelType" Type="System.Type" />
-      </Parameters>
-      <Docs>
-        <param name="channelType">
-          <span data-ttu-id="7fef9-126">由工厂生成的通道的 <see cref="T:System.Type" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="7fef9-126">The <see cref="T:System.Type" /> of channel produced by the factory.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="7fef9-127">初始化 <see cref="T:System.ServiceModel.ChannelFactory`1" /> 类的新实例。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="7fef9-127">Initializes a new instance of the <see cref="T:System.ServiceModel.ChannelFactory`1" /> class.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="7fef9-128">在要以编程方式而不是使用应用程序配置文件传递通道类型信息时，使用此构造函数。</span><span class="sxs-lookup"><span data-stu-id="7fef9-128">Use this constructor when you want to pass the channel type information programmatically rather than using an application configuration file.</span></span> <span data-ttu-id="7fef9-129">`channelType` 参数必须为接口。</span><span class="sxs-lookup"><span data-stu-id="7fef9-129">The `channelType` parameter must be an interface.</span></span>  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.ArgumentNullException">
-          <span data-ttu-id="7fef9-130">
-            <paramref name="channelType" /> 为 <see langword="null" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="7fef9-130">The <paramref name="channelType" /> is <see langword="null" />.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.InvalidOperationException">
-          <span data-ttu-id="7fef9-131">
-            <paramref name="channelType" /> 为类或值类型，而非接口。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="7fef9-131">The <paramref name="channelType" /> is a class or value type and is not an interface.</span>
-          </span>
-        </exception>
-      </Docs>
-    </Member>
-    <Member MemberName=".ctor">
-      <MemberSignature Language="C#" Value="public ChannelFactory (System.ServiceModel.Channels.Binding binding, System.ServiceModel.EndpointAddress remoteAddress);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(class System.ServiceModel.Channels.Binding binding, class System.ServiceModel.EndpointAddress remoteAddress) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.ServiceModel.ChannelFactory`1.#ctor(System.ServiceModel.Channels.Binding,System.ServiceModel.EndpointAddress)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; ChannelFactory(System::ServiceModel::Channels::Binding ^ binding, System::ServiceModel::EndpointAddress ^ remoteAddress);" />
-      <MemberType>Constructor</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.ServiceModel</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>System.ServiceModel.Primitives</AssemblyName>
-        <AssemblyVersion>4.1.0.0</AssemblyVersion>
-        <AssemblyVersion>4.1.1.0</AssemblyVersion>
-        <AssemblyVersion>4.2.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Parameters>
-        <Parameter Name="binding" Type="System.ServiceModel.Channels.Binding" />
-        <Parameter Name="remoteAddress" Type="System.ServiceModel.EndpointAddress" />
-      </Parameters>
-      <Docs>
-        <param name="binding">
-          <span data-ttu-id="7fef9-132">用于配置终结点的 <see cref="T:System.ServiceModel.Channels.Binding" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="7fef9-132">The <see cref="T:System.ServiceModel.Channels.Binding" /> used to configure the endpoint.</span>
-          </span>
-        </param>
-        <param name="remoteAddress">
-          <span data-ttu-id="7fef9-133">提供服务位置的 <see cref="T:System.ServiceModel.EndpointAddress" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="7fef9-133">The <see cref="T:System.ServiceModel.EndpointAddress" /> that provides the location of the service.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="7fef9-134">使用指定的绑定和终结点地址初始化 <see cref="T:System.ServiceModel.ChannelFactory`1" /> 类的新实例。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="7fef9-134">Initializes a new instance of the <see cref="T:System.ServiceModel.ChannelFactory`1" /> class with a specified binding and endpoint address.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="7fef9-135">在要以编程方式而不是使用应用程序配置文件传递绑定和地址信息时，使用此构造函数。</span><span class="sxs-lookup"><span data-stu-id="7fef9-135">Use this constructor when you want to pass the binding and address information programmatically rather than using an application configuration file.</span></span>  
-  
-   
-  
-## Examples  
- [!code-csharp[S_UEChannels#26](~/samples/snippets/csharp/VS_Snippets_CFX/s_uechannels/cs/clientsnippets.cs#26)]  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.ArgumentNullException">
-          <span data-ttu-id="7fef9-136">
-            <paramref name="binding" /> 为 <see langword="null" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="7fef9-136">The <paramref name="binding" /> is <see langword="null" />.</span>
-          </span>
-        </exception>
-      </Docs>
-    </Member>
-    <Member MemberName=".ctor">
-      <MemberSignature Language="C#" Value="public ChannelFactory (System.ServiceModel.Channels.Binding binding, string remoteAddress);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(class System.ServiceModel.Channels.Binding binding, string remoteAddress) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.ServiceModel.ChannelFactory`1.#ctor(System.ServiceModel.Channels.Binding,System.String)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; ChannelFactory(System::ServiceModel::Channels::Binding ^ binding, System::String ^ remoteAddress);" />
-      <MemberType>Constructor</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.ServiceModel</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Parameters>
-        <Parameter Name="binding" Type="System.ServiceModel.Channels.Binding" />
-        <Parameter Name="remoteAddress" Type="System.String" />
-      </Parameters>
-      <Docs>
-        <param name="binding">
-          <span data-ttu-id="7fef9-137">用于配置终结点的 <see cref="T:System.ServiceModel.Channels.Binding" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="7fef9-137">The <see cref="T:System.ServiceModel.Channels.Binding" /> used to configure the endpoint.</span>
-          </span>
-        </param>
-        <param name="remoteAddress">
-          <span data-ttu-id="7fef9-138">提供服务位置的地址。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="7fef9-138">The address that provides the location of the service.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="7fef9-139">使用指定的绑定和远程地址初始化 <see cref="T:System.ServiceModel.ChannelFactory`1" /> 类的新实例。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="7fef9-139">Initializes a new instance of the <see cref="T:System.ServiceModel.ChannelFactory`1" /> class with a specified binding and remote address.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="7fef9-140">要用字符串而不是作为类型化对象传递有关远程地址信息的信息时，使用此构造函数。</span><span class="sxs-lookup"><span data-stu-id="7fef9-140">Use this constructor when you want to pass the information about the remote address information with a string rather than as a typed object.</span></span>  
-  
-   
-  
-## Examples  
- [!code-csharp[S_UEChannels#29](~/samples/snippets/csharp/VS_Snippets_CFX/s_uechannels/cs/clientsnippets.cs#29)]  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.ArgumentNullException">
-          <span data-ttu-id="7fef9-141">
-            <paramref name="remoteAddress" /> 为 <see langword="null" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="7fef9-141">
-              <paramref name="remoteAddress" /> is <see langword="null" />.</span>
-          </span>
-        </exception>
-      </Docs>
-    </Member>
-    <Member MemberName=".ctor">
-      <MemberSignature Language="C#" Value="public ChannelFactory (string endpointConfigurationName, System.ServiceModel.EndpointAddress remoteAddress);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(string endpointConfigurationName, class System.ServiceModel.EndpointAddress remoteAddress) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.ServiceModel.ChannelFactory`1.#ctor(System.String,System.ServiceModel.EndpointAddress)" />
-      <MemberSignature Language="VB.NET" Value="Public Sub New (endpointConfigurationName As String, remoteAddress As EndpointAddress)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; ChannelFactory(System::String ^ endpointConfigurationName, System::ServiceModel::EndpointAddress ^ remoteAddress);" />
-      <MemberType>Constructor</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.ServiceModel</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>System.ServiceModel.Primitives</AssemblyName>
-        <AssemblyVersion>4.1.0.0</AssemblyVersion>
-        <AssemblyVersion>4.1.1.0</AssemblyVersion>
-        <AssemblyVersion>4.2.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Parameters>
-        <Parameter Name="endpointConfigurationName" Type="System.String" />
-        <Parameter Name="remoteAddress" Type="System.ServiceModel.EndpointAddress" />
-      </Parameters>
-      <Docs>
-        <param name="endpointConfigurationName">
-          <span data-ttu-id="7fef9-142">用于终结点的配置名称。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="7fef9-142">The configuration name used for the endpoint.</span>
-          </span>
-        </param>
-        <param name="remoteAddress">
-          <span data-ttu-id="7fef9-143">提供服务位置的 <see cref="T:System.ServiceModel.EndpointAddress" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="7fef9-143">The <see cref="T:System.ServiceModel.EndpointAddress" /> that provides the location of the service.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="7fef9-144">初始化 <see cref="T:System.ServiceModel.ChannelFactory`1" /> 类的新实例，该类与终结点配置和远程地址的指定名称相关联。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="7fef9-144">Initializes a new instance of the <see cref="T:System.ServiceModel.ChannelFactory`1" /> class associated with a specified name for the endpoint configuration and remote address.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Examples  
- [!code-csharp[S_UEChannels#24](~/samples/snippets/csharp/VS_Snippets_CFX/s_uechannels/cs/clientsnippets.cs#24)]  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.ArgumentNullException">
-          <span data-ttu-id="7fef9-145">
-            <paramref name="endpointConfigurationName" /> 或 <paramref name="remoteAddress" /> 为 <see langword="null" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="7fef9-145">
-              <paramref name="endpointConfigurationName" /> or <paramref name="remoteAddress" /> is <see langword="null" />.</span>
-          </span>
-        </exception>
-      </Docs>
-    </Member>
-    <MemberGroup MemberName="CreateChannel">
-      <AssemblyInfo>
-        <AssemblyName>System.ServiceModel</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Docs>
-        <summary>
-          <span data-ttu-id="7fef9-146">创建到指定终结点地址的指定类型的通道。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="7fef9-146">Creates a channel of a specified type to a specified endpoint address.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="7fef9-147">创建 `TChannel` 类型（类的泛型参数）的通道。</span><span class="sxs-lookup"><span data-stu-id="7fef9-147">Creates a channel of type `TChannel`, the generic parameter for the class.</span></span>  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </MemberGroup>
-    <Member MemberName="CreateChannel">
-      <MemberSignature Language="C#" Value="public TChannel CreateChannel ();" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance !TChannel CreateChannel() cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.ServiceModel.ChannelFactory`1.CreateChannel" />
-      <MemberSignature Language="VB.NET" Value="Public Function CreateChannel () As TChannel" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; TChannel CreateChannel();" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.ServiceModel</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>System.ServiceModel.Primitives</AssemblyName>
-        <AssemblyVersion>4.1.0.0</AssemblyVersion>
-        <AssemblyVersion>4.1.1.0</AssemblyVersion>
-        <AssemblyVersion>4.2.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>TChannel</ReturnType>
-      </ReturnValue>
-      <Parameters />
-      <Docs>
-        <summary>
-          <span data-ttu-id="7fef9-148">创建到指定终结点地址的指定类型的通道。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="7fef9-148">Creates a channel of a specified type to a specified endpoint address.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="7fef9-149">工厂创建的 <paramref name="TChannel" /> 类型的 <see cref="T:System.ServiceModel.Channels.IChannel" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="7fef9-149">The <paramref name="TChannel" /> of type <see cref="T:System.ServiceModel.Channels.IChannel" /> created by the factory.</span>
-          </span>
-        </returns>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="7fef9-150">创建 `TChannel` 类型（类的泛型参数）的通道。</span><span class="sxs-lookup"><span data-stu-id="7fef9-150">Creates a channel of type `TChannel`, the generic parameter for the class.</span></span>  
-  
-   
-  
-## Examples  
- [!code-csharp[S_UEChannels#30](~/samples/snippets/csharp/VS_Snippets_CFX/s_uechannels/cs/clientsnippets.cs#30)]  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="CreateChannel">
-      <MemberSignature Language="C#" Value="public TChannel CreateChannel (System.ServiceModel.EndpointAddress address);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance !TChannel CreateChannel(class System.ServiceModel.EndpointAddress address) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.ServiceModel.ChannelFactory`1.CreateChannel(System.ServiceModel.EndpointAddress)" />
-      <MemberSignature Language="VB.NET" Value="Public Function CreateChannel (address As EndpointAddress) As TChannel" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual TChannel CreateChannel(System::ServiceModel::EndpointAddress ^ address);" />
-      <MemberType>Method</MemberType>
-      <Implements>
-        <InterfaceMember>M:System.ServiceModel.Channels.IChannelFactory`1.CreateChannel(System.ServiceModel.EndpointAddress)</InterfaceMember>
-      </Implements>
-      <AssemblyInfo>
-        <AssemblyName>System.ServiceModel</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>System.ServiceModel.Primitives</AssemblyName>
-        <AssemblyVersion>4.1.0.0</AssemblyVersion>
-        <AssemblyVersion>4.1.1.0</AssemblyVersion>
-        <AssemblyVersion>4.2.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>TChannel</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="address" Type="System.ServiceModel.EndpointAddress" />
-      </Parameters>
-      <Docs>
-        <param name="address">
-          <span data-ttu-id="7fef9-151">提供服务位置的 <see cref="T:System.ServiceModel.EndpointAddress" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="7fef9-151">The <see cref="T:System.ServiceModel.EndpointAddress" /> that provides the location of the service.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="7fef9-152">创建用于将消息发送到特定终结点地址的服务的通道。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="7fef9-152">Creates a channel that is used to send messages to a service at a specific endpoint address.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="7fef9-153">工厂创建的 <paramref name="TChannel" /> 类型的 <see cref="T:System.ServiceModel.Channels.IChannel" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="7fef9-153">The <paramref name="TChannel" /> of type <see cref="T:System.ServiceModel.Channels.IChannel" /> created by the factory.</span>
-          </span>
-        </returns>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Examples  
- [!code-csharp[S_UEChannels#27](~/samples/snippets/csharp/VS_Snippets_CFX/s_uechannels/cs/clientsnippets.cs#27)]  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.ArgumentNullException">
-          <span data-ttu-id="7fef9-154">
-            <paramref name="address" /> 为 <see langword="null" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="7fef9-154">
-              <paramref name="address" /> is <see langword="null" />.</span>
-          </span>
-        </exception>
-      </Docs>
-    </Member>
-    <Member MemberName="CreateChannel">
-      <MemberSignature Language="C#" Value="protected static TChannel CreateChannel (string endpointConfigurationName);" />
-      <MemberSignature Language="ILAsm" Value=".method familystatic hidebysig !TChannel CreateChannel(string endpointConfigurationName) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.ServiceModel.ChannelFactory`1.CreateChannel(System.String)" />
-      <MemberSignature Language="VB.NET" Value="Protected Shared Function CreateChannel (endpointConfigurationName As String) As TChannel" />
-      <MemberSignature Language="C++ CLI" Value="protected:&#xA; static TChannel CreateChannel(System::String ^ endpointConfigurationName);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.ServiceModel</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>TChannel</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="endpointConfigurationName" Type="System.String" />
-      </Parameters>
-      <Docs>
-        <param name="endpointConfigurationName">
-          <span data-ttu-id="7fef9-155">用于服务的终结点配置的名称。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="7fef9-155">The name of the endpoint configuration used for the service.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="7fef9-156">创建一个通道，该通道用于将消息发送到以指定方式配置其终结点的服务。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="7fef9-156">Creates a channel that is used to send messages to a service whose endpoint is configured in a specified way.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="7fef9-157">工厂创建的 <paramref name="TChannel" /> 类型的 <see cref="T:System.ServiceModel.Channels.IChannel" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="7fef9-157">The <paramref name="TChannel" /> of type <see cref="T:System.ServiceModel.Channels.IChannel" /> created by the factory.</span>
-          </span>
-        </returns>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Examples  
- [!code-csharp[S_UEChannels#21](~/samples/snippets/csharp/VS_Snippets_CFX/s_uechannels/cs/clientsnippets.cs#21)]  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.InvalidOperationException">
-          <span data-ttu-id="7fef9-158">
-            <see cref="T:System.ServiceModel.ChannelFactory" /> 有它不支持的双工操作。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="7fef9-158">The <see cref="T:System.ServiceModel.ChannelFactory" /> has duplex operations it does not support.</span>
-          </span>
-        </exception>
-      </Docs>
-    </Member>
-    <Member MemberName="CreateChannel">
-      <MemberSignature Language="C#" Value="public virtual TChannel CreateChannel (System.ServiceModel.EndpointAddress address, Uri via);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance !TChannel CreateChannel(class System.ServiceModel.EndpointAddress address, class System.Uri via) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.ServiceModel.ChannelFactory`1.CreateChannel(System.ServiceModel.EndpointAddress,System.Uri)" />
-      <MemberSignature Language="VB.NET" Value="Public Overridable Function CreateChannel (address As EndpointAddress, via As Uri) As TChannel" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual TChannel CreateChannel(System::ServiceModel::EndpointAddress ^ address, Uri ^ via);" />
-      <MemberType>Method</MemberType>
-      <Implements>
-        <InterfaceMember>M:System.ServiceModel.Channels.IChannelFactory`1.CreateChannel(System.ServiceModel.EndpointAddress,System.Uri)</InterfaceMember>
-      </Implements>
-      <AssemblyInfo>
-        <AssemblyName>System.ServiceModel</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>System.ServiceModel.Primitives</AssemblyName>
-        <AssemblyVersion>4.1.0.0</AssemblyVersion>
-        <AssemblyVersion>4.1.1.0</AssemblyVersion>
-        <AssemblyVersion>4.2.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>TChannel</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="address" Type="System.ServiceModel.EndpointAddress" />
-        <Parameter Name="via" Type="System.Uri" />
-      </Parameters>
-      <Docs>
-        <param name="address">
-          <span data-ttu-id="7fef9-159">提供服务位置的 <see cref="T:System.ServiceModel.EndpointAddress" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="7fef9-159">The <see cref="T:System.ServiceModel.EndpointAddress" /> that provides the location of the service.</span>
-          </span>
-        </param>
-        <param name="via">
-          <span data-ttu-id="7fef9-160">包含通道向其发送消息的传输地址的 <see cref="T:System.Uri" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="7fef9-160">The <see cref="T:System.Uri" /> that contains the transport address to which the channel sends messages.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="7fef9-161">创建一个通道，该通道用于通过指定的传输地址将消息发送到特定终结点地址的服务。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="7fef9-161">Creates a channel that is used to send messages to a service at a specific endpoint address through a specified transport address.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="7fef9-162">工厂创建的 <paramref name="TChannel" /> 类型的 <see cref="T:System.ServiceModel.Channels.IChannel" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="7fef9-162">The <paramref name="TChannel" /> of type <see cref="T:System.ServiceModel.Channels.IChannel" /> created by the factory.</span>
-          </span>
-        </returns>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Examples  
- [!code-csharp[S_UEChannels#28](~/samples/snippets/csharp/VS_Snippets_CFX/s_uechannels/cs/clientsnippets.cs#28)]  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.ArgumentNullException">
-          <span data-ttu-id="7fef9-163">
-            <paramref name="address" /> 为 <see langword="null" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="7fef9-163">
-              <paramref name="address" /> is <see langword="null" />.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.InvalidOperationException">
-          <span data-ttu-id="7fef9-164">
-            <see cref="T:System.ServiceModel.ChannelFactory" /> 有它不支持的双工操作。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="7fef9-164">The <see cref="T:System.ServiceModel.ChannelFactory" /> has duplex operations it does not support.</span>
-          </span>
-        </exception>
-      </Docs>
-    </Member>
-    <Member MemberName="CreateChannel">
-      <MemberSignature Language="C#" Value="public static TChannel CreateChannel (System.ServiceModel.Channels.Binding binding, System.ServiceModel.EndpointAddress endpointAddress);" FrameworkAlternate="netcore-1.0;netcore-1.1;netcore-2.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2" />
-      <MemberSignature Language="ILAsm" Value=".method public static hidebysig !TChannel CreateChannel(class System.ServiceModel.Channels.Binding binding, class System.ServiceModel.EndpointAddress endpointAddress) cil managed" FrameworkAlternate="netcore-1.0;netcore-1.1;netcore-2.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2" />
-      <MemberSignature Language="DocId" Value="M:System.ServiceModel.ChannelFactory`1.CreateChannel(System.ServiceModel.Channels.Binding,System.ServiceModel.EndpointAddress)" FrameworkAlternate="netcore-1.0;netcore-1.1;netcore-2.0;xamarinandroid-7.1;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;xamarinios-10.8;xamarinmac-3.0" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; static TChannel CreateChannel(System::ServiceModel::Channels::Binding ^ binding, System::ServiceModel::EndpointAddress ^ endpointAddress);" FrameworkAlternate="netcore-1.0;netcore-1.1;netcore-2.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2" />
-      <MemberSignature Language="C#" Value="public static TChannel CreateChannel (System.ServiceModel.Channels.Binding binding, System.ServiceModel.EndpointAddress address);" FrameworkAlternate="xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0" />
-      <MemberSignature Language="ILAsm" Value=".method public static hidebysig !TChannel CreateChannel(class System.ServiceModel.Channels.Binding binding, class System.ServiceModel.EndpointAddress address) cil managed" FrameworkAlternate="xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; static TChannel CreateChannel(System::ServiceModel::Channels::Binding ^ binding, System::ServiceModel::EndpointAddress ^ address);" FrameworkAlternate="xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.ServiceModel</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>TChannel</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="binding" Type="System.ServiceModel.Channels.Binding" Index="0" />
-        <Parameter Name="endpointAddress" Type="System.ServiceModel.EndpointAddress" Index="1" FrameworkAlternate="netcore-1.0;netcore-1.1;netcore-2.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2" />
-        <Parameter Name="address" Type="System.ServiceModel.EndpointAddress" Index="1" FrameworkAlternate="xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0" />
-      </Parameters>
-      <Docs>
-        <param name="binding">
-          <span data-ttu-id="7fef9-165">用于配置终结点的 <see cref="T:System.ServiceModel.Channels.Binding" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="7fef9-165">The <see cref="T:System.ServiceModel.Channels.Binding" /> used to configure the endpoint.</span>
-          </span>
-        </param>
-        <param name="endpointAddress">To be added.</param>
-        <param name="address">To be added.</param>
-        <summary>
-          <span data-ttu-id="7fef9-166">创建一个指定类型的通道，该通道用于将消息发送到用指定绑定进行配置的服务终结点。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="7fef9-166">Creates a channel of a specified type that is used to send messages to a service endpoint that is configured with a specified binding.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="7fef9-167">工厂创建的 <paramref name="TChannel" /> 类型的 <see cref="T:System.ServiceModel.Channels.IChannel" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="7fef9-167">The <paramref name="TChannel" /> of type <see cref="T:System.ServiceModel.Channels.IChannel" /> created by the factory.</span>
-          </span>
-        </returns>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Examples  
- [!code-csharp[S_UEChannels#31](~/samples/snippets/csharp/VS_Snippets_CFX/s_uechannels/cs/clientsnippets.cs#31)]  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.InvalidOperationException">
-          <span data-ttu-id="7fef9-168">
-            <see cref="T:System.ServiceModel.ChannelFactory" /> 有它不支持的双工操作。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="7fef9-168">The <see cref="T:System.ServiceModel.ChannelFactory" /> has duplex operations it does not support.</span>
-          </span>
-        </exception>
-      </Docs>
-    </Member>
-    <Member MemberName="CreateChannel">
-      <MemberSignature Language="C#" Value="public static TChannel CreateChannel (System.ServiceModel.Channels.Binding binding, System.ServiceModel.EndpointAddress endpointAddress, Uri via);" FrameworkAlternate="netcore-1.0;netcore-1.1;netcore-2.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2" />
-      <MemberSignature Language="ILAsm" Value=".method public static hidebysig !TChannel CreateChannel(class System.ServiceModel.Channels.Binding binding, class System.ServiceModel.EndpointAddress endpointAddress, class System.Uri via) cil managed" FrameworkAlternate="netcore-1.0;netcore-1.1;netcore-2.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2" />
-      <MemberSignature Language="DocId" Value="M:System.ServiceModel.ChannelFactory`1.CreateChannel(System.ServiceModel.Channels.Binding,System.ServiceModel.EndpointAddress,System.Uri)" FrameworkAlternate="netcore-1.0;netcore-1.1;netcore-2.0;xamarinandroid-7.1;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;xamarinios-10.8;xamarinmac-3.0" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; static TChannel CreateChannel(System::ServiceModel::Channels::Binding ^ binding, System::ServiceModel::EndpointAddress ^ endpointAddress, Uri ^ via);" FrameworkAlternate="netcore-1.0;netcore-1.1;netcore-2.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2" />
-      <MemberSignature Language="C#" Value="public static TChannel CreateChannel (System.ServiceModel.Channels.Binding binding, System.ServiceModel.EndpointAddress address, Uri via);" FrameworkAlternate="xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0" />
-      <MemberSignature Language="ILAsm" Value=".method public static hidebysig !TChannel CreateChannel(class System.ServiceModel.Channels.Binding binding, class System.ServiceModel.EndpointAddress address, class System.Uri via) cil managed" FrameworkAlternate="xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; static TChannel CreateChannel(System::ServiceModel::Channels::Binding ^ binding, System::ServiceModel::EndpointAddress ^ address, Uri ^ via);" FrameworkAlternate="xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.ServiceModel</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>TChannel</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="binding" Type="System.ServiceModel.Channels.Binding" Index="0" />
-        <Parameter Name="endpointAddress" Type="System.ServiceModel.EndpointAddress" Index="1" FrameworkAlternate="netcore-1.0;netcore-1.1;netcore-2.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2" />
-        <Parameter Name="address" Type="System.ServiceModel.EndpointAddress" Index="1" FrameworkAlternate="xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0" />
-        <Parameter Name="via" Type="System.Uri" Index="2" />
-      </Parameters>
-      <Docs>
-        <param name="binding">
-          <span data-ttu-id="7fef9-169">用于配置终结点的 <see cref="T:System.ServiceModel.Channels.Binding" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="7fef9-169">The <see cref="T:System.ServiceModel.Channels.Binding" /> used to configure the endpoint.</span>
-          </span>
-        </param>
-        <param name="endpointAddress">To be added.</param>
-        <param name="address">To be added.</param>
-        <param name="via">
-          <span data-ttu-id="7fef9-170">包含通道向其发送消息的传输地址的 <see cref="T:System.Uri" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="7fef9-170">The <see cref="T:System.Uri" /> that contains the transport address to which the channel sends messages.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="7fef9-171">创建一个指定类型的通道，该通道用于将消息发送到用指定绑定配置的指定传输地址处的服务终结点。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="7fef9-171">Creates a channel of a specified type that is used to send messages to a service endpoint at a specified transport address that is configured with a specified binding.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="7fef9-172">工厂创建的 <paramref name="TChannel" /> 类型的 <see cref="T:System.ServiceModel.Channels.IChannel" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="7fef9-172">The <paramref name="TChannel" /> of type <see cref="T:System.ServiceModel.Channels.IChannel" /> created by the factory.</span>
-          </span>
-        </returns>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Examples  
- [!code-csharp[S_UEChannels#33](~/samples/snippets/csharp/VS_Snippets_CFX/s_uechannels/cs/clientsnippets.cs#33)]  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.InvalidOperationException">
-          <span data-ttu-id="7fef9-173">
-            <see cref="T:System.ServiceModel.ChannelFactory" /> 有它不支持的双工操作。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="7fef9-173">The <see cref="T:System.ServiceModel.ChannelFactory" /> has duplex operations it does not support.</span>
-          </span>
-        </exception>
-      </Docs>
-    </Member>
-    <MemberGroup MemberName="CreateChannelWithActAsToken">
-      <AssemblyInfo>
-        <AssemblyName>System.ServiceModel</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Docs>
-        <summary>
-          <span data-ttu-id="7fef9-174">创建用于将消息发送到有作为安全令牌行为的服务的通道。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="7fef9-174">Creates a channel that is used to send messages to a service with an act as security token.</span>
-          </span>
-        </summary>
-      </Docs>
-    </MemberGroup>
-    <Member MemberName="CreateChannelWithActAsToken">
-      <MemberSignature Language="C#" Value="public TChannel CreateChannelWithActAsToken (System.IdentityModel.Tokens.SecurityToken actAsToken);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance !TChannel CreateChannelWithActAsToken(class System.IdentityModel.Tokens.SecurityToken actAsToken) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.ServiceModel.ChannelFactory`1.CreateChannelWithActAsToken(System.IdentityModel.Tokens.SecurityToken)" />
-      <MemberSignature Language="VB.NET" Value="Public Function CreateChannelWithActAsToken (actAsToken As SecurityToken) As TChannel" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; TChannel CreateChannelWithActAsToken(System::IdentityModel::Tokens::SecurityToken ^ actAsToken);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.ServiceModel</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>TChannel</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="actAsToken" Type="System.IdentityModel.Tokens.SecurityToken" />
-      </Parameters>
-      <Docs>
-        <param name="actAsToken">
-          <span data-ttu-id="7fef9-175">安全令牌。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="7fef9-175">The security token.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="7fef9-176">创建用于将消息发送到有作为安全令牌行为的服务的通道。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="7fef9-176">Creates a channel that is used to send messages to a service with an act as security token.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="7fef9-177">创建的通道工厂。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="7fef9-177">The created channel factory.</span>
-          </span>
-        </returns>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="CreateChannelWithActAsToken">
-      <MemberSignature Language="C#" Value="public TChannel CreateChannelWithActAsToken (System.IdentityModel.Tokens.SecurityToken actAsToken, System.ServiceModel.EndpointAddress address);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance !TChannel CreateChannelWithActAsToken(class System.IdentityModel.Tokens.SecurityToken actAsToken, class System.ServiceModel.EndpointAddress address) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.ServiceModel.ChannelFactory`1.CreateChannelWithActAsToken(System.IdentityModel.Tokens.SecurityToken,System.ServiceModel.EndpointAddress)" />
-      <MemberSignature Language="VB.NET" Value="Public Function CreateChannelWithActAsToken (actAsToken As SecurityToken, address As EndpointAddress) As TChannel" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; TChannel CreateChannelWithActAsToken(System::IdentityModel::Tokens::SecurityToken ^ actAsToken, System::ServiceModel::EndpointAddress ^ address);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.ServiceModel</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>TChannel</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="actAsToken" Type="System.IdentityModel.Tokens.SecurityToken" />
-        <Parameter Name="address" Type="System.ServiceModel.EndpointAddress" />
-      </Parameters>
-      <Docs>
-        <param name="actAsToken">
-          <span data-ttu-id="7fef9-178">安全令牌</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="7fef9-178">The security token</span>
-          </span>
-        </param>
-        <param name="address">
-          <span data-ttu-id="7fef9-179">提供服务位置的终点结地址。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="7fef9-179">The endpoint address that provides the location of the service.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="7fef9-180">创建一个通道，该通道用于将消息发送到位于特定终结点地址的、具有一个作为安全令牌的行为的服务。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="7fef9-180">Creates a channel that is used to send messages to a service with an act as security token at a specific endpoint address.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="7fef9-181">创建的通道工厂。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="7fef9-181">The created channel factory.</span>
-          </span>
-        </returns>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="CreateChannelWithActAsToken">
-      <MemberSignature Language="C#" Value="public TChannel CreateChannelWithActAsToken (System.IdentityModel.Tokens.SecurityToken actAsToken, System.ServiceModel.EndpointAddress address, Uri via);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance !TChannel CreateChannelWithActAsToken(class System.IdentityModel.Tokens.SecurityToken actAsToken, class System.ServiceModel.EndpointAddress address, class System.Uri via) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.ServiceModel.ChannelFactory`1.CreateChannelWithActAsToken(System.IdentityModel.Tokens.SecurityToken,System.ServiceModel.EndpointAddress,System.Uri)" />
-      <MemberSignature Language="VB.NET" Value="Public Function CreateChannelWithActAsToken (actAsToken As SecurityToken, address As EndpointAddress, via As Uri) As TChannel" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; TChannel CreateChannelWithActAsToken(System::IdentityModel::Tokens::SecurityToken ^ actAsToken, System::ServiceModel::EndpointAddress ^ address, Uri ^ via);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.ServiceModel</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>TChannel</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="actAsToken" Type="System.IdentityModel.Tokens.SecurityToken" />
-        <Parameter Name="address" Type="System.ServiceModel.EndpointAddress" />
-        <Parameter Name="via" Type="System.Uri" />
-      </Parameters>
-      <Docs>
-        <param name="actAsToken">
-          <span data-ttu-id="7fef9-182">安全令牌</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="7fef9-182">The security token</span>
-          </span>
-        </param>
-        <param name="address">
-          <span data-ttu-id="7fef9-183">提供服务位置的终点结地址。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="7fef9-183">The endpoint address that provides the location of the service.</span>
-          </span>
-        </param>
-        <param name="via">
-          <span data-ttu-id="7fef9-184">通道将消息发送传输地址。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="7fef9-184">The transport address to which the channel sends messages.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="7fef9-185">创建一个通道，该通道用于通过指定的传输地址将消息发送到位于特定终结点地址的、具有一个作为安全令牌的行为的服务。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="7fef9-185">Creates a channel that is used to send messages to a service with an act as security token at a specific endpoint address through a specified transport address.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="7fef9-186">创建的通道工厂。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="7fef9-186">The created channel factory.</span>
-          </span>
-        </returns>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <MemberGroup MemberName="CreateChannelWithIssuedToken">
-      <AssemblyInfo>
-        <AssemblyName>System.ServiceModel</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Docs>
-        <summary>
-          <span data-ttu-id="7fef9-187">创建用于将消息发送到含有已发布安全令牌的服务的通道。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="7fef9-187">Creates a channel that is used to send messages to a service with an issued security token.</span>
-          </span>
-        </summary>
-      </Docs>
-    </MemberGroup>
-    <Member MemberName="CreateChannelWithIssuedToken">
-      <MemberSignature Language="C#" Value="public TChannel CreateChannelWithIssuedToken (System.IdentityModel.Tokens.SecurityToken issuedToken);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance !TChannel CreateChannelWithIssuedToken(class System.IdentityModel.Tokens.SecurityToken issuedToken) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.ServiceModel.ChannelFactory`1.CreateChannelWithIssuedToken(System.IdentityModel.Tokens.SecurityToken)" />
-      <MemberSignature Language="VB.NET" Value="Public Function CreateChannelWithIssuedToken (issuedToken As SecurityToken) As TChannel" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; TChannel CreateChannelWithIssuedToken(System::IdentityModel::Tokens::SecurityToken ^ issuedToken);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.ServiceModel</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>TChannel</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="issuedToken" Type="System.IdentityModel.Tokens.SecurityToken" />
-      </Parameters>
-      <Docs>
-        <param name="issuedToken">
-          <span data-ttu-id="7fef9-188">已颁发令牌的安全性标记。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="7fef9-188">The issued security token.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="7fef9-189">创建用于将消息发送到含有已发布安全令牌的服务的通道。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="7fef9-189">Creates a channel that is used to send messages to a service with an issued security token.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="7fef9-190">创建的通道工厂。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="7fef9-190">The created channel factory.</span>
-          </span>
-        </returns>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="CreateChannelWithIssuedToken">
-      <MemberSignature Language="C#" Value="public TChannel CreateChannelWithIssuedToken (System.IdentityModel.Tokens.SecurityToken issuedToken, System.ServiceModel.EndpointAddress address);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance !TChannel CreateChannelWithIssuedToken(class System.IdentityModel.Tokens.SecurityToken issuedToken, class System.ServiceModel.EndpointAddress address) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.ServiceModel.ChannelFactory`1.CreateChannelWithIssuedToken(System.IdentityModel.Tokens.SecurityToken,System.ServiceModel.EndpointAddress)" />
-      <MemberSignature Language="VB.NET" Value="Public Function CreateChannelWithIssuedToken (issuedToken As SecurityToken, address As EndpointAddress) As TChannel" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; TChannel CreateChannelWithIssuedToken(System::IdentityModel::Tokens::SecurityToken ^ issuedToken, System::ServiceModel::EndpointAddress ^ address);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.ServiceModel</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>TChannel</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="issuedToken" Type="System.IdentityModel.Tokens.SecurityToken" />
-        <Parameter Name="address" Type="System.ServiceModel.EndpointAddress" />
-      </Parameters>
-      <Docs>
-        <param name="issuedToken">
-          <span data-ttu-id="7fef9-191">已颁发令牌的安全性标记。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="7fef9-191">The issued security token.</span>
-          </span>
-        </param>
-        <param name="address">
-          <span data-ttu-id="7fef9-192">提供服务位置的终点结地址。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="7fef9-192">The endpoint address that provides the location of the service.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="7fef9-193">创建一个通道，该通道用于将消息发送到位于特定终结点地址的、具有一个已发布的安全令牌的服务。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="7fef9-193">Creates a channel that is used to send messages to a service with an issued security token at a specific endpoint address.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="7fef9-194">创建的通道工厂。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="7fef9-194">The created channel factory.</span>
-          </span>
-        </returns>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="CreateChannelWithIssuedToken">
-      <MemberSignature Language="C#" Value="public TChannel CreateChannelWithIssuedToken (System.IdentityModel.Tokens.SecurityToken issuedToken, System.ServiceModel.EndpointAddress address, Uri via);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance !TChannel CreateChannelWithIssuedToken(class System.IdentityModel.Tokens.SecurityToken issuedToken, class System.ServiceModel.EndpointAddress address, class System.Uri via) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.ServiceModel.ChannelFactory`1.CreateChannelWithIssuedToken(System.IdentityModel.Tokens.SecurityToken,System.ServiceModel.EndpointAddress,System.Uri)" />
-      <MemberSignature Language="VB.NET" Value="Public Function CreateChannelWithIssuedToken (issuedToken As SecurityToken, address As EndpointAddress, via As Uri) As TChannel" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; TChannel CreateChannelWithIssuedToken(System::IdentityModel::Tokens::SecurityToken ^ issuedToken, System::ServiceModel::EndpointAddress ^ address, Uri ^ via);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.ServiceModel</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>TChannel</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="issuedToken" Type="System.IdentityModel.Tokens.SecurityToken" />
-        <Parameter Name="address" Type="System.ServiceModel.EndpointAddress" />
-        <Parameter Name="via" Type="System.Uri" />
-      </Parameters>
-      <Docs>
-        <param name="issuedToken">
-          <span data-ttu-id="7fef9-195">已颁发令牌的安全性标记。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="7fef9-195">The issued security token.</span>
-          </span>
-        </param>
-        <param name="address">
-          <span data-ttu-id="7fef9-196">提供服务位置的终点结地址。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="7fef9-196">The endpoint address that provides the location of the service.</span>
-          </span>
-        </param>
-        <param name="via">
-          <span data-ttu-id="7fef9-197">通道将消息发送传输地址。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="7fef9-197">The transport address to which the channel sends messages.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="7fef9-198">创建一个通道，该通道用于通过指定的传输地址将消息发送到位于特定终结点地址的、具有一个已发布的安全令牌的服务。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="7fef9-198">Creates a channel that is used to send messages to a service with an issued security token at a specific endpoint address through a specified transport address.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="7fef9-199">创建的通道工厂。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="7fef9-199">The created channel factory.</span>
-          </span>
-        </returns>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <MemberGroup MemberName="CreateChannelWithOnBehalfOfToken">
-      <AssemblyInfo>
-        <AssemblyName>System.ServiceModel</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Docs>
-        <summary>
-          <span data-ttu-id="7fef9-200">创建用于将消息发送到有代表安全令牌行为的服务的通道。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="7fef9-200">Creates a channel that is used to send messages to a service with an on behalf of security token.</span>
-          </span>
-        </summary>
-      </Docs>
-    </MemberGroup>
-    <Member MemberName="CreateChannelWithOnBehalfOfToken">
-      <MemberSignature Language="C#" Value="public TChannel CreateChannelWithOnBehalfOfToken (System.IdentityModel.Tokens.SecurityToken onBehalfOf);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance !TChannel CreateChannelWithOnBehalfOfToken(class System.IdentityModel.Tokens.SecurityToken onBehalfOf) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.ServiceModel.ChannelFactory`1.CreateChannelWithOnBehalfOfToken(System.IdentityModel.Tokens.SecurityToken)" />
-      <MemberSignature Language="VB.NET" Value="Public Function CreateChannelWithOnBehalfOfToken (onBehalfOf As SecurityToken) As TChannel" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; TChannel CreateChannelWithOnBehalfOfToken(System::IdentityModel::Tokens::SecurityToken ^ onBehalfOf);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.ServiceModel</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>TChannel</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="onBehalfOf" Type="System.IdentityModel.Tokens.SecurityToken" />
-      </Parameters>
-      <Docs>
-        <param name="onBehalfOf">
-          <span data-ttu-id="7fef9-201">安全令牌。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="7fef9-201">The security token.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="7fef9-202">创建用于将消息发送到有代表安全令牌行为的服务的通道。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="7fef9-202">Creates a channel that is used to send messages to a service with an on behalf of security token.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="7fef9-203">创建的通道工厂。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="7fef9-203">The created channel factory.</span>
-          </span>
-        </returns>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="CreateChannelWithOnBehalfOfToken">
-      <MemberSignature Language="C#" Value="public TChannel CreateChannelWithOnBehalfOfToken (System.IdentityModel.Tokens.SecurityToken onBehalfOf, System.ServiceModel.EndpointAddress address);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance !TChannel CreateChannelWithOnBehalfOfToken(class System.IdentityModel.Tokens.SecurityToken onBehalfOf, class System.ServiceModel.EndpointAddress address) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.ServiceModel.ChannelFactory`1.CreateChannelWithOnBehalfOfToken(System.IdentityModel.Tokens.SecurityToken,System.ServiceModel.EndpointAddress)" />
-      <MemberSignature Language="VB.NET" Value="Public Function CreateChannelWithOnBehalfOfToken (onBehalfOf As SecurityToken, address As EndpointAddress) As TChannel" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; TChannel CreateChannelWithOnBehalfOfToken(System::IdentityModel::Tokens::SecurityToken ^ onBehalfOf, System::ServiceModel::EndpointAddress ^ address);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.ServiceModel</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>TChannel</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="onBehalfOf" Type="System.IdentityModel.Tokens.SecurityToken" />
-        <Parameter Name="address" Type="System.ServiceModel.EndpointAddress" />
-      </Parameters>
-      <Docs>
-        <param name="onBehalfOf">
-          <span data-ttu-id="7fef9-204">安全令牌。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="7fef9-204">The security token.</span>
-          </span>
-        </param>
-        <param name="address">
-          <span data-ttu-id="7fef9-205">提供服务位置的终点结地址。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="7fef9-205">The endpoint address that provides the location of the service.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="7fef9-206">创建用于将消息发送到特定终结点地址的服务的通道，该服务有安全令牌。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="7fef9-206">Creates a channel that is used to send messages to a service with an on behalf of security token at a specific endpoint address.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="7fef9-207">创建的通道工厂。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="7fef9-207">The created channel factory.</span>
-          </span>
-        </returns>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="CreateChannelWithOnBehalfOfToken">
-      <MemberSignature Language="C#" Value="public TChannel CreateChannelWithOnBehalfOfToken (System.IdentityModel.Tokens.SecurityToken onBehalfOf, System.ServiceModel.EndpointAddress address, Uri via);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance !TChannel CreateChannelWithOnBehalfOfToken(class System.IdentityModel.Tokens.SecurityToken onBehalfOf, class System.ServiceModel.EndpointAddress address, class System.Uri via) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.ServiceModel.ChannelFactory`1.CreateChannelWithOnBehalfOfToken(System.IdentityModel.Tokens.SecurityToken,System.ServiceModel.EndpointAddress,System.Uri)" />
-      <MemberSignature Language="VB.NET" Value="Public Function CreateChannelWithOnBehalfOfToken (onBehalfOf As SecurityToken, address As EndpointAddress, via As Uri) As TChannel" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; TChannel CreateChannelWithOnBehalfOfToken(System::IdentityModel::Tokens::SecurityToken ^ onBehalfOf, System::ServiceModel::EndpointAddress ^ address, Uri ^ via);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.ServiceModel</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>TChannel</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="onBehalfOf" Type="System.IdentityModel.Tokens.SecurityToken" />
-        <Parameter Name="address" Type="System.ServiceModel.EndpointAddress" />
-        <Parameter Name="via" Type="System.Uri" />
-      </Parameters>
-      <Docs>
-        <param name="onBehalfOf">
-          <span data-ttu-id="7fef9-208">安全令牌。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="7fef9-208">The security token.</span>
-          </span>
-        </param>
-        <param name="address">
-          <span data-ttu-id="7fef9-209">提供服务位置的终点结地址。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="7fef9-209">The endpoint address that provides the location of the service.</span>
-          </span>
-        </param>
-        <param name="via">
-          <span data-ttu-id="7fef9-210">通道将消息发送传输地址。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="7fef9-210">The transport address to which the channel sends messages.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="7fef9-211">创建一个通道，该通道用于通过指定的传输地址将消息发送到位于特定终结点地址的、代表安全令牌的服务。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="7fef9-211">Creates a channel that is used to send messages to a service with an on behalf of security token at a specific endpoint address through a specified transport address.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="7fef9-212">创建的通道工厂。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="7fef9-212">The created channel factory.</span>
-          </span>
-        </returns>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="CreateDescription">
-      <MemberSignature Language="C#" Value="protected override System.ServiceModel.Description.ServiceEndpoint CreateDescription ();" />
-      <MemberSignature Language="ILAsm" Value=".method familyhidebysig virtual instance class System.ServiceModel.Description.ServiceEndpoint CreateDescription() cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.ServiceModel.ChannelFactory`1.CreateDescription" />
-      <MemberSignature Language="VB.NET" Value="Protected Overrides Function CreateDescription () As ServiceEndpoint" />
-      <MemberSignature Language="C++ CLI" Value="protected:&#xA; override System::ServiceModel::Description::ServiceEndpoint ^ CreateDescription();" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.ServiceModel</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>System.ServiceModel.Primitives</AssemblyName>
-        <AssemblyVersion>4.1.0.0</AssemblyVersion>
-        <AssemblyVersion>4.1.1.0</AssemblyVersion>
-        <AssemblyVersion>4.2.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.ServiceModel.Description.ServiceEndpoint</ReturnType>
-      </ReturnValue>
-      <Parameters />
-      <Docs>
-        <summary>
-          <span data-ttu-id="7fef9-213">创建服务终结点的说明。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="7fef9-213">Creates a description of the service endpoint.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="7fef9-214">服务的 <see cref="T:System.ServiceModel.Description.ServiceEndpoint" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="7fef9-214">The <see cref="T:System.ServiceModel.Description.ServiceEndpoint" /> of the service.</span>
-          </span>
-        </returns>
-        <remarks>To be added.</remarks>
-        <exception cref="T:System.InvalidOperationException">
-          <span data-ttu-id="7fef9-215">回调协定为 <see langword="null" />，但服务终结点需要的是一个非 <see langword="null" /> 的协定。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="7fef9-215">The callback contract is <see langword="null" /> but the service endpoint requires one that is non-<see langword="null" />.</span>
-          </span>
-        </exception>
-      </Docs>
-    </Member>
-  </Members>
-</Type>
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.2" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 xliff-core-1.2-transitional.xsd">
+  <file datatype="xml" original="ChannelFactory`1.xml" source-language="en-US" target-language="zh-CN">
+    <header>
+      <tool tool-id="mdxliff" tool-name="mdxliff" tool-version="1.0-567ae5a" tool-company="Microsoft" />
+      <xliffext:skl_file_name xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">7c5b04be-ac4f-4958-bcde-0afae0584552368818ed2065e467ff129ac2211cb2dee4418dac.skl</xliffext:skl_file_name>
+      <xliffext:version xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">1.2</xliffext:version>
+      <xliffext:ms.openlocfilehash xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">368818ed2065e467ff129ac2211cb2dee4418dac</xliffext:ms.openlocfilehash>
+      <xliffext:ms.sourcegitcommit xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">3507e865a3613c00760f25ad1045aaa11bae4dd8</xliffext:ms.sourcegitcommit>
+      <xliffext:ms.lasthandoff xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">04/23/2018</xliffext:ms.lasthandoff>
+      <xliffext:moniker_ids xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">netcore-1.0,netcore-1.1,netcore-2.0,netframework-4.5.1,netframework-4.5.2,netframework-4.5,netframework-4.6.1,netframework-4.6.2,netframework-4.6,netframework-4.7.1,netframework-4.7.2,netframework-4.7,xamarinandroid-7.1,xamarinios-10.8,xamarinmac-3.0</xliffext:moniker_ids>
+    </header>
+    <body>
+      <group id="content" extype="content">
+        <trans-unit id="101" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ServiceModel.ChannelFactory`1">
+          <source>The type of channel produced by the channel factory.</source>
+          <target state="translated">由通道工厂生成的通道类型。</target>       </trans-unit>
+        <trans-unit id="102" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ServiceModel.ChannelFactory`1">
+          <source>This type must be either <ph id="ph1">&lt;see cref="T:System.ServiceModel.Channels.IOutputChannel" /&gt;</ph> or <ph id="ph2">&lt;see cref="T:System.ServiceModel.Channels.IRequestChannel" /&gt;</ph>.</source>
+          <target state="translated">此类型必须为 <ph id="ph1">&lt;see cref="T:System.ServiceModel.Channels.IOutputChannel" /&gt;</ph> 或 <ph id="ph2">&lt;see cref="T:System.ServiceModel.Channels.IRequestChannel" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="103" translate="yes" xml:space="preserve" uid="T:System.ServiceModel.ChannelFactory`1">
+          <source>A factory that creates channels of different types that are used by clients to send messages to variously configured service endpoints.</source>
+          <target state="translated">一个创建不同类型通道的工厂，客户端使用这些通道将消息发送到不同配置的服务终结点。</target>       </trans-unit>
+        <trans-unit id="104" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ServiceModel.ChannelFactory`1">
+          <source>This generic class enables more advanced scenarios where there is a requirement to create a channel factory that can be used to create more than one type of channel.</source>
+          <target state="translated">使用此泛型类可实现一些更高级的方案，在这些方案中有创建通道工厂（可用于创建多个通道类型）的要求。</target>       </trans-unit>
+        <trans-unit id="105" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ServiceModel.ChannelFactory`1">
+          <source>When adding behaviors programmatically, the behavior is added to the appropriate <ph id="ph1">`Behaviors`</ph> property on the <ph id="ph2">&lt;xref:System.ServiceModel.ChannelFactory&gt;</ph> prior to the creation of any channel.</source>
+          <target state="translated">以编程方式添加行为时，可以在创建任何通道之前将行为添加到 <ph id="ph1">`Behaviors`</ph> 上相应的 <ph id="ph2">&lt;xref:System.ServiceModel.ChannelFactory&gt;</ph> 属性。</target>       </trans-unit>
+        <trans-unit id="106" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ServiceModel.ChannelFactory`1">
+          <source>See the example section for a code sample.</source>
+          <target state="translated">有关代码示例，请参见“示例”部分。</target>       </trans-unit>
+        <trans-unit id="107" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ServiceModel.ChannelFactory`1">
+          <source>Frequently client or calling applications (for example, middle-tier applications are client applications, too) using this type also have complex state management needs as well as performance needs.</source>
+          <target state="translated">频繁使用此类型的客户端或调用应用程序（例如，中层应用程序也是客户端应用程序）也具有复杂的状态管理需求和性能需求。</target>       </trans-unit>
+        <trans-unit id="108" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ServiceModel.ChannelFactory`1">
+          <source>For more information about these scenarios, please see <bpt id="p1">[</bpt>Middle-Tier Client Applications<ept id="p1">](~/docs/framework/wcf/feature-details/middle-tier-client-applications.md)</ept>.</source>
+          <target state="translated">有关这些方案的详细信息，请参阅<bpt id="p1">[</bpt>中间层客户端应用程序<ept id="p1">](~/docs/framework/wcf/feature-details/middle-tier-client-applications.md)</ept>。</target>       </trans-unit>
+        <trans-unit id="109" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ServiceModel.ChannelFactory`1">
+          <source>The following sample shows how to create a channel factory and use it to create and manage channels.</source>
+          <target state="translated">下面的示例演示如何创建通道工厂并用它来创建和管理通道。</target>       </trans-unit>
+        <trans-unit id="110" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ServiceModel.ChannelFactory`1">
+          <source>The following code example shows how to insert programmatically a client behavior prior to the creation of the channel object by the factory.</source>
+          <target state="translated">下面的代码示例演示如何在工厂创建通道对象前，以编程方式插入客户端行为。</target>       </trans-unit>
+        <trans-unit id="111" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ServiceModel.ChannelFactory`1">
+          <source>This type is thread safe.</source>
+          <target state="translated">此类型是线程安全的。</target>       </trans-unit>
+        <trans-unit id="112" translate="yes" xml:space="preserve" uid="T:System.ServiceModel.ChannelFactory`1">
+          <source>Initializes a new instance of the <ph id="ph1">&lt;see cref="T:System.ServiceModel.ChannelFactory`1" /&gt;</ph> class.</source>
+          <target state="translated">初始化 <ph id="ph1">&lt;see cref="T:System.ServiceModel.ChannelFactory`1" /&gt;</ph> 类的新实例。</target>       </trans-unit>
+        <trans-unit id="113" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.ChannelFactory`1.#ctor">
+          <source>Initializes a new instance of the <ph id="ph1">&lt;see cref="T:System.ServiceModel.ChannelFactory`1" /&gt;</ph> class.</source>
+          <target state="translated">初始化 <ph id="ph1">&lt;see cref="T:System.ServiceModel.ChannelFactory`1" /&gt;</ph> 类的新实例。</target>       </trans-unit>
+        <trans-unit id="114" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ServiceModel.ChannelFactory`1.#ctor">
+          <source>This example shows how to create a new object of the <ph id="ph1">&lt;xref:System.ServiceModel.ChannelFactory%601&gt;</ph> class with the <ph id="ph2">`IRequestChannel`</ph> interface.</source>
+          <target state="translated">此示例演示如何使用 <ph id="ph1">&lt;xref:System.ServiceModel.ChannelFactory%601&gt;</ph> 接口创建 <ph id="ph2">`IRequestChannel`</ph> 类的新对象。</target>       </trans-unit>
+        <trans-unit id="115" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.ChannelFactory`1.#ctor(System.ServiceModel.Channels.Binding)">
+          <source>The <ph id="ph1">&lt;see cref="T:System.ServiceModel.Channels.Binding" /&gt;</ph> specified for the channels produced by the factory.</source>
+          <target state="translated">为由工厂生成的通道指定的 <ph id="ph1">&lt;see cref="T:System.ServiceModel.Channels.Binding" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="116" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.ChannelFactory`1.#ctor(System.ServiceModel.Channels.Binding)">
+          <source>Initializes a new instance of the <ph id="ph1">&lt;see cref="T:System.ServiceModel.ChannelFactory`1" /&gt;</ph> class.</source>
+          <target state="translated">初始化 <ph id="ph1">&lt;see cref="T:System.ServiceModel.ChannelFactory`1" /&gt;</ph> 类的新实例。</target>       </trans-unit>
+        <trans-unit id="117" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ServiceModel.ChannelFactory`1.#ctor(System.ServiceModel.Channels.Binding)">
+          <source>Use this constructor when you want to pass the binding information programmatically rather than using an application configuration file.</source>
+          <target state="translated">在要以编程方式而不是使用应用程序配置文件传递绑定信息时，使用此构造函数。</target>       </trans-unit>
+        <trans-unit id="118" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.ChannelFactory`1.#ctor(System.ServiceModel.Description.ServiceEndpoint)">
+          <source>The <ph id="ph1">&lt;see cref="T:System.ServiceModel.Description.ServiceEndpoint" /&gt;</ph> for the channels produced by the factory.</source>
+          <target state="translated">由工厂生成的通道的 <ph id="ph1">&lt;see cref="T:System.ServiceModel.Description.ServiceEndpoint" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="119" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.ChannelFactory`1.#ctor(System.ServiceModel.Description.ServiceEndpoint)">
+          <source>Initializes a new instance of the <ph id="ph1">&lt;see cref="T:System.ServiceModel.ChannelFactory`1" /&gt;</ph> class that produces channels with a specified endpoint.</source>
+          <target state="translated">使用指定的终结点初始化生成通道的 <ph id="ph1">&lt;see cref="T:System.ServiceModel.ChannelFactory`1" /&gt;</ph> 类的新实例。</target>       </trans-unit>
+        <trans-unit id="120" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ServiceModel.ChannelFactory`1.#ctor(System.ServiceModel.Description.ServiceEndpoint)">
+          <source>Use this constructor when you want to pass the service endpoint information programmatically rather than using an application configuration file.</source>
+          <target state="translated">在要以编程方式而不是使用应用程序配置文件传递服务终结点信息时，使用此构造函数。</target>       </trans-unit>
+        <trans-unit id="121" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.ChannelFactory`1.#ctor(System.ServiceModel.Description.ServiceEndpoint)">
+          <source>The <ph id="ph1">&lt;paramref name="endpoint" /&gt;</ph> is <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="endpoint" /&gt;</ph> 为 <ph id="ph2">&lt;see langword="null" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="122" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.ChannelFactory`1.#ctor(System.String)">
+          <source>The configuration name used for the endpoint.</source>
+          <target state="translated">用于终结点的配置名称。</target>       </trans-unit>
+        <trans-unit id="123" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.ChannelFactory`1.#ctor(System.String)">
+          <source>Initializes a new instance of the <ph id="ph1">&lt;see cref="T:System.ServiceModel.ChannelFactory`1" /&gt;</ph> class with a specified endpoint configuration name.</source>
+          <target state="translated">使用指定的终结点配置名称初始化 <ph id="ph1">&lt;see cref="T:System.ServiceModel.ChannelFactory`1" /&gt;</ph> 类的新实例。</target>       </trans-unit>
+        <trans-unit id="124" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ServiceModel.ChannelFactory`1.#ctor(System.String)">
+          <source>Use this constructor when there is more than one target endpoint in the application configuration file.</source>
+          <target state="translated">当应用程序配置文件中有一个以上的目标终结点时，使用此构造函数。</target>       </trans-unit>
+        <trans-unit id="125" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.ChannelFactory`1.#ctor(System.String)">
+          <source><ph id="ph1">&lt;paramref name="endpointConfigurationName" /&gt;</ph> is <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="endpointConfigurationName" /&gt;</ph> 为 <ph id="ph2">&lt;see langword="null" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="126" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.ChannelFactory`1.#ctor(System.Type)">
+          <source>The <ph id="ph1">&lt;see cref="T:System.Type" /&gt;</ph> of channel produced by the factory.</source>
+          <target state="translated">由工厂生成的通道的 <ph id="ph1">&lt;see cref="T:System.Type" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="127" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.ChannelFactory`1.#ctor(System.Type)">
+          <source>Initializes a new instance of the <ph id="ph1">&lt;see cref="T:System.ServiceModel.ChannelFactory`1" /&gt;</ph> class.</source>
+          <target state="translated">初始化 <ph id="ph1">&lt;see cref="T:System.ServiceModel.ChannelFactory`1" /&gt;</ph> 类的新实例。</target>       </trans-unit>
+        <trans-unit id="128" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ServiceModel.ChannelFactory`1.#ctor(System.Type)">
+          <source>Use this constructor when you want to pass the channel type information programmatically rather than using an application configuration file.</source>
+          <target state="translated">在要以编程方式而不是使用应用程序配置文件传递通道类型信息时，使用此构造函数。</target>       </trans-unit>
+        <trans-unit id="129" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ServiceModel.ChannelFactory`1.#ctor(System.Type)">
+          <source>The <ph id="ph1">`channelType`</ph> parameter must be an interface.</source>
+          <target state="translated"><ph id="ph1">`channelType`</ph> 参数必须为接口。</target>       </trans-unit>
+        <trans-unit id="130" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.ChannelFactory`1.#ctor(System.Type)">
+          <source>The <ph id="ph1">&lt;paramref name="channelType" /&gt;</ph> is <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="channelType" /&gt;</ph> 为 <ph id="ph2">&lt;see langword="null" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="131" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.ChannelFactory`1.#ctor(System.Type)">
+          <source>The <ph id="ph1">&lt;paramref name="channelType" /&gt;</ph> is a class or value type and is not an interface.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="channelType" /&gt;</ph> 为类或值类型，而非接口。</target>       </trans-unit>
+        <trans-unit id="132" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.ChannelFactory`1.#ctor(System.ServiceModel.Channels.Binding,System.ServiceModel.EndpointAddress)">
+          <source>The <ph id="ph1">&lt;see cref="T:System.ServiceModel.Channels.Binding" /&gt;</ph> used to configure the endpoint.</source>
+          <target state="translated">用于配置终结点的 <ph id="ph1">&lt;see cref="T:System.ServiceModel.Channels.Binding" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="133" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.ChannelFactory`1.#ctor(System.ServiceModel.Channels.Binding,System.ServiceModel.EndpointAddress)">
+          <source>The <ph id="ph1">&lt;see cref="T:System.ServiceModel.EndpointAddress" /&gt;</ph> that provides the location of the service.</source>
+          <target state="translated">提供服务位置的 <ph id="ph1">&lt;see cref="T:System.ServiceModel.EndpointAddress" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="134" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.ChannelFactory`1.#ctor(System.ServiceModel.Channels.Binding,System.ServiceModel.EndpointAddress)">
+          <source>Initializes a new instance of the <ph id="ph1">&lt;see cref="T:System.ServiceModel.ChannelFactory`1" /&gt;</ph> class with a specified binding and endpoint address.</source>
+          <target state="translated">使用指定的绑定和终结点地址初始化 <ph id="ph1">&lt;see cref="T:System.ServiceModel.ChannelFactory`1" /&gt;</ph> 类的新实例。</target>       </trans-unit>
+        <trans-unit id="135" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ServiceModel.ChannelFactory`1.#ctor(System.ServiceModel.Channels.Binding,System.ServiceModel.EndpointAddress)">
+          <source>Use this constructor when you want to pass the binding and address information programmatically rather than using an application configuration file.</source>
+          <target state="translated">在要以编程方式而不是使用应用程序配置文件传递绑定和地址信息时，使用此构造函数。</target>       </trans-unit>
+        <trans-unit id="136" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.ChannelFactory`1.#ctor(System.ServiceModel.Channels.Binding,System.ServiceModel.EndpointAddress)">
+          <source>The <ph id="ph1">&lt;paramref name="binding" /&gt;</ph> is <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="binding" /&gt;</ph> 为 <ph id="ph2">&lt;see langword="null" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="137" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.ChannelFactory`1.#ctor(System.ServiceModel.Channels.Binding,System.String)">
+          <source>The <ph id="ph1">&lt;see cref="T:System.ServiceModel.Channels.Binding" /&gt;</ph> used to configure the endpoint.</source>
+          <target state="translated">用于配置终结点的 <ph id="ph1">&lt;see cref="T:System.ServiceModel.Channels.Binding" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="138" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.ChannelFactory`1.#ctor(System.ServiceModel.Channels.Binding,System.String)">
+          <source>The address that provides the location of the service.</source>
+          <target state="translated">提供服务位置的地址。</target>       </trans-unit>
+        <trans-unit id="139" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.ChannelFactory`1.#ctor(System.ServiceModel.Channels.Binding,System.String)">
+          <source>Initializes a new instance of the <ph id="ph1">&lt;see cref="T:System.ServiceModel.ChannelFactory`1" /&gt;</ph> class with a specified binding and remote address.</source>
+          <target state="translated">使用指定的绑定和远程地址初始化 <ph id="ph1">&lt;see cref="T:System.ServiceModel.ChannelFactory`1" /&gt;</ph> 类的新实例。</target>       </trans-unit>
+        <trans-unit id="140" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ServiceModel.ChannelFactory`1.#ctor(System.ServiceModel.Channels.Binding,System.String)">
+          <source>Use this constructor when you want to pass the information about the remote address information with a string rather than as a typed object.</source>
+          <target state="translated">要用字符串而不是作为类型化对象传递有关远程地址信息的信息时，使用此构造函数。</target>       </trans-unit>
+        <trans-unit id="141" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.ChannelFactory`1.#ctor(System.ServiceModel.Channels.Binding,System.String)">
+          <source><ph id="ph1">&lt;paramref name="remoteAddress" /&gt;</ph> is <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="remoteAddress" /&gt;</ph> 为 <ph id="ph2">&lt;see langword="null" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="142" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.ChannelFactory`1.#ctor(System.String,System.ServiceModel.EndpointAddress)">
+          <source>The configuration name used for the endpoint.</source>
+          <target state="translated">用于终结点的配置名称。</target>       </trans-unit>
+        <trans-unit id="143" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.ChannelFactory`1.#ctor(System.String,System.ServiceModel.EndpointAddress)">
+          <source>The <ph id="ph1">&lt;see cref="T:System.ServiceModel.EndpointAddress" /&gt;</ph> that provides the location of the service.</source>
+          <target state="translated">提供服务位置的 <ph id="ph1">&lt;see cref="T:System.ServiceModel.EndpointAddress" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="144" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.ChannelFactory`1.#ctor(System.String,System.ServiceModel.EndpointAddress)">
+          <source>Initializes a new instance of the <ph id="ph1">&lt;see cref="T:System.ServiceModel.ChannelFactory`1" /&gt;</ph> class associated with a specified name for the endpoint configuration and remote address.</source>
+          <target state="translated">初始化 <ph id="ph1">&lt;see cref="T:System.ServiceModel.ChannelFactory`1" /&gt;</ph> 类的新实例，该类与终结点配置和远程地址的指定名称相关联。</target>       </trans-unit>
+        <trans-unit id="145" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.ChannelFactory`1.#ctor(System.String,System.ServiceModel.EndpointAddress)">
+          <source><ph id="ph1">&lt;paramref name="endpointConfigurationName" /&gt;</ph> or <ph id="ph2">&lt;paramref name="remoteAddress" /&gt;</ph> is <ph id="ph3">&lt;see langword="null" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="endpointConfigurationName" /&gt;</ph> 或 <ph id="ph2">&lt;paramref name="remoteAddress" /&gt;</ph> 为 <ph id="ph3">&lt;see langword="null" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="146" translate="yes" xml:space="preserve" uid="T:System.ServiceModel.ChannelFactory`1">
+          <source>Creates a channel of a specified type to a specified endpoint address.</source>
+          <target state="translated">创建到指定终结点地址的指定类型的通道。</target>       </trans-unit>
+        <trans-unit id="147" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ServiceModel.ChannelFactory`1">
+          <source>Creates a channel of type <ph id="ph1">`TChannel`</ph>, the generic parameter for the class.</source>
+          <target state="translated">创建 <ph id="ph1">`TChannel`</ph> 类型（类的泛型参数）的通道。</target>       </trans-unit>
+        <trans-unit id="148" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.ChannelFactory`1.CreateChannel">
+          <source>Creates a channel of a specified type to a specified endpoint address.</source>
+          <target state="translated">创建到指定终结点地址的指定类型的通道。</target>       </trans-unit>
+        <trans-unit id="149" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.ChannelFactory`1.CreateChannel">
+          <source>The <ph id="ph1">&lt;paramref name="TChannel" /&gt;</ph> of type <ph id="ph2">&lt;see cref="T:System.ServiceModel.Channels.IChannel" /&gt;</ph> created by the factory.</source>
+          <target state="translated">工厂创建的 <ph id="ph1">&lt;paramref name="TChannel" /&gt;</ph> 类型的 <ph id="ph2">&lt;see cref="T:System.ServiceModel.Channels.IChannel" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="150" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ServiceModel.ChannelFactory`1.CreateChannel">
+          <source>Creates a channel of type <ph id="ph1">`TChannel`</ph>, the generic parameter for the class.</source>
+          <target state="translated">创建 <ph id="ph1">`TChannel`</ph> 类型（类的泛型参数）的通道。</target>       </trans-unit>
+        <trans-unit id="151" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.ChannelFactory`1.CreateChannel(System.ServiceModel.EndpointAddress)">
+          <source>The <ph id="ph1">&lt;see cref="T:System.ServiceModel.EndpointAddress" /&gt;</ph> that provides the location of the service.</source>
+          <target state="translated">提供服务位置的 <ph id="ph1">&lt;see cref="T:System.ServiceModel.EndpointAddress" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="152" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.ChannelFactory`1.CreateChannel(System.ServiceModel.EndpointAddress)">
+          <source>Creates a channel that is used to send messages to a service at a specific endpoint address.</source>
+          <target state="translated">创建用于将消息发送到特定终结点地址的服务的通道。</target>       </trans-unit>
+        <trans-unit id="153" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.ChannelFactory`1.CreateChannel(System.ServiceModel.EndpointAddress)">
+          <source>The <ph id="ph1">&lt;paramref name="TChannel" /&gt;</ph> of type <ph id="ph2">&lt;see cref="T:System.ServiceModel.Channels.IChannel" /&gt;</ph> created by the factory.</source>
+          <target state="translated">工厂创建的 <ph id="ph1">&lt;paramref name="TChannel" /&gt;</ph> 类型的 <ph id="ph2">&lt;see cref="T:System.ServiceModel.Channels.IChannel" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="154" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.ChannelFactory`1.CreateChannel(System.ServiceModel.EndpointAddress)">
+          <source><ph id="ph1">&lt;paramref name="address" /&gt;</ph> is <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="address" /&gt;</ph> 为 <ph id="ph2">&lt;see langword="null" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="155" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.ChannelFactory`1.CreateChannel(System.String)">
+          <source>The name of the endpoint configuration used for the service.</source>
+          <target state="translated">用于服务的终结点配置的名称。</target>       </trans-unit>
+        <trans-unit id="156" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.ChannelFactory`1.CreateChannel(System.String)">
+          <source>Creates a channel that is used to send messages to a service whose endpoint is configured in a specified way.</source>
+          <target state="translated">创建一个通道，该通道用于将消息发送到以指定方式配置其终结点的服务。</target>       </trans-unit>
+        <trans-unit id="157" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.ChannelFactory`1.CreateChannel(System.String)">
+          <source>The <ph id="ph1">&lt;paramref name="TChannel" /&gt;</ph> of type <ph id="ph2">&lt;see cref="T:System.ServiceModel.Channels.IChannel" /&gt;</ph> created by the factory.</source>
+          <target state="translated">工厂创建的 <ph id="ph1">&lt;paramref name="TChannel" /&gt;</ph> 类型的 <ph id="ph2">&lt;see cref="T:System.ServiceModel.Channels.IChannel" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="158" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.ChannelFactory`1.CreateChannel(System.String)">
+          <source>The <ph id="ph1">&lt;see cref="T:System.ServiceModel.ChannelFactory" /&gt;</ph> has duplex operations it does not support.</source>
+          <target state="translated"><ph id="ph1">&lt;see cref="T:System.ServiceModel.ChannelFactory" /&gt;</ph> 有它不支持的双工操作。</target>       </trans-unit>
+        <trans-unit id="159" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.ChannelFactory`1.CreateChannel(System.ServiceModel.EndpointAddress,System.Uri)">
+          <source>The <ph id="ph1">&lt;see cref="T:System.ServiceModel.EndpointAddress" /&gt;</ph> that provides the location of the service.</source>
+          <target state="translated">提供服务位置的 <ph id="ph1">&lt;see cref="T:System.ServiceModel.EndpointAddress" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="160" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.ChannelFactory`1.CreateChannel(System.ServiceModel.EndpointAddress,System.Uri)">
+          <source>The <ph id="ph1">&lt;see cref="T:System.Uri" /&gt;</ph> that contains the transport address to which the channel sends messages.</source>
+          <target state="translated">包含通道向其发送消息的传输地址的 <ph id="ph1">&lt;see cref="T:System.Uri" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="161" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.ChannelFactory`1.CreateChannel(System.ServiceModel.EndpointAddress,System.Uri)">
+          <source>Creates a channel that is used to send messages to a service at a specific endpoint address through a specified transport address.</source>
+          <target state="translated">创建一个通道，该通道用于通过指定的传输地址将消息发送到特定终结点地址的服务。</target>       </trans-unit>
+        <trans-unit id="162" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.ChannelFactory`1.CreateChannel(System.ServiceModel.EndpointAddress,System.Uri)">
+          <source>The <ph id="ph1">&lt;paramref name="TChannel" /&gt;</ph> of type <ph id="ph2">&lt;see cref="T:System.ServiceModel.Channels.IChannel" /&gt;</ph> created by the factory.</source>
+          <target state="translated">工厂创建的 <ph id="ph1">&lt;paramref name="TChannel" /&gt;</ph> 类型的 <ph id="ph2">&lt;see cref="T:System.ServiceModel.Channels.IChannel" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="163" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.ChannelFactory`1.CreateChannel(System.ServiceModel.EndpointAddress,System.Uri)">
+          <source><ph id="ph1">&lt;paramref name="address" /&gt;</ph> is <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="address" /&gt;</ph> 为 <ph id="ph2">&lt;see langword="null" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="164" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.ChannelFactory`1.CreateChannel(System.ServiceModel.EndpointAddress,System.Uri)">
+          <source>The <ph id="ph1">&lt;see cref="T:System.ServiceModel.ChannelFactory" /&gt;</ph> has duplex operations it does not support.</source>
+          <target state="translated"><ph id="ph1">&lt;see cref="T:System.ServiceModel.ChannelFactory" /&gt;</ph> 有它不支持的双工操作。</target>       </trans-unit>
+        <trans-unit id="165" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.ChannelFactory`1.CreateChannel(System.ServiceModel.Channels.Binding,System.ServiceModel.EndpointAddress)">
+          <source>The <ph id="ph1">&lt;see cref="T:System.ServiceModel.Channels.Binding" /&gt;</ph> used to configure the endpoint.</source>
+          <target state="translated">用于配置终结点的 <ph id="ph1">&lt;see cref="T:System.ServiceModel.Channels.Binding" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="166" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.ChannelFactory`1.CreateChannel(System.ServiceModel.Channels.Binding,System.ServiceModel.EndpointAddress)">
+          <source>Creates a channel of a specified type that is used to send messages to a service endpoint that is configured with a specified binding.</source>
+          <target state="translated">创建一个指定类型的通道，该通道用于将消息发送到用指定绑定进行配置的服务终结点。</target>       </trans-unit>
+        <trans-unit id="167" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.ChannelFactory`1.CreateChannel(System.ServiceModel.Channels.Binding,System.ServiceModel.EndpointAddress)">
+          <source>The <ph id="ph1">&lt;paramref name="TChannel" /&gt;</ph> of type <ph id="ph2">&lt;see cref="T:System.ServiceModel.Channels.IChannel" /&gt;</ph> created by the factory.</source>
+          <target state="translated">工厂创建的 <ph id="ph1">&lt;paramref name="TChannel" /&gt;</ph> 类型的 <ph id="ph2">&lt;see cref="T:System.ServiceModel.Channels.IChannel" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="168" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.ChannelFactory`1.CreateChannel(System.ServiceModel.Channels.Binding,System.ServiceModel.EndpointAddress)">
+          <source>The <ph id="ph1">&lt;see cref="T:System.ServiceModel.ChannelFactory" /&gt;</ph> has duplex operations it does not support.</source>
+          <target state="translated"><ph id="ph1">&lt;see cref="T:System.ServiceModel.ChannelFactory" /&gt;</ph> 有它不支持的双工操作。</target>       </trans-unit>
+        <trans-unit id="169" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.ChannelFactory`1.CreateChannel(System.ServiceModel.Channels.Binding,System.ServiceModel.EndpointAddress,System.Uri)">
+          <source>The <ph id="ph1">&lt;see cref="T:System.ServiceModel.Channels.Binding" /&gt;</ph> used to configure the endpoint.</source>
+          <target state="translated">用于配置终结点的 <ph id="ph1">&lt;see cref="T:System.ServiceModel.Channels.Binding" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="170" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.ChannelFactory`1.CreateChannel(System.ServiceModel.Channels.Binding,System.ServiceModel.EndpointAddress,System.Uri)">
+          <source>The <ph id="ph1">&lt;see cref="T:System.Uri" /&gt;</ph> that contains the transport address to which the channel sends messages.</source>
+          <target state="translated">包含通道向其发送消息的传输地址的 <ph id="ph1">&lt;see cref="T:System.Uri" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="171" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.ChannelFactory`1.CreateChannel(System.ServiceModel.Channels.Binding,System.ServiceModel.EndpointAddress,System.Uri)">
+          <source>Creates a channel of a specified type that is used to send messages to a service endpoint at a specified transport address that is configured with a specified binding.</source>
+          <target state="translated">创建一个指定类型的通道，该通道用于将消息发送到用指定绑定配置的指定传输地址处的服务终结点。</target>       </trans-unit>
+        <trans-unit id="172" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.ChannelFactory`1.CreateChannel(System.ServiceModel.Channels.Binding,System.ServiceModel.EndpointAddress,System.Uri)">
+          <source>The <ph id="ph1">&lt;paramref name="TChannel" /&gt;</ph> of type <ph id="ph2">&lt;see cref="T:System.ServiceModel.Channels.IChannel" /&gt;</ph> created by the factory.</source>
+          <target state="translated">工厂创建的 <ph id="ph1">&lt;paramref name="TChannel" /&gt;</ph> 类型的 <ph id="ph2">&lt;see cref="T:System.ServiceModel.Channels.IChannel" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="173" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.ChannelFactory`1.CreateChannel(System.ServiceModel.Channels.Binding,System.ServiceModel.EndpointAddress,System.Uri)">
+          <source>The <ph id="ph1">&lt;see cref="T:System.ServiceModel.ChannelFactory" /&gt;</ph> has duplex operations it does not support.</source>
+          <target state="translated"><ph id="ph1">&lt;see cref="T:System.ServiceModel.ChannelFactory" /&gt;</ph> 有它不支持的双工操作。</target>       </trans-unit>
+        <trans-unit id="174" translate="yes" xml:space="preserve" uid="T:System.ServiceModel.ChannelFactory`1">
+          <source>Creates a channel that is used to send messages to a service with an act as security token.</source>
+          <target state="translated">创建用于将消息发送到有作为安全令牌行为的服务的通道。</target>       </trans-unit>
+        <trans-unit id="175" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.ChannelFactory`1.CreateChannelWithActAsToken(System.IdentityModel.Tokens.SecurityToken)">
+          <source>The security token.</source>
+          <target state="translated">安全令牌。</target>       </trans-unit>
+        <trans-unit id="176" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.ChannelFactory`1.CreateChannelWithActAsToken(System.IdentityModel.Tokens.SecurityToken)">
+          <source>Creates a channel that is used to send messages to a service with an act as security token.</source>
+          <target state="translated">创建用于将消息发送到有作为安全令牌行为的服务的通道。</target>       </trans-unit>
+        <trans-unit id="177" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.ChannelFactory`1.CreateChannelWithActAsToken(System.IdentityModel.Tokens.SecurityToken)">
+          <source>The created channel factory.</source>
+          <target state="translated">创建的通道工厂。</target>       </trans-unit>
+        <trans-unit id="178" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.ChannelFactory`1.CreateChannelWithActAsToken(System.IdentityModel.Tokens.SecurityToken,System.ServiceModel.EndpointAddress)">
+          <source>The security token</source>
+          <target state="translated">安全令牌</target>       </trans-unit>
+        <trans-unit id="179" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.ChannelFactory`1.CreateChannelWithActAsToken(System.IdentityModel.Tokens.SecurityToken,System.ServiceModel.EndpointAddress)">
+          <source>The endpoint address that provides the location of the service.</source>
+          <target state="translated">提供服务位置的终点结地址。</target>       </trans-unit>
+        <trans-unit id="180" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.ChannelFactory`1.CreateChannelWithActAsToken(System.IdentityModel.Tokens.SecurityToken,System.ServiceModel.EndpointAddress)">
+          <source>Creates a channel that is used to send messages to a service with an act as security token at a specific endpoint address.</source>
+          <target state="translated">创建一个通道，该通道用于将消息发送到位于特定终结点地址的、具有一个作为安全令牌的行为的服务。</target>       </trans-unit>
+        <trans-unit id="181" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.ChannelFactory`1.CreateChannelWithActAsToken(System.IdentityModel.Tokens.SecurityToken,System.ServiceModel.EndpointAddress)">
+          <source>The created channel factory.</source>
+          <target state="translated">创建的通道工厂。</target>       </trans-unit>
+        <trans-unit id="182" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.ChannelFactory`1.CreateChannelWithActAsToken(System.IdentityModel.Tokens.SecurityToken,System.ServiceModel.EndpointAddress,System.Uri)">
+          <source>The security token</source>
+          <target state="translated">安全令牌</target>       </trans-unit>
+        <trans-unit id="183" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.ChannelFactory`1.CreateChannelWithActAsToken(System.IdentityModel.Tokens.SecurityToken,System.ServiceModel.EndpointAddress,System.Uri)">
+          <source>The endpoint address that provides the location of the service.</source>
+          <target state="translated">提供服务位置的终点结地址。</target>       </trans-unit>
+        <trans-unit id="184" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.ChannelFactory`1.CreateChannelWithActAsToken(System.IdentityModel.Tokens.SecurityToken,System.ServiceModel.EndpointAddress,System.Uri)">
+          <source>The transport address to which the channel sends messages.</source>
+          <target state="translated">通道将消息发送传输地址。</target>       </trans-unit>
+        <trans-unit id="185" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.ChannelFactory`1.CreateChannelWithActAsToken(System.IdentityModel.Tokens.SecurityToken,System.ServiceModel.EndpointAddress,System.Uri)">
+          <source>Creates a channel that is used to send messages to a service with an act as security token at a specific endpoint address through a specified transport address.</source>
+          <target state="translated">创建一个通道，该通道用于通过指定的传输地址将消息发送到位于特定终结点地址的、具有一个作为安全令牌的行为的服务。</target>       </trans-unit>
+        <trans-unit id="186" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.ChannelFactory`1.CreateChannelWithActAsToken(System.IdentityModel.Tokens.SecurityToken,System.ServiceModel.EndpointAddress,System.Uri)">
+          <source>The created channel factory.</source>
+          <target state="translated">创建的通道工厂。</target>       </trans-unit>
+        <trans-unit id="187" translate="yes" xml:space="preserve" uid="T:System.ServiceModel.ChannelFactory`1">
+          <source>Creates a channel that is used to send messages to a service with an issued security token.</source>
+          <target state="translated">创建用于将消息发送到含有已发布安全令牌的服务的通道。</target>       </trans-unit>
+        <trans-unit id="188" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.ChannelFactory`1.CreateChannelWithIssuedToken(System.IdentityModel.Tokens.SecurityToken)">
+          <source>The issued security token.</source>
+          <target state="translated">已颁发令牌的安全性标记。</target>       </trans-unit>
+        <trans-unit id="189" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.ChannelFactory`1.CreateChannelWithIssuedToken(System.IdentityModel.Tokens.SecurityToken)">
+          <source>Creates a channel that is used to send messages to a service with an issued security token.</source>
+          <target state="translated">创建用于将消息发送到含有已发布安全令牌的服务的通道。</target>       </trans-unit>
+        <trans-unit id="190" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.ChannelFactory`1.CreateChannelWithIssuedToken(System.IdentityModel.Tokens.SecurityToken)">
+          <source>The created channel factory.</source>
+          <target state="translated">创建的通道工厂。</target>       </trans-unit>
+        <trans-unit id="191" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.ChannelFactory`1.CreateChannelWithIssuedToken(System.IdentityModel.Tokens.SecurityToken,System.ServiceModel.EndpointAddress)">
+          <source>The issued security token.</source>
+          <target state="translated">已颁发令牌的安全性标记。</target>       </trans-unit>
+        <trans-unit id="192" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.ChannelFactory`1.CreateChannelWithIssuedToken(System.IdentityModel.Tokens.SecurityToken,System.ServiceModel.EndpointAddress)">
+          <source>The endpoint address that provides the location of the service.</source>
+          <target state="translated">提供服务位置的终点结地址。</target>       </trans-unit>
+        <trans-unit id="193" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.ChannelFactory`1.CreateChannelWithIssuedToken(System.IdentityModel.Tokens.SecurityToken,System.ServiceModel.EndpointAddress)">
+          <source>Creates a channel that is used to send messages to a service with an issued security token at a specific endpoint address.</source>
+          <target state="translated">创建一个通道，该通道用于将消息发送到位于特定终结点地址的、具有一个已发布的安全令牌的服务。</target>       </trans-unit>
+        <trans-unit id="194" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.ChannelFactory`1.CreateChannelWithIssuedToken(System.IdentityModel.Tokens.SecurityToken,System.ServiceModel.EndpointAddress)">
+          <source>The created channel factory.</source>
+          <target state="translated">创建的通道工厂。</target>       </trans-unit>
+        <trans-unit id="195" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.ChannelFactory`1.CreateChannelWithIssuedToken(System.IdentityModel.Tokens.SecurityToken,System.ServiceModel.EndpointAddress,System.Uri)">
+          <source>The issued security token.</source>
+          <target state="translated">已颁发令牌的安全性标记。</target>       </trans-unit>
+        <trans-unit id="196" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.ChannelFactory`1.CreateChannelWithIssuedToken(System.IdentityModel.Tokens.SecurityToken,System.ServiceModel.EndpointAddress,System.Uri)">
+          <source>The endpoint address that provides the location of the service.</source>
+          <target state="translated">提供服务位置的终点结地址。</target>       </trans-unit>
+        <trans-unit id="197" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.ChannelFactory`1.CreateChannelWithIssuedToken(System.IdentityModel.Tokens.SecurityToken,System.ServiceModel.EndpointAddress,System.Uri)">
+          <source>The transport address to which the channel sends messages.</source>
+          <target state="translated">通道将消息发送传输地址。</target>       </trans-unit>
+        <trans-unit id="198" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.ChannelFactory`1.CreateChannelWithIssuedToken(System.IdentityModel.Tokens.SecurityToken,System.ServiceModel.EndpointAddress,System.Uri)">
+          <source>Creates a channel that is used to send messages to a service with an issued security token at a specific endpoint address through a specified transport address.</source>
+          <target state="translated">创建一个通道，该通道用于通过指定的传输地址将消息发送到位于特定终结点地址的、具有一个已发布的安全令牌的服务。</target>       </trans-unit>
+        <trans-unit id="199" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.ChannelFactory`1.CreateChannelWithIssuedToken(System.IdentityModel.Tokens.SecurityToken,System.ServiceModel.EndpointAddress,System.Uri)">
+          <source>The created channel factory.</source>
+          <target state="translated">创建的通道工厂。</target>       </trans-unit>
+        <trans-unit id="200" translate="yes" xml:space="preserve" uid="T:System.ServiceModel.ChannelFactory`1">
+          <source>Creates a channel that is used to send messages to a service with an on behalf of security token.</source>
+          <target state="translated">创建用于将消息发送到有代表安全令牌行为的服务的通道。</target>       </trans-unit>
+        <trans-unit id="201" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.ChannelFactory`1.CreateChannelWithOnBehalfOfToken(System.IdentityModel.Tokens.SecurityToken)">
+          <source>The security token.</source>
+          <target state="translated">安全令牌。</target>       </trans-unit>
+        <trans-unit id="202" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.ChannelFactory`1.CreateChannelWithOnBehalfOfToken(System.IdentityModel.Tokens.SecurityToken)">
+          <source>Creates a channel that is used to send messages to a service with an on behalf of security token.</source>
+          <target state="translated">创建用于将消息发送到有代表安全令牌行为的服务的通道。</target>       </trans-unit>
+        <trans-unit id="203" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.ChannelFactory`1.CreateChannelWithOnBehalfOfToken(System.IdentityModel.Tokens.SecurityToken)">
+          <source>The created channel factory.</source>
+          <target state="translated">创建的通道工厂。</target>       </trans-unit>
+        <trans-unit id="204" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.ChannelFactory`1.CreateChannelWithOnBehalfOfToken(System.IdentityModel.Tokens.SecurityToken,System.ServiceModel.EndpointAddress)">
+          <source>The security token.</source>
+          <target state="translated">安全令牌。</target>       </trans-unit>
+        <trans-unit id="205" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.ChannelFactory`1.CreateChannelWithOnBehalfOfToken(System.IdentityModel.Tokens.SecurityToken,System.ServiceModel.EndpointAddress)">
+          <source>The endpoint address that provides the location of the service.</source>
+          <target state="translated">提供服务位置的终点结地址。</target>       </trans-unit>
+        <trans-unit id="206" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.ChannelFactory`1.CreateChannelWithOnBehalfOfToken(System.IdentityModel.Tokens.SecurityToken,System.ServiceModel.EndpointAddress)">
+          <source>Creates a channel that is used to send messages to a service with an on behalf of security token at a specific endpoint address.</source>
+          <target state="translated">创建用于将消息发送到特定终结点地址的服务的通道，该服务有安全令牌。</target>       </trans-unit>
+        <trans-unit id="207" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.ChannelFactory`1.CreateChannelWithOnBehalfOfToken(System.IdentityModel.Tokens.SecurityToken,System.ServiceModel.EndpointAddress)">
+          <source>The created channel factory.</source>
+          <target state="translated">创建的通道工厂。</target>       </trans-unit>
+        <trans-unit id="208" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.ChannelFactory`1.CreateChannelWithOnBehalfOfToken(System.IdentityModel.Tokens.SecurityToken,System.ServiceModel.EndpointAddress,System.Uri)">
+          <source>The security token.</source>
+          <target state="translated">安全令牌。</target>       </trans-unit>
+        <trans-unit id="209" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.ChannelFactory`1.CreateChannelWithOnBehalfOfToken(System.IdentityModel.Tokens.SecurityToken,System.ServiceModel.EndpointAddress,System.Uri)">
+          <source>The endpoint address that provides the location of the service.</source>
+          <target state="translated">提供服务位置的终点结地址。</target>       </trans-unit>
+        <trans-unit id="210" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.ChannelFactory`1.CreateChannelWithOnBehalfOfToken(System.IdentityModel.Tokens.SecurityToken,System.ServiceModel.EndpointAddress,System.Uri)">
+          <source>The transport address to which the channel sends messages.</source>
+          <target state="translated">通道将消息发送传输地址。</target>       </trans-unit>
+        <trans-unit id="211" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.ChannelFactory`1.CreateChannelWithOnBehalfOfToken(System.IdentityModel.Tokens.SecurityToken,System.ServiceModel.EndpointAddress,System.Uri)">
+          <source>Creates a channel that is used to send messages to a service with an on behalf of security token at a specific endpoint address through a specified transport address.</source>
+          <target state="translated">创建一个通道，该通道用于通过指定的传输地址将消息发送到位于特定终结点地址的、代表安全令牌的服务。</target>       </trans-unit>
+        <trans-unit id="212" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.ChannelFactory`1.CreateChannelWithOnBehalfOfToken(System.IdentityModel.Tokens.SecurityToken,System.ServiceModel.EndpointAddress,System.Uri)">
+          <source>The created channel factory.</source>
+          <target state="translated">创建的通道工厂。</target>       </trans-unit>
+        <trans-unit id="213" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.ChannelFactory`1.CreateDescription">
+          <source>Creates a description of the service endpoint.</source>
+          <target state="translated">创建服务终结点的说明。</target>       </trans-unit>
+        <trans-unit id="214" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.ChannelFactory`1.CreateDescription">
+          <source>The <ph id="ph1">&lt;see cref="T:System.ServiceModel.Description.ServiceEndpoint" /&gt;</ph> of the service.</source>
+          <target state="translated">服务的 <ph id="ph1">&lt;see cref="T:System.ServiceModel.Description.ServiceEndpoint" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="215" translate="yes" xml:space="preserve" uid="M:System.ServiceModel.ChannelFactory`1.CreateDescription">
+          <source>The callback contract is <ph id="ph1">&lt;see langword="null" /&gt;</ph> but the service endpoint requires one that is non-<ph id="ph2">&lt;see langword="null" /&gt;</ph>.</source>
+          <target state="translated">回调协定为 <ph id="ph1">&lt;see langword="null" /&gt;</ph>，但服务终结点需要的是一个非 <ph id="ph2">&lt;see langword="null" /&gt;</ph> 的协定。</target>       </trans-unit>
+      </group>
+    </body>
+  </file>
+</xliff>

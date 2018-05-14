@@ -1,344 +1,174 @@
-<Type Name="BufferedGraphics" FullName="System.Drawing.BufferedGraphics">
-  <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="8eb376f4bda7764bd0c534a86c20b084960c4a7d" />
-    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
-    <Meta Name="ms.translationtype" Value="HT" />
-    <Meta Name="ms.contentlocale" Value="zh-CN" />
-    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
-  </Metadata>
-  <TypeSignature Language="C#" Value="public sealed class BufferedGraphics : IDisposable" />
-  <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed beforefieldinit BufferedGraphics extends System.Object implements class System.IDisposable" />
-  <TypeSignature Language="DocId" Value="T:System.Drawing.BufferedGraphics" />
-  <TypeSignature Language="VB.NET" Value="Public NotInheritable Class BufferedGraphics&#xA;Implements IDisposable" />
-  <TypeSignature Language="C++ CLI" Value="public ref class BufferedGraphics sealed : IDisposable" />
-  <AssemblyInfo>
-    <AssemblyName>System.Drawing</AssemblyName>
-    <AssemblyVersion>4.0.0.0</AssemblyVersion>
-  </AssemblyInfo>
-  <Base>
-    <BaseTypeName>System.Object</BaseTypeName>
-  </Base>
-  <Interfaces>
-    <Interface>
-      <InterfaceName>System.IDisposable</InterfaceName>
-    </Interface>
-  </Interfaces>
-  <Docs>
-    <summary>
-      <span data-ttu-id="00e25-101">为双缓冲提供图形缓冲区。</span>
-      <span class="sxs-lookup">
-        <span data-stu-id="00e25-101">Provides a graphics buffer for double buffering.</span>
-      </span>
-    </summary>
-    <remarks>
-      <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="00e25-102"><xref:System.Drawing.BufferedGraphics>类可以实现自定义双缓冲图形。</span><span class="sxs-lookup"><span data-stu-id="00e25-102">The <xref:System.Drawing.BufferedGraphics> class allows you to implement custom double buffering for your graphics.</span></span> <span data-ttu-id="00e25-103">它提供图形缓冲区，以及可用于写入到缓冲区和呈现其内容写入输出设备的方法的包装。</span><span class="sxs-lookup"><span data-stu-id="00e25-103">It provides a wrapper for a graphics buffer, along with methods that you can use to write to the buffer and render its contents to an output device.</span></span>  
-  
- <span data-ttu-id="00e25-104">使用双缓冲的图形的可以减少或消除闪烁引起重绘显示图面。</span><span class="sxs-lookup"><span data-stu-id="00e25-104">Graphics that use double buffering can reduce or eliminate flicker that is caused by redrawing a display surface.</span></span> <span data-ttu-id="00e25-105">当你使用双缓冲时，更新的图形首先绘制到在内存中，缓冲区和此缓冲区的内容被快速写入某些或所有显示的图面。</span><span class="sxs-lookup"><span data-stu-id="00e25-105">When you use double buffering, updated graphics are first drawn to a buffer in memory, and the contents of this buffer are then quickly written to some or all of the displayed surface.</span></span> <span data-ttu-id="00e25-106">显示图形的覆盖此相对简短通常可减小或消除图形更新时，有时会闪烁。</span><span class="sxs-lookup"><span data-stu-id="00e25-106">This relatively brief overwrite of the displayed graphics typically reduces or eliminates the flicker that sometimes occurs when graphics are updated.</span></span>  
-  
-> [!NOTE]
->  <span data-ttu-id="00e25-107">使用双缓冲的最简单方法是设置<xref:System.Windows.Forms.ControlStyles.OptimizedDoubleBuffer>控制控件使用的样式标志<xref:System.Windows.Forms.Control.SetStyle%2A>方法。</span><span class="sxs-lookup"><span data-stu-id="00e25-107">The simplest way to use double buffering is to set the <xref:System.Windows.Forms.ControlStyles.OptimizedDoubleBuffer> control style flag on a control using the <xref:System.Windows.Forms.Control.SetStyle%2A> method.</span></span> <span data-ttu-id="00e25-108">设置<xref:System.Windows.Forms.ControlStyles.OptimizedDoubleBuffer>标志的控件将重定向为通过一个默认的图形缓冲区，该控件的所有绘制工作，而无需任何其他代码。</span><span class="sxs-lookup"><span data-stu-id="00e25-108">Setting the <xref:System.Windows.Forms.ControlStyles.OptimizedDoubleBuffer> flag for a control redirects all painting for the control through a default graphics buffer, without requiring any additional code.</span></span> <span data-ttu-id="00e25-109">此标志设置为`true`默认情况下。</span><span class="sxs-lookup"><span data-stu-id="00e25-109">This flag is set to `true` by default.</span></span>  
-  
- <span data-ttu-id="00e25-110"><xref:System.Drawing.BufferedGraphics>类没有公共构造函数，并且必须通过创建<xref:System.Drawing.BufferedGraphicsContext>为应用程序域中使用其<xref:System.Drawing.BufferedGraphicsContext.Allocate%2A>方法。</span><span class="sxs-lookup"><span data-stu-id="00e25-110">The <xref:System.Drawing.BufferedGraphics> class has no public constructor and must be created by the <xref:System.Drawing.BufferedGraphicsContext> for an application domain using its <xref:System.Drawing.BufferedGraphicsContext.Allocate%2A> method.</span></span> <span data-ttu-id="00e25-111">你可以检索<xref:System.Drawing.BufferedGraphicsContext>从静态当前的应用程序域<xref:System.Drawing.BufferedGraphicsManager.Current%2A?displayProperty=nameWithType>属性。</span><span class="sxs-lookup"><span data-stu-id="00e25-111">You can retrieve the <xref:System.Drawing.BufferedGraphicsContext> for the current application domain from the static <xref:System.Drawing.BufferedGraphicsManager.Current%2A?displayProperty=nameWithType> property.</span></span>  
-  
- <span data-ttu-id="00e25-112"><xref:System.Drawing.BufferedGraphics.Graphics%2A>属性可以用于绘制到图形缓冲区。</span><span class="sxs-lookup"><span data-stu-id="00e25-112">The <xref:System.Drawing.BufferedGraphics.Graphics%2A> property can be used for drawing to the graphics buffer.</span></span> <span data-ttu-id="00e25-113">此属性提供访问权限<xref:System.Drawing.Graphics>绘制到此分配的图形缓冲区的对象<xref:System.Drawing.BufferedGraphics>对象。</span><span class="sxs-lookup"><span data-stu-id="00e25-113">This property provides access to the <xref:System.Drawing.Graphics> object that draws to the graphics buffer allocated for this <xref:System.Drawing.BufferedGraphics> object.</span></span>  
-  
- <span data-ttu-id="00e25-114"><xref:System.Drawing.BufferedGraphics.Render%2A>分配缓冲区时指定与图形的内容缓冲到面没有参数绘制的方法。</span><span class="sxs-lookup"><span data-stu-id="00e25-114">The <xref:System.Drawing.BufferedGraphics.Render%2A> method with no arguments draws the contents of the graphics buffer to the surface specified when the buffer was allocated.</span></span> <span data-ttu-id="00e25-115">其他重载<xref:System.Drawing.BufferedGraphics.Render%2A>方法允许你指定<xref:System.Drawing.Graphics>对象或<xref:System.IntPtr>指向要绘制图形缓冲区的内容到设备上下文的对象。</span><span class="sxs-lookup"><span data-stu-id="00e25-115">Other overloads of the <xref:System.Drawing.BufferedGraphics.Render%2A> method allow you to specify a <xref:System.Drawing.Graphics> object or an <xref:System.IntPtr> object that points to a device context to which to draw the contents of the graphics buffer.</span></span>  
-  
- <span data-ttu-id="00e25-116">绘制双缓冲图形的详细信息，请参阅[双缓冲图形](~/docs/framework/winforms/advanced/double-buffered-graphics.md)。</span><span class="sxs-lookup"><span data-stu-id="00e25-116">For more information about drawing double-buffered graphics, see [Double Buffered Graphics](~/docs/framework/winforms/advanced/double-buffered-graphics.md).</span></span>  
-  
-   
-  
-## Examples  
- <span data-ttu-id="00e25-117">下面的代码示例演示如何使用<xref:System.Drawing.BufferedGraphics>要使用的缓冲实现的几种类型的图形绘制对象。</span><span class="sxs-lookup"><span data-stu-id="00e25-117">The following code example demonstrates using a <xref:System.Drawing.BufferedGraphics> object to draw graphics using several types of buffering implementations.</span></span> <span data-ttu-id="00e25-118">单击该窗体或者启动和停止计时器引起绘制更新。</span><span class="sxs-lookup"><span data-stu-id="00e25-118">Clicking the form alternately starts and stops a timer that causes draw updates.</span></span> <span data-ttu-id="00e25-119">绘图更新，可以观察的双缓冲效果。</span><span class="sxs-lookup"><span data-stu-id="00e25-119">The draw updates allow you to observe the effect of double buffering.</span></span> <span data-ttu-id="00e25-120">右键单击窗体将循环以下绘图模式：</span><span class="sxs-lookup"><span data-stu-id="00e25-120">Right-clicking the form cycles through the following drawing modes:</span></span>  
-  
--   <span data-ttu-id="00e25-121">直接绘制到<xref:System.Windows.Forms.Control.Handle%2A>为<xref:System.Windows.Forms.Form>。</span><span class="sxs-lookup"><span data-stu-id="00e25-121">Drawing directly to the <xref:System.Windows.Forms.Control.Handle%2A> for a <xref:System.Windows.Forms.Form>.</span></span>  
-  
--   <span data-ttu-id="00e25-122">通过重写绘制<xref:System.Windows.Forms.Form.OnPaint%2A>方法使用<xref:System.Windows.Forms.ControlStyles.OptimizedDoubleBuffer>控制样式。</span><span class="sxs-lookup"><span data-stu-id="00e25-122">Drawing by overriding the <xref:System.Windows.Forms.Form.OnPaint%2A> method using the <xref:System.Windows.Forms.ControlStyles.OptimizedDoubleBuffer> control style.</span></span>  
-  
--   <span data-ttu-id="00e25-123">通过重写绘制<xref:System.Windows.Forms.Form.OnPaint%2A>方法而无需使用的窗体方法<xref:System.Windows.Forms.ControlStyles.OptimizedDoubleBuffer>控制样式。</span><span class="sxs-lookup"><span data-stu-id="00e25-123">Drawing by overriding the <xref:System.Windows.Forms.Form.OnPaint%2A> method for the form method without using the <xref:System.Windows.Forms.ControlStyles.OptimizedDoubleBuffer> control style.</span></span>  
-  
- <span data-ttu-id="00e25-124">在每个模式下，绘制文本，用于标识当前模式以及描述当按下的每个鼠标按钮时发生的行为。</span><span class="sxs-lookup"><span data-stu-id="00e25-124">In each mode, text is drawn that identifies the current mode and describes the behavior that occurs when each mouse button is pressed.</span></span>  
-  
- [!code-cpp[BufferedGraphicsExample#1](~/samples/snippets/cpp/VS_Snippets_Winforms/BufferedGraphicsExample/CPP/bufferingtest.cpp#1)]
- [!code-csharp[BufferedGraphicsExample#1](~/samples/snippets/csharp/VS_Snippets_Winforms/BufferedGraphicsExample/CS/bufferingtest.cs#1)]
- [!code-vb[BufferedGraphicsExample#1](~/samples/snippets/visualbasic/VS_Snippets_Winforms/BufferedGraphicsExample/VB/bufferingtest.vb#1)]  
-  
- ]]></format>
-    </remarks>
-    <threadsafe>
-      <span data-ttu-id="00e25-125">
-        <see cref="T:System.Drawing.BufferedGraphics" /> 类不是线程安全的。</span>
-      <span class="sxs-lookup">
-        <span data-stu-id="00e25-125">The <see cref="T:System.Drawing.BufferedGraphics" /> class is not thread safe.</span>
-      </span>
-      <span data-ttu-id="00e25-126">当从单独的线程访问图形缓冲区，务必使用线程访问控制机制以防止冲突。</span>
-      <span class="sxs-lookup">
-        <span data-stu-id="00e25-126">When accessing a graphics buffer from separate threads, it is important to use a thread-access control mechanism to prevent conflicts.</span>
-      </span>
-    </threadsafe>
-  </Docs>
-  <Members>
-    <Member MemberName="Dispose">
-      <MemberSignature Language="C#" Value="public void Dispose ();" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void Dispose() cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Drawing.BufferedGraphics.Dispose" />
-      <MemberSignature Language="VB.NET" Value="Public Sub Dispose ()" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual void Dispose();" />
-      <MemberType>Method</MemberType>
-      <Implements>
-        <InterfaceMember>M:System.IDisposable.Dispose</InterfaceMember>
-      </Implements>
-      <AssemblyInfo>
-        <AssemblyName>System.Drawing</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters />
-      <Docs>
-        <summary>
-          <span data-ttu-id="00e25-127">释放由 <see cref="T:System.Drawing.BufferedGraphics" /> 对象使用的所有资源。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="00e25-127">Releases all resources used by the <see cref="T:System.Drawing.BufferedGraphics" /> object.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="00e25-128">调用<xref:System.Drawing.BufferedGraphics.Dispose%2A>完成之后使用<xref:System.Drawing.BufferedGraphics>对象。</span><span class="sxs-lookup"><span data-stu-id="00e25-128">Call <xref:System.Drawing.BufferedGraphics.Dispose%2A> when you are finished using the <xref:System.Drawing.BufferedGraphics> object.</span></span> <span data-ttu-id="00e25-129"><xref:System.Drawing.BufferedGraphics.Dispose%2A>方法使<xref:System.Drawing.BufferedGraphics>中不可用状态的对象。</span><span class="sxs-lookup"><span data-stu-id="00e25-129">The <xref:System.Drawing.BufferedGraphics.Dispose%2A> method leaves the <xref:System.Drawing.BufferedGraphics> object in an unusable state.</span></span> <span data-ttu-id="00e25-130">在调用<xref:System.Drawing.BufferedGraphics.Dispose%2A>，必须释放对所有引用<xref:System.Drawing.BufferedGraphics>对象，以便垃圾回收器才能回收的内存，<xref:System.Drawing.BufferedGraphics>对象占用。</span><span class="sxs-lookup"><span data-stu-id="00e25-130">After calling <xref:System.Drawing.BufferedGraphics.Dispose%2A>, you must release all references to the <xref:System.Drawing.BufferedGraphics> object so the garbage collector can reclaim the memory that the <xref:System.Drawing.BufferedGraphics> object was occupying.</span></span> <span data-ttu-id="00e25-131">有关详细信息，请参阅[清洗向上非托管资源](~/docs/standard/garbage-collection/unmanaged.md)和[实现 Dispose 方法](~/docs/standard/garbage-collection/implementing-dispose.md)。</span><span class="sxs-lookup"><span data-stu-id="00e25-131">For more information, see [Cleaning Up Unmanaged Resources](~/docs/standard/garbage-collection/unmanaged.md) and [Implementing a Dispose Method](~/docs/standard/garbage-collection/implementing-dispose.md).</span></span>  
-  
-> [!NOTE]
->  <span data-ttu-id="00e25-132">始终调用<xref:System.Drawing.BufferedGraphics.Dispose%2A>在发布到最后一个引用之前<xref:System.Drawing.BufferedGraphics>对象。</span><span class="sxs-lookup"><span data-stu-id="00e25-132">Always call <xref:System.Drawing.BufferedGraphics.Dispose%2A> before you release your last reference to the <xref:System.Drawing.BufferedGraphics> object.</span></span> <span data-ttu-id="00e25-133">否则，在垃圾回收器调用 <xref:System.Drawing.BufferedGraphics> 对象的 `Finalize` 方法之前，该对象正在使用的资源不会被释放。</span><span class="sxs-lookup"><span data-stu-id="00e25-133">Otherwise, the resources it is using will not be freed until the garbage collector calls the <xref:System.Drawing.BufferedGraphics> object's `Finalize` method.</span></span>  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="Finalize">
-      <MemberSignature Language="C#" Value="~BufferedGraphics ();" />
-      <MemberSignature Language="ILAsm" Value=".method familyhidebysig virtual instance void Finalize() cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Drawing.BufferedGraphics.Finalize" />
-      <MemberSignature Language="VB.NET" Value="Finalize ()" />
-      <MemberSignature Language="C++ CLI" Value="!BufferedGraphics ()" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Drawing</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters />
-      <Docs>
-        <summary>
-          <span data-ttu-id="00e25-134">在垃圾回收将某一对象回收前允许该对象尝试释放资源并执行其他清理操作。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="00e25-134">Allows an object to try to free resources and perform other cleanup operations before it is reclaimed by garbage collection.</span>
-          </span>
-        </summary>
-        <remarks>To be added.</remarks>
-        <altmember cref="M:System.Object.Finalize" />
-      </Docs>
-    </Member>
-    <Member MemberName="Graphics">
-      <MemberSignature Language="C#" Value="public System.Drawing.Graphics Graphics { get; }" />
-      <MemberSignature Language="ILAsm" Value=".property instance class System.Drawing.Graphics Graphics" />
-      <MemberSignature Language="DocId" Value="P:System.Drawing.BufferedGraphics.Graphics" />
-      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property Graphics As Graphics" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::Drawing::Graphics ^ Graphics { System::Drawing::Graphics ^ get(); };" />
-      <MemberType>Property</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Drawing</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Drawing.Graphics</ReturnType>
-      </ReturnValue>
-      <Docs>
-        <summary>
-          <span data-ttu-id="00e25-135">获取输出到图形缓冲区的 <see cref="T:System.Drawing.Graphics" /> 对象。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="00e25-135">Gets a <see cref="T:System.Drawing.Graphics" /> object that outputs to the graphics buffer.</span>
-          </span>
-        </summary>
-        <value>
-          <span data-ttu-id="00e25-136">输出到图形缓冲区的 <see cref="T:System.Drawing.Graphics" /> 对象。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="00e25-136">A <see cref="T:System.Drawing.Graphics" /> object that outputs to the graphics buffer.</span>
-          </span>
-        </value>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="00e25-137">此属性提供<xref:System.Drawing.Graphics>绘制到此分配的图形缓冲区的对象<xref:System.Drawing.BufferedGraphics>对象。</span><span class="sxs-lookup"><span data-stu-id="00e25-137">This property provides a <xref:System.Drawing.Graphics> object that draws to the graphics buffer allocated for this <xref:System.Drawing.BufferedGraphics> object.</span></span>  
-  
- ]]></format>
-        </remarks>
-        <altmember cref="T:System.Drawing.Graphics" />
-      </Docs>
-    </Member>
-    <MemberGroup MemberName="Render">
-      <AssemblyInfo>
-        <AssemblyName>System.Drawing</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Docs>
-        <summary>
-          <span data-ttu-id="00e25-138">写入图形缓冲区的内容。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="00e25-138">Writes the contents of the graphics buffer.</span>
-          </span>
-        </summary>
-      </Docs>
-    </MemberGroup>
-    <Member MemberName="Render">
-      <MemberSignature Language="C#" Value="public void Render ();" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void Render() cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Drawing.BufferedGraphics.Render" />
-      <MemberSignature Language="VB.NET" Value="Public Sub Render ()" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; void Render();" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Drawing</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters />
-      <Docs>
-        <summary>
-          <span data-ttu-id="00e25-139">将图形缓冲区的内容写入默认设备。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="00e25-139">Writes the contents of the graphics buffer to the default device.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="00e25-140">此方法将图形缓冲区的内容写入到通过调用指定的设备<xref:System.Drawing.BufferedGraphicsContext.Allocate%2A>方法<xref:System.Drawing.BufferedGraphicsContext>用于创建此<xref:System.Drawing.BufferedGraphics>对象。</span><span class="sxs-lookup"><span data-stu-id="00e25-140">This method writes the contents of the graphics buffer to the device specified by calling the <xref:System.Drawing.BufferedGraphicsContext.Allocate%2A> method of the <xref:System.Drawing.BufferedGraphicsContext> used to create this <xref:System.Drawing.BufferedGraphics> object.</span></span>  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="Render">
-      <MemberSignature Language="C#" Value="public void Render (System.Drawing.Graphics target);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void Render(class System.Drawing.Graphics target) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Drawing.BufferedGraphics.Render(System.Drawing.Graphics)" />
-      <MemberSignature Language="VB.NET" Value="Public Sub Render (target As Graphics)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; void Render(System::Drawing::Graphics ^ target);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Drawing</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="target" Type="System.Drawing.Graphics" />
-      </Parameters>
-      <Docs>
-        <param name="target">
-          <span data-ttu-id="00e25-141">一个 <see cref="T:System.Drawing.Graphics" /> 对象，要向其中写入图形缓冲区的内容。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="00e25-141">A <see cref="T:System.Drawing.Graphics" /> object to which to write the contents of the graphics buffer.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="00e25-142">将图形缓冲区的内容写入指定的 <see cref="T:System.Drawing.Graphics" /> 对象。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="00e25-142">Writes the contents of the graphics buffer to the specified <see cref="T:System.Drawing.Graphics" /> object.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="00e25-143">此方法将图形缓冲区的内容写入指定<xref:System.Drawing.Graphics>对象。</span><span class="sxs-lookup"><span data-stu-id="00e25-143">This method writes the contents of the graphics buffer to the specified <xref:System.Drawing.Graphics> object.</span></span>  
-  
-   
-  
-## Examples  
- <span data-ttu-id="00e25-144">下面的代码示例演示如何呈现到指定的图形缓冲区的内容<xref:System.Drawing.Graphics>对象。</span><span class="sxs-lookup"><span data-stu-id="00e25-144">The following code example demonstrates rendering the contents of the graphics buffer to a specified <xref:System.Drawing.Graphics> object.</span></span> <span data-ttu-id="00e25-145">此代码摘自更大的示例为提供<xref:System.Drawing.BufferedGraphics>类。</span><span class="sxs-lookup"><span data-stu-id="00e25-145">This code is part of a larger example provided for the <xref:System.Drawing.BufferedGraphics> class.</span></span>  
-  
- [!code-cpp[BufferingExamples#5](~/samples/snippets/cpp/VS_Snippets_Winforms/BufferingExamples/CPP/bufferingexamples.cpp#5)]
- [!code-csharp[BufferingExamples#5](~/samples/snippets/csharp/VS_Snippets_Winforms/BufferingExamples/CS/bufferingexamples.cs#5)]
- [!code-vb[BufferingExamples#5](~/samples/snippets/visualbasic/VS_Snippets_Winforms/BufferingExamples/VB/bufferingexamples.vb#5)]  
-  
- ]]></format>
-        </remarks>
-        <altmember cref="T:System.Drawing.Graphics" />
-      </Docs>
-    </Member>
-    <Member MemberName="Render">
-      <MemberSignature Language="C#" Value="public void Render (IntPtr targetDC);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void Render(native int targetDC) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Drawing.BufferedGraphics.Render(System.IntPtr)" />
-      <MemberSignature Language="VB.NET" Value="Public Sub Render (targetDC As IntPtr)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; void Render(IntPtr targetDC);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Drawing</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="targetDC" Type="System.IntPtr" />
-      </Parameters>
-      <Docs>
-        <param name="targetDC">
-          <span data-ttu-id="00e25-146">
-            <see cref="T:System.IntPtr" /> 指向设备上下文，图形缓冲区的内容将被写入这个设备上下文。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="00e25-146">An <see cref="T:System.IntPtr" /> that points to the device context to which to write the contents of the graphics buffer.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="00e25-147">将图形缓冲区的内容写入与指定的 <see cref="T:System.IntPtr" /> 句柄关联的设备上下文。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="00e25-147">Writes the contents of the graphics buffer to the device context associated with the specified <see cref="T:System.IntPtr" /> handle.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="00e25-148">此方法将图形缓冲区的内容写入与指定关联的设备上下文<xref:System.IntPtr>处理。</span><span class="sxs-lookup"><span data-stu-id="00e25-148">This method writes the contents of the graphics buffer to the device context associated with the specified <xref:System.IntPtr> handle.</span></span>  
-  
-   
-  
-## Examples  
- <span data-ttu-id="00e25-149">下面的代码示例演示如何呈现图形缓冲区的内容`grafx`到指定的设备上下文。</span><span class="sxs-lookup"><span data-stu-id="00e25-149">The following code example demonstrates how to render the contents of the graphics buffer `grafx` to a specified device context.</span></span> <span data-ttu-id="00e25-150">此代码摘自更大的示例为提供<xref:System.Drawing.BufferedGraphics>类。</span><span class="sxs-lookup"><span data-stu-id="00e25-150">This code is part of a larger example provided for the <xref:System.Drawing.BufferedGraphics> class.</span></span>  
-  
- [!code-cpp[BufferingExamples#6](~/samples/snippets/cpp/VS_Snippets_Winforms/BufferingExamples/CPP/bufferingexamples.cpp#6)]
- [!code-csharp[BufferingExamples#6](~/samples/snippets/csharp/VS_Snippets_Winforms/BufferingExamples/CS/bufferingexamples.cs#6)]
- [!code-vb[BufferingExamples#6](~/samples/snippets/visualbasic/VS_Snippets_Winforms/BufferingExamples/VB/bufferingexamples.vb#6)]  
-  
- ]]></format>
-        </remarks>
-        <permission cref="T:System.Security.Permissions.SecurityPermission">
-          <span data-ttu-id="00e25-151">用于访问非托管代码。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="00e25-151">for access to unmanaged code.</span>
-          </span>
-          <span data-ttu-id="00e25-152">相关枚举： <see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="00e25-152">Related enumeration: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" />.</span>
-          </span>
-        </permission>
-        <altmember cref="T:System.IntPtr" />
-      </Docs>
-    </Member>
-  </Members>
-</Type>
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.2" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 xliff-core-1.2-transitional.xsd">
+  <file datatype="xml" original="BufferedGraphics.xml" source-language="en-US" target-language="zh-CN">
+    <header>
+      <tool tool-id="mdxliff" tool-name="mdxliff" tool-version="1.0-15c36f0" tool-company="Microsoft" />
+      <xliffext:skl_file_name xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">02cd5861-7ce2-4a82-b358-31f8435a0ac58eb376f4bda7764bd0c534a86c20b084960c4a7d.skl</xliffext:skl_file_name>
+      <xliffext:version xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">1.2</xliffext:version>
+      <xliffext:ms.openlocfilehash xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">8eb376f4bda7764bd0c534a86c20b084960c4a7d</xliffext:ms.openlocfilehash>
+      <xliffext:ms.sourcegitcommit xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b</xliffext:ms.sourcegitcommit>
+      <xliffext:ms.lasthandoff xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">04/03/2018</xliffext:ms.lasthandoff>
+      <xliffext:moniker_ids xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">netframework-4.5.1,netframework-4.5.2,netframework-4.5,netframework-4.6.1,netframework-4.6.2,netframework-4.6,netframework-4.7.1,netframework-4.7</xliffext:moniker_ids>
+    </header>
+    <body>
+      <group id="content" extype="content">
+        <trans-unit id="101" translate="yes" xml:space="preserve" uid="T:System.Drawing.BufferedGraphics">
+          <source>Provides a graphics buffer for double buffering.</source>
+          <target state="translated">为双缓冲提供图形缓冲区。</target>       </trans-unit>
+        <trans-unit id="102" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Drawing.BufferedGraphics">
+          <source>The <ph id="ph1">&lt;xref:System.Drawing.BufferedGraphics&gt;</ph> class allows you to implement custom double buffering for your graphics.</source>
+          <target state="translated"><ph id="ph1">&lt;xref:System.Drawing.BufferedGraphics&gt;</ph>类可以实现自定义双缓冲图形。</target>       </trans-unit>
+        <trans-unit id="103" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Drawing.BufferedGraphics">
+          <source>It provides a wrapper for a graphics buffer, along with methods that you can use to write to the buffer and render its contents to an output device.</source>
+          <target state="translated">它提供图形缓冲区，以及可用于写入到缓冲区和呈现其内容写入输出设备的方法的包装。</target>       </trans-unit>
+        <trans-unit id="104" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Drawing.BufferedGraphics">
+          <source>Graphics that use double buffering can reduce or eliminate flicker that is caused by redrawing a display surface.</source>
+          <target state="translated">使用双缓冲的图形的可以减少或消除闪烁引起重绘显示图面。</target>       </trans-unit>
+        <trans-unit id="105" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Drawing.BufferedGraphics">
+          <source>When you use double buffering, updated graphics are first drawn to a buffer in memory, and the contents of this buffer are then quickly written to some or all of the displayed surface.</source>
+          <target state="translated">当你使用双缓冲时，更新的图形首先绘制到在内存中，缓冲区和此缓冲区的内容被快速写入某些或所有显示的图面。</target>       </trans-unit>
+        <trans-unit id="106" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Drawing.BufferedGraphics">
+          <source>This relatively brief overwrite of the displayed graphics typically reduces or eliminates the flicker that sometimes occurs when graphics are updated.</source>
+          <target state="translated">显示图形的覆盖此相对简短通常可减小或消除图形更新时，有时会闪烁。</target>       </trans-unit>
+        <trans-unit id="107" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Drawing.BufferedGraphics">
+          <source>The simplest way to use double buffering is to set the <ph id="ph1">&lt;xref:System.Windows.Forms.ControlStyles.OptimizedDoubleBuffer&gt;</ph> control style flag on a control using the <ph id="ph2">&lt;xref:System.Windows.Forms.Control.SetStyle%2A&gt;</ph> method.</source>
+          <target state="translated">使用双缓冲的最简单方法是设置<ph id="ph1">&lt;xref:System.Windows.Forms.ControlStyles.OptimizedDoubleBuffer&gt;</ph>控制控件使用的样式标志<ph id="ph2">&lt;xref:System.Windows.Forms.Control.SetStyle%2A&gt;</ph>方法。</target>       </trans-unit>
+        <trans-unit id="108" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Drawing.BufferedGraphics">
+          <source>Setting the <ph id="ph1">&lt;xref:System.Windows.Forms.ControlStyles.OptimizedDoubleBuffer&gt;</ph> flag for a control redirects all painting for the control through a default graphics buffer, without requiring any additional code.</source>
+          <target state="translated">设置<ph id="ph1">&lt;xref:System.Windows.Forms.ControlStyles.OptimizedDoubleBuffer&gt;</ph>标志的控件将重定向为通过一个默认的图形缓冲区，该控件的所有绘制工作，而无需任何其他代码。</target>       </trans-unit>
+        <trans-unit id="109" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Drawing.BufferedGraphics">
+          <source>This flag is set to <ph id="ph1">`true`</ph> by default.</source>
+          <target state="translated">此标志设置为<ph id="ph1">`true`</ph>默认情况下。</target>       </trans-unit>
+        <trans-unit id="110" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Drawing.BufferedGraphics">
+          <source>The <ph id="ph1">&lt;xref:System.Drawing.BufferedGraphics&gt;</ph> class has no public constructor and must be created by the <ph id="ph2">&lt;xref:System.Drawing.BufferedGraphicsContext&gt;</ph> for an application domain using its <ph id="ph3">&lt;xref:System.Drawing.BufferedGraphicsContext.Allocate%2A&gt;</ph> method.</source>
+          <target state="translated"><ph id="ph1">&lt;xref:System.Drawing.BufferedGraphics&gt;</ph>类没有公共构造函数，并且必须通过创建<ph id="ph2">&lt;xref:System.Drawing.BufferedGraphicsContext&gt;</ph>为应用程序域中使用其<ph id="ph3">&lt;xref:System.Drawing.BufferedGraphicsContext.Allocate%2A&gt;</ph>方法。</target>       </trans-unit>
+        <trans-unit id="111" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Drawing.BufferedGraphics">
+          <source>You can retrieve the <ph id="ph1">&lt;xref:System.Drawing.BufferedGraphicsContext&gt;</ph> for the current application domain from the static <ph id="ph2">&lt;xref:System.Drawing.BufferedGraphicsManager.Current%2A?displayProperty=nameWithType&gt;</ph> property.</source>
+          <target state="translated">你可以检索<ph id="ph1">&lt;xref:System.Drawing.BufferedGraphicsContext&gt;</ph>从静态当前的应用程序域<ph id="ph2">&lt;xref:System.Drawing.BufferedGraphicsManager.Current%2A?displayProperty=nameWithType&gt;</ph>属性。</target>       </trans-unit>
+        <trans-unit id="112" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Drawing.BufferedGraphics">
+          <source>The <ph id="ph1">&lt;xref:System.Drawing.BufferedGraphics.Graphics%2A&gt;</ph> property can be used for drawing to the graphics buffer.</source>
+          <target state="translated"><ph id="ph1">&lt;xref:System.Drawing.BufferedGraphics.Graphics%2A&gt;</ph>属性可以用于绘制到图形缓冲区。</target>       </trans-unit>
+        <trans-unit id="113" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Drawing.BufferedGraphics">
+          <source>This property provides access to the <ph id="ph1">&lt;xref:System.Drawing.Graphics&gt;</ph> object that draws to the graphics buffer allocated for this <ph id="ph2">&lt;xref:System.Drawing.BufferedGraphics&gt;</ph> object.</source>
+          <target state="translated">此属性提供访问权限<ph id="ph1">&lt;xref:System.Drawing.Graphics&gt;</ph>绘制到此分配的图形缓冲区的对象<ph id="ph2">&lt;xref:System.Drawing.BufferedGraphics&gt;</ph>对象。</target>       </trans-unit>
+        <trans-unit id="114" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Drawing.BufferedGraphics">
+          <source>The <ph id="ph1">&lt;xref:System.Drawing.BufferedGraphics.Render%2A&gt;</ph> method with no arguments draws the contents of the graphics buffer to the surface specified when the buffer was allocated.</source>
+          <target state="translated"><ph id="ph1">&lt;xref:System.Drawing.BufferedGraphics.Render%2A&gt;</ph>分配缓冲区时指定与图形的内容缓冲到面没有参数绘制的方法。</target>       </trans-unit>
+        <trans-unit id="115" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Drawing.BufferedGraphics">
+          <source>Other overloads of the <ph id="ph1">&lt;xref:System.Drawing.BufferedGraphics.Render%2A&gt;</ph> method allow you to specify a <ph id="ph2">&lt;xref:System.Drawing.Graphics&gt;</ph> object or an <ph id="ph3">&lt;xref:System.IntPtr&gt;</ph> object that points to a device context to which to draw the contents of the graphics buffer.</source>
+          <target state="translated">其他重载<ph id="ph1">&lt;xref:System.Drawing.BufferedGraphics.Render%2A&gt;</ph>方法允许你指定<ph id="ph2">&lt;xref:System.Drawing.Graphics&gt;</ph>对象或<ph id="ph3">&lt;xref:System.IntPtr&gt;</ph>指向要绘制图形缓冲区的内容到设备上下文的对象。</target>       </trans-unit>
+        <trans-unit id="116" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Drawing.BufferedGraphics">
+          <source>For more information about drawing double-buffered graphics, see <bpt id="p1">[</bpt>Double Buffered Graphics<ept id="p1">](~/docs/framework/winforms/advanced/double-buffered-graphics.md)</ept>.</source>
+          <target state="translated">绘制双缓冲图形的详细信息，请参阅<bpt id="p1">[</bpt>双缓冲图形<ept id="p1">](~/docs/framework/winforms/advanced/double-buffered-graphics.md)</ept>。</target>       </trans-unit>
+        <trans-unit id="117" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Drawing.BufferedGraphics">
+          <source>The following code example demonstrates using a <ph id="ph1">&lt;xref:System.Drawing.BufferedGraphics&gt;</ph> object to draw graphics using several types of buffering implementations.</source>
+          <target state="translated">下面的代码示例演示如何使用<ph id="ph1">&lt;xref:System.Drawing.BufferedGraphics&gt;</ph>要使用的缓冲实现的几种类型的图形绘制对象。</target>       </trans-unit>
+        <trans-unit id="118" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Drawing.BufferedGraphics">
+          <source>Clicking the form alternately starts and stops a timer that causes draw updates.</source>
+          <target state="translated">单击该窗体或者启动和停止计时器引起绘制更新。</target>       </trans-unit>
+        <trans-unit id="119" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Drawing.BufferedGraphics">
+          <source>The draw updates allow you to observe the effect of double buffering.</source>
+          <target state="translated">绘图更新，可以观察的双缓冲效果。</target>       </trans-unit>
+        <trans-unit id="120" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Drawing.BufferedGraphics">
+          <source>Right-clicking the form cycles through the following drawing modes:</source>
+          <target state="translated">右键单击窗体将循环以下绘图模式：</target>       </trans-unit>
+        <trans-unit id="121" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Drawing.BufferedGraphics">
+          <source>Drawing directly to the <ph id="ph1">&lt;xref:System.Windows.Forms.Control.Handle%2A&gt;</ph> for a <ph id="ph2">&lt;xref:System.Windows.Forms.Form&gt;</ph>.</source>
+          <target state="translated">直接绘制到<ph id="ph1">&lt;xref:System.Windows.Forms.Control.Handle%2A&gt;</ph>为<ph id="ph2">&lt;xref:System.Windows.Forms.Form&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="122" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Drawing.BufferedGraphics">
+          <source>Drawing by overriding the <ph id="ph1">&lt;xref:System.Windows.Forms.Form.OnPaint%2A&gt;</ph> method using the <ph id="ph2">&lt;xref:System.Windows.Forms.ControlStyles.OptimizedDoubleBuffer&gt;</ph> control style.</source>
+          <target state="translated">通过重写绘制<ph id="ph1">&lt;xref:System.Windows.Forms.Form.OnPaint%2A&gt;</ph>方法使用<ph id="ph2">&lt;xref:System.Windows.Forms.ControlStyles.OptimizedDoubleBuffer&gt;</ph>控制样式。</target>       </trans-unit>
+        <trans-unit id="123" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Drawing.BufferedGraphics">
+          <source>Drawing by overriding the <ph id="ph1">&lt;xref:System.Windows.Forms.Form.OnPaint%2A&gt;</ph> method for the form method without using the <ph id="ph2">&lt;xref:System.Windows.Forms.ControlStyles.OptimizedDoubleBuffer&gt;</ph> control style.</source>
+          <target state="translated">通过重写绘制<ph id="ph1">&lt;xref:System.Windows.Forms.Form.OnPaint%2A&gt;</ph>方法而无需使用的窗体方法<ph id="ph2">&lt;xref:System.Windows.Forms.ControlStyles.OptimizedDoubleBuffer&gt;</ph>控制样式。</target>       </trans-unit>
+        <trans-unit id="124" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Drawing.BufferedGraphics">
+          <source>In each mode, text is drawn that identifies the current mode and describes the behavior that occurs when each mouse button is pressed.</source>
+          <target state="translated">在每个模式下，绘制文本，用于标识当前模式以及描述当按下的每个鼠标按钮时发生的行为。</target>       </trans-unit>
+        <trans-unit id="125" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Drawing.BufferedGraphics">
+          <source>The <ph id="ph1">&lt;see cref="T:System.Drawing.BufferedGraphics" /&gt;</ph> class is not thread safe.</source>
+          <target state="translated"><ph id="ph1">&lt;see cref="T:System.Drawing.BufferedGraphics" /&gt;</ph> 类不是线程安全的。</target>       </trans-unit>
+        <trans-unit id="126" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Drawing.BufferedGraphics">
+          <source>When accessing a graphics buffer from separate threads, it is important to use a thread-access control mechanism to prevent conflicts.</source>
+          <target state="translated">当从单独的线程访问图形缓冲区，务必使用线程访问控制机制以防止冲突。</target>       </trans-unit>
+        <trans-unit id="127" translate="yes" xml:space="preserve" uid="M:System.Drawing.BufferedGraphics.Dispose">
+          <source>Releases all resources used by the <ph id="ph1">&lt;see cref="T:System.Drawing.BufferedGraphics" /&gt;</ph> object.</source>
+          <target state="translated">释放由 <ph id="ph1">&lt;see cref="T:System.Drawing.BufferedGraphics" /&gt;</ph> 对象使用的所有资源。</target>       </trans-unit>
+        <trans-unit id="128" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Drawing.BufferedGraphics.Dispose">
+          <source>Call <ph id="ph1">&lt;xref:System.Drawing.BufferedGraphics.Dispose%2A&gt;</ph> when you are finished using the <ph id="ph2">&lt;xref:System.Drawing.BufferedGraphics&gt;</ph> object.</source>
+          <target state="translated">调用<ph id="ph1">&lt;xref:System.Drawing.BufferedGraphics.Dispose%2A&gt;</ph>完成之后使用<ph id="ph2">&lt;xref:System.Drawing.BufferedGraphics&gt;</ph>对象。</target>       </trans-unit>
+        <trans-unit id="129" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Drawing.BufferedGraphics.Dispose">
+          <source>The <ph id="ph1">&lt;xref:System.Drawing.BufferedGraphics.Dispose%2A&gt;</ph> method leaves the <ph id="ph2">&lt;xref:System.Drawing.BufferedGraphics&gt;</ph> object in an unusable state.</source>
+          <target state="translated"><ph id="ph1">&lt;xref:System.Drawing.BufferedGraphics.Dispose%2A&gt;</ph>方法使<ph id="ph2">&lt;xref:System.Drawing.BufferedGraphics&gt;</ph>中不可用状态的对象。</target>       </trans-unit>
+        <trans-unit id="130" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Drawing.BufferedGraphics.Dispose">
+          <source>After calling <ph id="ph1">&lt;xref:System.Drawing.BufferedGraphics.Dispose%2A&gt;</ph>, you must release all references to the <ph id="ph2">&lt;xref:System.Drawing.BufferedGraphics&gt;</ph> object so the garbage collector can reclaim the memory that the <ph id="ph3">&lt;xref:System.Drawing.BufferedGraphics&gt;</ph> object was occupying.</source>
+          <target state="translated">在调用<ph id="ph1">&lt;xref:System.Drawing.BufferedGraphics.Dispose%2A&gt;</ph>，必须释放对所有引用<ph id="ph2">&lt;xref:System.Drawing.BufferedGraphics&gt;</ph>对象，以便垃圾回收器才能回收的内存，<ph id="ph3">&lt;xref:System.Drawing.BufferedGraphics&gt;</ph>对象占用。</target>       </trans-unit>
+        <trans-unit id="131" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Drawing.BufferedGraphics.Dispose">
+          <source>For more information, see <bpt id="p1">[</bpt>Cleaning Up Unmanaged Resources<ept id="p1">](~/docs/standard/garbage-collection/unmanaged.md)</ept> and <bpt id="p2">[</bpt>Implementing a Dispose Method<ept id="p2">](~/docs/standard/garbage-collection/implementing-dispose.md)</ept>.</source>
+          <target state="translated">有关详细信息，请参阅<bpt id="p1">[</bpt>清洗向上非托管资源<ept id="p1">](~/docs/standard/garbage-collection/unmanaged.md)</ept>和<bpt id="p2">[</bpt>实现 Dispose 方法<ept id="p2">](~/docs/standard/garbage-collection/implementing-dispose.md)</ept>。</target>       </trans-unit>
+        <trans-unit id="132" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Drawing.BufferedGraphics.Dispose">
+          <source>Always call <ph id="ph1">&lt;xref:System.Drawing.BufferedGraphics.Dispose%2A&gt;</ph> before you release your last reference to the <ph id="ph2">&lt;xref:System.Drawing.BufferedGraphics&gt;</ph> object.</source>
+          <target state="translated">始终调用<ph id="ph1">&lt;xref:System.Drawing.BufferedGraphics.Dispose%2A&gt;</ph>在发布到最后一个引用之前<ph id="ph2">&lt;xref:System.Drawing.BufferedGraphics&gt;</ph>对象。</target>       </trans-unit>
+        <trans-unit id="133" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Drawing.BufferedGraphics.Dispose">
+          <source>Otherwise, the resources it is using will not be freed until the garbage collector calls the <ph id="ph1">&lt;xref:System.Drawing.BufferedGraphics&gt;</ph> object's <ph id="ph2">`Finalize`</ph> method.</source>
+          <target state="translated">否则，在垃圾回收器调用 <ph id="ph1">&lt;xref:System.Drawing.BufferedGraphics&gt;</ph> 对象的 <ph id="ph2">`Finalize`</ph> 方法之前，该对象正在使用的资源不会被释放。</target>       </trans-unit>
+        <trans-unit id="134" translate="yes" xml:space="preserve" uid="M:System.Drawing.BufferedGraphics.Finalize">
+          <source>Allows an object to try to free resources and perform other cleanup operations before it is reclaimed by garbage collection.</source>
+          <target state="translated">在垃圾回收将某一对象回收前允许该对象尝试释放资源并执行其他清理操作。</target>       </trans-unit>
+        <trans-unit id="135" translate="yes" xml:space="preserve" uid="P:System.Drawing.BufferedGraphics.Graphics">
+          <source>Gets a <ph id="ph1">&lt;see cref="T:System.Drawing.Graphics" /&gt;</ph> object that outputs to the graphics buffer.</source>
+          <target state="translated">获取输出到图形缓冲区的 <ph id="ph1">&lt;see cref="T:System.Drawing.Graphics" /&gt;</ph> 对象。</target>       </trans-unit>
+        <trans-unit id="136" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Drawing.BufferedGraphics.Graphics">
+          <source>A <ph id="ph1">&lt;see cref="T:System.Drawing.Graphics" /&gt;</ph> object that outputs to the graphics buffer.</source>
+          <target state="translated">输出到图形缓冲区的 <ph id="ph1">&lt;see cref="T:System.Drawing.Graphics" /&gt;</ph> 对象。</target>       </trans-unit>
+        <trans-unit id="137" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Drawing.BufferedGraphics.Graphics">
+          <source>This property provides a <ph id="ph1">&lt;xref:System.Drawing.Graphics&gt;</ph> object that draws to the graphics buffer allocated for this <ph id="ph2">&lt;xref:System.Drawing.BufferedGraphics&gt;</ph> object.</source>
+          <target state="translated">此属性提供<ph id="ph1">&lt;xref:System.Drawing.Graphics&gt;</ph>绘制到此分配的图形缓冲区的对象<ph id="ph2">&lt;xref:System.Drawing.BufferedGraphics&gt;</ph>对象。</target>       </trans-unit>
+        <trans-unit id="138" translate="yes" xml:space="preserve" uid="T:System.Drawing.BufferedGraphics">
+          <source>Writes the contents of the graphics buffer.</source>
+          <target state="translated">写入图形缓冲区的内容。</target>       </trans-unit>
+        <trans-unit id="139" translate="yes" xml:space="preserve" uid="M:System.Drawing.BufferedGraphics.Render">
+          <source>Writes the contents of the graphics buffer to the default device.</source>
+          <target state="translated">将图形缓冲区的内容写入默认设备。</target>       </trans-unit>
+        <trans-unit id="140" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Drawing.BufferedGraphics.Render">
+          <source>This method writes the contents of the graphics buffer to the device specified by calling the <ph id="ph1">&lt;xref:System.Drawing.BufferedGraphicsContext.Allocate%2A&gt;</ph> method of the <ph id="ph2">&lt;xref:System.Drawing.BufferedGraphicsContext&gt;</ph> used to create this <ph id="ph3">&lt;xref:System.Drawing.BufferedGraphics&gt;</ph> object.</source>
+          <target state="translated">此方法将图形缓冲区的内容写入到通过调用指定的设备<ph id="ph1">&lt;xref:System.Drawing.BufferedGraphicsContext.Allocate%2A&gt;</ph>方法<ph id="ph2">&lt;xref:System.Drawing.BufferedGraphicsContext&gt;</ph>用于创建此<ph id="ph3">&lt;xref:System.Drawing.BufferedGraphics&gt;</ph>对象。</target>       </trans-unit>
+        <trans-unit id="141" translate="yes" xml:space="preserve" uid="M:System.Drawing.BufferedGraphics.Render(System.Drawing.Graphics)">
+          <source>A <ph id="ph1">&lt;see cref="T:System.Drawing.Graphics" /&gt;</ph> object to which to write the contents of the graphics buffer.</source>
+          <target state="translated">一个 <ph id="ph1">&lt;see cref="T:System.Drawing.Graphics" /&gt;</ph> 对象，要向其中写入图形缓冲区的内容。</target>       </trans-unit>
+        <trans-unit id="142" translate="yes" xml:space="preserve" uid="M:System.Drawing.BufferedGraphics.Render(System.Drawing.Graphics)">
+          <source>Writes the contents of the graphics buffer to the specified <ph id="ph1">&lt;see cref="T:System.Drawing.Graphics" /&gt;</ph> object.</source>
+          <target state="translated">将图形缓冲区的内容写入指定的 <ph id="ph1">&lt;see cref="T:System.Drawing.Graphics" /&gt;</ph> 对象。</target>       </trans-unit>
+        <trans-unit id="143" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Drawing.BufferedGraphics.Render(System.Drawing.Graphics)">
+          <source>This method writes the contents of the graphics buffer to the specified <ph id="ph1">&lt;xref:System.Drawing.Graphics&gt;</ph> object.</source>
+          <target state="translated">此方法将图形缓冲区的内容写入指定<ph id="ph1">&lt;xref:System.Drawing.Graphics&gt;</ph>对象。</target>       </trans-unit>
+        <trans-unit id="144" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Drawing.BufferedGraphics.Render(System.Drawing.Graphics)">
+          <source>The following code example demonstrates rendering the contents of the graphics buffer to a specified <ph id="ph1">&lt;xref:System.Drawing.Graphics&gt;</ph> object.</source>
+          <target state="translated">下面的代码示例演示如何呈现到指定的图形缓冲区的内容<ph id="ph1">&lt;xref:System.Drawing.Graphics&gt;</ph>对象。</target>       </trans-unit>
+        <trans-unit id="145" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Drawing.BufferedGraphics.Render(System.Drawing.Graphics)">
+          <source>This code is part of a larger example provided for the <ph id="ph1">&lt;xref:System.Drawing.BufferedGraphics&gt;</ph> class.</source>
+          <target state="translated">此代码摘自更大的示例为提供<ph id="ph1">&lt;xref:System.Drawing.BufferedGraphics&gt;</ph>类。</target>       </trans-unit>
+        <trans-unit id="146" translate="yes" xml:space="preserve" uid="M:System.Drawing.BufferedGraphics.Render(System.IntPtr)">
+          <source>An <ph id="ph1">&lt;see cref="T:System.IntPtr" /&gt;</ph> that points to the device context to which to write the contents of the graphics buffer.</source>
+          <target state="translated"><ph id="ph1">&lt;see cref="T:System.IntPtr" /&gt;</ph> 指向设备上下文，图形缓冲区的内容将被写入这个设备上下文。</target>       </trans-unit>
+        <trans-unit id="147" translate="yes" xml:space="preserve" uid="M:System.Drawing.BufferedGraphics.Render(System.IntPtr)">
+          <source>Writes the contents of the graphics buffer to the device context associated with the specified <ph id="ph1">&lt;see cref="T:System.IntPtr" /&gt;</ph> handle.</source>
+          <target state="translated">将图形缓冲区的内容写入与指定的 <ph id="ph1">&lt;see cref="T:System.IntPtr" /&gt;</ph> 句柄关联的设备上下文。</target>       </trans-unit>
+        <trans-unit id="148" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Drawing.BufferedGraphics.Render(System.IntPtr)">
+          <source>This method writes the contents of the graphics buffer to the device context associated with the specified <ph id="ph1">&lt;xref:System.IntPtr&gt;</ph> handle.</source>
+          <target state="translated">此方法将图形缓冲区的内容写入与指定关联的设备上下文<ph id="ph1">&lt;xref:System.IntPtr&gt;</ph>处理。</target>       </trans-unit>
+        <trans-unit id="149" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Drawing.BufferedGraphics.Render(System.IntPtr)">
+          <source>The following code example demonstrates how to render the contents of the graphics buffer <ph id="ph1">`grafx`</ph> to a specified device context.</source>
+          <target state="translated">下面的代码示例演示如何呈现图形缓冲区的内容<ph id="ph1">`grafx`</ph>到指定的设备上下文。</target>       </trans-unit>
+        <trans-unit id="150" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Drawing.BufferedGraphics.Render(System.IntPtr)">
+          <source>This code is part of a larger example provided for the <ph id="ph1">&lt;xref:System.Drawing.BufferedGraphics&gt;</ph> class.</source>
+          <target state="translated">此代码摘自更大的示例为提供<ph id="ph1">&lt;xref:System.Drawing.BufferedGraphics&gt;</ph>类。</target>       </trans-unit>
+        <trans-unit id="151" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Drawing.BufferedGraphics.Render(System.IntPtr)">
+          <source>for access to unmanaged code.</source>
+          <target state="translated">用于访问非托管代码。</target>       </trans-unit>
+        <trans-unit id="152" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Drawing.BufferedGraphics.Render(System.IntPtr)">
+          <source>Related enumeration: <ph id="ph1">&lt;see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /&gt;</ph>.</source>
+          <target state="translated">相关枚举： <ph id="ph1">&lt;see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /&gt;</ph>。</target>       </trans-unit>
+      </group>
+    </body>
+  </file>
+</xliff>

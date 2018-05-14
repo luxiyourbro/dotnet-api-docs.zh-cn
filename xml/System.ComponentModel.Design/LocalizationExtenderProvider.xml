@@ -1,604 +1,210 @@
-<Type Name="LocalizationExtenderProvider" FullName="System.ComponentModel.Design.LocalizationExtenderProvider">
-  <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="3e2ec870a14f740d348390c1d0786db30c200dfd" />
-    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
-    <Meta Name="ms.translationtype" Value="HT" />
-    <Meta Name="ms.contentlocale" Value="zh-CN" />
-    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
-  </Metadata>
-  <TypeSignature Language="C#" Value="public class LocalizationExtenderProvider : IDisposable, System.ComponentModel.IExtenderProvider" />
-  <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit LocalizationExtenderProvider extends System.Object implements class System.ComponentModel.IExtenderProvider, class System.IDisposable" />
-  <TypeSignature Language="DocId" Value="T:System.ComponentModel.Design.LocalizationExtenderProvider" />
-  <TypeSignature Language="VB.NET" Value="Public Class LocalizationExtenderProvider&#xA;Implements IDisposable, IExtenderProvider" />
-  <TypeSignature Language="C++ CLI" Value="public ref class LocalizationExtenderProvider : IDisposable, System::ComponentModel::IExtenderProvider" />
-  <AssemblyInfo>
-    <AssemblyName>System.Design</AssemblyName>
-    <AssemblyVersion>4.0.0.0</AssemblyVersion>
-  </AssemblyInfo>
-  <Base>
-    <BaseTypeName>System.Object</BaseTypeName>
-  </Base>
-  <Interfaces>
-    <Interface>
-      <InterfaceName>System.ComponentModel.IExtenderProvider</InterfaceName>
-    </Interface>
-    <Interface>
-      <InterfaceName>System.IDisposable</InterfaceName>
-    </Interface>
-  </Interfaces>
-  <Attributes>
-    <Attribute>
-      <AttributeName>System.ComponentModel.ProvideProperty("Language", typeof(System.Object))</AttributeName>
-    </Attribute>
-    <Attribute>
-      <AttributeName>System.ComponentModel.ProvideProperty("LoadLanguage", typeof(System.Object))</AttributeName>
-    </Attribute>
-    <Attribute>
-      <AttributeName>System.ComponentModel.ProvideProperty("Localizable", typeof(System.Object))</AttributeName>
-    </Attribute>
-    <Attribute>
-      <AttributeName>System.Obsolete("This class has been deprecated. Use CodeDomLocalizationProvider instead.  http://go.microsoft.com/fwlink/?linkid=14202")</AttributeName>
-    </Attribute>
-  </Attributes>
-  <Docs>
-    <summary>
-      <span data-ttu-id="d31ae-101">向根设计器提供本地化功能的设计时支持。</span>
-      <span class="sxs-lookup">
-        <span data-stu-id="d31ae-101">Provides design-time support for localization features to a root designer.</span>
-      </span>
-    </summary>
-    <remarks>
-      <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="d31ae-102"><xref:System.ComponentModel.Design.LocalizationExtenderProvider> 可以扩展<xref:System.ComponentModel.Design.IRootDesigner>使用一组的属性和方法对于.NET Framework 本地化体系结构提供支持。</span><span class="sxs-lookup"><span data-stu-id="d31ae-102"><xref:System.ComponentModel.Design.LocalizationExtenderProvider> can extend an <xref:System.ComponentModel.Design.IRootDesigner> with a set of properties and methods that provide support for the .NET Framework localization architecture.</span></span> <span data-ttu-id="d31ae-103">有关使用资源的详细信息，请参阅[本地化](~/docs/standard/globalization-localization/localization.md)。</span><span class="sxs-lookup"><span data-stu-id="d31ae-103">For more about using resources, see [Localization](~/docs/standard/globalization-localization/localization.md).</span></span>  
-  
- <span data-ttu-id="d31ae-104">本地化支持体系结构使设计器来初始化使用资源文件可以在运行时以支持多种语言、 特定于区域性的样式和动态可配置功能的交换的组件属性。</span><span class="sxs-lookup"><span data-stu-id="d31ae-104">The localization support architecture enables designers to initialize component properties using resource files that can be swapped at run time to support a variety of languages, culture-specific styles and dynamically configurable features.</span></span> <span data-ttu-id="d31ae-105">此类的方法可用于使设计器和代码生成序列化程序以从资源加载和生成使用本地化功能的初始化代码。</span><span class="sxs-lookup"><span data-stu-id="d31ae-105">You can use the methods of this class to enable designers and code generating serializers to load from resources and build initialization code that uses localization features.</span></span>  
-  
- <span data-ttu-id="d31ae-106">默认序列化程序附带有 Visual Studio 已能够本地化组件和控件，但它们仅在这样做如果它们查找支持的.NET Framework 本地化体系结构。</span><span class="sxs-lookup"><span data-stu-id="d31ae-106">The default serializers that ship with Visual Studio are already capable of localizing components and controls, but they only do so if they locate support for the .NET Framework localization architecture.</span></span> <span data-ttu-id="d31ae-107">若要检测的本地化支持的状态，序列化系统必须找到公共<xref:System.Boolean>上根设计器组件名为"Localizable"的属性。</span><span class="sxs-lookup"><span data-stu-id="d31ae-107">To detect the presence of localization support, the serialization system must locate a public <xref:System.Boolean> property named "Localizable" on the root designer component.</span></span> <span data-ttu-id="d31ae-108">如果序列化程序找到此属性，它搜索类型的属性<xref:System.Globalization.CultureInfo>名为"语言"来确定当前的资源配置。</span><span class="sxs-lookup"><span data-stu-id="d31ae-108">If a serializer finds this property, it searches for a property of type <xref:System.Globalization.CultureInfo> named "Language" to determine the current resource configuration.</span></span> <span data-ttu-id="d31ae-109">默认序列化程序使用这些属性以确定是否应该进行本地化的组件，任何可本地化的资源，以及如果是这样，什么<xref:System.Globalization.CultureInfo>应中保存的资源信息的格式。</span><span class="sxs-lookup"><span data-stu-id="d31ae-109">Default serializers use these properties to determine if it should localize any localizable resources of the component, and if so, what <xref:System.Globalization.CultureInfo> format the resource information should be saved in.</span></span>  
-  
-   
-  
-## Examples  
- <span data-ttu-id="d31ae-110">下面的代码示例将添加<xref:System.ComponentModel.Design.LocalizationExtenderProvider>到组件。</span><span class="sxs-lookup"><span data-stu-id="d31ae-110">The following code example adds a <xref:System.ComponentModel.Design.LocalizationExtenderProvider> to a component.</span></span>  
-  
- [!code-cpp[LocalizationExtenderProviderExample#2](~/samples/snippets/cpp/VS_Snippets_Winforms/LocalizationExtenderProviderExample/CPP/class1.cpp#2)]
- [!code-csharp[LocalizationExtenderProviderExample#2](~/samples/snippets/csharp/VS_Snippets_Winforms/LocalizationExtenderProviderExample/CS/class1.cs#2)]
- [!code-vb[LocalizationExtenderProviderExample#2](~/samples/snippets/visualbasic/VS_Snippets_Winforms/LocalizationExtenderProviderExample/VB/class1.vb#2)]  
-  
- <span data-ttu-id="d31ae-111">下面的代码示例包括示例组件和设计器。</span><span class="sxs-lookup"><span data-stu-id="d31ae-111">The following code example includes an example component and designer.</span></span> <span data-ttu-id="d31ae-112">该设计器使用<xref:System.ComponentModel.Design.LocalizationExtenderProvider>添加组件的本地化支持属性。</span><span class="sxs-lookup"><span data-stu-id="d31ae-112">The designer uses a <xref:System.ComponentModel.Design.LocalizationExtenderProvider> to add localization support properties for the component.</span></span>  
-  
- [!code-cpp[LocalizationExtenderProviderExample#1](~/samples/snippets/cpp/VS_Snippets_Winforms/LocalizationExtenderProviderExample/CPP/class1.cpp#1)]
- [!code-csharp[LocalizationExtenderProviderExample#1](~/samples/snippets/csharp/VS_Snippets_Winforms/LocalizationExtenderProviderExample/CS/class1.cs#1)]
- [!code-vb[LocalizationExtenderProviderExample#1](~/samples/snippets/visualbasic/VS_Snippets_Winforms/LocalizationExtenderProviderExample/VB/class1.vb#1)]  
-  
- ]]></format>
-    </remarks>
-  </Docs>
-  <Members>
-    <Member MemberName=".ctor">
-      <MemberSignature Language="C#" Value="public LocalizationExtenderProvider (System.ComponentModel.ISite serviceProvider, System.ComponentModel.IComponent baseComponent);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(class System.ComponentModel.ISite serviceProvider, class System.ComponentModel.IComponent baseComponent) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.ComponentModel.Design.LocalizationExtenderProvider.#ctor(System.ComponentModel.ISite,System.ComponentModel.IComponent)" />
-      <MemberSignature Language="VB.NET" Value="Public Sub New (serviceProvider As ISite, baseComponent As IComponent)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; LocalizationExtenderProvider(System::ComponentModel::ISite ^ serviceProvider, System::ComponentModel::IComponent ^ baseComponent);" />
-      <MemberType>Constructor</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Design</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Parameters>
-        <Parameter Name="serviceProvider" Type="System.ComponentModel.ISite" />
-        <Parameter Name="baseComponent" Type="System.ComponentModel.IComponent" />
-      </Parameters>
-      <Docs>
-        <param name="serviceProvider">
-          <span data-ttu-id="d31ae-113">指定组件的服务提供程序。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d31ae-113">A service provider for the specified component.</span>
-          </span>
-        </param>
-        <param name="baseComponent">
-          <span data-ttu-id="d31ae-114">要本地化的基组件。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d31ae-114">The base component to localize.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="d31ae-115">使用指定的服务提供程序和基组件初始化 <see cref="T:System.ComponentModel.Design.LocalizationExtenderProvider" /> 类的新实例。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d31ae-115">Initializes a new instance of the <see cref="T:System.ComponentModel.Design.LocalizationExtenderProvider" /> class using the specified service provider and base component.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="d31ae-116">默认情况下，新<xref:System.ComponentModel.Design.LocalizationExtenderProvider>将当前语言设置为<xref:System.Globalization.CultureInfo.InvariantCulture%2A>，即泛型对象，且默认语言资源设置。</span><span class="sxs-lookup"><span data-stu-id="d31ae-116">By default, a new <xref:System.ComponentModel.Design.LocalizationExtenderProvider> sets the current language to <xref:System.Globalization.CultureInfo.InvariantCulture%2A>, which is the generic and default language resource setting.</span></span> <span data-ttu-id="d31ae-117">此设置会使设计器生成引用泛型语言资源的代码。</span><span class="sxs-lookup"><span data-stu-id="d31ae-117">This setting causes a designer to generate code that references the generic language resource.</span></span> <span data-ttu-id="d31ae-118">您可以创建其他<xref:System.Globalization.CultureInfo>对象来表示和标识其他本地化程序可以在运行时使用的资源数据。</span><span class="sxs-lookup"><span data-stu-id="d31ae-118">You can create other <xref:System.Globalization.CultureInfo> objects to represent and identify other localized resource data that a program can use at run time.</span></span>  
-  
-   
-  
-## Examples  
- <span data-ttu-id="d31ae-119">下面的代码示例创建一个新<xref:System.ComponentModel.Design.LocalizationExtenderProvider>对象。</span><span class="sxs-lookup"><span data-stu-id="d31ae-119">The following code example creates a new <xref:System.ComponentModel.Design.LocalizationExtenderProvider> object.</span></span>  
-  
- [!code-cpp[LocalizationExtenderProviderExample#2](~/samples/snippets/cpp/VS_Snippets_Winforms/LocalizationExtenderProviderExample/CPP/class1.cpp#2)]
- [!code-csharp[LocalizationExtenderProviderExample#2](~/samples/snippets/csharp/VS_Snippets_Winforms/LocalizationExtenderProviderExample/CS/class1.cs#2)]
- [!code-vb[LocalizationExtenderProviderExample#2](~/samples/snippets/visualbasic/VS_Snippets_Winforms/LocalizationExtenderProviderExample/VB/class1.vb#2)]  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="CanExtend">
-      <MemberSignature Language="C#" Value="public bool CanExtend (object o);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance bool CanExtend(object o) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.ComponentModel.Design.LocalizationExtenderProvider.CanExtend(System.Object)" />
-      <MemberSignature Language="VB.NET" Value="Public Function CanExtend (o As Object) As Boolean" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual bool CanExtend(System::Object ^ o);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Design</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Boolean</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="o" Type="System.Object" />
-      </Parameters>
-      <Docs>
-        <param name="o">
-          <span data-ttu-id="d31ae-120">要接收扩展程序属性的对象。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d31ae-120">The object to receive the extender properties.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="d31ae-121">指示此对象是否可以将其扩展程序属性提供给指定的对象。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d31ae-121">Indicates whether this object can provide its extender properties to the specified object.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="d31ae-122">如果此对象可以扩展程序属性提供给指定对象，则为 <see langword="true" />；否则为 <see langword="false" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d31ae-122">
-              <see langword="true" /> if this object can provide extender properties to the specified object; otherwise, <see langword="false" />.</span>
-          </span>
-        </returns>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <MemberGroup MemberName="Dispose">
-      <AssemblyInfo>
-        <AssemblyName>System.Design</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Docs>
-        <summary>
-          <span data-ttu-id="d31ae-123">释放由 <see cref="T:System.ComponentModel.Design.LocalizationExtenderProvider" /> 占用的资源。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d31ae-123">Releases the resources used by the <see cref="T:System.ComponentModel.Design.LocalizationExtenderProvider" />.</span>
-          </span>
-        </summary>
-      </Docs>
-    </MemberGroup>
-    <Member MemberName="Dispose">
-      <MemberSignature Language="C#" Value="public void Dispose ();" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void Dispose() cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.ComponentModel.Design.LocalizationExtenderProvider.Dispose" />
-      <MemberSignature Language="VB.NET" Value="Public Sub Dispose ()" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual void Dispose();" />
-      <MemberType>Method</MemberType>
-      <Implements>
-        <InterfaceMember>M:System.IDisposable.Dispose</InterfaceMember>
-      </Implements>
-      <AssemblyInfo>
-        <AssemblyName>System.Design</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters />
-      <Docs>
-        <summary>
-          <span data-ttu-id="d31ae-124">处置由 <see cref="T:System.ComponentModel.Design.LocalizationExtenderProvider" /> 占用的资源（内存除外）。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d31ae-124">Disposes of the resources (other than memory) used by the <see cref="T:System.ComponentModel.Design.LocalizationExtenderProvider" />.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="d31ae-125">在完成使用 <xref:System.ComponentModel.Design.LocalizationExtenderProvider.Dispose%2A> 后，应调用 <xref:System.ComponentModel.Design.LocalizationExtenderProvider>。</span><span class="sxs-lookup"><span data-stu-id="d31ae-125">Call <xref:System.ComponentModel.Design.LocalizationExtenderProvider.Dispose%2A> when you are finished using the <xref:System.ComponentModel.Design.LocalizationExtenderProvider>.</span></span> <span data-ttu-id="d31ae-126"><xref:System.ComponentModel.Design.LocalizationExtenderProvider.Dispose%2A> 方法使 <xref:System.ComponentModel.Design.LocalizationExtenderProvider> 处于不可用状态。</span><span class="sxs-lookup"><span data-stu-id="d31ae-126">The <xref:System.ComponentModel.Design.LocalizationExtenderProvider.Dispose%2A> method leaves the <xref:System.ComponentModel.Design.LocalizationExtenderProvider> in an unusable state.</span></span> <span data-ttu-id="d31ae-127">在调用<xref:System.ComponentModel.Design.LocalizationExtenderProvider.Dispose%2A>，必须释放对所有引用<xref:System.ComponentModel.Design.LocalizationExtenderProvider>以便垃圾回收器才能回收的内存，<xref:System.ComponentModel.Design.LocalizationExtenderProvider>占用。</span><span class="sxs-lookup"><span data-stu-id="d31ae-127">After calling <xref:System.ComponentModel.Design.LocalizationExtenderProvider.Dispose%2A>, you must release all references to the <xref:System.ComponentModel.Design.LocalizationExtenderProvider> so the garbage collector can reclaim the memory that the <xref:System.ComponentModel.Design.LocalizationExtenderProvider> was occupying.</span></span> <span data-ttu-id="d31ae-128">有关详细信息，请参阅[清洗向上非托管资源](~/docs/standard/garbage-collection/unmanaged.md)和[实现 Dispose 方法](~/docs/standard/garbage-collection/implementing-dispose.md)。</span><span class="sxs-lookup"><span data-stu-id="d31ae-128">For more information, see [Cleaning Up Unmanaged Resources](~/docs/standard/garbage-collection/unmanaged.md) and [Implementing a Dispose Method](~/docs/standard/garbage-collection/implementing-dispose.md).</span></span>  
-  
-> [!NOTE]
->  <span data-ttu-id="d31ae-129">每次释放对 <xref:System.ComponentModel.Design.LocalizationExtenderProvider.Dispose%2A> 的最后一个引用前，均应调用 <xref:System.ComponentModel.Design.LocalizationExtenderProvider>。</span><span class="sxs-lookup"><span data-stu-id="d31ae-129">Always call <xref:System.ComponentModel.Design.LocalizationExtenderProvider.Dispose%2A> before you release your last reference to the <xref:System.ComponentModel.Design.LocalizationExtenderProvider>.</span></span> <span data-ttu-id="d31ae-130">否则，在垃圾回收器调用 <xref:System.ComponentModel.Design.LocalizationExtenderProvider> 对象的 `Finalize` 方法之前，该对象正在使用的资源不会被释放。</span><span class="sxs-lookup"><span data-stu-id="d31ae-130">Otherwise, the resources it is using will not be freed until the garbage collector calls the <xref:System.ComponentModel.Design.LocalizationExtenderProvider> object's `Finalize` method.</span></span>  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="Dispose">
-      <MemberSignature Language="C#" Value="protected virtual void Dispose (bool disposing);" />
-      <MemberSignature Language="ILAsm" Value=".method familyhidebysig newslot virtual instance void Dispose(bool disposing) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.ComponentModel.Design.LocalizationExtenderProvider.Dispose(System.Boolean)" />
-      <MemberSignature Language="VB.NET" Value="Protected Overridable Sub Dispose (disposing As Boolean)" />
-      <MemberSignature Language="C++ CLI" Value="protected:&#xA; virtual void Dispose(bool disposing);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Design</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="disposing" Type="System.Boolean" />
-      </Parameters>
-      <Docs>
-        <param name="disposing">
-          <span data-ttu-id="d31ae-131">若要释放托管资源和非托管资源，则为 <see langword="true" />；若仅释放非托管资源，则为 <see langword="false" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d31ae-131">
-              <see langword="true" /> to release both managed and unmanaged resources; <see langword="false" /> to release only unmanaged resources.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="d31ae-132">释放由 <see cref="T:System.ComponentModel.Design.LocalizationExtenderProvider" /> 占用的非托管资源，还可以另外再释放托管资源。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d31ae-132">Releases the unmanaged resources used by the <see cref="T:System.ComponentModel.Design.LocalizationExtenderProvider" /> and optionally releases the managed resources.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="d31ae-133">此方法称为由公共`Dispose()`方法和<xref:System.Object.Finalize%2A>方法。</span><span class="sxs-lookup"><span data-stu-id="d31ae-133">This method is called by the public `Dispose()` method and the <xref:System.Object.Finalize%2A> method.</span></span> <span data-ttu-id="d31ae-134">`Dispose()` 调用受保护`Dispose(Boolean)`方法替换`disposing`参数设置为`true`。</span><span class="sxs-lookup"><span data-stu-id="d31ae-134">`Dispose()` invokes the protected `Dispose(Boolean)` method with the `disposing` parameter set to `true`.</span></span> <span data-ttu-id="d31ae-135"><xref:System.Object.Finalize%2A> 调用`Dispose`与`disposing`设置为`false`。</span><span class="sxs-lookup"><span data-stu-id="d31ae-135"><xref:System.Object.Finalize%2A> invokes `Dispose` with `disposing` set to `false`.</span></span>  
-  
- <span data-ttu-id="d31ae-136">当`disposing`参数为 true 时，此方法释放由任何托管对象持有的全部资源此<xref:System.ComponentModel.Design.LocalizationExtenderProvider>引用。</span><span class="sxs-lookup"><span data-stu-id="d31ae-136">When the `disposing` parameter is true, this method releases all resources held by any managed objects that this <xref:System.ComponentModel.Design.LocalizationExtenderProvider> references.</span></span> <span data-ttu-id="d31ae-137">此方法调用每个引用对象的 `Dispose()` 方法。</span><span class="sxs-lookup"><span data-stu-id="d31ae-137">This method invokes the `Dispose()` method of each referenced object.</span></span>  
-  
- ]]></format>
-        </remarks>
-        <block subset="none" type="overrides">
-          <para>
-            <span data-ttu-id="d31ae-138">
-              <see langword="Dispose" /> 可以由其他对象多次调用。</span>
-            <span class="sxs-lookup">
-              <span data-stu-id="d31ae-138">
-                <see langword="Dispose" /> can be called multiple times by other objects.</span>
-            </span>
-            <span data-ttu-id="d31ae-139">在重写<see langword="Dispose(Boolean)" />请注意不要引用已释放的以前调用中的对象<see langword="Dispose" />。</span>
-            <span class="sxs-lookup">
-              <span data-stu-id="d31ae-139">When overriding <see langword="Dispose(Boolean)" /> be careful not to reference objects that have been previously disposed of in an earlier call to <see langword="Dispose" />.</span>
-            </span>
-            <span data-ttu-id="d31ae-140">有关如何实现详细信息<see langword="Dispose(Boolean)" />，请参阅[实现 Dispose 方法](~/docs/standard/garbage-collection/implementing-dispose.md)。</span>
-            <span class="sxs-lookup">
-              <span data-stu-id="d31ae-140">For more information about how to implement <see langword="Dispose(Boolean)" />, see [Implementing a Dispose Method](~/docs/standard/garbage-collection/implementing-dispose.md).</span>
-            </span>
-            <span data-ttu-id="d31ae-141">有关详细信息<see langword="Dispose" />和<see cref="M:System.Object.Finalize" />，请参阅[清洗向上非托管资源](~/docs/standard/garbage-collection/unmanaged.md)和[重写 Finalize 方法](http://msdn.microsoft.com/library/8026cb68-fe93-43fc-96c1-c09ad7d64cd3)。</span>
-            <span class="sxs-lookup">
-              <span data-stu-id="d31ae-141">For more information about <see langword="Dispose" /> and <see cref="M:System.Object.Finalize" />, see [Cleaning Up Unmanaged Resources](~/docs/standard/garbage-collection/unmanaged.md) and [Overriding the Finalize Method](http://msdn.microsoft.com/library/8026cb68-fe93-43fc-96c1-c09ad7d64cd3).</span>
-            </span>
-          </para>
-        </block>
-      </Docs>
-    </Member>
-    <Member MemberName="GetLanguage">
-      <MemberSignature Language="C#" Value="public System.Globalization.CultureInfo GetLanguage (object o);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class System.Globalization.CultureInfo GetLanguage(object o) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.ComponentModel.Design.LocalizationExtenderProvider.GetLanguage(System.Object)" />
-      <MemberSignature Language="VB.NET" Value="Public Function GetLanguage (o As Object) As CultureInfo" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; System::Globalization::CultureInfo ^ GetLanguage(System::Object ^ o);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Design</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Attributes>
-        <Attribute>
-          <AttributeName>System.ComponentModel.DesignOnly(true)</AttributeName>
-        </Attribute>
-        <Attribute>
-          <AttributeName>System.ComponentModel.Localizable(true)</AttributeName>
-        </Attribute>
-      </Attributes>
-      <ReturnValue>
-        <ReturnType>System.Globalization.CultureInfo</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="o" Type="System.Object" />
-      </Parameters>
-      <Docs>
-        <param name="o">
-          <span data-ttu-id="d31ae-142">要获取其当前资源区域性的对象。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d31ae-142">The object to get the current resource culture for.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="d31ae-143">获取指定对象的当前资源区域性。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d31ae-143">Gets the current resource culture for the specified object.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="d31ae-144">指示资源种类的 <see cref="T:System.Globalization.CultureInfo" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d31ae-144">A <see cref="T:System.Globalization.CultureInfo" /> indicating the resource variety.</span>
-          </span>
-        </returns>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="d31ae-145">此方法返回用于访问指定的对象的资源数据的当前资源区域性。</span><span class="sxs-lookup"><span data-stu-id="d31ae-145">This method returns the current resource culture used to access resource data for the specified object.</span></span>  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="GetLoadLanguage">
-      <MemberSignature Language="C#" Value="public System.Globalization.CultureInfo GetLoadLanguage (object o);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class System.Globalization.CultureInfo GetLoadLanguage(object o) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.ComponentModel.Design.LocalizationExtenderProvider.GetLoadLanguage(System.Object)" />
-      <MemberSignature Language="VB.NET" Value="Public Function GetLoadLanguage (o As Object) As CultureInfo" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; System::Globalization::CultureInfo ^ GetLoadLanguage(System::Object ^ o);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Design</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Attributes>
-        <Attribute>
-          <AttributeName>System.ComponentModel.Browsable(false)</AttributeName>
-        </Attribute>
-        <Attribute>
-          <AttributeName>System.ComponentModel.DesignerSerializationVisibility</AttributeName>
-        </Attribute>
-        <Attribute>
-          <AttributeName>System.ComponentModel.DesignOnly(true)</AttributeName>
-        </Attribute>
-      </Attributes>
-      <ReturnValue>
-        <ReturnType>System.Globalization.CultureInfo</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="o" Type="System.Object" />
-      </Parameters>
-      <Docs>
-        <param name="o">
-          <span data-ttu-id="d31ae-146">要获取其资源区域性的对象。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d31ae-146">The object to get the resource culture for.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="d31ae-147">获取默认的资源区域性，在设计时初始化本地化对象的值时将使用该区域性。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d31ae-147">Gets the default resource culture to use when initializing the values of a localized object at design time.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="d31ae-148">
-            <see cref="T:System.Globalization.CultureInfo" />，指示用于初始化指定对象的值的资源区域性。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d31ae-148">A <see cref="T:System.Globalization.CultureInfo" /> indicating the resource culture to use to initialize the values of the specified object.</span>
-          </span>
-        </returns>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="GetLocalizable">
-      <MemberSignature Language="C#" Value="public bool GetLocalizable (object o);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance bool GetLocalizable(object o) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.ComponentModel.Design.LocalizationExtenderProvider.GetLocalizable(System.Object)" />
-      <MemberSignature Language="VB.NET" Value="Public Function GetLocalizable (o As Object) As Boolean" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; bool GetLocalizable(System::Object ^ o);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Design</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Attributes>
-        <Attribute>
-          <AttributeName>System.ComponentModel.DesignOnly(true)</AttributeName>
-        </Attribute>
-        <Attribute>
-          <AttributeName>System.ComponentModel.Localizable(true)</AttributeName>
-        </Attribute>
-      </Attributes>
-      <ReturnValue>
-        <ReturnType>System.Boolean</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="o" Type="System.Object" />
-      </Parameters>
-      <Docs>
-        <param name="o">
-          <span data-ttu-id="d31ae-149">要检查本地化支持的对象。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d31ae-149">The object to check for localization support.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="d31ae-150">获取一个值，用以指示指定对象是否支持资源本地化。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d31ae-150">Gets a value indicating whether the specified object supports resource localization.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="d31ae-151">如果指定对象支持资源本地化，则为 <see langword="true" />；否则为 <see langword="false" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d31ae-151">
-              <see langword="true" /> if the specified object supports resource localization; otherwise, <see langword="false" />.</span>
-          </span>
-        </returns>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="ResetLanguage">
-      <MemberSignature Language="C#" Value="public void ResetLanguage (object o);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void ResetLanguage(object o) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.ComponentModel.Design.LocalizationExtenderProvider.ResetLanguage(System.Object)" />
-      <MemberSignature Language="VB.NET" Value="Public Sub ResetLanguage (o As Object)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; void ResetLanguage(System::Object ^ o);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Design</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="o" Type="System.Object" />
-      </Parameters>
-      <Docs>
-        <param name="o">
-          <span data-ttu-id="d31ae-152">要重置其资源区域性的对象。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d31ae-152">The object to reset the resource culture for.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="d31ae-153">重置指定对象的资源区域性。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d31ae-153">Resets the resource culture for the specified object.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="d31ae-154">如果指定的对象初始化与本地化的资源设计器加载时，此方法会将指定的对象的资源区域性设置为用于指定对象的值的加载时初始化设计器的资源区域性。</span><span class="sxs-lookup"><span data-stu-id="d31ae-154">If the specified object was initialized with localized resources when the designer loaded, this method sets the resource culture for the specified object to the resource culture used to initialize the values of the specified object when the designer loaded.</span></span> <span data-ttu-id="d31ae-155">如果指定的对象不具有任何以前的资源的区域性设置，将当前资源区域性设置为<xref:System.Globalization.CultureInfo.InvariantCulture%2A>。</span><span class="sxs-lookup"><span data-stu-id="d31ae-155">If the specified object had no previous resource culture setting, the current resource culture is set to <xref:System.Globalization.CultureInfo.InvariantCulture%2A>.</span></span>  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="SetLanguage">
-      <MemberSignature Language="C#" Value="public void SetLanguage (object o, System.Globalization.CultureInfo language);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void SetLanguage(object o, class System.Globalization.CultureInfo language) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.ComponentModel.Design.LocalizationExtenderProvider.SetLanguage(System.Object,System.Globalization.CultureInfo)" />
-      <MemberSignature Language="VB.NET" Value="Public Sub SetLanguage (o As Object, language As CultureInfo)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; void SetLanguage(System::Object ^ o, System::Globalization::CultureInfo ^ language);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Design</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="o" Type="System.Object" />
-        <Parameter Name="language" Type="System.Globalization.CultureInfo" />
-      </Parameters>
-      <Docs>
-        <param name="o">
-          <span data-ttu-id="d31ae-156">要设置其资源区域性的基组件。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d31ae-156">The base component to set the resource culture for.</span>
-          </span>
-        </param>
-        <param name="language">
-          <span data-ttu-id="d31ae-157">指示要使用的资源区域性的 <see cref="T:System.Globalization.CultureInfo" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d31ae-157">A <see cref="T:System.Globalization.CultureInfo" /> that indicates the resource culture to use.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="d31ae-158">将指定对象的当前资源区域性设置为指定的资源区域性。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d31ae-158">Sets the current resource culture for the specified object to the specified resource culture.</span>
-          </span>
-        </summary>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="SetLocalizable">
-      <MemberSignature Language="C#" Value="public void SetLocalizable (object o, bool localizable);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void SetLocalizable(object o, bool localizable) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.ComponentModel.Design.LocalizationExtenderProvider.SetLocalizable(System.Object,System.Boolean)" />
-      <MemberSignature Language="VB.NET" Value="Public Sub SetLocalizable (o As Object, localizable As Boolean)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; void SetLocalizable(System::Object ^ o, bool localizable);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Design</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="o" Type="System.Object" />
-        <Parameter Name="localizable" Type="System.Boolean" />
-      </Parameters>
-      <Docs>
-        <param name="o">
-          <span data-ttu-id="d31ae-159">要设置为可本地化或不可本地化的基组件。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d31ae-159">The base component to set as localizable or not localizable.</span>
-          </span>
-        </param>
-        <param name="localizable">
-          <span data-ttu-id="d31ae-160">如果此对象支持资源本地化，则为 <see langword="true" />；否则为 <see langword="false" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d31ae-160">
-              <see langword="true" /> if the object supports resource localization; otherwise, <see langword="false" />.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="d31ae-161">设置一个值，该值指示指定的对象是否支持经过本地化的资源。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d31ae-161">Sets a value indicating whether the specified object supports localized resources.</span>
-          </span>
-        </summary>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="ShouldSerializeLanguage">
-      <MemberSignature Language="C#" Value="public bool ShouldSerializeLanguage (object o);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance bool ShouldSerializeLanguage(object o) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.ComponentModel.Design.LocalizationExtenderProvider.ShouldSerializeLanguage(System.Object)" />
-      <MemberSignature Language="VB.NET" Value="Public Function ShouldSerializeLanguage (o As Object) As Boolean" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; bool ShouldSerializeLanguage(System::Object ^ o);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Design</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Boolean</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="o" Type="System.Object" />
-      </Parameters>
-      <Docs>
-        <param name="o">
-          <span data-ttu-id="d31ae-162">要获取语言支持持久性标志的对象。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d31ae-162">The object to get the language support persistence flag for.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="d31ae-163">获取一个值，该值指示指定的对象是否必须将其可本地化的值保持在资源中。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d31ae-163">Gets a value indicating whether the specified object must have its localizable values persisted in a resource.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="d31ae-164">如果可本地化的值应该保持在资源中，则为 <see langword="true" />；否则为 <see langword="false" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d31ae-164">
-              <see langword="true" /> if the localizable values should be persisted in resources; otherwise, <see langword="false" />.</span>
-          </span>
-        </returns>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-  </Members>
-</Type>
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.2" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 xliff-core-1.2-transitional.xsd">
+  <file datatype="xml" original="LocalizationExtenderProvider.xml" source-language="en-US" target-language="zh-CN">
+    <header>
+      <tool tool-id="mdxliff" tool-name="mdxliff" tool-version="1.0-15c36f0" tool-company="Microsoft" />
+      <xliffext:skl_file_name xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">02cd5861-7ce2-4a82-b358-31f8435a0ac53e2ec870a14f740d348390c1d0786db30c200dfd.skl</xliffext:skl_file_name>
+      <xliffext:version xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">1.2</xliffext:version>
+      <xliffext:ms.openlocfilehash xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">3e2ec870a14f740d348390c1d0786db30c200dfd</xliffext:ms.openlocfilehash>
+      <xliffext:ms.sourcegitcommit xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b</xliffext:ms.sourcegitcommit>
+      <xliffext:ms.lasthandoff xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">04/03/2018</xliffext:ms.lasthandoff>
+      <xliffext:moniker_ids xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">netframework-4.5.1,netframework-4.5.2,netframework-4.5,netframework-4.6.1,netframework-4.6.2,netframework-4.6,netframework-4.7.1,netframework-4.7</xliffext:moniker_ids>
+    </header>
+    <body>
+      <group id="content" extype="content">
+        <trans-unit id="101" translate="yes" xml:space="preserve" uid="T:System.ComponentModel.Design.LocalizationExtenderProvider">
+          <source>Provides design-time support for localization features to a root designer.</source>
+          <target state="translated">向根设计器提供本地化功能的设计时支持。</target>       </trans-unit>
+        <trans-unit id="102" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ComponentModel.Design.LocalizationExtenderProvider">
+          <source><ph id="ph1">&lt;xref:System.ComponentModel.Design.LocalizationExtenderProvider&gt;</ph> can extend an <ph id="ph2">&lt;xref:System.ComponentModel.Design.IRootDesigner&gt;</ph> with a set of properties and methods that provide support for the .NET Framework localization architecture.</source>
+          <target state="translated"><ph id="ph1">&lt;xref:System.ComponentModel.Design.LocalizationExtenderProvider&gt;</ph> 可以扩展<ph id="ph2">&lt;xref:System.ComponentModel.Design.IRootDesigner&gt;</ph>使用一组的属性和方法对于.NET Framework 本地化体系结构提供支持。</target>       </trans-unit>
+        <trans-unit id="103" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ComponentModel.Design.LocalizationExtenderProvider">
+          <source>For more about using resources, see <bpt id="p1">[</bpt>Localization<ept id="p1">](~/docs/standard/globalization-localization/localization.md)</ept>.</source>
+          <target state="translated">有关使用资源的详细信息，请参阅<bpt id="p1">[</bpt>本地化<ept id="p1">](~/docs/standard/globalization-localization/localization.md)</ept>。</target>       </trans-unit>
+        <trans-unit id="104" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ComponentModel.Design.LocalizationExtenderProvider">
+          <source>The localization support architecture enables designers to initialize component properties using resource files that can be swapped at run time to support a variety of languages, culture-specific styles and dynamically configurable features.</source>
+          <target state="translated">本地化支持体系结构使设计器来初始化使用资源文件可以在运行时以支持多种语言、 特定于区域性的样式和动态可配置功能的交换的组件属性。</target>       </trans-unit>
+        <trans-unit id="105" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ComponentModel.Design.LocalizationExtenderProvider">
+          <source>You can use the methods of this class to enable designers and code generating serializers to load from resources and build initialization code that uses localization features.</source>
+          <target state="translated">此类的方法可用于使设计器和代码生成序列化程序以从资源加载和生成使用本地化功能的初始化代码。</target>       </trans-unit>
+        <trans-unit id="106" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ComponentModel.Design.LocalizationExtenderProvider">
+          <source>The default serializers that ship with Visual Studio are already capable of localizing components and controls, but they only do so if they locate support for the .NET Framework localization architecture.</source>
+          <target state="translated">默认序列化程序附带有 Visual Studio 已能够本地化组件和控件，但它们仅在这样做如果它们查找支持的.NET Framework 本地化体系结构。</target>       </trans-unit>
+        <trans-unit id="107" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ComponentModel.Design.LocalizationExtenderProvider">
+          <source>To detect the presence of localization support, the serialization system must locate a public <ph id="ph1">&lt;xref:System.Boolean&gt;</ph> property named "Localizable" on the root designer component.</source>
+          <target state="translated">若要检测的本地化支持的状态，序列化系统必须找到公共<ph id="ph1">&lt;xref:System.Boolean&gt;</ph>上根设计器组件名为"Localizable"的属性。</target>       </trans-unit>
+        <trans-unit id="108" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ComponentModel.Design.LocalizationExtenderProvider">
+          <source>If a serializer finds this property, it searches for a property of type <ph id="ph1">&lt;xref:System.Globalization.CultureInfo&gt;</ph> named "Language" to determine the current resource configuration.</source>
+          <target state="translated">如果序列化程序找到此属性，它搜索类型的属性<ph id="ph1">&lt;xref:System.Globalization.CultureInfo&gt;</ph>名为"语言"来确定当前的资源配置。</target>       </trans-unit>
+        <trans-unit id="109" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ComponentModel.Design.LocalizationExtenderProvider">
+          <source>Default serializers use these properties to determine if it should localize any localizable resources of the component, and if so, what <ph id="ph1">&lt;xref:System.Globalization.CultureInfo&gt;</ph> format the resource information should be saved in.</source>
+          <target state="translated">默认序列化程序使用这些属性以确定是否应该进行本地化的组件，任何可本地化的资源，以及如果是这样，什么<ph id="ph1">&lt;xref:System.Globalization.CultureInfo&gt;</ph>应中保存的资源信息的格式。</target>       </trans-unit>
+        <trans-unit id="110" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ComponentModel.Design.LocalizationExtenderProvider">
+          <source>The following code example adds a <ph id="ph1">&lt;xref:System.ComponentModel.Design.LocalizationExtenderProvider&gt;</ph> to a component.</source>
+          <target state="translated">下面的代码示例将添加<ph id="ph1">&lt;xref:System.ComponentModel.Design.LocalizationExtenderProvider&gt;</ph>到组件。</target>       </trans-unit>
+        <trans-unit id="111" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ComponentModel.Design.LocalizationExtenderProvider">
+          <source>The following code example includes an example component and designer.</source>
+          <target state="translated">下面的代码示例包括示例组件和设计器。</target>       </trans-unit>
+        <trans-unit id="112" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.ComponentModel.Design.LocalizationExtenderProvider">
+          <source>The designer uses a <ph id="ph1">&lt;xref:System.ComponentModel.Design.LocalizationExtenderProvider&gt;</ph> to add localization support properties for the component.</source>
+          <target state="translated">该设计器使用<ph id="ph1">&lt;xref:System.ComponentModel.Design.LocalizationExtenderProvider&gt;</ph>添加组件的本地化支持属性。</target>       </trans-unit>
+        <trans-unit id="113" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.Design.LocalizationExtenderProvider.#ctor(System.ComponentModel.ISite,System.ComponentModel.IComponent)">
+          <source>A service provider for the specified component.</source>
+          <target state="translated">指定组件的服务提供程序。</target>       </trans-unit>
+        <trans-unit id="114" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.Design.LocalizationExtenderProvider.#ctor(System.ComponentModel.ISite,System.ComponentModel.IComponent)">
+          <source>The base component to localize.</source>
+          <target state="translated">要本地化的基组件。</target>       </trans-unit>
+        <trans-unit id="115" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.Design.LocalizationExtenderProvider.#ctor(System.ComponentModel.ISite,System.ComponentModel.IComponent)">
+          <source>Initializes a new instance of the <ph id="ph1">&lt;see cref="T:System.ComponentModel.Design.LocalizationExtenderProvider" /&gt;</ph> class using the specified service provider and base component.</source>
+          <target state="translated">使用指定的服务提供程序和基组件初始化 <ph id="ph1">&lt;see cref="T:System.ComponentModel.Design.LocalizationExtenderProvider" /&gt;</ph> 类的新实例。</target>       </trans-unit>
+        <trans-unit id="116" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.Design.LocalizationExtenderProvider.#ctor(System.ComponentModel.ISite,System.ComponentModel.IComponent)">
+          <source>By default, a new <ph id="ph1">&lt;xref:System.ComponentModel.Design.LocalizationExtenderProvider&gt;</ph> sets the current language to <ph id="ph2">&lt;xref:System.Globalization.CultureInfo.InvariantCulture%2A&gt;</ph>, which is the generic and default language resource setting.</source>
+          <target state="translated">默认情况下，新<ph id="ph1">&lt;xref:System.ComponentModel.Design.LocalizationExtenderProvider&gt;</ph>将当前语言设置为<ph id="ph2">&lt;xref:System.Globalization.CultureInfo.InvariantCulture%2A&gt;</ph>，即泛型对象，且默认语言资源设置。</target>       </trans-unit>
+        <trans-unit id="117" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.Design.LocalizationExtenderProvider.#ctor(System.ComponentModel.ISite,System.ComponentModel.IComponent)">
+          <source>This setting causes a designer to generate code that references the generic language resource.</source>
+          <target state="translated">此设置会使设计器生成引用泛型语言资源的代码。</target>       </trans-unit>
+        <trans-unit id="118" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.Design.LocalizationExtenderProvider.#ctor(System.ComponentModel.ISite,System.ComponentModel.IComponent)">
+          <source>You can create other <ph id="ph1">&lt;xref:System.Globalization.CultureInfo&gt;</ph> objects to represent and identify other localized resource data that a program can use at run time.</source>
+          <target state="translated">您可以创建其他<ph id="ph1">&lt;xref:System.Globalization.CultureInfo&gt;</ph>对象来表示和标识其他本地化程序可以在运行时使用的资源数据。</target>       </trans-unit>
+        <trans-unit id="119" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.Design.LocalizationExtenderProvider.#ctor(System.ComponentModel.ISite,System.ComponentModel.IComponent)">
+          <source>The following code example creates a new <ph id="ph1">&lt;xref:System.ComponentModel.Design.LocalizationExtenderProvider&gt;</ph> object.</source>
+          <target state="translated">下面的代码示例创建一个新<ph id="ph1">&lt;xref:System.ComponentModel.Design.LocalizationExtenderProvider&gt;</ph>对象。</target>       </trans-unit>
+        <trans-unit id="120" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.Design.LocalizationExtenderProvider.CanExtend(System.Object)">
+          <source>The object to receive the extender properties.</source>
+          <target state="translated">要接收扩展程序属性的对象。</target>       </trans-unit>
+        <trans-unit id="121" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.Design.LocalizationExtenderProvider.CanExtend(System.Object)">
+          <source>Indicates whether this object can provide its extender properties to the specified object.</source>
+          <target state="translated">指示此对象是否可以将其扩展程序属性提供给指定的对象。</target>       </trans-unit>
+        <trans-unit id="122" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.Design.LocalizationExtenderProvider.CanExtend(System.Object)">
+          <source><ph id="ph1">&lt;see langword="true" /&gt;</ph> if this object can provide extender properties to the specified object; otherwise, <ph id="ph2">&lt;see langword="false" /&gt;</ph>.</source>
+          <target state="translated">如果此对象可以扩展程序属性提供给指定对象，则为 <ph id="ph1">&lt;see langword="true" /&gt;</ph>；否则为 <ph id="ph2">&lt;see langword="false" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="123" translate="yes" xml:space="preserve" uid="T:System.ComponentModel.Design.LocalizationExtenderProvider">
+          <source>Releases the resources used by the <ph id="ph1">&lt;see cref="T:System.ComponentModel.Design.LocalizationExtenderProvider" /&gt;</ph>.</source>
+          <target state="translated">释放由 <ph id="ph1">&lt;see cref="T:System.ComponentModel.Design.LocalizationExtenderProvider" /&gt;</ph> 占用的资源。</target>       </trans-unit>
+        <trans-unit id="124" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.Design.LocalizationExtenderProvider.Dispose">
+          <source>Disposes of the resources (other than memory) used by the <ph id="ph1">&lt;see cref="T:System.ComponentModel.Design.LocalizationExtenderProvider" /&gt;</ph>.</source>
+          <target state="translated">处置由 <ph id="ph1">&lt;see cref="T:System.ComponentModel.Design.LocalizationExtenderProvider" /&gt;</ph> 占用的资源（内存除外）。</target>       </trans-unit>
+        <trans-unit id="125" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.Design.LocalizationExtenderProvider.Dispose">
+          <source>Call <ph id="ph1">&lt;xref:System.ComponentModel.Design.LocalizationExtenderProvider.Dispose%2A&gt;</ph> when you are finished using the <ph id="ph2">&lt;xref:System.ComponentModel.Design.LocalizationExtenderProvider&gt;</ph>.</source>
+          <target state="translated">在完成使用 <ph id="ph1">&lt;xref:System.ComponentModel.Design.LocalizationExtenderProvider.Dispose%2A&gt;</ph> 后，应调用 <ph id="ph2">&lt;xref:System.ComponentModel.Design.LocalizationExtenderProvider&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="126" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.Design.LocalizationExtenderProvider.Dispose">
+          <source>The <ph id="ph1">&lt;xref:System.ComponentModel.Design.LocalizationExtenderProvider.Dispose%2A&gt;</ph> method leaves the <ph id="ph2">&lt;xref:System.ComponentModel.Design.LocalizationExtenderProvider&gt;</ph> in an unusable state.</source>
+          <target state="translated"><ph id="ph1">&lt;xref:System.ComponentModel.Design.LocalizationExtenderProvider.Dispose%2A&gt;</ph> 方法使 <ph id="ph2">&lt;xref:System.ComponentModel.Design.LocalizationExtenderProvider&gt;</ph> 处于不可用状态。</target>       </trans-unit>
+        <trans-unit id="127" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.Design.LocalizationExtenderProvider.Dispose">
+          <source>After calling <ph id="ph1">&lt;xref:System.ComponentModel.Design.LocalizationExtenderProvider.Dispose%2A&gt;</ph>, you must release all references to the <ph id="ph2">&lt;xref:System.ComponentModel.Design.LocalizationExtenderProvider&gt;</ph> so the garbage collector can reclaim the memory that the <ph id="ph3">&lt;xref:System.ComponentModel.Design.LocalizationExtenderProvider&gt;</ph> was occupying.</source>
+          <target state="translated">在调用<ph id="ph1">&lt;xref:System.ComponentModel.Design.LocalizationExtenderProvider.Dispose%2A&gt;</ph>，必须释放对所有引用<ph id="ph2">&lt;xref:System.ComponentModel.Design.LocalizationExtenderProvider&gt;</ph>以便垃圾回收器才能回收的内存，<ph id="ph3">&lt;xref:System.ComponentModel.Design.LocalizationExtenderProvider&gt;</ph>占用。</target>       </trans-unit>
+        <trans-unit id="128" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.Design.LocalizationExtenderProvider.Dispose">
+          <source>For more information, see <bpt id="p1">[</bpt>Cleaning Up Unmanaged Resources<ept id="p1">](~/docs/standard/garbage-collection/unmanaged.md)</ept> and <bpt id="p2">[</bpt>Implementing a Dispose Method<ept id="p2">](~/docs/standard/garbage-collection/implementing-dispose.md)</ept>.</source>
+          <target state="translated">有关详细信息，请参阅<bpt id="p1">[</bpt>清洗向上非托管资源<ept id="p1">](~/docs/standard/garbage-collection/unmanaged.md)</ept>和<bpt id="p2">[</bpt>实现 Dispose 方法<ept id="p2">](~/docs/standard/garbage-collection/implementing-dispose.md)</ept>。</target>       </trans-unit>
+        <trans-unit id="129" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.Design.LocalizationExtenderProvider.Dispose">
+          <source>Always call <ph id="ph1">&lt;xref:System.ComponentModel.Design.LocalizationExtenderProvider.Dispose%2A&gt;</ph> before you release your last reference to the <ph id="ph2">&lt;xref:System.ComponentModel.Design.LocalizationExtenderProvider&gt;</ph>.</source>
+          <target state="translated">每次释放对 <ph id="ph1">&lt;xref:System.ComponentModel.Design.LocalizationExtenderProvider.Dispose%2A&gt;</ph> 的最后一个引用前，均应调用 <ph id="ph2">&lt;xref:System.ComponentModel.Design.LocalizationExtenderProvider&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="130" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.Design.LocalizationExtenderProvider.Dispose">
+          <source>Otherwise, the resources it is using will not be freed until the garbage collector calls the <ph id="ph1">&lt;xref:System.ComponentModel.Design.LocalizationExtenderProvider&gt;</ph> object's <ph id="ph2">`Finalize`</ph> method.</source>
+          <target state="translated">否则，在垃圾回收器调用 <ph id="ph1">&lt;xref:System.ComponentModel.Design.LocalizationExtenderProvider&gt;</ph> 对象的 <ph id="ph2">`Finalize`</ph> 方法之前，该对象正在使用的资源不会被释放。</target>       </trans-unit>
+        <trans-unit id="131" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.Design.LocalizationExtenderProvider.Dispose(System.Boolean)">
+          <source><ph id="ph1">&lt;see langword="true" /&gt;</ph> to release both managed and unmanaged resources; <ph id="ph2">&lt;see langword="false" /&gt;</ph> to release only unmanaged resources.</source>
+          <target state="translated">若要释放托管资源和非托管资源，则为 <ph id="ph1">&lt;see langword="true" /&gt;</ph>；若仅释放非托管资源，则为 <ph id="ph2">&lt;see langword="false" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="132" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.Design.LocalizationExtenderProvider.Dispose(System.Boolean)">
+          <source>Releases the unmanaged resources used by the <ph id="ph1">&lt;see cref="T:System.ComponentModel.Design.LocalizationExtenderProvider" /&gt;</ph> and optionally releases the managed resources.</source>
+          <target state="translated">释放由 <ph id="ph1">&lt;see cref="T:System.ComponentModel.Design.LocalizationExtenderProvider" /&gt;</ph> 占用的非托管资源，还可以另外再释放托管资源。</target>       </trans-unit>
+        <trans-unit id="133" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.Design.LocalizationExtenderProvider.Dispose(System.Boolean)">
+          <source>This method is called by the public <ph id="ph1">`Dispose()`</ph> method and the <ph id="ph2">&lt;xref:System.Object.Finalize%2A&gt;</ph> method.</source>
+          <target state="translated">此方法称为由公共<ph id="ph1">`Dispose()`</ph>方法和<ph id="ph2">&lt;xref:System.Object.Finalize%2A&gt;</ph>方法。</target>       </trans-unit>
+        <trans-unit id="134" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.Design.LocalizationExtenderProvider.Dispose(System.Boolean)">
+          <source><ph id="ph1">`Dispose()`</ph> invokes the protected <ph id="ph2">`Dispose(Boolean)`</ph> method with the <ph id="ph3">`disposing`</ph> parameter set to <ph id="ph4">`true`</ph>.</source>
+          <target state="translated"><ph id="ph1">`Dispose()`</ph> 调用受保护<ph id="ph2">`Dispose(Boolean)`</ph>方法替换<ph id="ph3">`disposing`</ph>参数设置为<ph id="ph4">`true`</ph>。</target>       </trans-unit>
+        <trans-unit id="135" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.Design.LocalizationExtenderProvider.Dispose(System.Boolean)">
+          <source><ph id="ph1">&lt;xref:System.Object.Finalize%2A&gt;</ph> invokes <ph id="ph2">`Dispose`</ph> with <ph id="ph3">`disposing`</ph> set to <ph id="ph4">`false`</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;xref:System.Object.Finalize%2A&gt;</ph> 调用<ph id="ph2">`Dispose`</ph>与<ph id="ph3">`disposing`</ph>设置为<ph id="ph4">`false`</ph>。</target>       </trans-unit>
+        <trans-unit id="136" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.Design.LocalizationExtenderProvider.Dispose(System.Boolean)">
+          <source>When the <ph id="ph1">`disposing`</ph> parameter is true, this method releases all resources held by any managed objects that this <ph id="ph2">&lt;xref:System.ComponentModel.Design.LocalizationExtenderProvider&gt;</ph> references.</source>
+          <target state="translated">当<ph id="ph1">`disposing`</ph>参数为 true 时，此方法释放由任何托管对象持有的全部资源此<ph id="ph2">&lt;xref:System.ComponentModel.Design.LocalizationExtenderProvider&gt;</ph>引用。</target>       </trans-unit>
+        <trans-unit id="137" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.Design.LocalizationExtenderProvider.Dispose(System.Boolean)">
+          <source>This method invokes the <ph id="ph1">`Dispose()`</ph> method of each referenced object.</source>
+          <target state="translated">此方法调用每个引用对象的 <ph id="ph1">`Dispose()`</ph> 方法。</target>       </trans-unit>
+        <trans-unit id="138" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.Design.LocalizationExtenderProvider.Dispose(System.Boolean)">
+          <source><ph id="ph1">&lt;see langword="Dispose" /&gt;</ph> can be called multiple times by other objects.</source>
+          <target state="translated"><ph id="ph1">&lt;see langword="Dispose" /&gt;</ph> 可以由其他对象多次调用。</target>       </trans-unit>
+        <trans-unit id="139" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.Design.LocalizationExtenderProvider.Dispose(System.Boolean)">
+          <source>When overriding <ph id="ph1">&lt;see langword="Dispose(Boolean)" /&gt;</ph> be careful not to reference objects that have been previously disposed of in an earlier call to <ph id="ph2">&lt;see langword="Dispose" /&gt;</ph>.</source>
+          <target state="translated">在重写<ph id="ph1">&lt;see langword="Dispose(Boolean)" /&gt;</ph>请注意不要引用已释放的以前调用中的对象<ph id="ph2">&lt;see langword="Dispose" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="140" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.Design.LocalizationExtenderProvider.Dispose(System.Boolean)">
+          <source>For more information about how to implement <ph id="ph1">&lt;see langword="Dispose(Boolean)" /&gt;</ph>, see <bpt id="p1">[</bpt>Implementing a Dispose Method<ept id="p1">](~/docs/standard/garbage-collection/implementing-dispose.md)</ept>.</source>
+          <target state="translated">有关如何实现详细信息<ph id="ph1">&lt;see langword="Dispose(Boolean)" /&gt;</ph>，请参阅<bpt id="p1">[</bpt>实现 Dispose 方法<ept id="p1">](~/docs/standard/garbage-collection/implementing-dispose.md)</ept>。</target>       </trans-unit>
+        <trans-unit id="141" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.Design.LocalizationExtenderProvider.Dispose(System.Boolean)">
+          <source>For more information about <ph id="ph1">&lt;see langword="Dispose" /&gt;</ph> and <ph id="ph2">&lt;see cref="M:System.Object.Finalize" /&gt;</ph>, see <bpt id="p1">[</bpt>Cleaning Up Unmanaged Resources<ept id="p1">](~/docs/standard/garbage-collection/unmanaged.md)</ept> and <bpt id="p2">[</bpt>Overriding the Finalize Method<ept id="p2">](http://msdn.microsoft.com/library/8026cb68-fe93-43fc-96c1-c09ad7d64cd3)</ept>.</source>
+          <target state="translated">有关详细信息<ph id="ph1">&lt;see langword="Dispose" /&gt;</ph>和<ph id="ph2">&lt;see cref="M:System.Object.Finalize" /&gt;</ph>，请参阅<bpt id="p1">[</bpt>清洗向上非托管资源<ept id="p1">](~/docs/standard/garbage-collection/unmanaged.md)</ept>和<bpt id="p2">[</bpt>重写 Finalize 方法<ept id="p2">](http://msdn.microsoft.com/library/8026cb68-fe93-43fc-96c1-c09ad7d64cd3)</ept>。</target>       </trans-unit>
+        <trans-unit id="142" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.Design.LocalizationExtenderProvider.GetLanguage(System.Object)">
+          <source>The object to get the current resource culture for.</source>
+          <target state="translated">要获取其当前资源区域性的对象。</target>       </trans-unit>
+        <trans-unit id="143" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.Design.LocalizationExtenderProvider.GetLanguage(System.Object)">
+          <source>Gets the current resource culture for the specified object.</source>
+          <target state="translated">获取指定对象的当前资源区域性。</target>       </trans-unit>
+        <trans-unit id="144" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.Design.LocalizationExtenderProvider.GetLanguage(System.Object)">
+          <source>A <ph id="ph1">&lt;see cref="T:System.Globalization.CultureInfo" /&gt;</ph> indicating the resource variety.</source>
+          <target state="translated">指示资源种类的 <ph id="ph1">&lt;see cref="T:System.Globalization.CultureInfo" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="145" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.Design.LocalizationExtenderProvider.GetLanguage(System.Object)">
+          <source>This method returns the current resource culture used to access resource data for the specified object.</source>
+          <target state="translated">此方法返回用于访问指定的对象的资源数据的当前资源区域性。</target>       </trans-unit>
+        <trans-unit id="146" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.Design.LocalizationExtenderProvider.GetLoadLanguage(System.Object)">
+          <source>The object to get the resource culture for.</source>
+          <target state="translated">要获取其资源区域性的对象。</target>       </trans-unit>
+        <trans-unit id="147" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.Design.LocalizationExtenderProvider.GetLoadLanguage(System.Object)">
+          <source>Gets the default resource culture to use when initializing the values of a localized object at design time.</source>
+          <target state="translated">获取默认的资源区域性，在设计时初始化本地化对象的值时将使用该区域性。</target>       </trans-unit>
+        <trans-unit id="148" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.Design.LocalizationExtenderProvider.GetLoadLanguage(System.Object)">
+          <source>A <ph id="ph1">&lt;see cref="T:System.Globalization.CultureInfo" /&gt;</ph> indicating the resource culture to use to initialize the values of the specified object.</source>
+          <target state="translated"><ph id="ph1">&lt;see cref="T:System.Globalization.CultureInfo" /&gt;</ph>，指示用于初始化指定对象的值的资源区域性。</target>       </trans-unit>
+        <trans-unit id="149" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.Design.LocalizationExtenderProvider.GetLocalizable(System.Object)">
+          <source>The object to check for localization support.</source>
+          <target state="translated">要检查本地化支持的对象。</target>       </trans-unit>
+        <trans-unit id="150" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.Design.LocalizationExtenderProvider.GetLocalizable(System.Object)">
+          <source>Gets a value indicating whether the specified object supports resource localization.</source>
+          <target state="translated">获取一个值，用以指示指定对象是否支持资源本地化。</target>       </trans-unit>
+        <trans-unit id="151" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.Design.LocalizationExtenderProvider.GetLocalizable(System.Object)">
+          <source><ph id="ph1">&lt;see langword="true" /&gt;</ph> if the specified object supports resource localization; otherwise, <ph id="ph2">&lt;see langword="false" /&gt;</ph>.</source>
+          <target state="translated">如果指定对象支持资源本地化，则为 <ph id="ph1">&lt;see langword="true" /&gt;</ph>；否则为 <ph id="ph2">&lt;see langword="false" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="152" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.Design.LocalizationExtenderProvider.ResetLanguage(System.Object)">
+          <source>The object to reset the resource culture for.</source>
+          <target state="translated">要重置其资源区域性的对象。</target>       </trans-unit>
+        <trans-unit id="153" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.Design.LocalizationExtenderProvider.ResetLanguage(System.Object)">
+          <source>Resets the resource culture for the specified object.</source>
+          <target state="translated">重置指定对象的资源区域性。</target>       </trans-unit>
+        <trans-unit id="154" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.Design.LocalizationExtenderProvider.ResetLanguage(System.Object)">
+          <source>If the specified object was initialized with localized resources when the designer loaded, this method sets the resource culture for the specified object to the resource culture used to initialize the values of the specified object when the designer loaded.</source>
+          <target state="translated">如果指定的对象初始化与本地化的资源设计器加载时，此方法会将指定的对象的资源区域性设置为用于指定对象的值的加载时初始化设计器的资源区域性。</target>       </trans-unit>
+        <trans-unit id="155" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.ComponentModel.Design.LocalizationExtenderProvider.ResetLanguage(System.Object)">
+          <source>If the specified object had no previous resource culture setting, the current resource culture is set to <ph id="ph1">&lt;xref:System.Globalization.CultureInfo.InvariantCulture%2A&gt;</ph>.</source>
+          <target state="translated">如果指定的对象不具有任何以前的资源的区域性设置，将当前资源区域性设置为<ph id="ph1">&lt;xref:System.Globalization.CultureInfo.InvariantCulture%2A&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="156" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.Design.LocalizationExtenderProvider.SetLanguage(System.Object,System.Globalization.CultureInfo)">
+          <source>The base component to set the resource culture for.</source>
+          <target state="translated">要设置其资源区域性的基组件。</target>       </trans-unit>
+        <trans-unit id="157" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.Design.LocalizationExtenderProvider.SetLanguage(System.Object,System.Globalization.CultureInfo)">
+          <source>A <ph id="ph1">&lt;see cref="T:System.Globalization.CultureInfo" /&gt;</ph> that indicates the resource culture to use.</source>
+          <target state="translated">指示要使用的资源区域性的 <ph id="ph1">&lt;see cref="T:System.Globalization.CultureInfo" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="158" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.Design.LocalizationExtenderProvider.SetLanguage(System.Object,System.Globalization.CultureInfo)">
+          <source>Sets the current resource culture for the specified object to the specified resource culture.</source>
+          <target state="translated">将指定对象的当前资源区域性设置为指定的资源区域性。</target>       </trans-unit>
+        <trans-unit id="159" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.Design.LocalizationExtenderProvider.SetLocalizable(System.Object,System.Boolean)">
+          <source>The base component to set as localizable or not localizable.</source>
+          <target state="translated">要设置为可本地化或不可本地化的基组件。</target>       </trans-unit>
+        <trans-unit id="160" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.Design.LocalizationExtenderProvider.SetLocalizable(System.Object,System.Boolean)">
+          <source><ph id="ph1">&lt;see langword="true" /&gt;</ph> if the object supports resource localization; otherwise, <ph id="ph2">&lt;see langword="false" /&gt;</ph>.</source>
+          <target state="translated">如果此对象支持资源本地化，则为 <ph id="ph1">&lt;see langword="true" /&gt;</ph>；否则为 <ph id="ph2">&lt;see langword="false" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="161" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.Design.LocalizationExtenderProvider.SetLocalizable(System.Object,System.Boolean)">
+          <source>Sets a value indicating whether the specified object supports localized resources.</source>
+          <target state="translated">设置一个值，该值指示指定的对象是否支持经过本地化的资源。</target>       </trans-unit>
+        <trans-unit id="162" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.Design.LocalizationExtenderProvider.ShouldSerializeLanguage(System.Object)">
+          <source>The object to get the language support persistence flag for.</source>
+          <target state="translated">要获取语言支持持久性标志的对象。</target>       </trans-unit>
+        <trans-unit id="163" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.Design.LocalizationExtenderProvider.ShouldSerializeLanguage(System.Object)">
+          <source>Gets a value indicating whether the specified object must have its localizable values persisted in a resource.</source>
+          <target state="translated">获取一个值，该值指示指定的对象是否必须将其可本地化的值保持在资源中。</target>       </trans-unit>
+        <trans-unit id="164" translate="yes" xml:space="preserve" uid="M:System.ComponentModel.Design.LocalizationExtenderProvider.ShouldSerializeLanguage(System.Object)">
+          <source><ph id="ph1">&lt;see langword="true" /&gt;</ph> if the localizable values should be persisted in resources; otherwise, <ph id="ph2">&lt;see langword="false" /&gt;</ph>.</source>
+          <target state="translated">如果可本地化的值应该保持在资源中，则为 <ph id="ph1">&lt;see langword="true" /&gt;</ph>；否则为 <ph id="ph2">&lt;see langword="false" /&gt;</ph>。</target>       </trans-unit>
+      </group>
+    </body>
+  </file>
+</xliff>

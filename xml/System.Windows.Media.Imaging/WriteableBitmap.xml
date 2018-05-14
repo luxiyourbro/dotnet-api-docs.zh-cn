@@ -1,1397 +1,570 @@
-<Type Name="WriteableBitmap" FullName="System.Windows.Media.Imaging.WriteableBitmap">
-  <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="d8faee124c2155a6b75d903b393c805332cebd28" />
-    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
-    <Meta Name="ms.translationtype" Value="HT" />
-    <Meta Name="ms.contentlocale" Value="zh-CN" />
-    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
-  </Metadata>
-  <TypeSignature Language="C#" Value="public sealed class WriteableBitmap : System.Windows.Media.Imaging.BitmapSource" />
-  <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed beforefieldinit WriteableBitmap extends System.Windows.Media.Imaging.BitmapSource" />
-  <TypeSignature Language="DocId" Value="T:System.Windows.Media.Imaging.WriteableBitmap" />
-  <TypeSignature Language="VB.NET" Value="Public NotInheritable Class WriteableBitmap&#xA;Inherits BitmapSource" />
-  <TypeSignature Language="C++ CLI" Value="public ref class WriteableBitmap sealed : System::Windows::Media::Imaging::BitmapSource" />
-  <AssemblyInfo>
-    <AssemblyName>PresentationCore</AssemblyName>
-    <AssemblyVersion>4.0.0.0</AssemblyVersion>
-  </AssemblyInfo>
-  <Base>
-    <BaseTypeName>System.Windows.Media.Imaging.BitmapSource</BaseTypeName>
-  </Base>
-  <Interfaces />
-  <Docs>
-    <summary>
-      <span data-ttu-id="e060d-101">提供一个可写入并可更新的 <see cref="T:System.Windows.Media.Imaging.BitmapSource" />。</span>
-      <span class="sxs-lookup">
-        <span data-stu-id="e060d-101">Provides a <see cref="T:System.Windows.Media.Imaging.BitmapSource" /> that can be written to and updated.</span>
-      </span>
-    </summary>
-    <remarks>
-      <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="e060d-102">使用<xref:System.Windows.Media.Imaging.WriteableBitmap>类来更新和呈现基于每个帧的位图。</span><span class="sxs-lookup"><span data-stu-id="e060d-102">Use the <xref:System.Windows.Media.Imaging.WriteableBitmap> class to update and render a bitmap on a per-frame basis.</span></span> <span data-ttu-id="e060d-103">这是适用于生成算法的内容，如一个分形映像，以及数据可视化效果，如音乐可视化工具。</span><span class="sxs-lookup"><span data-stu-id="e060d-103">This is useful for generating algorithmic content, such as a fractal image, and for data visualization, such as a music visualizer.</span></span>  
-  
- <span data-ttu-id="e060d-104"><xref:System.Windows.Media.Imaging.WriteableBitmap>类使用两个缓冲区。</span><span class="sxs-lookup"><span data-stu-id="e060d-104">The <xref:System.Windows.Media.Imaging.WriteableBitmap> class uses two buffers.</span></span> <span data-ttu-id="e060d-105">*后台缓冲区*在系统内存中分配，它可以累计当前未显示的内容。</span><span class="sxs-lookup"><span data-stu-id="e060d-105">The *back buffer* is allocated in system memory and accumulates content that is not currently displayed.</span></span> <span data-ttu-id="e060d-106">*前台缓冲区*在系统内存中分配，它包含当前显示的内容。</span><span class="sxs-lookup"><span data-stu-id="e060d-106">The *front buffer* is allocated in system memory and contains the content that is currently displayed.</span></span> <span data-ttu-id="e060d-107">呈现系统将前台缓冲区复制到视频内存中进行显示。</span><span class="sxs-lookup"><span data-stu-id="e060d-107">The rendering system copies the front buffer to video memory for display.</span></span>  
-  
- <span data-ttu-id="e060d-108">两个线程使用这些缓冲区。</span><span class="sxs-lookup"><span data-stu-id="e060d-108">Two threads use these buffers.</span></span> <span data-ttu-id="e060d-109">*用户界面 (UI) 线程*生成 UI 但不将其呈现到屏幕。</span><span class="sxs-lookup"><span data-stu-id="e060d-109">The *user interface (UI) thread* generates the UI but does not present it to the screen.</span></span> <span data-ttu-id="e060d-110">UI 线程对用户输入、 计时器和其他事件做出响应。</span><span class="sxs-lookup"><span data-stu-id="e060d-110">The UI thread responds to user input, timers, and other events.</span></span> <span data-ttu-id="e060d-111">应用程序可以拥有多个 UI 线程。</span><span class="sxs-lookup"><span data-stu-id="e060d-111">An application can have multiple UI threads.</span></span> <span data-ttu-id="e060d-112">*呈现线程*撰写和呈现从 UI 线程的变化。</span><span class="sxs-lookup"><span data-stu-id="e060d-112">The *render thread* composes and renders changes from the UI thread.</span></span> <span data-ttu-id="e060d-113">没有每个应用程序只有一个呈现线程。</span><span class="sxs-lookup"><span data-stu-id="e060d-113">There is only one render thread per application.</span></span>  
-  
- <span data-ttu-id="e060d-114">UI 线程对后台缓冲区写入内容。</span><span class="sxs-lookup"><span data-stu-id="e060d-114">The UI thread writes content to the back buffer.</span></span> <span data-ttu-id="e060d-115">呈现线程读取来自前台缓冲区的内容，并将其复制到视频内存。</span><span class="sxs-lookup"><span data-stu-id="e060d-115">The render thread reads content from the front buffer and copies it to video memory.</span></span> <span data-ttu-id="e060d-116">与更改的矩形区域跟踪对后台缓冲区的更改。</span><span class="sxs-lookup"><span data-stu-id="e060d-116">Changes to the back buffer are tracked with changed rectangular regions.</span></span>  
-  
- <span data-ttu-id="e060d-117">调用之一<xref:System.Windows.Media.Imaging.WriteableBitmap.WritePixels%2A>重载更新并自动在后台缓冲区中显示内容。</span><span class="sxs-lookup"><span data-stu-id="e060d-117">Call one of the <xref:System.Windows.Media.Imaging.WriteableBitmap.WritePixels%2A> overloads to update and display content in the back buffer automatically.</span></span>  
-  
- <span data-ttu-id="e060d-118">更好地控制更新，以及用于多线程访问后台缓冲区，使用以下工作流。</span><span class="sxs-lookup"><span data-stu-id="e060d-118">For greater control over updates, and for multi-threaded access to the back buffer, use the following workflow.</span></span>  
-  
-1.  <span data-ttu-id="e060d-119">调用<xref:System.Windows.Media.Imaging.WriteableBitmap.Lock%2A>方法来保留后台缓冲区用于更新。</span><span class="sxs-lookup"><span data-stu-id="e060d-119">Call the <xref:System.Windows.Media.Imaging.WriteableBitmap.Lock%2A> method to reserve the back buffer for updates.</span></span>  
-  
-2.  <span data-ttu-id="e060d-120">通过访问获取指向后台缓冲区的<xref:System.Windows.Media.Imaging.WriteableBitmap.BackBuffer%2A>属性。</span><span class="sxs-lookup"><span data-stu-id="e060d-120">Obtain a pointer to the back buffer by accessing the <xref:System.Windows.Media.Imaging.WriteableBitmap.BackBuffer%2A> property.</span></span>  
-  
-3.  <span data-ttu-id="e060d-121">更改写入后台缓冲区。</span><span class="sxs-lookup"><span data-stu-id="e060d-121">Write changes to the back buffer.</span></span> <span data-ttu-id="e060d-122">其他线程可能将更改写入后台缓冲区时<xref:System.Windows.Media.Imaging.WriteableBitmap>处于锁定状态。</span><span class="sxs-lookup"><span data-stu-id="e060d-122">Other threads may write changes to the back buffer when the <xref:System.Windows.Media.Imaging.WriteableBitmap> is locked.</span></span>  
-  
-4.  <span data-ttu-id="e060d-123">调用<xref:System.Windows.Media.Imaging.WriteableBitmap.AddDirtyRect%2A>方法，以指示已更改的区域。</span><span class="sxs-lookup"><span data-stu-id="e060d-123">Call the <xref:System.Windows.Media.Imaging.WriteableBitmap.AddDirtyRect%2A> method to indicate areas that have changed.</span></span>  
-  
-5.  <span data-ttu-id="e060d-124">调用<xref:System.Windows.Media.Imaging.WriteableBitmap.Unlock%2A>方法以释放后台缓冲区，并允许呈现到屏幕。</span><span class="sxs-lookup"><span data-stu-id="e060d-124">Call the <xref:System.Windows.Media.Imaging.WriteableBitmap.Unlock%2A> method to release the back buffer and allow presentation to the screen.</span></span>  
-  
- <span data-ttu-id="e060d-125">当更新发送到呈现线程时，呈现线程将更改的矩形从后台缓冲区复制到前台缓冲区。</span><span class="sxs-lookup"><span data-stu-id="e060d-125">When updates are sent to the rendering thread, the rendering thread copies the changed rectangles from the back buffer to the front buffer.</span></span> <span data-ttu-id="e060d-126">呈现系统控制此 exchange 以避免死锁和重绘项目，比如"撕裂"。</span><span class="sxs-lookup"><span data-stu-id="e060d-126">The rendering system controls this exchange to avoid deadlocks and redraw artifacts, such as "tearing".</span></span>  
-  
-   
-  
-## Examples  
- <span data-ttu-id="e060d-127">下面的示例演示如何<xref:System.Windows.Media.Imaging.WriteableBitmap>可以用作的源<xref:System.Windows.Controls.Image>绘制像素，当鼠标移动。</span><span class="sxs-lookup"><span data-stu-id="e060d-127">The following example demonstrates how a <xref:System.Windows.Media.Imaging.WriteableBitmap> can be used as the source of an <xref:System.Windows.Controls.Image> to draw pixels when the mouse moves.</span></span>  
-  
- [!code-csharp[WriteableBitmap2#WriteableBitmapFullPage](~/samples/snippets/csharp/VS_Snippets_Wpf/WriteableBitmap2/CS/Program.cs#writeablebitmapfullpage)]  
-  
- ]]></format>
-    </remarks>
-    <altmember cref="T:System.Windows.Media.Imaging.BitmapSource" />
-  </Docs>
-  <Members>
-    <MemberGroup MemberName=".ctor">
-      <AssemblyInfo>
-        <AssemblyName>PresentationCore</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Docs>
-        <summary>
-          <span data-ttu-id="e060d-128">初始化 <see cref="T:System.Windows.Media.Imaging.WriteableBitmap" /> 类的新实例。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e060d-128">Initializes a new instance of the <see cref="T:System.Windows.Media.Imaging.WriteableBitmap" /> class.</span>
-          </span>
-        </summary>
-      </Docs>
-    </MemberGroup>
-    <Member MemberName=".ctor">
-      <MemberSignature Language="C#" Value="public WriteableBitmap (System.Windows.Media.Imaging.BitmapSource source);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(class System.Windows.Media.Imaging.BitmapSource source) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Windows.Media.Imaging.WriteableBitmap.#ctor(System.Windows.Media.Imaging.BitmapSource)" />
-      <MemberSignature Language="VB.NET" Value="Public Sub New (source As BitmapSource)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; WriteableBitmap(System::Windows::Media::Imaging::BitmapSource ^ source);" />
-      <MemberType>Constructor</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>PresentationCore</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Attributes>
-        <Attribute>
-          <AttributeName>System.Security.SecurityCritical</AttributeName>
-        </Attribute>
-      </Attributes>
-      <Parameters>
-        <Parameter Name="source" Type="System.Windows.Media.Imaging.BitmapSource" />
-      </Parameters>
-      <Docs>
-        <param name="source">
-          <span data-ttu-id="e060d-129">要用于初始化的 <see cref="T:System.Windows.Media.Imaging.BitmapSource" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e060d-129">The <see cref="T:System.Windows.Media.Imaging.BitmapSource" /> to use for initialization.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="e060d-130">使用给定的 <see cref="T:System.Windows.Media.Imaging.WriteableBitmap" /> 初始化 <see cref="T:System.Windows.Media.Imaging.BitmapSource" /> 类的新实例。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e060d-130">Initializes a new instance of the <see cref="T:System.Windows.Media.Imaging.WriteableBitmap" /> class using the given <see cref="T:System.Windows.Media.Imaging.BitmapSource" />.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="e060d-131"><xref:System.Windows.Media.Imaging.WriteableBitmap.%23ctor%28System.Int32%2CSystem.Int32%2CSystem.Double%2CSystem.Double%2CSystem.Windows.Media.PixelFormat%2CSystem.Windows.Media.Imaging.BitmapPalette%29>构造函数的效果好于使用此构造函数。</span><span class="sxs-lookup"><span data-stu-id="e060d-131">The <xref:System.Windows.Media.Imaging.WriteableBitmap.%23ctor%28System.Int32%2CSystem.Int32%2CSystem.Double%2CSystem.Double%2CSystem.Windows.Media.PixelFormat%2CSystem.Windows.Media.Imaging.BitmapPalette%29> constructor is preferred over using this constructor.</span></span>  
-  
- <span data-ttu-id="e060d-132">如果`source`不使用本机支持的位图格式，格式转换应用于每个帧更新，这会降低性能。</span><span class="sxs-lookup"><span data-stu-id="e060d-132">If `source` does not use a natively supported bitmap format, format conversions are applied for each frame update, which reduces performance.</span></span>  
-  
- ]]></format>
-        </remarks>
-        <permission cref="T:System.Security.Permissions.SecurityPermission">
-          <span data-ttu-id="e060d-133">用于对非托管资源的访问。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e060d-133">for access to unmanaged resources.</span>
-          </span>
-          <span data-ttu-id="e060d-134">安全操作： <see cref="F:System.Security.Permissions.SecurityAction.Demand" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e060d-134">Security action: <see cref="F:System.Security.Permissions.SecurityAction.Demand" />.</span>
-          </span>
-          <span data-ttu-id="e060d-135">关联的枚举： <see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /></span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e060d-135">Associated enumeration: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /></span>
-          </span>
-        </permission>
-      </Docs>
-    </Member>
-    <Member MemberName=".ctor">
-      <MemberSignature Language="C#" Value="public WriteableBitmap (int pixelWidth, int pixelHeight, double dpiX, double dpiY, System.Windows.Media.PixelFormat pixelFormat, System.Windows.Media.Imaging.BitmapPalette palette);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(int32 pixelWidth, int32 pixelHeight, float64 dpiX, float64 dpiY, valuetype System.Windows.Media.PixelFormat pixelFormat, class System.Windows.Media.Imaging.BitmapPalette palette) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Windows.Media.Imaging.WriteableBitmap.#ctor(System.Int32,System.Int32,System.Double,System.Double,System.Windows.Media.PixelFormat,System.Windows.Media.Imaging.BitmapPalette)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; WriteableBitmap(int pixelWidth, int pixelHeight, double dpiX, double dpiY, System::Windows::Media::PixelFormat pixelFormat, System::Windows::Media::Imaging::BitmapPalette ^ palette);" />
-      <MemberType>Constructor</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>PresentationCore</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Attributes>
-        <Attribute>
-          <AttributeName>System.Security.SecurityCritical</AttributeName>
-        </Attribute>
-      </Attributes>
-      <Parameters>
-        <Parameter Name="pixelWidth" Type="System.Int32" />
-        <Parameter Name="pixelHeight" Type="System.Int32" />
-        <Parameter Name="dpiX" Type="System.Double" />
-        <Parameter Name="dpiY" Type="System.Double" />
-        <Parameter Name="pixelFormat" Type="System.Windows.Media.PixelFormat" />
-        <Parameter Name="palette" Type="System.Windows.Media.Imaging.BitmapPalette" />
-      </Parameters>
-      <Docs>
-        <param name="pixelWidth">
-          <span data-ttu-id="e060d-136">位图所需的宽度。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e060d-136">The desired width of the bitmap.</span>
-          </span>
-        </param>
-        <param name="pixelHeight">
-          <span data-ttu-id="e060d-137">位图所需的高度。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e060d-137">The desired height of the bitmap.</span>
-          </span>
-        </param>
-        <param name="dpiX">
-          <span data-ttu-id="e060d-138">位图的水平[!INCLUDE[TLA#tla_dpi](~/includes/tlasharptla-dpi-md.md)]。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e060d-138">The horizontal [!INCLUDE[TLA#tla_dpi](~/includes/tlasharptla-dpi-md.md)] of the bitmap.</span>
-          </span>
-        </param>
-        <param name="dpiY">
-          <span data-ttu-id="e060d-139">位图的垂直[!INCLUDE[TLA#tla_dpi](~/includes/tlasharptla-dpi-md.md)]。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e060d-139">The vertical [!INCLUDE[TLA#tla_dpi](~/includes/tlasharptla-dpi-md.md)] of the bitmap.</span>
-          </span>
-        </param>
-        <param name="pixelFormat">
-          <span data-ttu-id="e060d-140">位图的 <see cref="T:System.Windows.Media.PixelFormat" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e060d-140">The <see cref="T:System.Windows.Media.PixelFormat" /> of the bitmap.</span>
-          </span>
-        </param>
-        <param name="palette">
-          <span data-ttu-id="e060d-141">位图的 <see cref="T:System.Windows.Media.Imaging.BitmapPalette" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e060d-141">The <see cref="T:System.Windows.Media.Imaging.BitmapPalette" /> of the bitmap.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="e060d-142">使用指定的参数初始化 <see cref="T:System.Windows.Media.Imaging.WriteableBitmap" /> 类的新实例。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e060d-142">Initializes a new instance of the <see cref="T:System.Windows.Media.Imaging.WriteableBitmap" /> class with the specified parameters.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="e060d-143">首选的值`pixelFormat`是<xref:System.Windows.Media.PixelFormats.Bgr32%2A>和<xref:System.Windows.Media.PixelFormats.Pbgra32%2A>。</span><span class="sxs-lookup"><span data-stu-id="e060d-143">The preferred values for `pixelFormat` are <xref:System.Windows.Media.PixelFormats.Bgr32%2A> and <xref:System.Windows.Media.PixelFormats.Pbgra32%2A>.</span></span> <span data-ttu-id="e060d-144">这些格式以本机方式支持，并且不需要的格式转换。</span><span class="sxs-lookup"><span data-stu-id="e060d-144">These formats are natively supported and do not require a format conversion.</span></span> <span data-ttu-id="e060d-145">其他`pixelFormat`值需要格式转换为每个帧更新，这会降低性能。</span><span class="sxs-lookup"><span data-stu-id="e060d-145">Other `pixelFormat` values require a format conversion for each frame update, which reduces performance.</span></span>  
-  
- ]]></format>
-        </remarks>
-        <permission cref="T:System.Security.Permissions.SecurityPermission">
-          <span data-ttu-id="e060d-146">用于对非托管资源的访问。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e060d-146">for access to unmanaged resources.</span>
-          </span>
-          <span data-ttu-id="e060d-147">安全操作： <see cref="F:System.Security.Permissions.SecurityAction.Demand" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e060d-147">Security action: <see cref="F:System.Security.Permissions.SecurityAction.Demand" />.</span>
-          </span>
-          <span data-ttu-id="e060d-148">关联的枚举： <see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /></span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e060d-148">Associated enumeration: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /></span>
-          </span>
-        </permission>
-      </Docs>
-    </Member>
-    <Member MemberName="AddDirtyRect">
-      <MemberSignature Language="C#" Value="public void AddDirtyRect (System.Windows.Int32Rect dirtyRect);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void AddDirtyRect(valuetype System.Windows.Int32Rect dirtyRect) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Windows.Media.Imaging.WriteableBitmap.AddDirtyRect(System.Windows.Int32Rect)" />
-      <MemberSignature Language="VB.NET" Value="Public Sub AddDirtyRect (dirtyRect As Int32Rect)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; void AddDirtyRect(System::Windows::Int32Rect dirtyRect);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>PresentationCore</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Attributes>
-        <Attribute>
-          <AttributeName>System.Security.SecurityCritical</AttributeName>
-        </Attribute>
-      </Attributes>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="dirtyRect" Type="System.Windows.Int32Rect" />
-      </Parameters>
-      <Docs>
-        <param name="dirtyRect">
-          <span data-ttu-id="e060d-149">一个 <see cref="T:System.Windows.Int32Rect" />，表示更改的区域。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e060d-149">An <see cref="T:System.Windows.Int32Rect" /> representing the area that changed.</span>
-          </span>
-          <span data-ttu-id="e060d-150">维数以像素为单位。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e060d-150">Dimensions are in pixels.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="e060d-151">指定更改的位图区域。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e060d-151">Specifies the area of the bitmap that changed.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="e060d-152">调用<xref:System.Windows.Media.Imaging.WriteableBitmap.AddDirtyRect%2A>方法，以指示你的代码对后台缓冲区所做的更改。</span><span class="sxs-lookup"><span data-stu-id="e060d-152">Call the <xref:System.Windows.Media.Imaging.WriteableBitmap.AddDirtyRect%2A> method to indicate changes your code has made to the back buffer.</span></span>  
-  
- <span data-ttu-id="e060d-153">时多次调用此方法，以满足需求，但不是一定最小，表示累积更改的区域。</span><span class="sxs-lookup"><span data-stu-id="e060d-153">When you call this method multiple times, the changed areas are accumulated in a sufficient, but not necessarily minimal, representation.</span></span> <span data-ttu-id="e060d-154">为提高效率，保证仅标记为脏的区域都向前复制到前端的缓冲区。</span><span class="sxs-lookup"><span data-stu-id="e060d-154">For efficiency, only the areas that are marked as dirty are guaranteed to be copied forward to the front buffer.</span></span> <span data-ttu-id="e060d-155">但是，位图中的任何部分可复制向前移动，因此您必须确保整个后台缓冲区将一直有效。</span><span class="sxs-lookup"><span data-stu-id="e060d-155">However, any portion of the bitmap may be copied forward, so you must ensure that the entire back buffer is always valid.</span></span>  
-  
- <span data-ttu-id="e060d-156">调用<xref:System.Windows.Media.Imaging.WriteableBitmap.AddDirtyRect%2A>仅之间调用的方法<xref:System.Windows.Media.Imaging.WriteableBitmap.Lock%2A>和<xref:System.Windows.Media.Imaging.WriteableBitmap.Unlock%2A>方法，如中所述<xref:System.Windows.Media.Imaging.WriteableBitmap>类备注。</span><span class="sxs-lookup"><span data-stu-id="e060d-156">Call the <xref:System.Windows.Media.Imaging.WriteableBitmap.AddDirtyRect%2A> method only between calls to the <xref:System.Windows.Media.Imaging.WriteableBitmap.Lock%2A> and <xref:System.Windows.Media.Imaging.WriteableBitmap.Unlock%2A> methods, as described in the <xref:System.Windows.Media.Imaging.WriteableBitmap> class remarks.</span></span>  
-  
-   
-  
-## Examples  
- <span data-ttu-id="e060d-157">下面的代码示例演示如何指定背面的区缓冲区的使用更改<xref:System.Windows.Media.Imaging.WriteableBitmap.AddDirtyRect%2A>方法。</span><span class="sxs-lookup"><span data-stu-id="e060d-157">The following code example shows how to specify the area of the back buffer that changed by using the <xref:System.Windows.Media.Imaging.WriteableBitmap.AddDirtyRect%2A> method.</span></span>  
-  
- [!code-csharp[WriteableBitmap2#2](~/samples/snippets/csharp/VS_Snippets_Wpf/WriteableBitmap2/CS/Program.cs#2)]  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.InvalidOperationException">
-          <span data-ttu-id="e060d-158">对 <see cref="M:System.Windows.Media.Imaging.WriteableBitmap.Lock" /> 或 <see cref="M:System.Windows.Media.Imaging.WriteableBitmap.TryLock(System.Windows.Duration)" /> 方法的调用未锁定位图。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e060d-158">The bitmap has not been locked by a call to the <see cref="M:System.Windows.Media.Imaging.WriteableBitmap.Lock" /> or <see cref="M:System.Windows.Media.Imaging.WriteableBitmap.TryLock(System.Windows.Duration)" /> methods.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.ArgumentOutOfRangeException">
-          <span data-ttu-id="e060d-159">
-            <paramref name="dirtyRect" /> 处于 <see cref="T:System.Windows.Media.Imaging.WriteableBitmap" /> 的界限外。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e060d-159">
-              <paramref name="dirtyRect" /> falls outside the bounds of the <see cref="T:System.Windows.Media.Imaging.WriteableBitmap" />.</span>
-          </span>
-        </exception>
-        <permission cref="T:System.Security.Permissions.SecurityPermission">
-          <span data-ttu-id="e060d-160">用于对非托管资源的访问。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e060d-160">for access to unmanaged resources.</span>
-          </span>
-          <span data-ttu-id="e060d-161">安全操作： <see cref="F:System.Security.Permissions.SecurityAction.Demand" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e060d-161">Security action: <see cref="F:System.Security.Permissions.SecurityAction.Demand" />.</span>
-          </span>
-          <span data-ttu-id="e060d-162">关联的枚举： <see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /></span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e060d-162">Associated enumeration: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /></span>
-          </span>
-        </permission>
-      </Docs>
-    </Member>
-    <Member MemberName="BackBuffer">
-      <MemberSignature Language="C#" Value="public IntPtr BackBuffer { get; }" />
-      <MemberSignature Language="ILAsm" Value=".property instance native int BackBuffer" />
-      <MemberSignature Language="DocId" Value="P:System.Windows.Media.Imaging.WriteableBitmap.BackBuffer" />
-      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property BackBuffer As IntPtr" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; property IntPtr BackBuffer { IntPtr get(); };" />
-      <MemberType>Property</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>PresentationCore</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Attributes>
-        <Attribute>
-          <AttributeName>get: System.Security.SecurityCritical</AttributeName>
-        </Attribute>
-        <Attribute>
-          <AttributeName>set: System.Security.SecurityCritical</AttributeName>
-        </Attribute>
-      </Attributes>
-      <ReturnValue>
-        <ReturnType>System.IntPtr</ReturnType>
-      </ReturnValue>
-      <Docs>
-        <summary>
-          <span data-ttu-id="e060d-163">获取指向后台缓冲区的指针。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e060d-163">Gets a pointer to the back buffer.</span>
-          </span>
-        </summary>
-        <value>
-          <span data-ttu-id="e060d-164">一个 <see cref="T:System.IntPtr" />，指向后台缓冲区的基址。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e060d-164">An <see cref="T:System.IntPtr" /> that points to the base address of the back buffer.</span>
-          </span>
-        </value>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="e060d-165">后台缓冲区包含由用户请求的像素格式的位图内容。</span><span class="sxs-lookup"><span data-stu-id="e060d-165">The back buffer contains the bitmap contents in the pixel format requested by the user.</span></span>  
-  
- <span data-ttu-id="e060d-166">更新仅之间调用后台缓冲区<xref:System.Windows.Media.Imaging.WriteableBitmap.Lock%2A>和<xref:System.Windows.Media.Imaging.WriteableBitmap.Unlock%2A>方法。</span><span class="sxs-lookup"><span data-stu-id="e060d-166">Update the back buffer only between calls to the <xref:System.Windows.Media.Imaging.WriteableBitmap.Lock%2A> and <xref:System.Windows.Media.Imaging.WriteableBitmap.Unlock%2A> methods.</span></span> <span data-ttu-id="e060d-167">如果不遵循锁定/解锁工作流中所述<xref:System.Windows.Media.Imaging.WriteableBitmap>类备注，未定义的行为，例如撕裂，可能发生。</span><span class="sxs-lookup"><span data-stu-id="e060d-167">If you do not follow the Lock/Unlock workflow described in the <xref:System.Windows.Media.Imaging.WriteableBitmap> class remarks, undefined behaviors, such as tearing, can occur.</span></span>  
-  
- <span data-ttu-id="e060d-168">后台缓冲区的地址不会更改。</span><span class="sxs-lookup"><span data-stu-id="e060d-168">The address of the back buffer does not change.</span></span>  
-  
-## <a name="thread-safety"></a><span data-ttu-id="e060d-169">线程安全</span><span class="sxs-lookup"><span data-stu-id="e060d-169">Thread Safety</span></span>  
- <span data-ttu-id="e060d-170">你可以将传递<xref:System.Windows.Media.Imaging.WriteableBitmap.BackBuffer%2A>对外部组件和处理，其他线程的指针，但如果这样做，你必须提供你自己的线程协调。</span><span class="sxs-lookup"><span data-stu-id="e060d-170">You can pass the <xref:System.Windows.Media.Imaging.WriteableBitmap.BackBuffer%2A> pointer to external components and other threads for processing, but if you do, you must provide you own thread coordination.</span></span> <span data-ttu-id="e060d-171">具体而言，必须确保 UI 线程通过调用指定更改的区域<xref:System.Windows.Media.Imaging.WriteableBitmap.AddDirtyRect%2A>方法，并且 UI 线程通过调用将缓冲区解除锁定<xref:System.Windows.Media.Imaging.WriteableBitmap.Unlock%2A>方法。</span><span class="sxs-lookup"><span data-stu-id="e060d-171">In particular, you must ensure that the UI thread specifies changed areas by calling the <xref:System.Windows.Media.Imaging.WriteableBitmap.AddDirtyRect%2A> method, and that the UI thread unlocks the buffer by calling the <xref:System.Windows.Media.Imaging.WriteableBitmap.Unlock%2A> method.</span></span>  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="BackBufferStride">
-      <MemberSignature Language="C#" Value="public int BackBufferStride { get; }" />
-      <MemberSignature Language="ILAsm" Value=".property instance int32 BackBufferStride" />
-      <MemberSignature Language="DocId" Value="P:System.Windows.Media.Imaging.WriteableBitmap.BackBufferStride" />
-      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property BackBufferStride As Integer" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; property int BackBufferStride { int get(); };" />
-      <MemberType>Property</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>PresentationCore</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Int32</ReturnType>
-      </ReturnValue>
-      <Docs>
-        <summary>
-          <span data-ttu-id="e060d-172">获取一个值，该值指示单行像素数据中的字节数。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e060d-172">Gets a value indicating the number of bytes in a single row of pixel data.</span>
-          </span>
-        </summary>
-        <value>
-          <span data-ttu-id="e060d-173">指示单行像素数据中的字节数的整数。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e060d-173">An integer indicating the number of bytes in a single row of pixel data.</span>
-          </span>
-        </value>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="Clone">
-      <MemberSignature Language="C#" Value="public System.Windows.Media.Imaging.WriteableBitmap Clone ();" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class System.Windows.Media.Imaging.WriteableBitmap Clone() cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Windows.Media.Imaging.WriteableBitmap.Clone" />
-      <MemberSignature Language="VB.NET" Value="Public Function Clone () As WriteableBitmap" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; System::Windows::Media::Imaging::WriteableBitmap ^ Clone();" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>PresentationCore</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Windows.Media.Imaging.WriteableBitmap</ReturnType>
-      </ReturnValue>
-      <Parameters />
-      <Docs>
-        <summary>
-          <span data-ttu-id="e060d-174">创建此 <see cref="T:System.Windows.Media.Imaging.WriteableBitmap" /> 的可修改克隆，从而深度复制此对象的值。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e060d-174">Creates a modifiable clone of this <see cref="T:System.Windows.Media.Imaging.WriteableBitmap" />, making deep copies of this object's values.</span>
-          </span>
-          <span data-ttu-id="e060d-175">在复制依赖项属性时，此方法会复制资源引用和数据绑定（但可能不再解析），但不复制动画或其当前值。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e060d-175">When copying dependency properties, this method copies resource references and data bindings (but they might no longer resolve) but not animations or their current values.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="e060d-176">当前对象的可修改复本。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e060d-176">A modifiable clone of the current object.</span>
-          </span>
-          <span data-ttu-id="e060d-177">即使源的 <see cref="P:System.Windows.Freezable.IsFrozen" /> 属性为 <see langword="true." />，所克隆的对象的 <see cref="P:System.Windows.Freezable.IsFrozen" /> 属性也将为 <see langword="false" /></span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e060d-177">The cloned object's <see cref="P:System.Windows.Freezable.IsFrozen" /> property will be <see langword="false" /> even if the source's <see cref="P:System.Windows.Freezable.IsFrozen" /> property was <see langword="true." /></span>
-          </span>
-        </returns>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="e060d-178">此方法用于生成的可修改副本冻结<xref:System.Windows.Freezable>对象 (或任何<xref:System.Windows.Freezable>对象)。</span><span class="sxs-lookup"><span data-stu-id="e060d-178">This method is used to produce modifiable copies of frozen <xref:System.Windows.Freezable> objects (or any <xref:System.Windows.Freezable> object).</span></span> <span data-ttu-id="e060d-179">为方便起见，此方法将隐藏继承的强类型实现的版本。</span><span class="sxs-lookup"><span data-stu-id="e060d-179">For convenience, this method shadows the inherited version with a strongly typed implementation.</span></span>  
-  
- <span data-ttu-id="e060d-180">有关详情，请参阅<xref:System.Windows.Freezable.Clone%2A?displayProperty=nameWithType>。</span><span class="sxs-lookup"><span data-stu-id="e060d-180">For more information, see <xref:System.Windows.Freezable.Clone%2A?displayProperty=nameWithType>.</span></span>  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="CloneCore">
-      <MemberSignature Language="C#" Value="protected override void CloneCore (System.Windows.Freezable sourceFreezable);" />
-      <MemberSignature Language="ILAsm" Value=".method familyhidebysig virtual instance void CloneCore(class System.Windows.Freezable sourceFreezable) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Windows.Media.Imaging.WriteableBitmap.CloneCore(System.Windows.Freezable)" />
-      <MemberSignature Language="VB.NET" Value="Protected Overrides Sub CloneCore (sourceFreezable As Freezable)" />
-      <MemberSignature Language="C++ CLI" Value="protected:&#xA; override void CloneCore(System::Windows::Freezable ^ sourceFreezable);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>PresentationCore</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Attributes>
-        <Attribute>
-          <AttributeName>System.Security.SecurityCritical</AttributeName>
-        </Attribute>
-        <Attribute>
-          <AttributeName>System.Security.SecurityTreatAsSafe</AttributeName>
-        </Attribute>
-      </Attributes>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="sourceFreezable" Type="System.Windows.Freezable" />
-      </Parameters>
-      <Docs>
-        <param name="sourceFreezable">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="CloneCurrentValue">
-      <MemberSignature Language="C#" Value="public System.Windows.Media.Imaging.WriteableBitmap CloneCurrentValue ();" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class System.Windows.Media.Imaging.WriteableBitmap CloneCurrentValue() cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Windows.Media.Imaging.WriteableBitmap.CloneCurrentValue" />
-      <MemberSignature Language="VB.NET" Value="Public Function CloneCurrentValue () As WriteableBitmap" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; System::Windows::Media::Imaging::WriteableBitmap ^ CloneCurrentValue();" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>PresentationCore</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Windows.Media.Imaging.WriteableBitmap</ReturnType>
-      </ReturnValue>
-      <Parameters />
-      <Docs>
-        <summary>
-          <span data-ttu-id="e060d-181">创建此 <see cref="T:System.Windows.Media.Animation.ByteAnimationUsingKeyFrames" /> 对象的可修改复本，从而深度复制此对象的当前值。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e060d-181">Creates a modifiable clone of this <see cref="T:System.Windows.Media.Animation.ByteAnimationUsingKeyFrames" /> object, making deep copies of this object's current values.</span>
-          </span>
-          <span data-ttu-id="e060d-182">不复制资源引用、数据绑定和动画，而是复制其当前值。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e060d-182">Resource references, data bindings, and animations are not copied, but their current values are.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="e060d-183">当前对象的可修改复本。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e060d-183">A modifiable clone of the current object.</span>
-          </span>
-          <span data-ttu-id="e060d-184">即使源的 <see cref="P:System.Windows.Freezable.IsFrozen" /> 属性为 <see langword="true" />，所克隆的对象的 <see cref="P:System.Windows.Freezable.IsFrozen" /> 属性也将为 <see langword="false" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e060d-184">The cloned object's <see cref="P:System.Windows.Freezable.IsFrozen" /> property will be <see langword="false" /> even if the source's <see cref="P:System.Windows.Freezable.IsFrozen" /> property was <see langword="true" />.</span>
-          </span>
-        </returns>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="e060d-185">此方法用于生成的可修改副本冻结<xref:System.Windows.Freezable>对象 (或任何<xref:System.Windows.Freezable>对象)。</span><span class="sxs-lookup"><span data-stu-id="e060d-185">This method is used to produce modifiable copies of frozen <xref:System.Windows.Freezable> objects (or any <xref:System.Windows.Freezable> object).</span></span> <span data-ttu-id="e060d-186">为方便起见，此方法将隐藏继承的强类型实现的版本。</span><span class="sxs-lookup"><span data-stu-id="e060d-186">For convenience, this method shadows the inherited version with a strongly typed implementation.</span></span>  
-  
- <span data-ttu-id="e060d-187">有关详情，请参阅<xref:System.Windows.Freezable.CloneCurrentValue%2A?displayProperty=nameWithType>。</span><span class="sxs-lookup"><span data-stu-id="e060d-187">For more information, see <xref:System.Windows.Freezable.CloneCurrentValue%2A?displayProperty=nameWithType>.</span></span>  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="CloneCurrentValueCore">
-      <MemberSignature Language="C#" Value="protected override void CloneCurrentValueCore (System.Windows.Freezable sourceFreezable);" />
-      <MemberSignature Language="ILAsm" Value=".method familyhidebysig virtual instance void CloneCurrentValueCore(class System.Windows.Freezable sourceFreezable) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Windows.Media.Imaging.WriteableBitmap.CloneCurrentValueCore(System.Windows.Freezable)" />
-      <MemberSignature Language="VB.NET" Value="Protected Overrides Sub CloneCurrentValueCore (sourceFreezable As Freezable)" />
-      <MemberSignature Language="C++ CLI" Value="protected:&#xA; override void CloneCurrentValueCore(System::Windows::Freezable ^ sourceFreezable);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>PresentationCore</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Attributes>
-        <Attribute>
-          <AttributeName>System.Security.SecurityCritical</AttributeName>
-        </Attribute>
-        <Attribute>
-          <AttributeName>System.Security.SecurityTreatAsSafe</AttributeName>
-        </Attribute>
-      </Attributes>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="sourceFreezable" Type="System.Windows.Freezable" />
-      </Parameters>
-      <Docs>
-        <param name="sourceFreezable">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="CreateInstanceCore">
-      <MemberSignature Language="C#" Value="protected override System.Windows.Freezable CreateInstanceCore ();" />
-      <MemberSignature Language="ILAsm" Value=".method familyhidebysig virtual instance class System.Windows.Freezable CreateInstanceCore() cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Windows.Media.Imaging.WriteableBitmap.CreateInstanceCore" />
-      <MemberSignature Language="VB.NET" Value="Protected Overrides Function CreateInstanceCore () As Freezable" />
-      <MemberSignature Language="C++ CLI" Value="protected:&#xA; override System::Windows::Freezable ^ CreateInstanceCore();" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>PresentationCore</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Windows.Freezable</ReturnType>
-      </ReturnValue>
-      <Parameters />
-      <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="FreezeCore">
-      <MemberSignature Language="C#" Value="protected override bool FreezeCore (bool isChecking);" />
-      <MemberSignature Language="ILAsm" Value=".method familyhidebysig virtual instance bool FreezeCore(bool isChecking) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Windows.Media.Imaging.WriteableBitmap.FreezeCore(System.Boolean)" />
-      <MemberSignature Language="VB.NET" Value="Protected Overrides Function FreezeCore (isChecking As Boolean) As Boolean" />
-      <MemberSignature Language="C++ CLI" Value="protected:&#xA; override bool FreezeCore(bool isChecking);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>PresentationCore</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Attributes>
-        <Attribute>
-          <AttributeName>System.Security.SecurityCritical</AttributeName>
-        </Attribute>
-        <Attribute>
-          <AttributeName>System.Security.SecurityTreatAsSafe</AttributeName>
-        </Attribute>
-      </Attributes>
-      <ReturnValue>
-        <ReturnType>System.Boolean</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="isChecking" Type="System.Boolean" />
-      </Parameters>
-      <Docs>
-        <param name="isChecking">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="GetAsFrozenCore">
-      <MemberSignature Language="C#" Value="protected override void GetAsFrozenCore (System.Windows.Freezable sourceFreezable);" />
-      <MemberSignature Language="ILAsm" Value=".method familyhidebysig virtual instance void GetAsFrozenCore(class System.Windows.Freezable sourceFreezable) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Windows.Media.Imaging.WriteableBitmap.GetAsFrozenCore(System.Windows.Freezable)" />
-      <MemberSignature Language="VB.NET" Value="Protected Overrides Sub GetAsFrozenCore (sourceFreezable As Freezable)" />
-      <MemberSignature Language="C++ CLI" Value="protected:&#xA; override void GetAsFrozenCore(System::Windows::Freezable ^ sourceFreezable);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>PresentationCore</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Attributes>
-        <Attribute>
-          <AttributeName>System.Security.SecurityCritical</AttributeName>
-        </Attribute>
-        <Attribute>
-          <AttributeName>System.Security.SecurityTreatAsSafe</AttributeName>
-        </Attribute>
-      </Attributes>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="sourceFreezable" Type="System.Windows.Freezable" />
-      </Parameters>
-      <Docs>
-        <param name="sourceFreezable">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="GetCurrentValueAsFrozenCore">
-      <MemberSignature Language="C#" Value="protected override void GetCurrentValueAsFrozenCore (System.Windows.Freezable sourceFreezable);" />
-      <MemberSignature Language="ILAsm" Value=".method familyhidebysig virtual instance void GetCurrentValueAsFrozenCore(class System.Windows.Freezable sourceFreezable) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Windows.Media.Imaging.WriteableBitmap.GetCurrentValueAsFrozenCore(System.Windows.Freezable)" />
-      <MemberSignature Language="VB.NET" Value="Protected Overrides Sub GetCurrentValueAsFrozenCore (sourceFreezable As Freezable)" />
-      <MemberSignature Language="C++ CLI" Value="protected:&#xA; override void GetCurrentValueAsFrozenCore(System::Windows::Freezable ^ sourceFreezable);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>PresentationCore</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Attributes>
-        <Attribute>
-          <AttributeName>System.Security.SecurityCritical</AttributeName>
-        </Attribute>
-        <Attribute>
-          <AttributeName>System.Security.SecurityTreatAsSafe</AttributeName>
-        </Attribute>
-      </Attributes>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="sourceFreezable" Type="System.Windows.Freezable" />
-      </Parameters>
-      <Docs>
-        <param name="sourceFreezable">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="Lock">
-      <MemberSignature Language="C#" Value="public void Lock ();" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void Lock() cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Windows.Media.Imaging.WriteableBitmap.Lock" />
-      <MemberSignature Language="VB.NET" Value="Public Sub Lock ()" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; void Lock();" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>PresentationCore</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters />
-      <Docs>
-        <summary>
-          <span data-ttu-id="e060d-188">保留后台缓冲区用于更新。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e060d-188">Reserves the back buffer for updates.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="e060d-189"><xref:System.Windows.Media.Imaging.WriteableBitmap.Lock%2A>方法锁计数递增 1。</span><span class="sxs-lookup"><span data-stu-id="e060d-189">The <xref:System.Windows.Media.Imaging.WriteableBitmap.Lock%2A> method increments the lock count.</span></span> <span data-ttu-id="e060d-190">当<xref:System.Windows.Media.Imaging.WriteableBitmap>是锁定，呈现系统不会发送更新直到<xref:System.Windows.Media.Imaging.WriteableBitmap>完全通过调用解锁<xref:System.Windows.Media.Imaging.WriteableBitmap.Unlock%2A>方法。</span><span class="sxs-lookup"><span data-stu-id="e060d-190">When a <xref:System.Windows.Media.Imaging.WriteableBitmap> is locked, the rendering system does not send updates until the <xref:System.Windows.Media.Imaging.WriteableBitmap> is fully unlocked by calls to the <xref:System.Windows.Media.Imaging.WriteableBitmap.Unlock%2A> method.</span></span>  
-  
- <span data-ttu-id="e060d-191">你可以使用<xref:System.Windows.Media.Imaging.WriteableBitmap.Lock%2A>方法，以支持多线程的实现。</span><span class="sxs-lookup"><span data-stu-id="e060d-191">You can use the <xref:System.Windows.Media.Imaging.WriteableBitmap.Lock%2A> method to support multi-threaded implementations.</span></span> <span data-ttu-id="e060d-192">在这些情况下，UI 线程锁定位图，并公开给其他线程后台缓冲区。</span><span class="sxs-lookup"><span data-stu-id="e060d-192">In these scenarios, the UI thread locks the bitmap and exposes the back buffer to other threads.</span></span> <span data-ttu-id="e060d-193">工作线程完成后一个框架，UI 线程会将更改的矩形添加，并且将解除锁定缓冲区。</span><span class="sxs-lookup"><span data-stu-id="e060d-193">When the worker thread has finished a frame, the UI thread adds changed rectangles and unlocks the buffer.</span></span>  
-  
- <span data-ttu-id="e060d-194">当呈现线程获取后台缓冲区，以将其转发复制到前台缓冲区上的锁时，可以阻止 UI 线程。</span><span class="sxs-lookup"><span data-stu-id="e060d-194">The UI thread can block when the render thread acquires a lock on the back buffer to copy it forward to the front buffer.</span></span> <span data-ttu-id="e060d-195">如果从该块的滞后时间太长，请使用<xref:System.Windows.Media.Imaging.WriteableBitmap.TryLock%2A>方法来等待短时间，然后解除锁定后台缓冲区时执行其他任务的 UI 线程。</span><span class="sxs-lookup"><span data-stu-id="e060d-195">If the latency from this block is too long, use the <xref:System.Windows.Media.Imaging.WriteableBitmap.TryLock%2A> method to wait for a short time and then unblock the UI thread to perform other tasks while the back buffer is locked.</span></span>  
-  
-   
-  
-## Examples  
- <span data-ttu-id="e060d-196">下面的代码示例演示如何通过使用保留后台缓冲区<xref:System.Windows.Media.Imaging.WriteableBitmap.Lock%2A>方法。</span><span class="sxs-lookup"><span data-stu-id="e060d-196">The following code example shows how to reserve the back buffer by using the <xref:System.Windows.Media.Imaging.WriteableBitmap.Lock%2A> method.</span></span>  
-  
- [!code-csharp[WriteableBitmap2#2](~/samples/snippets/csharp/VS_Snippets_Wpf/WriteableBitmap2/CS/Program.cs#2)]  
-  
- ]]></format>
-        </remarks>
-        <altmember cref="M:System.Windows.Media.Imaging.WriteableBitmap.TryLock(System.Windows.Duration)" />
-        <altmember cref="M:System.Windows.Media.Imaging.WriteableBitmap.Unlock" />
-      </Docs>
-    </Member>
-    <Member MemberName="TryLock">
-      <MemberSignature Language="C#" Value="public bool TryLock (System.Windows.Duration timeout);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance bool TryLock(valuetype System.Windows.Duration timeout) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Windows.Media.Imaging.WriteableBitmap.TryLock(System.Windows.Duration)" />
-      <MemberSignature Language="VB.NET" Value="Public Function TryLock (timeout As Duration) As Boolean" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; bool TryLock(System::Windows::Duration timeout);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>PresentationCore</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Attributes>
-        <Attribute>
-          <AttributeName>System.Security.SecurityCritical</AttributeName>
-        </Attribute>
-      </Attributes>
-      <ReturnValue>
-        <ReturnType>System.Boolean</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="timeout" Type="System.Windows.Duration" />
-      </Parameters>
-      <Docs>
-        <param name="timeout">
-          <span data-ttu-id="e060d-197">一个 <see cref="T:System.Windows.Duration" />，表示要等待的时间长度。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e060d-197">A <see cref="T:System.Windows.Duration" /> that represents the length of time to wait.</span>
-          </span>
-          <span data-ttu-id="e060d-198">将立即返回值 0。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e060d-198">A value of 0 returns immediately.</span>
-          </span>
-          <span data-ttu-id="e060d-199">值 <see cref="P:System.Windows.Duration.Forever" /> 将无限期阻止。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e060d-199">A value of <see cref="P:System.Windows.Duration.Forever" /> blocks indefinitely.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="e060d-200">尝试锁定位图，等待不超过指定的时间长度。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e060d-200">Attempts to lock the bitmap, waiting for no longer than the specified length of time.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="e060d-201">如果获得锁定，则为 <see langword="true" />；否则为 <see langword="false" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e060d-201">
-              <see langword="true" /> if the lock was acquired; otherwise, <see langword="false" />.</span>
-          </span>
-        </returns>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="e060d-202">当获取锁的行为<xref:System.Windows.Media.Imaging.WriteableBitmap.TryLock%2A>方法等同于<xref:System.Windows.Media.Imaging.WriteableBitmap.Lock%2A>方法。</span><span class="sxs-lookup"><span data-stu-id="e060d-202">When a lock is acquired, the behavior of the <xref:System.Windows.Media.Imaging.WriteableBitmap.TryLock%2A> method is the same as the <xref:System.Windows.Media.Imaging.WriteableBitmap.Lock%2A> method.</span></span>  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.ArgumentOutOfRangeException">
-          <span data-ttu-id="e060d-203">将 <paramref name="timeout" /> 设置为 <see cref="P:System.Windows.Duration.Automatic" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e060d-203">
-              <paramref name="timeout" /> is set to <see cref="P:System.Windows.Duration.Automatic" />.</span>
-          </span>
-        </exception>
-        <permission cref="T:System.Security.Permissions.SecurityPermission">
-          <span data-ttu-id="e060d-204">用于对非托管资源的访问。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e060d-204">for access to unmanaged resources.</span>
-          </span>
-          <span data-ttu-id="e060d-205">安全操作： <see cref="F:System.Security.Permissions.SecurityAction.Demand" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e060d-205">Security action: <see cref="F:System.Security.Permissions.SecurityAction.Demand" />.</span>
-          </span>
-          <span data-ttu-id="e060d-206">关联的枚举： <see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /></span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e060d-206">Associated enumeration: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /></span>
-          </span>
-        </permission>
-        <altmember cref="M:System.Windows.Media.Imaging.WriteableBitmap.Lock" />
-        <altmember cref="M:System.Windows.Media.Imaging.WriteableBitmap.Unlock" />
-      </Docs>
-    </Member>
-    <Member MemberName="Unlock">
-      <MemberSignature Language="C#" Value="public void Unlock ();" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void Unlock() cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Windows.Media.Imaging.WriteableBitmap.Unlock" />
-      <MemberSignature Language="VB.NET" Value="Public Sub Unlock ()" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; void Unlock();" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>PresentationCore</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Attributes>
-        <Attribute>
-          <AttributeName>System.Security.SecurityCritical</AttributeName>
-        </Attribute>
-      </Attributes>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters />
-      <Docs>
-        <summary>
-          <span data-ttu-id="e060d-207">释放后台缓冲区，以使之可用于显示。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e060d-207">Releases the back buffer to make it available for display.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="e060d-208"><xref:System.Windows.Media.Imaging.WriteableBitmap.Unlock%2A>方法减少锁计数。</span><span class="sxs-lookup"><span data-stu-id="e060d-208">The <xref:System.Windows.Media.Imaging.WriteableBitmap.Unlock%2A> method decrements the lock count.</span></span> <span data-ttu-id="e060d-209">如果当的锁计数达到 0 时，请求呈现处理<xref:System.Windows.Media.Imaging.WriteableBitmap.AddDirtyRect%2A>调用方法。</span><span class="sxs-lookup"><span data-stu-id="e060d-209">When the lock count reaches 0, a render pass is requested if the <xref:System.Windows.Media.Imaging.WriteableBitmap.AddDirtyRect%2A> method has been called.</span></span>  
-  
-   
-  
-## Examples  
- <span data-ttu-id="e060d-210">下面的代码示例演示如何通过使用释放后台缓冲区<xref:System.Windows.Media.Imaging.WriteableBitmap.Unlock%2A>方法。</span><span class="sxs-lookup"><span data-stu-id="e060d-210">The following code example shows how to release the back buffer by using the <xref:System.Windows.Media.Imaging.WriteableBitmap.Unlock%2A> method.</span></span>  
-  
- [!code-csharp[WriteableBitmap2#2](~/samples/snippets/csharp/VS_Snippets_Wpf/WriteableBitmap2/CS/Program.cs#2)]  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.InvalidOperationException">
-          <span data-ttu-id="e060d-211">对 <see cref="M:System.Windows.Media.Imaging.WriteableBitmap.Lock" /> 或 <see cref="M:System.Windows.Media.Imaging.WriteableBitmap.TryLock(System.Windows.Duration)" /> 方法的调用未锁定位图。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e060d-211">The bitmap has not been locked by a call to the <see cref="M:System.Windows.Media.Imaging.WriteableBitmap.Lock" /> or <see cref="M:System.Windows.Media.Imaging.WriteableBitmap.TryLock(System.Windows.Duration)" /> methods.</span>
-          </span>
-        </exception>
-        <permission cref="T:System.Security.Permissions.SecurityPermission">
-          <span data-ttu-id="e060d-212">用于对非托管资源的访问。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e060d-212">for access to unmanaged resources.</span>
-          </span>
-          <span data-ttu-id="e060d-213">安全操作： <see cref="F:System.Security.Permissions.SecurityAction.Demand" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e060d-213">Security action: <see cref="F:System.Security.Permissions.SecurityAction.Demand" />.</span>
-          </span>
-          <span data-ttu-id="e060d-214">关联的枚举： <see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /></span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e060d-214">Associated enumeration: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /></span>
-          </span>
-        </permission>
-        <altmember cref="M:System.Windows.Media.Imaging.WriteableBitmap.Lock" />
-        <altmember cref="M:System.Windows.Media.Imaging.WriteableBitmap.AddDirtyRect(System.Windows.Int32Rect)" />
-      </Docs>
-    </Member>
-    <MemberGroup MemberName="WritePixels">
-      <AssemblyInfo>
-        <AssemblyName>PresentationCore</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Docs>
-        <summary>
-          <span data-ttu-id="e060d-215">更新可写位图的像素。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e060d-215">Updates the pixels of the writeable bitmap.</span>
-          </span>
-        </summary>
-      </Docs>
-    </MemberGroup>
-    <Member MemberName="WritePixels">
-      <MemberSignature Language="C#" Value="public void WritePixels (System.Windows.Int32Rect sourceRect, Array pixels, int stride, int offset);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void WritePixels(valuetype System.Windows.Int32Rect sourceRect, class System.Array pixels, int32 stride, int32 offset) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Windows.Media.Imaging.WriteableBitmap.WritePixels(System.Windows.Int32Rect,System.Array,System.Int32,System.Int32)" />
-      <MemberSignature Language="VB.NET" Value="Public Sub WritePixels (sourceRect As Int32Rect, pixels As Array, stride As Integer, offset As Integer)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; void WritePixels(System::Windows::Int32Rect sourceRect, Array ^ pixels, int stride, int offset);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>PresentationCore</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Attributes>
-        <Attribute>
-          <AttributeName>System.Security.SecurityCritical</AttributeName>
-        </Attribute>
-      </Attributes>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="sourceRect" Type="System.Windows.Int32Rect" />
-        <Parameter Name="pixels" Type="System.Array" />
-        <Parameter Name="stride" Type="System.Int32" />
-        <Parameter Name="offset" Type="System.Int32" />
-      </Parameters>
-      <Docs>
-        <param name="sourceRect">
-          <span data-ttu-id="e060d-216">要更新的 <see cref="T:System.Windows.Media.Imaging.WriteableBitmap" /> 的矩形。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e060d-216">The rectangle of the <see cref="T:System.Windows.Media.Imaging.WriteableBitmap" /> to update.</span>
-          </span>
-        </param>
-        <param name="pixels">
-          <span data-ttu-id="e060d-217">用来更新位图的像素数组。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e060d-217">The pixel array used to update the bitmap.</span>
-          </span>
-        </param>
-        <param name="stride">
-          <span data-ttu-id="e060d-218">
-            <c>pixels</c> 中更新区域的步幅。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e060d-218">The stride of the update region in <c>pixels</c>.</span>
-          </span>
-        </param>
-        <param name="offset">
-          <span data-ttu-id="e060d-219">输入缓冲区偏移量。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e060d-219">The input buffer offset.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="e060d-220">更新位图指定区域中的像素。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e060d-220">Updates the pixels in the specified region of the bitmap.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="e060d-221"><xref:System.Windows.Media.Imaging.WriteableBitmap.WritePixels%28System.Windows.Int32Rect%2CSystem.Array%2CSystem.Int32%2CSystem.Int32%2CSystem.Int32%29>和<xref:System.Windows.Media.Imaging.WriteableBitmap.WritePixels%28System.Windows.Int32Rect%2CSystem.IntPtr%2CSystem.Int32%2CSystem.Int32%2CSystem.Int32%2CSystem.Int32%29>重载要优于使用此方法。</span><span class="sxs-lookup"><span data-stu-id="e060d-221">The <xref:System.Windows.Media.Imaging.WriteableBitmap.WritePixels%28System.Windows.Int32Rect%2CSystem.Array%2CSystem.Int32%2CSystem.Int32%2CSystem.Int32%29> and <xref:System.Windows.Media.Imaging.WriteableBitmap.WritePixels%28System.Windows.Int32Rect%2CSystem.IntPtr%2CSystem.Int32%2CSystem.Int32%2CSystem.Int32%2CSystem.Int32%29> overloads are preferred over using this method.</span></span>  
-  
-> [!NOTE]
->  <span data-ttu-id="e060d-222">在部分信任，请使用<xref:System.Windows.Media.Imaging.WriteableBitmap.WritePixels%28System.Windows.Int32Rect%2CSystem.Array%2CSystem.Int32%2CSystem.Int32%2CSystem.Int32%29>重载。</span><span class="sxs-lookup"><span data-stu-id="e060d-222">In partial trust, use the <xref:System.Windows.Media.Imaging.WriteableBitmap.WritePixels%28System.Windows.Int32Rect%2CSystem.Array%2CSystem.Int32%2CSystem.Int32%2CSystem.Int32%29> overload.</span></span>  
-  
-   
-  
-## Examples  
- <span data-ttu-id="e060d-223">下面的代码示例演示如何通过使用更新后的缓冲区中像素<xref:System.Windows.Media.Imaging.WriteableBitmap.WritePixels%2A>方法。</span><span class="sxs-lookup"><span data-stu-id="e060d-223">The following code example shows how to update a pixel in the back buffer by using the <xref:System.Windows.Media.Imaging.WriteableBitmap.WritePixels%2A> method.</span></span>  
-  
- [!code-csharp[WriteableBitmap2#3](~/samples/snippets/csharp/VS_Snippets_Wpf/WriteableBitmap2/CS/Program.cs#3)]  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.ArgumentOutOfRangeException">
-          <span data-ttu-id="e060d-224">存在下列一种或多种情况时。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e060d-224">One or more of the following conditions is true.</span>
-          </span>
-          <span data-ttu-id="e060d-225">
-            <paramref name="sourceRect" /> 处于 <see cref="T:System.Windows.Media.Imaging.WriteableBitmap" /> 的界限外。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e060d-225">
-              <paramref name="sourceRect" /> falls outside the bounds of the <see cref="T:System.Windows.Media.Imaging.WriteableBitmap" />.</span>
-          </span>
-          <span data-ttu-id="e060d-226">
-            <paramref name="stride" /> &lt; 1</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e060d-226">
-              <paramref name="stride" /> &lt; 1</span>
-          </span>
-          <span data-ttu-id="e060d-227">
-            <paramref name="offset" /> &lt; 0</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e060d-227">
-              <paramref name="offset" /> &lt; 0</span>
-          </span>
-        </exception>
-        <exception cref="T:System.ArgumentNullException">
-          <span data-ttu-id="e060d-228">
-            <paramref name="pixels" /> 为 <see langword="null" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e060d-228">
-              <paramref name="pixels" /> is <see langword="null" />.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.ArgumentException">
-          <span data-ttu-id="e060d-229">
-            <paramref name="pixels" /> 的级别不为 1 或 2，或者其长度小于或等于 0。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e060d-229">
-              <paramref name="pixels" /> has a rank other than 1 or 2, or its length is less than or equal to 0.</span>
-          </span>
-        </exception>
-        <permission cref="T:System.Security.Permissions.SecurityPermission">
-          <span data-ttu-id="e060d-230">用于对非托管资源的访问。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e060d-230">for access to unmanaged resources.</span>
-          </span>
-          <span data-ttu-id="e060d-231">安全操作： <see cref="F:System.Security.Permissions.SecurityAction.Demand" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e060d-231">Security action: <see cref="F:System.Security.Permissions.SecurityAction.Demand" />.</span>
-          </span>
-          <span data-ttu-id="e060d-232">关联的枚举： <see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /></span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e060d-232">Associated enumeration: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /></span>
-          </span>
-        </permission>
-      </Docs>
-    </Member>
-    <Member MemberName="WritePixels">
-      <MemberSignature Language="C#" Value="public void WritePixels (System.Windows.Int32Rect sourceRect, IntPtr buffer, int bufferSize, int stride);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void WritePixels(valuetype System.Windows.Int32Rect sourceRect, native int buffer, int32 bufferSize, int32 stride) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Windows.Media.Imaging.WriteableBitmap.WritePixels(System.Windows.Int32Rect,System.IntPtr,System.Int32,System.Int32)" />
-      <MemberSignature Language="VB.NET" Value="Public Sub WritePixels (sourceRect As Int32Rect, buffer As IntPtr, bufferSize As Integer, stride As Integer)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; void WritePixels(System::Windows::Int32Rect sourceRect, IntPtr buffer, int bufferSize, int stride);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>PresentationCore</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Attributes>
-        <Attribute>
-          <AttributeName>System.Security.SecurityCritical</AttributeName>
-        </Attribute>
-      </Attributes>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="sourceRect" Type="System.Windows.Int32Rect" />
-        <Parameter Name="buffer" Type="System.IntPtr" />
-        <Parameter Name="bufferSize" Type="System.Int32" />
-        <Parameter Name="stride" Type="System.Int32" />
-      </Parameters>
-      <Docs>
-        <param name="sourceRect">
-          <span data-ttu-id="e060d-233">要更新的 <see cref="T:System.Windows.Media.Imaging.WriteableBitmap" /> 的矩形。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e060d-233">The rectangle of the <see cref="T:System.Windows.Media.Imaging.WriteableBitmap" /> to update.</span>
-          </span>
-        </param>
-        <param name="buffer">
-          <span data-ttu-id="e060d-234">用来更新位图的输入缓冲区。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e060d-234">The input buffer used to update the bitmap.</span>
-          </span>
-        </param>
-        <param name="bufferSize">
-          <span data-ttu-id="e060d-235">输入缓冲区的大小。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e060d-235">The size of the input buffer.</span>
-          </span>
-        </param>
-        <param name="stride">
-          <span data-ttu-id="e060d-236">
-            <c>buffer</c> 中更新区域的步幅。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e060d-236">The stride of the update region in <c>buffer</c>.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="e060d-237">更新位图指定区域中的像素。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e060d-237">Updates the pixels in the specified region of the bitmap.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="e060d-238"><xref:System.Windows.Media.Imaging.WriteableBitmap.WritePixels%28System.Windows.Int32Rect%2CSystem.Array%2CSystem.Int32%2CSystem.Int32%2CSystem.Int32%29>和<xref:System.Windows.Media.Imaging.WriteableBitmap.WritePixels%28System.Windows.Int32Rect%2CSystem.IntPtr%2CSystem.Int32%2CSystem.Int32%2CSystem.Int32%2CSystem.Int32%29>重载要优于使用此方法。</span><span class="sxs-lookup"><span data-stu-id="e060d-238">The <xref:System.Windows.Media.Imaging.WriteableBitmap.WritePixels%28System.Windows.Int32Rect%2CSystem.Array%2CSystem.Int32%2CSystem.Int32%2CSystem.Int32%29> and <xref:System.Windows.Media.Imaging.WriteableBitmap.WritePixels%28System.Windows.Int32Rect%2CSystem.IntPtr%2CSystem.Int32%2CSystem.Int32%2CSystem.Int32%2CSystem.Int32%29> overloads are preferred over using this method.</span></span>  
-  
-> [!NOTE]
->  <span data-ttu-id="e060d-239">在部分信任，请使用<xref:System.Windows.Media.Imaging.WriteableBitmap.WritePixels%28System.Windows.Int32Rect%2CSystem.Array%2CSystem.Int32%2CSystem.Int32%2CSystem.Int32%29>重载。</span><span class="sxs-lookup"><span data-stu-id="e060d-239">In partial trust, use the <xref:System.Windows.Media.Imaging.WriteableBitmap.WritePixels%28System.Windows.Int32Rect%2CSystem.Array%2CSystem.Int32%2CSystem.Int32%2CSystem.Int32%29> overload.</span></span>  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.ArgumentOutOfRangeException">
-          <span data-ttu-id="e060d-240">存在下列一种或多种情况时。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e060d-240">One or more of the following conditions is true.</span>
-          </span>
-          <span data-ttu-id="e060d-241">
-            <paramref name="sourceRect" /> 处于 <see cref="T:System.Windows.Media.Imaging.WriteableBitmap" /> 的界限外。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e060d-241">
-              <paramref name="sourceRect" /> falls outside the bounds of the <see cref="T:System.Windows.Media.Imaging.WriteableBitmap" />.</span>
-          </span>
-          <span data-ttu-id="e060d-242">
-            <paramref name="bufferSize" /> &lt; 1</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e060d-242">
-              <paramref name="bufferSize" /> &lt; 1</span>
-          </span>
-          <span data-ttu-id="e060d-243">
-            <paramref name="stride" /> &lt; 1</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e060d-243">
-              <paramref name="stride" /> &lt; 1</span>
-          </span>
-        </exception>
-        <exception cref="T:System.ArgumentNullException">
-          <span data-ttu-id="e060d-244">
-            <paramref name="buffer" /> 为 <see langword="null" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e060d-244">
-              <paramref name="buffer" /> is <see langword="null" />.</span>
-          </span>
-        </exception>
-        <permission cref="T:System.Security.Permissions.SecurityPermission">
-          <span data-ttu-id="e060d-245">用于对非托管资源的访问。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e060d-245">for access to unmanaged resources.</span>
-          </span>
-          <span data-ttu-id="e060d-246">安全操作： <see cref="F:System.Security.Permissions.SecurityAction.Demand" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e060d-246">Security action: <see cref="F:System.Security.Permissions.SecurityAction.Demand" />.</span>
-          </span>
-          <span data-ttu-id="e060d-247">关联的枚举： <see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /></span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e060d-247">Associated enumeration: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /></span>
-          </span>
-        </permission>
-      </Docs>
-    </Member>
-    <Member MemberName="WritePixels">
-      <MemberSignature Language="C#" Value="public void WritePixels (System.Windows.Int32Rect sourceRect, Array sourceBuffer, int sourceBufferStride, int destinationX, int destinationY);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void WritePixels(valuetype System.Windows.Int32Rect sourceRect, class System.Array sourceBuffer, int32 sourceBufferStride, int32 destinationX, int32 destinationY) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Windows.Media.Imaging.WriteableBitmap.WritePixels(System.Windows.Int32Rect,System.Array,System.Int32,System.Int32,System.Int32)" />
-      <MemberSignature Language="VB.NET" Value="Public Sub WritePixels (sourceRect As Int32Rect, sourceBuffer As Array, sourceBufferStride As Integer, destinationX As Integer, destinationY As Integer)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; void WritePixels(System::Windows::Int32Rect sourceRect, Array ^ sourceBuffer, int sourceBufferStride, int destinationX, int destinationY);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>PresentationCore</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Attributes>
-        <Attribute>
-          <AttributeName>System.Security.SecurityCritical</AttributeName>
-        </Attribute>
-      </Attributes>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="sourceRect" Type="System.Windows.Int32Rect" />
-        <Parameter Name="sourceBuffer" Type="System.Array" />
-        <Parameter Name="sourceBufferStride" Type="System.Int32" />
-        <Parameter Name="destinationX" Type="System.Int32" />
-        <Parameter Name="destinationY" Type="System.Int32" />
-      </Parameters>
-      <Docs>
-        <param name="sourceRect">
-          <span data-ttu-id="e060d-248">要复制的 <c>sourceBuffer</c> 中的矩形。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e060d-248">The rectangle in <c>sourceBuffer</c> to copy.</span>
-          </span>
-        </param>
-        <param name="sourceBuffer">
-          <span data-ttu-id="e060d-249">用来更新位图的输入缓冲区。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e060d-249">The input buffer used to update the bitmap.</span>
-          </span>
-        </param>
-        <param name="sourceBufferStride">
-          <span data-ttu-id="e060d-250">输入缓冲区的步幅（以字节为单位）。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e060d-250">The stride of the input buffer, in bytes.</span>
-          </span>
-        </param>
-        <param name="destinationX">
-          <span data-ttu-id="e060d-251">后台缓冲区最左端像素的目标 x 坐标。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e060d-251">The destination x-coordinate of the left-most pixel in the back buffer.</span>
-          </span>
-        </param>
-        <param name="destinationY">
-          <span data-ttu-id="e060d-252">后台缓冲区最顶端像素的目标 y 坐标。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e060d-252">The destination y-coordinate of the top-most pixel in the back buffer.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="e060d-253">更新位图指定区域中的像素。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e060d-253">Updates the pixels in the specified region of the bitmap.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="e060d-254">调用<xref:System.Windows.Media.Imaging.WriteableBitmap.WritePixels%2A>方法来更新<xref:System.Windows.Media.Imaging.WriteableBitmap>使用的内容自动`sourceBuffer`。</span><span class="sxs-lookup"><span data-stu-id="e060d-254">Call the <xref:System.Windows.Media.Imaging.WriteableBitmap.WritePixels%2A> method to update the <xref:System.Windows.Media.Imaging.WriteableBitmap> automatically with the contents of `sourceBuffer`.</span></span> <span data-ttu-id="e060d-255">调用此方法相当于使用<xref:System.Windows.Media.Imaging.WriteableBitmap.Lock%2A>和<xref:System.Windows.Media.Imaging.WriteableBitmap.Unlock%2A>工作流中所述<xref:System.Windows.Media.Imaging.WriteableBitmap>类备注。</span><span class="sxs-lookup"><span data-stu-id="e060d-255">Calling this method is the equivalent of using the <xref:System.Windows.Media.Imaging.WriteableBitmap.Lock%2A> and <xref:System.Windows.Media.Imaging.WriteableBitmap.Unlock%2A> workflow described in the <xref:System.Windows.Media.Imaging.WriteableBitmap> class remarks.</span></span>  
-  
-> [!NOTE]
->  <span data-ttu-id="e060d-256">在部分信任环境中使用此重载。</span><span class="sxs-lookup"><span data-stu-id="e060d-256">Use this overload in partial trust.</span></span>  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.ArgumentOutOfRangeException">
-          <span data-ttu-id="e060d-257">存在下列一种或多种情况时。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e060d-257">One or more of the following conditions is true.</span>
-          </span>
-          <span data-ttu-id="e060d-258">
-            <paramref name="sourceRect" /> 处于 <see cref="T:System.Windows.Media.Imaging.WriteableBitmap" /> 的界限外。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e060d-258">
-              <paramref name="sourceRect" /> falls outside the bounds of the <see cref="T:System.Windows.Media.Imaging.WriteableBitmap" />.</span>
-          </span>
-          <span data-ttu-id="e060d-259">
-            <paramref name="destinationX" /> 或 <paramref name="destinationY" /> 在 <see cref="T:System.Windows.Media.Imaging.WriteableBitmap" /> 的界限外。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e060d-259">
-              <paramref name="destinationX" /> or <paramref name="destinationY" /> is outside the bounds of the <see cref="T:System.Windows.Media.Imaging.WriteableBitmap" />.</span>
-          </span>
-          <span data-ttu-id="e060d-260">
-            <paramref name="sourceBufferStride" /> &lt; 1</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e060d-260">
-              <paramref name="sourceBufferStride" /> &lt; 1</span>
-          </span>
-        </exception>
-        <exception cref="T:System.ArgumentNullException">
-          <span data-ttu-id="e060d-261">
-            <paramref name="sourceBuffer" /> 为 <see langword="null" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e060d-261">
-              <paramref name="sourceBuffer" /> is <see langword="null" />.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.ArgumentException">
-          <span data-ttu-id="e060d-262">
-            <paramref name="sourceBuffer" /> 的级别不为 1 或 2，或者其长度小于或等于 0。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e060d-262">
-              <paramref name="sourceBuffer" /> has a rank other than 1 or 2, or its length is less than or equal to 0.</span>
-          </span>
-        </exception>
-        <permission cref="T:System.Security.Permissions.SecurityPermission">
-          <span data-ttu-id="e060d-263">用于对非托管资源的访问。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e060d-263">for access to unmanaged resources.</span>
-          </span>
-          <span data-ttu-id="e060d-264">安全操作： <see cref="F:System.Security.Permissions.SecurityAction.Demand" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e060d-264">Security action: <see cref="F:System.Security.Permissions.SecurityAction.Demand" />.</span>
-          </span>
-          <span data-ttu-id="e060d-265">关联的枚举： <see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /></span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e060d-265">Associated enumeration: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /></span>
-          </span>
-        </permission>
-        <altmember cref="M:System.Windows.Media.Imaging.WriteableBitmap.WritePixels(System.Windows.Int32Rect,System.IntPtr,System.Int32,System.Int32,System.Int32,System.Int32)" />
-      </Docs>
-    </Member>
-    <Member MemberName="WritePixels">
-      <MemberSignature Language="C#" Value="public void WritePixels (System.Windows.Int32Rect sourceRect, IntPtr sourceBuffer, int sourceBufferSize, int sourceBufferStride, int destinationX, int destinationY);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void WritePixels(valuetype System.Windows.Int32Rect sourceRect, native int sourceBuffer, int32 sourceBufferSize, int32 sourceBufferStride, int32 destinationX, int32 destinationY) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Windows.Media.Imaging.WriteableBitmap.WritePixels(System.Windows.Int32Rect,System.IntPtr,System.Int32,System.Int32,System.Int32,System.Int32)" />
-      <MemberSignature Language="VB.NET" Value="Public Sub WritePixels (sourceRect As Int32Rect, sourceBuffer As IntPtr, sourceBufferSize As Integer, sourceBufferStride As Integer, destinationX As Integer, destinationY As Integer)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; void WritePixels(System::Windows::Int32Rect sourceRect, IntPtr sourceBuffer, int sourceBufferSize, int sourceBufferStride, int destinationX, int destinationY);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>PresentationCore</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Attributes>
-        <Attribute>
-          <AttributeName>System.Security.SecurityCritical</AttributeName>
-        </Attribute>
-      </Attributes>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="sourceRect" Type="System.Windows.Int32Rect" />
-        <Parameter Name="sourceBuffer" Type="System.IntPtr" />
-        <Parameter Name="sourceBufferSize" Type="System.Int32" />
-        <Parameter Name="sourceBufferStride" Type="System.Int32" />
-        <Parameter Name="destinationX" Type="System.Int32" />
-        <Parameter Name="destinationY" Type="System.Int32" />
-      </Parameters>
-      <Docs>
-        <param name="sourceRect">
-          <span data-ttu-id="e060d-266">要复制的 <c>sourceBuffer</c> 中的矩形。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e060d-266">The rectangle in <c>sourceBuffer</c> to copy.</span>
-          </span>
-        </param>
-        <param name="sourceBuffer">
-          <span data-ttu-id="e060d-267">用来更新位图的输入缓冲区。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e060d-267">The input buffer used to update the bitmap.</span>
-          </span>
-        </param>
-        <param name="sourceBufferSize">
-          <span data-ttu-id="e060d-268">输入缓冲区的大小。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e060d-268">The size of the input buffer.</span>
-          </span>
-        </param>
-        <param name="sourceBufferStride">
-          <span data-ttu-id="e060d-269">输入缓冲区的步幅（以字节为单位）。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e060d-269">The stride of the input buffer, in bytes.</span>
-          </span>
-        </param>
-        <param name="destinationX">
-          <span data-ttu-id="e060d-270">后台缓冲区最左端像素的目标 x 坐标。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e060d-270">The destination x-coordinate of the left-most pixel in the back buffer.</span>
-          </span>
-        </param>
-        <param name="destinationY">
-          <span data-ttu-id="e060d-271">后台缓冲区最顶端像素的目标 y 坐标。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e060d-271">The destination y-coordinate of the top-most pixel in the back buffer.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="e060d-272">更新位图指定区域中的像素。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e060d-272">Updates the pixels in the specified region of the bitmap.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="e060d-273">调用<xref:System.Windows.Media.Imaging.WriteableBitmap.WritePixels%2A>方法来更新<xref:System.Windows.Media.Imaging.WriteableBitmap>使用的内容自动`sourceBuffer`。</span><span class="sxs-lookup"><span data-stu-id="e060d-273">Call the <xref:System.Windows.Media.Imaging.WriteableBitmap.WritePixels%2A> method to update the <xref:System.Windows.Media.Imaging.WriteableBitmap> automatically with the contents of `sourceBuffer`.</span></span> <span data-ttu-id="e060d-274">调用此方法相当于使用<xref:System.Windows.Media.Imaging.WriteableBitmap.Lock%2A>和<xref:System.Windows.Media.Imaging.WriteableBitmap.Unlock%2A>工作流中所述<xref:System.Windows.Media.Imaging.WriteableBitmap>类备注。</span><span class="sxs-lookup"><span data-stu-id="e060d-274">Calling this method is the equivalent of using the <xref:System.Windows.Media.Imaging.WriteableBitmap.Lock%2A> and <xref:System.Windows.Media.Imaging.WriteableBitmap.Unlock%2A> workflow described in the <xref:System.Windows.Media.Imaging.WriteableBitmap> class remarks.</span></span>  
-  
-> [!NOTE]
->  <span data-ttu-id="e060d-275">在部分信任，请使用<xref:System.Windows.Media.Imaging.WriteableBitmap.WritePixels%28System.Windows.Int32Rect%2CSystem.Array%2CSystem.Int32%2CSystem.Int32%2CSystem.Int32%29>重载。</span><span class="sxs-lookup"><span data-stu-id="e060d-275">In partial trust, use the <xref:System.Windows.Media.Imaging.WriteableBitmap.WritePixels%28System.Windows.Int32Rect%2CSystem.Array%2CSystem.Int32%2CSystem.Int32%2CSystem.Int32%29> overload.</span></span>  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.ArgumentOutOfRangeException">
-          <span data-ttu-id="e060d-276">存在下列一种或多种情况时。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e060d-276">One or more of the following conditions is true.</span>
-          </span>
-          <span data-ttu-id="e060d-277">
-            <paramref name="sourceRect" /> 处于 <see cref="T:System.Windows.Media.Imaging.WriteableBitmap" /> 的界限外。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e060d-277">
-              <paramref name="sourceRect" /> falls outside the bounds of the <see cref="T:System.Windows.Media.Imaging.WriteableBitmap" />.</span>
-          </span>
-          <span data-ttu-id="e060d-278">
-            <paramref name="destinationX" /> 或 <paramref name="destinationY" /> 在 <see cref="T:System.Windows.Media.Imaging.WriteableBitmap" /> 的界限外。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e060d-278">
-              <paramref name="destinationX" /> or <paramref name="destinationY" /> is outside the bounds of the <see cref="T:System.Windows.Media.Imaging.WriteableBitmap" />.</span>
-          </span>
-          <span data-ttu-id="e060d-279">
-            <paramref name="sourceBufferSize" /> &lt; 1</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e060d-279">
-              <paramref name="sourceBufferSize" /> &lt; 1</span>
-          </span>
-          <span data-ttu-id="e060d-280">
-            <paramref name="sourceBufferStride" /> &lt; 1</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e060d-280">
-              <paramref name="sourceBufferStride" /> &lt; 1</span>
-          </span>
-        </exception>
-        <exception cref="T:System.ArgumentNullException">
-          <span data-ttu-id="e060d-281">
-            <paramref name="sourceBuffer" /> 为 <see langword="null" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e060d-281">
-              <paramref name="sourceBuffer" /> is <see langword="null" />.</span>
-          </span>
-        </exception>
-        <permission cref="T:System.Security.Permissions.SecurityPermission">
-          <span data-ttu-id="e060d-282">用于对非托管资源的访问。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e060d-282">for access to unmanaged resources.</span>
-          </span>
-          <span data-ttu-id="e060d-283">安全操作： <see cref="F:System.Security.Permissions.SecurityAction.Demand" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e060d-283">Security action: <see cref="F:System.Security.Permissions.SecurityAction.Demand" />.</span>
-          </span>
-          <span data-ttu-id="e060d-284">关联的枚举： <see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /></span>
-          <span class="sxs-lookup">
-            <span data-stu-id="e060d-284">Associated enumeration: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /></span>
-          </span>
-        </permission>
-        <altmember cref="M:System.Windows.Media.Imaging.WriteableBitmap.WritePixels(System.Windows.Int32Rect,System.Array,System.Int32,System.Int32,System.Int32)" />
-      </Docs>
-    </Member>
-  </Members>
-</Type>
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.2" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 xliff-core-1.2-transitional.xsd">
+  <file datatype="xml" original="WriteableBitmap.xml" source-language="en-US" target-language="zh-CN">
+    <header>
+      <tool tool-id="mdxliff" tool-name="mdxliff" tool-version="1.0-15c36f0" tool-company="Microsoft" />
+      <xliffext:skl_file_name xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">02cd5861-7ce2-4a82-b358-31f8435a0ac5d8faee124c2155a6b75d903b393c805332cebd28.skl</xliffext:skl_file_name>
+      <xliffext:version xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">1.2</xliffext:version>
+      <xliffext:ms.openlocfilehash xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">d8faee124c2155a6b75d903b393c805332cebd28</xliffext:ms.openlocfilehash>
+      <xliffext:ms.sourcegitcommit xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b</xliffext:ms.sourcegitcommit>
+      <xliffext:ms.lasthandoff xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">04/03/2018</xliffext:ms.lasthandoff>
+      <xliffext:moniker_ids xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">netframework-4.5.1,netframework-4.5.2,netframework-4.5,netframework-4.6.1,netframework-4.6.2,netframework-4.6,netframework-4.7.1,netframework-4.7</xliffext:moniker_ids>
+    </header>
+    <body>
+      <group id="content" extype="content">
+        <trans-unit id="101" translate="yes" xml:space="preserve" uid="T:System.Windows.Media.Imaging.WriteableBitmap">
+          <source>Provides a <ph id="ph1">&lt;see cref="T:System.Windows.Media.Imaging.BitmapSource" /&gt;</ph> that can be written to and updated.</source>
+          <target state="translated">提供一个可写入并可更新的 <ph id="ph1">&lt;see cref="T:System.Windows.Media.Imaging.BitmapSource" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="102" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Windows.Media.Imaging.WriteableBitmap">
+          <source>Use the <ph id="ph1">&lt;xref:System.Windows.Media.Imaging.WriteableBitmap&gt;</ph> class to update and render a bitmap on a per-frame basis.</source>
+          <target state="translated">使用<ph id="ph1">&lt;xref:System.Windows.Media.Imaging.WriteableBitmap&gt;</ph>类来更新和呈现基于每个帧的位图。</target>       </trans-unit>
+        <trans-unit id="103" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Windows.Media.Imaging.WriteableBitmap">
+          <source>This is useful for generating algorithmic content, such as a fractal image, and for data visualization, such as a music visualizer.</source>
+          <target state="translated">这是适用于生成算法的内容，如一个分形映像，以及数据可视化效果，如音乐可视化工具。</target>       </trans-unit>
+        <trans-unit id="104" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Windows.Media.Imaging.WriteableBitmap">
+          <source>The <ph id="ph1">&lt;xref:System.Windows.Media.Imaging.WriteableBitmap&gt;</ph> class uses two buffers.</source>
+          <target state="translated"><ph id="ph1">&lt;xref:System.Windows.Media.Imaging.WriteableBitmap&gt;</ph>类使用两个缓冲区。</target>       </trans-unit>
+        <trans-unit id="105" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Windows.Media.Imaging.WriteableBitmap">
+          <source>The <bpt id="p1">*</bpt>back buffer<ept id="p1">*</ept> is allocated in system memory and accumulates content that is not currently displayed.</source>
+          <target state="translated"><bpt id="p1">*</bpt>后台缓冲区<ept id="p1">*</ept>在系统内存中分配，它可以累计当前未显示的内容。</target>       </trans-unit>
+        <trans-unit id="106" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Windows.Media.Imaging.WriteableBitmap">
+          <source>The <bpt id="p1">*</bpt>front buffer<ept id="p1">*</ept> is allocated in system memory and contains the content that is currently displayed.</source>
+          <target state="translated"><bpt id="p1">*</bpt>前台缓冲区<ept id="p1">*</ept>在系统内存中分配，它包含当前显示的内容。</target>       </trans-unit>
+        <trans-unit id="107" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Windows.Media.Imaging.WriteableBitmap">
+          <source>The rendering system copies the front buffer to video memory for display.</source>
+          <target state="translated">呈现系统将前台缓冲区复制到视频内存中进行显示。</target>       </trans-unit>
+        <trans-unit id="108" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Windows.Media.Imaging.WriteableBitmap">
+          <source>Two threads use these buffers.</source>
+          <target state="translated">两个线程使用这些缓冲区。</target>       </trans-unit>
+        <trans-unit id="109" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Windows.Media.Imaging.WriteableBitmap">
+          <source>The <bpt id="p1">*</bpt>user interface (UI) thread<ept id="p1">*</ept> generates the UI but does not present it to the screen.</source>
+          <target state="translated"><bpt id="p1">*</bpt>用户界面 (UI) 线程<ept id="p1">*</ept>生成 UI 但不将其呈现到屏幕。</target>       </trans-unit>
+        <trans-unit id="110" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Windows.Media.Imaging.WriteableBitmap">
+          <source>The UI thread responds to user input, timers, and other events.</source>
+          <target state="translated">UI 线程对用户输入、 计时器和其他事件做出响应。</target>       </trans-unit>
+        <trans-unit id="111" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Windows.Media.Imaging.WriteableBitmap">
+          <source>An application can have multiple UI threads.</source>
+          <target state="translated">应用程序可以拥有多个 UI 线程。</target>       </trans-unit>
+        <trans-unit id="112" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Windows.Media.Imaging.WriteableBitmap">
+          <source>The <bpt id="p1">*</bpt>render thread<ept id="p1">*</ept> composes and renders changes from the UI thread.</source>
+          <target state="translated"><bpt id="p1">*</bpt>呈现线程<ept id="p1">*</ept>撰写和呈现从 UI 线程的变化。</target>       </trans-unit>
+        <trans-unit id="113" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Windows.Media.Imaging.WriteableBitmap">
+          <source>There is only one render thread per application.</source>
+          <target state="translated">没有每个应用程序只有一个呈现线程。</target>       </trans-unit>
+        <trans-unit id="114" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Windows.Media.Imaging.WriteableBitmap">
+          <source>The UI thread writes content to the back buffer.</source>
+          <target state="translated">UI 线程对后台缓冲区写入内容。</target>       </trans-unit>
+        <trans-unit id="115" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Windows.Media.Imaging.WriteableBitmap">
+          <source>The render thread reads content from the front buffer and copies it to video memory.</source>
+          <target state="translated">呈现线程读取来自前台缓冲区的内容，并将其复制到视频内存。</target>       </trans-unit>
+        <trans-unit id="116" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Windows.Media.Imaging.WriteableBitmap">
+          <source>Changes to the back buffer are tracked with changed rectangular regions.</source>
+          <target state="translated">与更改的矩形区域跟踪对后台缓冲区的更改。</target>       </trans-unit>
+        <trans-unit id="117" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Windows.Media.Imaging.WriteableBitmap">
+          <source>Call one of the <ph id="ph1">&lt;xref:System.Windows.Media.Imaging.WriteableBitmap.WritePixels%2A&gt;</ph> overloads to update and display content in the back buffer automatically.</source>
+          <target state="translated">调用之一<ph id="ph1">&lt;xref:System.Windows.Media.Imaging.WriteableBitmap.WritePixels%2A&gt;</ph>重载更新并自动在后台缓冲区中显示内容。</target>       </trans-unit>
+        <trans-unit id="118" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Windows.Media.Imaging.WriteableBitmap">
+          <source>For greater control over updates, and for multi-threaded access to the back buffer, use the following workflow.</source>
+          <target state="translated">更好地控制更新，以及用于多线程访问后台缓冲区，使用以下工作流。</target>       </trans-unit>
+        <trans-unit id="119" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Windows.Media.Imaging.WriteableBitmap">
+          <source>Call the <ph id="ph1">&lt;xref:System.Windows.Media.Imaging.WriteableBitmap.Lock%2A&gt;</ph> method to reserve the back buffer for updates.</source>
+          <target state="translated">调用<ph id="ph1">&lt;xref:System.Windows.Media.Imaging.WriteableBitmap.Lock%2A&gt;</ph>方法来保留后台缓冲区用于更新。</target>       </trans-unit>
+        <trans-unit id="120" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Windows.Media.Imaging.WriteableBitmap">
+          <source>Obtain a pointer to the back buffer by accessing the <ph id="ph1">&lt;xref:System.Windows.Media.Imaging.WriteableBitmap.BackBuffer%2A&gt;</ph> property.</source>
+          <target state="translated">通过访问获取指向后台缓冲区的<ph id="ph1">&lt;xref:System.Windows.Media.Imaging.WriteableBitmap.BackBuffer%2A&gt;</ph>属性。</target>       </trans-unit>
+        <trans-unit id="121" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Windows.Media.Imaging.WriteableBitmap">
+          <source>Write changes to the back buffer.</source>
+          <target state="translated">更改写入后台缓冲区。</target>       </trans-unit>
+        <trans-unit id="122" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Windows.Media.Imaging.WriteableBitmap">
+          <source>Other threads may write changes to the back buffer when the <ph id="ph1">&lt;xref:System.Windows.Media.Imaging.WriteableBitmap&gt;</ph> is locked.</source>
+          <target state="translated">其他线程可能将更改写入后台缓冲区时<ph id="ph1">&lt;xref:System.Windows.Media.Imaging.WriteableBitmap&gt;</ph>处于锁定状态。</target>       </trans-unit>
+        <trans-unit id="123" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Windows.Media.Imaging.WriteableBitmap">
+          <source>Call the <ph id="ph1">&lt;xref:System.Windows.Media.Imaging.WriteableBitmap.AddDirtyRect%2A&gt;</ph> method to indicate areas that have changed.</source>
+          <target state="translated">调用<ph id="ph1">&lt;xref:System.Windows.Media.Imaging.WriteableBitmap.AddDirtyRect%2A&gt;</ph>方法，以指示已更改的区域。</target>       </trans-unit>
+        <trans-unit id="124" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Windows.Media.Imaging.WriteableBitmap">
+          <source>Call the <ph id="ph1">&lt;xref:System.Windows.Media.Imaging.WriteableBitmap.Unlock%2A&gt;</ph> method to release the back buffer and allow presentation to the screen.</source>
+          <target state="translated">调用<ph id="ph1">&lt;xref:System.Windows.Media.Imaging.WriteableBitmap.Unlock%2A&gt;</ph>方法以释放后台缓冲区，并允许呈现到屏幕。</target>       </trans-unit>
+        <trans-unit id="125" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Windows.Media.Imaging.WriteableBitmap">
+          <source>When updates are sent to the rendering thread, the rendering thread copies the changed rectangles from the back buffer to the front buffer.</source>
+          <target state="translated">当更新发送到呈现线程时，呈现线程将更改的矩形从后台缓冲区复制到前台缓冲区。</target>       </trans-unit>
+        <trans-unit id="126" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Windows.Media.Imaging.WriteableBitmap">
+          <source>The rendering system controls this exchange to avoid deadlocks and redraw artifacts, such as "tearing".</source>
+          <target state="translated">呈现系统控制此 exchange 以避免死锁和重绘项目，比如"撕裂"。</target>       </trans-unit>
+        <trans-unit id="127" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Windows.Media.Imaging.WriteableBitmap">
+          <source>The following example demonstrates how a <ph id="ph1">&lt;xref:System.Windows.Media.Imaging.WriteableBitmap&gt;</ph> can be used as the source of an <ph id="ph2">&lt;xref:System.Windows.Controls.Image&gt;</ph> to draw pixels when the mouse moves.</source>
+          <target state="translated">下面的示例演示如何<ph id="ph1">&lt;xref:System.Windows.Media.Imaging.WriteableBitmap&gt;</ph>可以用作的源<ph id="ph2">&lt;xref:System.Windows.Controls.Image&gt;</ph>绘制像素，当鼠标移动。</target>       </trans-unit>
+        <trans-unit id="128" translate="yes" xml:space="preserve" uid="T:System.Windows.Media.Imaging.WriteableBitmap">
+          <source>Initializes a new instance of the <ph id="ph1">&lt;see cref="T:System.Windows.Media.Imaging.WriteableBitmap" /&gt;</ph> class.</source>
+          <target state="translated">初始化 <ph id="ph1">&lt;see cref="T:System.Windows.Media.Imaging.WriteableBitmap" /&gt;</ph> 类的新实例。</target>       </trans-unit>
+        <trans-unit id="129" translate="yes" xml:space="preserve" uid="M:System.Windows.Media.Imaging.WriteableBitmap.#ctor(System.Windows.Media.Imaging.BitmapSource)">
+          <source>The <ph id="ph1">&lt;see cref="T:System.Windows.Media.Imaging.BitmapSource" /&gt;</ph> to use for initialization.</source>
+          <target state="translated">要用于初始化的 <ph id="ph1">&lt;see cref="T:System.Windows.Media.Imaging.BitmapSource" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="130" translate="yes" xml:space="preserve" uid="M:System.Windows.Media.Imaging.WriteableBitmap.#ctor(System.Windows.Media.Imaging.BitmapSource)">
+          <source>Initializes a new instance of the <ph id="ph1">&lt;see cref="T:System.Windows.Media.Imaging.WriteableBitmap" /&gt;</ph> class using the given <ph id="ph2">&lt;see cref="T:System.Windows.Media.Imaging.BitmapSource" /&gt;</ph>.</source>
+          <target state="translated">使用给定的 <ph id="ph1">&lt;see cref="T:System.Windows.Media.Imaging.WriteableBitmap" /&gt;</ph> 初始化 <ph id="ph2">&lt;see cref="T:System.Windows.Media.Imaging.BitmapSource" /&gt;</ph> 类的新实例。</target>       </trans-unit>
+        <trans-unit id="131" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.Media.Imaging.WriteableBitmap.#ctor(System.Windows.Media.Imaging.BitmapSource)">
+          <source>The <ph id="ph1">&lt;xref:System.Windows.Media.Imaging.WriteableBitmap.%23ctor%28System.Int32%2CSystem.Int32%2CSystem.Double%2CSystem.Double%2CSystem.Windows.Media.PixelFormat%2CSystem.Windows.Media.Imaging.BitmapPalette%29&gt;</ph> constructor is preferred over using this constructor.</source>
+          <target state="translated"><ph id="ph1">&lt;xref:System.Windows.Media.Imaging.WriteableBitmap.%23ctor%28System.Int32%2CSystem.Int32%2CSystem.Double%2CSystem.Double%2CSystem.Windows.Media.PixelFormat%2CSystem.Windows.Media.Imaging.BitmapPalette%29&gt;</ph>构造函数的效果好于使用此构造函数。</target>       </trans-unit>
+        <trans-unit id="132" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.Media.Imaging.WriteableBitmap.#ctor(System.Windows.Media.Imaging.BitmapSource)">
+          <source>If <ph id="ph1">`source`</ph> does not use a natively supported bitmap format, format conversions are applied for each frame update, which reduces performance.</source>
+          <target state="translated">如果<ph id="ph1">`source`</ph>不使用本机支持的位图格式，格式转换应用于每个帧更新，这会降低性能。</target>       </trans-unit>
+        <trans-unit id="133" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.Media.Imaging.WriteableBitmap.#ctor(System.Windows.Media.Imaging.BitmapSource)">
+          <source>for access to unmanaged resources.</source>
+          <target state="translated">用于对非托管资源的访问。</target>       </trans-unit>
+        <trans-unit id="134" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.Media.Imaging.WriteableBitmap.#ctor(System.Windows.Media.Imaging.BitmapSource)">
+          <source>Security action: <ph id="ph1">&lt;see cref="F:System.Security.Permissions.SecurityAction.Demand" /&gt;</ph>.</source>
+          <target state="translated">安全操作： <ph id="ph1">&lt;see cref="F:System.Security.Permissions.SecurityAction.Demand" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="135" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.Media.Imaging.WriteableBitmap.#ctor(System.Windows.Media.Imaging.BitmapSource)">
+          <source>Associated enumeration: <ph id="ph1">&lt;see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /&gt;</ph></source>
+          <target state="translated">关联的枚举： <ph id="ph1">&lt;see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /&gt;</ph></target>       </trans-unit>
+        <trans-unit id="136" translate="yes" xml:space="preserve" uid="M:System.Windows.Media.Imaging.WriteableBitmap.#ctor(System.Int32,System.Int32,System.Double,System.Double,System.Windows.Media.PixelFormat,System.Windows.Media.Imaging.BitmapPalette)">
+          <source>The desired width of the bitmap.</source>
+          <target state="translated">位图所需的宽度。</target>       </trans-unit>
+        <trans-unit id="137" translate="yes" xml:space="preserve" uid="M:System.Windows.Media.Imaging.WriteableBitmap.#ctor(System.Int32,System.Int32,System.Double,System.Double,System.Windows.Media.PixelFormat,System.Windows.Media.Imaging.BitmapPalette)">
+          <source>The desired height of the bitmap.</source>
+          <target state="translated">位图所需的高度。</target>       </trans-unit>
+        <trans-unit id="138" translate="yes" xml:space="preserve" uid="M:System.Windows.Media.Imaging.WriteableBitmap.#ctor(System.Int32,System.Int32,System.Double,System.Double,System.Windows.Media.PixelFormat,System.Windows.Media.Imaging.BitmapPalette)">
+          <source>The horizontal <ph id="ph1">[!INCLUDE[TLA#tla_dpi](~/includes/tlasharptla-dpi-md.md)]</ph> of the bitmap.</source>
+          <target state="translated">位图的水平<ph id="ph1">[!INCLUDE[TLA#tla_dpi](~/includes/tlasharptla-dpi-md.md)]</ph>。</target>       </trans-unit>
+        <trans-unit id="139" translate="yes" xml:space="preserve" uid="M:System.Windows.Media.Imaging.WriteableBitmap.#ctor(System.Int32,System.Int32,System.Double,System.Double,System.Windows.Media.PixelFormat,System.Windows.Media.Imaging.BitmapPalette)">
+          <source>The vertical <ph id="ph1">[!INCLUDE[TLA#tla_dpi](~/includes/tlasharptla-dpi-md.md)]</ph> of the bitmap.</source>
+          <target state="translated">位图的垂直<ph id="ph1">[!INCLUDE[TLA#tla_dpi](~/includes/tlasharptla-dpi-md.md)]</ph>。</target>       </trans-unit>
+        <trans-unit id="140" translate="yes" xml:space="preserve" uid="M:System.Windows.Media.Imaging.WriteableBitmap.#ctor(System.Int32,System.Int32,System.Double,System.Double,System.Windows.Media.PixelFormat,System.Windows.Media.Imaging.BitmapPalette)">
+          <source>The <ph id="ph1">&lt;see cref="T:System.Windows.Media.PixelFormat" /&gt;</ph> of the bitmap.</source>
+          <target state="translated">位图的 <ph id="ph1">&lt;see cref="T:System.Windows.Media.PixelFormat" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="141" translate="yes" xml:space="preserve" uid="M:System.Windows.Media.Imaging.WriteableBitmap.#ctor(System.Int32,System.Int32,System.Double,System.Double,System.Windows.Media.PixelFormat,System.Windows.Media.Imaging.BitmapPalette)">
+          <source>The <ph id="ph1">&lt;see cref="T:System.Windows.Media.Imaging.BitmapPalette" /&gt;</ph> of the bitmap.</source>
+          <target state="translated">位图的 <ph id="ph1">&lt;see cref="T:System.Windows.Media.Imaging.BitmapPalette" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="142" translate="yes" xml:space="preserve" uid="M:System.Windows.Media.Imaging.WriteableBitmap.#ctor(System.Int32,System.Int32,System.Double,System.Double,System.Windows.Media.PixelFormat,System.Windows.Media.Imaging.BitmapPalette)">
+          <source>Initializes a new instance of the <ph id="ph1">&lt;see cref="T:System.Windows.Media.Imaging.WriteableBitmap" /&gt;</ph> class with the specified parameters.</source>
+          <target state="translated">使用指定的参数初始化 <ph id="ph1">&lt;see cref="T:System.Windows.Media.Imaging.WriteableBitmap" /&gt;</ph> 类的新实例。</target>       </trans-unit>
+        <trans-unit id="143" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.Media.Imaging.WriteableBitmap.#ctor(System.Int32,System.Int32,System.Double,System.Double,System.Windows.Media.PixelFormat,System.Windows.Media.Imaging.BitmapPalette)">
+          <source>The preferred values for <ph id="ph1">`pixelFormat`</ph> are <ph id="ph2">&lt;xref:System.Windows.Media.PixelFormats.Bgr32%2A&gt;</ph> and <ph id="ph3">&lt;xref:System.Windows.Media.PixelFormats.Pbgra32%2A&gt;</ph>.</source>
+          <target state="translated">首选的值<ph id="ph1">`pixelFormat`</ph>是<ph id="ph2">&lt;xref:System.Windows.Media.PixelFormats.Bgr32%2A&gt;</ph>和<ph id="ph3">&lt;xref:System.Windows.Media.PixelFormats.Pbgra32%2A&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="144" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.Media.Imaging.WriteableBitmap.#ctor(System.Int32,System.Int32,System.Double,System.Double,System.Windows.Media.PixelFormat,System.Windows.Media.Imaging.BitmapPalette)">
+          <source>These formats are natively supported and do not require a format conversion.</source>
+          <target state="translated">这些格式以本机方式支持，并且不需要的格式转换。</target>       </trans-unit>
+        <trans-unit id="145" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.Media.Imaging.WriteableBitmap.#ctor(System.Int32,System.Int32,System.Double,System.Double,System.Windows.Media.PixelFormat,System.Windows.Media.Imaging.BitmapPalette)">
+          <source>Other <ph id="ph1">`pixelFormat`</ph> values require a format conversion for each frame update, which reduces performance.</source>
+          <target state="translated">其他<ph id="ph1">`pixelFormat`</ph>值需要格式转换为每个帧更新，这会降低性能。</target>       </trans-unit>
+        <trans-unit id="146" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.Media.Imaging.WriteableBitmap.#ctor(System.Int32,System.Int32,System.Double,System.Double,System.Windows.Media.PixelFormat,System.Windows.Media.Imaging.BitmapPalette)">
+          <source>for access to unmanaged resources.</source>
+          <target state="translated">用于对非托管资源的访问。</target>       </trans-unit>
+        <trans-unit id="147" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.Media.Imaging.WriteableBitmap.#ctor(System.Int32,System.Int32,System.Double,System.Double,System.Windows.Media.PixelFormat,System.Windows.Media.Imaging.BitmapPalette)">
+          <source>Security action: <ph id="ph1">&lt;see cref="F:System.Security.Permissions.SecurityAction.Demand" /&gt;</ph>.</source>
+          <target state="translated">安全操作： <ph id="ph1">&lt;see cref="F:System.Security.Permissions.SecurityAction.Demand" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="148" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.Media.Imaging.WriteableBitmap.#ctor(System.Int32,System.Int32,System.Double,System.Double,System.Windows.Media.PixelFormat,System.Windows.Media.Imaging.BitmapPalette)">
+          <source>Associated enumeration: <ph id="ph1">&lt;see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /&gt;</ph></source>
+          <target state="translated">关联的枚举： <ph id="ph1">&lt;see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /&gt;</ph></target>       </trans-unit>
+        <trans-unit id="149" translate="yes" xml:space="preserve" uid="M:System.Windows.Media.Imaging.WriteableBitmap.AddDirtyRect(System.Windows.Int32Rect)">
+          <source>An <ph id="ph1">&lt;see cref="T:System.Windows.Int32Rect" /&gt;</ph> representing the area that changed.</source>
+          <target state="translated">一个 <ph id="ph1">&lt;see cref="T:System.Windows.Int32Rect" /&gt;</ph>，表示更改的区域。</target>       </trans-unit>
+        <trans-unit id="150" translate="yes" xml:space="preserve" uid="M:System.Windows.Media.Imaging.WriteableBitmap.AddDirtyRect(System.Windows.Int32Rect)">
+          <source>Dimensions are in pixels.</source>
+          <target state="translated">维数以像素为单位。</target>       </trans-unit>
+        <trans-unit id="151" translate="yes" xml:space="preserve" uid="M:System.Windows.Media.Imaging.WriteableBitmap.AddDirtyRect(System.Windows.Int32Rect)">
+          <source>Specifies the area of the bitmap that changed.</source>
+          <target state="translated">指定更改的位图区域。</target>       </trans-unit>
+        <trans-unit id="152" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.Media.Imaging.WriteableBitmap.AddDirtyRect(System.Windows.Int32Rect)">
+          <source>Call the <ph id="ph1">&lt;xref:System.Windows.Media.Imaging.WriteableBitmap.AddDirtyRect%2A&gt;</ph> method to indicate changes your code has made to the back buffer.</source>
+          <target state="translated">调用<ph id="ph1">&lt;xref:System.Windows.Media.Imaging.WriteableBitmap.AddDirtyRect%2A&gt;</ph>方法，以指示你的代码对后台缓冲区所做的更改。</target>       </trans-unit>
+        <trans-unit id="153" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.Media.Imaging.WriteableBitmap.AddDirtyRect(System.Windows.Int32Rect)">
+          <source>When you call this method multiple times, the changed areas are accumulated in a sufficient, but not necessarily minimal, representation.</source>
+          <target state="translated">时多次调用此方法，以满足需求，但不是一定最小，表示累积更改的区域。</target>       </trans-unit>
+        <trans-unit id="154" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.Media.Imaging.WriteableBitmap.AddDirtyRect(System.Windows.Int32Rect)">
+          <source>For efficiency, only the areas that are marked as dirty are guaranteed to be copied forward to the front buffer.</source>
+          <target state="translated">为提高效率，保证仅标记为脏的区域都向前复制到前端的缓冲区。</target>       </trans-unit>
+        <trans-unit id="155" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.Media.Imaging.WriteableBitmap.AddDirtyRect(System.Windows.Int32Rect)">
+          <source>However, any portion of the bitmap may be copied forward, so you must ensure that the entire back buffer is always valid.</source>
+          <target state="translated">但是，位图中的任何部分可复制向前移动，因此您必须确保整个后台缓冲区将一直有效。</target>       </trans-unit>
+        <trans-unit id="156" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.Media.Imaging.WriteableBitmap.AddDirtyRect(System.Windows.Int32Rect)">
+          <source>Call the <ph id="ph1">&lt;xref:System.Windows.Media.Imaging.WriteableBitmap.AddDirtyRect%2A&gt;</ph> method only between calls to the <ph id="ph2">&lt;xref:System.Windows.Media.Imaging.WriteableBitmap.Lock%2A&gt;</ph> and <ph id="ph3">&lt;xref:System.Windows.Media.Imaging.WriteableBitmap.Unlock%2A&gt;</ph> methods, as described in the <ph id="ph4">&lt;xref:System.Windows.Media.Imaging.WriteableBitmap&gt;</ph> class remarks.</source>
+          <target state="translated">调用<ph id="ph1">&lt;xref:System.Windows.Media.Imaging.WriteableBitmap.AddDirtyRect%2A&gt;</ph>仅之间调用的方法<ph id="ph2">&lt;xref:System.Windows.Media.Imaging.WriteableBitmap.Lock%2A&gt;</ph>和<ph id="ph3">&lt;xref:System.Windows.Media.Imaging.WriteableBitmap.Unlock%2A&gt;</ph>方法，如中所述<ph id="ph4">&lt;xref:System.Windows.Media.Imaging.WriteableBitmap&gt;</ph>类备注。</target>       </trans-unit>
+        <trans-unit id="157" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.Media.Imaging.WriteableBitmap.AddDirtyRect(System.Windows.Int32Rect)">
+          <source>The following code example shows how to specify the area of the back buffer that changed by using the <ph id="ph1">&lt;xref:System.Windows.Media.Imaging.WriteableBitmap.AddDirtyRect%2A&gt;</ph> method.</source>
+          <target state="translated">下面的代码示例演示如何指定背面的区缓冲区的使用更改<ph id="ph1">&lt;xref:System.Windows.Media.Imaging.WriteableBitmap.AddDirtyRect%2A&gt;</ph>方法。</target>       </trans-unit>
+        <trans-unit id="158" translate="yes" xml:space="preserve" uid="M:System.Windows.Media.Imaging.WriteableBitmap.AddDirtyRect(System.Windows.Int32Rect)">
+          <source>The bitmap has not been locked by a call to the <ph id="ph1">&lt;see cref="M:System.Windows.Media.Imaging.WriteableBitmap.Lock" /&gt;</ph> or <ph id="ph2">&lt;see cref="M:System.Windows.Media.Imaging.WriteableBitmap.TryLock(System.Windows.Duration)" /&gt;</ph> methods.</source>
+          <target state="translated">对 <ph id="ph1">&lt;see cref="M:System.Windows.Media.Imaging.WriteableBitmap.Lock" /&gt;</ph> 或 <ph id="ph2">&lt;see cref="M:System.Windows.Media.Imaging.WriteableBitmap.TryLock(System.Windows.Duration)" /&gt;</ph> 方法的调用未锁定位图。</target>       </trans-unit>
+        <trans-unit id="159" translate="yes" xml:space="preserve" uid="M:System.Windows.Media.Imaging.WriteableBitmap.AddDirtyRect(System.Windows.Int32Rect)">
+          <source><ph id="ph1">&lt;paramref name="dirtyRect" /&gt;</ph> falls outside the bounds of the <ph id="ph2">&lt;see cref="T:System.Windows.Media.Imaging.WriteableBitmap" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="dirtyRect" /&gt;</ph> 处于 <ph id="ph2">&lt;see cref="T:System.Windows.Media.Imaging.WriteableBitmap" /&gt;</ph> 的界限外。</target>       </trans-unit>
+        <trans-unit id="160" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.Media.Imaging.WriteableBitmap.AddDirtyRect(System.Windows.Int32Rect)">
+          <source>for access to unmanaged resources.</source>
+          <target state="translated">用于对非托管资源的访问。</target>       </trans-unit>
+        <trans-unit id="161" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.Media.Imaging.WriteableBitmap.AddDirtyRect(System.Windows.Int32Rect)">
+          <source>Security action: <ph id="ph1">&lt;see cref="F:System.Security.Permissions.SecurityAction.Demand" /&gt;</ph>.</source>
+          <target state="translated">安全操作： <ph id="ph1">&lt;see cref="F:System.Security.Permissions.SecurityAction.Demand" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="162" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.Media.Imaging.WriteableBitmap.AddDirtyRect(System.Windows.Int32Rect)">
+          <source>Associated enumeration: <ph id="ph1">&lt;see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /&gt;</ph></source>
+          <target state="translated">关联的枚举： <ph id="ph1">&lt;see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /&gt;</ph></target>       </trans-unit>
+        <trans-unit id="163" translate="yes" xml:space="preserve" uid="P:System.Windows.Media.Imaging.WriteableBitmap.BackBuffer">
+          <source>Gets a pointer to the back buffer.</source>
+          <target state="translated">获取指向后台缓冲区的指针。</target>       </trans-unit>
+        <trans-unit id="164" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Windows.Media.Imaging.WriteableBitmap.BackBuffer">
+          <source>An <ph id="ph1">&lt;see cref="T:System.IntPtr" /&gt;</ph> that points to the base address of the back buffer.</source>
+          <target state="translated">一个 <ph id="ph1">&lt;see cref="T:System.IntPtr" /&gt;</ph>，指向后台缓冲区的基址。</target>       </trans-unit>
+        <trans-unit id="165" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Windows.Media.Imaging.WriteableBitmap.BackBuffer">
+          <source>The back buffer contains the bitmap contents in the pixel format requested by the user.</source>
+          <target state="translated">后台缓冲区包含由用户请求的像素格式的位图内容。</target>       </trans-unit>
+        <trans-unit id="166" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Windows.Media.Imaging.WriteableBitmap.BackBuffer">
+          <source>Update the back buffer only between calls to the <ph id="ph1">&lt;xref:System.Windows.Media.Imaging.WriteableBitmap.Lock%2A&gt;</ph> and <ph id="ph2">&lt;xref:System.Windows.Media.Imaging.WriteableBitmap.Unlock%2A&gt;</ph> methods.</source>
+          <target state="translated">更新仅之间调用后台缓冲区<ph id="ph1">&lt;xref:System.Windows.Media.Imaging.WriteableBitmap.Lock%2A&gt;</ph>和<ph id="ph2">&lt;xref:System.Windows.Media.Imaging.WriteableBitmap.Unlock%2A&gt;</ph>方法。</target>       </trans-unit>
+        <trans-unit id="167" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Windows.Media.Imaging.WriteableBitmap.BackBuffer">
+          <source>If you do not follow the Lock/Unlock workflow described in the <ph id="ph1">&lt;xref:System.Windows.Media.Imaging.WriteableBitmap&gt;</ph> class remarks, undefined behaviors, such as tearing, can occur.</source>
+          <target state="translated">如果不遵循锁定/解锁工作流中所述<ph id="ph1">&lt;xref:System.Windows.Media.Imaging.WriteableBitmap&gt;</ph>类备注，未定义的行为，例如撕裂，可能发生。</target>       </trans-unit>
+        <trans-unit id="168" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Windows.Media.Imaging.WriteableBitmap.BackBuffer">
+          <source>The address of the back buffer does not change.</source>
+          <target state="translated">后台缓冲区的地址不会更改。</target>       </trans-unit>
+        <trans-unit id="169" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Windows.Media.Imaging.WriteableBitmap.BackBuffer">
+          <source>Thread Safety</source>
+          <target state="translated">线程安全</target>       </trans-unit>
+        <trans-unit id="170" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Windows.Media.Imaging.WriteableBitmap.BackBuffer">
+          <source>You can pass the <ph id="ph1">&lt;xref:System.Windows.Media.Imaging.WriteableBitmap.BackBuffer%2A&gt;</ph> pointer to external components and other threads for processing, but if you do, you must provide you own thread coordination.</source>
+          <target state="translated">你可以将传递<ph id="ph1">&lt;xref:System.Windows.Media.Imaging.WriteableBitmap.BackBuffer%2A&gt;</ph>对外部组件和处理，其他线程的指针，但如果这样做，你必须提供你自己的线程协调。</target>       </trans-unit>
+        <trans-unit id="171" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Windows.Media.Imaging.WriteableBitmap.BackBuffer">
+          <source>In particular, you must ensure that the UI thread specifies changed areas by calling the <ph id="ph1">&lt;xref:System.Windows.Media.Imaging.WriteableBitmap.AddDirtyRect%2A&gt;</ph> method, and that the UI thread unlocks the buffer by calling the <ph id="ph2">&lt;xref:System.Windows.Media.Imaging.WriteableBitmap.Unlock%2A&gt;</ph> method.</source>
+          <target state="translated">具体而言，必须确保 UI 线程通过调用指定更改的区域<ph id="ph1">&lt;xref:System.Windows.Media.Imaging.WriteableBitmap.AddDirtyRect%2A&gt;</ph>方法，并且 UI 线程通过调用将缓冲区解除锁定<ph id="ph2">&lt;xref:System.Windows.Media.Imaging.WriteableBitmap.Unlock%2A&gt;</ph>方法。</target>       </trans-unit>
+        <trans-unit id="172" translate="yes" xml:space="preserve" uid="P:System.Windows.Media.Imaging.WriteableBitmap.BackBufferStride">
+          <source>Gets a value indicating the number of bytes in a single row of pixel data.</source>
+          <target state="translated">获取一个值，该值指示单行像素数据中的字节数。</target>       </trans-unit>
+        <trans-unit id="173" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Windows.Media.Imaging.WriteableBitmap.BackBufferStride">
+          <source>An integer indicating the number of bytes in a single row of pixel data.</source>
+          <target state="translated">指示单行像素数据中的字节数的整数。</target>       </trans-unit>
+        <trans-unit id="174" translate="yes" xml:space="preserve" uid="M:System.Windows.Media.Imaging.WriteableBitmap.Clone">
+          <source>Creates a modifiable clone of this <ph id="ph1">&lt;see cref="T:System.Windows.Media.Imaging.WriteableBitmap" /&gt;</ph>, making deep copies of this object's values.</source>
+          <target state="translated">创建此 <ph id="ph1">&lt;see cref="T:System.Windows.Media.Imaging.WriteableBitmap" /&gt;</ph> 的可修改克隆，从而深度复制此对象的值。</target>       </trans-unit>
+        <trans-unit id="175" translate="yes" xml:space="preserve" uid="M:System.Windows.Media.Imaging.WriteableBitmap.Clone">
+          <source>When copying dependency properties, this method copies resource references and data bindings (but they might no longer resolve) but not animations or their current values.</source>
+          <target state="translated">在复制依赖项属性时，此方法会复制资源引用和数据绑定（但可能不再解析），但不复制动画或其当前值。</target>       </trans-unit>
+        <trans-unit id="176" translate="yes" xml:space="preserve" uid="M:System.Windows.Media.Imaging.WriteableBitmap.Clone">
+          <source>A modifiable clone of the current object.</source>
+          <target state="translated">当前对象的可修改复本。</target>       </trans-unit>
+        <trans-unit id="177" translate="yes" xml:space="preserve" uid="M:System.Windows.Media.Imaging.WriteableBitmap.Clone">
+          <source>The cloned object's <ph id="ph1">&lt;see cref="P:System.Windows.Freezable.IsFrozen" /&gt;</ph> property will be <ph id="ph2">&lt;see langword="false" /&gt;</ph> even if the source's <ph id="ph3">&lt;see cref="P:System.Windows.Freezable.IsFrozen" /&gt;</ph> property was <ph id="ph4">&lt;see langword="true." /&gt;</ph></source>
+          <target state="translated">即使源的 <ph id="ph3">&lt;see cref="P:System.Windows.Freezable.IsFrozen" /&gt;</ph> 属性为 <ph id="ph4">&lt;see langword="true." /&gt;</ph>，所克隆的对象的 <ph id="ph1">&lt;see cref="P:System.Windows.Freezable.IsFrozen" /&gt;</ph> 属性也将为 <ph id="ph2">&lt;see langword="false" /&gt;</ph></target>       </trans-unit>
+        <trans-unit id="178" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.Media.Imaging.WriteableBitmap.Clone">
+          <source>This method is used to produce modifiable copies of frozen <ph id="ph1">&lt;xref:System.Windows.Freezable&gt;</ph> objects (or any <ph id="ph2">&lt;xref:System.Windows.Freezable&gt;</ph> object).</source>
+          <target state="translated">此方法用于生成的可修改副本冻结<ph id="ph1">&lt;xref:System.Windows.Freezable&gt;</ph>对象 (或任何<ph id="ph2">&lt;xref:System.Windows.Freezable&gt;</ph>对象)。</target>       </trans-unit>
+        <trans-unit id="179" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.Media.Imaging.WriteableBitmap.Clone">
+          <source>For convenience, this method shadows the inherited version with a strongly typed implementation.</source>
+          <target state="translated">为方便起见，此方法将隐藏继承的强类型实现的版本。</target>       </trans-unit>
+        <trans-unit id="180" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.Media.Imaging.WriteableBitmap.Clone">
+          <source>For more information, see <ph id="ph1">&lt;xref:System.Windows.Freezable.Clone%2A?displayProperty=nameWithType&gt;</ph>.</source>
+          <target state="translated">有关详情，请参阅<ph id="ph1">&lt;xref:System.Windows.Freezable.Clone%2A?displayProperty=nameWithType&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="181" translate="yes" xml:space="preserve" uid="M:System.Windows.Media.Imaging.WriteableBitmap.CloneCurrentValue">
+          <source>Creates a modifiable clone of this <ph id="ph1">&lt;see cref="T:System.Windows.Media.Animation.ByteAnimationUsingKeyFrames" /&gt;</ph> object, making deep copies of this object's current values.</source>
+          <target state="translated">创建此 <ph id="ph1">&lt;see cref="T:System.Windows.Media.Animation.ByteAnimationUsingKeyFrames" /&gt;</ph> 对象的可修改复本，从而深度复制此对象的当前值。</target>       </trans-unit>
+        <trans-unit id="182" translate="yes" xml:space="preserve" uid="M:System.Windows.Media.Imaging.WriteableBitmap.CloneCurrentValue">
+          <source>Resource references, data bindings, and animations are not copied, but their current values are.</source>
+          <target state="translated">不复制资源引用、数据绑定和动画，而是复制其当前值。</target>       </trans-unit>
+        <trans-unit id="183" translate="yes" xml:space="preserve" uid="M:System.Windows.Media.Imaging.WriteableBitmap.CloneCurrentValue">
+          <source>A modifiable clone of the current object.</source>
+          <target state="translated">当前对象的可修改复本。</target>       </trans-unit>
+        <trans-unit id="184" translate="yes" xml:space="preserve" uid="M:System.Windows.Media.Imaging.WriteableBitmap.CloneCurrentValue">
+          <source>The cloned object's <ph id="ph1">&lt;see cref="P:System.Windows.Freezable.IsFrozen" /&gt;</ph> property will be <ph id="ph2">&lt;see langword="false" /&gt;</ph> even if the source's <ph id="ph3">&lt;see cref="P:System.Windows.Freezable.IsFrozen" /&gt;</ph> property was <ph id="ph4">&lt;see langword="true" /&gt;</ph>.</source>
+          <target state="translated">即使源的 <ph id="ph3">&lt;see cref="P:System.Windows.Freezable.IsFrozen" /&gt;</ph> 属性为 <ph id="ph4">&lt;see langword="true" /&gt;</ph>，所克隆的对象的 <ph id="ph1">&lt;see cref="P:System.Windows.Freezable.IsFrozen" /&gt;</ph> 属性也将为 <ph id="ph2">&lt;see langword="false" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="185" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.Media.Imaging.WriteableBitmap.CloneCurrentValue">
+          <source>This method is used to produce modifiable copies of frozen <ph id="ph1">&lt;xref:System.Windows.Freezable&gt;</ph> objects (or any <ph id="ph2">&lt;xref:System.Windows.Freezable&gt;</ph> object).</source>
+          <target state="translated">此方法用于生成的可修改副本冻结<ph id="ph1">&lt;xref:System.Windows.Freezable&gt;</ph>对象 (或任何<ph id="ph2">&lt;xref:System.Windows.Freezable&gt;</ph>对象)。</target>       </trans-unit>
+        <trans-unit id="186" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.Media.Imaging.WriteableBitmap.CloneCurrentValue">
+          <source>For convenience, this method shadows the inherited version with a strongly typed implementation.</source>
+          <target state="translated">为方便起见，此方法将隐藏继承的强类型实现的版本。</target>       </trans-unit>
+        <trans-unit id="187" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.Media.Imaging.WriteableBitmap.CloneCurrentValue">
+          <source>For more information, see <ph id="ph1">&lt;xref:System.Windows.Freezable.CloneCurrentValue%2A?displayProperty=nameWithType&gt;</ph>.</source>
+          <target state="translated">有关详情，请参阅<ph id="ph1">&lt;xref:System.Windows.Freezable.CloneCurrentValue%2A?displayProperty=nameWithType&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="188" translate="yes" xml:space="preserve" uid="M:System.Windows.Media.Imaging.WriteableBitmap.Lock">
+          <source>Reserves the back buffer for updates.</source>
+          <target state="translated">保留后台缓冲区用于更新。</target>       </trans-unit>
+        <trans-unit id="189" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.Media.Imaging.WriteableBitmap.Lock">
+          <source>The <ph id="ph1">&lt;xref:System.Windows.Media.Imaging.WriteableBitmap.Lock%2A&gt;</ph> method increments the lock count.</source>
+          <target state="translated"><ph id="ph1">&lt;xref:System.Windows.Media.Imaging.WriteableBitmap.Lock%2A&gt;</ph>方法锁计数递增 1。</target>       </trans-unit>
+        <trans-unit id="190" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.Media.Imaging.WriteableBitmap.Lock">
+          <source>When a <ph id="ph1">&lt;xref:System.Windows.Media.Imaging.WriteableBitmap&gt;</ph> is locked, the rendering system does not send updates until the <ph id="ph2">&lt;xref:System.Windows.Media.Imaging.WriteableBitmap&gt;</ph> is fully unlocked by calls to the <ph id="ph3">&lt;xref:System.Windows.Media.Imaging.WriteableBitmap.Unlock%2A&gt;</ph> method.</source>
+          <target state="translated">当<ph id="ph1">&lt;xref:System.Windows.Media.Imaging.WriteableBitmap&gt;</ph>是锁定，呈现系统不会发送更新直到<ph id="ph2">&lt;xref:System.Windows.Media.Imaging.WriteableBitmap&gt;</ph>完全通过调用解锁<ph id="ph3">&lt;xref:System.Windows.Media.Imaging.WriteableBitmap.Unlock%2A&gt;</ph>方法。</target>       </trans-unit>
+        <trans-unit id="191" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.Media.Imaging.WriteableBitmap.Lock">
+          <source>You can use the <ph id="ph1">&lt;xref:System.Windows.Media.Imaging.WriteableBitmap.Lock%2A&gt;</ph> method to support multi-threaded implementations.</source>
+          <target state="translated">你可以使用<ph id="ph1">&lt;xref:System.Windows.Media.Imaging.WriteableBitmap.Lock%2A&gt;</ph>方法，以支持多线程的实现。</target>       </trans-unit>
+        <trans-unit id="192" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.Media.Imaging.WriteableBitmap.Lock">
+          <source>In these scenarios, the UI thread locks the bitmap and exposes the back buffer to other threads.</source>
+          <target state="translated">在这些情况下，UI 线程锁定位图，并公开给其他线程后台缓冲区。</target>       </trans-unit>
+        <trans-unit id="193" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.Media.Imaging.WriteableBitmap.Lock">
+          <source>When the worker thread has finished a frame, the UI thread adds changed rectangles and unlocks the buffer.</source>
+          <target state="translated">工作线程完成后一个框架，UI 线程会将更改的矩形添加，并且将解除锁定缓冲区。</target>       </trans-unit>
+        <trans-unit id="194" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.Media.Imaging.WriteableBitmap.Lock">
+          <source>The UI thread can block when the render thread acquires a lock on the back buffer to copy it forward to the front buffer.</source>
+          <target state="translated">当呈现线程获取后台缓冲区，以将其转发复制到前台缓冲区上的锁时，可以阻止 UI 线程。</target>       </trans-unit>
+        <trans-unit id="195" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.Media.Imaging.WriteableBitmap.Lock">
+          <source>If the latency from this block is too long, use the <ph id="ph1">&lt;xref:System.Windows.Media.Imaging.WriteableBitmap.TryLock%2A&gt;</ph> method to wait for a short time and then unblock the UI thread to perform other tasks while the back buffer is locked.</source>
+          <target state="translated">如果从该块的滞后时间太长，请使用<ph id="ph1">&lt;xref:System.Windows.Media.Imaging.WriteableBitmap.TryLock%2A&gt;</ph>方法来等待短时间，然后解除锁定后台缓冲区时执行其他任务的 UI 线程。</target>       </trans-unit>
+        <trans-unit id="196" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.Media.Imaging.WriteableBitmap.Lock">
+          <source>The following code example shows how to reserve the back buffer by using the <ph id="ph1">&lt;xref:System.Windows.Media.Imaging.WriteableBitmap.Lock%2A&gt;</ph> method.</source>
+          <target state="translated">下面的代码示例演示如何通过使用保留后台缓冲区<ph id="ph1">&lt;xref:System.Windows.Media.Imaging.WriteableBitmap.Lock%2A&gt;</ph>方法。</target>       </trans-unit>
+        <trans-unit id="197" translate="yes" xml:space="preserve" uid="M:System.Windows.Media.Imaging.WriteableBitmap.TryLock(System.Windows.Duration)">
+          <source>A <ph id="ph1">&lt;see cref="T:System.Windows.Duration" /&gt;</ph> that represents the length of time to wait.</source>
+          <target state="translated">一个 <ph id="ph1">&lt;see cref="T:System.Windows.Duration" /&gt;</ph>，表示要等待的时间长度。</target>       </trans-unit>
+        <trans-unit id="198" translate="yes" xml:space="preserve" uid="M:System.Windows.Media.Imaging.WriteableBitmap.TryLock(System.Windows.Duration)">
+          <source>A value of 0 returns immediately.</source>
+          <target state="translated">将立即返回值 0。</target>       </trans-unit>
+        <trans-unit id="199" translate="yes" xml:space="preserve" uid="M:System.Windows.Media.Imaging.WriteableBitmap.TryLock(System.Windows.Duration)">
+          <source>A value of <ph id="ph1">&lt;see cref="P:System.Windows.Duration.Forever" /&gt;</ph> blocks indefinitely.</source>
+          <target state="translated">值 <ph id="ph1">&lt;see cref="P:System.Windows.Duration.Forever" /&gt;</ph> 将无限期阻止。</target>       </trans-unit>
+        <trans-unit id="200" translate="yes" xml:space="preserve" uid="M:System.Windows.Media.Imaging.WriteableBitmap.TryLock(System.Windows.Duration)">
+          <source>Attempts to lock the bitmap, waiting for no longer than the specified length of time.</source>
+          <target state="translated">尝试锁定位图，等待不超过指定的时间长度。</target>       </trans-unit>
+        <trans-unit id="201" translate="yes" xml:space="preserve" uid="M:System.Windows.Media.Imaging.WriteableBitmap.TryLock(System.Windows.Duration)">
+          <source><ph id="ph1">&lt;see langword="true" /&gt;</ph> if the lock was acquired; otherwise, <ph id="ph2">&lt;see langword="false" /&gt;</ph>.</source>
+          <target state="translated">如果获得锁定，则为 <ph id="ph1">&lt;see langword="true" /&gt;</ph>；否则为 <ph id="ph2">&lt;see langword="false" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="202" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.Media.Imaging.WriteableBitmap.TryLock(System.Windows.Duration)">
+          <source>When a lock is acquired, the behavior of the <ph id="ph1">&lt;xref:System.Windows.Media.Imaging.WriteableBitmap.TryLock%2A&gt;</ph> method is the same as the <ph id="ph2">&lt;xref:System.Windows.Media.Imaging.WriteableBitmap.Lock%2A&gt;</ph> method.</source>
+          <target state="translated">当获取锁的行为<ph id="ph1">&lt;xref:System.Windows.Media.Imaging.WriteableBitmap.TryLock%2A&gt;</ph>方法等同于<ph id="ph2">&lt;xref:System.Windows.Media.Imaging.WriteableBitmap.Lock%2A&gt;</ph>方法。</target>       </trans-unit>
+        <trans-unit id="203" translate="yes" xml:space="preserve" uid="M:System.Windows.Media.Imaging.WriteableBitmap.TryLock(System.Windows.Duration)">
+          <source><ph id="ph1">&lt;paramref name="timeout" /&gt;</ph> is set to <ph id="ph2">&lt;see cref="P:System.Windows.Duration.Automatic" /&gt;</ph>.</source>
+          <target state="translated">将 <ph id="ph1">&lt;paramref name="timeout" /&gt;</ph> 设置为 <ph id="ph2">&lt;see cref="P:System.Windows.Duration.Automatic" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="204" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.Media.Imaging.WriteableBitmap.TryLock(System.Windows.Duration)">
+          <source>for access to unmanaged resources.</source>
+          <target state="translated">用于对非托管资源的访问。</target>       </trans-unit>
+        <trans-unit id="205" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.Media.Imaging.WriteableBitmap.TryLock(System.Windows.Duration)">
+          <source>Security action: <ph id="ph1">&lt;see cref="F:System.Security.Permissions.SecurityAction.Demand" /&gt;</ph>.</source>
+          <target state="translated">安全操作： <ph id="ph1">&lt;see cref="F:System.Security.Permissions.SecurityAction.Demand" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="206" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.Media.Imaging.WriteableBitmap.TryLock(System.Windows.Duration)">
+          <source>Associated enumeration: <ph id="ph1">&lt;see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /&gt;</ph></source>
+          <target state="translated">关联的枚举： <ph id="ph1">&lt;see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /&gt;</ph></target>       </trans-unit>
+        <trans-unit id="207" translate="yes" xml:space="preserve" uid="M:System.Windows.Media.Imaging.WriteableBitmap.Unlock">
+          <source>Releases the back buffer to make it available for display.</source>
+          <target state="translated">释放后台缓冲区，以使之可用于显示。</target>       </trans-unit>
+        <trans-unit id="208" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.Media.Imaging.WriteableBitmap.Unlock">
+          <source>The <ph id="ph1">&lt;xref:System.Windows.Media.Imaging.WriteableBitmap.Unlock%2A&gt;</ph> method decrements the lock count.</source>
+          <target state="translated"><ph id="ph1">&lt;xref:System.Windows.Media.Imaging.WriteableBitmap.Unlock%2A&gt;</ph>方法减少锁计数。</target>       </trans-unit>
+        <trans-unit id="209" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.Media.Imaging.WriteableBitmap.Unlock">
+          <source>When the lock count reaches 0, a render pass is requested if the <ph id="ph1">&lt;xref:System.Windows.Media.Imaging.WriteableBitmap.AddDirtyRect%2A&gt;</ph> method has been called.</source>
+          <target state="translated">如果当的锁计数达到 0 时，请求呈现处理<ph id="ph1">&lt;xref:System.Windows.Media.Imaging.WriteableBitmap.AddDirtyRect%2A&gt;</ph>调用方法。</target>       </trans-unit>
+        <trans-unit id="210" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.Media.Imaging.WriteableBitmap.Unlock">
+          <source>The following code example shows how to release the back buffer by using the <ph id="ph1">&lt;xref:System.Windows.Media.Imaging.WriteableBitmap.Unlock%2A&gt;</ph> method.</source>
+          <target state="translated">下面的代码示例演示如何通过使用释放后台缓冲区<ph id="ph1">&lt;xref:System.Windows.Media.Imaging.WriteableBitmap.Unlock%2A&gt;</ph>方法。</target>       </trans-unit>
+        <trans-unit id="211" translate="yes" xml:space="preserve" uid="M:System.Windows.Media.Imaging.WriteableBitmap.Unlock">
+          <source>The bitmap has not been locked by a call to the <ph id="ph1">&lt;see cref="M:System.Windows.Media.Imaging.WriteableBitmap.Lock" /&gt;</ph> or <ph id="ph2">&lt;see cref="M:System.Windows.Media.Imaging.WriteableBitmap.TryLock(System.Windows.Duration)" /&gt;</ph> methods.</source>
+          <target state="translated">对 <ph id="ph1">&lt;see cref="M:System.Windows.Media.Imaging.WriteableBitmap.Lock" /&gt;</ph> 或 <ph id="ph2">&lt;see cref="M:System.Windows.Media.Imaging.WriteableBitmap.TryLock(System.Windows.Duration)" /&gt;</ph> 方法的调用未锁定位图。</target>       </trans-unit>
+        <trans-unit id="212" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.Media.Imaging.WriteableBitmap.Unlock">
+          <source>for access to unmanaged resources.</source>
+          <target state="translated">用于对非托管资源的访问。</target>       </trans-unit>
+        <trans-unit id="213" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.Media.Imaging.WriteableBitmap.Unlock">
+          <source>Security action: <ph id="ph1">&lt;see cref="F:System.Security.Permissions.SecurityAction.Demand" /&gt;</ph>.</source>
+          <target state="translated">安全操作： <ph id="ph1">&lt;see cref="F:System.Security.Permissions.SecurityAction.Demand" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="214" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.Media.Imaging.WriteableBitmap.Unlock">
+          <source>Associated enumeration: <ph id="ph1">&lt;see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /&gt;</ph></source>
+          <target state="translated">关联的枚举： <ph id="ph1">&lt;see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /&gt;</ph></target>       </trans-unit>
+        <trans-unit id="215" translate="yes" xml:space="preserve" uid="T:System.Windows.Media.Imaging.WriteableBitmap">
+          <source>Updates the pixels of the writeable bitmap.</source>
+          <target state="translated">更新可写位图的像素。</target>       </trans-unit>
+        <trans-unit id="216" translate="yes" xml:space="preserve" uid="M:System.Windows.Media.Imaging.WriteableBitmap.WritePixels(System.Windows.Int32Rect,System.Array,System.Int32,System.Int32)">
+          <source>The rectangle of the <ph id="ph1">&lt;see cref="T:System.Windows.Media.Imaging.WriteableBitmap" /&gt;</ph> to update.</source>
+          <target state="translated">要更新的 <ph id="ph1">&lt;see cref="T:System.Windows.Media.Imaging.WriteableBitmap" /&gt;</ph> 的矩形。</target>       </trans-unit>
+        <trans-unit id="217" translate="yes" xml:space="preserve" uid="M:System.Windows.Media.Imaging.WriteableBitmap.WritePixels(System.Windows.Int32Rect,System.Array,System.Int32,System.Int32)">
+          <source>The pixel array used to update the bitmap.</source>
+          <target state="translated">用来更新位图的像素数组。</target>       </trans-unit>
+        <trans-unit id="218" translate="yes" xml:space="preserve" uid="M:System.Windows.Media.Imaging.WriteableBitmap.WritePixels(System.Windows.Int32Rect,System.Array,System.Int32,System.Int32)">
+          <source>The stride of the update region in <bpt id="p1">&lt;c&gt;</bpt>pixels<ept id="p1">&lt;/c&gt;</ept>.</source>
+          <target state="translated"><bpt id="p1">&lt;c&gt;</bpt>pixels<ept id="p1">&lt;/c&gt;</ept> 中更新区域的步幅。</target>       </trans-unit>
+        <trans-unit id="219" translate="yes" xml:space="preserve" uid="M:System.Windows.Media.Imaging.WriteableBitmap.WritePixels(System.Windows.Int32Rect,System.Array,System.Int32,System.Int32)">
+          <source>The input buffer offset.</source>
+          <target state="translated">输入缓冲区偏移量。</target>       </trans-unit>
+        <trans-unit id="220" translate="yes" xml:space="preserve" uid="M:System.Windows.Media.Imaging.WriteableBitmap.WritePixels(System.Windows.Int32Rect,System.Array,System.Int32,System.Int32)">
+          <source>Updates the pixels in the specified region of the bitmap.</source>
+          <target state="translated">更新位图指定区域中的像素。</target>       </trans-unit>
+        <trans-unit id="221" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.Media.Imaging.WriteableBitmap.WritePixels(System.Windows.Int32Rect,System.Array,System.Int32,System.Int32)">
+          <source>The <ph id="ph1">&lt;xref:System.Windows.Media.Imaging.WriteableBitmap.WritePixels%28System.Windows.Int32Rect%2CSystem.Array%2CSystem.Int32%2CSystem.Int32%2CSystem.Int32%29&gt;</ph> and <ph id="ph2">&lt;xref:System.Windows.Media.Imaging.WriteableBitmap.WritePixels%28System.Windows.Int32Rect%2CSystem.IntPtr%2CSystem.Int32%2CSystem.Int32%2CSystem.Int32%2CSystem.Int32%29&gt;</ph> overloads are preferred over using this method.</source>
+          <target state="translated"><ph id="ph1">&lt;xref:System.Windows.Media.Imaging.WriteableBitmap.WritePixels%28System.Windows.Int32Rect%2CSystem.Array%2CSystem.Int32%2CSystem.Int32%2CSystem.Int32%29&gt;</ph>和<ph id="ph2">&lt;xref:System.Windows.Media.Imaging.WriteableBitmap.WritePixels%28System.Windows.Int32Rect%2CSystem.IntPtr%2CSystem.Int32%2CSystem.Int32%2CSystem.Int32%2CSystem.Int32%29&gt;</ph>重载要优于使用此方法。</target>       </trans-unit>
+        <trans-unit id="222" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.Media.Imaging.WriteableBitmap.WritePixels(System.Windows.Int32Rect,System.Array,System.Int32,System.Int32)">
+          <source>In partial trust, use the <ph id="ph1">&lt;xref:System.Windows.Media.Imaging.WriteableBitmap.WritePixels%28System.Windows.Int32Rect%2CSystem.Array%2CSystem.Int32%2CSystem.Int32%2CSystem.Int32%29&gt;</ph> overload.</source>
+          <target state="translated">在部分信任，请使用<ph id="ph1">&lt;xref:System.Windows.Media.Imaging.WriteableBitmap.WritePixels%28System.Windows.Int32Rect%2CSystem.Array%2CSystem.Int32%2CSystem.Int32%2CSystem.Int32%29&gt;</ph>重载。</target>       </trans-unit>
+        <trans-unit id="223" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.Media.Imaging.WriteableBitmap.WritePixels(System.Windows.Int32Rect,System.Array,System.Int32,System.Int32)">
+          <source>The following code example shows how to update a pixel in the back buffer by using the <ph id="ph1">&lt;xref:System.Windows.Media.Imaging.WriteableBitmap.WritePixels%2A&gt;</ph> method.</source>
+          <target state="translated">下面的代码示例演示如何通过使用更新后的缓冲区中像素<ph id="ph1">&lt;xref:System.Windows.Media.Imaging.WriteableBitmap.WritePixels%2A&gt;</ph>方法。</target>       </trans-unit>
+        <trans-unit id="224" translate="yes" xml:space="preserve" uid="M:System.Windows.Media.Imaging.WriteableBitmap.WritePixels(System.Windows.Int32Rect,System.Array,System.Int32,System.Int32)">
+          <source>One or more of the following conditions is true.</source>
+          <target state="translated">存在下列一种或多种情况时。</target>       </trans-unit>
+        <trans-unit id="225" translate="yes" xml:space="preserve" uid="M:System.Windows.Media.Imaging.WriteableBitmap.WritePixels(System.Windows.Int32Rect,System.Array,System.Int32,System.Int32)">
+          <source><ph id="ph1">&lt;paramref name="sourceRect" /&gt;</ph> falls outside the bounds of the <ph id="ph2">&lt;see cref="T:System.Windows.Media.Imaging.WriteableBitmap" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="sourceRect" /&gt;</ph> 处于 <ph id="ph2">&lt;see cref="T:System.Windows.Media.Imaging.WriteableBitmap" /&gt;</ph> 的界限外。</target>       </trans-unit>
+        <trans-unit id="226" translate="yes" xml:space="preserve" uid="M:System.Windows.Media.Imaging.WriteableBitmap.WritePixels(System.Windows.Int32Rect,System.Array,System.Int32,System.Int32)">
+          <source><ph id="ph1">&lt;paramref name="stride" /&gt;</ph> <ph id="ph2">&amp;lt;</ph> 1</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="stride" /&gt;</ph> <ph id="ph2">&amp;lt;</ph> 1</target>       </trans-unit>
+        <trans-unit id="227" translate="yes" xml:space="preserve" uid="M:System.Windows.Media.Imaging.WriteableBitmap.WritePixels(System.Windows.Int32Rect,System.Array,System.Int32,System.Int32)">
+          <source><ph id="ph1">&lt;paramref name="offset" /&gt;</ph> <ph id="ph2">&amp;lt;</ph> 0</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="offset" /&gt;</ph> <ph id="ph2">&amp;lt;</ph> 0</target>       </trans-unit>
+        <trans-unit id="228" translate="yes" xml:space="preserve" uid="M:System.Windows.Media.Imaging.WriteableBitmap.WritePixels(System.Windows.Int32Rect,System.Array,System.Int32,System.Int32)">
+          <source><ph id="ph1">&lt;paramref name="pixels" /&gt;</ph> is <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="pixels" /&gt;</ph> 为 <ph id="ph2">&lt;see langword="null" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="229" translate="yes" xml:space="preserve" uid="M:System.Windows.Media.Imaging.WriteableBitmap.WritePixels(System.Windows.Int32Rect,System.Array,System.Int32,System.Int32)">
+          <source><ph id="ph1">&lt;paramref name="pixels" /&gt;</ph> has a rank other than 1 or 2, or its length is less than or equal to 0.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="pixels" /&gt;</ph> 的级别不为 1 或 2，或者其长度小于或等于 0。</target>       </trans-unit>
+        <trans-unit id="230" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.Media.Imaging.WriteableBitmap.WritePixels(System.Windows.Int32Rect,System.Array,System.Int32,System.Int32)">
+          <source>for access to unmanaged resources.</source>
+          <target state="translated">用于对非托管资源的访问。</target>       </trans-unit>
+        <trans-unit id="231" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.Media.Imaging.WriteableBitmap.WritePixels(System.Windows.Int32Rect,System.Array,System.Int32,System.Int32)">
+          <source>Security action: <ph id="ph1">&lt;see cref="F:System.Security.Permissions.SecurityAction.Demand" /&gt;</ph>.</source>
+          <target state="translated">安全操作： <ph id="ph1">&lt;see cref="F:System.Security.Permissions.SecurityAction.Demand" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="232" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.Media.Imaging.WriteableBitmap.WritePixels(System.Windows.Int32Rect,System.Array,System.Int32,System.Int32)">
+          <source>Associated enumeration: <ph id="ph1">&lt;see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /&gt;</ph></source>
+          <target state="translated">关联的枚举： <ph id="ph1">&lt;see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /&gt;</ph></target>       </trans-unit>
+        <trans-unit id="233" translate="yes" xml:space="preserve" uid="M:System.Windows.Media.Imaging.WriteableBitmap.WritePixels(System.Windows.Int32Rect,System.IntPtr,System.Int32,System.Int32)">
+          <source>The rectangle of the <ph id="ph1">&lt;see cref="T:System.Windows.Media.Imaging.WriteableBitmap" /&gt;</ph> to update.</source>
+          <target state="translated">要更新的 <ph id="ph1">&lt;see cref="T:System.Windows.Media.Imaging.WriteableBitmap" /&gt;</ph> 的矩形。</target>       </trans-unit>
+        <trans-unit id="234" translate="yes" xml:space="preserve" uid="M:System.Windows.Media.Imaging.WriteableBitmap.WritePixels(System.Windows.Int32Rect,System.IntPtr,System.Int32,System.Int32)">
+          <source>The input buffer used to update the bitmap.</source>
+          <target state="translated">用来更新位图的输入缓冲区。</target>       </trans-unit>
+        <trans-unit id="235" translate="yes" xml:space="preserve" uid="M:System.Windows.Media.Imaging.WriteableBitmap.WritePixels(System.Windows.Int32Rect,System.IntPtr,System.Int32,System.Int32)">
+          <source>The size of the input buffer.</source>
+          <target state="translated">输入缓冲区的大小。</target>       </trans-unit>
+        <trans-unit id="236" translate="yes" xml:space="preserve" uid="M:System.Windows.Media.Imaging.WriteableBitmap.WritePixels(System.Windows.Int32Rect,System.IntPtr,System.Int32,System.Int32)">
+          <source>The stride of the update region in <bpt id="p1">&lt;c&gt;</bpt>buffer<ept id="p1">&lt;/c&gt;</ept>.</source>
+          <target state="translated"><bpt id="p1">&lt;c&gt;</bpt>buffer<ept id="p1">&lt;/c&gt;</ept> 中更新区域的步幅。</target>       </trans-unit>
+        <trans-unit id="237" translate="yes" xml:space="preserve" uid="M:System.Windows.Media.Imaging.WriteableBitmap.WritePixels(System.Windows.Int32Rect,System.IntPtr,System.Int32,System.Int32)">
+          <source>Updates the pixels in the specified region of the bitmap.</source>
+          <target state="translated">更新位图指定区域中的像素。</target>       </trans-unit>
+        <trans-unit id="238" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.Media.Imaging.WriteableBitmap.WritePixels(System.Windows.Int32Rect,System.IntPtr,System.Int32,System.Int32)">
+          <source>The <ph id="ph1">&lt;xref:System.Windows.Media.Imaging.WriteableBitmap.WritePixels%28System.Windows.Int32Rect%2CSystem.Array%2CSystem.Int32%2CSystem.Int32%2CSystem.Int32%29&gt;</ph> and <ph id="ph2">&lt;xref:System.Windows.Media.Imaging.WriteableBitmap.WritePixels%28System.Windows.Int32Rect%2CSystem.IntPtr%2CSystem.Int32%2CSystem.Int32%2CSystem.Int32%2CSystem.Int32%29&gt;</ph> overloads are preferred over using this method.</source>
+          <target state="translated"><ph id="ph1">&lt;xref:System.Windows.Media.Imaging.WriteableBitmap.WritePixels%28System.Windows.Int32Rect%2CSystem.Array%2CSystem.Int32%2CSystem.Int32%2CSystem.Int32%29&gt;</ph>和<ph id="ph2">&lt;xref:System.Windows.Media.Imaging.WriteableBitmap.WritePixels%28System.Windows.Int32Rect%2CSystem.IntPtr%2CSystem.Int32%2CSystem.Int32%2CSystem.Int32%2CSystem.Int32%29&gt;</ph>重载要优于使用此方法。</target>       </trans-unit>
+        <trans-unit id="239" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.Media.Imaging.WriteableBitmap.WritePixels(System.Windows.Int32Rect,System.IntPtr,System.Int32,System.Int32)">
+          <source>In partial trust, use the <ph id="ph1">&lt;xref:System.Windows.Media.Imaging.WriteableBitmap.WritePixels%28System.Windows.Int32Rect%2CSystem.Array%2CSystem.Int32%2CSystem.Int32%2CSystem.Int32%29&gt;</ph> overload.</source>
+          <target state="translated">在部分信任，请使用<ph id="ph1">&lt;xref:System.Windows.Media.Imaging.WriteableBitmap.WritePixels%28System.Windows.Int32Rect%2CSystem.Array%2CSystem.Int32%2CSystem.Int32%2CSystem.Int32%29&gt;</ph>重载。</target>       </trans-unit>
+        <trans-unit id="240" translate="yes" xml:space="preserve" uid="M:System.Windows.Media.Imaging.WriteableBitmap.WritePixels(System.Windows.Int32Rect,System.IntPtr,System.Int32,System.Int32)">
+          <source>One or more of the following conditions is true.</source>
+          <target state="translated">存在下列一种或多种情况时。</target>       </trans-unit>
+        <trans-unit id="241" translate="yes" xml:space="preserve" uid="M:System.Windows.Media.Imaging.WriteableBitmap.WritePixels(System.Windows.Int32Rect,System.IntPtr,System.Int32,System.Int32)">
+          <source><ph id="ph1">&lt;paramref name="sourceRect" /&gt;</ph> falls outside the bounds of the <ph id="ph2">&lt;see cref="T:System.Windows.Media.Imaging.WriteableBitmap" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="sourceRect" /&gt;</ph> 处于 <ph id="ph2">&lt;see cref="T:System.Windows.Media.Imaging.WriteableBitmap" /&gt;</ph> 的界限外。</target>       </trans-unit>
+        <trans-unit id="242" translate="yes" xml:space="preserve" uid="M:System.Windows.Media.Imaging.WriteableBitmap.WritePixels(System.Windows.Int32Rect,System.IntPtr,System.Int32,System.Int32)">
+          <source><ph id="ph1">&lt;paramref name="bufferSize" /&gt;</ph> <ph id="ph2">&amp;lt;</ph> 1</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="bufferSize" /&gt;</ph> <ph id="ph2">&amp;lt;</ph> 1</target>       </trans-unit>
+        <trans-unit id="243" translate="yes" xml:space="preserve" uid="M:System.Windows.Media.Imaging.WriteableBitmap.WritePixels(System.Windows.Int32Rect,System.IntPtr,System.Int32,System.Int32)">
+          <source><ph id="ph1">&lt;paramref name="stride" /&gt;</ph> <ph id="ph2">&amp;lt;</ph> 1</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="stride" /&gt;</ph> <ph id="ph2">&amp;lt;</ph> 1</target>       </trans-unit>
+        <trans-unit id="244" translate="yes" xml:space="preserve" uid="M:System.Windows.Media.Imaging.WriteableBitmap.WritePixels(System.Windows.Int32Rect,System.IntPtr,System.Int32,System.Int32)">
+          <source><ph id="ph1">&lt;paramref name="buffer" /&gt;</ph> is <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="buffer" /&gt;</ph> 为 <ph id="ph2">&lt;see langword="null" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="245" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.Media.Imaging.WriteableBitmap.WritePixels(System.Windows.Int32Rect,System.IntPtr,System.Int32,System.Int32)">
+          <source>for access to unmanaged resources.</source>
+          <target state="translated">用于对非托管资源的访问。</target>       </trans-unit>
+        <trans-unit id="246" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.Media.Imaging.WriteableBitmap.WritePixels(System.Windows.Int32Rect,System.IntPtr,System.Int32,System.Int32)">
+          <source>Security action: <ph id="ph1">&lt;see cref="F:System.Security.Permissions.SecurityAction.Demand" /&gt;</ph>.</source>
+          <target state="translated">安全操作： <ph id="ph1">&lt;see cref="F:System.Security.Permissions.SecurityAction.Demand" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="247" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.Media.Imaging.WriteableBitmap.WritePixels(System.Windows.Int32Rect,System.IntPtr,System.Int32,System.Int32)">
+          <source>Associated enumeration: <ph id="ph1">&lt;see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /&gt;</ph></source>
+          <target state="translated">关联的枚举： <ph id="ph1">&lt;see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /&gt;</ph></target>       </trans-unit>
+        <trans-unit id="248" translate="yes" xml:space="preserve" uid="M:System.Windows.Media.Imaging.WriteableBitmap.WritePixels(System.Windows.Int32Rect,System.Array,System.Int32,System.Int32,System.Int32)">
+          <source>The rectangle in <bpt id="p1">&lt;c&gt;</bpt>sourceBuffer<ept id="p1">&lt;/c&gt;</ept> to copy.</source>
+          <target state="translated">要复制的 <bpt id="p1">&lt;c&gt;</bpt>sourceBuffer<ept id="p1">&lt;/c&gt;</ept> 中的矩形。</target>       </trans-unit>
+        <trans-unit id="249" translate="yes" xml:space="preserve" uid="M:System.Windows.Media.Imaging.WriteableBitmap.WritePixels(System.Windows.Int32Rect,System.Array,System.Int32,System.Int32,System.Int32)">
+          <source>The input buffer used to update the bitmap.</source>
+          <target state="translated">用来更新位图的输入缓冲区。</target>       </trans-unit>
+        <trans-unit id="250" translate="yes" xml:space="preserve" uid="M:System.Windows.Media.Imaging.WriteableBitmap.WritePixels(System.Windows.Int32Rect,System.Array,System.Int32,System.Int32,System.Int32)">
+          <source>The stride of the input buffer, in bytes.</source>
+          <target state="translated">输入缓冲区的步幅（以字节为单位）。</target>       </trans-unit>
+        <trans-unit id="251" translate="yes" xml:space="preserve" uid="M:System.Windows.Media.Imaging.WriteableBitmap.WritePixels(System.Windows.Int32Rect,System.Array,System.Int32,System.Int32,System.Int32)">
+          <source>The destination x-coordinate of the left-most pixel in the back buffer.</source>
+          <target state="translated">后台缓冲区最左端像素的目标 x 坐标。</target>       </trans-unit>
+        <trans-unit id="252" translate="yes" xml:space="preserve" uid="M:System.Windows.Media.Imaging.WriteableBitmap.WritePixels(System.Windows.Int32Rect,System.Array,System.Int32,System.Int32,System.Int32)">
+          <source>The destination y-coordinate of the top-most pixel in the back buffer.</source>
+          <target state="translated">后台缓冲区最顶端像素的目标 y 坐标。</target>       </trans-unit>
+        <trans-unit id="253" translate="yes" xml:space="preserve" uid="M:System.Windows.Media.Imaging.WriteableBitmap.WritePixels(System.Windows.Int32Rect,System.Array,System.Int32,System.Int32,System.Int32)">
+          <source>Updates the pixels in the specified region of the bitmap.</source>
+          <target state="translated">更新位图指定区域中的像素。</target>       </trans-unit>
+        <trans-unit id="254" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.Media.Imaging.WriteableBitmap.WritePixels(System.Windows.Int32Rect,System.Array,System.Int32,System.Int32,System.Int32)">
+          <source>Call the <ph id="ph1">&lt;xref:System.Windows.Media.Imaging.WriteableBitmap.WritePixels%2A&gt;</ph> method to update the <ph id="ph2">&lt;xref:System.Windows.Media.Imaging.WriteableBitmap&gt;</ph> automatically with the contents of <ph id="ph3">`sourceBuffer`</ph>.</source>
+          <target state="translated">调用<ph id="ph1">&lt;xref:System.Windows.Media.Imaging.WriteableBitmap.WritePixels%2A&gt;</ph>方法来更新<ph id="ph2">&lt;xref:System.Windows.Media.Imaging.WriteableBitmap&gt;</ph>使用的内容自动<ph id="ph3">`sourceBuffer`</ph>。</target>       </trans-unit>
+        <trans-unit id="255" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.Media.Imaging.WriteableBitmap.WritePixels(System.Windows.Int32Rect,System.Array,System.Int32,System.Int32,System.Int32)">
+          <source>Calling this method is the equivalent of using the <ph id="ph1">&lt;xref:System.Windows.Media.Imaging.WriteableBitmap.Lock%2A&gt;</ph> and <ph id="ph2">&lt;xref:System.Windows.Media.Imaging.WriteableBitmap.Unlock%2A&gt;</ph> workflow described in the <ph id="ph3">&lt;xref:System.Windows.Media.Imaging.WriteableBitmap&gt;</ph> class remarks.</source>
+          <target state="translated">调用此方法相当于使用<ph id="ph1">&lt;xref:System.Windows.Media.Imaging.WriteableBitmap.Lock%2A&gt;</ph>和<ph id="ph2">&lt;xref:System.Windows.Media.Imaging.WriteableBitmap.Unlock%2A&gt;</ph>工作流中所述<ph id="ph3">&lt;xref:System.Windows.Media.Imaging.WriteableBitmap&gt;</ph>类备注。</target>       </trans-unit>
+        <trans-unit id="256" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.Media.Imaging.WriteableBitmap.WritePixels(System.Windows.Int32Rect,System.Array,System.Int32,System.Int32,System.Int32)">
+          <source>Use this overload in partial trust.</source>
+          <target state="translated">在部分信任环境中使用此重载。</target>       </trans-unit>
+        <trans-unit id="257" translate="yes" xml:space="preserve" uid="M:System.Windows.Media.Imaging.WriteableBitmap.WritePixels(System.Windows.Int32Rect,System.Array,System.Int32,System.Int32,System.Int32)">
+          <source>One or more of the following conditions is true.</source>
+          <target state="translated">存在下列一种或多种情况时。</target>       </trans-unit>
+        <trans-unit id="258" translate="yes" xml:space="preserve" uid="M:System.Windows.Media.Imaging.WriteableBitmap.WritePixels(System.Windows.Int32Rect,System.Array,System.Int32,System.Int32,System.Int32)">
+          <source><ph id="ph1">&lt;paramref name="sourceRect" /&gt;</ph> falls outside the bounds of the <ph id="ph2">&lt;see cref="T:System.Windows.Media.Imaging.WriteableBitmap" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="sourceRect" /&gt;</ph> 处于 <ph id="ph2">&lt;see cref="T:System.Windows.Media.Imaging.WriteableBitmap" /&gt;</ph> 的界限外。</target>       </trans-unit>
+        <trans-unit id="259" translate="yes" xml:space="preserve" uid="M:System.Windows.Media.Imaging.WriteableBitmap.WritePixels(System.Windows.Int32Rect,System.Array,System.Int32,System.Int32,System.Int32)">
+          <source><ph id="ph1">&lt;paramref name="destinationX" /&gt;</ph> or <ph id="ph2">&lt;paramref name="destinationY" /&gt;</ph> is outside the bounds of the <ph id="ph3">&lt;see cref="T:System.Windows.Media.Imaging.WriteableBitmap" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="destinationX" /&gt;</ph> 或 <ph id="ph2">&lt;paramref name="destinationY" /&gt;</ph> 在 <ph id="ph3">&lt;see cref="T:System.Windows.Media.Imaging.WriteableBitmap" /&gt;</ph> 的界限外。</target>       </trans-unit>
+        <trans-unit id="260" translate="yes" xml:space="preserve" uid="M:System.Windows.Media.Imaging.WriteableBitmap.WritePixels(System.Windows.Int32Rect,System.Array,System.Int32,System.Int32,System.Int32)">
+          <source><ph id="ph1">&lt;paramref name="sourceBufferStride" /&gt;</ph> <ph id="ph2">&amp;lt;</ph> 1</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="sourceBufferStride" /&gt;</ph> <ph id="ph2">&amp;lt;</ph> 1</target>       </trans-unit>
+        <trans-unit id="261" translate="yes" xml:space="preserve" uid="M:System.Windows.Media.Imaging.WriteableBitmap.WritePixels(System.Windows.Int32Rect,System.Array,System.Int32,System.Int32,System.Int32)">
+          <source><ph id="ph1">&lt;paramref name="sourceBuffer" /&gt;</ph> is <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="sourceBuffer" /&gt;</ph> 为 <ph id="ph2">&lt;see langword="null" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="262" translate="yes" xml:space="preserve" uid="M:System.Windows.Media.Imaging.WriteableBitmap.WritePixels(System.Windows.Int32Rect,System.Array,System.Int32,System.Int32,System.Int32)">
+          <source><ph id="ph1">&lt;paramref name="sourceBuffer" /&gt;</ph> has a rank other than 1 or 2, or its length is less than or equal to 0.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="sourceBuffer" /&gt;</ph> 的级别不为 1 或 2，或者其长度小于或等于 0。</target>       </trans-unit>
+        <trans-unit id="263" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.Media.Imaging.WriteableBitmap.WritePixels(System.Windows.Int32Rect,System.Array,System.Int32,System.Int32,System.Int32)">
+          <source>for access to unmanaged resources.</source>
+          <target state="translated">用于对非托管资源的访问。</target>       </trans-unit>
+        <trans-unit id="264" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.Media.Imaging.WriteableBitmap.WritePixels(System.Windows.Int32Rect,System.Array,System.Int32,System.Int32,System.Int32)">
+          <source>Security action: <ph id="ph1">&lt;see cref="F:System.Security.Permissions.SecurityAction.Demand" /&gt;</ph>.</source>
+          <target state="translated">安全操作： <ph id="ph1">&lt;see cref="F:System.Security.Permissions.SecurityAction.Demand" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="265" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.Media.Imaging.WriteableBitmap.WritePixels(System.Windows.Int32Rect,System.Array,System.Int32,System.Int32,System.Int32)">
+          <source>Associated enumeration: <ph id="ph1">&lt;see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /&gt;</ph></source>
+          <target state="translated">关联的枚举： <ph id="ph1">&lt;see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /&gt;</ph></target>       </trans-unit>
+        <trans-unit id="266" translate="yes" xml:space="preserve" uid="M:System.Windows.Media.Imaging.WriteableBitmap.WritePixels(System.Windows.Int32Rect,System.IntPtr,System.Int32,System.Int32,System.Int32,System.Int32)">
+          <source>The rectangle in <bpt id="p1">&lt;c&gt;</bpt>sourceBuffer<ept id="p1">&lt;/c&gt;</ept> to copy.</source>
+          <target state="translated">要复制的 <bpt id="p1">&lt;c&gt;</bpt>sourceBuffer<ept id="p1">&lt;/c&gt;</ept> 中的矩形。</target>       </trans-unit>
+        <trans-unit id="267" translate="yes" xml:space="preserve" uid="M:System.Windows.Media.Imaging.WriteableBitmap.WritePixels(System.Windows.Int32Rect,System.IntPtr,System.Int32,System.Int32,System.Int32,System.Int32)">
+          <source>The input buffer used to update the bitmap.</source>
+          <target state="translated">用来更新位图的输入缓冲区。</target>       </trans-unit>
+        <trans-unit id="268" translate="yes" xml:space="preserve" uid="M:System.Windows.Media.Imaging.WriteableBitmap.WritePixels(System.Windows.Int32Rect,System.IntPtr,System.Int32,System.Int32,System.Int32,System.Int32)">
+          <source>The size of the input buffer.</source>
+          <target state="translated">输入缓冲区的大小。</target>       </trans-unit>
+        <trans-unit id="269" translate="yes" xml:space="preserve" uid="M:System.Windows.Media.Imaging.WriteableBitmap.WritePixels(System.Windows.Int32Rect,System.IntPtr,System.Int32,System.Int32,System.Int32,System.Int32)">
+          <source>The stride of the input buffer, in bytes.</source>
+          <target state="translated">输入缓冲区的步幅（以字节为单位）。</target>       </trans-unit>
+        <trans-unit id="270" translate="yes" xml:space="preserve" uid="M:System.Windows.Media.Imaging.WriteableBitmap.WritePixels(System.Windows.Int32Rect,System.IntPtr,System.Int32,System.Int32,System.Int32,System.Int32)">
+          <source>The destination x-coordinate of the left-most pixel in the back buffer.</source>
+          <target state="translated">后台缓冲区最左端像素的目标 x 坐标。</target>       </trans-unit>
+        <trans-unit id="271" translate="yes" xml:space="preserve" uid="M:System.Windows.Media.Imaging.WriteableBitmap.WritePixels(System.Windows.Int32Rect,System.IntPtr,System.Int32,System.Int32,System.Int32,System.Int32)">
+          <source>The destination y-coordinate of the top-most pixel in the back buffer.</source>
+          <target state="translated">后台缓冲区最顶端像素的目标 y 坐标。</target>       </trans-unit>
+        <trans-unit id="272" translate="yes" xml:space="preserve" uid="M:System.Windows.Media.Imaging.WriteableBitmap.WritePixels(System.Windows.Int32Rect,System.IntPtr,System.Int32,System.Int32,System.Int32,System.Int32)">
+          <source>Updates the pixels in the specified region of the bitmap.</source>
+          <target state="translated">更新位图指定区域中的像素。</target>       </trans-unit>
+        <trans-unit id="273" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.Media.Imaging.WriteableBitmap.WritePixels(System.Windows.Int32Rect,System.IntPtr,System.Int32,System.Int32,System.Int32,System.Int32)">
+          <source>Call the <ph id="ph1">&lt;xref:System.Windows.Media.Imaging.WriteableBitmap.WritePixels%2A&gt;</ph> method to update the <ph id="ph2">&lt;xref:System.Windows.Media.Imaging.WriteableBitmap&gt;</ph> automatically with the contents of <ph id="ph3">`sourceBuffer`</ph>.</source>
+          <target state="translated">调用<ph id="ph1">&lt;xref:System.Windows.Media.Imaging.WriteableBitmap.WritePixels%2A&gt;</ph>方法来更新<ph id="ph2">&lt;xref:System.Windows.Media.Imaging.WriteableBitmap&gt;</ph>使用的内容自动<ph id="ph3">`sourceBuffer`</ph>。</target>       </trans-unit>
+        <trans-unit id="274" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.Media.Imaging.WriteableBitmap.WritePixels(System.Windows.Int32Rect,System.IntPtr,System.Int32,System.Int32,System.Int32,System.Int32)">
+          <source>Calling this method is the equivalent of using the <ph id="ph1">&lt;xref:System.Windows.Media.Imaging.WriteableBitmap.Lock%2A&gt;</ph> and <ph id="ph2">&lt;xref:System.Windows.Media.Imaging.WriteableBitmap.Unlock%2A&gt;</ph> workflow described in the <ph id="ph3">&lt;xref:System.Windows.Media.Imaging.WriteableBitmap&gt;</ph> class remarks.</source>
+          <target state="translated">调用此方法相当于使用<ph id="ph1">&lt;xref:System.Windows.Media.Imaging.WriteableBitmap.Lock%2A&gt;</ph>和<ph id="ph2">&lt;xref:System.Windows.Media.Imaging.WriteableBitmap.Unlock%2A&gt;</ph>工作流中所述<ph id="ph3">&lt;xref:System.Windows.Media.Imaging.WriteableBitmap&gt;</ph>类备注。</target>       </trans-unit>
+        <trans-unit id="275" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.Media.Imaging.WriteableBitmap.WritePixels(System.Windows.Int32Rect,System.IntPtr,System.Int32,System.Int32,System.Int32,System.Int32)">
+          <source>In partial trust, use the <ph id="ph1">&lt;xref:System.Windows.Media.Imaging.WriteableBitmap.WritePixels%28System.Windows.Int32Rect%2CSystem.Array%2CSystem.Int32%2CSystem.Int32%2CSystem.Int32%29&gt;</ph> overload.</source>
+          <target state="translated">在部分信任，请使用<ph id="ph1">&lt;xref:System.Windows.Media.Imaging.WriteableBitmap.WritePixels%28System.Windows.Int32Rect%2CSystem.Array%2CSystem.Int32%2CSystem.Int32%2CSystem.Int32%29&gt;</ph>重载。</target>       </trans-unit>
+        <trans-unit id="276" translate="yes" xml:space="preserve" uid="M:System.Windows.Media.Imaging.WriteableBitmap.WritePixels(System.Windows.Int32Rect,System.IntPtr,System.Int32,System.Int32,System.Int32,System.Int32)">
+          <source>One or more of the following conditions is true.</source>
+          <target state="translated">存在下列一种或多种情况时。</target>       </trans-unit>
+        <trans-unit id="277" translate="yes" xml:space="preserve" uid="M:System.Windows.Media.Imaging.WriteableBitmap.WritePixels(System.Windows.Int32Rect,System.IntPtr,System.Int32,System.Int32,System.Int32,System.Int32)">
+          <source><ph id="ph1">&lt;paramref name="sourceRect" /&gt;</ph> falls outside the bounds of the <ph id="ph2">&lt;see cref="T:System.Windows.Media.Imaging.WriteableBitmap" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="sourceRect" /&gt;</ph> 处于 <ph id="ph2">&lt;see cref="T:System.Windows.Media.Imaging.WriteableBitmap" /&gt;</ph> 的界限外。</target>       </trans-unit>
+        <trans-unit id="278" translate="yes" xml:space="preserve" uid="M:System.Windows.Media.Imaging.WriteableBitmap.WritePixels(System.Windows.Int32Rect,System.IntPtr,System.Int32,System.Int32,System.Int32,System.Int32)">
+          <source><ph id="ph1">&lt;paramref name="destinationX" /&gt;</ph> or <ph id="ph2">&lt;paramref name="destinationY" /&gt;</ph> is outside the bounds of the <ph id="ph3">&lt;see cref="T:System.Windows.Media.Imaging.WriteableBitmap" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="destinationX" /&gt;</ph> 或 <ph id="ph2">&lt;paramref name="destinationY" /&gt;</ph> 在 <ph id="ph3">&lt;see cref="T:System.Windows.Media.Imaging.WriteableBitmap" /&gt;</ph> 的界限外。</target>       </trans-unit>
+        <trans-unit id="279" translate="yes" xml:space="preserve" uid="M:System.Windows.Media.Imaging.WriteableBitmap.WritePixels(System.Windows.Int32Rect,System.IntPtr,System.Int32,System.Int32,System.Int32,System.Int32)">
+          <source><ph id="ph1">&lt;paramref name="sourceBufferSize" /&gt;</ph> <ph id="ph2">&amp;lt;</ph> 1</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="sourceBufferSize" /&gt;</ph> <ph id="ph2">&amp;lt;</ph> 1</target>       </trans-unit>
+        <trans-unit id="280" translate="yes" xml:space="preserve" uid="M:System.Windows.Media.Imaging.WriteableBitmap.WritePixels(System.Windows.Int32Rect,System.IntPtr,System.Int32,System.Int32,System.Int32,System.Int32)">
+          <source><ph id="ph1">&lt;paramref name="sourceBufferStride" /&gt;</ph> <ph id="ph2">&amp;lt;</ph> 1</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="sourceBufferStride" /&gt;</ph> <ph id="ph2">&amp;lt;</ph> 1</target>       </trans-unit>
+        <trans-unit id="281" translate="yes" xml:space="preserve" uid="M:System.Windows.Media.Imaging.WriteableBitmap.WritePixels(System.Windows.Int32Rect,System.IntPtr,System.Int32,System.Int32,System.Int32,System.Int32)">
+          <source><ph id="ph1">&lt;paramref name="sourceBuffer" /&gt;</ph> is <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="sourceBuffer" /&gt;</ph> 为 <ph id="ph2">&lt;see langword="null" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="282" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.Media.Imaging.WriteableBitmap.WritePixels(System.Windows.Int32Rect,System.IntPtr,System.Int32,System.Int32,System.Int32,System.Int32)">
+          <source>for access to unmanaged resources.</source>
+          <target state="translated">用于对非托管资源的访问。</target>       </trans-unit>
+        <trans-unit id="283" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.Media.Imaging.WriteableBitmap.WritePixels(System.Windows.Int32Rect,System.IntPtr,System.Int32,System.Int32,System.Int32,System.Int32)">
+          <source>Security action: <ph id="ph1">&lt;see cref="F:System.Security.Permissions.SecurityAction.Demand" /&gt;</ph>.</source>
+          <target state="translated">安全操作： <ph id="ph1">&lt;see cref="F:System.Security.Permissions.SecurityAction.Demand" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="284" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.Media.Imaging.WriteableBitmap.WritePixels(System.Windows.Int32Rect,System.IntPtr,System.Int32,System.Int32,System.Int32,System.Int32)">
+          <source>Associated enumeration: <ph id="ph1">&lt;see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /&gt;</ph></source>
+          <target state="translated">关联的枚举： <ph id="ph1">&lt;see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /&gt;</ph></target>       </trans-unit>
+      </group>
+    </body>
+  </file>
+</xliff>

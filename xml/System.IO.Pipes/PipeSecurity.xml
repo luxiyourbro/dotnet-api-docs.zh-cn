@@ -1,1128 +1,402 @@
-<Type Name="PipeSecurity" FullName="System.IO.Pipes.PipeSecurity">
-  <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="1eead0220ae9da892b78cf71ae96a98169946116" />
-    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
-    <Meta Name="ms.translationtype" Value="HT" />
-    <Meta Name="ms.contentlocale" Value="zh-CN" />
-    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
-  </Metadata>
-  <TypeSignature Language="C#" Value="public class PipeSecurity : System.Security.AccessControl.NativeObjectSecurity" />
-  <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit PipeSecurity extends System.Security.AccessControl.NativeObjectSecurity" />
-  <TypeSignature Language="DocId" Value="T:System.IO.Pipes.PipeSecurity" />
-  <TypeSignature Language="VB.NET" Value="Public Class PipeSecurity&#xA;Inherits NativeObjectSecurity" />
-  <TypeSignature Language="C++ CLI" Value="public ref class PipeSecurity : System::Security::AccessControl::NativeObjectSecurity" />
-  <AssemblyInfo>
-    <AssemblyName>System.IO.Pipes.AccessControl</AssemblyName>
-    <AssemblyVersion>4.0.1.0</AssemblyVersion>
-    <AssemblyVersion>4.0.2.0</AssemblyVersion>
-  </AssemblyInfo>
-  <AssemblyInfo>
-    <AssemblyName>System.Core</AssemblyName>
-    <AssemblyVersion>2.0.5.0</AssemblyVersion>
-    <AssemblyVersion>4.0.0.0</AssemblyVersion>
-  </AssemblyInfo>
-  <Base>
-    <BaseTypeName>System.Security.AccessControl.NativeObjectSecurity</BaseTypeName>
-  </Base>
-  <Interfaces />
-  <Docs>
-    <summary>
-      <span data-ttu-id="9611a-101">表示管道的访问控制和审核安全。</span>
-      <span class="sxs-lookup">
-        <span data-stu-id="9611a-101">Represents the access control and audit security for a pipe.</span>
-      </span>
-    </summary>
-    <remarks>
-      <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="9611a-102"><xref:System.IO.Pipes.PipeSecurity>类指定为管道和如何审核的访问尝试次数的访问权限。</span><span class="sxs-lookup"><span data-stu-id="9611a-102">The <xref:System.IO.Pipes.PipeSecurity> class specifies the access rights for a pipe and how access attempts are audited.</span></span>  <span data-ttu-id="9611a-103">此类表示为一组规则的访问和审核权限。</span><span class="sxs-lookup"><span data-stu-id="9611a-103">This class represents access and audit rights as a set of rules.</span></span> <span data-ttu-id="9611a-104">每个规则都由<xref:System.IO.Pipes.PipeAccessRule>对象，而每个审核规则由<xref:System.IO.Pipes.PipeAuditRule>对象。</span><span class="sxs-lookup"><span data-stu-id="9611a-104">Each access rule is represented by a <xref:System.IO.Pipes.PipeAccessRule> object, while each audit rule is represented by a <xref:System.IO.Pipes.PipeAuditRule> object.</span></span>  
-  
- <span data-ttu-id="9611a-105"><xref:System.IO.Pipes.PipeSecurity>类是基础的 Microsoft Windows 文件安全系统的抽象。</span><span class="sxs-lookup"><span data-stu-id="9611a-105">The <xref:System.IO.Pipes.PipeSecurity> class is an abstraction of the underlying Microsoft Windows file security system.</span></span> <span data-ttu-id="9611a-106">在此系统中，每个管道具有自定义访问控制列表 (DACL)，它控制对管道的访问和系统访问控制列表 (SACL)，指定进行审核的访问控制尝试。</span><span class="sxs-lookup"><span data-stu-id="9611a-106">In this system, each pipe has a discretionary access control list (DACL), which controls access to the pipe, and a system access control list (SACL), which specifies the access control attempts that are audited.</span></span>  <span data-ttu-id="9611a-107"><xref:System.IO.Pipes.PipeAccessRule>和<xref:System.IO.Pipes.PipeAuditRule>类是抽象的构成 Dacl 和 Sacl 的访问控制项 (Ace)。</span><span class="sxs-lookup"><span data-stu-id="9611a-107">The <xref:System.IO.Pipes.PipeAccessRule> and <xref:System.IO.Pipes.PipeAuditRule> classes are abstractions of the access control entries (ACEs) that comprise DACLs and SACLs.</span></span>  
-  
- <span data-ttu-id="9611a-108"><xref:System.IO.Pipes.PipeSecurity>类隐藏的许多细节，Dacl 和 Sacl; 无需担心 ACE 排序或 null DACL。</span><span class="sxs-lookup"><span data-stu-id="9611a-108">The <xref:System.IO.Pipes.PipeSecurity> class hides many of the details of DACLs and SACLs; you do not have to worry about ACE ordering or null DACLS.</span></span>  
-  
- <span data-ttu-id="9611a-109">使用<xref:System.IO.Pipes.PipeSecurity>类来检索、 添加或更改表示 DACL 和 SACL 的管道的访问规则。</span><span class="sxs-lookup"><span data-stu-id="9611a-109">Use the <xref:System.IO.Pipes.PipeSecurity> class to retrieve, add, or change the access rules that represent the DACL and SACL of a pipe.</span></span>  
-  
- <span data-ttu-id="9611a-110">若要将新的或更改访问或审核到管道的规则，请使用<xref:System.IO.Pipes.PipeStream.SetAccessControl%2A>方法。</span><span class="sxs-lookup"><span data-stu-id="9611a-110">To persist new or changed access or audit rules to a pipe, use the <xref:System.IO.Pipes.PipeStream.SetAccessControl%2A> method.</span></span> <span data-ttu-id="9611a-111">若要从现有文件检索访问或审核规则，请使用 <xref:System.IO.Pipes.PipeStream.GetAccessControl%2A> 方法。</span><span class="sxs-lookup"><span data-stu-id="9611a-111">To retrieve access or audit rules from an existing file, use the <xref:System.IO.Pipes.PipeStream.GetAccessControl%2A> method.</span></span>  
-  
- ]]></format>
-    </remarks>
-  </Docs>
-  <Members>
-    <Member MemberName=".ctor">
-      <MemberSignature Language="C#" Value="public PipeSecurity ();" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor() cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.IO.Pipes.PipeSecurity.#ctor" />
-      <MemberSignature Language="VB.NET" Value="Public Sub New ()" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; PipeSecurity();" />
-      <MemberType>Constructor</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.IO.Pipes.AccessControl</AssemblyName>
-        <AssemblyVersion>4.0.1.0</AssemblyVersion>
-        <AssemblyVersion>4.0.2.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>System.Core</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Parameters />
-      <Docs>
-        <summary>
-          <span data-ttu-id="9611a-112">初始化 <see cref="T:System.IO.Pipes.PipeSecurity" /> 类的新实例。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="9611a-112">Initializes a new instance of the <see cref="T:System.IO.Pipes.PipeSecurity" /> class.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="9611a-113">此构造函数创建一个空<xref:System.IO.Pipes.PipeSecurity>不基于现有管道的对象。</span><span class="sxs-lookup"><span data-stu-id="9611a-113">This constructor creates an empty <xref:System.IO.Pipes.PipeSecurity> object that is not based on an existing pipe.</span></span> <span data-ttu-id="9611a-114">然后可以使用访问控制信息填充该对象，并将其应用于管道。</span><span class="sxs-lookup"><span data-stu-id="9611a-114">You can then populate the object with access control information and apply it to a pipe.</span></span>  
-  
- <span data-ttu-id="9611a-115">你可以添加访问权限或审核规则<xref:System.IO.Pipes.PipeSecurity>对象使用<xref:System.IO.Pipes.PipeSecurity.AddAccessRule%2A>方法。</span><span class="sxs-lookup"><span data-stu-id="9611a-115">You can add access or audit rules to the <xref:System.IO.Pipes.PipeSecurity> object using the <xref:System.IO.Pipes.PipeSecurity.AddAccessRule%2A> method.</span></span> <span data-ttu-id="9611a-116">你可以删除访问权限或审核规则使用<xref:System.IO.Pipes.PipeSecurity.RemoveAccessRule%2A>方法。</span><span class="sxs-lookup"><span data-stu-id="9611a-116">You can remove access or audit rules using the <xref:System.IO.Pipes.PipeSecurity.RemoveAccessRule%2A> method.</span></span>  
-  
- <span data-ttu-id="9611a-117">若要将新的或更改访问或审核到管道的规则，请使用<xref:System.IO.Pipes.PipeStream.SetAccessControl%2A>方法。</span><span class="sxs-lookup"><span data-stu-id="9611a-117">To persist new or changed access or audit rules to a pipe, use the <xref:System.IO.Pipes.PipeStream.SetAccessControl%2A> method.</span></span> <span data-ttu-id="9611a-118">若要从现有文件检索访问或审核规则，请使用 <xref:System.IO.Pipes.PipeStream.GetAccessControl%2A> 方法。</span><span class="sxs-lookup"><span data-stu-id="9611a-118">To retrieve access or audit rules from an existing file, use the <xref:System.IO.Pipes.PipeStream.GetAccessControl%2A> method.</span></span>  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="AccessRightType">
-      <MemberSignature Language="C#" Value="public override Type AccessRightType { get; }" />
-      <MemberSignature Language="ILAsm" Value=".property instance class System.Type AccessRightType" />
-      <MemberSignature Language="DocId" Value="P:System.IO.Pipes.PipeSecurity.AccessRightType" />
-      <MemberSignature Language="VB.NET" Value="Public Overrides ReadOnly Property AccessRightType As Type" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual property Type ^ AccessRightType { Type ^ get(); };" />
-      <MemberType>Property</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.IO.Pipes.AccessControl</AssemblyName>
-        <AssemblyVersion>4.0.1.0</AssemblyVersion>
-        <AssemblyVersion>4.0.2.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>System.Core</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Type</ReturnType>
-      </ReturnValue>
-      <Docs>
-        <summary>
-          <span data-ttu-id="9611a-119">获取与当前 <see cref="T:System.Type" /> 对象关联的可保护对象的 <see cref="T:System.IO.Pipes.PipeSecurity" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="9611a-119">Gets the <see cref="T:System.Type" /> of the securable object that is associated with the current <see cref="T:System.IO.Pipes.PipeSecurity" /> object.</span>
-          </span>
-        </summary>
-        <value>
-          <span data-ttu-id="9611a-120">与当前 <see cref="T:System.IO.Pipes.PipeSecurity" /> 对象关联的可保护对象的类型。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="9611a-120">The type of the securable object that is associated with the current <see cref="T:System.IO.Pipes.PipeSecurity" /> object.</span>
-          </span>
-        </value>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="9611a-121">派生自的类<xref:System.Security.AccessControl.ObjectSecurity>类替代<xref:System.Security.AccessControl.ObjectSecurity.AccessRightType%2A>属性，并返回它们用于表示的访问权限的类型。</span><span class="sxs-lookup"><span data-stu-id="9611a-121">Classes that derive from the <xref:System.Security.AccessControl.ObjectSecurity> class override the <xref:System.Security.AccessControl.ObjectSecurity.AccessRightType%2A> property and return the type they use to represent access rights.</span></span> <span data-ttu-id="9611a-122">当使用数组或包含多个类型的安全对象的集合时，使用此属性来确定要用于每个安全对象的正确的枚举类型。</span><span class="sxs-lookup"><span data-stu-id="9611a-122">When you work with arrays or collections that contain multiple types of security objects, use this property to determine the correct enumeration type to use with each security object.</span></span>  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="AccessRuleFactory">
-      <MemberSignature Language="C#" Value="public override System.Security.AccessControl.AccessRule AccessRuleFactory (System.Security.Principal.IdentityReference identityReference, int accessMask, bool isInherited, System.Security.AccessControl.InheritanceFlags inheritanceFlags, System.Security.AccessControl.PropagationFlags propagationFlags, System.Security.AccessControl.AccessControlType type);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance class System.Security.AccessControl.AccessRule AccessRuleFactory(class System.Security.Principal.IdentityReference identityReference, int32 accessMask, bool isInherited, valuetype System.Security.AccessControl.InheritanceFlags inheritanceFlags, valuetype System.Security.AccessControl.PropagationFlags propagationFlags, valuetype System.Security.AccessControl.AccessControlType type) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.IO.Pipes.PipeSecurity.AccessRuleFactory(System.Security.Principal.IdentityReference,System.Int32,System.Boolean,System.Security.AccessControl.InheritanceFlags,System.Security.AccessControl.PropagationFlags,System.Security.AccessControl.AccessControlType)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; override System::Security::AccessControl::AccessRule ^ AccessRuleFactory(System::Security::Principal::IdentityReference ^ identityReference, int accessMask, bool isInherited, System::Security::AccessControl::InheritanceFlags inheritanceFlags, System::Security::AccessControl::PropagationFlags propagationFlags, System::Security::AccessControl::AccessControlType type);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.IO.Pipes.AccessControl</AssemblyName>
-        <AssemblyVersion>4.0.1.0</AssemblyVersion>
-        <AssemblyVersion>4.0.2.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>System.Core</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Security.AccessControl.AccessRule</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="identityReference" Type="System.Security.Principal.IdentityReference" />
-        <Parameter Name="accessMask" Type="System.Int32" />
-        <Parameter Name="isInherited" Type="System.Boolean" />
-        <Parameter Name="inheritanceFlags" Type="System.Security.AccessControl.InheritanceFlags" />
-        <Parameter Name="propagationFlags" Type="System.Security.AccessControl.PropagationFlags" />
-        <Parameter Name="type" Type="System.Security.AccessControl.AccessControlType" />
-      </Parameters>
-      <Docs>
-        <param name="identityReference">
-          <span data-ttu-id="9611a-123">应用访问规则的标识。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="9611a-123">The identity that the access rule applies to.</span>
-          </span>
-          <span data-ttu-id="9611a-124">它必须是可以转换为 <see cref="T:System.Security.Principal.SecurityIdentifier" /> 对象的对象。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="9611a-124">It must be an object that can be cast as a <see cref="T:System.Security.Principal.SecurityIdentifier" /> object.</span>
-          </span>
-        </param>
-        <param name="accessMask">
-          <span data-ttu-id="9611a-125">此规则的访问掩码。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="9611a-125">The access mask of this rule.</span>
-          </span>
-          <span data-ttu-id="9611a-126">访问掩码是 32 位的匿名位集合，其含义由单个集成者定义</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="9611a-126">The access mask is a 32-bit collection of anonymous bits, the meaning of which is defined by the individual integrators</span>
-          </span>
-        </param>
-        <param name="isInherited">
-          <span data-ttu-id="9611a-127">如果此规则是从父级容器继承的，则为 <see langword="true" />；否则为 false。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="9611a-127">
-              <see langword="true" /> if this rule is inherited from a parent container; otherwise false.</span>
-          </span>
-        </param>
-        <param name="inheritanceFlags">
-          <span data-ttu-id="9611a-128">
-            <see cref="T:System.Security.AccessControl.InheritanceFlags" /> 值之一，指定访问规则的继承属性。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="9611a-128">One of the <see cref="T:System.Security.AccessControl.InheritanceFlags" /> values that specifies the inheritance properties of the access rule.</span>
-          </span>
-        </param>
-        <param name="propagationFlags">
-          <span data-ttu-id="9611a-129">
-            <see cref="T:System.Security.AccessControl.PropagationFlags" /> 值之一，指定是否自动传播继承的访问规则。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="9611a-129">One of the <see cref="T:System.Security.AccessControl.PropagationFlags" /> values that specifies whether inherited access rules are automatically propagated.</span>
-          </span>
-          <span data-ttu-id="9611a-130">如果将 <c>inheritanceFlags</c> 设置为 <see cref="F:System.Security.AccessControl.InheritanceFlags.None" />，则忽略传播标志。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="9611a-130">The propagation flags are ignored if <c>inheritanceFlags</c> is set to <see cref="F:System.Security.AccessControl.InheritanceFlags.None" />.</span>
-          </span>
-        </param>
-        <param name="type">
-          <span data-ttu-id="9611a-131">指定有效的访问控制类型。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="9611a-131">Specifies the valid access control type.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="9611a-132">用指定的值初始化 <see cref="T:System.Security.AccessControl.AccessRule" /> 类的新实例。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="9611a-132">Initializes a new instance of the <see cref="T:System.Security.AccessControl.AccessRule" /> class with the specified values.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="9611a-133">此方法创建的 <see cref="T:System.Security.AccessControl.AccessRule" /> 对象。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="9611a-133">The <see cref="T:System.Security.AccessControl.AccessRule" /> object that this method creates.</span>
-          </span>
-        </returns>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="9611a-134">创建访问控制规则的推荐的方式是使用的构造函数<xref:System.IO.Pipes.PipeAccessRule>类。</span><span class="sxs-lookup"><span data-stu-id="9611a-134">The recommended way to create access control rules is to use the constructors of the <xref:System.IO.Pipes.PipeAccessRule> class.</span></span>  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.ArgumentOutOfRangeException">
-          <span data-ttu-id="9611a-135">
-            <paramref name="accessMask" />、<paramref name="inheritanceFlags" />、<paramref name="propagationFlags" /> 或 <paramref name="type" /> 指定了一个无效值。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="9611a-135">
-              <paramref name="accessMask" />, <paramref name="inheritanceFlags" />, <paramref name="propagationFlags" />, or <paramref name="type" /> specifies an invalid value.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.ArgumentNullException">
-          <span data-ttu-id="9611a-136">
-            <paramref name="identityReference" /> 为 <see langword="null" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="9611a-136">
-              <paramref name="identityReference" /> is <see langword="null" />.</span>
-          </span>
-          <span data-ttu-id="9611a-137">或</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="9611a-137">-or-</span>
-          </span>
-          <span data-ttu-id="9611a-138">
-            <paramref name="accessMask" /> 为零。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="9611a-138">
-              <paramref name="accessMask" /> is zero.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.ArgumentException">
-          <span data-ttu-id="9611a-139">
-            <paramref name="identityReference" /> 既不属于 <see cref="T:System.Security.Principal.SecurityIdentifier" /> 类型，也不属于可以转换为 <see cref="T:System.Security.Principal.SecurityIdentifier" /> 类型的类型（如 <see cref="T:System.Security.Principal.NTAccount" />）。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="9611a-139">
-              <paramref name="identityReference" /> is neither of type <see cref="T:System.Security.Principal.SecurityIdentifier" /> nor of a type, such as <see cref="T:System.Security.Principal.NTAccount" />, that can be converted to type <see cref="T:System.Security.Principal.SecurityIdentifier" />.</span>
-          </span>
-        </exception>
-      </Docs>
-    </Member>
-    <Member MemberName="AccessRuleType">
-      <MemberSignature Language="C#" Value="public override Type AccessRuleType { get; }" />
-      <MemberSignature Language="ILAsm" Value=".property instance class System.Type AccessRuleType" />
-      <MemberSignature Language="DocId" Value="P:System.IO.Pipes.PipeSecurity.AccessRuleType" />
-      <MemberSignature Language="VB.NET" Value="Public Overrides ReadOnly Property AccessRuleType As Type" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual property Type ^ AccessRuleType { Type ^ get(); };" />
-      <MemberType>Property</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.IO.Pipes.AccessControl</AssemblyName>
-        <AssemblyVersion>4.0.1.0</AssemblyVersion>
-        <AssemblyVersion>4.0.2.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>System.Core</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Type</ReturnType>
-      </ReturnValue>
-      <Docs>
-        <summary>
-          <span data-ttu-id="9611a-140">获取与当前 <see cref="T:System.Type" /> 对象的访问规则关联的对象的 <see cref="T:System.IO.Pipes.PipeSecurity" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="9611a-140">Gets the <see cref="T:System.Type" /> of the object that is associated with the access rules of the current <see cref="T:System.IO.Pipes.PipeSecurity" /> object.</span>
-          </span>
-        </summary>
-        <value>
-          <span data-ttu-id="9611a-141">与当前 <see cref="T:System.IO.Pipes.PipeSecurity" /> 对象的访问规则关联的对象的类型。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="9611a-141">The type of the object that is associated with the access rules of the current <see cref="T:System.IO.Pipes.PipeSecurity" /> object.</span>
-          </span>
-        </value>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="9611a-142">派生自的类<xref:System.Security.AccessControl.ObjectSecurity>类替代<xref:System.Security.AccessControl.ObjectSecurity.AccessRuleType%2A>属性，并返回它们用于表示的访问权限的类型。</span><span class="sxs-lookup"><span data-stu-id="9611a-142">Classes that derive from the <xref:System.Security.AccessControl.ObjectSecurity> class override the <xref:System.Security.AccessControl.ObjectSecurity.AccessRuleType%2A> property and return the type they use to represent access rights.</span></span> <span data-ttu-id="9611a-143">当使用数组或包含多个类型的安全对象的集合时，使用此属性来确定要用于每个安全对象的正确的枚举类型。</span><span class="sxs-lookup"><span data-stu-id="9611a-143">When you work with arrays or collections that contain multiple types of security objects, use this property to determine the correct enumeration type to use with each security object.</span></span>  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="AddAccessRule">
-      <MemberSignature Language="C#" Value="public void AddAccessRule (System.IO.Pipes.PipeAccessRule rule);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void AddAccessRule(class System.IO.Pipes.PipeAccessRule rule) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.IO.Pipes.PipeSecurity.AddAccessRule(System.IO.Pipes.PipeAccessRule)" />
-      <MemberSignature Language="VB.NET" Value="Public Sub AddAccessRule (rule As PipeAccessRule)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; void AddAccessRule(System::IO::Pipes::PipeAccessRule ^ rule);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.IO.Pipes.AccessControl</AssemblyName>
-        <AssemblyVersion>4.0.1.0</AssemblyVersion>
-        <AssemblyVersion>4.0.2.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>System.Core</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="rule" Type="System.IO.Pipes.PipeAccessRule" />
-      </Parameters>
-      <Docs>
-        <param name="rule">
-          <span data-ttu-id="9611a-144">要添加的访问规则。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="9611a-144">The access rule to add.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="9611a-145">将访问规则添加到与当前 <see cref="T:System.IO.Pipes.PipeSecurity" /> 对象关联的自定义访问控制列表 (DACL)。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="9611a-145">Adds an access rule to the Discretionary Access Control List (DACL) that is associated with the current <see cref="T:System.IO.Pipes.PipeSecurity" /> object.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="9611a-146"><xref:System.IO.Pipes.PipeSecurity.AddAccessRule%2A>方法向的规则的列表添加新规则，<xref:System.IO.Pipes.PipeSecurity>对象包含。如果访问控制列表 (ACL) 已存在指定的规则，<xref:System.IO.Pipes.PipeSecurity.AddAccessRule%2A>方法仍将添加该规则，有一个例外：<xref:System.IO.Pipes.PipeAccessRule>使用创建的对象<xref:System.Security.AccessControl.AccessControlType.Deny>值会取代使用创建的对象<xref:System.Security.AccessControl.AccessControlType.Allow>值。</span><span class="sxs-lookup"><span data-stu-id="9611a-146">The <xref:System.IO.Pipes.PipeSecurity.AddAccessRule%2A> method adds a new rule to the list of rules that a <xref:System.IO.Pipes.PipeSecurity> object contains.If an access control list (ACL) already exists for the specified rule, the <xref:System.IO.Pipes.PipeSecurity.AddAccessRule%2A> method will still add the rule, with one exception: a <xref:System.IO.Pipes.PipeAccessRule> object that is created using the <xref:System.Security.AccessControl.AccessControlType.Deny> value supersedes an object that is created using the <xref:System.Security.AccessControl.AccessControlType.Allow> value.</span></span>  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.ArgumentNullException">
-          <span data-ttu-id="9611a-147">
-            <paramref name="rule" /> 参数为 <see langword="null" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="9611a-147">The <paramref name="rule" /> parameter is <see langword="null" />.</span>
-          </span>
-        </exception>
-      </Docs>
-    </Member>
-    <Member MemberName="AddAuditRule">
-      <MemberSignature Language="C#" Value="public void AddAuditRule (System.IO.Pipes.PipeAuditRule rule);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void AddAuditRule(class System.IO.Pipes.PipeAuditRule rule) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.IO.Pipes.PipeSecurity.AddAuditRule(System.IO.Pipes.PipeAuditRule)" />
-      <MemberSignature Language="VB.NET" Value="Public Sub AddAuditRule (rule As PipeAuditRule)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; void AddAuditRule(System::IO::Pipes::PipeAuditRule ^ rule);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.IO.Pipes.AccessControl</AssemblyName>
-        <AssemblyVersion>4.0.1.0</AssemblyVersion>
-        <AssemblyVersion>4.0.2.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>System.Core</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="rule" Type="System.IO.Pipes.PipeAuditRule" />
-      </Parameters>
-      <Docs>
-        <param name="rule">
-          <span data-ttu-id="9611a-148">要添加的审核规则。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="9611a-148">The audit rule to add.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="9611a-149">将审核规则添加到与当前 <see cref="T:System.IO.Pipes.PipeSecurity" /> 对象关联的系统访问控制列表 (SACL)。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="9611a-149">Adds an audit rule to the System Access Control List (SACL)that is associated with the current <see cref="T:System.IO.Pipes.PipeSecurity" /> object.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="9611a-150"><xref:System.IO.Pipes.PipeSecurity.AddAuditRule%2A>方法将新的审核规则添加到的规则的列表，<xref:System.IO.Pipes.PipeSecurity>对象包含。</span><span class="sxs-lookup"><span data-stu-id="9611a-150">The <xref:System.IO.Pipes.PipeSecurity.AddAuditRule%2A> method adds a new audit rule to the list of rules that a <xref:System.IO.Pipes.PipeSecurity> object contains.</span></span>  
-  
- <span data-ttu-id="9611a-151">如果审核规则已存在指定的规则，<xref:System.IO.Pipes.PipeSecurity.AddAuditRule%2A>方法仍将添加该规则。</span><span class="sxs-lookup"><span data-stu-id="9611a-151">If an audit rule already exists for the specified rule, the <xref:System.IO.Pipes.PipeSecurity.AddAuditRule%2A> method will still add the rule.</span></span>  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.ArgumentNullException">
-          <span data-ttu-id="9611a-152">
-            <paramref name="rule" /> 参数为 <see langword="null" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="9611a-152">The <paramref name="rule" /> parameter is <see langword="null" />.</span>
-          </span>
-        </exception>
-      </Docs>
-    </Member>
-    <Member MemberName="AuditRuleFactory">
-      <MemberSignature Language="C#" Value="public override sealed System.Security.AccessControl.AuditRule AuditRuleFactory (System.Security.Principal.IdentityReference identityReference, int accessMask, bool isInherited, System.Security.AccessControl.InheritanceFlags inheritanceFlags, System.Security.AccessControl.PropagationFlags propagationFlags, System.Security.AccessControl.AuditFlags flags);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance class System.Security.AccessControl.AuditRule AuditRuleFactory(class System.Security.Principal.IdentityReference identityReference, int32 accessMask, bool isInherited, valuetype System.Security.AccessControl.InheritanceFlags inheritanceFlags, valuetype System.Security.AccessControl.PropagationFlags propagationFlags, valuetype System.Security.AccessControl.AuditFlags flags) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.IO.Pipes.PipeSecurity.AuditRuleFactory(System.Security.Principal.IdentityReference,System.Int32,System.Boolean,System.Security.AccessControl.InheritanceFlags,System.Security.AccessControl.PropagationFlags,System.Security.AccessControl.AuditFlags)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; override System::Security::AccessControl::AuditRule ^ AuditRuleFactory(System::Security::Principal::IdentityReference ^ identityReference, int accessMask, bool isInherited, System::Security::AccessControl::InheritanceFlags inheritanceFlags, System::Security::AccessControl::PropagationFlags propagationFlags, System::Security::AccessControl::AuditFlags flags);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.IO.Pipes.AccessControl</AssemblyName>
-        <AssemblyVersion>4.0.1.0</AssemblyVersion>
-        <AssemblyVersion>4.0.2.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>System.Core</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Security.AccessControl.AuditRule</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="identityReference" Type="System.Security.Principal.IdentityReference" />
-        <Parameter Name="accessMask" Type="System.Int32" />
-        <Parameter Name="isInherited" Type="System.Boolean" />
-        <Parameter Name="inheritanceFlags" Type="System.Security.AccessControl.InheritanceFlags" />
-        <Parameter Name="propagationFlags" Type="System.Security.AccessControl.PropagationFlags" />
-        <Parameter Name="flags" Type="System.Security.AccessControl.AuditFlags" />
-      </Parameters>
-      <Docs>
-        <param name="identityReference">
-          <span data-ttu-id="9611a-153">应用访问规则的标识。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="9611a-153">The identity that the access rule applies to.</span>
-          </span>
-          <span data-ttu-id="9611a-154">它必须是可以转换为 <see cref="T:System.Security.Principal.SecurityIdentifier" /> 对象的对象。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="9611a-154">It must be an object that can be cast as a <see cref="T:System.Security.Principal.SecurityIdentifier" /> object.</span>
-          </span>
-        </param>
-        <param name="accessMask">
-          <span data-ttu-id="9611a-155">此规则的访问掩码。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="9611a-155">The access mask of this rule.</span>
-          </span>
-          <span data-ttu-id="9611a-156">访问掩码是 32 位的匿名位集合，其含义由单个集成者定义</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="9611a-156">The access mask is a 32-bit collection of anonymous bits, the meaning of which is defined by the individual integrators</span>
-          </span>
-        </param>
-        <param name="isInherited">
-          <span data-ttu-id="9611a-157">如果此规则是从父级容器继承，则为 <see langword="true" />；否则为 false。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="9611a-157">
-              <see langword="true" /> if this rule is inherited from a parent container; otherwise, false..</span>
-          </span>
-        </param>
-        <param name="inheritanceFlags">
-          <span data-ttu-id="9611a-158">
-            <see cref="T:System.Security.AccessControl.InheritanceFlags" /> 值之一，指定访问规则的继承属性。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="9611a-158">One of the <see cref="T:System.Security.AccessControl.InheritanceFlags" /> values that specifies the inheritance properties of the access rule.</span>
-          </span>
-        </param>
-        <param name="propagationFlags">
-          <span data-ttu-id="9611a-159">
-            <see cref="T:System.Security.AccessControl.PropagationFlags" /> 值之一，指定是否自动传播继承的访问规则。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="9611a-159">One of the <see cref="T:System.Security.AccessControl.PropagationFlags" /> values that specifies whether inherited access rules are automatically propagated.</span>
-          </span>
-          <span data-ttu-id="9611a-160">如果将 <c>inheritanceFlags</c> 设置为 <see cref="F:System.Security.AccessControl.InheritanceFlags.None" />，则忽略传播标志。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="9611a-160">The propagation flags are ignored if <c>inheritanceFlags</c> is set to <see cref="F:System.Security.AccessControl.InheritanceFlags.None" />.</span>
-          </span>
-        </param>
-        <param name="flags">
-          <span data-ttu-id="9611a-161">
-            <see cref="T:System.Security.AccessControl.AuditFlags" /> 值之一，指定有效的访问控制类型。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="9611a-161">One of the <see cref="T:System.Security.AccessControl.AuditFlags" /> values that specifies the valid access control type.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="9611a-162">用指定的值初始化 <see cref="T:System.Security.AccessControl.AuditRule" /> 类的新实例。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="9611a-162">Initializes a new instance of the <see cref="T:System.Security.AccessControl.AuditRule" /> class with the specified values.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="9611a-163">此方法创建的 <see cref="T:System.Security.AccessControl.AuditRule" /> 对象。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="9611a-163">The <see cref="T:System.Security.AccessControl.AuditRule" /> object that this method creates.</span>
-          </span>
-        </returns>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="9611a-164">创建审核规则的建议的方法是使用的构造函数<xref:System.IO.Pipes.PipeAuditRule>类。</span><span class="sxs-lookup"><span data-stu-id="9611a-164">The recommended way to create audit rules is to use the constructors of the <xref:System.IO.Pipes.PipeAuditRule> class.</span></span>  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.ArgumentOutOfRangeException">
-          <span data-ttu-id="9611a-165">
-            <paramref name="accessMask" />、<paramref name="inheritanceFlags" />、<paramref name="propagationFlags" /> 或 <paramref name="flags" /> 属性指定了无效值。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="9611a-165">The <paramref name="accessMask" />, <paramref name="inheritanceFlags" />, <paramref name="propagationFlags" />, or <paramref name="flags" /> properties specify an invalid value.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.ArgumentNullException">
-          <span data-ttu-id="9611a-166">
-            <paramref name="identityReference" /> 属性为 <see langword="null" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="9611a-166">The <paramref name="identityReference" /> property is <see langword="null" />.</span>
-          </span>
-          <span data-ttu-id="9611a-167">或</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="9611a-167">-or-</span>
-          </span>
-          <span data-ttu-id="9611a-168">
-            <paramref name="accessMask" /> 属性为零。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="9611a-168">The <paramref name="accessMask" /> property is zero.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.ArgumentException">
-          <span data-ttu-id="9611a-169">
-            <paramref name="identityReference" /> 属性既不是 <see cref="T:System.Security.Principal.SecurityIdentifier" /> 类型，也不是可转换为 <see cref="T:System.Security.Principal.SecurityIdentifier" /> 类型的类型，如 <see cref="T:System.Security.Principal.NTAccount" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="9611a-169">The <paramref name="identityReference" /> property is neither of type <see cref="T:System.Security.Principal.SecurityIdentifier" /> nor of a type, such as <see cref="T:System.Security.Principal.NTAccount" />, that can be converted to type <see cref="T:System.Security.Principal.SecurityIdentifier" />.</span>
-          </span>
-        </exception>
-      </Docs>
-    </Member>
-    <Member MemberName="AuditRuleType">
-      <MemberSignature Language="C#" Value="public override Type AuditRuleType { get; }" />
-      <MemberSignature Language="ILAsm" Value=".property instance class System.Type AuditRuleType" />
-      <MemberSignature Language="DocId" Value="P:System.IO.Pipes.PipeSecurity.AuditRuleType" />
-      <MemberSignature Language="VB.NET" Value="Public Overrides ReadOnly Property AuditRuleType As Type" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual property Type ^ AuditRuleType { Type ^ get(); };" />
-      <MemberType>Property</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.IO.Pipes.AccessControl</AssemblyName>
-        <AssemblyVersion>4.0.1.0</AssemblyVersion>
-        <AssemblyVersion>4.0.2.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>System.Core</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Type</ReturnType>
-      </ReturnValue>
-      <Docs>
-        <summary>
-          <span data-ttu-id="9611a-170">获取与当前 <see cref="T:System.IO.Pipes.PipeSecurity" /> 对象的审核规则关联的 <see cref="T:System.Type" /> 对象。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="9611a-170">Gets the <see cref="T:System.Type" /> object associated with the audit rules of the current <see cref="T:System.IO.Pipes.PipeSecurity" /> object.</span>
-          </span>
-        </summary>
-        <value>
-          <span data-ttu-id="9611a-171">与当前 <see cref="T:System.IO.Pipes.PipeSecurity" /> 对象的审核规则关联的对象的类型。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="9611a-171">The type of the object that is associated with the audit rules of the current <see cref="T:System.IO.Pipes.PipeSecurity" /> object.</span>
-          </span>
-        </value>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="9611a-172">派生自的类<xref:System.Security.AccessControl.ObjectSecurity>类替代<xref:System.Security.AccessControl.ObjectSecurity.AuditRuleType%2A>属性，并返回它们用于表示的访问权限的类型。</span><span class="sxs-lookup"><span data-stu-id="9611a-172">Classes that derive from the <xref:System.Security.AccessControl.ObjectSecurity> class override the <xref:System.Security.AccessControl.ObjectSecurity.AuditRuleType%2A> property and return the type they use to represent access rights.</span></span> <span data-ttu-id="9611a-173">当使用数组或包含多个类型的安全对象的集合时，使用此属性来确定要用于每个安全对象的正确的枚举类型。</span><span class="sxs-lookup"><span data-stu-id="9611a-173">When you work with arrays or collections that contain multiple types of security objects, use this property to determine the correct enumeration type to use with each security object.</span></span>  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-    <MemberGroup MemberName="Persist">
-      <AssemblyInfo>
-        <AssemblyName>System.IO.Pipes.AccessControl</AssemblyName>
-        <AssemblyVersion>4.0.1.0</AssemblyVersion>
-        <AssemblyVersion>4.0.2.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Docs>
-        <summary>
-          <span data-ttu-id="9611a-174">将与当前 <see cref="T:System.IO.Pipes.PipeSecurity" /> 对象关联的安全描述符的指定部分保存到永久性存储器。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="9611a-174">Saves the specified sections of the security descriptor that is associated with the current <see cref="T:System.IO.Pipes.PipeSecurity" /> object to permanent storage.</span>
-          </span>
-        </summary>
-      </Docs>
-    </MemberGroup>
-    <Member MemberName="Persist">
-      <MemberSignature Language="C#" Value="protected internal void Persist (System.Runtime.InteropServices.SafeHandle handle);" />
-      <MemberSignature Language="ILAsm" Value=".method familyorassemblyhidebysig instance void Persist(class System.Runtime.InteropServices.SafeHandle handle) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.IO.Pipes.PipeSecurity.Persist(System.Runtime.InteropServices.SafeHandle)" />
-      <MemberSignature Language="VB.NET" Value="Protected Friend Sub Persist (handle As SafeHandle)" />
-      <MemberSignature Language="C++ CLI" Value="protected public:&#xA; void Persist(System::Runtime::InteropServices::SafeHandle ^ handle);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.IO.Pipes.AccessControl</AssemblyName>
-        <AssemblyVersion>4.0.1.0</AssemblyVersion>
-        <AssemblyVersion>4.0.2.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>System.Core</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="handle" Type="System.Runtime.InteropServices.SafeHandle" />
-      </Parameters>
-      <Docs>
-        <param name="handle">
-          <span data-ttu-id="9611a-175">与当前 <see cref="T:System.IO.Pipes.PipeSecurity" /> 对象关联的可保护对象的句柄。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="9611a-175">The handle of the securable object that the current <see cref="T:System.IO.Pipes.PipeSecurity" /> object is associated with.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="9611a-176">将与当前 <see cref="T:System.IO.Pipes.PipeSecurity" /> 对象关联的安全描述符的指定部分保存到永久性存储器。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="9611a-176">Saves the specified sections of the security descriptor that is associated with the current <see cref="T:System.IO.Pipes.PipeSecurity" /> object to permanent storage.</span>
-          </span>
-        </summary>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="Persist">
-      <MemberSignature Language="C#" Value="protected internal void Persist (string name);" />
-      <MemberSignature Language="ILAsm" Value=".method familyorassemblyhidebysig instance void Persist(string name) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.IO.Pipes.PipeSecurity.Persist(System.String)" />
-      <MemberSignature Language="VB.NET" Value="Protected Friend Sub Persist (name As String)" />
-      <MemberSignature Language="C++ CLI" Value="protected public:&#xA; void Persist(System::String ^ name);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.IO.Pipes.AccessControl</AssemblyName>
-        <AssemblyVersion>4.0.1.0</AssemblyVersion>
-        <AssemblyVersion>4.0.2.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>System.Core</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="name" Type="System.String" />
-      </Parameters>
-      <Docs>
-        <param name="name">
-          <span data-ttu-id="9611a-177">与当前 <see cref="T:System.IO.Pipes.PipeSecurity" /> 对象关联的可保护对象的名称。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="9611a-177">The name of the securable object that the current <see cref="T:System.IO.Pipes.PipeSecurity" /> object is associated with.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="9611a-178">将与当前 <see cref="T:System.IO.Pipes.PipeSecurity" /> 对象关联的安全描述符的指定部分保存到永久性存储器。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="9611a-178">Saves the specified sections of the security descriptor that is associated with the current <see cref="T:System.IO.Pipes.PipeSecurity" /> object to permanent storage.</span>
-          </span>
-        </summary>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="RemoveAccessRule">
-      <MemberSignature Language="C#" Value="public bool RemoveAccessRule (System.IO.Pipes.PipeAccessRule rule);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance bool RemoveAccessRule(class System.IO.Pipes.PipeAccessRule rule) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.IO.Pipes.PipeSecurity.RemoveAccessRule(System.IO.Pipes.PipeAccessRule)" />
-      <MemberSignature Language="VB.NET" Value="Public Function RemoveAccessRule (rule As PipeAccessRule) As Boolean" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; bool RemoveAccessRule(System::IO::Pipes::PipeAccessRule ^ rule);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.IO.Pipes.AccessControl</AssemblyName>
-        <AssemblyVersion>4.0.1.0</AssemblyVersion>
-        <AssemblyVersion>4.0.2.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>System.Core</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Boolean</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="rule" Type="System.IO.Pipes.PipeAccessRule" />
-      </Parameters>
-      <Docs>
-        <param name="rule">
-          <span data-ttu-id="9611a-179">要移除的访问规则。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="9611a-179">The access rule to remove.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="9611a-180">将访问规则从与当前 <see cref="T:System.IO.Pipes.PipeSecurity" /> 对象关联的自定义访问控制列表 (DACL) 中移除。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="9611a-180">Removes an access rule from the Discretionary Access Control List (DACL) that is associated with the current <see cref="T:System.IO.Pipes.PipeSecurity" /> object.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="9611a-181">如果操作成功，则为 <see langword="true" />；否则为 <see langword="false" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="9611a-181">
-              <see langword="true" /> if the operation is successful; otherwise, <see langword="false" />.</span>
-          </span>
-        </returns>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="9611a-182"><xref:System.IO.Pipes.PipeSecurity.RemoveAccessRule%2A>方法移除所有匹配<xref:System.Security.AccessControl.AccessControlType.Deny>访问规则或所有匹配<xref:System.Security.AccessControl.AccessControlType.Allow>从当前访问规则<xref:System.IO.Pipes.PipeSecurity>对象。</span><span class="sxs-lookup"><span data-stu-id="9611a-182">The <xref:System.IO.Pipes.PipeSecurity.RemoveAccessRule%2A> method removes either all matching <xref:System.Security.AccessControl.AccessControlType.Deny> access rules or all matching <xref:System.Security.AccessControl.AccessControlType.Allow> access rules from the current <xref:System.IO.Pipes.PipeSecurity> object.</span></span> <span data-ttu-id="9611a-183">例如，你可以使用此方法删除所有<xref:System.Security.AccessControl.AccessControlType.Deny>通过访问用户的规则<xref:System.IO.Pipes.PipeAccessRule>对象创建使用<xref:System.Security.AccessControl.AccessControlType.Deny>值，<xref:System.IO.Pipes.PipeAccessRights.Read>值和用户帐户。</span><span class="sxs-lookup"><span data-stu-id="9611a-183">For example, you can use this method to remove all <xref:System.Security.AccessControl.AccessControlType.Deny> access rules for a user by passing a <xref:System.IO.Pipes.PipeAccessRule> object created using the <xref:System.Security.AccessControl.AccessControlType.Deny> value, the <xref:System.IO.Pipes.PipeAccessRights.Read> value, and a user account.</span></span> <span data-ttu-id="9611a-184"><xref:System.IO.Pipes.PipeSecurity.RemoveAccessRule%2A>方法中删除任何指定的拒绝规则<xref:System.IO.Pipes.PipeAccessRights.Read>值或<xref:System.IO.Pipes.PipeAccessRights.Write>值。</span><span class="sxs-lookup"><span data-stu-id="9611a-184">The <xref:System.IO.Pipes.PipeSecurity.RemoveAccessRule%2A> method removes any deny rules that specify the <xref:System.IO.Pipes.PipeAccessRights.Read> value or the <xref:System.IO.Pipes.PipeAccessRights.Write> value.</span></span>  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.ArgumentNullException">
-          <span data-ttu-id="9611a-185">
-            <paramref name="rule" /> 参数为 <see langword="null" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="9611a-185">The <paramref name="rule" /> parameter is <see langword="null" />.</span>
-          </span>
-        </exception>
-      </Docs>
-    </Member>
-    <Member MemberName="RemoveAccessRuleSpecific">
-      <MemberSignature Language="C#" Value="public void RemoveAccessRuleSpecific (System.IO.Pipes.PipeAccessRule rule);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void RemoveAccessRuleSpecific(class System.IO.Pipes.PipeAccessRule rule) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.IO.Pipes.PipeSecurity.RemoveAccessRuleSpecific(System.IO.Pipes.PipeAccessRule)" />
-      <MemberSignature Language="VB.NET" Value="Public Sub RemoveAccessRuleSpecific (rule As PipeAccessRule)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; void RemoveAccessRuleSpecific(System::IO::Pipes::PipeAccessRule ^ rule);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.IO.Pipes.AccessControl</AssemblyName>
-        <AssemblyVersion>4.0.1.0</AssemblyVersion>
-        <AssemblyVersion>4.0.2.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>System.Core</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="rule" Type="System.IO.Pipes.PipeAccessRule" />
-      </Parameters>
-      <Docs>
-        <param name="rule">
-          <span data-ttu-id="9611a-186">要移除的访问规则。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="9611a-186">The access rule to remove.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="9611a-187">将指定的访问规则从与当前 <see cref="T:System.IO.Pipes.PipeSecurity" /> 对象关联的自定义访问控制列表 (DACL) 中移除。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="9611a-187">Removes the specified access rule from the Discretionary Access Control List (DACL) that is associated with the current <see cref="T:System.IO.Pipes.PipeSecurity" /> object.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="9611a-188"><xref:System.IO.Pipes.PipeSecurity.RemoveAccessRule%2A>方法移除所有匹配<xref:System.Security.AccessControl.AccessControlType.Deny>访问规则或所有匹配<xref:System.Security.AccessControl.AccessControlType.Allow>从当前访问规则<xref:System.IO.Pipes.PipeSecurity>对象。</span><span class="sxs-lookup"><span data-stu-id="9611a-188">The <xref:System.IO.Pipes.PipeSecurity.RemoveAccessRule%2A> method removes either all matching <xref:System.Security.AccessControl.AccessControlType.Deny> access rules or all matching <xref:System.Security.AccessControl.AccessControlType.Allow> access rules from the current <xref:System.IO.Pipes.PipeSecurity> object.</span></span> <span data-ttu-id="9611a-189">例如，你可以使用此方法删除所有<xref:System.Security.AccessControl.AccessControlType.Deny>通过访问用户的规则<xref:System.IO.Pipes.PipeAccessRule>对象创建使用<xref:System.Security.AccessControl.AccessControlType.Deny>值，<xref:System.IO.Pipes.PipeAccessRights.Read>值和用户帐户。</span><span class="sxs-lookup"><span data-stu-id="9611a-189">For example, you can use this method to remove all <xref:System.Security.AccessControl.AccessControlType.Deny> access rules for a user by passing a <xref:System.IO.Pipes.PipeAccessRule> object created using the <xref:System.Security.AccessControl.AccessControlType.Deny> value, the <xref:System.IO.Pipes.PipeAccessRights.Read> value, and a user account.</span></span> <span data-ttu-id="9611a-190"><xref:System.IO.Pipes.PipeSecurity.RemoveAccessRule%2A>方法中删除任何指定的拒绝规则<xref:System.IO.Pipes.PipeAccessRights.Read>值或<xref:System.IO.Pipes.PipeAccessRights.Write>值。</span><span class="sxs-lookup"><span data-stu-id="9611a-190">The <xref:System.IO.Pipes.PipeSecurity.RemoveAccessRule%2A> method removes any deny rules that specify the <xref:System.IO.Pipes.PipeAccessRights.Read> value or the <xref:System.IO.Pipes.PipeAccessRights.Write> value.</span></span>  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.ArgumentNullException">
-          <span data-ttu-id="9611a-191">
-            <paramref name="rule" /> 参数为 <see langword="null" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="9611a-191">The <paramref name="rule" /> parameter is <see langword="null" />.</span>
-          </span>
-        </exception>
-      </Docs>
-    </Member>
-    <Member MemberName="RemoveAuditRule">
-      <MemberSignature Language="C#" Value="public bool RemoveAuditRule (System.IO.Pipes.PipeAuditRule rule);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance bool RemoveAuditRule(class System.IO.Pipes.PipeAuditRule rule) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.IO.Pipes.PipeSecurity.RemoveAuditRule(System.IO.Pipes.PipeAuditRule)" />
-      <MemberSignature Language="VB.NET" Value="Public Function RemoveAuditRule (rule As PipeAuditRule) As Boolean" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; bool RemoveAuditRule(System::IO::Pipes::PipeAuditRule ^ rule);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.IO.Pipes.AccessControl</AssemblyName>
-        <AssemblyVersion>4.0.1.0</AssemblyVersion>
-        <AssemblyVersion>4.0.2.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>System.Core</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Boolean</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="rule" Type="System.IO.Pipes.PipeAuditRule" />
-      </Parameters>
-      <Docs>
-        <param name="rule">
-          <span data-ttu-id="9611a-192">要移除的审核规则。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="9611a-192">The audit rule to remove.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="9611a-193">将审核规则从与当前 <see cref="T:System.IO.Pipes.PipeSecurity" /> 对象关联的系统访问控制列表 (SACL) 中移除。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="9611a-193">Removes an audit rule from the System Access Control List (SACL) that is associated with the current <see cref="T:System.IO.Pipes.PipeSecurity" /> object.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="9611a-194">如果审核规则已移除，则为 <see langword="true" />；否则为 <see langword="false" /></span>
-          <span class="sxs-lookup">
-            <span data-stu-id="9611a-194">
-              <see langword="true" /> if the audit rule was removed; otherwise, <see langword="false" /></span>
-          </span>
-        </returns>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="9611a-195"><xref:System.IO.Pipes.PipeSecurity.RemoveAuditRule%2A>方法移除所有匹配<xref:System.Security.AccessControl.AccessControlType.Deny>审核规则或所有匹配<xref:System.Security.AccessControl.AccessControlType.Allow>审核从当前规则<xref:System.IO.Pipes.PipeSecurity>对象。</span><span class="sxs-lookup"><span data-stu-id="9611a-195">The <xref:System.IO.Pipes.PipeSecurity.RemoveAuditRule%2A> method removes either all matching <xref:System.Security.AccessControl.AccessControlType.Deny> audit rules or all matching <xref:System.Security.AccessControl.AccessControlType.Allow> audit rules from the current <xref:System.IO.Pipes.PipeSecurity> object.</span></span>  <span data-ttu-id="9611a-196">例如，你可以使用此方法删除所有<xref:System.Security.AccessControl.AccessControlType.Deny>审核规则的用户通过将传递<xref:System.Security.AccessControl.FileSystemAuditRule>对象创建使用<xref:System.Security.AccessControl.AccessControlType.Deny>值，<xref:System.Security.AccessControl.AuditFlags.Failure>值和用户帐户。</span><span class="sxs-lookup"><span data-stu-id="9611a-196">For example, you can use this method to remove all <xref:System.Security.AccessControl.AccessControlType.Deny> audit rules for a user by passing a <xref:System.Security.AccessControl.FileSystemAuditRule> object created using the <xref:System.Security.AccessControl.AccessControlType.Deny> value, the <xref:System.Security.AccessControl.AuditFlags.Failure> value, and a user account.</span></span>  <span data-ttu-id="9611a-197">当你执行此操作，<xref:System.IO.Pipes.PipeSecurity.RemoveAuditRule%2A>方法中删除任何指定的拒绝规则<xref:System.Security.AccessControl.AuditFlags.Failure>值或<xref:System.Security.AccessControl.AuditFlags.Success>值。</span><span class="sxs-lookup"><span data-stu-id="9611a-197">When you do this, the <xref:System.IO.Pipes.PipeSecurity.RemoveAuditRule%2A> method removes any deny rules that specify the <xref:System.Security.AccessControl.AuditFlags.Failure> value or the <xref:System.Security.AccessControl.AuditFlags.Success> value.</span></span>  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.ArgumentNullException">
-          <span data-ttu-id="9611a-198">
-            <paramref name="rule" /> 参数为 <see langword="null" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="9611a-198">The <paramref name="rule" /> parameter is <see langword="null" />.</span>
-          </span>
-        </exception>
-      </Docs>
-    </Member>
-    <Member MemberName="RemoveAuditRuleAll">
-      <MemberSignature Language="C#" Value="public void RemoveAuditRuleAll (System.IO.Pipes.PipeAuditRule rule);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void RemoveAuditRuleAll(class System.IO.Pipes.PipeAuditRule rule) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.IO.Pipes.PipeSecurity.RemoveAuditRuleAll(System.IO.Pipes.PipeAuditRule)" />
-      <MemberSignature Language="VB.NET" Value="Public Sub RemoveAuditRuleAll (rule As PipeAuditRule)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; void RemoveAuditRuleAll(System::IO::Pipes::PipeAuditRule ^ rule);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.IO.Pipes.AccessControl</AssemblyName>
-        <AssemblyVersion>4.0.1.0</AssemblyVersion>
-        <AssemblyVersion>4.0.2.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>System.Core</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="rule" Type="System.IO.Pipes.PipeAuditRule" />
-      </Parameters>
-      <Docs>
-        <param name="rule">
-          <span data-ttu-id="9611a-199">要移除的审核规则。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="9611a-199">The audit rule to remove.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="9611a-200">将与指定的审核规则具有相同安全标识符的所有审核规则从与当前 <see cref="T:System.IO.Pipes.PipeSecurity" /> 对象关联的系统访问控制列表 (SACL) 中移除。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="9611a-200">Removes all audit rules that have the same security identifier as the specified audit rule from the System Access Control List (SACL) that is associated with the current <see cref="T:System.IO.Pipes.PipeSecurity" /> object.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="9611a-201"><xref:System.IO.Pipes.PipeSecurity.RemoveAuditRuleAll%2A>方法中删除指定的用户的所有审核规则。</span><span class="sxs-lookup"><span data-stu-id="9611a-201">The <xref:System.IO.Pipes.PipeSecurity.RemoveAuditRuleAll%2A> method removes all audit rules for the specified user.</span></span>  <span data-ttu-id="9611a-202">它会忽略中的所有值<xref:System.IO.Pipes.PipeAuditRule>除外的用户帐户的对象。</span><span class="sxs-lookup"><span data-stu-id="9611a-202">It ignores all values in the <xref:System.IO.Pipes.PipeAuditRule> object except the user account.</span></span>  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.ArgumentNullException">
-          <span data-ttu-id="9611a-203">
-            <paramref name="rule" /> 参数为 <see langword="null" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="9611a-203">The <paramref name="rule" /> parameter is <see langword="null" />.</span>
-          </span>
-        </exception>
-      </Docs>
-    </Member>
-    <Member MemberName="RemoveAuditRuleSpecific">
-      <MemberSignature Language="C#" Value="public void RemoveAuditRuleSpecific (System.IO.Pipes.PipeAuditRule rule);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void RemoveAuditRuleSpecific(class System.IO.Pipes.PipeAuditRule rule) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.IO.Pipes.PipeSecurity.RemoveAuditRuleSpecific(System.IO.Pipes.PipeAuditRule)" />
-      <MemberSignature Language="VB.NET" Value="Public Sub RemoveAuditRuleSpecific (rule As PipeAuditRule)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; void RemoveAuditRuleSpecific(System::IO::Pipes::PipeAuditRule ^ rule);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.IO.Pipes.AccessControl</AssemblyName>
-        <AssemblyVersion>4.0.1.0</AssemblyVersion>
-        <AssemblyVersion>4.0.2.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>System.Core</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="rule" Type="System.IO.Pipes.PipeAuditRule" />
-      </Parameters>
-      <Docs>
-        <param name="rule">
-          <span data-ttu-id="9611a-204">要移除的审核规则。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="9611a-204">The audit rule to remove.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="9611a-205">将指定的审核规则从与当前 <see cref="T:System.IO.Pipes.PipeSecurity" /> 对象关联的系统访问控制列表 (SACL) 中移除。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="9611a-205">Removes the specified audit rule from the System Access Control List (SACL) that is associated with the current <see cref="T:System.IO.Pipes.PipeSecurity" /> object.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="9611a-206"><xref:System.IO.Pipes.PipeSecurity.RemoveAuditRuleSpecific%2A>方法中删除指定的匹配<xref:System.Security.AccessControl.AccessControlType.Deny>审核规则或指定的匹配<xref:System.Security.AccessControl.AccessControlType.Allow>从当前的审核规则<xref:System.IO.Pipes.PipeSecurity>对象。</span><span class="sxs-lookup"><span data-stu-id="9611a-206">The <xref:System.IO.Pipes.PipeSecurity.RemoveAuditRuleSpecific%2A> method removes the specified matching <xref:System.Security.AccessControl.AccessControlType.Deny> audit rule or the specified matching <xref:System.Security.AccessControl.AccessControlType.Allow> audit rule from the current <xref:System.IO.Pipes.PipeSecurity> object.</span></span>  <span data-ttu-id="9611a-207">例如，你可以使用此方法删除指定<xref:System.Security.AccessControl.AccessControlType.Deny>通过将传递用户的审核规则<xref:System.Security.AccessControl.FileSystemAuditRule>对象创建使用<xref:System.Security.AccessControl.AccessControlType.Deny>值，<xref:System.Security.AccessControl.AuditFlags.Failure>值和用户帐户。</span><span class="sxs-lookup"><span data-stu-id="9611a-207">For example, you can use this method to remove a specified <xref:System.Security.AccessControl.AccessControlType.Deny> audit rule for a user by passing a <xref:System.Security.AccessControl.FileSystemAuditRule> object created using the <xref:System.Security.AccessControl.AccessControlType.Deny> value, the <xref:System.Security.AccessControl.AuditFlags.Failure> value, and a user account.</span></span>  <span data-ttu-id="9611a-208">当你执行此操作，<xref:System.IO.Pipes.PipeSecurity.RemoveAuditRuleSpecific%2A>方法中删除指定的拒绝规则<xref:System.Security.AccessControl.AuditFlags.Failure>值。</span><span class="sxs-lookup"><span data-stu-id="9611a-208">When you do this, the <xref:System.IO.Pipes.PipeSecurity.RemoveAuditRuleSpecific%2A> method removes only a deny rule that specifies the <xref:System.Security.AccessControl.AuditFlags.Failure> value.</span></span>  <span data-ttu-id="9611a-209">它不会删除任何指定的拒绝规则<xref:System.Security.AccessControl.AuditFlags.Success>值。</span><span class="sxs-lookup"><span data-stu-id="9611a-209">It does not remove any deny rules that specify the <xref:System.Security.AccessControl.AuditFlags.Success> value.</span></span>  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.ArgumentNullException">
-          <span data-ttu-id="9611a-210">
-            <paramref name="rule" /> 参数为 <see langword="null" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="9611a-210">The <paramref name="rule" /> parameter is <see langword="null" />.</span>
-          </span>
-        </exception>
-      </Docs>
-    </Member>
-    <Member MemberName="ResetAccessRule">
-      <MemberSignature Language="C#" Value="public void ResetAccessRule (System.IO.Pipes.PipeAccessRule rule);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void ResetAccessRule(class System.IO.Pipes.PipeAccessRule rule) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.IO.Pipes.PipeSecurity.ResetAccessRule(System.IO.Pipes.PipeAccessRule)" />
-      <MemberSignature Language="VB.NET" Value="Public Sub ResetAccessRule (rule As PipeAccessRule)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; void ResetAccessRule(System::IO::Pipes::PipeAccessRule ^ rule);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.IO.Pipes.AccessControl</AssemblyName>
-        <AssemblyVersion>4.0.1.0</AssemblyVersion>
-        <AssemblyVersion>4.0.2.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>System.Core</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="rule" Type="System.IO.Pipes.PipeAccessRule" />
-      </Parameters>
-      <Docs>
-        <param name="rule">
-          <span data-ttu-id="9611a-211">要添加的访问规则。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="9611a-211">The access rule to add.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="9611a-212">将所有访问规则从与当前 <see cref="T:System.IO.Pipes.PipeSecurity" /> 对象关联的自定义访问控制列表 (DACL) 中移除，然后添加指定的访问规则。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="9611a-212">Removes all access rules in the Discretionary Access Control List (DACL) that is associated with the current <see cref="T:System.IO.Pipes.PipeSecurity" /> object and then adds the specified access rule.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="9611a-213"><xref:System.IO.Pipes.PipeSecurity.ResetAccessRule%2A>方法将添加指定的访问控制列表 (ACL) 规则或覆盖匹配任何相同 ACL 规则`rule`参数。</span><span class="sxs-lookup"><span data-stu-id="9611a-213">The <xref:System.IO.Pipes.PipeSecurity.ResetAccessRule%2A> method adds the specified access control list (ACL) rule or overwrites any identical ACL rules that match the `rule` parameter.</span></span>  <span data-ttu-id="9611a-214">例如，如果`rule`参数指定<xref:System.IO.Pipes.PipeAccessRights.Read>值和<xref:System.IO.Pipes.PipeSecurity.ResetAccessRule%2A>方法找到指定的相同 ACL 规则<xref:System.IO.Pipes.PipeAccessRights.Read>值，则相同的规则将被覆盖。</span><span class="sxs-lookup"><span data-stu-id="9611a-214">For example, if the `rule` parameter specifies a <xref:System.IO.Pipes.PipeAccessRights.Read> value and the <xref:System.IO.Pipes.PipeSecurity.ResetAccessRule%2A> method finds an identical ACL rule that specifies the <xref:System.IO.Pipes.PipeAccessRights.Read> value, the identical rule will be overwritten.</span></span>  <span data-ttu-id="9611a-215">如果<xref:System.IO.Pipes.PipeSecurity.ResetAccessRule%2A>方法找到指定的相同 ACL 规则<xref:System.IO.Pipes.PipeAccessRights.Write>值，则相同的规则也将被覆盖。</span><span class="sxs-lookup"><span data-stu-id="9611a-215">If the <xref:System.IO.Pipes.PipeSecurity.ResetAccessRule%2A> method finds an identical ACL rule that specifies the <xref:System.IO.Pipes.PipeAccessRights.Write> value, the identical rule will also be overwritten.</span></span>  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.ArgumentNullException">
-          <span data-ttu-id="9611a-216">
-            <paramref name="rule" /> 参数为 <see langword="null" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="9611a-216">The <paramref name="rule" /> parameter is <see langword="null" />.</span>
-          </span>
-        </exception>
-      </Docs>
-    </Member>
-    <Member MemberName="SetAccessRule">
-      <MemberSignature Language="C#" Value="public void SetAccessRule (System.IO.Pipes.PipeAccessRule rule);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void SetAccessRule(class System.IO.Pipes.PipeAccessRule rule) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.IO.Pipes.PipeSecurity.SetAccessRule(System.IO.Pipes.PipeAccessRule)" />
-      <MemberSignature Language="VB.NET" Value="Public Sub SetAccessRule (rule As PipeAccessRule)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; void SetAccessRule(System::IO::Pipes::PipeAccessRule ^ rule);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.IO.Pipes.AccessControl</AssemblyName>
-        <AssemblyVersion>4.0.1.0</AssemblyVersion>
-        <AssemblyVersion>4.0.2.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>System.Core</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="rule" Type="System.IO.Pipes.PipeAccessRule" />
-      </Parameters>
-      <Docs>
-        <param name="rule">
-          <span data-ttu-id="9611a-217">要设置的规则。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="9611a-217">The rule to set.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="9611a-218">在与当前 <see cref="T:System.IO.Pipes.PipeSecurity" /> 对象关联的自定义访问控制列表 (DACL) 中设置访问规则。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="9611a-218">Sets an access rule in the Discretionary Access Control List (DACL) that is associated with the current <see cref="T:System.IO.Pipes.PipeSecurity" /> object.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="9611a-219"><xref:System.IO.Pipes.PipeSecurity.SetAccessRule%2A>方法将添加指定的访问控制列表 (ACL) 规则或覆盖匹配任何相同 ACL 规则<xref:System.IO.Pipes.PipeAccessRights>值`rule`参数。</span><span class="sxs-lookup"><span data-stu-id="9611a-219">The <xref:System.IO.Pipes.PipeSecurity.SetAccessRule%2A> method adds the specified access control list (ACL) rule or overwrites any identical ACL rules that match the <xref:System.IO.Pipes.PipeAccessRights> value of the `rule` parameter.</span></span>  <span data-ttu-id="9611a-220">例如，如果`rule`参数指定<xref:System.IO.Pipes.PipeAccessRights.Read>值和<xref:System.IO.Pipes.PipeSecurity.SetAccessRule%2A>方法找到指定的相同 ACL 规则<xref:System.IO.Pipes.PipeAccessRights.Read>值，则相同的规则将被覆盖。</span><span class="sxs-lookup"><span data-stu-id="9611a-220">For example, if the `rule` parameter specifies a <xref:System.IO.Pipes.PipeAccessRights.Read> value and the <xref:System.IO.Pipes.PipeSecurity.SetAccessRule%2A> method finds an identical ACL rule that specifies the <xref:System.IO.Pipes.PipeAccessRights.Read> value, the identical rule will be overwritten.</span></span>  <span data-ttu-id="9611a-221">如果<xref:System.IO.Pipes.PipeSecurity.SetAccessRule%2A>方法找到指定的相同 ACL 规则<xref:System.IO.Pipes.PipeAccessRights.Write>值，相同的规则不会被覆盖。</span><span class="sxs-lookup"><span data-stu-id="9611a-221">If the <xref:System.IO.Pipes.PipeSecurity.SetAccessRule%2A> method finds an identical ACL rule that specifies the <xref:System.IO.Pipes.PipeAccessRights.Write> value, the identical rule will not be overwritten.</span></span>  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.ArgumentNullException">
-          <span data-ttu-id="9611a-222">
-            <paramref name="rule" /> 参数为 <see langword="null" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="9611a-222">The <paramref name="rule" /> parameter is <see langword="null" />.</span>
-          </span>
-        </exception>
-      </Docs>
-    </Member>
-    <Member MemberName="SetAuditRule">
-      <MemberSignature Language="C#" Value="public void SetAuditRule (System.IO.Pipes.PipeAuditRule rule);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void SetAuditRule(class System.IO.Pipes.PipeAuditRule rule) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.IO.Pipes.PipeSecurity.SetAuditRule(System.IO.Pipes.PipeAuditRule)" />
-      <MemberSignature Language="VB.NET" Value="Public Sub SetAuditRule (rule As PipeAuditRule)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; void SetAuditRule(System::IO::Pipes::PipeAuditRule ^ rule);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.IO.Pipes.AccessControl</AssemblyName>
-        <AssemblyVersion>4.0.1.0</AssemblyVersion>
-        <AssemblyVersion>4.0.2.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>System.Core</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="rule" Type="System.IO.Pipes.PipeAuditRule" />
-      </Parameters>
-      <Docs>
-        <param name="rule">
-          <span data-ttu-id="9611a-223">要设置的规则。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="9611a-223">The rule to set.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="9611a-224">在与当前 <see cref="T:System.IO.Pipes.PipeSecurity" /> 对象关联的系统访问控制列表 (SACL) 中设置审核规则。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="9611a-224">Sets an audit rule in the System Access Control List (SACL) that is associated with the current <see cref="T:System.IO.Pipes.PipeSecurity" /> object.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="9611a-225"><xref:System.IO.Pipes.PipeSecurity.SetAuditRule%2A>方法将添加指定的审核规则或覆盖匹配任何相同的审核规则<xref:System.IO.Pipes.PipeAccessRights>值`rule`参数。</span><span class="sxs-lookup"><span data-stu-id="9611a-225">The <xref:System.IO.Pipes.PipeSecurity.SetAuditRule%2A> method adds the specified audit rule or overwrites any identical audit rules that match the <xref:System.IO.Pipes.PipeAccessRights> value of the `rule` parameter.</span></span>  <span data-ttu-id="9611a-226">例如，如果`rule`参数指定<xref:System.IO.Pipes.PipeAccessRights.Read>值和<xref:System.IO.Pipes.PipeSecurity.SetAuditRule%2A>方法找到指定的相同的审核规则<xref:System.IO.Pipes.PipeAccessRights.Read>值，则相同的规则将被覆盖。</span><span class="sxs-lookup"><span data-stu-id="9611a-226">For example, if the `rule` parameter specifies a <xref:System.IO.Pipes.PipeAccessRights.Read> value and the <xref:System.IO.Pipes.PipeSecurity.SetAuditRule%2A> method finds an identical audit rule that specifies the <xref:System.IO.Pipes.PipeAccessRights.Read> value, the identical rule will be overwritten.</span></span>  <span data-ttu-id="9611a-227">如果<xref:System.IO.Pipes.PipeSecurity.SetAuditRule%2A>方法找到指定的相同的审核规则<xref:System.IO.Pipes.PipeAccessRights.Write>值，相同的规则不会被覆盖。</span><span class="sxs-lookup"><span data-stu-id="9611a-227">If the <xref:System.IO.Pipes.PipeSecurity.SetAuditRule%2A> method finds an identical audit rule that specifies the <xref:System.IO.Pipes.PipeAccessRights.Write> value, the identical rule will not be overwritten.</span></span>  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.ArgumentNullException">
-          <span data-ttu-id="9611a-228">
-            <paramref name="rule" /> 参数为 <see langword="null" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="9611a-228">The <paramref name="rule" /> parameter is <see langword="null" />.</span>
-          </span>
-        </exception>
-      </Docs>
-    </Member>
-  </Members>
-</Type>
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.2" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 xliff-core-1.2-transitional.xsd">
+  <file datatype="xml" original="PipeSecurity.xml" source-language="en-US" target-language="zh-CN">
+    <header>
+      <tool tool-id="mdxliff" tool-name="mdxliff" tool-version="1.0-15c36f0" tool-company="Microsoft" />
+      <xliffext:skl_file_name xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">02cd5861-7ce2-4a82-b358-31f8435a0ac51eead0220ae9da892b78cf71ae96a98169946116.skl</xliffext:skl_file_name>
+      <xliffext:version xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">1.2</xliffext:version>
+      <xliffext:ms.openlocfilehash xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">1eead0220ae9da892b78cf71ae96a98169946116</xliffext:ms.openlocfilehash>
+      <xliffext:ms.sourcegitcommit xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b</xliffext:ms.sourcegitcommit>
+      <xliffext:ms.lasthandoff xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">04/03/2018</xliffext:ms.lasthandoff>
+      <xliffext:moniker_ids xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">netcore-1.1,netcore-2.0,netframework-4.5.1,netframework-4.5.2,netframework-4.5,netframework-4.6.1,netframework-4.6.2,netframework-4.6,netframework-4.7.1,netframework-4.7,xamarinandroid-7.1,xamarinios-10.8,xamarinmac-3.0</xliffext:moniker_ids>
+    </header>
+    <body>
+      <group id="content" extype="content">
+        <trans-unit id="101" translate="yes" xml:space="preserve" uid="T:System.IO.Pipes.PipeSecurity">
+          <source>Represents the access control and audit security for a pipe.</source>
+          <target state="translated">表示管道的访问控制和审核安全。</target>       </trans-unit>
+        <trans-unit id="102" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.IO.Pipes.PipeSecurity">
+          <source>The <ph id="ph1">&lt;xref:System.IO.Pipes.PipeSecurity&gt;</ph> class specifies the access rights for a pipe and how access attempts are audited.</source>
+          <target state="translated"><ph id="ph1">&lt;xref:System.IO.Pipes.PipeSecurity&gt;</ph>类指定为管道和如何审核的访问尝试次数的访问权限。</target>       </trans-unit>
+        <trans-unit id="103" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.IO.Pipes.PipeSecurity">
+          <source>This class represents access and audit rights as a set of rules.</source>
+          <target state="translated">此类表示为一组规则的访问和审核权限。</target>       </trans-unit>
+        <trans-unit id="104" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.IO.Pipes.PipeSecurity">
+          <source>Each access rule is represented by a <ph id="ph1">&lt;xref:System.IO.Pipes.PipeAccessRule&gt;</ph> object, while each audit rule is represented by a <ph id="ph2">&lt;xref:System.IO.Pipes.PipeAuditRule&gt;</ph> object.</source>
+          <target state="translated">每个规则都由<ph id="ph1">&lt;xref:System.IO.Pipes.PipeAccessRule&gt;</ph>对象，而每个审核规则由<ph id="ph2">&lt;xref:System.IO.Pipes.PipeAuditRule&gt;</ph>对象。</target>       </trans-unit>
+        <trans-unit id="105" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.IO.Pipes.PipeSecurity">
+          <source>The <ph id="ph1">&lt;xref:System.IO.Pipes.PipeSecurity&gt;</ph> class is an abstraction of the underlying Microsoft Windows file security system.</source>
+          <target state="translated"><ph id="ph1">&lt;xref:System.IO.Pipes.PipeSecurity&gt;</ph>类是基础的 Microsoft Windows 文件安全系统的抽象。</target>       </trans-unit>
+        <trans-unit id="106" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.IO.Pipes.PipeSecurity">
+          <source>In this system, each pipe has a discretionary access control list (DACL), which controls access to the pipe, and a system access control list (SACL), which specifies the access control attempts that are audited.</source>
+          <target state="translated">在此系统中，每个管道具有自定义访问控制列表 (DACL)，它控制对管道的访问和系统访问控制列表 (SACL)，指定进行审核的访问控制尝试。</target>       </trans-unit>
+        <trans-unit id="107" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.IO.Pipes.PipeSecurity">
+          <source>The <ph id="ph1">&lt;xref:System.IO.Pipes.PipeAccessRule&gt;</ph> and <ph id="ph2">&lt;xref:System.IO.Pipes.PipeAuditRule&gt;</ph> classes are abstractions of the access control entries (ACEs) that comprise DACLs and SACLs.</source>
+          <target state="translated"><ph id="ph1">&lt;xref:System.IO.Pipes.PipeAccessRule&gt;</ph>和<ph id="ph2">&lt;xref:System.IO.Pipes.PipeAuditRule&gt;</ph>类是抽象的构成 Dacl 和 Sacl 的访问控制项 (Ace)。</target>       </trans-unit>
+        <trans-unit id="108" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.IO.Pipes.PipeSecurity">
+          <source>The <ph id="ph1">&lt;xref:System.IO.Pipes.PipeSecurity&gt;</ph> class hides many of the details of DACLs and SACLs; you do not have to worry about ACE ordering or null DACLS.</source>
+          <target state="translated"><ph id="ph1">&lt;xref:System.IO.Pipes.PipeSecurity&gt;</ph>类隐藏的许多细节，Dacl 和 Sacl; 无需担心 ACE 排序或 null DACL。</target>       </trans-unit>
+        <trans-unit id="109" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.IO.Pipes.PipeSecurity">
+          <source>Use the <ph id="ph1">&lt;xref:System.IO.Pipes.PipeSecurity&gt;</ph> class to retrieve, add, or change the access rules that represent the DACL and SACL of a pipe.</source>
+          <target state="translated">使用<ph id="ph1">&lt;xref:System.IO.Pipes.PipeSecurity&gt;</ph>类来检索、 添加或更改表示 DACL 和 SACL 的管道的访问规则。</target>       </trans-unit>
+        <trans-unit id="110" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.IO.Pipes.PipeSecurity">
+          <source>To persist new or changed access or audit rules to a pipe, use the <ph id="ph1">&lt;xref:System.IO.Pipes.PipeStream.SetAccessControl%2A&gt;</ph> method.</source>
+          <target state="translated">若要将新的或更改访问或审核到管道的规则，请使用<ph id="ph1">&lt;xref:System.IO.Pipes.PipeStream.SetAccessControl%2A&gt;</ph>方法。</target>       </trans-unit>
+        <trans-unit id="111" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.IO.Pipes.PipeSecurity">
+          <source>To retrieve access or audit rules from an existing file, use the <ph id="ph1">&lt;xref:System.IO.Pipes.PipeStream.GetAccessControl%2A&gt;</ph> method.</source>
+          <target state="translated">若要从现有文件检索访问或审核规则，请使用 <ph id="ph1">&lt;xref:System.IO.Pipes.PipeStream.GetAccessControl%2A&gt;</ph> 方法。</target>       </trans-unit>
+        <trans-unit id="112" translate="yes" xml:space="preserve" uid="M:System.IO.Pipes.PipeSecurity.#ctor">
+          <source>Initializes a new instance of the <ph id="ph1">&lt;see cref="T:System.IO.Pipes.PipeSecurity" /&gt;</ph> class.</source>
+          <target state="translated">初始化 <ph id="ph1">&lt;see cref="T:System.IO.Pipes.PipeSecurity" /&gt;</ph> 类的新实例。</target>       </trans-unit>
+        <trans-unit id="113" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IO.Pipes.PipeSecurity.#ctor">
+          <source>This constructor creates an empty <ph id="ph1">&lt;xref:System.IO.Pipes.PipeSecurity&gt;</ph> object that is not based on an existing pipe.</source>
+          <target state="translated">此构造函数创建一个空<ph id="ph1">&lt;xref:System.IO.Pipes.PipeSecurity&gt;</ph>不基于现有管道的对象。</target>       </trans-unit>
+        <trans-unit id="114" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IO.Pipes.PipeSecurity.#ctor">
+          <source>You can then populate the object with access control information and apply it to a pipe.</source>
+          <target state="translated">然后可以使用访问控制信息填充该对象，并将其应用于管道。</target>       </trans-unit>
+        <trans-unit id="115" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IO.Pipes.PipeSecurity.#ctor">
+          <source>You can add access or audit rules to the <ph id="ph1">&lt;xref:System.IO.Pipes.PipeSecurity&gt;</ph> object using the <ph id="ph2">&lt;xref:System.IO.Pipes.PipeSecurity.AddAccessRule%2A&gt;</ph> method.</source>
+          <target state="translated">你可以添加访问权限或审核规则<ph id="ph1">&lt;xref:System.IO.Pipes.PipeSecurity&gt;</ph>对象使用<ph id="ph2">&lt;xref:System.IO.Pipes.PipeSecurity.AddAccessRule%2A&gt;</ph>方法。</target>       </trans-unit>
+        <trans-unit id="116" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IO.Pipes.PipeSecurity.#ctor">
+          <source>You can remove access or audit rules using the <ph id="ph1">&lt;xref:System.IO.Pipes.PipeSecurity.RemoveAccessRule%2A&gt;</ph> method.</source>
+          <target state="translated">你可以删除访问权限或审核规则使用<ph id="ph1">&lt;xref:System.IO.Pipes.PipeSecurity.RemoveAccessRule%2A&gt;</ph>方法。</target>       </trans-unit>
+        <trans-unit id="117" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IO.Pipes.PipeSecurity.#ctor">
+          <source>To persist new or changed access or audit rules to a pipe, use the <ph id="ph1">&lt;xref:System.IO.Pipes.PipeStream.SetAccessControl%2A&gt;</ph> method.</source>
+          <target state="translated">若要将新的或更改访问或审核到管道的规则，请使用<ph id="ph1">&lt;xref:System.IO.Pipes.PipeStream.SetAccessControl%2A&gt;</ph>方法。</target>       </trans-unit>
+        <trans-unit id="118" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IO.Pipes.PipeSecurity.#ctor">
+          <source>To retrieve access or audit rules from an existing file, use the <ph id="ph1">&lt;xref:System.IO.Pipes.PipeStream.GetAccessControl%2A&gt;</ph> method.</source>
+          <target state="translated">若要从现有文件检索访问或审核规则，请使用 <ph id="ph1">&lt;xref:System.IO.Pipes.PipeStream.GetAccessControl%2A&gt;</ph> 方法。</target>       </trans-unit>
+        <trans-unit id="119" translate="yes" xml:space="preserve" uid="P:System.IO.Pipes.PipeSecurity.AccessRightType">
+          <source>Gets the <ph id="ph1">&lt;see cref="T:System.Type" /&gt;</ph> of the securable object that is associated with the current <ph id="ph2">&lt;see cref="T:System.IO.Pipes.PipeSecurity" /&gt;</ph> object.</source>
+          <target state="translated">获取与当前 <ph id="ph1">&lt;see cref="T:System.Type" /&gt;</ph> 对象关联的可保护对象的 <ph id="ph2">&lt;see cref="T:System.IO.Pipes.PipeSecurity" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="120" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.IO.Pipes.PipeSecurity.AccessRightType">
+          <source>The type of the securable object that is associated with the current <ph id="ph1">&lt;see cref="T:System.IO.Pipes.PipeSecurity" /&gt;</ph> object.</source>
+          <target state="translated">与当前 <ph id="ph1">&lt;see cref="T:System.IO.Pipes.PipeSecurity" /&gt;</ph> 对象关联的可保护对象的类型。</target>       </trans-unit>
+        <trans-unit id="121" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.IO.Pipes.PipeSecurity.AccessRightType">
+          <source>Classes that derive from the <ph id="ph1">&lt;xref:System.Security.AccessControl.ObjectSecurity&gt;</ph> class override the <ph id="ph2">&lt;xref:System.Security.AccessControl.ObjectSecurity.AccessRightType%2A&gt;</ph> property and return the type they use to represent access rights.</source>
+          <target state="translated">派生自的类<ph id="ph1">&lt;xref:System.Security.AccessControl.ObjectSecurity&gt;</ph>类替代<ph id="ph2">&lt;xref:System.Security.AccessControl.ObjectSecurity.AccessRightType%2A&gt;</ph>属性，并返回它们用于表示的访问权限的类型。</target>       </trans-unit>
+        <trans-unit id="122" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.IO.Pipes.PipeSecurity.AccessRightType">
+          <source>When you work with arrays or collections that contain multiple types of security objects, use this property to determine the correct enumeration type to use with each security object.</source>
+          <target state="translated">当使用数组或包含多个类型的安全对象的集合时，使用此属性来确定要用于每个安全对象的正确的枚举类型。</target>       </trans-unit>
+        <trans-unit id="123" translate="yes" xml:space="preserve" uid="M:System.IO.Pipes.PipeSecurity.AccessRuleFactory(System.Security.Principal.IdentityReference,System.Int32,System.Boolean,System.Security.AccessControl.InheritanceFlags,System.Security.AccessControl.PropagationFlags,System.Security.AccessControl.AccessControlType)">
+          <source>The identity that the access rule applies to.</source>
+          <target state="translated">应用访问规则的标识。</target>       </trans-unit>
+        <trans-unit id="124" translate="yes" xml:space="preserve" uid="M:System.IO.Pipes.PipeSecurity.AccessRuleFactory(System.Security.Principal.IdentityReference,System.Int32,System.Boolean,System.Security.AccessControl.InheritanceFlags,System.Security.AccessControl.PropagationFlags,System.Security.AccessControl.AccessControlType)">
+          <source>It must be an object that can be cast as a <ph id="ph1">&lt;see cref="T:System.Security.Principal.SecurityIdentifier" /&gt;</ph> object.</source>
+          <target state="translated">它必须是可以转换为 <ph id="ph1">&lt;see cref="T:System.Security.Principal.SecurityIdentifier" /&gt;</ph> 对象的对象。</target>       </trans-unit>
+        <trans-unit id="125" translate="yes" xml:space="preserve" uid="M:System.IO.Pipes.PipeSecurity.AccessRuleFactory(System.Security.Principal.IdentityReference,System.Int32,System.Boolean,System.Security.AccessControl.InheritanceFlags,System.Security.AccessControl.PropagationFlags,System.Security.AccessControl.AccessControlType)">
+          <source>The access mask of this rule.</source>
+          <target state="translated">此规则的访问掩码。</target>       </trans-unit>
+        <trans-unit id="126" translate="yes" xml:space="preserve" uid="M:System.IO.Pipes.PipeSecurity.AccessRuleFactory(System.Security.Principal.IdentityReference,System.Int32,System.Boolean,System.Security.AccessControl.InheritanceFlags,System.Security.AccessControl.PropagationFlags,System.Security.AccessControl.AccessControlType)">
+          <source>The access mask is a 32-bit collection of anonymous bits, the meaning of which is defined by the individual integrators</source>
+          <target state="translated">访问掩码是 32 位的匿名位集合，其含义由单个集成者定义</target>       </trans-unit>
+        <trans-unit id="127" translate="yes" xml:space="preserve" uid="M:System.IO.Pipes.PipeSecurity.AccessRuleFactory(System.Security.Principal.IdentityReference,System.Int32,System.Boolean,System.Security.AccessControl.InheritanceFlags,System.Security.AccessControl.PropagationFlags,System.Security.AccessControl.AccessControlType)">
+          <source><ph id="ph1">&lt;see langword="true" /&gt;</ph> if this rule is inherited from a parent container; otherwise false.</source>
+          <target state="translated">如果此规则是从父级容器继承的，则为 <ph id="ph1">&lt;see langword="true" /&gt;</ph>；否则为 false。</target>       </trans-unit>
+        <trans-unit id="128" translate="yes" xml:space="preserve" uid="M:System.IO.Pipes.PipeSecurity.AccessRuleFactory(System.Security.Principal.IdentityReference,System.Int32,System.Boolean,System.Security.AccessControl.InheritanceFlags,System.Security.AccessControl.PropagationFlags,System.Security.AccessControl.AccessControlType)">
+          <source>One of the <ph id="ph1">&lt;see cref="T:System.Security.AccessControl.InheritanceFlags" /&gt;</ph> values that specifies the inheritance properties of the access rule.</source>
+          <target state="translated"><ph id="ph1">&lt;see cref="T:System.Security.AccessControl.InheritanceFlags" /&gt;</ph> 值之一，指定访问规则的继承属性。</target>       </trans-unit>
+        <trans-unit id="129" translate="yes" xml:space="preserve" uid="M:System.IO.Pipes.PipeSecurity.AccessRuleFactory(System.Security.Principal.IdentityReference,System.Int32,System.Boolean,System.Security.AccessControl.InheritanceFlags,System.Security.AccessControl.PropagationFlags,System.Security.AccessControl.AccessControlType)">
+          <source>One of the <ph id="ph1">&lt;see cref="T:System.Security.AccessControl.PropagationFlags" /&gt;</ph> values that specifies whether inherited access rules are automatically propagated.</source>
+          <target state="translated"><ph id="ph1">&lt;see cref="T:System.Security.AccessControl.PropagationFlags" /&gt;</ph> 值之一，指定是否自动传播继承的访问规则。</target>       </trans-unit>
+        <trans-unit id="130" translate="yes" xml:space="preserve" uid="M:System.IO.Pipes.PipeSecurity.AccessRuleFactory(System.Security.Principal.IdentityReference,System.Int32,System.Boolean,System.Security.AccessControl.InheritanceFlags,System.Security.AccessControl.PropagationFlags,System.Security.AccessControl.AccessControlType)">
+          <source>The propagation flags are ignored if <bpt id="p1">&lt;c&gt;</bpt>inheritanceFlags<ept id="p1">&lt;/c&gt;</ept> is set to <ph id="ph1">&lt;see cref="F:System.Security.AccessControl.InheritanceFlags.None" /&gt;</ph>.</source>
+          <target state="translated">如果将 <bpt id="p1">&lt;c&gt;</bpt>inheritanceFlags<ept id="p1">&lt;/c&gt;</ept> 设置为 <ph id="ph1">&lt;see cref="F:System.Security.AccessControl.InheritanceFlags.None" /&gt;</ph>，则忽略传播标志。</target>       </trans-unit>
+        <trans-unit id="131" translate="yes" xml:space="preserve" uid="M:System.IO.Pipes.PipeSecurity.AccessRuleFactory(System.Security.Principal.IdentityReference,System.Int32,System.Boolean,System.Security.AccessControl.InheritanceFlags,System.Security.AccessControl.PropagationFlags,System.Security.AccessControl.AccessControlType)">
+          <source>Specifies the valid access control type.</source>
+          <target state="translated">指定有效的访问控制类型。</target>       </trans-unit>
+        <trans-unit id="132" translate="yes" xml:space="preserve" uid="M:System.IO.Pipes.PipeSecurity.AccessRuleFactory(System.Security.Principal.IdentityReference,System.Int32,System.Boolean,System.Security.AccessControl.InheritanceFlags,System.Security.AccessControl.PropagationFlags,System.Security.AccessControl.AccessControlType)">
+          <source>Initializes a new instance of the <ph id="ph1">&lt;see cref="T:System.Security.AccessControl.AccessRule" /&gt;</ph> class with the specified values.</source>
+          <target state="translated">用指定的值初始化 <ph id="ph1">&lt;see cref="T:System.Security.AccessControl.AccessRule" /&gt;</ph> 类的新实例。</target>       </trans-unit>
+        <trans-unit id="133" translate="yes" xml:space="preserve" uid="M:System.IO.Pipes.PipeSecurity.AccessRuleFactory(System.Security.Principal.IdentityReference,System.Int32,System.Boolean,System.Security.AccessControl.InheritanceFlags,System.Security.AccessControl.PropagationFlags,System.Security.AccessControl.AccessControlType)">
+          <source>The <ph id="ph1">&lt;see cref="T:System.Security.AccessControl.AccessRule" /&gt;</ph> object that this method creates.</source>
+          <target state="translated">此方法创建的 <ph id="ph1">&lt;see cref="T:System.Security.AccessControl.AccessRule" /&gt;</ph> 对象。</target>       </trans-unit>
+        <trans-unit id="134" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IO.Pipes.PipeSecurity.AccessRuleFactory(System.Security.Principal.IdentityReference,System.Int32,System.Boolean,System.Security.AccessControl.InheritanceFlags,System.Security.AccessControl.PropagationFlags,System.Security.AccessControl.AccessControlType)">
+          <source>The recommended way to create access control rules is to use the constructors of the <ph id="ph1">&lt;xref:System.IO.Pipes.PipeAccessRule&gt;</ph> class.</source>
+          <target state="translated">创建访问控制规则的推荐的方式是使用的构造函数<ph id="ph1">&lt;xref:System.IO.Pipes.PipeAccessRule&gt;</ph>类。</target>       </trans-unit>
+        <trans-unit id="135" translate="yes" xml:space="preserve" uid="M:System.IO.Pipes.PipeSecurity.AccessRuleFactory(System.Security.Principal.IdentityReference,System.Int32,System.Boolean,System.Security.AccessControl.InheritanceFlags,System.Security.AccessControl.PropagationFlags,System.Security.AccessControl.AccessControlType)">
+          <source><ph id="ph1">&lt;paramref name="accessMask" /&gt;</ph>, <ph id="ph2">&lt;paramref name="inheritanceFlags" /&gt;</ph>, <ph id="ph3">&lt;paramref name="propagationFlags" /&gt;</ph>, or <ph id="ph4">&lt;paramref name="type" /&gt;</ph> specifies an invalid value.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="accessMask" /&gt;</ph>、<ph id="ph2">&lt;paramref name="inheritanceFlags" /&gt;</ph>、<ph id="ph3">&lt;paramref name="propagationFlags" /&gt;</ph> 或 <ph id="ph4">&lt;paramref name="type" /&gt;</ph> 指定了一个无效值。</target>       </trans-unit>
+        <trans-unit id="136" translate="yes" xml:space="preserve" uid="M:System.IO.Pipes.PipeSecurity.AccessRuleFactory(System.Security.Principal.IdentityReference,System.Int32,System.Boolean,System.Security.AccessControl.InheritanceFlags,System.Security.AccessControl.PropagationFlags,System.Security.AccessControl.AccessControlType)">
+          <source><ph id="ph1">&lt;paramref name="identityReference" /&gt;</ph> is <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="identityReference" /&gt;</ph> 为 <ph id="ph2">&lt;see langword="null" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="137" translate="yes" xml:space="preserve" uid="M:System.IO.Pipes.PipeSecurity.AccessRuleFactory(System.Security.Principal.IdentityReference,System.Int32,System.Boolean,System.Security.AccessControl.InheritanceFlags,System.Security.AccessControl.PropagationFlags,System.Security.AccessControl.AccessControlType)">
+          <source>-or-</source>
+          <target state="translated">或</target>       </trans-unit>
+        <trans-unit id="138" translate="yes" xml:space="preserve" uid="M:System.IO.Pipes.PipeSecurity.AccessRuleFactory(System.Security.Principal.IdentityReference,System.Int32,System.Boolean,System.Security.AccessControl.InheritanceFlags,System.Security.AccessControl.PropagationFlags,System.Security.AccessControl.AccessControlType)">
+          <source><ph id="ph1">&lt;paramref name="accessMask" /&gt;</ph> is zero.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="accessMask" /&gt;</ph> 为零。</target>       </trans-unit>
+        <trans-unit id="139" translate="yes" xml:space="preserve" uid="M:System.IO.Pipes.PipeSecurity.AccessRuleFactory(System.Security.Principal.IdentityReference,System.Int32,System.Boolean,System.Security.AccessControl.InheritanceFlags,System.Security.AccessControl.PropagationFlags,System.Security.AccessControl.AccessControlType)">
+          <source><ph id="ph1">&lt;paramref name="identityReference" /&gt;</ph> is neither of type <ph id="ph2">&lt;see cref="T:System.Security.Principal.SecurityIdentifier" /&gt;</ph> nor of a type, such as <ph id="ph3">&lt;see cref="T:System.Security.Principal.NTAccount" /&gt;</ph>, that can be converted to type <ph id="ph4">&lt;see cref="T:System.Security.Principal.SecurityIdentifier" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="identityReference" /&gt;</ph> 既不属于 <ph id="ph2">&lt;see cref="T:System.Security.Principal.SecurityIdentifier" /&gt;</ph> 类型，也不属于可以转换为 <ph id="ph4">&lt;see cref="T:System.Security.Principal.SecurityIdentifier" /&gt;</ph> 类型的类型（如 <ph id="ph3">&lt;see cref="T:System.Security.Principal.NTAccount" /&gt;</ph>）。</target>       </trans-unit>
+        <trans-unit id="140" translate="yes" xml:space="preserve" uid="P:System.IO.Pipes.PipeSecurity.AccessRuleType">
+          <source>Gets the <ph id="ph1">&lt;see cref="T:System.Type" /&gt;</ph> of the object that is associated with the access rules of the current <ph id="ph2">&lt;see cref="T:System.IO.Pipes.PipeSecurity" /&gt;</ph> object.</source>
+          <target state="translated">获取与当前 <ph id="ph1">&lt;see cref="T:System.Type" /&gt;</ph> 对象的访问规则关联的对象的 <ph id="ph2">&lt;see cref="T:System.IO.Pipes.PipeSecurity" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="141" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.IO.Pipes.PipeSecurity.AccessRuleType">
+          <source>The type of the object that is associated with the access rules of the current <ph id="ph1">&lt;see cref="T:System.IO.Pipes.PipeSecurity" /&gt;</ph> object.</source>
+          <target state="translated">与当前 <ph id="ph1">&lt;see cref="T:System.IO.Pipes.PipeSecurity" /&gt;</ph> 对象的访问规则关联的对象的类型。</target>       </trans-unit>
+        <trans-unit id="142" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.IO.Pipes.PipeSecurity.AccessRuleType">
+          <source>Classes that derive from the <ph id="ph1">&lt;xref:System.Security.AccessControl.ObjectSecurity&gt;</ph> class override the <ph id="ph2">&lt;xref:System.Security.AccessControl.ObjectSecurity.AccessRuleType%2A&gt;</ph> property and return the type they use to represent access rights.</source>
+          <target state="translated">派生自的类<ph id="ph1">&lt;xref:System.Security.AccessControl.ObjectSecurity&gt;</ph>类替代<ph id="ph2">&lt;xref:System.Security.AccessControl.ObjectSecurity.AccessRuleType%2A&gt;</ph>属性，并返回它们用于表示的访问权限的类型。</target>       </trans-unit>
+        <trans-unit id="143" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.IO.Pipes.PipeSecurity.AccessRuleType">
+          <source>When you work with arrays or collections that contain multiple types of security objects, use this property to determine the correct enumeration type to use with each security object.</source>
+          <target state="translated">当使用数组或包含多个类型的安全对象的集合时，使用此属性来确定要用于每个安全对象的正确的枚举类型。</target>       </trans-unit>
+        <trans-unit id="144" translate="yes" xml:space="preserve" uid="M:System.IO.Pipes.PipeSecurity.AddAccessRule(System.IO.Pipes.PipeAccessRule)">
+          <source>The access rule to add.</source>
+          <target state="translated">要添加的访问规则。</target>       </trans-unit>
+        <trans-unit id="145" translate="yes" xml:space="preserve" uid="M:System.IO.Pipes.PipeSecurity.AddAccessRule(System.IO.Pipes.PipeAccessRule)">
+          <source>Adds an access rule to the Discretionary Access Control List (DACL) that is associated with the current <ph id="ph1">&lt;see cref="T:System.IO.Pipes.PipeSecurity" /&gt;</ph> object.</source>
+          <target state="translated">将访问规则添加到与当前 <ph id="ph1">&lt;see cref="T:System.IO.Pipes.PipeSecurity" /&gt;</ph> 对象关联的自定义访问控制列表 (DACL)。</target>       </trans-unit>
+        <trans-unit id="146" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IO.Pipes.PipeSecurity.AddAccessRule(System.IO.Pipes.PipeAccessRule)">
+          <source>The <ph id="ph1">&lt;xref:System.IO.Pipes.PipeSecurity.AddAccessRule%2A&gt;</ph> method adds a new rule to the list of rules that a <ph id="ph2">&lt;xref:System.IO.Pipes.PipeSecurity&gt;</ph> object contains.If an access control list (ACL) already exists for the specified rule, the <ph id="ph3">&lt;xref:System.IO.Pipes.PipeSecurity.AddAccessRule%2A&gt;</ph> method will still add the rule, with one exception: a <ph id="ph4">&lt;xref:System.IO.Pipes.PipeAccessRule&gt;</ph> object that is created using the <ph id="ph5">&lt;xref:System.Security.AccessControl.AccessControlType.Deny&gt;</ph> value supersedes an object that is created using the <ph id="ph6">&lt;xref:System.Security.AccessControl.AccessControlType.Allow&gt;</ph> value.</source>
+          <target state="translated"><ph id="ph1">&lt;xref:System.IO.Pipes.PipeSecurity.AddAccessRule%2A&gt;</ph>方法向的规则的列表添加新规则，<ph id="ph2">&lt;xref:System.IO.Pipes.PipeSecurity&gt;</ph>对象包含。如果访问控制列表 (ACL) 已存在指定的规则，<ph id="ph3">&lt;xref:System.IO.Pipes.PipeSecurity.AddAccessRule%2A&gt;</ph>方法仍将添加该规则，有一个例外：<ph id="ph4">&lt;xref:System.IO.Pipes.PipeAccessRule&gt;</ph>使用创建的对象<ph id="ph5">&lt;xref:System.Security.AccessControl.AccessControlType.Deny&gt;</ph>值会取代使用创建的对象<ph id="ph6">&lt;xref:System.Security.AccessControl.AccessControlType.Allow&gt;</ph>值。</target>       </trans-unit>
+        <trans-unit id="147" translate="yes" xml:space="preserve" uid="M:System.IO.Pipes.PipeSecurity.AddAccessRule(System.IO.Pipes.PipeAccessRule)">
+          <source>The <ph id="ph1">&lt;paramref name="rule" /&gt;</ph> parameter is <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="rule" /&gt;</ph> 参数为 <ph id="ph2">&lt;see langword="null" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="148" translate="yes" xml:space="preserve" uid="M:System.IO.Pipes.PipeSecurity.AddAuditRule(System.IO.Pipes.PipeAuditRule)">
+          <source>The audit rule to add.</source>
+          <target state="translated">要添加的审核规则。</target>       </trans-unit>
+        <trans-unit id="149" translate="yes" xml:space="preserve" uid="M:System.IO.Pipes.PipeSecurity.AddAuditRule(System.IO.Pipes.PipeAuditRule)">
+          <source>Adds an audit rule to the System Access Control List (SACL)that is associated with the current <ph id="ph1">&lt;see cref="T:System.IO.Pipes.PipeSecurity" /&gt;</ph> object.</source>
+          <target state="translated">将审核规则添加到与当前 <ph id="ph1">&lt;see cref="T:System.IO.Pipes.PipeSecurity" /&gt;</ph> 对象关联的系统访问控制列表 (SACL)。</target>       </trans-unit>
+        <trans-unit id="150" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IO.Pipes.PipeSecurity.AddAuditRule(System.IO.Pipes.PipeAuditRule)">
+          <source>The <ph id="ph1">&lt;xref:System.IO.Pipes.PipeSecurity.AddAuditRule%2A&gt;</ph> method adds a new audit rule to the list of rules that a <ph id="ph2">&lt;xref:System.IO.Pipes.PipeSecurity&gt;</ph> object contains.</source>
+          <target state="translated"><ph id="ph1">&lt;xref:System.IO.Pipes.PipeSecurity.AddAuditRule%2A&gt;</ph>方法将新的审核规则添加到的规则的列表，<ph id="ph2">&lt;xref:System.IO.Pipes.PipeSecurity&gt;</ph>对象包含。</target>       </trans-unit>
+        <trans-unit id="151" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IO.Pipes.PipeSecurity.AddAuditRule(System.IO.Pipes.PipeAuditRule)">
+          <source>If an audit rule already exists for the specified rule, the <ph id="ph1">&lt;xref:System.IO.Pipes.PipeSecurity.AddAuditRule%2A&gt;</ph> method will still add the rule.</source>
+          <target state="translated">如果审核规则已存在指定的规则，<ph id="ph1">&lt;xref:System.IO.Pipes.PipeSecurity.AddAuditRule%2A&gt;</ph>方法仍将添加该规则。</target>       </trans-unit>
+        <trans-unit id="152" translate="yes" xml:space="preserve" uid="M:System.IO.Pipes.PipeSecurity.AddAuditRule(System.IO.Pipes.PipeAuditRule)">
+          <source>The <ph id="ph1">&lt;paramref name="rule" /&gt;</ph> parameter is <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="rule" /&gt;</ph> 参数为 <ph id="ph2">&lt;see langword="null" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="153" translate="yes" xml:space="preserve" uid="M:System.IO.Pipes.PipeSecurity.AuditRuleFactory(System.Security.Principal.IdentityReference,System.Int32,System.Boolean,System.Security.AccessControl.InheritanceFlags,System.Security.AccessControl.PropagationFlags,System.Security.AccessControl.AuditFlags)">
+          <source>The identity that the access rule applies to.</source>
+          <target state="translated">应用访问规则的标识。</target>       </trans-unit>
+        <trans-unit id="154" translate="yes" xml:space="preserve" uid="M:System.IO.Pipes.PipeSecurity.AuditRuleFactory(System.Security.Principal.IdentityReference,System.Int32,System.Boolean,System.Security.AccessControl.InheritanceFlags,System.Security.AccessControl.PropagationFlags,System.Security.AccessControl.AuditFlags)">
+          <source>It must be an object that can be cast as a <ph id="ph1">&lt;see cref="T:System.Security.Principal.SecurityIdentifier" /&gt;</ph> object.</source>
+          <target state="translated">它必须是可以转换为 <ph id="ph1">&lt;see cref="T:System.Security.Principal.SecurityIdentifier" /&gt;</ph> 对象的对象。</target>       </trans-unit>
+        <trans-unit id="155" translate="yes" xml:space="preserve" uid="M:System.IO.Pipes.PipeSecurity.AuditRuleFactory(System.Security.Principal.IdentityReference,System.Int32,System.Boolean,System.Security.AccessControl.InheritanceFlags,System.Security.AccessControl.PropagationFlags,System.Security.AccessControl.AuditFlags)">
+          <source>The access mask of this rule.</source>
+          <target state="translated">此规则的访问掩码。</target>       </trans-unit>
+        <trans-unit id="156" translate="yes" xml:space="preserve" uid="M:System.IO.Pipes.PipeSecurity.AuditRuleFactory(System.Security.Principal.IdentityReference,System.Int32,System.Boolean,System.Security.AccessControl.InheritanceFlags,System.Security.AccessControl.PropagationFlags,System.Security.AccessControl.AuditFlags)">
+          <source>The access mask is a 32-bit collection of anonymous bits, the meaning of which is defined by the individual integrators</source>
+          <target state="translated">访问掩码是 32 位的匿名位集合，其含义由单个集成者定义</target>       </trans-unit>
+        <trans-unit id="157" translate="yes" xml:space="preserve" uid="M:System.IO.Pipes.PipeSecurity.AuditRuleFactory(System.Security.Principal.IdentityReference,System.Int32,System.Boolean,System.Security.AccessControl.InheritanceFlags,System.Security.AccessControl.PropagationFlags,System.Security.AccessControl.AuditFlags)">
+          <source><ph id="ph1">&lt;see langword="true" /&gt;</ph> if this rule is inherited from a parent container; otherwise, false..</source>
+          <target state="translated">如果此规则是从父级容器继承，则为 <ph id="ph1">&lt;see langword="true" /&gt;</ph>；否则为 false。</target>       </trans-unit>
+        <trans-unit id="158" translate="yes" xml:space="preserve" uid="M:System.IO.Pipes.PipeSecurity.AuditRuleFactory(System.Security.Principal.IdentityReference,System.Int32,System.Boolean,System.Security.AccessControl.InheritanceFlags,System.Security.AccessControl.PropagationFlags,System.Security.AccessControl.AuditFlags)">
+          <source>One of the <ph id="ph1">&lt;see cref="T:System.Security.AccessControl.InheritanceFlags" /&gt;</ph> values that specifies the inheritance properties of the access rule.</source>
+          <target state="translated"><ph id="ph1">&lt;see cref="T:System.Security.AccessControl.InheritanceFlags" /&gt;</ph> 值之一，指定访问规则的继承属性。</target>       </trans-unit>
+        <trans-unit id="159" translate="yes" xml:space="preserve" uid="M:System.IO.Pipes.PipeSecurity.AuditRuleFactory(System.Security.Principal.IdentityReference,System.Int32,System.Boolean,System.Security.AccessControl.InheritanceFlags,System.Security.AccessControl.PropagationFlags,System.Security.AccessControl.AuditFlags)">
+          <source>One of the <ph id="ph1">&lt;see cref="T:System.Security.AccessControl.PropagationFlags" /&gt;</ph> values that specifies whether inherited access rules are automatically propagated.</source>
+          <target state="translated"><ph id="ph1">&lt;see cref="T:System.Security.AccessControl.PropagationFlags" /&gt;</ph> 值之一，指定是否自动传播继承的访问规则。</target>       </trans-unit>
+        <trans-unit id="160" translate="yes" xml:space="preserve" uid="M:System.IO.Pipes.PipeSecurity.AuditRuleFactory(System.Security.Principal.IdentityReference,System.Int32,System.Boolean,System.Security.AccessControl.InheritanceFlags,System.Security.AccessControl.PropagationFlags,System.Security.AccessControl.AuditFlags)">
+          <source>The propagation flags are ignored if <bpt id="p1">&lt;c&gt;</bpt>inheritanceFlags<ept id="p1">&lt;/c&gt;</ept> is set to <ph id="ph1">&lt;see cref="F:System.Security.AccessControl.InheritanceFlags.None" /&gt;</ph>.</source>
+          <target state="translated">如果将 <bpt id="p1">&lt;c&gt;</bpt>inheritanceFlags<ept id="p1">&lt;/c&gt;</ept> 设置为 <ph id="ph1">&lt;see cref="F:System.Security.AccessControl.InheritanceFlags.None" /&gt;</ph>，则忽略传播标志。</target>       </trans-unit>
+        <trans-unit id="161" translate="yes" xml:space="preserve" uid="M:System.IO.Pipes.PipeSecurity.AuditRuleFactory(System.Security.Principal.IdentityReference,System.Int32,System.Boolean,System.Security.AccessControl.InheritanceFlags,System.Security.AccessControl.PropagationFlags,System.Security.AccessControl.AuditFlags)">
+          <source>One of the <ph id="ph1">&lt;see cref="T:System.Security.AccessControl.AuditFlags" /&gt;</ph> values that specifies the valid access control type.</source>
+          <target state="translated"><ph id="ph1">&lt;see cref="T:System.Security.AccessControl.AuditFlags" /&gt;</ph> 值之一，指定有效的访问控制类型。</target>       </trans-unit>
+        <trans-unit id="162" translate="yes" xml:space="preserve" uid="M:System.IO.Pipes.PipeSecurity.AuditRuleFactory(System.Security.Principal.IdentityReference,System.Int32,System.Boolean,System.Security.AccessControl.InheritanceFlags,System.Security.AccessControl.PropagationFlags,System.Security.AccessControl.AuditFlags)">
+          <source>Initializes a new instance of the <ph id="ph1">&lt;see cref="T:System.Security.AccessControl.AuditRule" /&gt;</ph> class with the specified values.</source>
+          <target state="translated">用指定的值初始化 <ph id="ph1">&lt;see cref="T:System.Security.AccessControl.AuditRule" /&gt;</ph> 类的新实例。</target>       </trans-unit>
+        <trans-unit id="163" translate="yes" xml:space="preserve" uid="M:System.IO.Pipes.PipeSecurity.AuditRuleFactory(System.Security.Principal.IdentityReference,System.Int32,System.Boolean,System.Security.AccessControl.InheritanceFlags,System.Security.AccessControl.PropagationFlags,System.Security.AccessControl.AuditFlags)">
+          <source>The <ph id="ph1">&lt;see cref="T:System.Security.AccessControl.AuditRule" /&gt;</ph> object that this method creates.</source>
+          <target state="translated">此方法创建的 <ph id="ph1">&lt;see cref="T:System.Security.AccessControl.AuditRule" /&gt;</ph> 对象。</target>       </trans-unit>
+        <trans-unit id="164" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IO.Pipes.PipeSecurity.AuditRuleFactory(System.Security.Principal.IdentityReference,System.Int32,System.Boolean,System.Security.AccessControl.InheritanceFlags,System.Security.AccessControl.PropagationFlags,System.Security.AccessControl.AuditFlags)">
+          <source>The recommended way to create audit rules is to use the constructors of the <ph id="ph1">&lt;xref:System.IO.Pipes.PipeAuditRule&gt;</ph> class.</source>
+          <target state="translated">创建审核规则的建议的方法是使用的构造函数<ph id="ph1">&lt;xref:System.IO.Pipes.PipeAuditRule&gt;</ph>类。</target>       </trans-unit>
+        <trans-unit id="165" translate="yes" xml:space="preserve" uid="M:System.IO.Pipes.PipeSecurity.AuditRuleFactory(System.Security.Principal.IdentityReference,System.Int32,System.Boolean,System.Security.AccessControl.InheritanceFlags,System.Security.AccessControl.PropagationFlags,System.Security.AccessControl.AuditFlags)">
+          <source>The <ph id="ph1">&lt;paramref name="accessMask" /&gt;</ph>, <ph id="ph2">&lt;paramref name="inheritanceFlags" /&gt;</ph>, <ph id="ph3">&lt;paramref name="propagationFlags" /&gt;</ph>, or <ph id="ph4">&lt;paramref name="flags" /&gt;</ph> properties specify an invalid value.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="accessMask" /&gt;</ph>、<ph id="ph2">&lt;paramref name="inheritanceFlags" /&gt;</ph>、<ph id="ph3">&lt;paramref name="propagationFlags" /&gt;</ph> 或 <ph id="ph4">&lt;paramref name="flags" /&gt;</ph> 属性指定了无效值。</target>       </trans-unit>
+        <trans-unit id="166" translate="yes" xml:space="preserve" uid="M:System.IO.Pipes.PipeSecurity.AuditRuleFactory(System.Security.Principal.IdentityReference,System.Int32,System.Boolean,System.Security.AccessControl.InheritanceFlags,System.Security.AccessControl.PropagationFlags,System.Security.AccessControl.AuditFlags)">
+          <source>The <ph id="ph1">&lt;paramref name="identityReference" /&gt;</ph> property is <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="identityReference" /&gt;</ph> 属性为 <ph id="ph2">&lt;see langword="null" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="167" translate="yes" xml:space="preserve" uid="M:System.IO.Pipes.PipeSecurity.AuditRuleFactory(System.Security.Principal.IdentityReference,System.Int32,System.Boolean,System.Security.AccessControl.InheritanceFlags,System.Security.AccessControl.PropagationFlags,System.Security.AccessControl.AuditFlags)">
+          <source>-or-</source>
+          <target state="translated">或</target>       </trans-unit>
+        <trans-unit id="168" translate="yes" xml:space="preserve" uid="M:System.IO.Pipes.PipeSecurity.AuditRuleFactory(System.Security.Principal.IdentityReference,System.Int32,System.Boolean,System.Security.AccessControl.InheritanceFlags,System.Security.AccessControl.PropagationFlags,System.Security.AccessControl.AuditFlags)">
+          <source>The <ph id="ph1">&lt;paramref name="accessMask" /&gt;</ph> property is zero.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="accessMask" /&gt;</ph> 属性为零。</target>       </trans-unit>
+        <trans-unit id="169" translate="yes" xml:space="preserve" uid="M:System.IO.Pipes.PipeSecurity.AuditRuleFactory(System.Security.Principal.IdentityReference,System.Int32,System.Boolean,System.Security.AccessControl.InheritanceFlags,System.Security.AccessControl.PropagationFlags,System.Security.AccessControl.AuditFlags)">
+          <source>The <ph id="ph1">&lt;paramref name="identityReference" /&gt;</ph> property is neither of type <ph id="ph2">&lt;see cref="T:System.Security.Principal.SecurityIdentifier" /&gt;</ph> nor of a type, such as <ph id="ph3">&lt;see cref="T:System.Security.Principal.NTAccount" /&gt;</ph>, that can be converted to type <ph id="ph4">&lt;see cref="T:System.Security.Principal.SecurityIdentifier" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="identityReference" /&gt;</ph> 属性既不是 <ph id="ph2">&lt;see cref="T:System.Security.Principal.SecurityIdentifier" /&gt;</ph> 类型，也不是可转换为 <ph id="ph4">&lt;see cref="T:System.Security.Principal.SecurityIdentifier" /&gt;</ph> 类型的类型，如 <ph id="ph3">&lt;see cref="T:System.Security.Principal.NTAccount" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="170" translate="yes" xml:space="preserve" uid="P:System.IO.Pipes.PipeSecurity.AuditRuleType">
+          <source>Gets the <ph id="ph1">&lt;see cref="T:System.Type" /&gt;</ph> object associated with the audit rules of the current <ph id="ph2">&lt;see cref="T:System.IO.Pipes.PipeSecurity" /&gt;</ph> object.</source>
+          <target state="translated">获取与当前 <ph id="ph2">&lt;see cref="T:System.IO.Pipes.PipeSecurity" /&gt;</ph> 对象的审核规则关联的 <ph id="ph1">&lt;see cref="T:System.Type" /&gt;</ph> 对象。</target>       </trans-unit>
+        <trans-unit id="171" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.IO.Pipes.PipeSecurity.AuditRuleType">
+          <source>The type of the object that is associated with the audit rules of the current <ph id="ph1">&lt;see cref="T:System.IO.Pipes.PipeSecurity" /&gt;</ph> object.</source>
+          <target state="translated">与当前 <ph id="ph1">&lt;see cref="T:System.IO.Pipes.PipeSecurity" /&gt;</ph> 对象的审核规则关联的对象的类型。</target>       </trans-unit>
+        <trans-unit id="172" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.IO.Pipes.PipeSecurity.AuditRuleType">
+          <source>Classes that derive from the <ph id="ph1">&lt;xref:System.Security.AccessControl.ObjectSecurity&gt;</ph> class override the <ph id="ph2">&lt;xref:System.Security.AccessControl.ObjectSecurity.AuditRuleType%2A&gt;</ph> property and return the type they use to represent access rights.</source>
+          <target state="translated">派生自的类<ph id="ph1">&lt;xref:System.Security.AccessControl.ObjectSecurity&gt;</ph>类替代<ph id="ph2">&lt;xref:System.Security.AccessControl.ObjectSecurity.AuditRuleType%2A&gt;</ph>属性，并返回它们用于表示的访问权限的类型。</target>       </trans-unit>
+        <trans-unit id="173" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.IO.Pipes.PipeSecurity.AuditRuleType">
+          <source>When you work with arrays or collections that contain multiple types of security objects, use this property to determine the correct enumeration type to use with each security object.</source>
+          <target state="translated">当使用数组或包含多个类型的安全对象的集合时，使用此属性来确定要用于每个安全对象的正确的枚举类型。</target>       </trans-unit>
+        <trans-unit id="174" translate="yes" xml:space="preserve" uid="T:System.IO.Pipes.PipeSecurity">
+          <source>Saves the specified sections of the security descriptor that is associated with the current <ph id="ph1">&lt;see cref="T:System.IO.Pipes.PipeSecurity" /&gt;</ph> object to permanent storage.</source>
+          <target state="translated">将与当前 <ph id="ph1">&lt;see cref="T:System.IO.Pipes.PipeSecurity" /&gt;</ph> 对象关联的安全描述符的指定部分保存到永久性存储器。</target>       </trans-unit>
+        <trans-unit id="175" translate="yes" xml:space="preserve" uid="M:System.IO.Pipes.PipeSecurity.Persist(System.Runtime.InteropServices.SafeHandle)">
+          <source>The handle of the securable object that the current <ph id="ph1">&lt;see cref="T:System.IO.Pipes.PipeSecurity" /&gt;</ph> object is associated with.</source>
+          <target state="translated">与当前 <ph id="ph1">&lt;see cref="T:System.IO.Pipes.PipeSecurity" /&gt;</ph> 对象关联的可保护对象的句柄。</target>       </trans-unit>
+        <trans-unit id="176" translate="yes" xml:space="preserve" uid="M:System.IO.Pipes.PipeSecurity.Persist(System.Runtime.InteropServices.SafeHandle)">
+          <source>Saves the specified sections of the security descriptor that is associated with the current <ph id="ph1">&lt;see cref="T:System.IO.Pipes.PipeSecurity" /&gt;</ph> object to permanent storage.</source>
+          <target state="translated">将与当前 <ph id="ph1">&lt;see cref="T:System.IO.Pipes.PipeSecurity" /&gt;</ph> 对象关联的安全描述符的指定部分保存到永久性存储器。</target>       </trans-unit>
+        <trans-unit id="177" translate="yes" xml:space="preserve" uid="M:System.IO.Pipes.PipeSecurity.Persist(System.String)">
+          <source>The name of the securable object that the current <ph id="ph1">&lt;see cref="T:System.IO.Pipes.PipeSecurity" /&gt;</ph> object is associated with.</source>
+          <target state="translated">与当前 <ph id="ph1">&lt;see cref="T:System.IO.Pipes.PipeSecurity" /&gt;</ph> 对象关联的可保护对象的名称。</target>       </trans-unit>
+        <trans-unit id="178" translate="yes" xml:space="preserve" uid="M:System.IO.Pipes.PipeSecurity.Persist(System.String)">
+          <source>Saves the specified sections of the security descriptor that is associated with the current <ph id="ph1">&lt;see cref="T:System.IO.Pipes.PipeSecurity" /&gt;</ph> object to permanent storage.</source>
+          <target state="translated">将与当前 <ph id="ph1">&lt;see cref="T:System.IO.Pipes.PipeSecurity" /&gt;</ph> 对象关联的安全描述符的指定部分保存到永久性存储器。</target>       </trans-unit>
+        <trans-unit id="179" translate="yes" xml:space="preserve" uid="M:System.IO.Pipes.PipeSecurity.RemoveAccessRule(System.IO.Pipes.PipeAccessRule)">
+          <source>The access rule to remove.</source>
+          <target state="translated">要移除的访问规则。</target>       </trans-unit>
+        <trans-unit id="180" translate="yes" xml:space="preserve" uid="M:System.IO.Pipes.PipeSecurity.RemoveAccessRule(System.IO.Pipes.PipeAccessRule)">
+          <source>Removes an access rule from the Discretionary Access Control List (DACL) that is associated with the current <ph id="ph1">&lt;see cref="T:System.IO.Pipes.PipeSecurity" /&gt;</ph> object.</source>
+          <target state="translated">将访问规则从与当前 <ph id="ph1">&lt;see cref="T:System.IO.Pipes.PipeSecurity" /&gt;</ph> 对象关联的自定义访问控制列表 (DACL) 中移除。</target>       </trans-unit>
+        <trans-unit id="181" translate="yes" xml:space="preserve" uid="M:System.IO.Pipes.PipeSecurity.RemoveAccessRule(System.IO.Pipes.PipeAccessRule)">
+          <source><ph id="ph1">&lt;see langword="true" /&gt;</ph> if the operation is successful; otherwise, <ph id="ph2">&lt;see langword="false" /&gt;</ph>.</source>
+          <target state="translated">如果操作成功，则为 <ph id="ph1">&lt;see langword="true" /&gt;</ph>；否则为 <ph id="ph2">&lt;see langword="false" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="182" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IO.Pipes.PipeSecurity.RemoveAccessRule(System.IO.Pipes.PipeAccessRule)">
+          <source>The <ph id="ph1">&lt;xref:System.IO.Pipes.PipeSecurity.RemoveAccessRule%2A&gt;</ph> method removes either all matching <ph id="ph2">&lt;xref:System.Security.AccessControl.AccessControlType.Deny&gt;</ph> access rules or all matching <ph id="ph3">&lt;xref:System.Security.AccessControl.AccessControlType.Allow&gt;</ph> access rules from the current <ph id="ph4">&lt;xref:System.IO.Pipes.PipeSecurity&gt;</ph> object.</source>
+          <target state="translated"><ph id="ph1">&lt;xref:System.IO.Pipes.PipeSecurity.RemoveAccessRule%2A&gt;</ph>方法移除所有匹配<ph id="ph2">&lt;xref:System.Security.AccessControl.AccessControlType.Deny&gt;</ph>访问规则或所有匹配<ph id="ph3">&lt;xref:System.Security.AccessControl.AccessControlType.Allow&gt;</ph>从当前访问规则<ph id="ph4">&lt;xref:System.IO.Pipes.PipeSecurity&gt;</ph>对象。</target>       </trans-unit>
+        <trans-unit id="183" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IO.Pipes.PipeSecurity.RemoveAccessRule(System.IO.Pipes.PipeAccessRule)">
+          <source>For example, you can use this method to remove all <ph id="ph1">&lt;xref:System.Security.AccessControl.AccessControlType.Deny&gt;</ph> access rules for a user by passing a <ph id="ph2">&lt;xref:System.IO.Pipes.PipeAccessRule&gt;</ph> object created using the <ph id="ph3">&lt;xref:System.Security.AccessControl.AccessControlType.Deny&gt;</ph> value, the <ph id="ph4">&lt;xref:System.IO.Pipes.PipeAccessRights.Read&gt;</ph> value, and a user account.</source>
+          <target state="translated">例如，你可以使用此方法删除所有<ph id="ph1">&lt;xref:System.Security.AccessControl.AccessControlType.Deny&gt;</ph>通过访问用户的规则<ph id="ph2">&lt;xref:System.IO.Pipes.PipeAccessRule&gt;</ph>对象创建使用<ph id="ph3">&lt;xref:System.Security.AccessControl.AccessControlType.Deny&gt;</ph>值，<ph id="ph4">&lt;xref:System.IO.Pipes.PipeAccessRights.Read&gt;</ph>值和用户帐户。</target>       </trans-unit>
+        <trans-unit id="184" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IO.Pipes.PipeSecurity.RemoveAccessRule(System.IO.Pipes.PipeAccessRule)">
+          <source>The <ph id="ph1">&lt;xref:System.IO.Pipes.PipeSecurity.RemoveAccessRule%2A&gt;</ph> method removes any deny rules that specify the <ph id="ph2">&lt;xref:System.IO.Pipes.PipeAccessRights.Read&gt;</ph> value or the <ph id="ph3">&lt;xref:System.IO.Pipes.PipeAccessRights.Write&gt;</ph> value.</source>
+          <target state="translated"><ph id="ph1">&lt;xref:System.IO.Pipes.PipeSecurity.RemoveAccessRule%2A&gt;</ph>方法中删除任何指定的拒绝规则<ph id="ph2">&lt;xref:System.IO.Pipes.PipeAccessRights.Read&gt;</ph>值或<ph id="ph3">&lt;xref:System.IO.Pipes.PipeAccessRights.Write&gt;</ph>值。</target>       </trans-unit>
+        <trans-unit id="185" translate="yes" xml:space="preserve" uid="M:System.IO.Pipes.PipeSecurity.RemoveAccessRule(System.IO.Pipes.PipeAccessRule)">
+          <source>The <ph id="ph1">&lt;paramref name="rule" /&gt;</ph> parameter is <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="rule" /&gt;</ph> 参数为 <ph id="ph2">&lt;see langword="null" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="186" translate="yes" xml:space="preserve" uid="M:System.IO.Pipes.PipeSecurity.RemoveAccessRuleSpecific(System.IO.Pipes.PipeAccessRule)">
+          <source>The access rule to remove.</source>
+          <target state="translated">要移除的访问规则。</target>       </trans-unit>
+        <trans-unit id="187" translate="yes" xml:space="preserve" uid="M:System.IO.Pipes.PipeSecurity.RemoveAccessRuleSpecific(System.IO.Pipes.PipeAccessRule)">
+          <source>Removes the specified access rule from the Discretionary Access Control List (DACL) that is associated with the current <ph id="ph1">&lt;see cref="T:System.IO.Pipes.PipeSecurity" /&gt;</ph> object.</source>
+          <target state="translated">将指定的访问规则从与当前 <ph id="ph1">&lt;see cref="T:System.IO.Pipes.PipeSecurity" /&gt;</ph> 对象关联的自定义访问控制列表 (DACL) 中移除。</target>       </trans-unit>
+        <trans-unit id="188" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IO.Pipes.PipeSecurity.RemoveAccessRuleSpecific(System.IO.Pipes.PipeAccessRule)">
+          <source>The <ph id="ph1">&lt;xref:System.IO.Pipes.PipeSecurity.RemoveAccessRule%2A&gt;</ph> method removes either all matching <ph id="ph2">&lt;xref:System.Security.AccessControl.AccessControlType.Deny&gt;</ph> access rules or all matching <ph id="ph3">&lt;xref:System.Security.AccessControl.AccessControlType.Allow&gt;</ph> access rules from the current <ph id="ph4">&lt;xref:System.IO.Pipes.PipeSecurity&gt;</ph> object.</source>
+          <target state="translated"><ph id="ph1">&lt;xref:System.IO.Pipes.PipeSecurity.RemoveAccessRule%2A&gt;</ph>方法移除所有匹配<ph id="ph2">&lt;xref:System.Security.AccessControl.AccessControlType.Deny&gt;</ph>访问规则或所有匹配<ph id="ph3">&lt;xref:System.Security.AccessControl.AccessControlType.Allow&gt;</ph>从当前访问规则<ph id="ph4">&lt;xref:System.IO.Pipes.PipeSecurity&gt;</ph>对象。</target>       </trans-unit>
+        <trans-unit id="189" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IO.Pipes.PipeSecurity.RemoveAccessRuleSpecific(System.IO.Pipes.PipeAccessRule)">
+          <source>For example, you can use this method to remove all <ph id="ph1">&lt;xref:System.Security.AccessControl.AccessControlType.Deny&gt;</ph> access rules for a user by passing a <ph id="ph2">&lt;xref:System.IO.Pipes.PipeAccessRule&gt;</ph> object created using the <ph id="ph3">&lt;xref:System.Security.AccessControl.AccessControlType.Deny&gt;</ph> value, the <ph id="ph4">&lt;xref:System.IO.Pipes.PipeAccessRights.Read&gt;</ph> value, and a user account.</source>
+          <target state="translated">例如，你可以使用此方法删除所有<ph id="ph1">&lt;xref:System.Security.AccessControl.AccessControlType.Deny&gt;</ph>通过访问用户的规则<ph id="ph2">&lt;xref:System.IO.Pipes.PipeAccessRule&gt;</ph>对象创建使用<ph id="ph3">&lt;xref:System.Security.AccessControl.AccessControlType.Deny&gt;</ph>值，<ph id="ph4">&lt;xref:System.IO.Pipes.PipeAccessRights.Read&gt;</ph>值和用户帐户。</target>       </trans-unit>
+        <trans-unit id="190" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IO.Pipes.PipeSecurity.RemoveAccessRuleSpecific(System.IO.Pipes.PipeAccessRule)">
+          <source>The <ph id="ph1">&lt;xref:System.IO.Pipes.PipeSecurity.RemoveAccessRule%2A&gt;</ph> method removes any deny rules that specify the <ph id="ph2">&lt;xref:System.IO.Pipes.PipeAccessRights.Read&gt;</ph> value or the <ph id="ph3">&lt;xref:System.IO.Pipes.PipeAccessRights.Write&gt;</ph> value.</source>
+          <target state="translated"><ph id="ph1">&lt;xref:System.IO.Pipes.PipeSecurity.RemoveAccessRule%2A&gt;</ph>方法中删除任何指定的拒绝规则<ph id="ph2">&lt;xref:System.IO.Pipes.PipeAccessRights.Read&gt;</ph>值或<ph id="ph3">&lt;xref:System.IO.Pipes.PipeAccessRights.Write&gt;</ph>值。</target>       </trans-unit>
+        <trans-unit id="191" translate="yes" xml:space="preserve" uid="M:System.IO.Pipes.PipeSecurity.RemoveAccessRuleSpecific(System.IO.Pipes.PipeAccessRule)">
+          <source>The <ph id="ph1">&lt;paramref name="rule" /&gt;</ph> parameter is <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="rule" /&gt;</ph> 参数为 <ph id="ph2">&lt;see langword="null" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="192" translate="yes" xml:space="preserve" uid="M:System.IO.Pipes.PipeSecurity.RemoveAuditRule(System.IO.Pipes.PipeAuditRule)">
+          <source>The audit rule to remove.</source>
+          <target state="translated">要移除的审核规则。</target>       </trans-unit>
+        <trans-unit id="193" translate="yes" xml:space="preserve" uid="M:System.IO.Pipes.PipeSecurity.RemoveAuditRule(System.IO.Pipes.PipeAuditRule)">
+          <source>Removes an audit rule from the System Access Control List (SACL) that is associated with the current <ph id="ph1">&lt;see cref="T:System.IO.Pipes.PipeSecurity" /&gt;</ph> object.</source>
+          <target state="translated">将审核规则从与当前 <ph id="ph1">&lt;see cref="T:System.IO.Pipes.PipeSecurity" /&gt;</ph> 对象关联的系统访问控制列表 (SACL) 中移除。</target>       </trans-unit>
+        <trans-unit id="194" translate="yes" xml:space="preserve" uid="M:System.IO.Pipes.PipeSecurity.RemoveAuditRule(System.IO.Pipes.PipeAuditRule)">
+          <source><ph id="ph1">&lt;see langword="true" /&gt;</ph> if the audit rule was removed; otherwise, <ph id="ph2">&lt;see langword="false" /&gt;</ph></source>
+          <target state="translated">如果审核规则已移除，则为 <ph id="ph1">&lt;see langword="true" /&gt;</ph>；否则为 <ph id="ph2">&lt;see langword="false" /&gt;</ph></target>       </trans-unit>
+        <trans-unit id="195" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IO.Pipes.PipeSecurity.RemoveAuditRule(System.IO.Pipes.PipeAuditRule)">
+          <source>The <ph id="ph1">&lt;xref:System.IO.Pipes.PipeSecurity.RemoveAuditRule%2A&gt;</ph> method removes either all matching <ph id="ph2">&lt;xref:System.Security.AccessControl.AccessControlType.Deny&gt;</ph> audit rules or all matching <ph id="ph3">&lt;xref:System.Security.AccessControl.AccessControlType.Allow&gt;</ph> audit rules from the current <ph id="ph4">&lt;xref:System.IO.Pipes.PipeSecurity&gt;</ph> object.</source>
+          <target state="translated"><ph id="ph1">&lt;xref:System.IO.Pipes.PipeSecurity.RemoveAuditRule%2A&gt;</ph>方法移除所有匹配<ph id="ph2">&lt;xref:System.Security.AccessControl.AccessControlType.Deny&gt;</ph>审核规则或所有匹配<ph id="ph3">&lt;xref:System.Security.AccessControl.AccessControlType.Allow&gt;</ph>审核从当前规则<ph id="ph4">&lt;xref:System.IO.Pipes.PipeSecurity&gt;</ph>对象。</target>       </trans-unit>
+        <trans-unit id="196" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IO.Pipes.PipeSecurity.RemoveAuditRule(System.IO.Pipes.PipeAuditRule)">
+          <source>For example, you can use this method to remove all <ph id="ph1">&lt;xref:System.Security.AccessControl.AccessControlType.Deny&gt;</ph> audit rules for a user by passing a <ph id="ph2">&lt;xref:System.Security.AccessControl.FileSystemAuditRule&gt;</ph> object created using the <ph id="ph3">&lt;xref:System.Security.AccessControl.AccessControlType.Deny&gt;</ph> value, the <ph id="ph4">&lt;xref:System.Security.AccessControl.AuditFlags.Failure&gt;</ph> value, and a user account.</source>
+          <target state="translated">例如，你可以使用此方法删除所有<ph id="ph1">&lt;xref:System.Security.AccessControl.AccessControlType.Deny&gt;</ph>审核规则的用户通过将传递<ph id="ph2">&lt;xref:System.Security.AccessControl.FileSystemAuditRule&gt;</ph>对象创建使用<ph id="ph3">&lt;xref:System.Security.AccessControl.AccessControlType.Deny&gt;</ph>值，<ph id="ph4">&lt;xref:System.Security.AccessControl.AuditFlags.Failure&gt;</ph>值和用户帐户。</target>       </trans-unit>
+        <trans-unit id="197" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IO.Pipes.PipeSecurity.RemoveAuditRule(System.IO.Pipes.PipeAuditRule)">
+          <source>When you do this, the <ph id="ph1">&lt;xref:System.IO.Pipes.PipeSecurity.RemoveAuditRule%2A&gt;</ph> method removes any deny rules that specify the <ph id="ph2">&lt;xref:System.Security.AccessControl.AuditFlags.Failure&gt;</ph> value or the <ph id="ph3">&lt;xref:System.Security.AccessControl.AuditFlags.Success&gt;</ph> value.</source>
+          <target state="translated">当你执行此操作，<ph id="ph1">&lt;xref:System.IO.Pipes.PipeSecurity.RemoveAuditRule%2A&gt;</ph>方法中删除任何指定的拒绝规则<ph id="ph2">&lt;xref:System.Security.AccessControl.AuditFlags.Failure&gt;</ph>值或<ph id="ph3">&lt;xref:System.Security.AccessControl.AuditFlags.Success&gt;</ph>值。</target>       </trans-unit>
+        <trans-unit id="198" translate="yes" xml:space="preserve" uid="M:System.IO.Pipes.PipeSecurity.RemoveAuditRule(System.IO.Pipes.PipeAuditRule)">
+          <source>The <ph id="ph1">&lt;paramref name="rule" /&gt;</ph> parameter is <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="rule" /&gt;</ph> 参数为 <ph id="ph2">&lt;see langword="null" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="199" translate="yes" xml:space="preserve" uid="M:System.IO.Pipes.PipeSecurity.RemoveAuditRuleAll(System.IO.Pipes.PipeAuditRule)">
+          <source>The audit rule to remove.</source>
+          <target state="translated">要移除的审核规则。</target>       </trans-unit>
+        <trans-unit id="200" translate="yes" xml:space="preserve" uid="M:System.IO.Pipes.PipeSecurity.RemoveAuditRuleAll(System.IO.Pipes.PipeAuditRule)">
+          <source>Removes all audit rules that have the same security identifier as the specified audit rule from the System Access Control List (SACL) that is associated with the current <ph id="ph1">&lt;see cref="T:System.IO.Pipes.PipeSecurity" /&gt;</ph> object.</source>
+          <target state="translated">将与指定的审核规则具有相同安全标识符的所有审核规则从与当前 <ph id="ph1">&lt;see cref="T:System.IO.Pipes.PipeSecurity" /&gt;</ph> 对象关联的系统访问控制列表 (SACL) 中移除。</target>       </trans-unit>
+        <trans-unit id="201" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IO.Pipes.PipeSecurity.RemoveAuditRuleAll(System.IO.Pipes.PipeAuditRule)">
+          <source>The <ph id="ph1">&lt;xref:System.IO.Pipes.PipeSecurity.RemoveAuditRuleAll%2A&gt;</ph> method removes all audit rules for the specified user.</source>
+          <target state="translated"><ph id="ph1">&lt;xref:System.IO.Pipes.PipeSecurity.RemoveAuditRuleAll%2A&gt;</ph>方法中删除指定的用户的所有审核规则。</target>       </trans-unit>
+        <trans-unit id="202" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IO.Pipes.PipeSecurity.RemoveAuditRuleAll(System.IO.Pipes.PipeAuditRule)">
+          <source>It ignores all values in the <ph id="ph1">&lt;xref:System.IO.Pipes.PipeAuditRule&gt;</ph> object except the user account.</source>
+          <target state="translated">它会忽略中的所有值<ph id="ph1">&lt;xref:System.IO.Pipes.PipeAuditRule&gt;</ph>除外的用户帐户的对象。</target>       </trans-unit>
+        <trans-unit id="203" translate="yes" xml:space="preserve" uid="M:System.IO.Pipes.PipeSecurity.RemoveAuditRuleAll(System.IO.Pipes.PipeAuditRule)">
+          <source>The <ph id="ph1">&lt;paramref name="rule" /&gt;</ph> parameter is <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="rule" /&gt;</ph> 参数为 <ph id="ph2">&lt;see langword="null" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="204" translate="yes" xml:space="preserve" uid="M:System.IO.Pipes.PipeSecurity.RemoveAuditRuleSpecific(System.IO.Pipes.PipeAuditRule)">
+          <source>The audit rule to remove.</source>
+          <target state="translated">要移除的审核规则。</target>       </trans-unit>
+        <trans-unit id="205" translate="yes" xml:space="preserve" uid="M:System.IO.Pipes.PipeSecurity.RemoveAuditRuleSpecific(System.IO.Pipes.PipeAuditRule)">
+          <source>Removes the specified audit rule from the System Access Control List (SACL) that is associated with the current <ph id="ph1">&lt;see cref="T:System.IO.Pipes.PipeSecurity" /&gt;</ph> object.</source>
+          <target state="translated">将指定的审核规则从与当前 <ph id="ph1">&lt;see cref="T:System.IO.Pipes.PipeSecurity" /&gt;</ph> 对象关联的系统访问控制列表 (SACL) 中移除。</target>       </trans-unit>
+        <trans-unit id="206" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IO.Pipes.PipeSecurity.RemoveAuditRuleSpecific(System.IO.Pipes.PipeAuditRule)">
+          <source>The <ph id="ph1">&lt;xref:System.IO.Pipes.PipeSecurity.RemoveAuditRuleSpecific%2A&gt;</ph> method removes the specified matching <ph id="ph2">&lt;xref:System.Security.AccessControl.AccessControlType.Deny&gt;</ph> audit rule or the specified matching <ph id="ph3">&lt;xref:System.Security.AccessControl.AccessControlType.Allow&gt;</ph> audit rule from the current <ph id="ph4">&lt;xref:System.IO.Pipes.PipeSecurity&gt;</ph> object.</source>
+          <target state="translated"><ph id="ph1">&lt;xref:System.IO.Pipes.PipeSecurity.RemoveAuditRuleSpecific%2A&gt;</ph>方法中删除指定的匹配<ph id="ph2">&lt;xref:System.Security.AccessControl.AccessControlType.Deny&gt;</ph>审核规则或指定的匹配<ph id="ph3">&lt;xref:System.Security.AccessControl.AccessControlType.Allow&gt;</ph>从当前的审核规则<ph id="ph4">&lt;xref:System.IO.Pipes.PipeSecurity&gt;</ph>对象。</target>       </trans-unit>
+        <trans-unit id="207" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IO.Pipes.PipeSecurity.RemoveAuditRuleSpecific(System.IO.Pipes.PipeAuditRule)">
+          <source>For example, you can use this method to remove a specified <ph id="ph1">&lt;xref:System.Security.AccessControl.AccessControlType.Deny&gt;</ph> audit rule for a user by passing a <ph id="ph2">&lt;xref:System.Security.AccessControl.FileSystemAuditRule&gt;</ph> object created using the <ph id="ph3">&lt;xref:System.Security.AccessControl.AccessControlType.Deny&gt;</ph> value, the <ph id="ph4">&lt;xref:System.Security.AccessControl.AuditFlags.Failure&gt;</ph> value, and a user account.</source>
+          <target state="translated">例如，你可以使用此方法删除指定<ph id="ph1">&lt;xref:System.Security.AccessControl.AccessControlType.Deny&gt;</ph>通过将传递用户的审核规则<ph id="ph2">&lt;xref:System.Security.AccessControl.FileSystemAuditRule&gt;</ph>对象创建使用<ph id="ph3">&lt;xref:System.Security.AccessControl.AccessControlType.Deny&gt;</ph>值，<ph id="ph4">&lt;xref:System.Security.AccessControl.AuditFlags.Failure&gt;</ph>值和用户帐户。</target>       </trans-unit>
+        <trans-unit id="208" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IO.Pipes.PipeSecurity.RemoveAuditRuleSpecific(System.IO.Pipes.PipeAuditRule)">
+          <source>When you do this, the <ph id="ph1">&lt;xref:System.IO.Pipes.PipeSecurity.RemoveAuditRuleSpecific%2A&gt;</ph> method removes only a deny rule that specifies the <ph id="ph2">&lt;xref:System.Security.AccessControl.AuditFlags.Failure&gt;</ph> value.</source>
+          <target state="translated">当你执行此操作，<ph id="ph1">&lt;xref:System.IO.Pipes.PipeSecurity.RemoveAuditRuleSpecific%2A&gt;</ph>方法中删除指定的拒绝规则<ph id="ph2">&lt;xref:System.Security.AccessControl.AuditFlags.Failure&gt;</ph>值。</target>       </trans-unit>
+        <trans-unit id="209" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IO.Pipes.PipeSecurity.RemoveAuditRuleSpecific(System.IO.Pipes.PipeAuditRule)">
+          <source>It does not remove any deny rules that specify the <ph id="ph1">&lt;xref:System.Security.AccessControl.AuditFlags.Success&gt;</ph> value.</source>
+          <target state="translated">它不会删除任何指定的拒绝规则<ph id="ph1">&lt;xref:System.Security.AccessControl.AuditFlags.Success&gt;</ph>值。</target>       </trans-unit>
+        <trans-unit id="210" translate="yes" xml:space="preserve" uid="M:System.IO.Pipes.PipeSecurity.RemoveAuditRuleSpecific(System.IO.Pipes.PipeAuditRule)">
+          <source>The <ph id="ph1">&lt;paramref name="rule" /&gt;</ph> parameter is <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="rule" /&gt;</ph> 参数为 <ph id="ph2">&lt;see langword="null" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="211" translate="yes" xml:space="preserve" uid="M:System.IO.Pipes.PipeSecurity.ResetAccessRule(System.IO.Pipes.PipeAccessRule)">
+          <source>The access rule to add.</source>
+          <target state="translated">要添加的访问规则。</target>       </trans-unit>
+        <trans-unit id="212" translate="yes" xml:space="preserve" uid="M:System.IO.Pipes.PipeSecurity.ResetAccessRule(System.IO.Pipes.PipeAccessRule)">
+          <source>Removes all access rules in the Discretionary Access Control List (DACL) that is associated with the current <ph id="ph1">&lt;see cref="T:System.IO.Pipes.PipeSecurity" /&gt;</ph> object and then adds the specified access rule.</source>
+          <target state="translated">将所有访问规则从与当前 <ph id="ph1">&lt;see cref="T:System.IO.Pipes.PipeSecurity" /&gt;</ph> 对象关联的自定义访问控制列表 (DACL) 中移除，然后添加指定的访问规则。</target>       </trans-unit>
+        <trans-unit id="213" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IO.Pipes.PipeSecurity.ResetAccessRule(System.IO.Pipes.PipeAccessRule)">
+          <source>The <ph id="ph1">&lt;xref:System.IO.Pipes.PipeSecurity.ResetAccessRule%2A&gt;</ph> method adds the specified access control list (ACL) rule or overwrites any identical ACL rules that match the <ph id="ph2">`rule`</ph> parameter.</source>
+          <target state="translated"><ph id="ph1">&lt;xref:System.IO.Pipes.PipeSecurity.ResetAccessRule%2A&gt;</ph>方法将添加指定的访问控制列表 (ACL) 规则或覆盖匹配任何相同 ACL 规则<ph id="ph2">`rule`</ph>参数。</target>       </trans-unit>
+        <trans-unit id="214" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IO.Pipes.PipeSecurity.ResetAccessRule(System.IO.Pipes.PipeAccessRule)">
+          <source>For example, if the <ph id="ph1">`rule`</ph> parameter specifies a <ph id="ph2">&lt;xref:System.IO.Pipes.PipeAccessRights.Read&gt;</ph> value and the <ph id="ph3">&lt;xref:System.IO.Pipes.PipeSecurity.ResetAccessRule%2A&gt;</ph> method finds an identical ACL rule that specifies the <ph id="ph4">&lt;xref:System.IO.Pipes.PipeAccessRights.Read&gt;</ph> value, the identical rule will be overwritten.</source>
+          <target state="translated">例如，如果<ph id="ph1">`rule`</ph>参数指定<ph id="ph2">&lt;xref:System.IO.Pipes.PipeAccessRights.Read&gt;</ph>值和<ph id="ph3">&lt;xref:System.IO.Pipes.PipeSecurity.ResetAccessRule%2A&gt;</ph>方法找到指定的相同 ACL 规则<ph id="ph4">&lt;xref:System.IO.Pipes.PipeAccessRights.Read&gt;</ph>值，则相同的规则将被覆盖。</target>       </trans-unit>
+        <trans-unit id="215" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IO.Pipes.PipeSecurity.ResetAccessRule(System.IO.Pipes.PipeAccessRule)">
+          <source>If the <ph id="ph1">&lt;xref:System.IO.Pipes.PipeSecurity.ResetAccessRule%2A&gt;</ph> method finds an identical ACL rule that specifies the <ph id="ph2">&lt;xref:System.IO.Pipes.PipeAccessRights.Write&gt;</ph> value, the identical rule will also be overwritten.</source>
+          <target state="translated">如果<ph id="ph1">&lt;xref:System.IO.Pipes.PipeSecurity.ResetAccessRule%2A&gt;</ph>方法找到指定的相同 ACL 规则<ph id="ph2">&lt;xref:System.IO.Pipes.PipeAccessRights.Write&gt;</ph>值，则相同的规则也将被覆盖。</target>       </trans-unit>
+        <trans-unit id="216" translate="yes" xml:space="preserve" uid="M:System.IO.Pipes.PipeSecurity.ResetAccessRule(System.IO.Pipes.PipeAccessRule)">
+          <source>The <ph id="ph1">&lt;paramref name="rule" /&gt;</ph> parameter is <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="rule" /&gt;</ph> 参数为 <ph id="ph2">&lt;see langword="null" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="217" translate="yes" xml:space="preserve" uid="M:System.IO.Pipes.PipeSecurity.SetAccessRule(System.IO.Pipes.PipeAccessRule)">
+          <source>The rule to set.</source>
+          <target state="translated">要设置的规则。</target>       </trans-unit>
+        <trans-unit id="218" translate="yes" xml:space="preserve" uid="M:System.IO.Pipes.PipeSecurity.SetAccessRule(System.IO.Pipes.PipeAccessRule)">
+          <source>Sets an access rule in the Discretionary Access Control List (DACL) that is associated with the current <ph id="ph1">&lt;see cref="T:System.IO.Pipes.PipeSecurity" /&gt;</ph> object.</source>
+          <target state="translated">在与当前 <ph id="ph1">&lt;see cref="T:System.IO.Pipes.PipeSecurity" /&gt;</ph> 对象关联的自定义访问控制列表 (DACL) 中设置访问规则。</target>       </trans-unit>
+        <trans-unit id="219" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IO.Pipes.PipeSecurity.SetAccessRule(System.IO.Pipes.PipeAccessRule)">
+          <source>The <ph id="ph1">&lt;xref:System.IO.Pipes.PipeSecurity.SetAccessRule%2A&gt;</ph> method adds the specified access control list (ACL) rule or overwrites any identical ACL rules that match the <ph id="ph2">&lt;xref:System.IO.Pipes.PipeAccessRights&gt;</ph> value of the <ph id="ph3">`rule`</ph> parameter.</source>
+          <target state="translated"><ph id="ph1">&lt;xref:System.IO.Pipes.PipeSecurity.SetAccessRule%2A&gt;</ph>方法将添加指定的访问控制列表 (ACL) 规则或覆盖匹配任何相同 ACL 规则<ph id="ph2">&lt;xref:System.IO.Pipes.PipeAccessRights&gt;</ph>值<ph id="ph3">`rule`</ph>参数。</target>       </trans-unit>
+        <trans-unit id="220" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IO.Pipes.PipeSecurity.SetAccessRule(System.IO.Pipes.PipeAccessRule)">
+          <source>For example, if the <ph id="ph1">`rule`</ph> parameter specifies a <ph id="ph2">&lt;xref:System.IO.Pipes.PipeAccessRights.Read&gt;</ph> value and the <ph id="ph3">&lt;xref:System.IO.Pipes.PipeSecurity.SetAccessRule%2A&gt;</ph> method finds an identical ACL rule that specifies the <ph id="ph4">&lt;xref:System.IO.Pipes.PipeAccessRights.Read&gt;</ph> value, the identical rule will be overwritten.</source>
+          <target state="translated">例如，如果<ph id="ph1">`rule`</ph>参数指定<ph id="ph2">&lt;xref:System.IO.Pipes.PipeAccessRights.Read&gt;</ph>值和<ph id="ph3">&lt;xref:System.IO.Pipes.PipeSecurity.SetAccessRule%2A&gt;</ph>方法找到指定的相同 ACL 规则<ph id="ph4">&lt;xref:System.IO.Pipes.PipeAccessRights.Read&gt;</ph>值，则相同的规则将被覆盖。</target>       </trans-unit>
+        <trans-unit id="221" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IO.Pipes.PipeSecurity.SetAccessRule(System.IO.Pipes.PipeAccessRule)">
+          <source>If the <ph id="ph1">&lt;xref:System.IO.Pipes.PipeSecurity.SetAccessRule%2A&gt;</ph> method finds an identical ACL rule that specifies the <ph id="ph2">&lt;xref:System.IO.Pipes.PipeAccessRights.Write&gt;</ph> value, the identical rule will not be overwritten.</source>
+          <target state="translated">如果<ph id="ph1">&lt;xref:System.IO.Pipes.PipeSecurity.SetAccessRule%2A&gt;</ph>方法找到指定的相同 ACL 规则<ph id="ph2">&lt;xref:System.IO.Pipes.PipeAccessRights.Write&gt;</ph>值，相同的规则不会被覆盖。</target>       </trans-unit>
+        <trans-unit id="222" translate="yes" xml:space="preserve" uid="M:System.IO.Pipes.PipeSecurity.SetAccessRule(System.IO.Pipes.PipeAccessRule)">
+          <source>The <ph id="ph1">&lt;paramref name="rule" /&gt;</ph> parameter is <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="rule" /&gt;</ph> 参数为 <ph id="ph2">&lt;see langword="null" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="223" translate="yes" xml:space="preserve" uid="M:System.IO.Pipes.PipeSecurity.SetAuditRule(System.IO.Pipes.PipeAuditRule)">
+          <source>The rule to set.</source>
+          <target state="translated">要设置的规则。</target>       </trans-unit>
+        <trans-unit id="224" translate="yes" xml:space="preserve" uid="M:System.IO.Pipes.PipeSecurity.SetAuditRule(System.IO.Pipes.PipeAuditRule)">
+          <source>Sets an audit rule in the System Access Control List (SACL) that is associated with the current <ph id="ph1">&lt;see cref="T:System.IO.Pipes.PipeSecurity" /&gt;</ph> object.</source>
+          <target state="translated">在与当前 <ph id="ph1">&lt;see cref="T:System.IO.Pipes.PipeSecurity" /&gt;</ph> 对象关联的系统访问控制列表 (SACL) 中设置审核规则。</target>       </trans-unit>
+        <trans-unit id="225" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IO.Pipes.PipeSecurity.SetAuditRule(System.IO.Pipes.PipeAuditRule)">
+          <source>The <ph id="ph1">&lt;xref:System.IO.Pipes.PipeSecurity.SetAuditRule%2A&gt;</ph> method adds the specified audit rule or overwrites any identical audit rules that match the <ph id="ph2">&lt;xref:System.IO.Pipes.PipeAccessRights&gt;</ph> value of the <ph id="ph3">`rule`</ph> parameter.</source>
+          <target state="translated"><ph id="ph1">&lt;xref:System.IO.Pipes.PipeSecurity.SetAuditRule%2A&gt;</ph>方法将添加指定的审核规则或覆盖匹配任何相同的审核规则<ph id="ph2">&lt;xref:System.IO.Pipes.PipeAccessRights&gt;</ph>值<ph id="ph3">`rule`</ph>参数。</target>       </trans-unit>
+        <trans-unit id="226" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IO.Pipes.PipeSecurity.SetAuditRule(System.IO.Pipes.PipeAuditRule)">
+          <source>For example, if the <ph id="ph1">`rule`</ph> parameter specifies a <ph id="ph2">&lt;xref:System.IO.Pipes.PipeAccessRights.Read&gt;</ph> value and the <ph id="ph3">&lt;xref:System.IO.Pipes.PipeSecurity.SetAuditRule%2A&gt;</ph> method finds an identical audit rule that specifies the <ph id="ph4">&lt;xref:System.IO.Pipes.PipeAccessRights.Read&gt;</ph> value, the identical rule will be overwritten.</source>
+          <target state="translated">例如，如果<ph id="ph1">`rule`</ph>参数指定<ph id="ph2">&lt;xref:System.IO.Pipes.PipeAccessRights.Read&gt;</ph>值和<ph id="ph3">&lt;xref:System.IO.Pipes.PipeSecurity.SetAuditRule%2A&gt;</ph>方法找到指定的相同的审核规则<ph id="ph4">&lt;xref:System.IO.Pipes.PipeAccessRights.Read&gt;</ph>值，则相同的规则将被覆盖。</target>       </trans-unit>
+        <trans-unit id="227" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IO.Pipes.PipeSecurity.SetAuditRule(System.IO.Pipes.PipeAuditRule)">
+          <source>If the <ph id="ph1">&lt;xref:System.IO.Pipes.PipeSecurity.SetAuditRule%2A&gt;</ph> method finds an identical audit rule that specifies the <ph id="ph2">&lt;xref:System.IO.Pipes.PipeAccessRights.Write&gt;</ph> value, the identical rule will not be overwritten.</source>
+          <target state="translated">如果<ph id="ph1">&lt;xref:System.IO.Pipes.PipeSecurity.SetAuditRule%2A&gt;</ph>方法找到指定的相同的审核规则<ph id="ph2">&lt;xref:System.IO.Pipes.PipeAccessRights.Write&gt;</ph>值，相同的规则不会被覆盖。</target>       </trans-unit>
+        <trans-unit id="228" translate="yes" xml:space="preserve" uid="M:System.IO.Pipes.PipeSecurity.SetAuditRule(System.IO.Pipes.PipeAuditRule)">
+          <source>The <ph id="ph1">&lt;paramref name="rule" /&gt;</ph> parameter is <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="rule" /&gt;</ph> 参数为 <ph id="ph2">&lt;see langword="null" /&gt;</ph>。</target>       </trans-unit>
+      </group>
+    </body>
+  </file>
+</xliff>

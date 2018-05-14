@@ -1,1559 +1,585 @@
-<Type Name="SemaphoreSlim" FullName="System.Threading.SemaphoreSlim">
-  <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="dee33601bd502ad844bb3b40648b3e6cd325dcfb" />
-    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
-    <Meta Name="ms.translationtype" Value="HT" />
-    <Meta Name="ms.contentlocale" Value="zh-CN" />
-    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
-  </Metadata>
-  <TypeSignature Language="C#" Value="public class SemaphoreSlim : IDisposable" />
-  <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit SemaphoreSlim extends System.Object implements class System.IDisposable" />
-  <TypeSignature Language="DocId" Value="T:System.Threading.SemaphoreSlim" />
-  <TypeSignature Language="VB.NET" Value="Public Class SemaphoreSlim&#xA;Implements IDisposable" />
-  <TypeSignature Language="C++ CLI" Value="public ref class SemaphoreSlim : IDisposable" />
-  <AssemblyInfo>
-    <AssemblyName>System.Threading</AssemblyName>
-    <AssemblyVersion>4.0.0.0</AssemblyVersion>
-    <AssemblyVersion>4.0.10.0</AssemblyVersion>
-    <AssemblyVersion>4.1.0.0</AssemblyVersion>
-    <AssemblyVersion>4.1.1.0</AssemblyVersion>
-  </AssemblyInfo>
-  <AssemblyInfo>
-    <AssemblyName>mscorlib</AssemblyName>
-    <AssemblyVersion>2.0.5.0</AssemblyVersion>
-    <AssemblyVersion>4.0.0.0</AssemblyVersion>
-  </AssemblyInfo>
-  <AssemblyInfo>
-    <AssemblyName>netstandard</AssemblyName>
-    <AssemblyVersion>2.0.0.0</AssemblyVersion>
-  </AssemblyInfo>
-  <Base>
-    <BaseTypeName>System.Object</BaseTypeName>
-  </Base>
-  <Interfaces>
-    <Interface>
-      <InterfaceName>System.IDisposable</InterfaceName>
-    </Interface>
-  </Interfaces>
-  <Attributes>
-    <Attribute>
-      <AttributeName>System.Diagnostics.DebuggerDisplay("Current Count = {m_currentCount}")</AttributeName>
-    </Attribute>
-    <Attribute>
-      <AttributeName>System.Runtime.InteropServices.ComVisible(false)</AttributeName>
-    </Attribute>
-  </Attributes>
-  <Docs>
-    <summary>
-      <span data-ttu-id="3958a-101">对可同时访问资源或资源池的线程数加以限制的 <see cref="T:System.Threading.Semaphore" /> 的轻量替代。</span>
-      <span class="sxs-lookup">
-        <span data-stu-id="3958a-101">Represents a lightweight alternative to <see cref="T:System.Threading.Semaphore" /> that limits the number of threads that can access a resource or pool of resources concurrently.</span>
-      </span>
-    </summary>
-    <remarks>
-      <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="3958a-102">信号量有两种类型： 本地信号量和已命名的系统信号量。</span><span class="sxs-lookup"><span data-stu-id="3958a-102">Semaphores are of two types: local semaphores and named system semaphores.</span></span> <span data-ttu-id="3958a-103">前者是本地的应用程序。</span><span class="sxs-lookup"><span data-stu-id="3958a-103">The former is local to an app.</span></span> <span data-ttu-id="3958a-104">后者在整个操作系统可见，适用于进程间同步。</span><span class="sxs-lookup"><span data-stu-id="3958a-104">The latter is visible throughout the operating system and is suitable for inter-process synchronization.</span></span> <span data-ttu-id="3958a-105"><xref:System.Threading.SemaphoreSlim>是轻量替代<xref:System.Threading.Semaphore>不使用 Windows 内核信号量的类。</span><span class="sxs-lookup"><span data-stu-id="3958a-105">The <xref:System.Threading.SemaphoreSlim> is a lightweight alternative to the <xref:System.Threading.Semaphore> class that doesn't use Windows kernel semaphores.</span></span> <span data-ttu-id="3958a-106">与不同<xref:System.Threading.Semaphore>类，<xref:System.Threading.SemaphoreSlim>类不支持已命名的系统信号量。</span><span class="sxs-lookup"><span data-stu-id="3958a-106">Unlike the <xref:System.Threading.Semaphore> class, the <xref:System.Threading.SemaphoreSlim> class doesn't support named system semaphores.</span></span> <span data-ttu-id="3958a-107">你可以使用它作为本地信号量。</span><span class="sxs-lookup"><span data-stu-id="3958a-107">You can use it as a local semaphore only.</span></span> <span data-ttu-id="3958a-108"><xref:System.Threading.SemaphoreSlim>类是一个单应用内用于同步的建议信号量。</span><span class="sxs-lookup"><span data-stu-id="3958a-108">The <xref:System.Threading.SemaphoreSlim> class is the recommended semaphore for synchronization within a single app.</span></span>  
-  
- <span data-ttu-id="3958a-109">轻量级信号量控制访问仅针对你的应用程序的资源池。</span><span class="sxs-lookup"><span data-stu-id="3958a-109">A lightweight semaphore controls access to a pool of resources that is local to your application.</span></span> <span data-ttu-id="3958a-110">当实例化信号量时，你可以指定最大可以同时输入信号量的线程数。</span><span class="sxs-lookup"><span data-stu-id="3958a-110">When you instantiate a semaphore, you can specify the maximum number of threads that can enter the semaphore concurrently.</span></span> <span data-ttu-id="3958a-111">你还指定可以同时输入信号量的线程的初始数量。</span><span class="sxs-lookup"><span data-stu-id="3958a-111">You also specify the initial number of threads that can enter the semaphore concurrently.</span></span> <span data-ttu-id="3958a-112">这定义信号量的计数。</span><span class="sxs-lookup"><span data-stu-id="3958a-112">This defines the semaphore's count.</span></span>  
-  
- <span data-ttu-id="3958a-113">计数递减每次线程进入信号量，并且在每次递增一个线程释放信号量。</span><span class="sxs-lookup"><span data-stu-id="3958a-113">The count is decremented each time a thread enters the semaphore, and incremented each time a thread releases the semaphore.</span></span> <span data-ttu-id="3958a-114">若要输入信号量，线程调用之一<xref:System.Threading.SemaphoreSlim.Wait%2A>或<xref:System.Threading.SemaphoreSlim.WaitAsync%2A>重载。</span><span class="sxs-lookup"><span data-stu-id="3958a-114">To enter the semaphore, a thread calls one of the <xref:System.Threading.SemaphoreSlim.Wait%2A> or <xref:System.Threading.SemaphoreSlim.WaitAsync%2A> overloads.</span></span> <span data-ttu-id="3958a-115">若要释放信号量，它调用的一个<xref:System.Threading.SemaphoreSlim.Release%2A>重载。</span><span class="sxs-lookup"><span data-stu-id="3958a-115">To release the semaphore, it calls one of the <xref:System.Threading.SemaphoreSlim.Release%2A> overloads.</span></span> <span data-ttu-id="3958a-116">当计数达到零时，后续调用之一`Wait`方法阻止，直到其他线程释放信号量。</span><span class="sxs-lookup"><span data-stu-id="3958a-116">When the count reaches zero, subsequent calls to one of the `Wait` methods block until other threads release the semaphore.</span></span> <span data-ttu-id="3958a-117">如果多个线程被阻止，没有任何有保证的顺序，如先进先出或后进先出，控制当线程进入信号量。</span><span class="sxs-lookup"><span data-stu-id="3958a-117">If multiple threads are blocked, there is no guaranteed order, such as FIFO or LIFO, that controls when threads enter the semaphore.</span></span>  
-  
- <span data-ttu-id="3958a-118">使用信号量要保护的资源的代码的基本结构是：</span><span class="sxs-lookup"><span data-stu-id="3958a-118">The basic structure for code that uses a semaphore to protect resources is:</span></span>  
-  
-```  
-  
-' Enter semaphore by calling one of the Wait or WaitAsync methods.  
-SemaphoreSlim.Wait()  
-'   
-' Execute code protected by the semaphore.   
-'  
-SemaphoreSlim.Release()  
-  
-```  
-  
- <span data-ttu-id="3958a-119">如果所有线程都已都释放信号量，计数是最大值时指定创建信号量。</span><span class="sxs-lookup"><span data-stu-id="3958a-119">When all threads have released the semaphore, the count is at the maximum value specified when the semaphore was created.</span></span> <span data-ttu-id="3958a-120">信号量的计数是可从<xref:System.Threading.SemaphoreSlim.CurrentCount%2A>属性。</span><span class="sxs-lookup"><span data-stu-id="3958a-120">The semaphore's count is available from the <xref:System.Threading.SemaphoreSlim.CurrentCount%2A> property.</span></span>  
-  
-> [!IMPORTANT]
->  <span data-ttu-id="3958a-121"><xref:System.Threading.SemaphoreSlim>类并不强制在调用的线程或任务标识<xref:System.Threading.SemaphoreSlim.Wait%2A>， <xref:System.Threading.SemaphoreSlim.WaitAsync%2A>，和<xref:System.Threading.SemaphoreSlim.Release%2A>方法。</span><span class="sxs-lookup"><span data-stu-id="3958a-121">The <xref:System.Threading.SemaphoreSlim> class doesn't enforce thread or task identity on calls to the <xref:System.Threading.SemaphoreSlim.Wait%2A>, <xref:System.Threading.SemaphoreSlim.WaitAsync%2A>, and <xref:System.Threading.SemaphoreSlim.Release%2A> methods.</span></span> <span data-ttu-id="3958a-122">此外，如果<xref:System.Threading.SemaphoreSlim.%23ctor%28System.Int32%29>构造函数用于实例化<xref:System.Threading.SemaphoreSlim>对象，<xref:System.Threading.SemaphoreSlim.CurrentCount%2A>属性可以提高超出构造函数设置的值。</span><span class="sxs-lookup"><span data-stu-id="3958a-122">In addition, if the <xref:System.Threading.SemaphoreSlim.%23ctor%28System.Int32%29> constructor is used to instantiate the <xref:System.Threading.SemaphoreSlim> object, the <xref:System.Threading.SemaphoreSlim.CurrentCount%2A> property can increase beyond the value set by the constructor.</span></span> <span data-ttu-id="3958a-123">程序员有责任确保调用到<xref:System.Threading.SemaphoreSlim.Wait%2A>或<xref:System.Threading.SemaphoreSlim.WaitAsync%2A>方法相应地配合调用<xref:System.Threading.SemaphoreSlim.Release%2A>方法。</span><span class="sxs-lookup"><span data-stu-id="3958a-123">It is the programmer's responsibility to ensure that calls to <xref:System.Threading.SemaphoreSlim.Wait%2A> or <xref:System.Threading.SemaphoreSlim.WaitAsync%2A> methods are appropriately paired with calls to <xref:System.Threading.SemaphoreSlim.Release%2A> methods.</span></span>  
-  
-   
-  
-## Examples  
- <span data-ttu-id="3958a-124">下面的示例创建三个线程的最大计数和初始计数为零个线程的信号量。</span><span class="sxs-lookup"><span data-stu-id="3958a-124">The following example creates a semaphore with a maximum count of three threads and an initial count of zero threads.</span></span> <span data-ttu-id="3958a-125">该示例启动五项任务，所有这些阻止等待信号量。</span><span class="sxs-lookup"><span data-stu-id="3958a-125">The example starts five tasks, all of which block waiting for the semaphore.</span></span> <span data-ttu-id="3958a-126">在主线程调用<xref:System.Threading.SemaphoreSlim.Release%28System.Int32%29>重载来增加到其最大值，它允许进入信号量的三个任务的信号量计数。</span><span class="sxs-lookup"><span data-stu-id="3958a-126">The main thread calls the <xref:System.Threading.SemaphoreSlim.Release%28System.Int32%29> overload to increase the semaphore count to its maximum, which allows three tasks to enter the semaphore.</span></span> <span data-ttu-id="3958a-127">释放信号量时，每个时间显示前一个信号量计数。</span><span class="sxs-lookup"><span data-stu-id="3958a-127">Each time the semaphore is released, the previous semaphore count is displayed.</span></span> <span data-ttu-id="3958a-128">控制台消息跟踪信号量的使用。</span><span class="sxs-lookup"><span data-stu-id="3958a-128">Console messages track semaphore use.</span></span> <span data-ttu-id="3958a-129">模拟的工作间隔都稍有增加为每个线程，以使输出更易于阅读。</span><span class="sxs-lookup"><span data-stu-id="3958a-129">The simulated work interval is increased slightly for each thread to make the output easier to read.</span></span>  
-  
- [!code-csharp[System.Threading.SemaphoreSlim#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.threading.semaphoreslim/cs/example.cs#1)]
- [!code-vb[System.Threading.SemaphoreSlim#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.threading.semaphoreslim/vb/example.vb#1)]  
-  
- ]]></format>
-    </remarks>
-    <threadsafe>
-      <span data-ttu-id="3958a-130">所有公共和受保护成员<see cref="T:System.Threading.SemaphoreSlim" />是线程安全的可同时使用多个线程从除外<see cref="M:System.Threading.SemaphoreSlim.Dispose" />，必须使用仅当所有其他操作<see cref="T:System.Threading.SemaphoreSlim" />已完成。</span>
-      <span class="sxs-lookup">
-        <span data-stu-id="3958a-130">All public and protected members of <see cref="T:System.Threading.SemaphoreSlim" /> are thread-safe and may be used concurrently from multiple threads, with the exception of <see cref="M:System.Threading.SemaphoreSlim.Dispose" />, which must be used only when all other operations on the <see cref="T:System.Threading.SemaphoreSlim" /> have completed.</span>
-      </span>
-    </threadsafe>
-  </Docs>
-  <Members>
-    <MemberGroup MemberName=".ctor">
-      <AssemblyInfo>
-        <AssemblyName>System.Threading</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-        <AssemblyVersion>4.0.10.0</AssemblyVersion>
-        <AssemblyVersion>4.1.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Docs>
-        <summary>
-          <span data-ttu-id="3958a-131">初始化 <see cref="T:System.Threading.SemaphoreSlim" /> 类的新实例。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3958a-131">Initializes a new instance of the <see cref="T:System.Threading.SemaphoreSlim" /> class.</span>
-          </span>
-        </summary>
-      </Docs>
-    </MemberGroup>
-    <Member MemberName=".ctor">
-      <MemberSignature Language="C#" Value="public SemaphoreSlim (int initialCount);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(int32 initialCount) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Threading.SemaphoreSlim.#ctor(System.Int32)" />
-      <MemberSignature Language="VB.NET" Value="Public Sub New (initialCount As Integer)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; SemaphoreSlim(int initialCount);" />
-      <MemberType>Constructor</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Threading</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-        <AssemblyVersion>4.0.10.0</AssemblyVersion>
-        <AssemblyVersion>4.1.0.0</AssemblyVersion>
-        <AssemblyVersion>4.1.1.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>mscorlib</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>netstandard</AssemblyName>
-        <AssemblyVersion>2.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Parameters>
-        <Parameter Name="initialCount" Type="System.Int32" />
-      </Parameters>
-      <Docs>
-        <param name="initialCount">
-          <span data-ttu-id="3958a-132">可以同时授予的信号量的初始请求数。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3958a-132">The initial number of requests for the semaphore that can be granted concurrently.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="3958a-133">初始化 <see cref="T:System.Threading.SemaphoreSlim" /> 类的新实例，以指定可同时授予的请求的初始数量。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3958a-133">Initializes a new instance of the <see cref="T:System.Threading.SemaphoreSlim" /> class, specifying the initial number of requests that can be granted concurrently.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="3958a-134">`initialCount`参数定义的输入可以授予的信号量的并发请求数。</span><span class="sxs-lookup"><span data-stu-id="3958a-134">The `initialCount` parameter defines the number of concurrent requests to enter the semaphore that can be granted.</span></span> <span data-ttu-id="3958a-135">但是，它未定义的最大可以同时授予的请求数。</span><span class="sxs-lookup"><span data-stu-id="3958a-135">However, it doesn't define the maximum number of requests that can be granted concurrently.</span></span> <span data-ttu-id="3958a-136">A<xref:System.Threading.SemaphoreSlim>通过调用此构造函数实例化的对象不会引发<xref:System.Threading.SemaphoreFullException>异常如果调用<xref:System.Threading.SemaphoreSlim.Release%2A>方法的值增加<xref:System.Threading.SemaphoreSlim.CurrentCount%2A>超出属性`initialCount`。</span><span class="sxs-lookup"><span data-stu-id="3958a-136">A   <xref:System.Threading.SemaphoreSlim> object instantiated by calling this constructor doesn't throw a <xref:System.Threading.SemaphoreFullException> exception if a call to the <xref:System.Threading.SemaphoreSlim.Release%2A> method increases the value of the <xref:System.Threading.SemaphoreSlim.CurrentCount%2A> property beyond `initialCount`.</span></span> <span data-ttu-id="3958a-137">如果有多个调用将发生这种情况<xref:System.Threading.SemaphoreSlim.Release%2A>多于的方法是到<xref:System.Threading.SemaphoreSlim.Wait%2A>或<xref:System.Threading.SemaphoreSlim.WaitAsync%2A>方法。</span><span class="sxs-lookup"><span data-stu-id="3958a-137">This occurs if there are more calls to <xref:System.Threading.SemaphoreSlim.Release%2A> methods than there are to <xref:System.Threading.SemaphoreSlim.Wait%2A> or <xref:System.Threading.SemaphoreSlim.WaitAsync%2A> methods.</span></span> <span data-ttu-id="3958a-138">若要设置的最大输入可以授予的信号量的并发请求数，调用<xref:System.Threading.SemaphoreSlim.%23ctor%28System.Int32%2CSystem.Int32%29>构造函数。</span><span class="sxs-lookup"><span data-stu-id="3958a-138">To set the maximum number of concurrent requests to enter the semaphore that can be granted, call the <xref:System.Threading.SemaphoreSlim.%23ctor%28System.Int32%2CSystem.Int32%29> constructor.</span></span>  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.ArgumentOutOfRangeException">
-          <span data-ttu-id="3958a-139">
-            <paramref name="initialCount" /> 小于 0。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3958a-139">
-              <paramref name="initialCount" /> is less than 0.</span>
-          </span>
-        </exception>
-      </Docs>
-    </Member>
-    <Member MemberName=".ctor">
-      <MemberSignature Language="C#" Value="public SemaphoreSlim (int initialCount, int maxCount);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(int32 initialCount, int32 maxCount) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Threading.SemaphoreSlim.#ctor(System.Int32,System.Int32)" />
-      <MemberSignature Language="VB.NET" Value="Public Sub New (initialCount As Integer, maxCount As Integer)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; SemaphoreSlim(int initialCount, int maxCount);" />
-      <MemberType>Constructor</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Threading</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-        <AssemblyVersion>4.0.10.0</AssemblyVersion>
-        <AssemblyVersion>4.1.0.0</AssemblyVersion>
-        <AssemblyVersion>4.1.1.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>mscorlib</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>netstandard</AssemblyName>
-        <AssemblyVersion>2.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Parameters>
-        <Parameter Name="initialCount" Type="System.Int32" />
-        <Parameter Name="maxCount" Type="System.Int32" />
-      </Parameters>
-      <Docs>
-        <param name="initialCount">
-          <span data-ttu-id="3958a-140">可以同时授予的信号量的初始请求数。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3958a-140">The initial number of requests for the semaphore that can be granted concurrently.</span>
-          </span>
-        </param>
-        <param name="maxCount">
-          <span data-ttu-id="3958a-141">可以同时授予的信号量的最大请求数。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3958a-141">The maximum number of requests for the semaphore that can be granted concurrently.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="3958a-142">初始化 <see cref="T:System.Threading.SemaphoreSlim" /> 类的新实例，同时指定可同时授予的请求的初始数量和最大数量。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3958a-142">Initializes a new instance of the <see cref="T:System.Threading.SemaphoreSlim" /> class, specifying the initial and maximum number of requests that can be granted concurrently.</span>
-          </span>
-        </summary>
-        <remarks>To be added.</remarks>
-        <exception cref="T:System.ArgumentOutOfRangeException">
-          <span data-ttu-id="3958a-143">
-            <paramref name="initialCount" /> 小于 0，或 <paramref name="initialCount" /> 大于 <paramref name="maxCount" />，或 <paramref name="maxCount" /> 小于等于 0。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3958a-143">
-              <paramref name="initialCount" /> is less than 0, or <paramref name="initialCount" /> is greater than <paramref name="maxCount" />, or <paramref name="maxCount" /> is equal to or less than 0.</span>
-          </span>
-        </exception>
-      </Docs>
-    </Member>
-    <Member MemberName="AvailableWaitHandle">
-      <MemberSignature Language="C#" Value="public System.Threading.WaitHandle AvailableWaitHandle { get; }" />
-      <MemberSignature Language="ILAsm" Value=".property instance class System.Threading.WaitHandle AvailableWaitHandle" />
-      <MemberSignature Language="DocId" Value="P:System.Threading.SemaphoreSlim.AvailableWaitHandle" />
-      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property AvailableWaitHandle As WaitHandle" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::Threading::WaitHandle ^ AvailableWaitHandle { System::Threading::WaitHandle ^ get(); };" />
-      <MemberType>Property</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Threading</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-        <AssemblyVersion>4.0.10.0</AssemblyVersion>
-        <AssemblyVersion>4.1.0.0</AssemblyVersion>
-        <AssemblyVersion>4.1.1.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>mscorlib</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>netstandard</AssemblyName>
-        <AssemblyVersion>2.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Threading.WaitHandle</ReturnType>
-      </ReturnValue>
-      <Docs>
-        <summary>
-          <span data-ttu-id="3958a-144">返回一个可用于在信号量上等待的 <see cref="T:System.Threading.WaitHandle" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3958a-144">Returns a <see cref="T:System.Threading.WaitHandle" /> that can be used to wait on the semaphore.</span>
-          </span>
-        </summary>
-        <value>
-          <span data-ttu-id="3958a-145">可用于在信号量上等待的 <see cref="T:System.Threading.WaitHandle" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3958a-145">A <see cref="T:System.Threading.WaitHandle" /> that can be used to wait on the semaphore.</span>
-          </span>
-        </value>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="3958a-146">仅当必须在与其他基于内核的同步对象具有相同的等待句柄一起 SemaphoreSlim 上等待时，请使用此属性。</span><span class="sxs-lookup"><span data-stu-id="3958a-146">Use this property only when you must wait on a SemaphoreSlim together with other kernel-based synchronization objects with the same wait handle.</span></span> <span data-ttu-id="3958a-147">成功等待<xref:System.Threading.SemaphoreSlim.AvailableWaitHandle%2A>并不意味着成功等待上<xref:System.Threading.SemaphoreSlim>本身，也不会减少信号量的计数。</span><span class="sxs-lookup"><span data-stu-id="3958a-147">A successful wait on the <xref:System.Threading.SemaphoreSlim.AvailableWaitHandle%2A> does not imply a successful wait on the <xref:System.Threading.SemaphoreSlim> itself, nor does it decrement the semaphore's count.</span></span> <span data-ttu-id="3958a-148">可用的等待句柄处于有信号状态后，你应等待<xref:System.Threading.SemaphoreSlim>专门。</span><span class="sxs-lookup"><span data-stu-id="3958a-148">After the available wait handle is signaled, you should wait on the <xref:System.Threading.SemaphoreSlim> specifically.</span></span>  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.ObjectDisposedException">
-          <span data-ttu-id="3958a-149">已释放了 <see cref="T:System.Threading.SemaphoreSlim" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3958a-149">The <see cref="T:System.Threading.SemaphoreSlim" /> has been disposed.</span>
-          </span>
-        </exception>
-      </Docs>
-    </Member>
-    <Member MemberName="CurrentCount">
-      <MemberSignature Language="C#" Value="public int CurrentCount { get; }" />
-      <MemberSignature Language="ILAsm" Value=".property instance int32 CurrentCount" />
-      <MemberSignature Language="DocId" Value="P:System.Threading.SemaphoreSlim.CurrentCount" />
-      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property CurrentCount As Integer" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; property int CurrentCount { int get(); };" />
-      <MemberType>Property</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Threading</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-        <AssemblyVersion>4.0.10.0</AssemblyVersion>
-        <AssemblyVersion>4.1.0.0</AssemblyVersion>
-        <AssemblyVersion>4.1.1.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>mscorlib</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>netstandard</AssemblyName>
-        <AssemblyVersion>2.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Int32</ReturnType>
-      </ReturnValue>
-      <Docs>
-        <summary>
-          <span data-ttu-id="3958a-150">获取可以输入 <see cref="T:System.Threading.SemaphoreSlim" /> 对象的剩余线程数。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3958a-150">Gets the number of remaining threads that can enter the <see cref="T:System.Threading.SemaphoreSlim" /> object.</span>
-          </span>
-        </summary>
-        <value>
-          <span data-ttu-id="3958a-151">可以输入信号量的剩余线程数。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3958a-151">The number of remaining threads that can enter the semaphore.</span>
-          </span>
-        </value>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="3958a-152">初始值<xref:System.Threading.SemaphoreSlim.CurrentCount%2A>属性设置通过调用<xref:System.Threading.SemaphoreSlim.%23ctor%2A>类构造函数。</span><span class="sxs-lookup"><span data-stu-id="3958a-152">The initial value of the <xref:System.Threading.SemaphoreSlim.CurrentCount%2A> property is set by the call to the <xref:System.Threading.SemaphoreSlim.%23ctor%2A> class constructor.</span></span> <span data-ttu-id="3958a-153">它将减少到每个调用<xref:System.Threading.SemaphoreSlim.Wait%2A>或<xref:System.Threading.SemaphoreSlim.WaitAsync%2A>方法，并按每次调用进行递增<xref:System.Threading.SemaphoreSlim.Release%2A>方法。</span><span class="sxs-lookup"><span data-stu-id="3958a-153">It is decremented by each call to the <xref:System.Threading.SemaphoreSlim.Wait%2A> or <xref:System.Threading.SemaphoreSlim.WaitAsync%2A> method, and incremented by each call to the <xref:System.Threading.SemaphoreSlim.Release%2A> method.</span></span>  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-    <MemberGroup MemberName="Dispose">
-      <AssemblyInfo>
-        <AssemblyName>System.Threading</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-        <AssemblyVersion>4.0.10.0</AssemblyVersion>
-        <AssemblyVersion>4.1.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Docs>
-        <summary>
-          <span data-ttu-id="3958a-154">释放由 <see cref="T:System.Threading.SemaphoreSlim" /> 类的当前实例使用的资源。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3958a-154">Releases resources used by the current instance of the <see cref="T:System.Threading.SemaphoreSlim" /> class.</span>
-          </span>
-        </summary>
-      </Docs>
-    </MemberGroup>
-    <Member MemberName="Dispose">
-      <MemberSignature Language="C#" Value="public void Dispose ();" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void Dispose() cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Threading.SemaphoreSlim.Dispose" />
-      <MemberSignature Language="VB.NET" Value="Public Sub Dispose ()" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual void Dispose();" />
-      <MemberType>Method</MemberType>
-      <Implements>
-        <InterfaceMember>M:System.IDisposable.Dispose</InterfaceMember>
-      </Implements>
-      <AssemblyInfo>
-        <AssemblyName>System.Threading</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-        <AssemblyVersion>4.0.10.0</AssemblyVersion>
-        <AssemblyVersion>4.1.0.0</AssemblyVersion>
-        <AssemblyVersion>4.1.1.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>mscorlib</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>netstandard</AssemblyName>
-        <AssemblyVersion>2.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters />
-      <Docs>
-        <summary>
-          <span data-ttu-id="3958a-155">释放 <see cref="T:System.Threading.SemaphoreSlim" /> 类的当前实例所使用的所有资源。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3958a-155">Releases all resources used by the current instance of the <see cref="T:System.Threading.SemaphoreSlim" /> class.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="3958a-156">在完成使用 `Dispose` 后，应调用 <xref:System.Threading.SemaphoreSlim>。</span><span class="sxs-lookup"><span data-stu-id="3958a-156">Call `Dispose` when you are finished using the <xref:System.Threading.SemaphoreSlim>.</span></span> <span data-ttu-id="3958a-157">`Dispose` 方法使 <xref:System.Threading.SemaphoreSlim> 处于不可用状态。</span><span class="sxs-lookup"><span data-stu-id="3958a-157">The `Dispose` method leaves the <xref:System.Threading.SemaphoreSlim> in an unusable state.</span></span> <span data-ttu-id="3958a-158">在调用`Dispose`，必须释放对所有引用<xref:System.Threading.SemaphoreSlim>以便垃圾回收器才能回收的内存，<xref:System.Threading.SemaphoreSlim>占用。</span><span class="sxs-lookup"><span data-stu-id="3958a-158">After calling `Dispose`, you must release all references to the <xref:System.Threading.SemaphoreSlim> so the garbage collector can reclaim the memory that the <xref:System.Threading.SemaphoreSlim> was occupying.</span></span>  
-  
- <span data-ttu-id="3958a-159">有关详细信息，请参阅[清洗向上非托管资源](~/docs/standard/garbage-collection/unmanaged.md)和[实现 Dispose 方法](~/docs/standard/garbage-collection/implementing-dispose.md)。</span><span class="sxs-lookup"><span data-stu-id="3958a-159">For more information, see [Cleaning Up Unmanaged Resources](~/docs/standard/garbage-collection/unmanaged.md) and [Implementing a Dispose Method](~/docs/standard/garbage-collection/implementing-dispose.md).</span></span>  
-  
-> [!NOTE]
->  <span data-ttu-id="3958a-160">每次释放对 `Dispose` 的最后一个引用前，均应调用 <xref:System.Threading.SemaphoreSlim>。</span><span class="sxs-lookup"><span data-stu-id="3958a-160">Always call `Dispose` before you release your last reference to the <xref:System.Threading.SemaphoreSlim>.</span></span> <span data-ttu-id="3958a-161">否则，在垃圾回收器调用 <xref:System.Threading.SemaphoreSlim> 对象的 `Finalize` 方法之前，该对象正在使用的资源不会被释放。</span><span class="sxs-lookup"><span data-stu-id="3958a-161">Otherwise, the resources it is using will not be freed until the garbage collector calls the <xref:System.Threading.SemaphoreSlim> object's `Finalize` method.</span></span>  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="Dispose">
-      <MemberSignature Language="C#" Value="protected virtual void Dispose (bool disposing);" />
-      <MemberSignature Language="ILAsm" Value=".method familyhidebysig newslot virtual instance void Dispose(bool disposing) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Threading.SemaphoreSlim.Dispose(System.Boolean)" />
-      <MemberSignature Language="VB.NET" Value="Protected Overridable Sub Dispose (disposing As Boolean)" />
-      <MemberSignature Language="C++ CLI" Value="protected:&#xA; virtual void Dispose(bool disposing);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Threading</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-        <AssemblyVersion>4.0.10.0</AssemblyVersion>
-        <AssemblyVersion>4.1.0.0</AssemblyVersion>
-        <AssemblyVersion>4.1.1.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>mscorlib</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>netstandard</AssemblyName>
-        <AssemblyVersion>2.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="disposing" Type="System.Boolean" />
-      </Parameters>
-      <Docs>
-        <param name="disposing">
-          <span data-ttu-id="3958a-162">若要释放托管资源和非托管资源，则为 <see langword="true" />；若仅释放非托管资源，则为 <see langword="false" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3958a-162">
-              <see langword="true" /> to release both managed and unmanaged resources; <see langword="false" /> to release only unmanaged resources.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="3958a-163">释放由 <see cref="T:System.Threading.SemaphoreSlim" /> 占用的非托管资源，还可以另外再释放托管资源。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3958a-163">Releases the unmanaged resources used by the <see cref="T:System.Threading.SemaphoreSlim" />, and optionally releases the managed resources.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="3958a-164">与大多数的成员不同<xref:System.Threading.SemaphoreSlim>，<xref:System.Threading.SemaphoreSlim.Dispose%2A>不是线程安全的不能与此实例的其他成员同时使用。</span><span class="sxs-lookup"><span data-stu-id="3958a-164">Unlike most of the members of <xref:System.Threading.SemaphoreSlim>, <xref:System.Threading.SemaphoreSlim.Dispose%2A> is not thread-safe and may not be used concurrently with other members of this instance.</span></span>  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-    <MemberGroup MemberName="Release">
-      <AssemblyInfo>
-        <AssemblyName>System.Threading</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-        <AssemblyVersion>4.0.10.0</AssemblyVersion>
-        <AssemblyVersion>4.1.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Docs>
-        <summary>
-          <span data-ttu-id="3958a-165">释放 <see cref="T:System.Threading.SemaphoreSlim" /> 对象。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3958a-165">Releases the <see cref="T:System.Threading.SemaphoreSlim" /> object.</span>
-          </span>
-        </summary>
-      </Docs>
-    </MemberGroup>
-    <Member MemberName="Release">
-      <MemberSignature Language="C#" Value="public int Release ();" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance int32 Release() cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Threading.SemaphoreSlim.Release" />
-      <MemberSignature Language="VB.NET" Value="Public Function Release () As Integer" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; int Release();" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Threading</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-        <AssemblyVersion>4.0.10.0</AssemblyVersion>
-        <AssemblyVersion>4.1.0.0</AssemblyVersion>
-        <AssemblyVersion>4.1.1.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>mscorlib</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>netstandard</AssemblyName>
-        <AssemblyVersion>2.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Int32</ReturnType>
-      </ReturnValue>
-      <Parameters />
-      <Docs>
-        <summary>
-          <span data-ttu-id="3958a-166">释放 <see cref="T:System.Threading.SemaphoreSlim" /> 对象一次。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3958a-166">Releases the <see cref="T:System.Threading.SemaphoreSlim" /> object once.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="3958a-167">
-            <see cref="T:System.Threading.SemaphoreSlim" /> 的前一个计数。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3958a-167">The previous count of the <see cref="T:System.Threading.SemaphoreSlim" />.</span>
-          </span>
-        </returns>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="3958a-168">调用<xref:System.Threading.SemaphoreSlim.Release>方法递增<xref:System.Threading.SemaphoreSlim.CurrentCount%2A>通过一个属性。</span><span class="sxs-lookup"><span data-stu-id="3958a-168">A call to the <xref:System.Threading.SemaphoreSlim.Release> method increments the <xref:System.Threading.SemaphoreSlim.CurrentCount%2A> property by one.</span></span> <span data-ttu-id="3958a-169">如果值<xref:System.Threading.SemaphoreSlim.CurrentCount%2A>属性为零之前调用此方法，该方法还允许一个线程或任务通过调用阻止<xref:System.Threading.SemaphoreSlim.Wait%2A>或<xref:System.Threading.SemaphoreSlim.WaitAsync%2A>方法进入信号量。</span><span class="sxs-lookup"><span data-stu-id="3958a-169">If the value of the <xref:System.Threading.SemaphoreSlim.CurrentCount%2A> property is zero before this method is called, the method also allows one thread or task blocked by a call to the <xref:System.Threading.SemaphoreSlim.Wait%2A> or <xref:System.Threading.SemaphoreSlim.WaitAsync%2A> method to enter the semaphore.</span></span>  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.ObjectDisposedException">
-          <span data-ttu-id="3958a-170">已释放当前实例。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3958a-170">The current instance has already been disposed.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.Threading.SemaphoreFullException">
-          <span data-ttu-id="3958a-171">
-            <see cref="T:System.Threading.SemaphoreSlim" /> 已达到其最大大小。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3958a-171">The <see cref="T:System.Threading.SemaphoreSlim" /> has already reached its maximum size.</span>
-          </span>
-        </exception>
-      </Docs>
-    </Member>
-    <Member MemberName="Release">
-      <MemberSignature Language="C#" Value="public int Release (int releaseCount);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance int32 Release(int32 releaseCount) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Threading.SemaphoreSlim.Release(System.Int32)" />
-      <MemberSignature Language="VB.NET" Value="Public Function Release (releaseCount As Integer) As Integer" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; int Release(int releaseCount);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Threading</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-        <AssemblyVersion>4.0.10.0</AssemblyVersion>
-        <AssemblyVersion>4.1.0.0</AssemblyVersion>
-        <AssemblyVersion>4.1.1.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>mscorlib</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>netstandard</AssemblyName>
-        <AssemblyVersion>2.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Int32</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="releaseCount" Type="System.Int32" />
-      </Parameters>
-      <Docs>
-        <param name="releaseCount">
-          <span data-ttu-id="3958a-172">退出信号量的次数。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3958a-172">The number of times to exit the semaphore.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="3958a-173">释放 <see cref="T:System.Threading.SemaphoreSlim" /> 对象指定的次数。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3958a-173">Releases the <see cref="T:System.Threading.SemaphoreSlim" /> object a specified number of times.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="3958a-174">
-            <see cref="T:System.Threading.SemaphoreSlim" /> 的前一个计数。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3958a-174">The previous count of the <see cref="T:System.Threading.SemaphoreSlim" />.</span>
-          </span>
-        </returns>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="3958a-175">调用<xref:System.Threading.SemaphoreSlim.Release%28System.Int32%29>方法递增<xref:System.Threading.SemaphoreSlim.CurrentCount%2A>属性`releaseCount`。</span><span class="sxs-lookup"><span data-stu-id="3958a-175">A call to the <xref:System.Threading.SemaphoreSlim.Release%28System.Int32%29> method increments the <xref:System.Threading.SemaphoreSlim.CurrentCount%2A> property by `releaseCount`.</span></span> <span data-ttu-id="3958a-176">如果值<xref:System.Threading.SemaphoreSlim.CurrentCount%2A>属性为零，调用此方法之前，该方法还允许`releaseCount`线程或任务通过调用阻止<xref:System.Threading.SemaphoreSlim.Wait%2A>或<xref:System.Threading.SemaphoreSlim.WaitAsync%2A>方法进入信号量。</span><span class="sxs-lookup"><span data-stu-id="3958a-176">If the value of the <xref:System.Threading.SemaphoreSlim.CurrentCount%2A> property is zero before this method is called, the method also allows `releaseCount` threads or tasks blocked by a call to the <xref:System.Threading.SemaphoreSlim.Wait%2A> or <xref:System.Threading.SemaphoreSlim.WaitAsync%2A> method to enter the semaphore.</span></span>  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.ObjectDisposedException">
-          <span data-ttu-id="3958a-177">已释放当前实例。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3958a-177">The current instance has already been disposed.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.ArgumentOutOfRangeException">
-          <span data-ttu-id="3958a-178">
-            <paramref name="releaseCount" /> 小于 1。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3958a-178">
-              <paramref name="releaseCount" /> is less than 1.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.Threading.SemaphoreFullException">
-          <span data-ttu-id="3958a-179">
-            <see cref="T:System.Threading.SemaphoreSlim" /> 已达到其最大大小。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3958a-179">The <see cref="T:System.Threading.SemaphoreSlim" /> has already reached its maximum size.</span>
-          </span>
-        </exception>
-      </Docs>
-    </Member>
-    <MemberGroup MemberName="Wait">
-      <AssemblyInfo>
-        <AssemblyName>System.Threading</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-        <AssemblyVersion>4.0.10.0</AssemblyVersion>
-        <AssemblyVersion>4.1.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Docs>
-        <summary>
-          <span data-ttu-id="3958a-180">阻止当前线程，直至它可进入 <see cref="T:System.Threading.SemaphoreSlim" /> 为止。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3958a-180">Blocks the current thread until it can enter the <see cref="T:System.Threading.SemaphoreSlim" />.</span>
-          </span>
-        </summary>
-      </Docs>
-    </MemberGroup>
-    <Member MemberName="Wait">
-      <MemberSignature Language="C#" Value="public void Wait ();" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void Wait() cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Threading.SemaphoreSlim.Wait" />
-      <MemberSignature Language="VB.NET" Value="Public Sub Wait ()" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; void Wait();" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Threading</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-        <AssemblyVersion>4.0.10.0</AssemblyVersion>
-        <AssemblyVersion>4.1.0.0</AssemblyVersion>
-        <AssemblyVersion>4.1.1.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>mscorlib</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>netstandard</AssemblyName>
-        <AssemblyVersion>2.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters />
-      <Docs>
-        <summary>
-          <span data-ttu-id="3958a-181">阻止当前线程，直至它可进入 <see cref="T:System.Threading.SemaphoreSlim" /> 为止。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3958a-181">Blocks the current thread until it can enter the <see cref="T:System.Threading.SemaphoreSlim" />.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="3958a-182">如果线程或任务能够进入信号量，它递减<xref:System.Threading.SemaphoreSlim.CurrentCount%2A>通过一个属性。</span><span class="sxs-lookup"><span data-stu-id="3958a-182">If a thread or task is able to enter the semaphore, it decrements the <xref:System.Threading.SemaphoreSlim.CurrentCount%2A> property by one.</span></span>  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.ObjectDisposedException">
-          <span data-ttu-id="3958a-183">已释放当前实例。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3958a-183">The current instance has already been disposed.</span>
-          </span>
-        </exception>
-      </Docs>
-    </Member>
-    <Member MemberName="Wait">
-      <MemberSignature Language="C#" Value="public bool Wait (int millisecondsTimeout);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance bool Wait(int32 millisecondsTimeout) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Threading.SemaphoreSlim.Wait(System.Int32)" />
-      <MemberSignature Language="VB.NET" Value="Public Function Wait (millisecondsTimeout As Integer) As Boolean" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; bool Wait(int millisecondsTimeout);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Threading</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-        <AssemblyVersion>4.0.10.0</AssemblyVersion>
-        <AssemblyVersion>4.1.0.0</AssemblyVersion>
-        <AssemblyVersion>4.1.1.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>mscorlib</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>netstandard</AssemblyName>
-        <AssemblyVersion>2.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Boolean</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="millisecondsTimeout" Type="System.Int32" />
-      </Parameters>
-      <Docs>
-        <param name="millisecondsTimeout">
-          <span data-ttu-id="3958a-184">要等待的毫秒数，<see cref="F:System.Threading.Timeout.Infinite" />(-1) 表示无限等待，零表示测试等待句柄的状态并立即返回。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3958a-184">The number of milliseconds to wait, <see cref="F:System.Threading.Timeout.Infinite" />(-1) to wait indefinitely, or zero to test the state of the wait handle and return immediately.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="3958a-185">阻止当前线程，直至它可进入 <see cref="T:System.Threading.SemaphoreSlim" /> 为止，同时使用 32 位带符号整数来指定超时。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3958a-185">Blocks the current thread until it can enter the <see cref="T:System.Threading.SemaphoreSlim" />, using a 32-bit signed integer that specifies the timeout.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="3958a-186">如果当前线程成功进入 <see cref="T:System.Threading.SemaphoreSlim" />，则为 <see langword="true" />；否则为 <see langword="false" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3958a-186">
-              <see langword="true" /> if the current thread successfully entered the <see cref="T:System.Threading.SemaphoreSlim" />; otherwise, <see langword="false" />.</span>
-          </span>
-        </returns>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks 
-<span data-ttu-id="3958a-187">如果超时设置为-1 毫秒，该方法将无限期等待。</span><span class="sxs-lookup"><span data-stu-id="3958a-187">If the timeout is set to -1 milliseconds, the method waits indefinitely.</span></span>
- 
-<span data-ttu-id="3958a-188">如果超时设置为零毫秒，则不会阻止该方法。</span><span class="sxs-lookup"><span data-stu-id="3958a-188">If the timeout is set to zero milliseconds, the method doesn't block.</span></span> <span data-ttu-id="3958a-189">它测试等待句柄的状态并立即返回。</span><span class="sxs-lookup"><span data-stu-id="3958a-189">It tests the state of the wait handle and returns immediately.</span></span>
-
-<span data-ttu-id="3958a-190">如果线程或任务能够进入信号量，它递减<xref:System.Threading.SemaphoreSlim.CurrentCount%2A>通过一个属性。</span><span class="sxs-lookup"><span data-stu-id="3958a-190">If a thread or task is able to enter the semaphore, it decrements the <xref:System.Threading.SemaphoreSlim.CurrentCount%2A> property by one.</span></span>  
-  
-<span data-ttu-id="3958a-191">如果线程或任务时，阻止调用<xref:System.Threading.SemaphoreSlim.Wait%28System.Int32%29>和指定的超时间隔`millisecondsTimeout`过期：</span><span class="sxs-lookup"><span data-stu-id="3958a-191">If a thread or task is blocked when calling <xref:System.Threading.SemaphoreSlim.Wait%28System.Int32%29> and the timeout interval specified by `millisecondsTimeout` expires:</span></span>
-
-- <span data-ttu-id="3958a-192">线程或任务不会进入信号量。</span><span class="sxs-lookup"><span data-stu-id="3958a-192">The thread or task doesn't enter the semaphore.</span></span>
-- <span data-ttu-id="3958a-193"><xref:System.Threading.SemaphoreSlim.CurrentCount%2A>属性无法递减。</span><span class="sxs-lookup"><span data-stu-id="3958a-193">The <xref:System.Threading.SemaphoreSlim.CurrentCount%2A> property isn't decremented.</span></span>  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.ArgumentOutOfRangeException">
-          <span data-ttu-id="3958a-194">
-            <paramref name="millisecondsTimeout" /> 是 -1 之外的负数，表示无限超时或者超时大于 <see cref="F:System.Int32.MaxValue" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3958a-194">
-              <paramref name="millisecondsTimeout" /> is a negative number other than -1, which represents an infinite timeout -or- timeout is greater than <see cref="F:System.Int32.MaxValue" />.</span>
-          </span>
-        </exception>
-      </Docs>
-    </Member>
-    <Member MemberName="Wait">
-      <MemberSignature Language="C#" Value="public void Wait (System.Threading.CancellationToken cancellationToken);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void Wait(valuetype System.Threading.CancellationToken cancellationToken) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Threading.SemaphoreSlim.Wait(System.Threading.CancellationToken)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; void Wait(System::Threading::CancellationToken cancellationToken);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Threading</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-        <AssemblyVersion>4.0.10.0</AssemblyVersion>
-        <AssemblyVersion>4.1.0.0</AssemblyVersion>
-        <AssemblyVersion>4.1.1.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>mscorlib</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>netstandard</AssemblyName>
-        <AssemblyVersion>2.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="cancellationToken" Type="System.Threading.CancellationToken" />
-      </Parameters>
-      <Docs>
-        <param name="cancellationToken">
-          <span data-ttu-id="3958a-195">要观察的 <see cref="T:System.Threading.CancellationToken" /> 标记。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3958a-195">The <see cref="T:System.Threading.CancellationToken" /> token to observe.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="3958a-196">阻止当前线程，直至它可进入 <see cref="T:System.Threading.SemaphoreSlim" /> 为止，同时观察 <see cref="T:System.Threading.CancellationToken" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3958a-196">Blocks the current thread until it can enter the <see cref="T:System.Threading.SemaphoreSlim" />, while observing a <see cref="T:System.Threading.CancellationToken" />.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="3958a-197">如果线程或任务能够进入信号量，它递减<xref:System.Threading.SemaphoreSlim.CurrentCount%2A>通过一个属性。</span><span class="sxs-lookup"><span data-stu-id="3958a-197">If a thread or task is able to enter the semaphore, it decrements the <xref:System.Threading.SemaphoreSlim.CurrentCount%2A> property by one.</span></span>  
-  
- <span data-ttu-id="3958a-198">如果`cancellationToken`是取消时，线程或任务不会进入信号量，与<xref:System.Threading.SemaphoreSlim.CurrentCount%2A>属性无法递减。</span><span class="sxs-lookup"><span data-stu-id="3958a-198">If `cancellationToken` is cancelled, the thread or task doesn't enter the semaphore, and the <xref:System.Threading.SemaphoreSlim.CurrentCount%2A> property isn't decremented.</span></span> <span data-ttu-id="3958a-199">相反，该方法将引发<xref:System.OperationCanceledException>异常。</span><span class="sxs-lookup"><span data-stu-id="3958a-199">Instead, the method throws an <xref:System.OperationCanceledException> exception.</span></span>  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.OperationCanceledException">
-          <span data-ttu-id="3958a-200">
-            <paramref name="cancellationToken" /> 已取消。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3958a-200">
-              <paramref name="cancellationToken" /> was canceled.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.ObjectDisposedException">
-          <span data-ttu-id="3958a-201">已释放当前实例。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3958a-201">The current instance has already been disposed.</span>
-          </span>
-          <span data-ttu-id="3958a-202">或</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3958a-202">-or-</span>
-          </span>
-          <span data-ttu-id="3958a-203">创建了 <paramref name="cancellationToken" /> 的 <see cref="T:System.Threading.CancellationTokenSource" /> 已经被释放。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3958a-203">The <see cref="T:System.Threading.CancellationTokenSource" /> that created <paramref name="cancellationToken" /> has already been disposed.</span>
-          </span>
-        </exception>
-      </Docs>
-    </Member>
-    <Member MemberName="Wait">
-      <MemberSignature Language="C#" Value="public bool Wait (TimeSpan timeout);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance bool Wait(valuetype System.TimeSpan timeout) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Threading.SemaphoreSlim.Wait(System.TimeSpan)" />
-      <MemberSignature Language="VB.NET" Value="Public Function Wait (timeout As TimeSpan) As Boolean" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; bool Wait(TimeSpan timeout);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Threading</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-        <AssemblyVersion>4.0.10.0</AssemblyVersion>
-        <AssemblyVersion>4.1.0.0</AssemblyVersion>
-        <AssemblyVersion>4.1.1.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>mscorlib</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>netstandard</AssemblyName>
-        <AssemblyVersion>2.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Boolean</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="timeout" Type="System.TimeSpan" />
-      </Parameters>
-      <Docs>
-        <param name="timeout">
-          <span data-ttu-id="3958a-204">
-            <see cref="T:System.TimeSpan" /> 表示要等待的毫秒数，<see cref="T:System.TimeSpan" /> 表示要无无限等待的 -1 毫秒，<see cref="T:System.TimeSpan" /> 表示要测试句柄并立即返回的 0 毫秒。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3958a-204">A <see cref="T:System.TimeSpan" /> that represents the number of milliseconds to wait, a <see cref="T:System.TimeSpan" /> that represents -1 milliseconds to wait indefinitely, or a <see cref="T:System.TimeSpan" /> that represents 0 milliseconds to test the wait handle and return immediately.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="3958a-205">阻止当前线程，直至它可进入 <see cref="T:System.Threading.SemaphoreSlim" /> 为止，同时使用 <see cref="T:System.TimeSpan" /> 来指定超时。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3958a-205">Blocks the current thread until it can enter the <see cref="T:System.Threading.SemaphoreSlim" />, using a <see cref="T:System.TimeSpan" /> to specify the timeout.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="3958a-206">如果当前线程成功进入 <see cref="T:System.Threading.SemaphoreSlim" />，则为 <see langword="true" />；否则为 <see langword="false" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3958a-206">
-              <see langword="true" /> if the current thread successfully entered the <see cref="T:System.Threading.SemaphoreSlim" />; otherwise, <see langword="false" />.</span>
-          </span>
-        </returns>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
-<span data-ttu-id="3958a-207">如果超时设置为-1 毫秒，该方法将无限期等待。</span><span class="sxs-lookup"><span data-stu-id="3958a-207">If the timeout is set to -1 milliseconds, the method waits indefinitely.</span></span>
- 
-<span data-ttu-id="3958a-208">如果超时设置为零毫秒，则不会阻止该方法。</span><span class="sxs-lookup"><span data-stu-id="3958a-208">If the timeout is set to zero milliseconds, the method doesn't block.</span></span> <span data-ttu-id="3958a-209">它测试等待句柄的状态并立即返回。</span><span class="sxs-lookup"><span data-stu-id="3958a-209">It tests the state of the wait handle and returns immediately.</span></span> 
- 
-<span data-ttu-id="3958a-210">如果线程或任务能够进入信号量，它递减<xref:System.Threading.SemaphoreSlim.CurrentCount%2A>通过一个属性。</span><span class="sxs-lookup"><span data-stu-id="3958a-210">If a thread or task is able to enter the semaphore, it decrements the <xref:System.Threading.SemaphoreSlim.CurrentCount%2A> property by one.</span></span>  
-  
-<span data-ttu-id="3958a-211">如果线程或任务时，阻止调用<xref:System.Threading.SemaphoreSlim.Wait%28System.TimeSpan%29>和指定的超时间隔`millisecondsTimeout`过期：</span><span class="sxs-lookup"><span data-stu-id="3958a-211">If a thread or task is blocked when calling <xref:System.Threading.SemaphoreSlim.Wait%28System.TimeSpan%29> and the timeout interval specified by `millisecondsTimeout` expires:</span></span>
-
-- <span data-ttu-id="3958a-212">线程或任务不会进入信号量。</span><span class="sxs-lookup"><span data-stu-id="3958a-212">The thread or task doesn't enter the semaphore.</span></span>
-- <span data-ttu-id="3958a-213"><xref:System.Threading.SemaphoreSlim.CurrentCount%2A>属性无法递减。</span><span class="sxs-lookup"><span data-stu-id="3958a-213">The <xref:System.Threading.SemaphoreSlim.CurrentCount%2A> property isn't decremented.</span></span>   
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.ArgumentOutOfRangeException">
-          <span data-ttu-id="3958a-214">
-            <paramref name="timeout" /> 是 -1 之外的负数，表示无限超时或者超时大于 <see cref="F:System.Int32.MaxValue" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3958a-214">
-              <paramref name="timeout" /> is a negative number other than -1, which represents an infinite timeout -or- timeout is greater than <see cref="F:System.Int32.MaxValue" />.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.ObjectDisposedException">
-          <span data-ttu-id="3958a-215">semaphoreSlim 实例已释放 <paramref name="." /></span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3958a-215">The semaphoreSlim instance has been disposed <paramref name="." /></span>
-          </span>
-        </exception>
-      </Docs>
-    </Member>
-    <Member MemberName="Wait">
-      <MemberSignature Language="C#" Value="public bool Wait (int millisecondsTimeout, System.Threading.CancellationToken cancellationToken);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance bool Wait(int32 millisecondsTimeout, valuetype System.Threading.CancellationToken cancellationToken) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Threading.SemaphoreSlim.Wait(System.Int32,System.Threading.CancellationToken)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; bool Wait(int millisecondsTimeout, System::Threading::CancellationToken cancellationToken);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Threading</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-        <AssemblyVersion>4.0.10.0</AssemblyVersion>
-        <AssemblyVersion>4.1.0.0</AssemblyVersion>
-        <AssemblyVersion>4.1.1.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>mscorlib</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>netstandard</AssemblyName>
-        <AssemblyVersion>2.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Boolean</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="millisecondsTimeout" Type="System.Int32" />
-        <Parameter Name="cancellationToken" Type="System.Threading.CancellationToken" />
-      </Parameters>
-      <Docs>
-        <param name="millisecondsTimeout">
-          <span data-ttu-id="3958a-216">要等待的毫秒数，<see cref="F:System.Threading.Timeout.Infinite" />(-1) 表示无限等待，零表示测试等待句柄的状态并立即返回。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3958a-216">The number of milliseconds to wait, <see cref="F:System.Threading.Timeout.Infinite" />(-1) to wait indefinitely, or zero to test the state of the wait handle and return immediately.</span>
-          </span>
-        </param>
-        <param name="cancellationToken">
-          <span data-ttu-id="3958a-217">要观察的 <see cref="T:System.Threading.CancellationToken" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3958a-217">The <see cref="T:System.Threading.CancellationToken" /> to observe.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="3958a-218">阻止当前线程，直至它可进入 <see cref="T:System.Threading.SemaphoreSlim" /> 为止，并使用 32 位带符号整数来指定超时，同时观察 <see cref="T:System.Threading.CancellationToken" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3958a-218">Blocks the current thread until it can enter the <see cref="T:System.Threading.SemaphoreSlim" />, using a 32-bit signed integer that specifies the timeout, while observing a <see cref="T:System.Threading.CancellationToken" />.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="3958a-219">如果当前线程成功进入 <see cref="T:System.Threading.SemaphoreSlim" />，则为 <see langword="true" />；否则为 <see langword="false" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3958a-219">
-              <see langword="true" /> if the current thread successfully entered the <see cref="T:System.Threading.SemaphoreSlim" />; otherwise, <see langword="false" />.</span>
-          </span>
-        </returns>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
-<span data-ttu-id="3958a-220">如果超时设置为-1 毫秒，该方法将无限期等待。</span><span class="sxs-lookup"><span data-stu-id="3958a-220">If the timeout is set to -1 milliseconds, the method waits indefinitely.</span></span>
- 
-<span data-ttu-id="3958a-221">如果超时设置为零毫秒，则不会阻止该方法。</span><span class="sxs-lookup"><span data-stu-id="3958a-221">If the timeout is set to zero milliseconds, the method doesn't block.</span></span> <span data-ttu-id="3958a-222">它测试等待句柄的状态并立即返回。</span><span class="sxs-lookup"><span data-stu-id="3958a-222">It tests the state of the wait handle and returns immediately.</span></span>
-
-<span data-ttu-id="3958a-223">如果线程或任务能够进入信号量，它递减<xref:System.Threading.SemaphoreSlim.CurrentCount%2A>通过一个属性。</span><span class="sxs-lookup"><span data-stu-id="3958a-223">If a thread or task is able to enter the semaphore, it decrements the <xref:System.Threading.SemaphoreSlim.CurrentCount%2A> property by one.</span></span>  
-  
-<span data-ttu-id="3958a-224">如果`cancellationToken`被取消时，或者如果线程或任务时，阻止调用<xref:System.Threading.SemaphoreSlim.Wait%28System.Int32%2CSystem.Threading.CancellationToken%29>和指定的超时间隔`millisecondsTimeout`过期：</span><span class="sxs-lookup"><span data-stu-id="3958a-224">If `cancellationToken` is cancelled, or if a thread or task is blocked when calling <xref:System.Threading.SemaphoreSlim.Wait%28System.Int32%2CSystem.Threading.CancellationToken%29> and the timeout interval specified by `millisecondsTimeout` expires:</span></span>
-
-- <span data-ttu-id="3958a-225">线程或任务不会进入信号量。</span><span class="sxs-lookup"><span data-stu-id="3958a-225">The thread or task doesn't enter the semaphore.</span></span>
-- <span data-ttu-id="3958a-226"><xref:System.Threading.SemaphoreSlim.CurrentCount%2A>属性无法递减。</span><span class="sxs-lookup"><span data-stu-id="3958a-226">The <xref:System.Threading.SemaphoreSlim.CurrentCount%2A> property isn't decremented.</span></span>  
- 
-<span data-ttu-id="3958a-227">如果`cancellationToken`是取消时，该方法将引发<xref:System.OperationCanceledException>异常。</span><span class="sxs-lookup"><span data-stu-id="3958a-227">If `cancellationToken` is cancelled, the method throws an   <xref:System.OperationCanceledException> exception.</span></span>  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.OperationCanceledException">
-          <span data-ttu-id="3958a-228">
-            <paramref name="cancellationToken" /> 已取消。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3958a-228">
-              <paramref name="cancellationToken" /> was canceled.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.ArgumentOutOfRangeException">
-          <span data-ttu-id="3958a-229">
-            <paramref name="millisecondsTimeout" /> 是 -1 之外的负数，表示无限超时或者超时大于 <see cref="F:System.Int32.MaxValue" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3958a-229">
-              <paramref name="millisecondsTimeout" /> is a negative number other than -1, which represents an infinite timeout -or- timeout is greater than <see cref="F:System.Int32.MaxValue" />.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.ObjectDisposedException">
-          <span data-ttu-id="3958a-230">已释放 <see cref="T:System.Threading.SemaphoreSlim" /> 实例，或已释放创建 <paramref name="cancellationToken" /> 的 <see cref="T:System.Threading.CancellationTokenSource" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3958a-230">The <see cref="T:System.Threading.SemaphoreSlim" /> instance has been disposed, or the <see cref="T:System.Threading.CancellationTokenSource" /> that created <paramref name="cancellationToken" /> has been disposed.</span>
-          </span>
-        </exception>
-      </Docs>
-    </Member>
-    <Member MemberName="Wait">
-      <MemberSignature Language="C#" Value="public bool Wait (TimeSpan timeout, System.Threading.CancellationToken cancellationToken);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance bool Wait(valuetype System.TimeSpan timeout, valuetype System.Threading.CancellationToken cancellationToken) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Threading.SemaphoreSlim.Wait(System.TimeSpan,System.Threading.CancellationToken)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; bool Wait(TimeSpan timeout, System::Threading::CancellationToken cancellationToken);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Threading</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-        <AssemblyVersion>4.0.10.0</AssemblyVersion>
-        <AssemblyVersion>4.1.0.0</AssemblyVersion>
-        <AssemblyVersion>4.1.1.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>mscorlib</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>netstandard</AssemblyName>
-        <AssemblyVersion>2.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Boolean</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="timeout" Type="System.TimeSpan" />
-        <Parameter Name="cancellationToken" Type="System.Threading.CancellationToken" />
-      </Parameters>
-      <Docs>
-        <param name="timeout">
-          <span data-ttu-id="3958a-231">
-            <see cref="T:System.TimeSpan" /> 表示要等待的毫秒数，<see cref="T:System.TimeSpan" /> 表示要无无限等待的 -1 毫秒，<see cref="T:System.TimeSpan" /> 表示要测试句柄并立即返回的 0 毫秒。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3958a-231">A <see cref="T:System.TimeSpan" /> that represents the number of milliseconds to wait, a <see cref="T:System.TimeSpan" /> that represents -1 milliseconds to wait indefinitely, or a <see cref="T:System.TimeSpan" /> that represents 0 milliseconds to test the wait handle and return immediately.</span>
-          </span>
-        </param>
-        <param name="cancellationToken">
-          <span data-ttu-id="3958a-232">要观察的 <see cref="T:System.Threading.CancellationToken" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3958a-232">The <see cref="T:System.Threading.CancellationToken" /> to observe.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="3958a-233">阻止当前线程，直至它可进入 <see cref="T:System.Threading.SemaphoreSlim" /> 为止，并使用 <see cref="T:System.TimeSpan" /> 来指定超时，同时观察 <see cref="T:System.Threading.CancellationToken" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3958a-233">Blocks the current thread until it can enter the <see cref="T:System.Threading.SemaphoreSlim" />, using a <see cref="T:System.TimeSpan" /> that specifies the timeout, while observing a <see cref="T:System.Threading.CancellationToken" />.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="3958a-234">如果当前线程成功进入 <see cref="T:System.Threading.SemaphoreSlim" />，则为 <see langword="true" />；否则为 <see langword="false" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3958a-234">
-              <see langword="true" /> if the current thread successfully entered the <see cref="T:System.Threading.SemaphoreSlim" />; otherwise, <see langword="false" />.</span>
-          </span>
-        </returns>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
-<span data-ttu-id="3958a-235">如果超时设置为-1 毫秒，该方法将无限期等待。</span><span class="sxs-lookup"><span data-stu-id="3958a-235">If the timeout is set to -1 milliseconds, the method waits indefinitely.</span></span>
- 
-<span data-ttu-id="3958a-236">如果超时设置为零毫秒，则不会阻止该方法。</span><span class="sxs-lookup"><span data-stu-id="3958a-236">If the timeout is set to zero milliseconds, the method doesn't block.</span></span> <span data-ttu-id="3958a-237">它测试等待句柄的状态并立即返回。</span><span class="sxs-lookup"><span data-stu-id="3958a-237">It tests the state of the wait handle and returns immediately.</span></span> 
-
-<span data-ttu-id="3958a-238">如果线程或任务能够进入信号量，它递减<xref:System.Threading.SemaphoreSlim.CurrentCount%2A>通过一个属性。</span><span class="sxs-lookup"><span data-stu-id="3958a-238">If a thread or task is able to enter the semaphore, it decrements the <xref:System.Threading.SemaphoreSlim.CurrentCount%2A> property by one.</span></span>  
-  
-<span data-ttu-id="3958a-239">如果`cancellationToken`被取消时，或者如果线程或任务时，阻止调用<xref:System.Threading.SemaphoreSlim.Wait%28System.TimeSpan%2CSystem.Threading.CancellationToken%29>和指定的超时间隔`millisecondsTimeout`过期：</span><span class="sxs-lookup"><span data-stu-id="3958a-239">If `cancellationToken` is cancelled, or if a thread or task is blocked when calling <xref:System.Threading.SemaphoreSlim.Wait%28System.TimeSpan%2CSystem.Threading.CancellationToken%29> and the timeout interval specified by `millisecondsTimeout` expires:</span></span>
-
-- <span data-ttu-id="3958a-240">线程或任务不会进入信号量。</span><span class="sxs-lookup"><span data-stu-id="3958a-240">The thread or task doesn't enter the semaphore.</span></span>
-- <span data-ttu-id="3958a-241"><xref:System.Threading.SemaphoreSlim.CurrentCount%2A>属性无法递减。</span><span class="sxs-lookup"><span data-stu-id="3958a-241">The <xref:System.Threading.SemaphoreSlim.CurrentCount%2A> property isn't decremented.</span></span>  
-
-<span data-ttu-id="3958a-242">如果`cancellationToken`是取消时，该方法将引发<xref:System.OperationCanceledException>异常。</span><span class="sxs-lookup"><span data-stu-id="3958a-242">If `cancellationToken` is cancelled, the method throws an <xref:System.OperationCanceledException> exception.</span></span>  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.OperationCanceledException">
-          <span data-ttu-id="3958a-243">
-            <paramref name="cancellationToken" /> 已取消。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3958a-243">
-              <paramref name="cancellationToken" /> was canceled.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.ArgumentOutOfRangeException">
-          <span data-ttu-id="3958a-244">
-            <paramref name="timeout" /> 是 -1 之外的负数，表示无限超时或者超时大于 <see cref="F:System.Int32.MaxValue" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3958a-244">
-              <paramref name="timeout" /> is a negative number other than -1, which represents an infinite timeout -or- timeout is greater than <see cref="F:System.Int32.MaxValue" />.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.ObjectDisposedException">
-          <span data-ttu-id="3958a-245">semaphoreSlim 实例已释放 <paramref name="." /><paramref name="-or-" /></span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3958a-245">The semaphoreSlim instance has been disposed <paramref name="." /><paramref name="-or-" /></span>
-          </span>
-          <span data-ttu-id="3958a-246">创建了 <paramref name="cancellationToken" /> 的 <see cref="T:System.Threading.CancellationTokenSource" /> 已经被释放。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3958a-246">The <see cref="T:System.Threading.CancellationTokenSource" /> that created <paramref name="cancellationToken" /> has already been disposed.</span>
-          </span>
-        </exception>
-      </Docs>
-    </Member>
-    <MemberGroup MemberName="WaitAsync">
-      <AssemblyInfo>
-        <AssemblyName>System.Threading</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-        <AssemblyVersion>4.0.10.0</AssemblyVersion>
-        <AssemblyVersion>4.1.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Docs>
-        <summary>
-          <span data-ttu-id="3958a-247">输入 <see cref="T:System.Threading.SemaphoreSlim" /> 的异步等待。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3958a-247">Asynchronously waits to enter the <see cref="T:System.Threading.SemaphoreSlim" />.</span>
-          </span>
-        </summary>
-      </Docs>
-    </MemberGroup>
-    <Member MemberName="WaitAsync">
-      <MemberSignature Language="C#" Value="public System.Threading.Tasks.Task WaitAsync ();" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class System.Threading.Tasks.Task WaitAsync() cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Threading.SemaphoreSlim.WaitAsync" />
-      <MemberSignature Language="VB.NET" Value="Public Function WaitAsync () As Task" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; System::Threading::Tasks::Task ^ WaitAsync();" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Threading</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-        <AssemblyVersion>4.0.10.0</AssemblyVersion>
-        <AssemblyVersion>4.1.0.0</AssemblyVersion>
-        <AssemblyVersion>4.1.1.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>mscorlib</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>netstandard</AssemblyName>
-        <AssemblyVersion>2.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Threading.Tasks.Task</ReturnType>
-      </ReturnValue>
-      <Parameters />
-      <Docs>
-        <summary>
-          <span data-ttu-id="3958a-248">输入 <see cref="T:System.Threading.SemaphoreSlim" /> 的异步等待。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3958a-248">Asynchronously waits to enter the <see cref="T:System.Threading.SemaphoreSlim" />.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="3958a-249">输入信号量时完成任务。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3958a-249">A task that will complete when the semaphore has been entered.</span>
-          </span>
-        </returns>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="WaitAsync">
-      <MemberSignature Language="C#" Value="public System.Threading.Tasks.Task&lt;bool&gt; WaitAsync (int millisecondsTimeout);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class System.Threading.Tasks.Task`1&lt;bool&gt; WaitAsync(int32 millisecondsTimeout) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Threading.SemaphoreSlim.WaitAsync(System.Int32)" />
-      <MemberSignature Language="VB.NET" Value="Public Function WaitAsync (millisecondsTimeout As Integer) As Task(Of Boolean)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; System::Threading::Tasks::Task&lt;bool&gt; ^ WaitAsync(int millisecondsTimeout);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Threading</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-        <AssemblyVersion>4.0.10.0</AssemblyVersion>
-        <AssemblyVersion>4.1.0.0</AssemblyVersion>
-        <AssemblyVersion>4.1.1.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>mscorlib</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>netstandard</AssemblyName>
-        <AssemblyVersion>2.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Threading.Tasks.Task&lt;System.Boolean&gt;</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="millisecondsTimeout" Type="System.Int32" />
-      </Parameters>
-      <Docs>
-        <param name="millisecondsTimeout">
-          <span data-ttu-id="3958a-250">要等待的毫秒数，<see cref="F:System.Threading.Timeout.Infinite" />(-1) 表示无限等待，零表示测试等待句柄状态并立即返回。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3958a-250">The number of milliseconds to wait, <see cref="F:System.Threading.Timeout.Infinite" /> (-1) to wait indefinitely, or zero to test the state of the wait handle and return immediately.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="3958a-251">输入 <see cref="T:System.Threading.SemaphoreSlim" /> 的异步等待，使用 32 位带符号整数度量时间间隔。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3958a-251">Asynchronously waits to enter the <see cref="T:System.Threading.SemaphoreSlim" />, using a 32-bit signed integer to measure the time interval.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="3958a-252">如果当前线程成功输入了 <see cref="T:System.Threading.SemaphoreSlim" />，则为将通过 <see langword="true" /> 的结果一起完成的任务，否则将通过 <see langword="false" /> 的结果完成。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3958a-252">A task that will complete with a result of <see langword="true" /> if the current thread successfully entered the <see cref="T:System.Threading.SemaphoreSlim" />, otherwise with a result of <see langword="false" />.</span>
-          </span>
-        </returns>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="3958a-253">如果超时设置为-1 毫秒，该方法将无限期等待。</span><span class="sxs-lookup"><span data-stu-id="3958a-253">If the timeout is set to -1 milliseconds, the method waits indefinitely.</span></span>
- 
- <span data-ttu-id="3958a-254">如果超时设置为零毫秒，则不会阻止该方法。</span><span class="sxs-lookup"><span data-stu-id="3958a-254">If the timeout is set to zero milliseconds, the method doesn't block.</span></span> <span data-ttu-id="3958a-255">它测试等待句柄的状态并立即返回。</span><span class="sxs-lookup"><span data-stu-id="3958a-255">It tests the state of the wait handle and returns immediately.</span></span> 
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.ObjectDisposedException">
-          <span data-ttu-id="3958a-256">已释放当前实例。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3958a-256">The current instance has already been disposed.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.ArgumentOutOfRangeException">
-          <span data-ttu-id="3958a-257">
-            <paramref name="millisecondsTimeout" /> 是 -1 之外的负数，表示无限超时或者超时大于 <see cref="F:System.Int32.MaxValue" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3958a-257">
-              <paramref name="millisecondsTimeout" /> is a negative number other than -1, which represents an infinite timeout -or- timeout is greater than <see cref="F:System.Int32.MaxValue" />.</span>
-          </span>
-        </exception>
-      </Docs>
-    </Member>
-    <Member MemberName="WaitAsync">
-      <MemberSignature Language="C#" Value="public System.Threading.Tasks.Task WaitAsync (System.Threading.CancellationToken cancellationToken);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class System.Threading.Tasks.Task WaitAsync(valuetype System.Threading.CancellationToken cancellationToken) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Threading.SemaphoreSlim.WaitAsync(System.Threading.CancellationToken)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; System::Threading::Tasks::Task ^ WaitAsync(System::Threading::CancellationToken cancellationToken);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Threading</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-        <AssemblyVersion>4.0.10.0</AssemblyVersion>
-        <AssemblyVersion>4.1.0.0</AssemblyVersion>
-        <AssemblyVersion>4.1.1.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>mscorlib</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>netstandard</AssemblyName>
-        <AssemblyVersion>2.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Threading.Tasks.Task</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="cancellationToken" Type="System.Threading.CancellationToken" />
-      </Parameters>
-      <Docs>
-        <param name="cancellationToken">
-          <span data-ttu-id="3958a-258">要观察的 <see cref="T:System.Threading.CancellationToken" /> 标记。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3958a-258">The <see cref="T:System.Threading.CancellationToken" /> token to observe.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="3958a-259">在观察 <see cref="T:System.Threading.CancellationToken" /> 时，输入 <see cref="T:System.Threading.SemaphoreSlim" /> 的异步等待。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3958a-259">Asynchronously waits to enter the <see cref="T:System.Threading.SemaphoreSlim" />, while observing a <see cref="T:System.Threading.CancellationToken" />.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="3958a-260">输入信号量时完成任务。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3958a-260">A task that will complete when the semaphore has been entered.</span>
-          </span>
-        </returns>
-        <remarks>To be added.</remarks>
-        <exception cref="T:System.ObjectDisposedException">
-          <span data-ttu-id="3958a-261">已释放当前实例。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3958a-261">The current instance has already been disposed.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.OperationCanceledException">
-          <span data-ttu-id="3958a-262">
-            <paramref name="cancellationToken" /> 已取消。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3958a-262">
-              <paramref name="cancellationToken" /> was canceled.</span>
-          </span>
-        </exception>
-      </Docs>
-    </Member>
-    <Member MemberName="WaitAsync">
-      <MemberSignature Language="C#" Value="public System.Threading.Tasks.Task&lt;bool&gt; WaitAsync (TimeSpan timeout);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class System.Threading.Tasks.Task`1&lt;bool&gt; WaitAsync(valuetype System.TimeSpan timeout) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Threading.SemaphoreSlim.WaitAsync(System.TimeSpan)" />
-      <MemberSignature Language="VB.NET" Value="Public Function WaitAsync (timeout As TimeSpan) As Task(Of Boolean)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; System::Threading::Tasks::Task&lt;bool&gt; ^ WaitAsync(TimeSpan timeout);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Threading</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-        <AssemblyVersion>4.0.10.0</AssemblyVersion>
-        <AssemblyVersion>4.1.0.0</AssemblyVersion>
-        <AssemblyVersion>4.1.1.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>mscorlib</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>netstandard</AssemblyName>
-        <AssemblyVersion>2.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Threading.Tasks.Task&lt;System.Boolean&gt;</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="timeout" Type="System.TimeSpan" />
-      </Parameters>
-      <Docs>
-        <param name="timeout">
-          <span data-ttu-id="3958a-263">
-            <see cref="T:System.TimeSpan" /> 表示要等待的毫秒数，<see cref="T:System.TimeSpan" /> 表示要无无限等待的 -1 毫秒，<see cref="T:System.TimeSpan" /> 表示要测试句柄并立即返回的 0 毫秒。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3958a-263">A <see cref="T:System.TimeSpan" /> that represents the number of milliseconds to wait, a <see cref="T:System.TimeSpan" /> that represents -1 milliseconds to wait indefinitely, or a <see cref="T:System.TimeSpan" /> that represents 0 milliseconds to test the wait handle and return immediately.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="3958a-264">输入 <see cref="T:System.Threading.SemaphoreSlim" /> 的异步等待，使用 <see cref="T:System.TimeSpan" /> 度量时间间隔。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3958a-264">Asynchronously waits to enter the <see cref="T:System.Threading.SemaphoreSlim" />, using a <see cref="T:System.TimeSpan" /> to measure the time interval.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="3958a-265">如果当前线程成功输入了 <see cref="T:System.Threading.SemaphoreSlim" />，则为将通过 <see langword="true" /> 的结果一起完成的任务，否则将通过 <see langword="false" /> 的结果完成。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3958a-265">A task that will complete with a result of <see langword="true" /> if the current thread successfully entered the <see cref="T:System.Threading.SemaphoreSlim" />, otherwise with a result of <see langword="false" />.</span>
-          </span>
-        </returns>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="3958a-266">如果超时设置为-1 毫秒，该方法将无限期等待。</span><span class="sxs-lookup"><span data-stu-id="3958a-266">If the timeout is set to -1 milliseconds, the method waits indefinitely.</span></span>
- 
- <span data-ttu-id="3958a-267">如果超时设置为零毫秒，则不会阻止该方法。</span><span class="sxs-lookup"><span data-stu-id="3958a-267">If the timeout is set to zero milliseconds, the method doesn't block.</span></span> <span data-ttu-id="3958a-268">它测试等待句柄的状态并立即返回。</span><span class="sxs-lookup"><span data-stu-id="3958a-268">It tests the state of the wait handle and returns immediately.</span></span> 
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.ObjectDisposedException">
-          <span data-ttu-id="3958a-269">已释放当前实例。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3958a-269">The current instance has already been disposed.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.ArgumentOutOfRangeException">
-          <span data-ttu-id="3958a-270">
-            <paramref name="millisecondsTimeout" /> 是 -1 之外的负数，表示无限超时或者超时大于 <see cref="F:System.Int32.MaxValue" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3958a-270">
-              <paramref name="millisecondsTimeout" /> is a negative number other than -1, which represents an infinite timeout -or- timeout is greater than <see cref="F:System.Int32.MaxValue" />.</span>
-          </span>
-        </exception>
-      </Docs>
-    </Member>
-    <Member MemberName="WaitAsync">
-      <MemberSignature Language="C#" Value="public System.Threading.Tasks.Task&lt;bool&gt; WaitAsync (int millisecondsTimeout, System.Threading.CancellationToken cancellationToken);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class System.Threading.Tasks.Task`1&lt;bool&gt; WaitAsync(int32 millisecondsTimeout, valuetype System.Threading.CancellationToken cancellationToken) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Threading.SemaphoreSlim.WaitAsync(System.Int32,System.Threading.CancellationToken)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; System::Threading::Tasks::Task&lt;bool&gt; ^ WaitAsync(int millisecondsTimeout, System::Threading::CancellationToken cancellationToken);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Threading</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-        <AssemblyVersion>4.0.10.0</AssemblyVersion>
-        <AssemblyVersion>4.1.0.0</AssemblyVersion>
-        <AssemblyVersion>4.1.1.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>mscorlib</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>netstandard</AssemblyName>
-        <AssemblyVersion>2.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Threading.Tasks.Task&lt;System.Boolean&gt;</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="millisecondsTimeout" Type="System.Int32" />
-        <Parameter Name="cancellationToken" Type="System.Threading.CancellationToken" />
-      </Parameters>
-      <Docs>
-        <param name="millisecondsTimeout">
-          <span data-ttu-id="3958a-271">要等待的毫秒数，<see cref="F:System.Threading.Timeout.Infinite" />(-1) 表示无限等待，零表示测试等待句柄状态并立即返回。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3958a-271">The number of milliseconds to wait, <see cref="F:System.Threading.Timeout.Infinite" /> (-1) to wait indefinitely, or zero to test the state of the wait handle and return immediately.</span>
-          </span>
-        </param>
-        <param name="cancellationToken">
-          <span data-ttu-id="3958a-272">要观察的 <see cref="T:System.Threading.CancellationToken" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3958a-272">The <see cref="T:System.Threading.CancellationToken" /> to observe.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="3958a-273">在观察 <see cref="T:System.Threading.CancellationToken" /> 时，输入 <see cref="T:System.Threading.SemaphoreSlim" /> 的异步等待，使用 32 位带符号整数度量时间间隔。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3958a-273">Asynchronously waits to enter the <see cref="T:System.Threading.SemaphoreSlim" />, using a 32-bit signed integer to measure the time interval, while observing a <see cref="T:System.Threading.CancellationToken" />.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="3958a-274">如果当前线程成功输入了 <see cref="T:System.Threading.SemaphoreSlim" />，则为将通过 <see langword="true" /> 的结果一起完成的任务，否则将通过 <see langword="false" /> 的结果完成。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3958a-274">A task that will complete with a result of <see langword="true" /> if the current thread successfully entered the <see cref="T:System.Threading.SemaphoreSlim" />, otherwise with a result of <see langword="false" />.</span>
-          </span>
-        </returns>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="3958a-275">如果超时设置为-1 毫秒，该方法将无限期等待。</span><span class="sxs-lookup"><span data-stu-id="3958a-275">If the timeout is set to -1 milliseconds, the method waits indefinitely.</span></span>
- 
- <span data-ttu-id="3958a-276">如果超时设置为零毫秒，则不会阻止该方法。</span><span class="sxs-lookup"><span data-stu-id="3958a-276">If the timeout is set to zero milliseconds, the method doesn't block.</span></span> <span data-ttu-id="3958a-277">它测试等待句柄的状态并立即返回。</span><span class="sxs-lookup"><span data-stu-id="3958a-277">It tests the state of the wait handle and returns immediately.</span></span> 
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.ArgumentOutOfRangeException">
-          <span data-ttu-id="3958a-278">
-            <paramref name="millisecondsTimeout" /> 是 -1 之外的数，表示无限超时或者超时大于 <see cref="F:System.Int32.MaxValue" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3958a-278">
-              <paramref name="millisecondsTimeout" /> is a number other than -1, which represents an infinite timeout -or- timeout is greater than <see cref="F:System.Int32.MaxValue" />.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.ObjectDisposedException">
-          <span data-ttu-id="3958a-279">已释放当前实例。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3958a-279">The current instance has already been disposed.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.OperationCanceledException">
-          <span data-ttu-id="3958a-280">
-            <paramref name="cancellationToken" /> 已取消。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3958a-280">
-              <paramref name="cancellationToken" /> was canceled.</span>
-          </span>
-        </exception>
-      </Docs>
-    </Member>
-    <Member MemberName="WaitAsync">
-      <MemberSignature Language="C#" Value="public System.Threading.Tasks.Task&lt;bool&gt; WaitAsync (TimeSpan timeout, System.Threading.CancellationToken cancellationToken);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class System.Threading.Tasks.Task`1&lt;bool&gt; WaitAsync(valuetype System.TimeSpan timeout, valuetype System.Threading.CancellationToken cancellationToken) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Threading.SemaphoreSlim.WaitAsync(System.TimeSpan,System.Threading.CancellationToken)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; System::Threading::Tasks::Task&lt;bool&gt; ^ WaitAsync(TimeSpan timeout, System::Threading::CancellationToken cancellationToken);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Threading</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-        <AssemblyVersion>4.0.10.0</AssemblyVersion>
-        <AssemblyVersion>4.1.0.0</AssemblyVersion>
-        <AssemblyVersion>4.1.1.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>mscorlib</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>netstandard</AssemblyName>
-        <AssemblyVersion>2.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Threading.Tasks.Task&lt;System.Boolean&gt;</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="timeout" Type="System.TimeSpan" />
-        <Parameter Name="cancellationToken" Type="System.Threading.CancellationToken" />
-      </Parameters>
-      <Docs>
-        <param name="timeout">
-          <span data-ttu-id="3958a-281">
-            <see cref="T:System.TimeSpan" /> 表示要等待的毫秒数，<see cref="T:System.TimeSpan" /> 表示要无无限等待的 -1 毫秒，<see cref="T:System.TimeSpan" /> 表示要测试句柄并立即返回的 0 毫秒。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3958a-281">A <see cref="T:System.TimeSpan" /> that represents the number of milliseconds to wait, a <see cref="T:System.TimeSpan" /> that represents -1 milliseconds to wait indefinitely, or a <see cref="T:System.TimeSpan" /> that represents 0 milliseconds to test the wait handle and return immediately.</span>
-          </span>
-        </param>
-        <param name="cancellationToken">
-          <span data-ttu-id="3958a-282">要观察的 <see cref="T:System.Threading.CancellationToken" /> 标记。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3958a-282">The <see cref="T:System.Threading.CancellationToken" /> token to observe.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="3958a-283">在观察 <see cref="T:System.Threading.CancellationToken" /> 时，输入 <see cref="T:System.Threading.SemaphoreSlim" /> 的异步等待，使用 <see cref="T:System.TimeSpan" /> 度量时间间隔。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3958a-283">Asynchronously waits to enter the <see cref="T:System.Threading.SemaphoreSlim" />, using a <see cref="T:System.TimeSpan" /> to measure the time interval, while observing a <see cref="T:System.Threading.CancellationToken" />.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="3958a-284">如果当前线程成功输入了 <see cref="T:System.Threading.SemaphoreSlim" />，则为将通过 <see langword="true" /> 的结果一起完成的任务，否则将通过 <see langword="false" /> 的结果完成。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3958a-284">A task that will complete with a result of <see langword="true" /> if the current thread successfully entered the <see cref="T:System.Threading.SemaphoreSlim" />, otherwise with a result of <see langword="false" />.</span>
-          </span>
-        </returns>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="3958a-285">如果超时设置为-1 毫秒，该方法将无限期等待。</span><span class="sxs-lookup"><span data-stu-id="3958a-285">If the timeout is set to -1 milliseconds, the method waits indefinitely.</span></span>
-
- <span data-ttu-id="3958a-286">如果超时设置为零毫秒，则不会阻止该方法。</span><span class="sxs-lookup"><span data-stu-id="3958a-286">If the timeout is set to zero milliseconds, the method doesn't block.</span></span> <span data-ttu-id="3958a-287">它测试等待句柄的状态并立即返回。</span><span class="sxs-lookup"><span data-stu-id="3958a-287">It tests the state of the wait handle and returns immediately.</span></span> 
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.ArgumentOutOfRangeException">
-          <span data-ttu-id="3958a-288">
-            <paramref name="millisecondsTimeout" /> 是 -1 之外的负数，表示无限超时或者超时大于 <see cref="F:System.Int32.MaxValue" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3958a-288">
-              <paramref name="millisecondsTimeout" /> is a negative number other than -1, which represents an infinite timeout -or- timeout is greater than <see cref="F:System.Int32.MaxValue" />.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.OperationCanceledException">
-          <span data-ttu-id="3958a-289">
-            <paramref name="cancellationToken" /> 已取消。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="3958a-289">
-              <paramref name="cancellationToken" /> was canceled.</span>
-          </span>
-        </exception>
-      </Docs>
-    </Member>
-  </Members>
-</Type>
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.2" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 xliff-core-1.2-transitional.xsd">
+  <file datatype="xml" original="SemaphoreSlim.xml" source-language="en-US" target-language="zh-CN">
+    <header>
+      <tool tool-id="mdxliff" tool-name="mdxliff" tool-version="1.0-b857fe3" tool-company="Microsoft" />
+      <xliffext:skl_file_name xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">2eccf4de-4b1c-4706-8cb3-f46682ccfb72268af4ec18ef9780af942f18f0369318755e0b83.skl</xliffext:skl_file_name>
+      <xliffext:version xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">1.2</xliffext:version>
+      <xliffext:ms.openlocfilehash xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">268af4ec18ef9780af942f18f0369318755e0b83</xliffext:ms.openlocfilehash>
+      <xliffext:ms.sourcegitcommit xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">b15b8cf0f6dbc1504057c88969d9ef4b790891fe</xliffext:ms.sourcegitcommit>
+      <xliffext:ms.lasthandoff xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">05/11/2018</xliffext:ms.lasthandoff>
+      <xliffext:moniker_ids xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">netcore-1.0,netcore-1.1,netcore-2.0,netcore-2.1,netframework-4.5.1,netframework-4.5.2,netframework-4.5,netframework-4.6.1,netframework-4.6.2,netframework-4.6,netframework-4.7.1,netframework-4.7.2,netframework-4.7,netstandard-1.0,netstandard-1.1,netstandard-1.2,netstandard-1.3,netstandard-1.4,netstandard-1.6,netstandard-2.0,xamarinandroid-7.1,xamarinios-10.8,xamarinmac-3.0</xliffext:moniker_ids>
+    </header>
+    <body>
+      <group id="content" extype="content">
+        <trans-unit id="101" translate="yes" xml:space="preserve" uid="T:System.Threading.SemaphoreSlim">
+          <source>Represents a lightweight alternative to <ph id="ph1">&lt;see cref="T:System.Threading.Semaphore" /&gt;</ph> that limits the number of threads that can access a resource or pool of resources concurrently.</source>
+          <target state="translated">对可同时访问资源或资源池的线程数加以限制的 <ph id="ph1">&lt;see cref="T:System.Threading.Semaphore" /&gt;</ph> 的轻量替代。</target>       </trans-unit>
+        <trans-unit id="102" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Threading.SemaphoreSlim">
+          <source>Semaphores are of two types: local semaphores and named system semaphores.</source>
+          <target state="translated">信号量有两种类型： 本地信号量和已命名的系统信号量。</target>       </trans-unit>
+        <trans-unit id="103" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Threading.SemaphoreSlim">
+          <source>The former is local to an app.</source>
+          <target state="translated">前者是本地的应用程序。</target>       </trans-unit>
+        <trans-unit id="104" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Threading.SemaphoreSlim">
+          <source>The latter is visible throughout the operating system and is suitable for inter-process synchronization.</source>
+          <target state="translated">后者在整个操作系统可见，适用于进程间同步。</target>       </trans-unit>
+        <trans-unit id="105" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Threading.SemaphoreSlim">
+          <source>The <ph id="ph1">&lt;xref:System.Threading.SemaphoreSlim&gt;</ph> is a lightweight alternative to the <ph id="ph2">&lt;xref:System.Threading.Semaphore&gt;</ph> class that doesn't use Windows kernel semaphores.</source>
+          <target state="translated"><ph id="ph1">&lt;xref:System.Threading.SemaphoreSlim&gt;</ph>是轻量替代<ph id="ph2">&lt;xref:System.Threading.Semaphore&gt;</ph>不使用 Windows 内核信号量的类。</target>       </trans-unit>
+        <trans-unit id="106" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Threading.SemaphoreSlim">
+          <source>Unlike the <ph id="ph1">&lt;xref:System.Threading.Semaphore&gt;</ph> class, the <ph id="ph2">&lt;xref:System.Threading.SemaphoreSlim&gt;</ph> class doesn't support named system semaphores.</source>
+          <target state="translated">与不同<ph id="ph1">&lt;xref:System.Threading.Semaphore&gt;</ph>类，<ph id="ph2">&lt;xref:System.Threading.SemaphoreSlim&gt;</ph>类不支持已命名的系统信号量。</target>       </trans-unit>
+        <trans-unit id="107" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Threading.SemaphoreSlim">
+          <source>You can use it as a local semaphore only.</source>
+          <target state="translated">你可以使用它作为本地信号量。</target>       </trans-unit>
+        <trans-unit id="108" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Threading.SemaphoreSlim">
+          <source>The <ph id="ph1">&lt;xref:System.Threading.SemaphoreSlim&gt;</ph> class is the recommended semaphore for synchronization within a single app.</source>
+          <target state="translated"><ph id="ph1">&lt;xref:System.Threading.SemaphoreSlim&gt;</ph>类是一个单应用内用于同步的建议信号量。</target>       </trans-unit>
+        <trans-unit id="109" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Threading.SemaphoreSlim">
+          <source>A lightweight semaphore controls access to a pool of resources that is local to your application.</source>
+          <target state="translated">轻量级信号量控制访问仅针对你的应用程序的资源池。</target>       </trans-unit>
+        <trans-unit id="110" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Threading.SemaphoreSlim">
+          <source>When you instantiate a semaphore, you can specify the maximum number of threads that can enter the semaphore concurrently.</source>
+          <target state="translated">当实例化信号量时，你可以指定最大可以同时输入信号量的线程数。</target>       </trans-unit>
+        <trans-unit id="111" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Threading.SemaphoreSlim">
+          <source>You also specify the initial number of threads that can enter the semaphore concurrently.</source>
+          <target state="translated">你还指定可以同时输入信号量的线程的初始数量。</target>       </trans-unit>
+        <trans-unit id="112" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Threading.SemaphoreSlim">
+          <source>This defines the semaphore's count.</source>
+          <target state="translated">这定义信号量的计数。</target>       </trans-unit>
+        <trans-unit id="113" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Threading.SemaphoreSlim">
+          <source>The count is decremented each time a thread enters the semaphore, and incremented each time a thread releases the semaphore.</source>
+          <target state="translated">计数递减每次线程进入信号量，并且在每次递增一个线程释放信号量。</target>       </trans-unit>
+        <trans-unit id="114" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Threading.SemaphoreSlim">
+          <source>To enter the semaphore, a thread calls one of the <ph id="ph1">&lt;xref:System.Threading.SemaphoreSlim.Wait%2A&gt;</ph> or <ph id="ph2">&lt;xref:System.Threading.SemaphoreSlim.WaitAsync%2A&gt;</ph> overloads.</source>
+          <target state="translated">若要输入信号量，线程调用之一<ph id="ph1">&lt;xref:System.Threading.SemaphoreSlim.Wait%2A&gt;</ph>或<ph id="ph2">&lt;xref:System.Threading.SemaphoreSlim.WaitAsync%2A&gt;</ph>重载。</target>       </trans-unit>
+        <trans-unit id="115" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Threading.SemaphoreSlim">
+          <source>To release the semaphore, it calls one of the <ph id="ph1">&lt;xref:System.Threading.SemaphoreSlim.Release%2A&gt;</ph> overloads.</source>
+          <target state="translated">若要释放信号量，它调用的一个<ph id="ph1">&lt;xref:System.Threading.SemaphoreSlim.Release%2A&gt;</ph>重载。</target>       </trans-unit>
+        <trans-unit id="116" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Threading.SemaphoreSlim">
+          <source>When the count reaches zero, subsequent calls to one of the <ph id="ph1">`Wait`</ph> methods block until other threads release the semaphore.</source>
+          <target state="translated">当计数达到零时，后续调用之一<ph id="ph1">`Wait`</ph>方法阻止，直到其他线程释放信号量。</target>       </trans-unit>
+        <trans-unit id="117" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Threading.SemaphoreSlim">
+          <source>If multiple threads are blocked, there is no guaranteed order, such as FIFO or LIFO, that controls when threads enter the semaphore.</source>
+          <target state="translated">如果多个线程被阻止，没有任何有保证的顺序，如先进先出或后进先出，控制当线程进入信号量。</target>       </trans-unit>
+        <trans-unit id="118" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Threading.SemaphoreSlim">
+          <source>The basic structure for code that uses a semaphore to protect resources is:</source>
+          <target state="translated">使用信号量要保护的资源的代码的基本结构是：</target>       </trans-unit>
+        <trans-unit id="119" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Threading.SemaphoreSlim">
+          <source>When all threads have released the semaphore, the count is at the maximum value specified when the semaphore was created.</source>
+          <target state="translated">如果所有线程都已都释放信号量，计数是最大值时指定创建信号量。</target>       </trans-unit>
+        <trans-unit id="120" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Threading.SemaphoreSlim">
+          <source>The semaphore's count is available from the <ph id="ph1">&lt;xref:System.Threading.SemaphoreSlim.CurrentCount%2A&gt;</ph> property.</source>
+          <target state="translated">信号量的计数是可从<ph id="ph1">&lt;xref:System.Threading.SemaphoreSlim.CurrentCount%2A&gt;</ph>属性。</target>       </trans-unit>
+        <trans-unit id="121" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Threading.SemaphoreSlim">
+          <source>The <ph id="ph1">&lt;xref:System.Threading.SemaphoreSlim&gt;</ph> class doesn't enforce thread or task identity on calls to the <ph id="ph2">&lt;xref:System.Threading.SemaphoreSlim.Wait%2A&gt;</ph>, <ph id="ph3">&lt;xref:System.Threading.SemaphoreSlim.WaitAsync%2A&gt;</ph>, and <ph id="ph4">&lt;xref:System.Threading.SemaphoreSlim.Release%2A&gt;</ph> methods.</source>
+          <target state="translated"><ph id="ph1">&lt;xref:System.Threading.SemaphoreSlim&gt;</ph>类并不强制在调用的线程或任务标识<ph id="ph2">&lt;xref:System.Threading.SemaphoreSlim.Wait%2A&gt;</ph>， <ph id="ph3">&lt;xref:System.Threading.SemaphoreSlim.WaitAsync%2A&gt;</ph>，和<ph id="ph4">&lt;xref:System.Threading.SemaphoreSlim.Release%2A&gt;</ph>方法。</target>       </trans-unit>
+        <trans-unit id="122" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Threading.SemaphoreSlim">
+          <source>In addition, if the <ph id="ph1">&lt;xref:System.Threading.SemaphoreSlim.%23ctor%28System.Int32%29&gt;</ph> constructor is used to instantiate the <ph id="ph2">&lt;xref:System.Threading.SemaphoreSlim&gt;</ph> object, the <ph id="ph3">&lt;xref:System.Threading.SemaphoreSlim.CurrentCount%2A&gt;</ph> property can increase beyond the value set by the constructor.</source>
+          <target state="translated">此外，如果<ph id="ph1">&lt;xref:System.Threading.SemaphoreSlim.%23ctor%28System.Int32%29&gt;</ph>构造函数用于实例化<ph id="ph2">&lt;xref:System.Threading.SemaphoreSlim&gt;</ph>对象，<ph id="ph3">&lt;xref:System.Threading.SemaphoreSlim.CurrentCount%2A&gt;</ph>属性可以提高超出构造函数设置的值。</target>       </trans-unit>
+        <trans-unit id="123" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Threading.SemaphoreSlim">
+          <source>It is the programmer's responsibility to ensure that calls to <ph id="ph1">&lt;xref:System.Threading.SemaphoreSlim.Wait%2A&gt;</ph> or <ph id="ph2">&lt;xref:System.Threading.SemaphoreSlim.WaitAsync%2A&gt;</ph> methods are appropriately paired with calls to <ph id="ph3">&lt;xref:System.Threading.SemaphoreSlim.Release%2A&gt;</ph> methods.</source>
+          <target state="translated">程序员有责任确保调用到<ph id="ph1">&lt;xref:System.Threading.SemaphoreSlim.Wait%2A&gt;</ph>或<ph id="ph2">&lt;xref:System.Threading.SemaphoreSlim.WaitAsync%2A&gt;</ph>方法相应地配合调用<ph id="ph3">&lt;xref:System.Threading.SemaphoreSlim.Release%2A&gt;</ph>方法。</target>       </trans-unit>
+        <trans-unit id="124" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Threading.SemaphoreSlim">
+          <source>The following example creates a semaphore with a maximum count of three threads and an initial count of zero threads.</source>
+          <target state="translated">下面的示例创建三个线程的最大计数和初始计数为零个线程的信号量。</target>       </trans-unit>
+        <trans-unit id="125" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Threading.SemaphoreSlim">
+          <source>The example starts five tasks, all of which block waiting for the semaphore.</source>
+          <target state="translated">该示例启动五项任务，所有这些阻止等待信号量。</target>       </trans-unit>
+        <trans-unit id="126" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Threading.SemaphoreSlim">
+          <source>The main thread calls the <ph id="ph1">&lt;xref:System.Threading.SemaphoreSlim.Release%28System.Int32%29&gt;</ph> overload to increase the semaphore count to its maximum, which allows three tasks to enter the semaphore.</source>
+          <target state="translated">在主线程调用<ph id="ph1">&lt;xref:System.Threading.SemaphoreSlim.Release%28System.Int32%29&gt;</ph>重载来增加到其最大值，它允许进入信号量的三个任务的信号量计数。</target>       </trans-unit>
+        <trans-unit id="127" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Threading.SemaphoreSlim">
+          <source>Each time the semaphore is released, the previous semaphore count is displayed.</source>
+          <target state="translated">释放信号量时，每个时间显示前一个信号量计数。</target>       </trans-unit>
+        <trans-unit id="128" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Threading.SemaphoreSlim">
+          <source>Console messages track semaphore use.</source>
+          <target state="translated">控制台消息跟踪信号量的使用。</target>       </trans-unit>
+        <trans-unit id="129" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Threading.SemaphoreSlim">
+          <source>The simulated work interval is increased slightly for each thread to make the output easier to read.</source>
+          <target state="translated">模拟的工作间隔都稍有增加为每个线程，以使输出更易于阅读。</target>       </trans-unit>
+        <trans-unit id="130" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Threading.SemaphoreSlim">
+          <source>All public and protected members of <ph id="ph1">&lt;see cref="T:System.Threading.SemaphoreSlim" /&gt;</ph> are thread-safe and may be used concurrently from multiple threads, with the exception of <ph id="ph2">&lt;see cref="M:System.Threading.SemaphoreSlim.Dispose" /&gt;</ph>, which must be used only when all other operations on the <ph id="ph3">&lt;see cref="T:System.Threading.SemaphoreSlim" /&gt;</ph> have completed.</source>
+          <target state="translated">所有公共和受保护成员<ph id="ph1">&lt;see cref="T:System.Threading.SemaphoreSlim" /&gt;</ph>是线程安全的可同时使用多个线程从除外<ph id="ph2">&lt;see cref="M:System.Threading.SemaphoreSlim.Dispose" /&gt;</ph>，必须使用仅当所有其他操作<ph id="ph3">&lt;see cref="T:System.Threading.SemaphoreSlim" /&gt;</ph>已完成。</target>       </trans-unit>
+        <trans-unit id="131" translate="yes" xml:space="preserve" uid="T:System.Threading.SemaphoreSlim">
+          <source>Initializes a new instance of the <ph id="ph1">&lt;see cref="T:System.Threading.SemaphoreSlim" /&gt;</ph> class.</source>
+          <target state="translated">初始化 <ph id="ph1">&lt;see cref="T:System.Threading.SemaphoreSlim" /&gt;</ph> 类的新实例。</target>       </trans-unit>
+        <trans-unit id="132" translate="yes" xml:space="preserve" uid="M:System.Threading.SemaphoreSlim.#ctor(System.Int32)">
+          <source>The initial number of requests for the semaphore that can be granted concurrently.</source>
+          <target state="translated">可以同时授予的信号量的初始请求数。</target>       </trans-unit>
+        <trans-unit id="133" translate="yes" xml:space="preserve" uid="M:System.Threading.SemaphoreSlim.#ctor(System.Int32)">
+          <source>Initializes a new instance of the <ph id="ph1">&lt;see cref="T:System.Threading.SemaphoreSlim" /&gt;</ph> class, specifying the initial number of requests that can be granted concurrently.</source>
+          <target state="translated">初始化 <ph id="ph1">&lt;see cref="T:System.Threading.SemaphoreSlim" /&gt;</ph> 类的新实例，以指定可同时授予的请求的初始数量。</target>       </trans-unit>
+        <trans-unit id="134" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Threading.SemaphoreSlim.#ctor(System.Int32)">
+          <source>The <ph id="ph1">`initialCount`</ph> parameter defines the number of concurrent requests to enter the semaphore that can be granted.</source>
+          <target state="translated"><ph id="ph1">`initialCount`</ph>参数定义的输入可以授予的信号量的并发请求数。</target>       </trans-unit>
+        <trans-unit id="135" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Threading.SemaphoreSlim.#ctor(System.Int32)">
+          <source>However, it doesn't define the maximum number of requests that can be granted concurrently.</source>
+          <target state="translated">但是，它未定义的最大可以同时授予的请求数。</target>       </trans-unit>
+        <trans-unit id="136" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Threading.SemaphoreSlim.#ctor(System.Int32)">
+          <source>A   <ph id="ph1">&lt;xref:System.Threading.SemaphoreSlim&gt;</ph> object instantiated by calling this constructor doesn't throw a <ph id="ph2">&lt;xref:System.Threading.SemaphoreFullException&gt;</ph> exception if a call to the <ph id="ph3">&lt;xref:System.Threading.SemaphoreSlim.Release%2A&gt;</ph> method increases the value of the <ph id="ph4">&lt;xref:System.Threading.SemaphoreSlim.CurrentCount%2A&gt;</ph> property beyond <ph id="ph5">`initialCount`</ph>.</source>
+          <target state="translated">A<ph id="ph1">&lt;xref:System.Threading.SemaphoreSlim&gt;</ph>通过调用此构造函数实例化的对象不会引发<ph id="ph2">&lt;xref:System.Threading.SemaphoreFullException&gt;</ph>异常如果调用<ph id="ph3">&lt;xref:System.Threading.SemaphoreSlim.Release%2A&gt;</ph>方法的值增加<ph id="ph4">&lt;xref:System.Threading.SemaphoreSlim.CurrentCount%2A&gt;</ph>超出属性<ph id="ph5">`initialCount`</ph>。</target>       </trans-unit>
+        <trans-unit id="137" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Threading.SemaphoreSlim.#ctor(System.Int32)">
+          <source>This occurs if there are more calls to <ph id="ph1">&lt;xref:System.Threading.SemaphoreSlim.Release%2A&gt;</ph> methods than there are to <ph id="ph2">&lt;xref:System.Threading.SemaphoreSlim.Wait%2A&gt;</ph> or <ph id="ph3">&lt;xref:System.Threading.SemaphoreSlim.WaitAsync%2A&gt;</ph> methods.</source>
+          <target state="translated">如果有多个调用将发生这种情况<ph id="ph1">&lt;xref:System.Threading.SemaphoreSlim.Release%2A&gt;</ph>多于的方法是到<ph id="ph2">&lt;xref:System.Threading.SemaphoreSlim.Wait%2A&gt;</ph>或<ph id="ph3">&lt;xref:System.Threading.SemaphoreSlim.WaitAsync%2A&gt;</ph>方法。</target>       </trans-unit>
+        <trans-unit id="138" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Threading.SemaphoreSlim.#ctor(System.Int32)">
+          <source>To set the maximum number of concurrent requests to enter the semaphore that can be granted, call the <ph id="ph1">&lt;xref:System.Threading.SemaphoreSlim.%23ctor%28System.Int32%2CSystem.Int32%29&gt;</ph> constructor.</source>
+          <target state="translated">若要设置的最大输入可以授予的信号量的并发请求数，调用<ph id="ph1">&lt;xref:System.Threading.SemaphoreSlim.%23ctor%28System.Int32%2CSystem.Int32%29&gt;</ph>构造函数。</target>       </trans-unit>
+        <trans-unit id="139" translate="yes" xml:space="preserve" uid="M:System.Threading.SemaphoreSlim.#ctor(System.Int32)">
+          <source><ph id="ph1">&lt;paramref name="initialCount" /&gt;</ph> is less than 0.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="initialCount" /&gt;</ph> 小于 0。</target>       </trans-unit>
+        <trans-unit id="140" translate="yes" xml:space="preserve" uid="M:System.Threading.SemaphoreSlim.#ctor(System.Int32,System.Int32)">
+          <source>The initial number of requests for the semaphore that can be granted concurrently.</source>
+          <target state="translated">可以同时授予的信号量的初始请求数。</target>       </trans-unit>
+        <trans-unit id="141" translate="yes" xml:space="preserve" uid="M:System.Threading.SemaphoreSlim.#ctor(System.Int32,System.Int32)">
+          <source>The maximum number of requests for the semaphore that can be granted concurrently.</source>
+          <target state="translated">可以同时授予的信号量的最大请求数。</target>       </trans-unit>
+        <trans-unit id="142" translate="yes" xml:space="preserve" uid="M:System.Threading.SemaphoreSlim.#ctor(System.Int32,System.Int32)">
+          <source>Initializes a new instance of the <ph id="ph1">&lt;see cref="T:System.Threading.SemaphoreSlim" /&gt;</ph> class, specifying the initial and maximum number of requests that can be granted concurrently.</source>
+          <target state="translated">初始化 <ph id="ph1">&lt;see cref="T:System.Threading.SemaphoreSlim" /&gt;</ph> 类的新实例，同时指定可同时授予的请求的初始数量和最大数量。</target>       </trans-unit>
+        <trans-unit id="143" translate="yes" xml:space="preserve" uid="M:System.Threading.SemaphoreSlim.#ctor(System.Int32,System.Int32)">
+          <source><ph id="ph1">&lt;paramref name="initialCount" /&gt;</ph> is less than 0, or <ph id="ph2">&lt;paramref name="initialCount" /&gt;</ph> is greater than <ph id="ph3">&lt;paramref name="maxCount" /&gt;</ph>, or <ph id="ph4">&lt;paramref name="maxCount" /&gt;</ph> is equal to or less than 0.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="initialCount" /&gt;</ph> 小于 0，或 <ph id="ph2">&lt;paramref name="initialCount" /&gt;</ph> 大于 <ph id="ph3">&lt;paramref name="maxCount" /&gt;</ph>，或 <ph id="ph4">&lt;paramref name="maxCount" /&gt;</ph> 小于等于 0。</target>       </trans-unit>
+        <trans-unit id="144" translate="yes" xml:space="preserve" uid="P:System.Threading.SemaphoreSlim.AvailableWaitHandle">
+          <source>Returns a <ph id="ph1">&lt;see cref="T:System.Threading.WaitHandle" /&gt;</ph> that can be used to wait on the semaphore.</source>
+          <target state="translated">返回一个可用于在信号量上等待的 <ph id="ph1">&lt;see cref="T:System.Threading.WaitHandle" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="145" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Threading.SemaphoreSlim.AvailableWaitHandle">
+          <source>A <ph id="ph1">&lt;see cref="T:System.Threading.WaitHandle" /&gt;</ph> that can be used to wait on the semaphore.</source>
+          <target state="translated">可用于在信号量上等待的 <ph id="ph1">&lt;see cref="T:System.Threading.WaitHandle" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="146" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Threading.SemaphoreSlim.AvailableWaitHandle">
+          <source>Use this property only when you must wait on a SemaphoreSlim together with other kernel-based synchronization objects with the same wait handle.</source>
+          <target state="translated">仅当必须在与其他基于内核的同步对象具有相同的等待句柄一起 SemaphoreSlim 上等待时，请使用此属性。</target>       </trans-unit>
+        <trans-unit id="147" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Threading.SemaphoreSlim.AvailableWaitHandle">
+          <source>A successful wait on the <ph id="ph1">&lt;xref:System.Threading.SemaphoreSlim.AvailableWaitHandle%2A&gt;</ph> does not imply a successful wait on the <ph id="ph2">&lt;xref:System.Threading.SemaphoreSlim&gt;</ph> itself, nor does it decrement the semaphore's count.</source>
+          <target state="translated">成功等待<ph id="ph1">&lt;xref:System.Threading.SemaphoreSlim.AvailableWaitHandle%2A&gt;</ph>并不意味着成功等待上<ph id="ph2">&lt;xref:System.Threading.SemaphoreSlim&gt;</ph>本身，也不会减少信号量的计数。</target>       </trans-unit>
+        <trans-unit id="148" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Threading.SemaphoreSlim.AvailableWaitHandle">
+          <source>After the available wait handle is signaled, you should wait on the <ph id="ph1">&lt;xref:System.Threading.SemaphoreSlim&gt;</ph> specifically.</source>
+          <target state="translated">可用的等待句柄处于有信号状态后，你应等待<ph id="ph1">&lt;xref:System.Threading.SemaphoreSlim&gt;</ph>专门。</target>       </trans-unit>
+        <trans-unit id="149" translate="yes" xml:space="preserve" uid="P:System.Threading.SemaphoreSlim.AvailableWaitHandle">
+          <source>The <ph id="ph1">&lt;see cref="T:System.Threading.SemaphoreSlim" /&gt;</ph> has been disposed.</source>
+          <target state="translated">已释放了 <ph id="ph1">&lt;see cref="T:System.Threading.SemaphoreSlim" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="150" translate="yes" xml:space="preserve" uid="P:System.Threading.SemaphoreSlim.CurrentCount">
+          <source>Gets the number of remaining threads that can enter the <ph id="ph1">&lt;see cref="T:System.Threading.SemaphoreSlim" /&gt;</ph> object.</source>
+          <target state="translated">获取可以输入 <ph id="ph1">&lt;see cref="T:System.Threading.SemaphoreSlim" /&gt;</ph> 对象的剩余线程数。</target>       </trans-unit>
+        <trans-unit id="151" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Threading.SemaphoreSlim.CurrentCount">
+          <source>The number of remaining threads that can enter the semaphore.</source>
+          <target state="translated">可以输入信号量的剩余线程数。</target>       </trans-unit>
+        <trans-unit id="152" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Threading.SemaphoreSlim.CurrentCount">
+          <source>The initial value of the <ph id="ph1">&lt;xref:System.Threading.SemaphoreSlim.CurrentCount%2A&gt;</ph> property is set by the call to the <ph id="ph2">&lt;xref:System.Threading.SemaphoreSlim.%23ctor%2A&gt;</ph> class constructor.</source>
+          <target state="translated">初始值<ph id="ph1">&lt;xref:System.Threading.SemaphoreSlim.CurrentCount%2A&gt;</ph>属性设置通过调用<ph id="ph2">&lt;xref:System.Threading.SemaphoreSlim.%23ctor%2A&gt;</ph>类构造函数。</target>       </trans-unit>
+        <trans-unit id="153" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Threading.SemaphoreSlim.CurrentCount">
+          <source>It is decremented by each call to the <ph id="ph1">&lt;xref:System.Threading.SemaphoreSlim.Wait%2A&gt;</ph> or <ph id="ph2">&lt;xref:System.Threading.SemaphoreSlim.WaitAsync%2A&gt;</ph> method, and incremented by each call to the <ph id="ph3">&lt;xref:System.Threading.SemaphoreSlim.Release%2A&gt;</ph> method.</source>
+          <target state="translated">它将减少到每个调用<ph id="ph1">&lt;xref:System.Threading.SemaphoreSlim.Wait%2A&gt;</ph>或<ph id="ph2">&lt;xref:System.Threading.SemaphoreSlim.WaitAsync%2A&gt;</ph>方法，并按每次调用进行递增<ph id="ph3">&lt;xref:System.Threading.SemaphoreSlim.Release%2A&gt;</ph>方法。</target>       </trans-unit>
+        <trans-unit id="154" translate="yes" xml:space="preserve" uid="T:System.Threading.SemaphoreSlim">
+          <source>Releases resources used by the current instance of the <ph id="ph1">&lt;see cref="T:System.Threading.SemaphoreSlim" /&gt;</ph> class.</source>
+          <target state="translated">释放由 <ph id="ph1">&lt;see cref="T:System.Threading.SemaphoreSlim" /&gt;</ph> 类的当前实例使用的资源。</target>       </trans-unit>
+        <trans-unit id="155" translate="yes" xml:space="preserve" uid="M:System.Threading.SemaphoreSlim.Dispose">
+          <source>Releases all resources used by the current instance of the <ph id="ph1">&lt;see cref="T:System.Threading.SemaphoreSlim" /&gt;</ph> class.</source>
+          <target state="translated">释放 <ph id="ph1">&lt;see cref="T:System.Threading.SemaphoreSlim" /&gt;</ph> 类的当前实例所使用的所有资源。</target>       </trans-unit>
+        <trans-unit id="156" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Threading.SemaphoreSlim.Dispose">
+          <source>Call <ph id="ph1">`Dispose`</ph> when you are finished using the <ph id="ph2">&lt;xref:System.Threading.SemaphoreSlim&gt;</ph>.</source>
+          <target state="translated">在完成使用 <ph id="ph1">`Dispose`</ph> 后，应调用 <ph id="ph2">&lt;xref:System.Threading.SemaphoreSlim&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="157" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Threading.SemaphoreSlim.Dispose">
+          <source>The <ph id="ph1">`Dispose`</ph> method leaves the <ph id="ph2">&lt;xref:System.Threading.SemaphoreSlim&gt;</ph> in an unusable state.</source>
+          <target state="translated"><ph id="ph1">`Dispose`</ph> 方法使 <ph id="ph2">&lt;xref:System.Threading.SemaphoreSlim&gt;</ph> 处于不可用状态。</target>       </trans-unit>
+        <trans-unit id="158" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Threading.SemaphoreSlim.Dispose">
+          <source>After calling <ph id="ph1">`Dispose`</ph>, you must release all references to the <ph id="ph2">&lt;xref:System.Threading.SemaphoreSlim&gt;</ph> so the garbage collector can reclaim the memory that the <ph id="ph3">&lt;xref:System.Threading.SemaphoreSlim&gt;</ph> was occupying.</source>
+          <target state="translated">在调用<ph id="ph1">`Dispose`</ph>，必须释放对所有引用<ph id="ph2">&lt;xref:System.Threading.SemaphoreSlim&gt;</ph>以便垃圾回收器才能回收的内存，<ph id="ph3">&lt;xref:System.Threading.SemaphoreSlim&gt;</ph>占用。</target>       </trans-unit>
+        <trans-unit id="159" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Threading.SemaphoreSlim.Dispose">
+          <source>For more information, see <bpt id="p1">[</bpt>Cleaning Up Unmanaged Resources<ept id="p1">](~/docs/standard/garbage-collection/unmanaged.md)</ept> and <bpt id="p2">[</bpt>Implementing a Dispose Method<ept id="p2">](~/docs/standard/garbage-collection/implementing-dispose.md)</ept>.</source>
+          <target state="translated">有关详细信息，请参阅<bpt id="p1">[</bpt>清洗向上非托管资源<ept id="p1">](~/docs/standard/garbage-collection/unmanaged.md)</ept>和<bpt id="p2">[</bpt>实现 Dispose 方法<ept id="p2">](~/docs/standard/garbage-collection/implementing-dispose.md)</ept>。</target>       </trans-unit>
+        <trans-unit id="160" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Threading.SemaphoreSlim.Dispose">
+          <source>Always call <ph id="ph1">`Dispose`</ph> before you release your last reference to the <ph id="ph2">&lt;xref:System.Threading.SemaphoreSlim&gt;</ph>.</source>
+          <target state="translated">每次释放对 <ph id="ph1">`Dispose`</ph> 的最后一个引用前，均应调用 <ph id="ph2">&lt;xref:System.Threading.SemaphoreSlim&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="161" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Threading.SemaphoreSlim.Dispose">
+          <source>Otherwise, the resources it is using will not be freed until the garbage collector calls the <ph id="ph1">&lt;xref:System.Threading.SemaphoreSlim&gt;</ph> object's <ph id="ph2">`Finalize`</ph> method.</source>
+          <target state="translated">否则，在垃圾回收器调用 <ph id="ph1">&lt;xref:System.Threading.SemaphoreSlim&gt;</ph> 对象的 <ph id="ph2">`Finalize`</ph> 方法之前，该对象正在使用的资源不会被释放。</target>       </trans-unit>
+        <trans-unit id="162" translate="yes" xml:space="preserve" uid="M:System.Threading.SemaphoreSlim.Dispose(System.Boolean)">
+          <source><ph id="ph1">&lt;see langword="true" /&gt;</ph> to release both managed and unmanaged resources; <ph id="ph2">&lt;see langword="false" /&gt;</ph> to release only unmanaged resources.</source>
+          <target state="translated">若要释放托管资源和非托管资源，则为 <ph id="ph1">&lt;see langword="true" /&gt;</ph>；若仅释放非托管资源，则为 <ph id="ph2">&lt;see langword="false" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="163" translate="yes" xml:space="preserve" uid="M:System.Threading.SemaphoreSlim.Dispose(System.Boolean)">
+          <source>Releases the unmanaged resources used by the <ph id="ph1">&lt;see cref="T:System.Threading.SemaphoreSlim" /&gt;</ph>, and optionally releases the managed resources.</source>
+          <target state="translated">释放由 <ph id="ph1">&lt;see cref="T:System.Threading.SemaphoreSlim" /&gt;</ph> 占用的非托管资源，还可以另外再释放托管资源。</target>       </trans-unit>
+        <trans-unit id="164" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Threading.SemaphoreSlim.Dispose(System.Boolean)">
+          <source>Unlike most of the members of <ph id="ph1">&lt;xref:System.Threading.SemaphoreSlim&gt;</ph>, <ph id="ph2">&lt;xref:System.Threading.SemaphoreSlim.Dispose%2A&gt;</ph> is not thread-safe and may not be used concurrently with other members of this instance.</source>
+          <target state="translated">与大多数的成员不同<ph id="ph1">&lt;xref:System.Threading.SemaphoreSlim&gt;</ph>，<ph id="ph2">&lt;xref:System.Threading.SemaphoreSlim.Dispose%2A&gt;</ph>不是线程安全的不能与此实例的其他成员同时使用。</target>       </trans-unit>
+        <trans-unit id="165" translate="yes" xml:space="preserve" uid="T:System.Threading.SemaphoreSlim">
+          <source>Releases the <ph id="ph1">&lt;see cref="T:System.Threading.SemaphoreSlim" /&gt;</ph> object.</source>
+          <target state="translated">释放 <ph id="ph1">&lt;see cref="T:System.Threading.SemaphoreSlim" /&gt;</ph> 对象。</target>       </trans-unit>
+        <trans-unit id="166" translate="yes" xml:space="preserve" uid="M:System.Threading.SemaphoreSlim.Release">
+          <source>Releases the <ph id="ph1">&lt;see cref="T:System.Threading.SemaphoreSlim" /&gt;</ph> object once.</source>
+          <target state="translated">释放 <ph id="ph1">&lt;see cref="T:System.Threading.SemaphoreSlim" /&gt;</ph> 对象一次。</target>       </trans-unit>
+        <trans-unit id="167" translate="yes" xml:space="preserve" uid="M:System.Threading.SemaphoreSlim.Release">
+          <source>The previous count of the <ph id="ph1">&lt;see cref="T:System.Threading.SemaphoreSlim" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;see cref="T:System.Threading.SemaphoreSlim" /&gt;</ph> 的前一个计数。</target>       </trans-unit>
+        <trans-unit id="168" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Threading.SemaphoreSlim.Release">
+          <source>A call to the <ph id="ph1">&lt;xref:System.Threading.SemaphoreSlim.Release&gt;</ph> method increments the <ph id="ph2">&lt;xref:System.Threading.SemaphoreSlim.CurrentCount%2A&gt;</ph> property by one.</source>
+          <target state="translated">调用<ph id="ph1">&lt;xref:System.Threading.SemaphoreSlim.Release&gt;</ph>方法递增<ph id="ph2">&lt;xref:System.Threading.SemaphoreSlim.CurrentCount%2A&gt;</ph>通过一个属性。</target>       </trans-unit>
+        <trans-unit id="169" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Threading.SemaphoreSlim.Release">
+          <source>If the value of the <ph id="ph1">&lt;xref:System.Threading.SemaphoreSlim.CurrentCount%2A&gt;</ph> property is zero before this method is called, the method also allows one thread or task blocked by a call to the <ph id="ph2">&lt;xref:System.Threading.SemaphoreSlim.Wait%2A&gt;</ph> or <ph id="ph3">&lt;xref:System.Threading.SemaphoreSlim.WaitAsync%2A&gt;</ph> method to enter the semaphore.</source>
+          <target state="translated">如果值<ph id="ph1">&lt;xref:System.Threading.SemaphoreSlim.CurrentCount%2A&gt;</ph>属性为零之前调用此方法，该方法还允许一个线程或任务通过调用阻止<ph id="ph2">&lt;xref:System.Threading.SemaphoreSlim.Wait%2A&gt;</ph>或<ph id="ph3">&lt;xref:System.Threading.SemaphoreSlim.WaitAsync%2A&gt;</ph>方法进入信号量。</target>       </trans-unit>
+        <trans-unit id="170" translate="yes" xml:space="preserve" uid="M:System.Threading.SemaphoreSlim.Release">
+          <source>The current instance has already been disposed.</source>
+          <target state="translated">已释放当前实例。</target>       </trans-unit>
+        <trans-unit id="171" translate="yes" xml:space="preserve" uid="M:System.Threading.SemaphoreSlim.Release">
+          <source>The <ph id="ph1">&lt;see cref="T:System.Threading.SemaphoreSlim" /&gt;</ph> has already reached its maximum size.</source>
+          <target state="translated"><ph id="ph1">&lt;see cref="T:System.Threading.SemaphoreSlim" /&gt;</ph> 已达到其最大大小。</target>       </trans-unit>
+        <trans-unit id="172" translate="yes" xml:space="preserve" uid="M:System.Threading.SemaphoreSlim.Release(System.Int32)">
+          <source>The number of times to exit the semaphore.</source>
+          <target state="translated">退出信号量的次数。</target>       </trans-unit>
+        <trans-unit id="173" translate="yes" xml:space="preserve" uid="M:System.Threading.SemaphoreSlim.Release(System.Int32)">
+          <source>Releases the <ph id="ph1">&lt;see cref="T:System.Threading.SemaphoreSlim" /&gt;</ph> object a specified number of times.</source>
+          <target state="translated">释放 <ph id="ph1">&lt;see cref="T:System.Threading.SemaphoreSlim" /&gt;</ph> 对象指定的次数。</target>       </trans-unit>
+        <trans-unit id="174" translate="yes" xml:space="preserve" uid="M:System.Threading.SemaphoreSlim.Release(System.Int32)">
+          <source>The previous count of the <ph id="ph1">&lt;see cref="T:System.Threading.SemaphoreSlim" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;see cref="T:System.Threading.SemaphoreSlim" /&gt;</ph> 的前一个计数。</target>       </trans-unit>
+        <trans-unit id="175" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Threading.SemaphoreSlim.Release(System.Int32)">
+          <source>A call to the <ph id="ph1">&lt;xref:System.Threading.SemaphoreSlim.Release%28System.Int32%29&gt;</ph> method increments the <ph id="ph2">&lt;xref:System.Threading.SemaphoreSlim.CurrentCount%2A&gt;</ph> property by <ph id="ph3">`releaseCount`</ph>.</source>
+          <target state="translated">调用<ph id="ph1">&lt;xref:System.Threading.SemaphoreSlim.Release%28System.Int32%29&gt;</ph>方法递增<ph id="ph2">&lt;xref:System.Threading.SemaphoreSlim.CurrentCount%2A&gt;</ph>属性<ph id="ph3">`releaseCount`</ph>。</target>       </trans-unit>
+        <trans-unit id="176" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Threading.SemaphoreSlim.Release(System.Int32)">
+          <source>If the value of the <ph id="ph1">&lt;xref:System.Threading.SemaphoreSlim.CurrentCount%2A&gt;</ph> property is zero before this method is called, the method also allows <ph id="ph2">`releaseCount`</ph> threads or tasks blocked by a call to the <ph id="ph3">&lt;xref:System.Threading.SemaphoreSlim.Wait%2A&gt;</ph> or <ph id="ph4">&lt;xref:System.Threading.SemaphoreSlim.WaitAsync%2A&gt;</ph> method to enter the semaphore.</source>
+          <target state="translated">如果值<ph id="ph1">&lt;xref:System.Threading.SemaphoreSlim.CurrentCount%2A&gt;</ph>属性为零，调用此方法之前，该方法还允许<ph id="ph2">`releaseCount`</ph>线程或任务通过调用阻止<ph id="ph3">&lt;xref:System.Threading.SemaphoreSlim.Wait%2A&gt;</ph>或<ph id="ph4">&lt;xref:System.Threading.SemaphoreSlim.WaitAsync%2A&gt;</ph>方法进入信号量。</target>       </trans-unit>
+        <trans-unit id="177" translate="yes" xml:space="preserve" uid="M:System.Threading.SemaphoreSlim.Release(System.Int32)">
+          <source>The current instance has already been disposed.</source>
+          <target state="translated">已释放当前实例。</target>       </trans-unit>
+        <trans-unit id="178" translate="yes" xml:space="preserve" uid="M:System.Threading.SemaphoreSlim.Release(System.Int32)">
+          <source><ph id="ph1">&lt;paramref name="releaseCount" /&gt;</ph> is less than 1.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="releaseCount" /&gt;</ph> 小于 1。</target>       </trans-unit>
+        <trans-unit id="179" translate="yes" xml:space="preserve" uid="M:System.Threading.SemaphoreSlim.Release(System.Int32)">
+          <source>The <ph id="ph1">&lt;see cref="T:System.Threading.SemaphoreSlim" /&gt;</ph> has already reached its maximum size.</source>
+          <target state="translated"><ph id="ph1">&lt;see cref="T:System.Threading.SemaphoreSlim" /&gt;</ph> 已达到其最大大小。</target>       </trans-unit>
+        <trans-unit id="180" translate="yes" xml:space="preserve" uid="T:System.Threading.SemaphoreSlim">
+          <source>Blocks the current thread until it can enter the <ph id="ph1">&lt;see cref="T:System.Threading.SemaphoreSlim" /&gt;</ph>.</source>
+          <target state="translated">阻止当前线程，直至它可进入 <ph id="ph1">&lt;see cref="T:System.Threading.SemaphoreSlim" /&gt;</ph> 为止。</target>       </trans-unit>
+        <trans-unit id="181" translate="yes" xml:space="preserve" uid="M:System.Threading.SemaphoreSlim.Wait">
+          <source>Blocks the current thread until it can enter the <ph id="ph1">&lt;see cref="T:System.Threading.SemaphoreSlim" /&gt;</ph>.</source>
+          <target state="translated">阻止当前线程，直至它可进入 <ph id="ph1">&lt;see cref="T:System.Threading.SemaphoreSlim" /&gt;</ph> 为止。</target>       </trans-unit>
+        <trans-unit id="182" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Threading.SemaphoreSlim.Wait">
+          <source>If a thread or task is able to enter the semaphore, it decrements the <ph id="ph1">&lt;xref:System.Threading.SemaphoreSlim.CurrentCount%2A&gt;</ph> property by one.</source>
+          <target state="translated">如果线程或任务能够进入信号量，它递减<ph id="ph1">&lt;xref:System.Threading.SemaphoreSlim.CurrentCount%2A&gt;</ph>通过一个属性。</target>       </trans-unit>
+        <trans-unit id="183" translate="yes" xml:space="preserve" uid="M:System.Threading.SemaphoreSlim.Wait">
+          <source>The current instance has already been disposed.</source>
+          <target state="translated">已释放当前实例。</target>       </trans-unit>
+        <trans-unit id="184" translate="yes" xml:space="preserve" uid="M:System.Threading.SemaphoreSlim.Wait(System.Int32)">
+          <source>The number of milliseconds to wait, <ph id="ph1">&lt;see cref="F:System.Threading.Timeout.Infinite" /&gt;</ph>(-1) to wait indefinitely, or zero to test the state of the wait handle and return immediately.</source>
+          <target state="translated">要等待的毫秒数，<ph id="ph1">&lt;see cref="F:System.Threading.Timeout.Infinite" /&gt;</ph>(-1) 表示无限等待，零表示测试等待句柄的状态并立即返回。</target>       </trans-unit>
+        <trans-unit id="185" translate="yes" xml:space="preserve" uid="M:System.Threading.SemaphoreSlim.Wait(System.Int32)">
+          <source>Blocks the current thread until it can enter the <ph id="ph1">&lt;see cref="T:System.Threading.SemaphoreSlim" /&gt;</ph>, using a 32-bit signed integer that specifies the timeout.</source>
+          <target state="translated">阻止当前线程，直至它可进入 <ph id="ph1">&lt;see cref="T:System.Threading.SemaphoreSlim" /&gt;</ph> 为止，同时使用 32 位带符号整数来指定超时。</target>       </trans-unit>
+        <trans-unit id="186" translate="yes" xml:space="preserve" uid="M:System.Threading.SemaphoreSlim.Wait(System.Int32)">
+          <source><ph id="ph1">&lt;see langword="true" /&gt;</ph> if the current thread successfully entered the <ph id="ph2">&lt;see cref="T:System.Threading.SemaphoreSlim" /&gt;</ph>; otherwise, <ph id="ph3">&lt;see langword="false" /&gt;</ph>.</source>
+          <target state="translated">如果当前线程成功进入 <ph id="ph2">&lt;see cref="T:System.Threading.SemaphoreSlim" /&gt;</ph>，则为 <ph id="ph1">&lt;see langword="true" /&gt;</ph>；否则为 <ph id="ph3">&lt;see langword="false" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="187" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Threading.SemaphoreSlim.Wait(System.Int32)">
+          <source>If the timeout is set to -1 milliseconds, the method waits indefinitely.</source>
+          <target state="translated">如果超时设置为-1 毫秒，该方法将无限期等待。</target>       </trans-unit>
+        <trans-unit id="188" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Threading.SemaphoreSlim.Wait(System.Int32)">
+          <source>If the timeout is set to zero milliseconds, the method doesn't block.</source>
+          <target state="translated">如果超时设置为零毫秒，则不会阻止该方法。</target>       </trans-unit>
+        <trans-unit id="189" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Threading.SemaphoreSlim.Wait(System.Int32)">
+          <source>It tests the state of the wait handle and returns immediately.</source>
+          <target state="translated">它测试等待句柄的状态并立即返回。</target>       </trans-unit>
+        <trans-unit id="190" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Threading.SemaphoreSlim.Wait(System.Int32)">
+          <source>If a thread or task is able to enter the semaphore, it decrements the <ph id="ph1">&lt;xref:System.Threading.SemaphoreSlim.CurrentCount%2A&gt;</ph> property by one.</source>
+          <target state="translated">如果线程或任务能够进入信号量，它递减<ph id="ph1">&lt;xref:System.Threading.SemaphoreSlim.CurrentCount%2A&gt;</ph>通过一个属性。</target>       </trans-unit>
+        <trans-unit id="191" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Threading.SemaphoreSlim.Wait(System.Int32)">
+          <source>If a thread or task is blocked when calling <ph id="ph1">&lt;xref:System.Threading.SemaphoreSlim.Wait%28System.Int32%29&gt;</ph> and the timeout interval specified by <ph id="ph2">`millisecondsTimeout`</ph> expires:</source>
+          <target state="translated">如果线程或任务时，阻止调用<ph id="ph1">&lt;xref:System.Threading.SemaphoreSlim.Wait%28System.Int32%29&gt;</ph>和指定的超时间隔<ph id="ph2">`millisecondsTimeout`</ph>过期：</target>       </trans-unit>
+        <trans-unit id="192" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Threading.SemaphoreSlim.Wait(System.Int32)">
+          <source>The thread or task doesn't enter the semaphore.</source>
+          <target state="translated">线程或任务不会进入信号量。</target>       </trans-unit>
+        <trans-unit id="193" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Threading.SemaphoreSlim.Wait(System.Int32)">
+          <source>The <ph id="ph1">&lt;xref:System.Threading.SemaphoreSlim.CurrentCount%2A&gt;</ph> property isn't decremented.</source>
+          <target state="translated"><ph id="ph1">&lt;xref:System.Threading.SemaphoreSlim.CurrentCount%2A&gt;</ph>属性无法递减。</target>       </trans-unit>
+        <trans-unit id="194" translate="yes" xml:space="preserve" uid="M:System.Threading.SemaphoreSlim.Wait(System.Int32)">
+          <source><ph id="ph1">&lt;paramref name="millisecondsTimeout" /&gt;</ph> is a negative number other than -1, which represents an infinite timeout -or- timeout is greater than <ph id="ph2">&lt;see cref="F:System.Int32.MaxValue" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="millisecondsTimeout" /&gt;</ph> 是 -1 之外的负数，表示无限超时或者超时大于 <ph id="ph2">&lt;see cref="F:System.Int32.MaxValue" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="195" translate="yes" xml:space="preserve" uid="M:System.Threading.SemaphoreSlim.Wait(System.Threading.CancellationToken)">
+          <source>The <ph id="ph1">&lt;see cref="T:System.Threading.CancellationToken" /&gt;</ph> token to observe.</source>
+          <target state="translated">要观察的 <ph id="ph1">&lt;see cref="T:System.Threading.CancellationToken" /&gt;</ph> 标记。</target>       </trans-unit>
+        <trans-unit id="196" translate="yes" xml:space="preserve" uid="M:System.Threading.SemaphoreSlim.Wait(System.Threading.CancellationToken)">
+          <source>Blocks the current thread until it can enter the <ph id="ph1">&lt;see cref="T:System.Threading.SemaphoreSlim" /&gt;</ph>, while observing a <ph id="ph2">&lt;see cref="T:System.Threading.CancellationToken" /&gt;</ph>.</source>
+          <target state="translated">阻止当前线程，直至它可进入 <ph id="ph1">&lt;see cref="T:System.Threading.SemaphoreSlim" /&gt;</ph> 为止，同时观察 <ph id="ph2">&lt;see cref="T:System.Threading.CancellationToken" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="197" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Threading.SemaphoreSlim.Wait(System.Threading.CancellationToken)">
+          <source>If a thread or task is able to enter the semaphore, it decrements the <ph id="ph1">&lt;xref:System.Threading.SemaphoreSlim.CurrentCount%2A&gt;</ph> property by one.</source>
+          <target state="translated">如果线程或任务能够进入信号量，它递减<ph id="ph1">&lt;xref:System.Threading.SemaphoreSlim.CurrentCount%2A&gt;</ph>通过一个属性。</target>       </trans-unit>
+        <trans-unit id="198" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Threading.SemaphoreSlim.Wait(System.Threading.CancellationToken)">
+          <source>If <ph id="ph1">`cancellationToken`</ph> is cancelled, the thread or task doesn't enter the semaphore, and the <ph id="ph2">&lt;xref:System.Threading.SemaphoreSlim.CurrentCount%2A&gt;</ph> property isn't decremented.</source>
+          <target state="translated">如果<ph id="ph1">`cancellationToken`</ph>是取消时，线程或任务不会进入信号量，与<ph id="ph2">&lt;xref:System.Threading.SemaphoreSlim.CurrentCount%2A&gt;</ph>属性无法递减。</target>       </trans-unit>
+        <trans-unit id="199" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Threading.SemaphoreSlim.Wait(System.Threading.CancellationToken)">
+          <source>Instead, the method throws an <ph id="ph1">&lt;xref:System.OperationCanceledException&gt;</ph> exception.</source>
+          <target state="translated">相反，该方法将引发<ph id="ph1">&lt;xref:System.OperationCanceledException&gt;</ph>异常。</target>       </trans-unit>
+        <trans-unit id="200" translate="yes" xml:space="preserve" uid="M:System.Threading.SemaphoreSlim.Wait(System.Threading.CancellationToken)">
+          <source><ph id="ph1">&lt;paramref name="cancellationToken" /&gt;</ph> was canceled.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="cancellationToken" /&gt;</ph> 已取消。</target>       </trans-unit>
+        <trans-unit id="201" translate="yes" xml:space="preserve" uid="M:System.Threading.SemaphoreSlim.Wait(System.Threading.CancellationToken)">
+          <source>The current instance has already been disposed.</source>
+          <target state="translated">已释放当前实例。</target>       </trans-unit>
+        <trans-unit id="202" translate="yes" xml:space="preserve" uid="M:System.Threading.SemaphoreSlim.Wait(System.Threading.CancellationToken)">
+          <source>-or-</source>
+          <target state="translated">或</target>       </trans-unit>
+        <trans-unit id="203" translate="yes" xml:space="preserve" uid="M:System.Threading.SemaphoreSlim.Wait(System.Threading.CancellationToken)">
+          <source>The <ph id="ph1">&lt;see cref="T:System.Threading.CancellationTokenSource" /&gt;</ph> that created <ph id="ph2">&lt;paramref name="cancellationToken" /&gt;</ph> has already been disposed.</source>
+          <target state="translated">创建了 <ph id="ph2">&lt;paramref name="cancellationToken" /&gt;</ph> 的 <ph id="ph1">&lt;see cref="T:System.Threading.CancellationTokenSource" /&gt;</ph> 已经被释放。</target>       </trans-unit>
+        <trans-unit id="204" translate="yes" xml:space="preserve" uid="M:System.Threading.SemaphoreSlim.Wait(System.TimeSpan)">
+          <source>A <ph id="ph1">&lt;see cref="T:System.TimeSpan" /&gt;</ph> that represents the number of milliseconds to wait, a <ph id="ph2">&lt;see cref="T:System.TimeSpan" /&gt;</ph> that represents -1 milliseconds to wait indefinitely, or a <ph id="ph3">&lt;see cref="T:System.TimeSpan" /&gt;</ph> that represents 0 milliseconds to test the wait handle and return immediately.</source>
+          <target state="translated"><ph id="ph1">&lt;see cref="T:System.TimeSpan" /&gt;</ph> 表示要等待的毫秒数，<ph id="ph2">&lt;see cref="T:System.TimeSpan" /&gt;</ph> 表示要无无限等待的 -1 毫秒，<ph id="ph3">&lt;see cref="T:System.TimeSpan" /&gt;</ph> 表示要测试句柄并立即返回的 0 毫秒。</target>       </trans-unit>
+        <trans-unit id="205" translate="yes" xml:space="preserve" uid="M:System.Threading.SemaphoreSlim.Wait(System.TimeSpan)">
+          <source>Blocks the current thread until it can enter the <ph id="ph1">&lt;see cref="T:System.Threading.SemaphoreSlim" /&gt;</ph>, using a <ph id="ph2">&lt;see cref="T:System.TimeSpan" /&gt;</ph> to specify the timeout.</source>
+          <target state="translated">阻止当前线程，直至它可进入 <ph id="ph1">&lt;see cref="T:System.Threading.SemaphoreSlim" /&gt;</ph> 为止，同时使用 <ph id="ph2">&lt;see cref="T:System.TimeSpan" /&gt;</ph> 来指定超时。</target>       </trans-unit>
+        <trans-unit id="206" translate="yes" xml:space="preserve" uid="M:System.Threading.SemaphoreSlim.Wait(System.TimeSpan)">
+          <source><ph id="ph1">&lt;see langword="true" /&gt;</ph> if the current thread successfully entered the <ph id="ph2">&lt;see cref="T:System.Threading.SemaphoreSlim" /&gt;</ph>; otherwise, <ph id="ph3">&lt;see langword="false" /&gt;</ph>.</source>
+          <target state="translated">如果当前线程成功进入 <ph id="ph2">&lt;see cref="T:System.Threading.SemaphoreSlim" /&gt;</ph>，则为 <ph id="ph1">&lt;see langword="true" /&gt;</ph>；否则为 <ph id="ph3">&lt;see langword="false" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="207" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Threading.SemaphoreSlim.Wait(System.TimeSpan)">
+          <source>If the timeout is set to -1 milliseconds, the method waits indefinitely.</source>
+          <target state="translated">如果超时设置为-1 毫秒，该方法将无限期等待。</target>       </trans-unit>
+        <trans-unit id="208" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Threading.SemaphoreSlim.Wait(System.TimeSpan)">
+          <source>If the timeout is set to zero milliseconds, the method doesn't block.</source>
+          <target state="translated">如果超时设置为零毫秒，则不会阻止该方法。</target>       </trans-unit>
+        <trans-unit id="209" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Threading.SemaphoreSlim.Wait(System.TimeSpan)">
+          <source>It tests the state of the wait handle and returns immediately.</source>
+          <target state="translated">它测试等待句柄的状态并立即返回。</target>       </trans-unit>
+        <trans-unit id="210" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Threading.SemaphoreSlim.Wait(System.TimeSpan)">
+          <source>If a thread or task is able to enter the semaphore, it decrements the <ph id="ph1">&lt;xref:System.Threading.SemaphoreSlim.CurrentCount%2A&gt;</ph> property by one.</source>
+          <target state="translated">如果线程或任务能够进入信号量，它递减<ph id="ph1">&lt;xref:System.Threading.SemaphoreSlim.CurrentCount%2A&gt;</ph>通过一个属性。</target>       </trans-unit>
+        <trans-unit id="211" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Threading.SemaphoreSlim.Wait(System.TimeSpan)">
+          <source>If a thread or task is blocked when calling <ph id="ph1">&lt;xref:System.Threading.SemaphoreSlim.Wait%28System.TimeSpan%29&gt;</ph> and the timeout interval specified by <ph id="ph2">`millisecondsTimeout`</ph> expires:</source>
+          <target state="translated">如果线程或任务时，阻止调用<ph id="ph1">&lt;xref:System.Threading.SemaphoreSlim.Wait%28System.TimeSpan%29&gt;</ph>和指定的超时间隔<ph id="ph2">`millisecondsTimeout`</ph>过期：</target>       </trans-unit>
+        <trans-unit id="212" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Threading.SemaphoreSlim.Wait(System.TimeSpan)">
+          <source>The thread or task doesn't enter the semaphore.</source>
+          <target state="translated">线程或任务不会进入信号量。</target>       </trans-unit>
+        <trans-unit id="213" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Threading.SemaphoreSlim.Wait(System.TimeSpan)">
+          <source>The <ph id="ph1">&lt;xref:System.Threading.SemaphoreSlim.CurrentCount%2A&gt;</ph> property isn't decremented.</source>
+          <target state="translated"><ph id="ph1">&lt;xref:System.Threading.SemaphoreSlim.CurrentCount%2A&gt;</ph>属性无法递减。</target>       </trans-unit>
+        <trans-unit id="214" translate="yes" xml:space="preserve" uid="M:System.Threading.SemaphoreSlim.Wait(System.TimeSpan)">
+          <source><ph id="ph1">&lt;paramref name="timeout" /&gt;</ph> is a negative number other than -1, which represents an infinite timeout -or- timeout is greater than <ph id="ph2">&lt;see cref="F:System.Int32.MaxValue" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="timeout" /&gt;</ph> 是 -1 之外的负数，表示无限超时或者超时大于 <ph id="ph2">&lt;see cref="F:System.Int32.MaxValue" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="215" translate="yes" xml:space="preserve" uid="M:System.Threading.SemaphoreSlim.Wait(System.TimeSpan)">
+          <source>The semaphoreSlim instance has been disposed <ph id="ph1">&lt;paramref name="." /&gt;</ph></source>
+          <target state="translated">semaphoreSlim 实例已释放 <ph id="ph1">&lt;paramref name="." /&gt;</ph></target>       </trans-unit>
+        <trans-unit id="216" translate="yes" xml:space="preserve" uid="M:System.Threading.SemaphoreSlim.Wait(System.Int32,System.Threading.CancellationToken)">
+          <source>The number of milliseconds to wait, <ph id="ph1">&lt;see cref="F:System.Threading.Timeout.Infinite" /&gt;</ph>(-1) to wait indefinitely, or zero to test the state of the wait handle and return immediately.</source>
+          <target state="translated">要等待的毫秒数，<ph id="ph1">&lt;see cref="F:System.Threading.Timeout.Infinite" /&gt;</ph>(-1) 表示无限等待，零表示测试等待句柄的状态并立即返回。</target>       </trans-unit>
+        <trans-unit id="217" translate="yes" xml:space="preserve" uid="M:System.Threading.SemaphoreSlim.Wait(System.Int32,System.Threading.CancellationToken)">
+          <source>The <ph id="ph1">&lt;see cref="T:System.Threading.CancellationToken" /&gt;</ph> to observe.</source>
+          <target state="translated">要观察的 <ph id="ph1">&lt;see cref="T:System.Threading.CancellationToken" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="218" translate="yes" xml:space="preserve" uid="M:System.Threading.SemaphoreSlim.Wait(System.Int32,System.Threading.CancellationToken)">
+          <source>Blocks the current thread until it can enter the <ph id="ph1">&lt;see cref="T:System.Threading.SemaphoreSlim" /&gt;</ph>, using a 32-bit signed integer that specifies the timeout, while observing a <ph id="ph2">&lt;see cref="T:System.Threading.CancellationToken" /&gt;</ph>.</source>
+          <target state="translated">阻止当前线程，直至它可进入 <ph id="ph1">&lt;see cref="T:System.Threading.SemaphoreSlim" /&gt;</ph> 为止，并使用 32 位带符号整数来指定超时，同时观察 <ph id="ph2">&lt;see cref="T:System.Threading.CancellationToken" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="219" translate="yes" xml:space="preserve" uid="M:System.Threading.SemaphoreSlim.Wait(System.Int32,System.Threading.CancellationToken)">
+          <source><ph id="ph1">&lt;see langword="true" /&gt;</ph> if the current thread successfully entered the <ph id="ph2">&lt;see cref="T:System.Threading.SemaphoreSlim" /&gt;</ph>; otherwise, <ph id="ph3">&lt;see langword="false" /&gt;</ph>.</source>
+          <target state="translated">如果当前线程成功进入 <ph id="ph2">&lt;see cref="T:System.Threading.SemaphoreSlim" /&gt;</ph>，则为 <ph id="ph1">&lt;see langword="true" /&gt;</ph>；否则为 <ph id="ph3">&lt;see langword="false" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="220" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Threading.SemaphoreSlim.Wait(System.Int32,System.Threading.CancellationToken)">
+          <source>If the timeout is set to -1 milliseconds, the method waits indefinitely.</source>
+          <target state="translated">如果超时设置为-1 毫秒，该方法将无限期等待。</target>       </trans-unit>
+        <trans-unit id="221" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Threading.SemaphoreSlim.Wait(System.Int32,System.Threading.CancellationToken)">
+          <source>If the timeout is set to zero milliseconds, the method doesn't block.</source>
+          <target state="translated">如果超时设置为零毫秒，则不会阻止该方法。</target>       </trans-unit>
+        <trans-unit id="222" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Threading.SemaphoreSlim.Wait(System.Int32,System.Threading.CancellationToken)">
+          <source>It tests the state of the wait handle and returns immediately.</source>
+          <target state="translated">它测试等待句柄的状态并立即返回。</target>       </trans-unit>
+        <trans-unit id="223" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Threading.SemaphoreSlim.Wait(System.Int32,System.Threading.CancellationToken)">
+          <source>If a thread or task is able to enter the semaphore, it decrements the <ph id="ph1">&lt;xref:System.Threading.SemaphoreSlim.CurrentCount%2A&gt;</ph> property by one.</source>
+          <target state="translated">如果线程或任务能够进入信号量，它递减<ph id="ph1">&lt;xref:System.Threading.SemaphoreSlim.CurrentCount%2A&gt;</ph>通过一个属性。</target>       </trans-unit>
+        <trans-unit id="224" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Threading.SemaphoreSlim.Wait(System.Int32,System.Threading.CancellationToken)">
+          <source>If <ph id="ph1">`cancellationToken`</ph> is cancelled, or if a thread or task is blocked when calling <ph id="ph2">&lt;xref:System.Threading.SemaphoreSlim.Wait%28System.Int32%2CSystem.Threading.CancellationToken%29&gt;</ph> and the timeout interval specified by <ph id="ph3">`millisecondsTimeout`</ph> expires:</source>
+          <target state="translated">如果<ph id="ph1">`cancellationToken`</ph>被取消时，或者如果线程或任务时，阻止调用<ph id="ph2">&lt;xref:System.Threading.SemaphoreSlim.Wait%28System.Int32%2CSystem.Threading.CancellationToken%29&gt;</ph>和指定的超时间隔<ph id="ph3">`millisecondsTimeout`</ph>过期：</target>       </trans-unit>
+        <trans-unit id="225" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Threading.SemaphoreSlim.Wait(System.Int32,System.Threading.CancellationToken)">
+          <source>The thread or task doesn't enter the semaphore.</source>
+          <target state="translated">线程或任务不会进入信号量。</target>       </trans-unit>
+        <trans-unit id="226" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Threading.SemaphoreSlim.Wait(System.Int32,System.Threading.CancellationToken)">
+          <source>The <ph id="ph1">&lt;xref:System.Threading.SemaphoreSlim.CurrentCount%2A&gt;</ph> property isn't decremented.</source>
+          <target state="translated"><ph id="ph1">&lt;xref:System.Threading.SemaphoreSlim.CurrentCount%2A&gt;</ph>属性无法递减。</target>       </trans-unit>
+        <trans-unit id="227" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Threading.SemaphoreSlim.Wait(System.Int32,System.Threading.CancellationToken)">
+          <source>If <ph id="ph1">`cancellationToken`</ph> is cancelled, the method throws an   <ph id="ph2">&lt;xref:System.OperationCanceledException&gt;</ph> exception.</source>
+          <target state="translated">如果<ph id="ph1">`cancellationToken`</ph>是取消时，该方法将引发<ph id="ph2">&lt;xref:System.OperationCanceledException&gt;</ph>异常。</target>       </trans-unit>
+        <trans-unit id="228" translate="yes" xml:space="preserve" uid="M:System.Threading.SemaphoreSlim.Wait(System.Int32,System.Threading.CancellationToken)">
+          <source><ph id="ph1">&lt;paramref name="cancellationToken" /&gt;</ph> was canceled.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="cancellationToken" /&gt;</ph> 已取消。</target>       </trans-unit>
+        <trans-unit id="229" translate="yes" xml:space="preserve" uid="M:System.Threading.SemaphoreSlim.Wait(System.Int32,System.Threading.CancellationToken)">
+          <source><ph id="ph1">&lt;paramref name="millisecondsTimeout" /&gt;</ph> is a negative number other than -1, which represents an infinite timeout -or- timeout is greater than <ph id="ph2">&lt;see cref="F:System.Int32.MaxValue" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="millisecondsTimeout" /&gt;</ph> 是 -1 之外的负数，表示无限超时或者超时大于 <ph id="ph2">&lt;see cref="F:System.Int32.MaxValue" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="230" translate="yes" xml:space="preserve" uid="M:System.Threading.SemaphoreSlim.Wait(System.Int32,System.Threading.CancellationToken)">
+          <source>The <ph id="ph1">&lt;see cref="T:System.Threading.SemaphoreSlim" /&gt;</ph> instance has been disposed, or the <ph id="ph2">&lt;see cref="T:System.Threading.CancellationTokenSource" /&gt;</ph> that created <ph id="ph3">&lt;paramref name="cancellationToken" /&gt;</ph> has been disposed.</source>
+          <target state="translated">已释放 <ph id="ph1">&lt;see cref="T:System.Threading.SemaphoreSlim" /&gt;</ph> 实例，或已释放创建 <ph id="ph3">&lt;paramref name="cancellationToken" /&gt;</ph> 的 <ph id="ph2">&lt;see cref="T:System.Threading.CancellationTokenSource" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="231" translate="yes" xml:space="preserve" uid="M:System.Threading.SemaphoreSlim.Wait(System.TimeSpan,System.Threading.CancellationToken)">
+          <source>A <ph id="ph1">&lt;see cref="T:System.TimeSpan" /&gt;</ph> that represents the number of milliseconds to wait, a <ph id="ph2">&lt;see cref="T:System.TimeSpan" /&gt;</ph> that represents -1 milliseconds to wait indefinitely, or a <ph id="ph3">&lt;see cref="T:System.TimeSpan" /&gt;</ph> that represents 0 milliseconds to test the wait handle and return immediately.</source>
+          <target state="translated"><ph id="ph1">&lt;see cref="T:System.TimeSpan" /&gt;</ph> 表示要等待的毫秒数，<ph id="ph2">&lt;see cref="T:System.TimeSpan" /&gt;</ph> 表示要无无限等待的 -1 毫秒，<ph id="ph3">&lt;see cref="T:System.TimeSpan" /&gt;</ph> 表示要测试句柄并立即返回的 0 毫秒。</target>       </trans-unit>
+        <trans-unit id="232" translate="yes" xml:space="preserve" uid="M:System.Threading.SemaphoreSlim.Wait(System.TimeSpan,System.Threading.CancellationToken)">
+          <source>The <ph id="ph1">&lt;see cref="T:System.Threading.CancellationToken" /&gt;</ph> to observe.</source>
+          <target state="translated">要观察的 <ph id="ph1">&lt;see cref="T:System.Threading.CancellationToken" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="233" translate="yes" xml:space="preserve" uid="M:System.Threading.SemaphoreSlim.Wait(System.TimeSpan,System.Threading.CancellationToken)">
+          <source>Blocks the current thread until it can enter the <ph id="ph1">&lt;see cref="T:System.Threading.SemaphoreSlim" /&gt;</ph>, using a <ph id="ph2">&lt;see cref="T:System.TimeSpan" /&gt;</ph> that specifies the timeout, while observing a <ph id="ph3">&lt;see cref="T:System.Threading.CancellationToken" /&gt;</ph>.</source>
+          <target state="translated">阻止当前线程，直至它可进入 <ph id="ph1">&lt;see cref="T:System.Threading.SemaphoreSlim" /&gt;</ph> 为止，并使用 <ph id="ph2">&lt;see cref="T:System.TimeSpan" /&gt;</ph> 来指定超时，同时观察 <ph id="ph3">&lt;see cref="T:System.Threading.CancellationToken" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="234" translate="yes" xml:space="preserve" uid="M:System.Threading.SemaphoreSlim.Wait(System.TimeSpan,System.Threading.CancellationToken)">
+          <source><ph id="ph1">&lt;see langword="true" /&gt;</ph> if the current thread successfully entered the <ph id="ph2">&lt;see cref="T:System.Threading.SemaphoreSlim" /&gt;</ph>; otherwise, <ph id="ph3">&lt;see langword="false" /&gt;</ph>.</source>
+          <target state="translated">如果当前线程成功进入 <ph id="ph2">&lt;see cref="T:System.Threading.SemaphoreSlim" /&gt;</ph>，则为 <ph id="ph1">&lt;see langword="true" /&gt;</ph>；否则为 <ph id="ph3">&lt;see langword="false" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="235" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Threading.SemaphoreSlim.Wait(System.TimeSpan,System.Threading.CancellationToken)">
+          <source>If the timeout is set to -1 milliseconds, the method waits indefinitely.</source>
+          <target state="translated">如果超时设置为-1 毫秒，该方法将无限期等待。</target>       </trans-unit>
+        <trans-unit id="236" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Threading.SemaphoreSlim.Wait(System.TimeSpan,System.Threading.CancellationToken)">
+          <source>If the timeout is set to zero milliseconds, the method doesn't block.</source>
+          <target state="translated">如果超时设置为零毫秒，则不会阻止该方法。</target>       </trans-unit>
+        <trans-unit id="237" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Threading.SemaphoreSlim.Wait(System.TimeSpan,System.Threading.CancellationToken)">
+          <source>It tests the state of the wait handle and returns immediately.</source>
+          <target state="translated">它测试等待句柄的状态并立即返回。</target>       </trans-unit>
+        <trans-unit id="238" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Threading.SemaphoreSlim.Wait(System.TimeSpan,System.Threading.CancellationToken)">
+          <source>If a thread or task is able to enter the semaphore, it decrements the <ph id="ph1">&lt;xref:System.Threading.SemaphoreSlim.CurrentCount%2A&gt;</ph> property by one.</source>
+          <target state="translated">如果线程或任务能够进入信号量，它递减<ph id="ph1">&lt;xref:System.Threading.SemaphoreSlim.CurrentCount%2A&gt;</ph>通过一个属性。</target>       </trans-unit>
+        <trans-unit id="239" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Threading.SemaphoreSlim.Wait(System.TimeSpan,System.Threading.CancellationToken)">
+          <source>If <ph id="ph1">`cancellationToken`</ph> is cancelled, or if a thread or task is blocked when calling <ph id="ph2">&lt;xref:System.Threading.SemaphoreSlim.Wait%28System.TimeSpan%2CSystem.Threading.CancellationToken%29&gt;</ph> and the timeout interval specified by <ph id="ph3">`millisecondsTimeout`</ph> expires:</source>
+          <target state="translated">如果<ph id="ph1">`cancellationToken`</ph>被取消时，或者如果线程或任务时，阻止调用<ph id="ph2">&lt;xref:System.Threading.SemaphoreSlim.Wait%28System.TimeSpan%2CSystem.Threading.CancellationToken%29&gt;</ph>和指定的超时间隔<ph id="ph3">`millisecondsTimeout`</ph>过期：</target>       </trans-unit>
+        <trans-unit id="240" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Threading.SemaphoreSlim.Wait(System.TimeSpan,System.Threading.CancellationToken)">
+          <source>The thread or task doesn't enter the semaphore.</source>
+          <target state="translated">线程或任务不会进入信号量。</target>       </trans-unit>
+        <trans-unit id="241" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Threading.SemaphoreSlim.Wait(System.TimeSpan,System.Threading.CancellationToken)">
+          <source>The <ph id="ph1">&lt;xref:System.Threading.SemaphoreSlim.CurrentCount%2A&gt;</ph> property isn't decremented.</source>
+          <target state="translated"><ph id="ph1">&lt;xref:System.Threading.SemaphoreSlim.CurrentCount%2A&gt;</ph>属性无法递减。</target>       </trans-unit>
+        <trans-unit id="242" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Threading.SemaphoreSlim.Wait(System.TimeSpan,System.Threading.CancellationToken)">
+          <source>If <ph id="ph1">`cancellationToken`</ph> is cancelled, the method throws an <ph id="ph2">&lt;xref:System.OperationCanceledException&gt;</ph> exception.</source>
+          <target state="translated">如果<ph id="ph1">`cancellationToken`</ph>是取消时，该方法将引发<ph id="ph2">&lt;xref:System.OperationCanceledException&gt;</ph>异常。</target>       </trans-unit>
+        <trans-unit id="243" translate="yes" xml:space="preserve" uid="M:System.Threading.SemaphoreSlim.Wait(System.TimeSpan,System.Threading.CancellationToken)">
+          <source><ph id="ph1">&lt;paramref name="cancellationToken" /&gt;</ph> was canceled.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="cancellationToken" /&gt;</ph> 已取消。</target>       </trans-unit>
+        <trans-unit id="244" translate="yes" xml:space="preserve" uid="M:System.Threading.SemaphoreSlim.Wait(System.TimeSpan,System.Threading.CancellationToken)">
+          <source><ph id="ph1">&lt;paramref name="timeout" /&gt;</ph> is a negative number other than -1, which represents an infinite timeout -or- timeout is greater than <ph id="ph2">&lt;see cref="F:System.Int32.MaxValue" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="timeout" /&gt;</ph> 是 -1 之外的负数，表示无限超时或者超时大于 <ph id="ph2">&lt;see cref="F:System.Int32.MaxValue" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="245" translate="yes" xml:space="preserve" uid="M:System.Threading.SemaphoreSlim.Wait(System.TimeSpan,System.Threading.CancellationToken)">
+          <source>The semaphoreSlim instance has been disposed <ph id="ph1">&lt;paramref name="." /&gt;</ph><ph id="ph2">&lt;paramref name="-or-" /&gt;</ph></source>
+          <target state="translated">semaphoreSlim 实例已释放 <ph id="ph1">&lt;paramref name="." /&gt;</ph><ph id="ph2">&lt;paramref name="-or-" /&gt;</ph></target>       </trans-unit>
+        <trans-unit id="246" translate="yes" xml:space="preserve" uid="M:System.Threading.SemaphoreSlim.Wait(System.TimeSpan,System.Threading.CancellationToken)">
+          <source>The <ph id="ph1">&lt;see cref="T:System.Threading.CancellationTokenSource" /&gt;</ph> that created <ph id="ph2">&lt;paramref name="cancellationToken" /&gt;</ph> has already been disposed.</source>
+          <target state="translated">创建了 <ph id="ph2">&lt;paramref name="cancellationToken" /&gt;</ph> 的 <ph id="ph1">&lt;see cref="T:System.Threading.CancellationTokenSource" /&gt;</ph> 已经被释放。</target>       </trans-unit>
+        <trans-unit id="247" translate="yes" xml:space="preserve" uid="T:System.Threading.SemaphoreSlim">
+          <source>Asynchronously waits to enter the <ph id="ph1">&lt;see cref="T:System.Threading.SemaphoreSlim" /&gt;</ph>.</source>
+          <target state="translated">输入 <ph id="ph1">&lt;see cref="T:System.Threading.SemaphoreSlim" /&gt;</ph> 的异步等待。</target>       </trans-unit>
+        <trans-unit id="248" translate="yes" xml:space="preserve" uid="M:System.Threading.SemaphoreSlim.WaitAsync">
+          <source>Asynchronously waits to enter the <ph id="ph1">&lt;see cref="T:System.Threading.SemaphoreSlim" /&gt;</ph>.</source>
+          <target state="translated">输入 <ph id="ph1">&lt;see cref="T:System.Threading.SemaphoreSlim" /&gt;</ph> 的异步等待。</target>       </trans-unit>
+        <trans-unit id="249" translate="yes" xml:space="preserve" uid="M:System.Threading.SemaphoreSlim.WaitAsync">
+          <source>A task that will complete when the semaphore has been entered.</source>
+          <target state="translated">输入信号量时完成任务。</target>       </trans-unit>
+        <trans-unit id="250" translate="yes" xml:space="preserve" uid="M:System.Threading.SemaphoreSlim.WaitAsync(System.Int32)">
+          <source>The number of milliseconds to wait, <ph id="ph1">&lt;see cref="F:System.Threading.Timeout.Infinite" /&gt;</ph> (-1) to wait indefinitely, or zero to test the state of the wait handle and return immediately.</source>
+          <target state="translated">要等待的毫秒数，<ph id="ph1">&lt;see cref="F:System.Threading.Timeout.Infinite" /&gt;</ph>(-1) 表示无限等待，零表示测试等待句柄状态并立即返回。</target>       </trans-unit>
+        <trans-unit id="251" translate="yes" xml:space="preserve" uid="M:System.Threading.SemaphoreSlim.WaitAsync(System.Int32)">
+          <source>Asynchronously waits to enter the <ph id="ph1">&lt;see cref="T:System.Threading.SemaphoreSlim" /&gt;</ph>, using a 32-bit signed integer to measure the time interval.</source>
+          <target state="translated">输入 <ph id="ph1">&lt;see cref="T:System.Threading.SemaphoreSlim" /&gt;</ph> 的异步等待，使用 32 位带符号整数度量时间间隔。</target>       </trans-unit>
+        <trans-unit id="252" translate="yes" xml:space="preserve" uid="M:System.Threading.SemaphoreSlim.WaitAsync(System.Int32)">
+          <source>A task that will complete with a result of <ph id="ph1">&lt;see langword="true" /&gt;</ph> if the current thread successfully entered the <ph id="ph2">&lt;see cref="T:System.Threading.SemaphoreSlim" /&gt;</ph>, otherwise with a result of <ph id="ph3">&lt;see langword="false" /&gt;</ph>.</source>
+          <target state="translated">如果当前线程成功输入了 <ph id="ph2">&lt;see cref="T:System.Threading.SemaphoreSlim" /&gt;</ph>，则为将通过 <ph id="ph1">&lt;see langword="true" /&gt;</ph> 的结果一起完成的任务，否则将通过 <ph id="ph3">&lt;see langword="false" /&gt;</ph> 的结果完成。</target>       </trans-unit>
+        <trans-unit id="253" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Threading.SemaphoreSlim.WaitAsync(System.Int32)">
+          <source>If the timeout is set to -1 milliseconds, the method waits indefinitely.</source>
+          <target state="translated">如果超时设置为-1 毫秒，该方法将无限期等待。</target>       </trans-unit>
+        <trans-unit id="254" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Threading.SemaphoreSlim.WaitAsync(System.Int32)">
+          <source>If the timeout is set to zero milliseconds, the method doesn't block.</source>
+          <target state="translated">如果超时设置为零毫秒，则不会阻止该方法。</target>       </trans-unit>
+        <trans-unit id="255" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Threading.SemaphoreSlim.WaitAsync(System.Int32)">
+          <source>It tests the state of the wait handle and returns immediately.</source>
+          <target state="translated">它测试等待句柄的状态并立即返回。</target>       </trans-unit>
+        <trans-unit id="256" translate="yes" xml:space="preserve" uid="M:System.Threading.SemaphoreSlim.WaitAsync(System.Int32)">
+          <source>The current instance has already been disposed.</source>
+          <target state="translated">已释放当前实例。</target>       </trans-unit>
+        <trans-unit id="257" translate="yes" xml:space="preserve" uid="M:System.Threading.SemaphoreSlim.WaitAsync(System.Int32)">
+          <source><ph id="ph1">&lt;paramref name="millisecondsTimeout" /&gt;</ph> is a negative number other than -1, which represents an infinite timeout -or- timeout is greater than <ph id="ph2">&lt;see cref="F:System.Int32.MaxValue" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="millisecondsTimeout" /&gt;</ph> 是 -1 之外的负数，表示无限超时或者超时大于 <ph id="ph2">&lt;see cref="F:System.Int32.MaxValue" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="258" translate="yes" xml:space="preserve" uid="M:System.Threading.SemaphoreSlim.WaitAsync(System.Threading.CancellationToken)">
+          <source>The <ph id="ph1">&lt;see cref="T:System.Threading.CancellationToken" /&gt;</ph> token to observe.</source>
+          <target state="translated">要观察的 <ph id="ph1">&lt;see cref="T:System.Threading.CancellationToken" /&gt;</ph> 标记。</target>       </trans-unit>
+        <trans-unit id="259" translate="yes" xml:space="preserve" uid="M:System.Threading.SemaphoreSlim.WaitAsync(System.Threading.CancellationToken)">
+          <source>Asynchronously waits to enter the <ph id="ph1">&lt;see cref="T:System.Threading.SemaphoreSlim" /&gt;</ph>, while observing a <ph id="ph2">&lt;see cref="T:System.Threading.CancellationToken" /&gt;</ph>.</source>
+          <target state="translated">在观察 <ph id="ph2">&lt;see cref="T:System.Threading.CancellationToken" /&gt;</ph> 时，输入 <ph id="ph1">&lt;see cref="T:System.Threading.SemaphoreSlim" /&gt;</ph> 的异步等待。</target>       </trans-unit>
+        <trans-unit id="260" translate="yes" xml:space="preserve" uid="M:System.Threading.SemaphoreSlim.WaitAsync(System.Threading.CancellationToken)">
+          <source>A task that will complete when the semaphore has been entered.</source>
+          <target state="translated">输入信号量时完成任务。</target>       </trans-unit>
+        <trans-unit id="261" translate="yes" xml:space="preserve" uid="M:System.Threading.SemaphoreSlim.WaitAsync(System.Threading.CancellationToken)">
+          <source>The current instance has already been disposed.</source>
+          <target state="translated">已释放当前实例。</target>       </trans-unit>
+        <trans-unit id="262" translate="yes" xml:space="preserve" uid="M:System.Threading.SemaphoreSlim.WaitAsync(System.Threading.CancellationToken)">
+          <source><ph id="ph1">&lt;paramref name="cancellationToken" /&gt;</ph> was canceled.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="cancellationToken" /&gt;</ph> 已取消。</target>       </trans-unit>
+        <trans-unit id="263" translate="yes" xml:space="preserve" uid="M:System.Threading.SemaphoreSlim.WaitAsync(System.TimeSpan)">
+          <source>A <ph id="ph1">&lt;see cref="T:System.TimeSpan" /&gt;</ph> that represents the number of milliseconds to wait, a <ph id="ph2">&lt;see cref="T:System.TimeSpan" /&gt;</ph> that represents -1 milliseconds to wait indefinitely, or a <ph id="ph3">&lt;see cref="T:System.TimeSpan" /&gt;</ph> that represents 0 milliseconds to test the wait handle and return immediately.</source>
+          <target state="translated"><ph id="ph1">&lt;see cref="T:System.TimeSpan" /&gt;</ph> 表示要等待的毫秒数，<ph id="ph2">&lt;see cref="T:System.TimeSpan" /&gt;</ph> 表示要无无限等待的 -1 毫秒，<ph id="ph3">&lt;see cref="T:System.TimeSpan" /&gt;</ph> 表示要测试句柄并立即返回的 0 毫秒。</target>       </trans-unit>
+        <trans-unit id="264" translate="yes" xml:space="preserve" uid="M:System.Threading.SemaphoreSlim.WaitAsync(System.TimeSpan)">
+          <source>Asynchronously waits to enter the <ph id="ph1">&lt;see cref="T:System.Threading.SemaphoreSlim" /&gt;</ph>, using a <ph id="ph2">&lt;see cref="T:System.TimeSpan" /&gt;</ph> to measure the time interval.</source>
+          <target state="translated">输入 <ph id="ph1">&lt;see cref="T:System.Threading.SemaphoreSlim" /&gt;</ph> 的异步等待，使用 <ph id="ph2">&lt;see cref="T:System.TimeSpan" /&gt;</ph> 度量时间间隔。</target>       </trans-unit>
+        <trans-unit id="265" translate="yes" xml:space="preserve" uid="M:System.Threading.SemaphoreSlim.WaitAsync(System.TimeSpan)">
+          <source>A task that will complete with a result of <ph id="ph1">&lt;see langword="true" /&gt;</ph> if the current thread successfully entered the <ph id="ph2">&lt;see cref="T:System.Threading.SemaphoreSlim" /&gt;</ph>, otherwise with a result of <ph id="ph3">&lt;see langword="false" /&gt;</ph>.</source>
+          <target state="translated">如果当前线程成功输入了 <ph id="ph2">&lt;see cref="T:System.Threading.SemaphoreSlim" /&gt;</ph>，则为将通过 <ph id="ph1">&lt;see langword="true" /&gt;</ph> 的结果一起完成的任务，否则将通过 <ph id="ph3">&lt;see langword="false" /&gt;</ph> 的结果完成。</target>       </trans-unit>
+        <trans-unit id="266" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Threading.SemaphoreSlim.WaitAsync(System.TimeSpan)">
+          <source>If the timeout is set to -1 milliseconds, the method waits indefinitely.</source>
+          <target state="translated">如果超时设置为-1 毫秒，该方法将无限期等待。</target>       </trans-unit>
+        <trans-unit id="267" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Threading.SemaphoreSlim.WaitAsync(System.TimeSpan)">
+          <source>If the timeout is set to zero milliseconds, the method doesn't block.</source>
+          <target state="translated">如果超时设置为零毫秒，则不会阻止该方法。</target>       </trans-unit>
+        <trans-unit id="268" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Threading.SemaphoreSlim.WaitAsync(System.TimeSpan)">
+          <source>It tests the state of the wait handle and returns immediately.</source>
+          <target state="translated">它测试等待句柄的状态并立即返回。</target>       </trans-unit>
+        <trans-unit id="269" translate="yes" xml:space="preserve" uid="M:System.Threading.SemaphoreSlim.WaitAsync(System.TimeSpan)">
+          <source>The current instance has already been disposed.</source>
+          <target state="translated">已释放当前实例。</target>       </trans-unit>
+        <trans-unit id="270" translate="yes" xml:space="preserve" uid="M:System.Threading.SemaphoreSlim.WaitAsync(System.TimeSpan)">
+          <source><ph id="ph1">&lt;paramref name="millisecondsTimeout" /&gt;</ph> is a negative number other than -1, which represents an infinite timeout -or- timeout is greater than <ph id="ph2">&lt;see cref="F:System.Int32.MaxValue" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="millisecondsTimeout" /&gt;</ph> 是 -1 之外的负数，表示无限超时或者超时大于 <ph id="ph2">&lt;see cref="F:System.Int32.MaxValue" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="271" translate="yes" xml:space="preserve" uid="M:System.Threading.SemaphoreSlim.WaitAsync(System.Int32,System.Threading.CancellationToken)">
+          <source>The number of milliseconds to wait, <ph id="ph1">&lt;see cref="F:System.Threading.Timeout.Infinite" /&gt;</ph> (-1) to wait indefinitely, or zero to test the state of the wait handle and return immediately.</source>
+          <target state="translated">要等待的毫秒数，<ph id="ph1">&lt;see cref="F:System.Threading.Timeout.Infinite" /&gt;</ph>(-1) 表示无限等待，零表示测试等待句柄状态并立即返回。</target>       </trans-unit>
+        <trans-unit id="272" translate="yes" xml:space="preserve" uid="M:System.Threading.SemaphoreSlim.WaitAsync(System.Int32,System.Threading.CancellationToken)">
+          <source>The <ph id="ph1">&lt;see cref="T:System.Threading.CancellationToken" /&gt;</ph> to observe.</source>
+          <target state="translated">要观察的 <ph id="ph1">&lt;see cref="T:System.Threading.CancellationToken" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="273" translate="yes" xml:space="preserve" uid="M:System.Threading.SemaphoreSlim.WaitAsync(System.Int32,System.Threading.CancellationToken)">
+          <source>Asynchronously waits to enter the <ph id="ph1">&lt;see cref="T:System.Threading.SemaphoreSlim" /&gt;</ph>, using a 32-bit signed integer to measure the time interval, while observing a <ph id="ph2">&lt;see cref="T:System.Threading.CancellationToken" /&gt;</ph>.</source>
+          <target state="translated">在观察 <ph id="ph2">&lt;see cref="T:System.Threading.CancellationToken" /&gt;</ph> 时，输入 <ph id="ph1">&lt;see cref="T:System.Threading.SemaphoreSlim" /&gt;</ph> 的异步等待，使用 32 位带符号整数度量时间间隔。</target>       </trans-unit>
+        <trans-unit id="274" translate="yes" xml:space="preserve" uid="M:System.Threading.SemaphoreSlim.WaitAsync(System.Int32,System.Threading.CancellationToken)">
+          <source>A task that will complete with a result of <ph id="ph1">&lt;see langword="true" /&gt;</ph> if the current thread successfully entered the <ph id="ph2">&lt;see cref="T:System.Threading.SemaphoreSlim" /&gt;</ph>, otherwise with a result of <ph id="ph3">&lt;see langword="false" /&gt;</ph>.</source>
+          <target state="translated">如果当前线程成功输入了 <ph id="ph2">&lt;see cref="T:System.Threading.SemaphoreSlim" /&gt;</ph>，则为将通过 <ph id="ph1">&lt;see langword="true" /&gt;</ph> 的结果一起完成的任务，否则将通过 <ph id="ph3">&lt;see langword="false" /&gt;</ph> 的结果完成。</target>       </trans-unit>
+        <trans-unit id="275" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Threading.SemaphoreSlim.WaitAsync(System.Int32,System.Threading.CancellationToken)">
+          <source>If the timeout is set to -1 milliseconds, the method waits indefinitely.</source>
+          <target state="translated">如果超时设置为-1 毫秒，该方法将无限期等待。</target>       </trans-unit>
+        <trans-unit id="276" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Threading.SemaphoreSlim.WaitAsync(System.Int32,System.Threading.CancellationToken)">
+          <source>If the timeout is set to zero milliseconds, the method doesn't block.</source>
+          <target state="translated">如果超时设置为零毫秒，则不会阻止该方法。</target>       </trans-unit>
+        <trans-unit id="277" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Threading.SemaphoreSlim.WaitAsync(System.Int32,System.Threading.CancellationToken)">
+          <source>It tests the state of the wait handle and returns immediately.</source>
+          <target state="translated">它测试等待句柄的状态并立即返回。</target>       </trans-unit>
+        <trans-unit id="278" translate="yes" xml:space="preserve" uid="M:System.Threading.SemaphoreSlim.WaitAsync(System.Int32,System.Threading.CancellationToken)">
+          <source><ph id="ph1">&lt;paramref name="millisecondsTimeout" /&gt;</ph> is a number other than -1, which represents an infinite timeout -or- timeout is greater than <ph id="ph2">&lt;see cref="F:System.Int32.MaxValue" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="millisecondsTimeout" /&gt;</ph> 是 -1 之外的数，表示无限超时或者超时大于 <ph id="ph2">&lt;see cref="F:System.Int32.MaxValue" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="279" translate="yes" xml:space="preserve" uid="M:System.Threading.SemaphoreSlim.WaitAsync(System.Int32,System.Threading.CancellationToken)">
+          <source>The current instance has already been disposed.</source>
+          <target state="translated">已释放当前实例。</target>       </trans-unit>
+        <trans-unit id="280" translate="yes" xml:space="preserve" uid="M:System.Threading.SemaphoreSlim.WaitAsync(System.Int32,System.Threading.CancellationToken)">
+          <source><ph id="ph1">&lt;paramref name="cancellationToken" /&gt;</ph> was canceled.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="cancellationToken" /&gt;</ph> 已取消。</target>       </trans-unit>
+        <trans-unit id="281" translate="yes" xml:space="preserve" uid="M:System.Threading.SemaphoreSlim.WaitAsync(System.TimeSpan,System.Threading.CancellationToken)">
+          <source>A <ph id="ph1">&lt;see cref="T:System.TimeSpan" /&gt;</ph> that represents the number of milliseconds to wait, a <ph id="ph2">&lt;see cref="T:System.TimeSpan" /&gt;</ph> that represents -1 milliseconds to wait indefinitely, or a <ph id="ph3">&lt;see cref="T:System.TimeSpan" /&gt;</ph> that represents 0 milliseconds to test the wait handle and return immediately.</source>
+          <target state="translated"><ph id="ph1">&lt;see cref="T:System.TimeSpan" /&gt;</ph> 表示要等待的毫秒数，<ph id="ph2">&lt;see cref="T:System.TimeSpan" /&gt;</ph> 表示要无无限等待的 -1 毫秒，<ph id="ph3">&lt;see cref="T:System.TimeSpan" /&gt;</ph> 表示要测试句柄并立即返回的 0 毫秒。</target>       </trans-unit>
+        <trans-unit id="282" translate="yes" xml:space="preserve" uid="M:System.Threading.SemaphoreSlim.WaitAsync(System.TimeSpan,System.Threading.CancellationToken)">
+          <source>The <ph id="ph1">&lt;see cref="T:System.Threading.CancellationToken" /&gt;</ph> token to observe.</source>
+          <target state="translated">要观察的 <ph id="ph1">&lt;see cref="T:System.Threading.CancellationToken" /&gt;</ph> 标记。</target>       </trans-unit>
+        <trans-unit id="283" translate="yes" xml:space="preserve" uid="M:System.Threading.SemaphoreSlim.WaitAsync(System.TimeSpan,System.Threading.CancellationToken)">
+          <source>Asynchronously waits to enter the <ph id="ph1">&lt;see cref="T:System.Threading.SemaphoreSlim" /&gt;</ph>, using a <ph id="ph2">&lt;see cref="T:System.TimeSpan" /&gt;</ph> to measure the time interval, while observing a <ph id="ph3">&lt;see cref="T:System.Threading.CancellationToken" /&gt;</ph>.</source>
+          <target state="translated">在观察 <ph id="ph3">&lt;see cref="T:System.Threading.CancellationToken" /&gt;</ph> 时，输入 <ph id="ph1">&lt;see cref="T:System.Threading.SemaphoreSlim" /&gt;</ph> 的异步等待，使用 <ph id="ph2">&lt;see cref="T:System.TimeSpan" /&gt;</ph> 度量时间间隔。</target>       </trans-unit>
+        <trans-unit id="284" translate="yes" xml:space="preserve" uid="M:System.Threading.SemaphoreSlim.WaitAsync(System.TimeSpan,System.Threading.CancellationToken)">
+          <source>A task that will complete with a result of <ph id="ph1">&lt;see langword="true" /&gt;</ph> if the current thread successfully entered the <ph id="ph2">&lt;see cref="T:System.Threading.SemaphoreSlim" /&gt;</ph>, otherwise with a result of <ph id="ph3">&lt;see langword="false" /&gt;</ph>.</source>
+          <target state="translated">如果当前线程成功输入了 <ph id="ph2">&lt;see cref="T:System.Threading.SemaphoreSlim" /&gt;</ph>，则为将通过 <ph id="ph1">&lt;see langword="true" /&gt;</ph> 的结果一起完成的任务，否则将通过 <ph id="ph3">&lt;see langword="false" /&gt;</ph> 的结果完成。</target>       </trans-unit>
+        <trans-unit id="285" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Threading.SemaphoreSlim.WaitAsync(System.TimeSpan,System.Threading.CancellationToken)">
+          <source>If the timeout is set to -1 milliseconds, the method waits indefinitely.</source>
+          <target state="translated">如果超时设置为-1 毫秒，该方法将无限期等待。</target>       </trans-unit>
+        <trans-unit id="286" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Threading.SemaphoreSlim.WaitAsync(System.TimeSpan,System.Threading.CancellationToken)">
+          <source>If the timeout is set to zero milliseconds, the method doesn't block.</source>
+          <target state="translated">如果超时设置为零毫秒，则不会阻止该方法。</target>       </trans-unit>
+        <trans-unit id="287" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Threading.SemaphoreSlim.WaitAsync(System.TimeSpan,System.Threading.CancellationToken)">
+          <source>It tests the state of the wait handle and returns immediately.</source>
+          <target state="translated">它测试等待句柄的状态并立即返回。</target>       </trans-unit>
+        <trans-unit id="288" translate="yes" xml:space="preserve" uid="M:System.Threading.SemaphoreSlim.WaitAsync(System.TimeSpan,System.Threading.CancellationToken)">
+          <source><ph id="ph1">&lt;paramref name="millisecondsTimeout" /&gt;</ph> is a negative number other than -1, which represents an infinite timeout -or- timeout is greater than <ph id="ph2">&lt;see cref="F:System.Int32.MaxValue" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="millisecondsTimeout" /&gt;</ph> 是 -1 之外的负数，表示无限超时或者超时大于 <ph id="ph2">&lt;see cref="F:System.Int32.MaxValue" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="289" translate="yes" xml:space="preserve" uid="M:System.Threading.SemaphoreSlim.WaitAsync(System.TimeSpan,System.Threading.CancellationToken)">
+          <source><ph id="ph1">&lt;paramref name="cancellationToken" /&gt;</ph> was canceled.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="cancellationToken" /&gt;</ph> 已取消。</target>       </trans-unit>
+      </group>
+    </body>
+  </file>
+</xliff>

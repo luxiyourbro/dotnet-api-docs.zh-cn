@@ -1,963 +1,360 @@
-<Type Name="SecurityTokenServiceConfiguration" FullName="System.IdentityModel.Configuration.SecurityTokenServiceConfiguration">
-  <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="1e1d1600713196037ace74e318019b79f2340538" />
-    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
-    <Meta Name="ms.translationtype" Value="HT" />
-    <Meta Name="ms.contentlocale" Value="zh-CN" />
-    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
-  </Metadata>
-  <TypeSignature Language="C#" Value="public class SecurityTokenServiceConfiguration : System.IdentityModel.Configuration.IdentityConfiguration" />
-  <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit SecurityTokenServiceConfiguration extends System.IdentityModel.Configuration.IdentityConfiguration" />
-  <TypeSignature Language="DocId" Value="T:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration" />
-  <TypeSignature Language="VB.NET" Value="Public Class SecurityTokenServiceConfiguration&#xA;Inherits IdentityConfiguration" />
-  <TypeSignature Language="C++ CLI" Value="public ref class SecurityTokenServiceConfiguration : System::IdentityModel::Configuration::IdentityConfiguration" />
-  <AssemblyInfo>
-    <AssemblyName>System.IdentityModel</AssemblyName>
-    <AssemblyVersion>4.0.0.0</AssemblyVersion>
-  </AssemblyInfo>
-  <Base>
-    <BaseTypeName>System.IdentityModel.Configuration.IdentityConfiguration</BaseTypeName>
-  </Base>
-  <Interfaces />
-  <Docs>
-    <summary>
-      <span data-ttu-id="5bec2-101">定义安全象征服务的配置 (STS)。</span>
-      <span class="sxs-lookup">
-        <span data-stu-id="5bec2-101">Defines the configuration for a security token service (STS).</span>
-      </span>
-      <span data-ttu-id="5bec2-102">实现 STSs 从 <see cref="T:System.IdentityModel.SecurityTokenService" /> 类派生的类。</span>
-      <span class="sxs-lookup">
-        <span data-stu-id="5bec2-102">Classes that implement STSs derive from the <see cref="T:System.IdentityModel.SecurityTokenService" /> class.</span>
-      </span>
-    </summary>
-    <remarks>
-      <format type="text/markdown"><![CDATA[  
-  
-## Examples  
- <span data-ttu-id="5bec2-103">在中使用的代码示例<xref:System.IdentityModel.SecurityTokenService>主题，将从`Custom Token`示例。</span><span class="sxs-lookup"><span data-stu-id="5bec2-103">The code examples that are used in the <xref:System.IdentityModel.SecurityTokenService> topics are taken from the `Custom Token` sample.</span></span> <span data-ttu-id="5bec2-104">此示例提供使处理的简单 Web 令牌 (SWT) 的自定义类，并包括一个实现被动 STS，能够为提供服务的 SWT 令牌。</span><span class="sxs-lookup"><span data-stu-id="5bec2-104">This sample provides custom classes that enable processing of Simple Web Tokens (SWT) and it includes an implementation of a passive STS that is capable of serving an SWT token.</span></span> <span data-ttu-id="5bec2-105">有关如何实现活动 STS 的示例，你可以参阅`Federation Metadata`示例。</span><span class="sxs-lookup"><span data-stu-id="5bec2-105">For an example of how to implement an active STS, you can see the `Federation Metadata` sample.</span></span> <span data-ttu-id="5bec2-106">有关这些示例和信息提供其他示例的 WIF 和有关从哪里下载它们，请参阅[WIF 代码示例索引](~/docs/framework/security/wif-code-sample-index.md)。</span><span class="sxs-lookup"><span data-stu-id="5bec2-106">For information about these samples and other samples available for WIF and about where to download them, see [WIF Code Sample Index](~/docs/framework/security/wif-code-sample-index.md).</span></span> <span data-ttu-id="5bec2-107">下面的代码演示的自定义实现<xref:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration>类以支持被动 STS 处理 SWT 令牌。</span><span class="sxs-lookup"><span data-stu-id="5bec2-107">The following code shows a custom implementation of the <xref:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration> class to support a passive STS that processes SWT tokens.</span></span> <span data-ttu-id="5bec2-108">配置已初始化，并且存储在 HTTP 应用程序状态第一次静态`Current`访问属性。</span><span class="sxs-lookup"><span data-stu-id="5bec2-108">The configuration is initialized and stored in the HTTP application state the first time the static `Current` property is accessed.</span></span> <span data-ttu-id="5bec2-109">构造函数初始化与自定义 STS、 自定义颁发者令牌解析程序，以及默认令牌类型 (的 SWT 令牌类型 URI) 的类型的自定义配置的属性。</span><span class="sxs-lookup"><span data-stu-id="5bec2-109">The constructor initializes the properties of the custom configuration with the type of the custom STS, a custom issuer token resolver, and the default token type (the URI of the SWT token type).</span></span> <span data-ttu-id="5bec2-110">它还添加到默认处理程序集合的 SWT 令牌处理程序。</span><span class="sxs-lookup"><span data-stu-id="5bec2-110">It also adds an SWT token handler to the default handler collection.</span></span>  
-  
- [!code-csharp[WIFCustomTokenSTS#2](~/samples/snippets/csharp/VS_Snippets_Misc/wifcustomtokensts/cs/passivests/customsecuritytokenserviceconfiguration.cs#2)]  
-  
- <span data-ttu-id="5bec2-111">下面的代码演示如何调用自定义的被动 STS 处理 WS 联合身份验证请求，通过调用<xref:System.IdentityModel.Services.FederatedPassiveSecurityTokenServiceOperations.ProcessRequest%28System.Web.HttpRequest%2CSystem.Security.Claims.ClaimsPrincipal%2CSystem.IdentityModel.SecurityTokenService%2CSystem.Web.HttpResponse%29?displayProperty=nameWithType>方法中的代码后面`default.aspx.cs`文件。</span><span class="sxs-lookup"><span data-stu-id="5bec2-111">The following code shows how to invoke a custom passive STS to process a WS-Federation request by calling the <xref:System.IdentityModel.Services.FederatedPassiveSecurityTokenServiceOperations.ProcessRequest%28System.Web.HttpRequest%2CSystem.Security.Claims.ClaimsPrincipal%2CSystem.IdentityModel.SecurityTokenService%2CSystem.Web.HttpResponse%29?displayProperty=nameWithType> method from the code behind in the `default.aspx.cs` file.</span></span> <span data-ttu-id="5bec2-112"><xref:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.CreateSecurityTokenService%2A>方法初始化的实例`PassiveSTS.CustomSecurityTokenService`类使用的属性集`CustomSecurityTokenServiceConfiguration`中前面的示例所示的类。</span><span class="sxs-lookup"><span data-stu-id="5bec2-112">The <xref:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.CreateSecurityTokenService%2A> method initializes an instance of the `PassiveSTS.CustomSecurityTokenService` class using the properties set on the `CustomSecurityTokenServiceConfiguration` class shown in the previous example.</span></span>  
-  
- [!code-csharp[WIFCustomTokenSTS#1](~/samples/snippets/csharp/VS_Snippets_Misc/wifcustomtokensts/cs/passivests/default.aspx.cs#1)]  
-  
- ]]></format>
-    </remarks>
-    <altmember cref="T:System.IdentityModel.SecurityTokenService" />
-  </Docs>
-  <Members>
-    <MemberGroup MemberName=".ctor">
-      <AssemblyInfo>
-        <AssemblyName>System.IdentityModel</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Docs>
-        <summary>
-          <span data-ttu-id="5bec2-113">初始化 <see cref="T:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration" /> 类的新实例。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="5bec2-113">Initializes a new instance of the <see cref="T:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration" /> class.</span>
-          </span>
-        </summary>
-      </Docs>
-    </MemberGroup>
-    <Member MemberName=".ctor">
-      <MemberSignature Language="C#" Value="public SecurityTokenServiceConfiguration ();" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor() cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.#ctor" />
-      <MemberSignature Language="VB.NET" Value="Public Sub New ()" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; SecurityTokenServiceConfiguration();" />
-      <MemberType>Constructor</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.IdentityModel</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Parameters />
-      <Docs>
-        <summary>
-          <span data-ttu-id="5bec2-114">初始化 <see cref="T:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration" /> 类的新实例。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="5bec2-114">Initializes a new instance of the <see cref="T:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration" /> class.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="5bec2-115"><xref:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.TokenIssuerName%2A>安全令牌服务用于创建令牌之前，必须先设置属性。</span><span class="sxs-lookup"><span data-stu-id="5bec2-115">The <xref:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.TokenIssuerName%2A> property must be set before the security token service is used to create a token.</span></span>  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-    <Member MemberName=".ctor">
-      <MemberSignature Language="C#" Value="public SecurityTokenServiceConfiguration (bool loadConfig);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(bool loadConfig) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.#ctor(System.Boolean)" />
-      <MemberSignature Language="VB.NET" Value="Public Sub New (loadConfig As Boolean)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; SecurityTokenServiceConfiguration(bool loadConfig);" />
-      <MemberType>Constructor</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.IdentityModel</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Parameters>
-        <Parameter Name="loadConfig" Type="System.Boolean" />
-      </Parameters>
-      <Docs>
-        <param name="loadConfig">
-          <span data-ttu-id="5bec2-116">如果从配置文件中加载设置，则为 <see langword="true" /> ；否则为 <see langword="false" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="5bec2-116">
-              <see langword="true" /> to load settings from the configuration file; otherwise <see langword="false" />.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="5bec2-117">初始化 <see cref="T:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration" /> 类的新实例。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="5bec2-117">Initializes a new instance of the <see cref="T:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration" /> class.</span>
-          </span>
-          <span data-ttu-id="5bec2-118">从当前配置选择性加载设置。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="5bec2-118">Optionally loads settings from the current configuration.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="5bec2-119"><xref:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.TokenIssuerName%2A>安全令牌服务用于创建令牌之前，必须先设置属性。</span><span class="sxs-lookup"><span data-stu-id="5bec2-119">The <xref:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.TokenIssuerName%2A> property must be set before the security token service is used to create a token.</span></span>  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-    <Member MemberName=".ctor">
-      <MemberSignature Language="C#" Value="public SecurityTokenServiceConfiguration (string issuerName);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(string issuerName) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.#ctor(System.String)" />
-      <MemberSignature Language="VB.NET" Value="Public Sub New (issuerName As String)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; SecurityTokenServiceConfiguration(System::String ^ issuerName);" />
-      <MemberType>Constructor</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.IdentityModel</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Parameters>
-        <Parameter Name="issuerName" Type="System.String" />
-      </Parameters>
-      <Docs>
-        <param name="issuerName">
-          <span data-ttu-id="5bec2-120">发行人名称。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="5bec2-120">The issuer name.</span>
-          </span>
-          <span data-ttu-id="5bec2-121">设置 <see cref="P:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.TokenIssuerName" /> 属性。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="5bec2-121">Sets the <see cref="P:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.TokenIssuerName" /> property.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="5bec2-122">初始化 <see cref="T:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration" /> 类的一个新实例，该类具有指定的颁发人名。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="5bec2-122">Initializes a new instance of the <see cref="T:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration" /> class that has the specified issuer name.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="5bec2-123">如果`issuerName`是`null`、<xref:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.TokenIssuerName%2A>安全令牌服务用于创建令牌之前，必须先设置属性。</span><span class="sxs-lookup"><span data-stu-id="5bec2-123">If `issuerName` is `null`, the <xref:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.TokenIssuerName%2A> property must be set before the security token service is used to create a token.</span></span>  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-    <Member MemberName=".ctor">
-      <MemberSignature Language="C#" Value="public SecurityTokenServiceConfiguration (string issuerName, bool loadConfig);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(string issuerName, bool loadConfig) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.#ctor(System.String,System.Boolean)" />
-      <MemberSignature Language="VB.NET" Value="Public Sub New (issuerName As String, loadConfig As Boolean)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; SecurityTokenServiceConfiguration(System::String ^ issuerName, bool loadConfig);" />
-      <MemberType>Constructor</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.IdentityModel</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Parameters>
-        <Parameter Name="issuerName" Type="System.String" />
-        <Parameter Name="loadConfig" Type="System.Boolean" />
-      </Parameters>
-      <Docs>
-        <param name="issuerName">
-          <span data-ttu-id="5bec2-124">发行人名称。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="5bec2-124">The issuer name.</span>
-          </span>
-          <span data-ttu-id="5bec2-125">设置 <see cref="P:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.TokenIssuerName" /> 属性。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="5bec2-125">Sets the <see cref="P:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.TokenIssuerName" /> property.</span>
-          </span>
-        </param>
-        <param name="loadConfig">
-          <span data-ttu-id="5bec2-126">如果从配置文件中加载设置，则为 <see langword="true" /> ；否则为 <see langword="false" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="5bec2-126">
-              <see langword="true" /> to load settings from the configuration file; otherwise <see langword="false" />.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="5bec2-127">初始化 <see cref="T:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration" /> 类的一个新实例，该类具有指定的颁发人名。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="5bec2-127">Initializes a new instance of the <see cref="T:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration" /> class that has the specified issuer name.</span>
-          </span>
-          <span data-ttu-id="5bec2-128">从当前配置选择性加载设置。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="5bec2-128">Optionally loads settings from the current configuration.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="5bec2-129">如果`issuerName`是`null`、<xref:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.TokenIssuerName%2A>安全令牌服务用于创建令牌之前，必须先设置属性。</span><span class="sxs-lookup"><span data-stu-id="5bec2-129">If `issuerName` is `null`, the <xref:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.TokenIssuerName%2A> property must be set before the security token service is used to create a token.</span></span>  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-    <Member MemberName=".ctor">
-      <MemberSignature Language="C#" Value="public SecurityTokenServiceConfiguration (string issuerName, System.IdentityModel.Tokens.SigningCredentials signingCredentials);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(string issuerName, class System.IdentityModel.Tokens.SigningCredentials signingCredentials) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.#ctor(System.String,System.IdentityModel.Tokens.SigningCredentials)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; SecurityTokenServiceConfiguration(System::String ^ issuerName, System::IdentityModel::Tokens::SigningCredentials ^ signingCredentials);" />
-      <MemberType>Constructor</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.IdentityModel</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Parameters>
-        <Parameter Name="issuerName" Type="System.String" />
-        <Parameter Name="signingCredentials" Type="System.IdentityModel.Tokens.SigningCredentials" />
-      </Parameters>
-      <Docs>
-        <param name="issuerName">
-          <span data-ttu-id="5bec2-130">发行人名称。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="5bec2-130">The issuer name.</span>
-          </span>
-          <span data-ttu-id="5bec2-131">设置 <see cref="P:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.TokenIssuerName" /> 属性。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="5bec2-131">Sets the <see cref="P:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.TokenIssuerName" /> property.</span>
-          </span>
-        </param>
-        <param name="signingCredentials">
-          <span data-ttu-id="5bec2-132">STS 的签名凭据。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="5bec2-132">The signing credentials for the STS.</span>
-          </span>
-          <span data-ttu-id="5bec2-133">设置 <see cref="P:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.SigningCredentials" /> 属性。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="5bec2-133">Sets the <see cref="P:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.SigningCredentials" /> property.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="5bec2-134">初始化具有指定颁发人名称和签名凭据的 <see cref="T:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration" /> 类的新实例。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="5bec2-134">Initializes a new instance of the <see cref="T:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration" /> class that has the specified issuer name and signing credentials.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="5bec2-135">如果`issuerName`是`null`、<xref:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.TokenIssuerName%2A>安全令牌服务用于创建令牌之前，必须先设置属性。</span><span class="sxs-lookup"><span data-stu-id="5bec2-135">If `issuerName` is `null`, the <xref:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.TokenIssuerName%2A> property must be set before the security token service is used to create a token.</span></span>  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-    <Member MemberName=".ctor">
-      <MemberSignature Language="C#" Value="public SecurityTokenServiceConfiguration (string issuerName, System.IdentityModel.Tokens.SigningCredentials signingCredentials, bool loadConfig);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(string issuerName, class System.IdentityModel.Tokens.SigningCredentials signingCredentials, bool loadConfig) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.#ctor(System.String,System.IdentityModel.Tokens.SigningCredentials,System.Boolean)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; SecurityTokenServiceConfiguration(System::String ^ issuerName, System::IdentityModel::Tokens::SigningCredentials ^ signingCredentials, bool loadConfig);" />
-      <MemberType>Constructor</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.IdentityModel</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Parameters>
-        <Parameter Name="issuerName" Type="System.String" />
-        <Parameter Name="signingCredentials" Type="System.IdentityModel.Tokens.SigningCredentials" />
-        <Parameter Name="loadConfig" Type="System.Boolean" />
-      </Parameters>
-      <Docs>
-        <param name="issuerName">
-          <span data-ttu-id="5bec2-136">发行人名称。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="5bec2-136">The issuer name.</span>
-          </span>
-          <span data-ttu-id="5bec2-137">设置 <see cref="P:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.TokenIssuerName" /> 属性。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="5bec2-137">Sets the <see cref="P:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.TokenIssuerName" /> property.</span>
-          </span>
-        </param>
-        <param name="signingCredentials">
-          <span data-ttu-id="5bec2-138">STS 的签名凭据。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="5bec2-138">The signing credentials for the STS.</span>
-          </span>
-          <span data-ttu-id="5bec2-139">设置 <see cref="P:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.SigningCredentials" /> 属性。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="5bec2-139">Sets the <see cref="P:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.SigningCredentials" /> property.</span>
-          </span>
-        </param>
-        <param name="loadConfig">
-          <span data-ttu-id="5bec2-140">如果从配置文件中加载设置，则为 <see langword="true" /> ；否则为 <see langword="false" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="5bec2-140">
-              <see langword="true" /> to load settings from the configuration file; otherwise <see langword="false" />.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="5bec2-141">初始化具有指定颁发人名称和签名凭据的 <see cref="T:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration" /> 类的新实例。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="5bec2-141">Initializes a new instance of the <see cref="T:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration" /> class that has the specified issuer name and signing credentials.</span>
-          </span>
-          <span data-ttu-id="5bec2-142">从当前配置选择性加载设置。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="5bec2-142">Optionally loads settings from the current configuration.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="5bec2-143">如果`issuerName`是`null`、<xref:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.TokenIssuerName%2A>安全令牌服务用于创建令牌之前，必须先设置属性。</span><span class="sxs-lookup"><span data-stu-id="5bec2-143">If `issuerName` is `null`, the <xref:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.TokenIssuerName%2A> property must be set before the security token service is used to create a token.</span></span>  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-    <Member MemberName=".ctor">
-      <MemberSignature Language="C#" Value="public SecurityTokenServiceConfiguration (string issuerName, System.IdentityModel.Tokens.SigningCredentials signingCredentials, string serviceName);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(string issuerName, class System.IdentityModel.Tokens.SigningCredentials signingCredentials, string serviceName) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.#ctor(System.String,System.IdentityModel.Tokens.SigningCredentials,System.String)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; SecurityTokenServiceConfiguration(System::String ^ issuerName, System::IdentityModel::Tokens::SigningCredentials ^ signingCredentials, System::String ^ serviceName);" />
-      <MemberType>Constructor</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.IdentityModel</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Parameters>
-        <Parameter Name="issuerName" Type="System.String" />
-        <Parameter Name="signingCredentials" Type="System.IdentityModel.Tokens.SigningCredentials" />
-        <Parameter Name="serviceName" Type="System.String" />
-      </Parameters>
-      <Docs>
-        <param name="issuerName">
-          <span data-ttu-id="5bec2-144">发行人名称。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="5bec2-144">The issuer name.</span>
-          </span>
-          <span data-ttu-id="5bec2-145">设置 <see cref="P:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.TokenIssuerName" /> 属性。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="5bec2-145">Sets the <see cref="P:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.TokenIssuerName" /> property.</span>
-          </span>
-        </param>
-        <param name="signingCredentials">
-          <span data-ttu-id="5bec2-146">STS 的签名凭据。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="5bec2-146">The signing credentials for the STS.</span>
-          </span>
-          <span data-ttu-id="5bec2-147">设置 <see cref="P:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.SigningCredentials" /> 属性。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="5bec2-147">Sets the <see cref="P:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.SigningCredentials" /> property.</span>
-          </span>
-        </param>
-        <param name="serviceName">
-          <span data-ttu-id="5bec2-148">从中加载配置的 <see langword="&lt;identityConfiguration&gt;" /> 元素的名称。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="5bec2-148">The name of the <see langword="&lt;identityConfiguration&gt;" /> element from which the configuration is to be loaded.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="5bec2-149">初始化具有指定颁发人名称和签名凭据的 <see cref="T:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration" /> 类的新实例。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="5bec2-149">Initializes a new instance of the <see cref="T:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration" /> class that has the specified issuer name and signing credentials.</span>
-          </span>
-          <span data-ttu-id="5bec2-150">设置从指定命名配置中加载。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="5bec2-150">Settings are loaded from the specified named configuration.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="5bec2-151">如果`issuerName`是`null`、<xref:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.TokenIssuerName%2A>安全令牌服务用于创建令牌之前，必须先设置属性。</span><span class="sxs-lookup"><span data-stu-id="5bec2-151">If `issuerName` is `null`, the <xref:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.TokenIssuerName%2A> property must be set before the security token service is used to create a token.</span></span>  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="CreateSecurityTokenService">
-      <MemberSignature Language="C#" Value="public virtual System.IdentityModel.SecurityTokenService CreateSecurityTokenService ();" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance class System.IdentityModel.SecurityTokenService CreateSecurityTokenService() cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.CreateSecurityTokenService" />
-      <MemberSignature Language="VB.NET" Value="Public Overridable Function CreateSecurityTokenService () As SecurityTokenService" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual System::IdentityModel::SecurityTokenService ^ CreateSecurityTokenService();" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.IdentityModel</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.IdentityModel.SecurityTokenService</ReturnType>
-      </ReturnValue>
-      <Parameters />
-      <Docs>
-        <summary>
-          <span data-ttu-id="5bec2-152">从 <see cref="T:System.Type" /> 属性中指定的 <see cref="P:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.SecurityTokenService" /> 创建安全标记服务 (STS) 实例。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="5bec2-152">Creates an security token service (STS) instance from the <see cref="T:System.Type" /> specified in the <see cref="P:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.SecurityTokenService" /> property.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="5bec2-153">
-            <see cref="T:System.Type" /> 属性中指定的 <see cref="P:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.SecurityTokenService" /> 实例。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="5bec2-153">An instance of the <see cref="T:System.Type" /> specified in the <see cref="P:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.SecurityTokenService" /> property.</span>
-          </span>
-        </returns>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="5bec2-154">在指定的类<xref:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.SecurityTokenService%2A>属性必须实现的构造函数的类型的参数<xref:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration>。</span><span class="sxs-lookup"><span data-stu-id="5bec2-154">The class specified in the <xref:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.SecurityTokenService%2A> property must implement a constructor that takes a parameter of type <xref:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration>.</span></span>  
-  
-   
-  
-## Examples  
- <span data-ttu-id="5bec2-155">在中使用的代码示例<xref:System.IdentityModel.SecurityTokenService>主题，将从`Custom Token`示例。</span><span class="sxs-lookup"><span data-stu-id="5bec2-155">The code examples that are used in the <xref:System.IdentityModel.SecurityTokenService> topics are taken from the `Custom Token` sample.</span></span> <span data-ttu-id="5bec2-156">此示例提供使处理的简单 Web 令牌 (SWT) 的自定义类，并包括一个实现被动 STS，能够为提供服务的 SWT 令牌。</span><span class="sxs-lookup"><span data-stu-id="5bec2-156">This sample provides custom classes that enable processing of Simple Web Tokens (SWT) and it includes an implementation of a passive STS that is capable of serving an SWT token.</span></span> <span data-ttu-id="5bec2-157">有关如何实现活动 STS 的示例，你可以参阅`Federation Metadata`示例。</span><span class="sxs-lookup"><span data-stu-id="5bec2-157">For an example of how to implement an active STS, you can see the `Federation Metadata` sample.</span></span> <span data-ttu-id="5bec2-158">有关这些示例和信息提供其他示例的 WIF 和有关从哪里下载它们，请参阅[WIF 代码示例索引](~/docs/framework/security/wif-code-sample-index.md)。</span><span class="sxs-lookup"><span data-stu-id="5bec2-158">For information about these samples and other samples available for WIF and about where to download them, see [WIF Code Sample Index](~/docs/framework/security/wif-code-sample-index.md).</span></span> <span data-ttu-id="5bec2-159">下面的代码演示的自定义实现<xref:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration>类以支持被动 STS 处理 SWT 令牌。</span><span class="sxs-lookup"><span data-stu-id="5bec2-159">The following code shows a custom implementation of the <xref:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration> class to support a passive STS that processes SWT tokens.</span></span> <span data-ttu-id="5bec2-160">配置已初始化，并且存储在 HTTP 应用程序状态第一次静态`Current`访问属性。</span><span class="sxs-lookup"><span data-stu-id="5bec2-160">The configuration is initialized and stored in the HTTP application state the first time the static `Current` property is accessed.</span></span> <span data-ttu-id="5bec2-161">构造函数初始化与自定义 STS、 自定义颁发者令牌解析程序，以及默认令牌类型 (的 SWT 令牌类型 URI) 的类型的自定义配置的属性。</span><span class="sxs-lookup"><span data-stu-id="5bec2-161">The constructor initializes the properties of the custom configuration with the type of the custom STS, a custom issuer token resolver, and the default token type (the URI of the SWT token type).</span></span> <span data-ttu-id="5bec2-162">它还添加到默认处理程序集合的 SWT 令牌处理程序。</span><span class="sxs-lookup"><span data-stu-id="5bec2-162">It also adds an SWT token handler to the default handler collection.</span></span>  
-  
- <span data-ttu-id="5bec2-163">下面的代码演示如何调用自定义的被动 STS 处理 WS 联合身份验证请求，通过调用<xref:System.IdentityModel.Services.FederatedPassiveSecurityTokenServiceOperations.ProcessRequest%28System.Web.HttpRequest%2CSystem.Security.Claims.ClaimsPrincipal%2CSystem.IdentityModel.SecurityTokenService%2CSystem.Web.HttpResponse%29?displayProperty=nameWithType>方法中的代码后面`default.aspx.cs`文件。</span><span class="sxs-lookup"><span data-stu-id="5bec2-163">The following code shows how to invoke a custom passive STS to process a WS-Federation request by calling the <xref:System.IdentityModel.Services.FederatedPassiveSecurityTokenServiceOperations.ProcessRequest%28System.Web.HttpRequest%2CSystem.Security.Claims.ClaimsPrincipal%2CSystem.IdentityModel.SecurityTokenService%2CSystem.Web.HttpResponse%29?displayProperty=nameWithType> method from the code behind in the `default.aspx.cs` file.</span></span> <span data-ttu-id="5bec2-164"><xref:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.CreateSecurityTokenService%2A>方法初始化的实例`PassiveSTS.CustomSecurityTokenService`类使用当前设置的属性`CustomSecurityTokenServiceConfiguration`对象。</span><span class="sxs-lookup"><span data-stu-id="5bec2-164">The <xref:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.CreateSecurityTokenService%2A> method initializes an instance of the `PassiveSTS.CustomSecurityTokenService` class using the properties set on the current `CustomSecurityTokenServiceConfiguration` object.</span></span> <span data-ttu-id="5bec2-165">`CustomSecurityTokenServiceConfiguration.Current`通过实现属性`CustomSecurityTokenServiceConfiguration`类，并返回在 HTTP 应用程序状态保存类的实例。</span><span class="sxs-lookup"><span data-stu-id="5bec2-165">The `CustomSecurityTokenServiceConfiguration.Current` property is implemented by the `CustomSecurityTokenServiceConfiguration` class and returns the instance of the class that is saved in the HTTP application state.</span></span>  
-  
- [!code-csharp[WIFCustomTokenSTS#1](~/samples/snippets/csharp/VS_Snippets_Misc/wifcustomtokensts/cs/passivests/default.aspx.cs#1)]  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="DefaultMaxSymmetricKeySizeInBits">
-      <MemberSignature Language="C#" Value="public int DefaultMaxSymmetricKeySizeInBits { get; set; }" />
-      <MemberSignature Language="ILAsm" Value=".property instance int32 DefaultMaxSymmetricKeySizeInBits" />
-      <MemberSignature Language="DocId" Value="P:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.DefaultMaxSymmetricKeySizeInBits" />
-      <MemberSignature Language="VB.NET" Value="Public Property DefaultMaxSymmetricKeySizeInBits As Integer" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; property int DefaultMaxSymmetricKeySizeInBits { int get(); void set(int value); };" />
-      <MemberType>Property</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.IdentityModel</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Int32</ReturnType>
-      </ReturnValue>
-      <Docs>
-        <summary>
-          <span data-ttu-id="5bec2-166">获取或设置如果选中，则请求中指定的 KeySize 是否位于此限制内的默认密钥大小。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="5bec2-166">Gets or sets the default key size limit in bits used check if the KeySize specified in the request is within this limit.</span>
-          </span>
-        </summary>
-        <value>
-          <span data-ttu-id="5bec2-167">默认密钥大小限制（以位为单位）。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="5bec2-167">The default key size limit, in bits.</span>
-          </span>
-          <span data-ttu-id="5bec2-168">默认值为 1024年。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="5bec2-168">The default is 1024.</span>
-          </span>
-        </value>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="5bec2-169">这仅适用于的对称密钥的大小写。</span><span class="sxs-lookup"><span data-stu-id="5bec2-169">This only applies to the symmetric key case.</span></span>  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="DefaultSymmetricKeySizeInBits">
-      <MemberSignature Language="C#" Value="public int DefaultSymmetricKeySizeInBits { get; set; }" />
-      <MemberSignature Language="ILAsm" Value=".property instance int32 DefaultSymmetricKeySizeInBits" />
-      <MemberSignature Language="DocId" Value="P:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.DefaultSymmetricKeySizeInBits" />
-      <MemberSignature Language="VB.NET" Value="Public Property DefaultSymmetricKeySizeInBits As Integer" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; property int DefaultSymmetricKeySizeInBits { int get(); void set(int value); };" />
-      <MemberType>Property</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.IdentityModel</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Int32</ReturnType>
-      </ReturnValue>
-      <Docs>
-        <summary>
-          <span data-ttu-id="5bec2-170">获取或设置颁发的令牌中使用的默认密钥大小（位）。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="5bec2-170">Gets or sets the default key size in bits used in the issued token.</span>
-          </span>
-        </summary>
-        <value>
-          <span data-ttu-id="5bec2-171">在颁发的令牌中使用的密钥大小（以位为单位）。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="5bec2-171">The key size used in the issued token, in bits.</span>
-          </span>
-          <span data-ttu-id="5bec2-172">默认值为 256。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="5bec2-172">The default is 256.</span>
-          </span>
-        </value>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="5bec2-173">这仅适用于的对称密钥的大小写。</span><span class="sxs-lookup"><span data-stu-id="5bec2-173">This only applies to the symmetric key case.</span></span>  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="DefaultTokenLifetime">
-      <MemberSignature Language="C#" Value="public TimeSpan DefaultTokenLifetime { get; set; }" />
-      <MemberSignature Language="ILAsm" Value=".property instance valuetype System.TimeSpan DefaultTokenLifetime" />
-      <MemberSignature Language="DocId" Value="P:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.DefaultTokenLifetime" />
-      <MemberSignature Language="VB.NET" Value="Public Property DefaultTokenLifetime As TimeSpan" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; property TimeSpan DefaultTokenLifetime { TimeSpan get(); void set(TimeSpan value); };" />
-      <MemberType>Property</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.IdentityModel</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.TimeSpan</ReturnType>
-      </ReturnValue>
-      <Docs>
-        <summary>
-          <span data-ttu-id="5bec2-174">获取或设置颁发的令牌中使用的默认生命周期。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="5bec2-174">Gets or sets the default lifetime used in the issued tokens.</span>
-          </span>
-        </summary>
-        <value>
-          <span data-ttu-id="5bec2-175">要在已颁发令牌中使用的默认生存期。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="5bec2-175">The default lifetime to use in issued tokens.</span>
-          </span>
-          <span data-ttu-id="5bec2-176">默认值为 1 天。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="5bec2-176">The default is 1 day.</span>
-          </span>
-        </value>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="DefaultTokenType">
-      <MemberSignature Language="C#" Value="public string DefaultTokenType { get; set; }" />
-      <MemberSignature Language="ILAsm" Value=".property instance string DefaultTokenType" />
-      <MemberSignature Language="DocId" Value="P:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.DefaultTokenType" />
-      <MemberSignature Language="VB.NET" Value="Public Property DefaultTokenType As String" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::String ^ DefaultTokenType { System::String ^ get(); void set(System::String ^ value); };" />
-      <MemberType>Property</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.IdentityModel</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.String</ReturnType>
-      </ReturnValue>
-      <Docs>
-        <summary>
-          <span data-ttu-id="5bec2-177">获取或设置令牌颁发中使用的默认令牌类型。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="5bec2-177">Gets or sets the default token type that is used in token issuance.</span>
-          </span>
-        </summary>
-        <value>
-          <span data-ttu-id="5bec2-178">返回包含默认令牌类型字符串。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="5bec2-178">Returns a string that contains the default token type.</span>
-          </span>
-        </value>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="5bec2-179">URI 格式; 指定的字符串值例如，对于 SAML 1.1 令牌类型，以下是字符串值： http://docs.oasis-open.org/wss/oasis-wss-saml-token-profile-1.1#SAMLV1.1。</span><span class="sxs-lookup"><span data-stu-id="5bec2-179">The string values are specified in URI format; for example, for the SAML 1.1 token type, the following is the string value: http://docs.oasis-open.org/wss/oasis-wss-saml-token-profile-1.1#SAMLV1.1.</span></span>  
-  
- <span data-ttu-id="5bec2-180">默认值设置为 SAML 1.1 令牌类型。</span><span class="sxs-lookup"><span data-stu-id="5bec2-180">The default token type is set to SAML 1.1.</span></span>  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.ArgumentNullException">
-          <span data-ttu-id="5bec2-181">指定值为 <see langword="null" /> 或为空。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="5bec2-181">The specified value is <see langword="null" /> or empty.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.ArgumentException">
-          <span data-ttu-id="5bec2-182">指定值未在标记处理程序中定义。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="5bec2-182">The specified value is not defined in the token handlers.</span>
-          </span>
-        </exception>
-      </Docs>
-    </Member>
-    <Member MemberName="DisableWsdl">
-      <MemberSignature Language="C#" Value="public bool DisableWsdl { get; set; }" />
-      <MemberSignature Language="ILAsm" Value=".property instance bool DisableWsdl" />
-      <MemberSignature Language="DocId" Value="P:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.DisableWsdl" />
-      <MemberSignature Language="VB.NET" Value="Public Property DisableWsdl As Boolean" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; property bool DisableWsdl { bool get(); void set(bool value); };" />
-      <MemberType>Property</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.IdentityModel</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Boolean</ReturnType>
-      </ReturnValue>
-      <Docs>
-        <summary>
-          <span data-ttu-id="5bec2-183">获取或设置一个值，该值指定是否应为安全标记服务 (STS)启用启用 WSDL 生成。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="5bec2-183">Gets or sets a value that specifies whether WSDL generation should be enabled for the security token service (STS).</span>
-          </span>
-        </summary>
-        <value>
-          <span data-ttu-id="5bec2-184">若要 STS 启用 WSDL 生成，则为 <see langword="true" />；否则为 <see langword="false" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="5bec2-184">
-              <see langword="true" /> to enable WSDL generation for the STS; otherwise, <see langword="false" />.</span>
-          </span>
-          <span data-ttu-id="5bec2-185">默认值为 <see langword="false" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="5bec2-185">The default is <see langword="false" />.</span>
-          </span>
-        </value>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="MaximumTokenLifetime">
-      <MemberSignature Language="C#" Value="public TimeSpan MaximumTokenLifetime { get; set; }" />
-      <MemberSignature Language="ILAsm" Value=".property instance valuetype System.TimeSpan MaximumTokenLifetime" />
-      <MemberSignature Language="DocId" Value="P:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.MaximumTokenLifetime" />
-      <MemberSignature Language="VB.NET" Value="Public Property MaximumTokenLifetime As TimeSpan" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; property TimeSpan MaximumTokenLifetime { TimeSpan get(); void set(TimeSpan value); };" />
-      <MemberType>Property</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.IdentityModel</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.TimeSpan</ReturnType>
-      </ReturnValue>
-      <Docs>
-        <summary>
-          <span data-ttu-id="5bec2-186">获取或设置已颁发标识的最大标识生存期。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="5bec2-186">Gets or sets the maximum token lifetime for issued tokens.</span>
-          </span>
-        </summary>
-        <value>
-          <span data-ttu-id="5bec2-187">用于颁布令牌的最长令牌生命期。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="5bec2-187">The maximum token lifetime for issued tokens.</span>
-          </span>
-          <span data-ttu-id="5bec2-188">默认值为 1 天。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="5bec2-188">The default is 1 day.</span>
-          </span>
-        </value>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="SecurityTokenService">
-      <MemberSignature Language="C#" Value="public Type SecurityTokenService { get; set; }" />
-      <MemberSignature Language="ILAsm" Value=".property instance class System.Type SecurityTokenService" />
-      <MemberSignature Language="DocId" Value="P:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.SecurityTokenService" />
-      <MemberSignature Language="VB.NET" Value="Public Property SecurityTokenService As Type" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; property Type ^ SecurityTokenService { Type ^ get(); void set(Type ^ value); };" />
-      <MemberType>Property</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.IdentityModel</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Type</ReturnType>
-      </ReturnValue>
-      <Docs>
-        <summary>
-          <span data-ttu-id="5bec2-189">获取或设置安全标记服务 (STS) 的 <see cref="T:System.Type" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="5bec2-189">Gets or sets the <see cref="T:System.Type" /> of the security token service (STS).</span>
-          </span>
-        </summary>
-        <value>
-          <span data-ttu-id="5bec2-190">安全令牌服务的类型。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="5bec2-190">The type of the security token service.</span>
-          </span>
-          <span data-ttu-id="5bec2-191">此类型必须派生自<see cref="T:System.IdentityModel.SecurityTokenService" /> 类。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="5bec2-191">The type must derive from the <see cref="T:System.IdentityModel.SecurityTokenService" /> class.</span>
-          </span>
-        </value>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="5bec2-192">在指定的类<xref:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.SecurityTokenService%2A>属性必须实现的构造函数的类型的参数<xref:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration>。</span><span class="sxs-lookup"><span data-stu-id="5bec2-192">The class specified in the <xref:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.SecurityTokenService%2A> property must implement a constructor that takes a parameter of type <xref:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration>.</span></span>  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.ArgumentException">
-          <span data-ttu-id="5bec2-193">所指定的值不能赋值为 <see cref="T:System.IdentityModel.SecurityTokenService" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="5bec2-193">The specified value is not assignable as <see cref="T:System.IdentityModel.SecurityTokenService" />.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.ArgumentNullException">
-          <span data-ttu-id="5bec2-194">指定的值为 <see langword="null" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="5bec2-194">The specified value is <see langword="null" />.</span>
-          </span>
-        </exception>
-        <altmember cref="M:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.CreateSecurityTokenService" />
-      </Docs>
-    </Member>
-    <Member MemberName="SigningCredentials">
-      <MemberSignature Language="C#" Value="public System.IdentityModel.Tokens.SigningCredentials SigningCredentials { get; set; }" />
-      <MemberSignature Language="ILAsm" Value=".property instance class System.IdentityModel.Tokens.SigningCredentials SigningCredentials" />
-      <MemberSignature Language="DocId" Value="P:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.SigningCredentials" />
-      <MemberSignature Language="VB.NET" Value="Public Property SigningCredentials As SigningCredentials" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::IdentityModel::Tokens::SigningCredentials ^ SigningCredentials { System::IdentityModel::Tokens::SigningCredentials ^ get(); void set(System::IdentityModel::Tokens::SigningCredentials ^ value); };" />
-      <MemberType>Property</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.IdentityModel</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.IdentityModel.Tokens.SigningCredentials</ReturnType>
-      </ReturnValue>
-      <Docs>
-        <summary>
-          <span data-ttu-id="5bec2-195">获取或设置签名凭据。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="5bec2-195">Gets or sets the signing credentials.</span>
-          </span>
-        </summary>
-        <value>
-          <span data-ttu-id="5bec2-196">签名凭据。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="5bec2-196">The signing credentials.</span>
-          </span>
-        </value>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
-  
-> [!IMPORTANT]
->  <span data-ttu-id="5bec2-197">实现有效的安全令牌服务 (STS) 时，将忽略 <xref:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.SigningCredentials%2A> 属性。</span><span class="sxs-lookup"><span data-stu-id="5bec2-197">The <xref:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.SigningCredentials%2A> property is ignored when implementing an active security token service (STS).</span></span> <span data-ttu-id="5bec2-198">相反，您必须通过承载您的 STS 的服务主机上的 <xref:System.ServiceModel.ServiceHostBase.Credentials%2A> 属性设置服务证书。</span><span class="sxs-lookup"><span data-stu-id="5bec2-198">Instead you must set the service certificate through the <xref:System.ServiceModel.ServiceHostBase.Credentials%2A> property on the service host  that is hosting your STS.</span></span> <span data-ttu-id="5bec2-199">用于有效的 STS 的服务主机由 <xref:System.ServiceModel.Security.WSTrustServiceHost> 类表示。</span><span class="sxs-lookup"><span data-stu-id="5bec2-199">The service host used for an active STS is represented by the <xref:System.ServiceModel.Security.WSTrustServiceHost> class.</span></span>  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="TokenIssuerName">
-      <MemberSignature Language="C#" Value="public string TokenIssuerName { get; set; }" />
-      <MemberSignature Language="ILAsm" Value=".property instance string TokenIssuerName" />
-      <MemberSignature Language="DocId" Value="P:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.TokenIssuerName" />
-      <MemberSignature Language="VB.NET" Value="Public Property TokenIssuerName As String" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::String ^ TokenIssuerName { System::String ^ get(); void set(System::String ^ value); };" />
-      <MemberType>Property</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.IdentityModel</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.String</ReturnType>
-      </ReturnValue>
-      <Docs>
-        <summary>
-          <span data-ttu-id="5bec2-200">获取或设置颁发者名称，以便在已颁发令牌中设置它。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="5bec2-200">Gets or sets the issuer name so that it can be set in the issued token.</span>
-          </span>
-        </summary>
-        <value>
-          <span data-ttu-id="5bec2-201">发行人名称。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="5bec2-201">The issuer name.</span>
-          </span>
-        </value>
-        <remarks>To be added.</remarks>
-        <exception cref="T:System.ArgumentNullException">
-          <span data-ttu-id="5bec2-202">尝试将此属性设置为 <see langword="null" /> 或者空字符串。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="5bec2-202">An attempt to set the property to <see langword="null" /> or an empty string occurs.</span>
-          </span>
-        </exception>
-      </Docs>
-    </Member>
-    <Member MemberName="WSTrust13RequestSerializer">
-      <MemberSignature Language="C#" Value="public System.IdentityModel.Protocols.WSTrust.WSTrust13RequestSerializer WSTrust13RequestSerializer { get; set; }" />
-      <MemberSignature Language="ILAsm" Value=".property instance class System.IdentityModel.Protocols.WSTrust.WSTrust13RequestSerializer WSTrust13RequestSerializer" />
-      <MemberSignature Language="DocId" Value="P:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.WSTrust13RequestSerializer" />
-      <MemberSignature Language="VB.NET" Value="Public Property WSTrust13RequestSerializer As WSTrust13RequestSerializer" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::IdentityModel::Protocols::WSTrust::WSTrust13RequestSerializer ^ WSTrust13RequestSerializer { System::IdentityModel::Protocols::WSTrust::WSTrust13RequestSerializer ^ get(); void set(System::IdentityModel::Protocols::WSTrust::WSTrust13RequestSerializer ^ value); };" />
-      <MemberType>Property</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.IdentityModel</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.IdentityModel.Protocols.WSTrust.WSTrust13RequestSerializer</ReturnType>
-      </ReturnValue>
-      <Docs>
-        <summary>
-          <span data-ttu-id="5bec2-203">获取或设置 WS-Trust 1.3 请求 (RST) 序列化程序。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="5bec2-203">Gets or sets the WS-Trust 1.3 Request (RST) serializer.</span>
-          </span>
-        </summary>
-        <value>
-          <span data-ttu-id="5bec2-204">WS-Trust1.3 Request (RST) 序列化程序。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="5bec2-204">The WS-Trust 1.3 Request (RST) serializer.</span>
-          </span>
-        </value>
-        <remarks>To be added.</remarks>
-        <exception cref="T:System.ArgumentNullException">
-          <span data-ttu-id="5bec2-205">指定的值为 <see langword="null" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="5bec2-205">The specified value is <see langword="null" />.</span>
-          </span>
-        </exception>
-      </Docs>
-    </Member>
-    <Member MemberName="WSTrust13ResponseSerializer">
-      <MemberSignature Language="C#" Value="public System.IdentityModel.Protocols.WSTrust.WSTrust13ResponseSerializer WSTrust13ResponseSerializer { get; set; }" />
-      <MemberSignature Language="ILAsm" Value=".property instance class System.IdentityModel.Protocols.WSTrust.WSTrust13ResponseSerializer WSTrust13ResponseSerializer" />
-      <MemberSignature Language="DocId" Value="P:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.WSTrust13ResponseSerializer" />
-      <MemberSignature Language="VB.NET" Value="Public Property WSTrust13ResponseSerializer As WSTrust13ResponseSerializer" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::IdentityModel::Protocols::WSTrust::WSTrust13ResponseSerializer ^ WSTrust13ResponseSerializer { System::IdentityModel::Protocols::WSTrust::WSTrust13ResponseSerializer ^ get(); void set(System::IdentityModel::Protocols::WSTrust::WSTrust13ResponseSerializer ^ value); };" />
-      <MemberType>Property</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.IdentityModel</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.IdentityModel.Protocols.WSTrust.WSTrust13ResponseSerializer</ReturnType>
-      </ReturnValue>
-      <Docs>
-        <summary>
-          <span data-ttu-id="5bec2-206">获取或设置 WS-Trust 1.3 响应 (RSTR) 序列化程序。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="5bec2-206">Gets or sets the WS-Trust 1.3 Response (RSTR) serializer.</span>
-          </span>
-        </summary>
-        <value>
-          <span data-ttu-id="5bec2-207">WS-Trust1.3 Response (RSTR) 序列化程序。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="5bec2-207">The WS-Trust 1.3 Response (RSTR) serializer.</span>
-          </span>
-        </value>
-        <remarks>To be added.</remarks>
-        <exception cref="T:System.ArgumentNullException">
-          <span data-ttu-id="5bec2-208">指定的值为 <see langword="null" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="5bec2-208">The specified value is <see langword="null" />.</span>
-          </span>
-        </exception>
-      </Docs>
-    </Member>
-    <Member MemberName="WSTrustFeb2005RequestSerializer">
-      <MemberSignature Language="C#" Value="public System.IdentityModel.Protocols.WSTrust.WSTrustFeb2005RequestSerializer WSTrustFeb2005RequestSerializer { get; set; }" />
-      <MemberSignature Language="ILAsm" Value=".property instance class System.IdentityModel.Protocols.WSTrust.WSTrustFeb2005RequestSerializer WSTrustFeb2005RequestSerializer" />
-      <MemberSignature Language="DocId" Value="P:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.WSTrustFeb2005RequestSerializer" />
-      <MemberSignature Language="VB.NET" Value="Public Property WSTrustFeb2005RequestSerializer As WSTrustFeb2005RequestSerializer" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::IdentityModel::Protocols::WSTrust::WSTrustFeb2005RequestSerializer ^ WSTrustFeb2005RequestSerializer { System::IdentityModel::Protocols::WSTrust::WSTrustFeb2005RequestSerializer ^ get(); void set(System::IdentityModel::Protocols::WSTrust::WSTrustFeb2005RequestSerializer ^ value); };" />
-      <MemberType>Property</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.IdentityModel</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.IdentityModel.Protocols.WSTrust.WSTrustFeb2005RequestSerializer</ReturnType>
-      </ReturnValue>
-      <Docs>
-        <summary>
-          <span data-ttu-id="5bec2-209">获取或设置 WS-Trust Feb 2005 请求 (RST) 序列化程序。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="5bec2-209">Gets or sets the WS-Trust Feb 2005 Request (RST) serializer.</span>
-          </span>
-        </summary>
-        <value>
-          <span data-ttu-id="5bec2-210">WS-Trust Feb 2005 Request (RST) 序列化程序。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="5bec2-210">The WS-Trust Feb 2005 Request (RST) serializer.</span>
-          </span>
-        </value>
-        <remarks>To be added.</remarks>
-        <exception cref="T:System.ArgumentNullException">
-          <span data-ttu-id="5bec2-211">指定的值为 <see langword="null" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="5bec2-211">The specified value is <see langword="null" />.</span>
-          </span>
-        </exception>
-      </Docs>
-    </Member>
-    <Member MemberName="WSTrustFeb2005ResponseSerializer">
-      <MemberSignature Language="C#" Value="public System.IdentityModel.Protocols.WSTrust.WSTrustFeb2005ResponseSerializer WSTrustFeb2005ResponseSerializer { get; set; }" />
-      <MemberSignature Language="ILAsm" Value=".property instance class System.IdentityModel.Protocols.WSTrust.WSTrustFeb2005ResponseSerializer WSTrustFeb2005ResponseSerializer" />
-      <MemberSignature Language="DocId" Value="P:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.WSTrustFeb2005ResponseSerializer" />
-      <MemberSignature Language="VB.NET" Value="Public Property WSTrustFeb2005ResponseSerializer As WSTrustFeb2005ResponseSerializer" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::IdentityModel::Protocols::WSTrust::WSTrustFeb2005ResponseSerializer ^ WSTrustFeb2005ResponseSerializer { System::IdentityModel::Protocols::WSTrust::WSTrustFeb2005ResponseSerializer ^ get(); void set(System::IdentityModel::Protocols::WSTrust::WSTrustFeb2005ResponseSerializer ^ value); };" />
-      <MemberType>Property</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.IdentityModel</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.IdentityModel.Protocols.WSTrust.WSTrustFeb2005ResponseSerializer</ReturnType>
-      </ReturnValue>
-      <Docs>
-        <summary>
-          <span data-ttu-id="5bec2-212">获取或设置 WS-Trust Feb 2005 响应 (RSTR) 序列化程序。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="5bec2-212">Gets or sets the WS-Trust Feb 2005 Response (RSTR) serializer.</span>
-          </span>
-        </summary>
-        <value>
-          <span data-ttu-id="5bec2-213">WS-Trust Feb 2005 Response (RSTR) 序列化程序。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="5bec2-213">The WS-Trust Feb 2005 Response (RSTR) serializer.</span>
-          </span>
-        </value>
-        <remarks>To be added.</remarks>
-        <exception cref="T:System.ArgumentNullException">
-          <span data-ttu-id="5bec2-214">指定的值为 <see langword="null" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="5bec2-214">The specified value is <see langword="null" />.</span>
-          </span>
-        </exception>
-      </Docs>
-    </Member>
-  </Members>
-</Type>
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.2" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 xliff-core-1.2-transitional.xsd">
+  <file datatype="xml" original="SecurityTokenServiceConfiguration.xml" source-language="en-US" target-language="zh-CN">
+    <header>
+      <tool tool-id="mdxliff" tool-name="mdxliff" tool-version="1.0-15c36f0" tool-company="Microsoft" />
+      <xliffext:skl_file_name xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">02cd5861-7ce2-4a82-b358-31f8435a0ac51e1d1600713196037ace74e318019b79f2340538.skl</xliffext:skl_file_name>
+      <xliffext:version xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">1.2</xliffext:version>
+      <xliffext:ms.openlocfilehash xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">1e1d1600713196037ace74e318019b79f2340538</xliffext:ms.openlocfilehash>
+      <xliffext:ms.sourcegitcommit xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b</xliffext:ms.sourcegitcommit>
+      <xliffext:ms.lasthandoff xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">04/03/2018</xliffext:ms.lasthandoff>
+      <xliffext:moniker_ids xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">netframework-4.5.1,netframework-4.5.2,netframework-4.5,netframework-4.6.1,netframework-4.6.2,netframework-4.6,netframework-4.7.1,netframework-4.7</xliffext:moniker_ids>
+    </header>
+    <body>
+      <group id="content" extype="content">
+        <trans-unit id="101" translate="yes" xml:space="preserve" uid="T:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration">
+          <source>Defines the configuration for a security token service (STS).</source>
+          <target state="translated">定义安全象征服务的配置 (STS)。</target>       </trans-unit>
+        <trans-unit id="102" translate="yes" xml:space="preserve" uid="T:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration">
+          <source>Classes that implement STSs derive from the <ph id="ph1">&lt;see cref="T:System.IdentityModel.SecurityTokenService" /&gt;</ph> class.</source>
+          <target state="translated">实现 STSs 从 <ph id="ph1">&lt;see cref="T:System.IdentityModel.SecurityTokenService" /&gt;</ph> 类派生的类。</target>       </trans-unit>
+        <trans-unit id="103" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration">
+          <source>The code examples that are used in the <ph id="ph1">&lt;xref:System.IdentityModel.SecurityTokenService&gt;</ph> topics are taken from the <ph id="ph2">`Custom Token`</ph> sample.</source>
+          <target state="translated">在中使用的代码示例<ph id="ph1">&lt;xref:System.IdentityModel.SecurityTokenService&gt;</ph>主题，将从<ph id="ph2">`Custom Token`</ph>示例。</target>       </trans-unit>
+        <trans-unit id="104" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration">
+          <source>This sample provides custom classes that enable processing of Simple Web Tokens (SWT) and it includes an implementation of a passive STS that is capable of serving an SWT token.</source>
+          <target state="translated">此示例提供使处理的简单 Web 令牌 (SWT) 的自定义类，并包括一个实现被动 STS，能够为提供服务的 SWT 令牌。</target>       </trans-unit>
+        <trans-unit id="105" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration">
+          <source>For an example of how to implement an active STS, you can see the <ph id="ph1">`Federation Metadata`</ph> sample.</source>
+          <target state="translated">有关如何实现活动 STS 的示例，你可以参阅<ph id="ph1">`Federation Metadata`</ph>示例。</target>       </trans-unit>
+        <trans-unit id="106" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration">
+          <source>For information about these samples and other samples available for WIF and about where to download them, see <bpt id="p1">[</bpt>WIF Code Sample Index<ept id="p1">](~/docs/framework/security/wif-code-sample-index.md)</ept>.</source>
+          <target state="translated">有关这些示例和信息提供其他示例的 WIF 和有关从哪里下载它们，请参阅<bpt id="p1">[</bpt>WIF 代码示例索引<ept id="p1">](~/docs/framework/security/wif-code-sample-index.md)</ept>。</target>       </trans-unit>
+        <trans-unit id="107" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration">
+          <source>The following code shows a custom implementation of the <ph id="ph1">&lt;xref:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration&gt;</ph> class to support a passive STS that processes SWT tokens.</source>
+          <target state="translated">下面的代码演示的自定义实现<ph id="ph1">&lt;xref:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration&gt;</ph>类以支持被动 STS 处理 SWT 令牌。</target>       </trans-unit>
+        <trans-unit id="108" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration">
+          <source>The configuration is initialized and stored in the HTTP application state the first time the static <ph id="ph1">`Current`</ph> property is accessed.</source>
+          <target state="translated">配置已初始化，并且存储在 HTTP 应用程序状态第一次静态<ph id="ph1">`Current`</ph>访问属性。</target>       </trans-unit>
+        <trans-unit id="109" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration">
+          <source>The constructor initializes the properties of the custom configuration with the type of the custom STS, a custom issuer token resolver, and the default token type (the URI of the SWT token type).</source>
+          <target state="translated">构造函数初始化与自定义 STS、 自定义颁发者令牌解析程序，以及默认令牌类型 (的 SWT 令牌类型 URI) 的类型的自定义配置的属性。</target>       </trans-unit>
+        <trans-unit id="110" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration">
+          <source>It also adds an SWT token handler to the default handler collection.</source>
+          <target state="translated">它还添加到默认处理程序集合的 SWT 令牌处理程序。</target>       </trans-unit>
+        <trans-unit id="111" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration">
+          <source>The following code shows how to invoke a custom passive STS to process a WS-Federation request by calling the <ph id="ph1">&lt;xref:System.IdentityModel.Services.FederatedPassiveSecurityTokenServiceOperations.ProcessRequest%28System.Web.HttpRequest%2CSystem.Security.Claims.ClaimsPrincipal%2CSystem.IdentityModel.SecurityTokenService%2CSystem.Web.HttpResponse%29?displayProperty=nameWithType&gt;</ph> method from the code behind in the <ph id="ph2">`default.aspx.cs`</ph> file.</source>
+          <target state="translated">下面的代码演示如何调用自定义的被动 STS 处理 WS 联合身份验证请求，通过调用<ph id="ph1">&lt;xref:System.IdentityModel.Services.FederatedPassiveSecurityTokenServiceOperations.ProcessRequest%28System.Web.HttpRequest%2CSystem.Security.Claims.ClaimsPrincipal%2CSystem.IdentityModel.SecurityTokenService%2CSystem.Web.HttpResponse%29?displayProperty=nameWithType&gt;</ph>方法中的代码后面<ph id="ph2">`default.aspx.cs`</ph>文件。</target>       </trans-unit>
+        <trans-unit id="112" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration">
+          <source>The <ph id="ph1">&lt;xref:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.CreateSecurityTokenService%2A&gt;</ph> method initializes an instance of the <ph id="ph2">`PassiveSTS.CustomSecurityTokenService`</ph> class using the properties set on the <ph id="ph3">`CustomSecurityTokenServiceConfiguration`</ph> class shown in the previous example.</source>
+          <target state="translated"><ph id="ph1">&lt;xref:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.CreateSecurityTokenService%2A&gt;</ph>方法初始化的实例<ph id="ph2">`PassiveSTS.CustomSecurityTokenService`</ph>类使用的属性集<ph id="ph3">`CustomSecurityTokenServiceConfiguration`</ph>中前面的示例所示的类。</target>       </trans-unit>
+        <trans-unit id="113" translate="yes" xml:space="preserve" uid="T:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration">
+          <source>Initializes a new instance of the <ph id="ph1">&lt;see cref="T:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration" /&gt;</ph> class.</source>
+          <target state="translated">初始化 <ph id="ph1">&lt;see cref="T:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration" /&gt;</ph> 类的新实例。</target>       </trans-unit>
+        <trans-unit id="114" translate="yes" xml:space="preserve" uid="M:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.#ctor">
+          <source>Initializes a new instance of the <ph id="ph1">&lt;see cref="T:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration" /&gt;</ph> class.</source>
+          <target state="translated">初始化 <ph id="ph1">&lt;see cref="T:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration" /&gt;</ph> 类的新实例。</target>       </trans-unit>
+        <trans-unit id="115" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.#ctor">
+          <source>The <ph id="ph1">&lt;xref:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.TokenIssuerName%2A&gt;</ph> property must be set before the security token service is used to create a token.</source>
+          <target state="translated"><ph id="ph1">&lt;xref:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.TokenIssuerName%2A&gt;</ph>安全令牌服务用于创建令牌之前，必须先设置属性。</target>       </trans-unit>
+        <trans-unit id="116" translate="yes" xml:space="preserve" uid="M:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.#ctor(System.Boolean)">
+          <source><ph id="ph1">&lt;see langword="true" /&gt;</ph> to load settings from the configuration file; otherwise <ph id="ph2">&lt;see langword="false" /&gt;</ph>.</source>
+          <target state="translated">如果从配置文件中加载设置，则为 <ph id="ph1">&lt;see langword="true" /&gt;</ph> ；否则为 <ph id="ph2">&lt;see langword="false" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="117" translate="yes" xml:space="preserve" uid="M:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.#ctor(System.Boolean)">
+          <source>Initializes a new instance of the <ph id="ph1">&lt;see cref="T:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration" /&gt;</ph> class.</source>
+          <target state="translated">初始化 <ph id="ph1">&lt;see cref="T:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration" /&gt;</ph> 类的新实例。</target>       </trans-unit>
+        <trans-unit id="118" translate="yes" xml:space="preserve" uid="M:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.#ctor(System.Boolean)">
+          <source>Optionally loads settings from the current configuration.</source>
+          <target state="translated">从当前配置选择性加载设置。</target>       </trans-unit>
+        <trans-unit id="119" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.#ctor(System.Boolean)">
+          <source>The <ph id="ph1">&lt;xref:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.TokenIssuerName%2A&gt;</ph> property must be set before the security token service is used to create a token.</source>
+          <target state="translated"><ph id="ph1">&lt;xref:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.TokenIssuerName%2A&gt;</ph>安全令牌服务用于创建令牌之前，必须先设置属性。</target>       </trans-unit>
+        <trans-unit id="120" translate="yes" xml:space="preserve" uid="M:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.#ctor(System.String)">
+          <source>The issuer name.</source>
+          <target state="translated">发行人名称。</target>       </trans-unit>
+        <trans-unit id="121" translate="yes" xml:space="preserve" uid="M:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.#ctor(System.String)">
+          <source>Sets the <ph id="ph1">&lt;see cref="P:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.TokenIssuerName" /&gt;</ph> property.</source>
+          <target state="translated">设置 <ph id="ph1">&lt;see cref="P:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.TokenIssuerName" /&gt;</ph> 属性。</target>       </trans-unit>
+        <trans-unit id="122" translate="yes" xml:space="preserve" uid="M:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.#ctor(System.String)">
+          <source>Initializes a new instance of the <ph id="ph1">&lt;see cref="T:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration" /&gt;</ph> class that has the specified issuer name.</source>
+          <target state="translated">初始化 <ph id="ph1">&lt;see cref="T:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration" /&gt;</ph> 类的一个新实例，该类具有指定的颁发人名。</target>       </trans-unit>
+        <trans-unit id="123" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.#ctor(System.String)">
+          <source>If <ph id="ph1">`issuerName`</ph> is <ph id="ph2">`null`</ph>, the <ph id="ph3">&lt;xref:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.TokenIssuerName%2A&gt;</ph> property must be set before the security token service is used to create a token.</source>
+          <target state="translated">如果<ph id="ph1">`issuerName`</ph>是<ph id="ph2">`null`</ph>、<ph id="ph3">&lt;xref:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.TokenIssuerName%2A&gt;</ph>安全令牌服务用于创建令牌之前，必须先设置属性。</target>       </trans-unit>
+        <trans-unit id="124" translate="yes" xml:space="preserve" uid="M:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.#ctor(System.String,System.Boolean)">
+          <source>The issuer name.</source>
+          <target state="translated">发行人名称。</target>       </trans-unit>
+        <trans-unit id="125" translate="yes" xml:space="preserve" uid="M:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.#ctor(System.String,System.Boolean)">
+          <source>Sets the <ph id="ph1">&lt;see cref="P:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.TokenIssuerName" /&gt;</ph> property.</source>
+          <target state="translated">设置 <ph id="ph1">&lt;see cref="P:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.TokenIssuerName" /&gt;</ph> 属性。</target>       </trans-unit>
+        <trans-unit id="126" translate="yes" xml:space="preserve" uid="M:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.#ctor(System.String,System.Boolean)">
+          <source><ph id="ph1">&lt;see langword="true" /&gt;</ph> to load settings from the configuration file; otherwise <ph id="ph2">&lt;see langword="false" /&gt;</ph>.</source>
+          <target state="translated">如果从配置文件中加载设置，则为 <ph id="ph1">&lt;see langword="true" /&gt;</ph> ；否则为 <ph id="ph2">&lt;see langword="false" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="127" translate="yes" xml:space="preserve" uid="M:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.#ctor(System.String,System.Boolean)">
+          <source>Initializes a new instance of the <ph id="ph1">&lt;see cref="T:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration" /&gt;</ph> class that has the specified issuer name.</source>
+          <target state="translated">初始化 <ph id="ph1">&lt;see cref="T:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration" /&gt;</ph> 类的一个新实例，该类具有指定的颁发人名。</target>       </trans-unit>
+        <trans-unit id="128" translate="yes" xml:space="preserve" uid="M:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.#ctor(System.String,System.Boolean)">
+          <source>Optionally loads settings from the current configuration.</source>
+          <target state="translated">从当前配置选择性加载设置。</target>       </trans-unit>
+        <trans-unit id="129" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.#ctor(System.String,System.Boolean)">
+          <source>If <ph id="ph1">`issuerName`</ph> is <ph id="ph2">`null`</ph>, the <ph id="ph3">&lt;xref:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.TokenIssuerName%2A&gt;</ph> property must be set before the security token service is used to create a token.</source>
+          <target state="translated">如果<ph id="ph1">`issuerName`</ph>是<ph id="ph2">`null`</ph>、<ph id="ph3">&lt;xref:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.TokenIssuerName%2A&gt;</ph>安全令牌服务用于创建令牌之前，必须先设置属性。</target>       </trans-unit>
+        <trans-unit id="130" translate="yes" xml:space="preserve" uid="M:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.#ctor(System.String,System.IdentityModel.Tokens.SigningCredentials)">
+          <source>The issuer name.</source>
+          <target state="translated">发行人名称。</target>       </trans-unit>
+        <trans-unit id="131" translate="yes" xml:space="preserve" uid="M:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.#ctor(System.String,System.IdentityModel.Tokens.SigningCredentials)">
+          <source>Sets the <ph id="ph1">&lt;see cref="P:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.TokenIssuerName" /&gt;</ph> property.</source>
+          <target state="translated">设置 <ph id="ph1">&lt;see cref="P:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.TokenIssuerName" /&gt;</ph> 属性。</target>       </trans-unit>
+        <trans-unit id="132" translate="yes" xml:space="preserve" uid="M:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.#ctor(System.String,System.IdentityModel.Tokens.SigningCredentials)">
+          <source>The signing credentials for the STS.</source>
+          <target state="translated">STS 的签名凭据。</target>       </trans-unit>
+        <trans-unit id="133" translate="yes" xml:space="preserve" uid="M:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.#ctor(System.String,System.IdentityModel.Tokens.SigningCredentials)">
+          <source>Sets the <ph id="ph1">&lt;see cref="P:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.SigningCredentials" /&gt;</ph> property.</source>
+          <target state="translated">设置 <ph id="ph1">&lt;see cref="P:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.SigningCredentials" /&gt;</ph> 属性。</target>       </trans-unit>
+        <trans-unit id="134" translate="yes" xml:space="preserve" uid="M:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.#ctor(System.String,System.IdentityModel.Tokens.SigningCredentials)">
+          <source>Initializes a new instance of the <ph id="ph1">&lt;see cref="T:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration" /&gt;</ph> class that has the specified issuer name and signing credentials.</source>
+          <target state="translated">初始化具有指定颁发人名称和签名凭据的 <ph id="ph1">&lt;see cref="T:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration" /&gt;</ph> 类的新实例。</target>       </trans-unit>
+        <trans-unit id="135" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.#ctor(System.String,System.IdentityModel.Tokens.SigningCredentials)">
+          <source>If <ph id="ph1">`issuerName`</ph> is <ph id="ph2">`null`</ph>, the <ph id="ph3">&lt;xref:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.TokenIssuerName%2A&gt;</ph> property must be set before the security token service is used to create a token.</source>
+          <target state="translated">如果<ph id="ph1">`issuerName`</ph>是<ph id="ph2">`null`</ph>、<ph id="ph3">&lt;xref:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.TokenIssuerName%2A&gt;</ph>安全令牌服务用于创建令牌之前，必须先设置属性。</target>       </trans-unit>
+        <trans-unit id="136" translate="yes" xml:space="preserve" uid="M:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.#ctor(System.String,System.IdentityModel.Tokens.SigningCredentials,System.Boolean)">
+          <source>The issuer name.</source>
+          <target state="translated">发行人名称。</target>       </trans-unit>
+        <trans-unit id="137" translate="yes" xml:space="preserve" uid="M:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.#ctor(System.String,System.IdentityModel.Tokens.SigningCredentials,System.Boolean)">
+          <source>Sets the <ph id="ph1">&lt;see cref="P:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.TokenIssuerName" /&gt;</ph> property.</source>
+          <target state="translated">设置 <ph id="ph1">&lt;see cref="P:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.TokenIssuerName" /&gt;</ph> 属性。</target>       </trans-unit>
+        <trans-unit id="138" translate="yes" xml:space="preserve" uid="M:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.#ctor(System.String,System.IdentityModel.Tokens.SigningCredentials,System.Boolean)">
+          <source>The signing credentials for the STS.</source>
+          <target state="translated">STS 的签名凭据。</target>       </trans-unit>
+        <trans-unit id="139" translate="yes" xml:space="preserve" uid="M:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.#ctor(System.String,System.IdentityModel.Tokens.SigningCredentials,System.Boolean)">
+          <source>Sets the <ph id="ph1">&lt;see cref="P:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.SigningCredentials" /&gt;</ph> property.</source>
+          <target state="translated">设置 <ph id="ph1">&lt;see cref="P:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.SigningCredentials" /&gt;</ph> 属性。</target>       </trans-unit>
+        <trans-unit id="140" translate="yes" xml:space="preserve" uid="M:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.#ctor(System.String,System.IdentityModel.Tokens.SigningCredentials,System.Boolean)">
+          <source><ph id="ph1">&lt;see langword="true" /&gt;</ph> to load settings from the configuration file; otherwise <ph id="ph2">&lt;see langword="false" /&gt;</ph>.</source>
+          <target state="translated">如果从配置文件中加载设置，则为 <ph id="ph1">&lt;see langword="true" /&gt;</ph> ；否则为 <ph id="ph2">&lt;see langword="false" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="141" translate="yes" xml:space="preserve" uid="M:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.#ctor(System.String,System.IdentityModel.Tokens.SigningCredentials,System.Boolean)">
+          <source>Initializes a new instance of the <ph id="ph1">&lt;see cref="T:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration" /&gt;</ph> class that has the specified issuer name and signing credentials.</source>
+          <target state="translated">初始化具有指定颁发人名称和签名凭据的 <ph id="ph1">&lt;see cref="T:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration" /&gt;</ph> 类的新实例。</target>       </trans-unit>
+        <trans-unit id="142" translate="yes" xml:space="preserve" uid="M:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.#ctor(System.String,System.IdentityModel.Tokens.SigningCredentials,System.Boolean)">
+          <source>Optionally loads settings from the current configuration.</source>
+          <target state="translated">从当前配置选择性加载设置。</target>       </trans-unit>
+        <trans-unit id="143" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.#ctor(System.String,System.IdentityModel.Tokens.SigningCredentials,System.Boolean)">
+          <source>If <ph id="ph1">`issuerName`</ph> is <ph id="ph2">`null`</ph>, the <ph id="ph3">&lt;xref:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.TokenIssuerName%2A&gt;</ph> property must be set before the security token service is used to create a token.</source>
+          <target state="translated">如果<ph id="ph1">`issuerName`</ph>是<ph id="ph2">`null`</ph>、<ph id="ph3">&lt;xref:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.TokenIssuerName%2A&gt;</ph>安全令牌服务用于创建令牌之前，必须先设置属性。</target>       </trans-unit>
+        <trans-unit id="144" translate="yes" xml:space="preserve" uid="M:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.#ctor(System.String,System.IdentityModel.Tokens.SigningCredentials,System.String)">
+          <source>The issuer name.</source>
+          <target state="translated">发行人名称。</target>       </trans-unit>
+        <trans-unit id="145" translate="yes" xml:space="preserve" uid="M:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.#ctor(System.String,System.IdentityModel.Tokens.SigningCredentials,System.String)">
+          <source>Sets the <ph id="ph1">&lt;see cref="P:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.TokenIssuerName" /&gt;</ph> property.</source>
+          <target state="translated">设置 <ph id="ph1">&lt;see cref="P:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.TokenIssuerName" /&gt;</ph> 属性。</target>       </trans-unit>
+        <trans-unit id="146" translate="yes" xml:space="preserve" uid="M:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.#ctor(System.String,System.IdentityModel.Tokens.SigningCredentials,System.String)">
+          <source>The signing credentials for the STS.</source>
+          <target state="translated">STS 的签名凭据。</target>       </trans-unit>
+        <trans-unit id="147" translate="yes" xml:space="preserve" uid="M:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.#ctor(System.String,System.IdentityModel.Tokens.SigningCredentials,System.String)">
+          <source>Sets the <ph id="ph1">&lt;see cref="P:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.SigningCredentials" /&gt;</ph> property.</source>
+          <target state="translated">设置 <ph id="ph1">&lt;see cref="P:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.SigningCredentials" /&gt;</ph> 属性。</target>       </trans-unit>
+        <trans-unit id="148" translate="yes" xml:space="preserve" uid="M:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.#ctor(System.String,System.IdentityModel.Tokens.SigningCredentials,System.String)">
+          <source>The name of the <ph id="ph1">&lt;see langword="&amp;lt;identityConfiguration&amp;gt;" /&gt;</ph> element from which the configuration is to be loaded.</source>
+          <target state="translated">从中加载配置的 <ph id="ph1">&lt;see langword="&amp;lt;identityConfiguration&amp;gt;" /&gt;</ph> 元素的名称。</target>       </trans-unit>
+        <trans-unit id="149" translate="yes" xml:space="preserve" uid="M:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.#ctor(System.String,System.IdentityModel.Tokens.SigningCredentials,System.String)">
+          <source>Initializes a new instance of the <ph id="ph1">&lt;see cref="T:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration" /&gt;</ph> class that has the specified issuer name and signing credentials.</source>
+          <target state="translated">初始化具有指定颁发人名称和签名凭据的 <ph id="ph1">&lt;see cref="T:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration" /&gt;</ph> 类的新实例。</target>       </trans-unit>
+        <trans-unit id="150" translate="yes" xml:space="preserve" uid="M:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.#ctor(System.String,System.IdentityModel.Tokens.SigningCredentials,System.String)">
+          <source>Settings are loaded from the specified named configuration.</source>
+          <target state="translated">设置从指定命名配置中加载。</target>       </trans-unit>
+        <trans-unit id="151" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.#ctor(System.String,System.IdentityModel.Tokens.SigningCredentials,System.String)">
+          <source>If <ph id="ph1">`issuerName`</ph> is <ph id="ph2">`null`</ph>, the <ph id="ph3">&lt;xref:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.TokenIssuerName%2A&gt;</ph> property must be set before the security token service is used to create a token.</source>
+          <target state="translated">如果<ph id="ph1">`issuerName`</ph>是<ph id="ph2">`null`</ph>、<ph id="ph3">&lt;xref:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.TokenIssuerName%2A&gt;</ph>安全令牌服务用于创建令牌之前，必须先设置属性。</target>       </trans-unit>
+        <trans-unit id="152" translate="yes" xml:space="preserve" uid="M:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.CreateSecurityTokenService">
+          <source>Creates an security token service (STS) instance from the <ph id="ph1">&lt;see cref="T:System.Type" /&gt;</ph> specified in the <ph id="ph2">&lt;see cref="P:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.SecurityTokenService" /&gt;</ph> property.</source>
+          <target state="translated">从 <ph id="ph1">&lt;see cref="T:System.Type" /&gt;</ph> 属性中指定的 <ph id="ph2">&lt;see cref="P:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.SecurityTokenService" /&gt;</ph> 创建安全标记服务 (STS) 实例。</target>       </trans-unit>
+        <trans-unit id="153" translate="yes" xml:space="preserve" uid="M:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.CreateSecurityTokenService">
+          <source>An instance of the <ph id="ph1">&lt;see cref="T:System.Type" /&gt;</ph> specified in the <ph id="ph2">&lt;see cref="P:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.SecurityTokenService" /&gt;</ph> property.</source>
+          <target state="translated"><ph id="ph1">&lt;see cref="T:System.Type" /&gt;</ph> 属性中指定的 <ph id="ph2">&lt;see cref="P:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.SecurityTokenService" /&gt;</ph> 实例。</target>       </trans-unit>
+        <trans-unit id="154" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.CreateSecurityTokenService">
+          <source>The class specified in the <ph id="ph1">&lt;xref:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.SecurityTokenService%2A&gt;</ph> property must implement a constructor that takes a parameter of type <ph id="ph2">&lt;xref:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration&gt;</ph>.</source>
+          <target state="translated">在指定的类<ph id="ph1">&lt;xref:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.SecurityTokenService%2A&gt;</ph>属性必须实现的构造函数的类型的参数<ph id="ph2">&lt;xref:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="155" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.CreateSecurityTokenService">
+          <source>The code examples that are used in the <ph id="ph1">&lt;xref:System.IdentityModel.SecurityTokenService&gt;</ph> topics are taken from the <ph id="ph2">`Custom Token`</ph> sample.</source>
+          <target state="translated">在中使用的代码示例<ph id="ph1">&lt;xref:System.IdentityModel.SecurityTokenService&gt;</ph>主题，将从<ph id="ph2">`Custom Token`</ph>示例。</target>       </trans-unit>
+        <trans-unit id="156" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.CreateSecurityTokenService">
+          <source>This sample provides custom classes that enable processing of Simple Web Tokens (SWT) and it includes an implementation of a passive STS that is capable of serving an SWT token.</source>
+          <target state="translated">此示例提供使处理的简单 Web 令牌 (SWT) 的自定义类，并包括一个实现被动 STS，能够为提供服务的 SWT 令牌。</target>       </trans-unit>
+        <trans-unit id="157" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.CreateSecurityTokenService">
+          <source>For an example of how to implement an active STS, you can see the <ph id="ph1">`Federation Metadata`</ph> sample.</source>
+          <target state="translated">有关如何实现活动 STS 的示例，你可以参阅<ph id="ph1">`Federation Metadata`</ph>示例。</target>       </trans-unit>
+        <trans-unit id="158" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.CreateSecurityTokenService">
+          <source>For information about these samples and other samples available for WIF and about where to download them, see <bpt id="p1">[</bpt>WIF Code Sample Index<ept id="p1">](~/docs/framework/security/wif-code-sample-index.md)</ept>.</source>
+          <target state="translated">有关这些示例和信息提供其他示例的 WIF 和有关从哪里下载它们，请参阅<bpt id="p1">[</bpt>WIF 代码示例索引<ept id="p1">](~/docs/framework/security/wif-code-sample-index.md)</ept>。</target>       </trans-unit>
+        <trans-unit id="159" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.CreateSecurityTokenService">
+          <source>The following code shows a custom implementation of the <ph id="ph1">&lt;xref:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration&gt;</ph> class to support a passive STS that processes SWT tokens.</source>
+          <target state="translated">下面的代码演示的自定义实现<ph id="ph1">&lt;xref:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration&gt;</ph>类以支持被动 STS 处理 SWT 令牌。</target>       </trans-unit>
+        <trans-unit id="160" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.CreateSecurityTokenService">
+          <source>The configuration is initialized and stored in the HTTP application state the first time the static <ph id="ph1">`Current`</ph> property is accessed.</source>
+          <target state="translated">配置已初始化，并且存储在 HTTP 应用程序状态第一次静态<ph id="ph1">`Current`</ph>访问属性。</target>       </trans-unit>
+        <trans-unit id="161" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.CreateSecurityTokenService">
+          <source>The constructor initializes the properties of the custom configuration with the type of the custom STS, a custom issuer token resolver, and the default token type (the URI of the SWT token type).</source>
+          <target state="translated">构造函数初始化与自定义 STS、 自定义颁发者令牌解析程序，以及默认令牌类型 (的 SWT 令牌类型 URI) 的类型的自定义配置的属性。</target>       </trans-unit>
+        <trans-unit id="162" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.CreateSecurityTokenService">
+          <source>It also adds an SWT token handler to the default handler collection.</source>
+          <target state="translated">它还添加到默认处理程序集合的 SWT 令牌处理程序。</target>       </trans-unit>
+        <trans-unit id="163" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.CreateSecurityTokenService">
+          <source>The following code shows how to invoke a custom passive STS to process a WS-Federation request by calling the <ph id="ph1">&lt;xref:System.IdentityModel.Services.FederatedPassiveSecurityTokenServiceOperations.ProcessRequest%28System.Web.HttpRequest%2CSystem.Security.Claims.ClaimsPrincipal%2CSystem.IdentityModel.SecurityTokenService%2CSystem.Web.HttpResponse%29?displayProperty=nameWithType&gt;</ph> method from the code behind in the <ph id="ph2">`default.aspx.cs`</ph> file.</source>
+          <target state="translated">下面的代码演示如何调用自定义的被动 STS 处理 WS 联合身份验证请求，通过调用<ph id="ph1">&lt;xref:System.IdentityModel.Services.FederatedPassiveSecurityTokenServiceOperations.ProcessRequest%28System.Web.HttpRequest%2CSystem.Security.Claims.ClaimsPrincipal%2CSystem.IdentityModel.SecurityTokenService%2CSystem.Web.HttpResponse%29?displayProperty=nameWithType&gt;</ph>方法中的代码后面<ph id="ph2">`default.aspx.cs`</ph>文件。</target>       </trans-unit>
+        <trans-unit id="164" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.CreateSecurityTokenService">
+          <source>The <ph id="ph1">&lt;xref:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.CreateSecurityTokenService%2A&gt;</ph> method initializes an instance of the <ph id="ph2">`PassiveSTS.CustomSecurityTokenService`</ph> class using the properties set on the current <ph id="ph3">`CustomSecurityTokenServiceConfiguration`</ph> object.</source>
+          <target state="translated"><ph id="ph1">&lt;xref:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.CreateSecurityTokenService%2A&gt;</ph>方法初始化的实例<ph id="ph2">`PassiveSTS.CustomSecurityTokenService`</ph>类使用当前设置的属性<ph id="ph3">`CustomSecurityTokenServiceConfiguration`</ph>对象。</target>       </trans-unit>
+        <trans-unit id="165" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.CreateSecurityTokenService">
+          <source>The <ph id="ph1">`CustomSecurityTokenServiceConfiguration.Current`</ph> property is implemented by the <ph id="ph2">`CustomSecurityTokenServiceConfiguration`</ph> class and returns the instance of the class that is saved in the HTTP application state.</source>
+          <target state="translated"><ph id="ph1">`CustomSecurityTokenServiceConfiguration.Current`</ph>通过实现属性<ph id="ph2">`CustomSecurityTokenServiceConfiguration`</ph>类，并返回在 HTTP 应用程序状态保存类的实例。</target>       </trans-unit>
+        <trans-unit id="166" translate="yes" xml:space="preserve" uid="P:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.DefaultMaxSymmetricKeySizeInBits">
+          <source>Gets or sets the default key size limit in bits used check if the KeySize specified in the request is within this limit.</source>
+          <target state="translated">获取或设置如果选中，则请求中指定的 KeySize 是否位于此限制内的默认密钥大小。</target>       </trans-unit>
+        <trans-unit id="167" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.DefaultMaxSymmetricKeySizeInBits">
+          <source>The default key size limit, in bits.</source>
+          <target state="translated">默认密钥大小限制（以位为单位）。</target>       </trans-unit>
+        <trans-unit id="168" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.DefaultMaxSymmetricKeySizeInBits">
+          <source>The default is 1024.</source>
+          <target state="translated">默认值为 1024年。</target>       </trans-unit>
+        <trans-unit id="169" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.DefaultMaxSymmetricKeySizeInBits">
+          <source>This only applies to the symmetric key case.</source>
+          <target state="translated">这仅适用于的对称密钥的大小写。</target>       </trans-unit>
+        <trans-unit id="170" translate="yes" xml:space="preserve" uid="P:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.DefaultSymmetricKeySizeInBits">
+          <source>Gets or sets the default key size in bits used in the issued token.</source>
+          <target state="translated">获取或设置颁发的令牌中使用的默认密钥大小（位）。</target>       </trans-unit>
+        <trans-unit id="171" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.DefaultSymmetricKeySizeInBits">
+          <source>The key size used in the issued token, in bits.</source>
+          <target state="translated">在颁发的令牌中使用的密钥大小（以位为单位）。</target>       </trans-unit>
+        <trans-unit id="172" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.DefaultSymmetricKeySizeInBits">
+          <source>The default is 256.</source>
+          <target state="translated">默认值为 256。</target>       </trans-unit>
+        <trans-unit id="173" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.DefaultSymmetricKeySizeInBits">
+          <source>This only applies to the symmetric key case.</source>
+          <target state="translated">这仅适用于的对称密钥的大小写。</target>       </trans-unit>
+        <trans-unit id="174" translate="yes" xml:space="preserve" uid="P:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.DefaultTokenLifetime">
+          <source>Gets or sets the default lifetime used in the issued tokens.</source>
+          <target state="translated">获取或设置颁发的令牌中使用的默认生命周期。</target>       </trans-unit>
+        <trans-unit id="175" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.DefaultTokenLifetime">
+          <source>The default lifetime to use in issued tokens.</source>
+          <target state="translated">要在已颁发令牌中使用的默认生存期。</target>       </trans-unit>
+        <trans-unit id="176" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.DefaultTokenLifetime">
+          <source>The default is 1 day.</source>
+          <target state="translated">默认值为 1 天。</target>       </trans-unit>
+        <trans-unit id="177" translate="yes" xml:space="preserve" uid="P:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.DefaultTokenType">
+          <source>Gets or sets the default token type that is used in token issuance.</source>
+          <target state="translated">获取或设置令牌颁发中使用的默认令牌类型。</target>       </trans-unit>
+        <trans-unit id="178" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.DefaultTokenType">
+          <source>Returns a string that contains the default token type.</source>
+          <target state="translated">返回包含默认令牌类型字符串。</target>       </trans-unit>
+        <trans-unit id="179" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.DefaultTokenType">
+          <source>The string values are specified in URI format; for example, for the SAML 1.1 token type, the following is the string value: <ph id="ph1">http://docs.oasis-open.org/wss/oasis-wss-saml-token-profile-1.1#SAMLV1.1</ph>.</source>
+          <target state="translated">URI 格式; 指定的字符串值例如，对于 SAML 1.1 令牌类型，以下是字符串值： <ph id="ph1">http://docs.oasis-open.org/wss/oasis-wss-saml-token-profile-1.1#SAMLV1.1</ph>。</target>       </trans-unit>
+        <trans-unit id="180" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.DefaultTokenType">
+          <source>The default token type is set to SAML 1.1.</source>
+          <target state="translated">默认值设置为 SAML 1.1 令牌类型。</target>       </trans-unit>
+        <trans-unit id="181" translate="yes" xml:space="preserve" uid="P:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.DefaultTokenType">
+          <source>The specified value is <ph id="ph1">&lt;see langword="null" /&gt;</ph> or empty.</source>
+          <target state="translated">指定值为 <ph id="ph1">&lt;see langword="null" /&gt;</ph> 或为空。</target>       </trans-unit>
+        <trans-unit id="182" translate="yes" xml:space="preserve" uid="P:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.DefaultTokenType">
+          <source>The specified value is not defined in the token handlers.</source>
+          <target state="translated">指定值未在标记处理程序中定义。</target>       </trans-unit>
+        <trans-unit id="183" translate="yes" xml:space="preserve" uid="P:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.DisableWsdl">
+          <source>Gets or sets a value that specifies whether WSDL generation should be enabled for the security token service (STS).</source>
+          <target state="translated">获取或设置一个值，该值指定是否应为安全标记服务 (STS)启用启用 WSDL 生成。</target>       </trans-unit>
+        <trans-unit id="184" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.DisableWsdl">
+          <source><ph id="ph1">&lt;see langword="true" /&gt;</ph> to enable WSDL generation for the STS; otherwise, <ph id="ph2">&lt;see langword="false" /&gt;</ph>.</source>
+          <target state="translated">若要 STS 启用 WSDL 生成，则为 <ph id="ph1">&lt;see langword="true" /&gt;</ph>；否则为 <ph id="ph2">&lt;see langword="false" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="185" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.DisableWsdl">
+          <source>The default is <ph id="ph1">&lt;see langword="false" /&gt;</ph>.</source>
+          <target state="translated">默认值为 <ph id="ph1">&lt;see langword="false" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="186" translate="yes" xml:space="preserve" uid="P:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.MaximumTokenLifetime">
+          <source>Gets or sets the maximum token lifetime for issued tokens.</source>
+          <target state="translated">获取或设置已颁发标识的最大标识生存期。</target>       </trans-unit>
+        <trans-unit id="187" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.MaximumTokenLifetime">
+          <source>The maximum token lifetime for issued tokens.</source>
+          <target state="translated">用于颁布令牌的最长令牌生命期。</target>       </trans-unit>
+        <trans-unit id="188" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.MaximumTokenLifetime">
+          <source>The default is 1 day.</source>
+          <target state="translated">默认值为 1 天。</target>       </trans-unit>
+        <trans-unit id="189" translate="yes" xml:space="preserve" uid="P:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.SecurityTokenService">
+          <source>Gets or sets the <ph id="ph1">&lt;see cref="T:System.Type" /&gt;</ph> of the security token service (STS).</source>
+          <target state="translated">获取或设置安全标记服务 (STS) 的 <ph id="ph1">&lt;see cref="T:System.Type" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="190" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.SecurityTokenService">
+          <source>The type of the security token service.</source>
+          <target state="translated">安全令牌服务的类型。</target>       </trans-unit>
+        <trans-unit id="191" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.SecurityTokenService">
+          <source>The type must derive from the <ph id="ph1">&lt;see cref="T:System.IdentityModel.SecurityTokenService" /&gt;</ph> class.</source>
+          <target state="translated">此类型必须派生自<ph id="ph1">&lt;see cref="T:System.IdentityModel.SecurityTokenService" /&gt;</ph> 类。</target>       </trans-unit>
+        <trans-unit id="192" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.SecurityTokenService">
+          <source>The class specified in the <ph id="ph1">&lt;xref:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.SecurityTokenService%2A&gt;</ph> property must implement a constructor that takes a parameter of type <ph id="ph2">&lt;xref:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration&gt;</ph>.</source>
+          <target state="translated">在指定的类<ph id="ph1">&lt;xref:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.SecurityTokenService%2A&gt;</ph>属性必须实现的构造函数的类型的参数<ph id="ph2">&lt;xref:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="193" translate="yes" xml:space="preserve" uid="P:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.SecurityTokenService">
+          <source>The specified value is not assignable as <ph id="ph1">&lt;see cref="T:System.IdentityModel.SecurityTokenService" /&gt;</ph>.</source>
+          <target state="translated">所指定的值不能赋值为 <ph id="ph1">&lt;see cref="T:System.IdentityModel.SecurityTokenService" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="194" translate="yes" xml:space="preserve" uid="P:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.SecurityTokenService">
+          <source>The specified value is <ph id="ph1">&lt;see langword="null" /&gt;</ph>.</source>
+          <target state="translated">指定的值为 <ph id="ph1">&lt;see langword="null" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="195" translate="yes" xml:space="preserve" uid="P:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.SigningCredentials">
+          <source>Gets or sets the signing credentials.</source>
+          <target state="translated">获取或设置签名凭据。</target>       </trans-unit>
+        <trans-unit id="196" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.SigningCredentials">
+          <source>The signing credentials.</source>
+          <target state="translated">签名凭据。</target>       </trans-unit>
+        <trans-unit id="197" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.SigningCredentials">
+          <source>The <ph id="ph1">&lt;xref:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.SigningCredentials%2A&gt;</ph> property is ignored when implementing an active security token service (STS).</source>
+          <target state="translated">实现有效的安全令牌服务 (STS) 时，将忽略 <ph id="ph1">&lt;xref:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.SigningCredentials%2A&gt;</ph> 属性。</target>       </trans-unit>
+        <trans-unit id="198" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.SigningCredentials">
+          <source>Instead you must set the service certificate through the <ph id="ph1">&lt;xref:System.ServiceModel.ServiceHostBase.Credentials%2A&gt;</ph> property on the service host  that is hosting your STS.</source>
+          <target state="translated">相反，您必须通过承载您的 STS 的服务主机上的 <ph id="ph1">&lt;xref:System.ServiceModel.ServiceHostBase.Credentials%2A&gt;</ph> 属性设置服务证书。</target>       </trans-unit>
+        <trans-unit id="199" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.SigningCredentials">
+          <source>The service host used for an active STS is represented by the <ph id="ph1">&lt;xref:System.ServiceModel.Security.WSTrustServiceHost&gt;</ph> class.</source>
+          <target state="translated">用于有效的 STS 的服务主机由 <ph id="ph1">&lt;xref:System.ServiceModel.Security.WSTrustServiceHost&gt;</ph> 类表示。</target>       </trans-unit>
+        <trans-unit id="200" translate="yes" xml:space="preserve" uid="P:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.TokenIssuerName">
+          <source>Gets or sets the issuer name so that it can be set in the issued token.</source>
+          <target state="translated">获取或设置颁发者名称，以便在已颁发令牌中设置它。</target>       </trans-unit>
+        <trans-unit id="201" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.TokenIssuerName">
+          <source>The issuer name.</source>
+          <target state="translated">发行人名称。</target>       </trans-unit>
+        <trans-unit id="202" translate="yes" xml:space="preserve" uid="P:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.TokenIssuerName">
+          <source>An attempt to set the property to <ph id="ph1">&lt;see langword="null" /&gt;</ph> or an empty string occurs.</source>
+          <target state="translated">尝试将此属性设置为 <ph id="ph1">&lt;see langword="null" /&gt;</ph> 或者空字符串。</target>       </trans-unit>
+        <trans-unit id="203" translate="yes" xml:space="preserve" uid="P:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.WSTrust13RequestSerializer">
+          <source>Gets or sets the WS-Trust 1.3 Request (RST) serializer.</source>
+          <target state="translated">获取或设置 WS-Trust 1.3 请求 (RST) 序列化程序。</target>       </trans-unit>
+        <trans-unit id="204" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.WSTrust13RequestSerializer">
+          <source>The WS-Trust 1.3 Request (RST) serializer.</source>
+          <target state="translated">WS-Trust1.3 Request (RST) 序列化程序。</target>       </trans-unit>
+        <trans-unit id="205" translate="yes" xml:space="preserve" uid="P:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.WSTrust13RequestSerializer">
+          <source>The specified value is <ph id="ph1">&lt;see langword="null" /&gt;</ph>.</source>
+          <target state="translated">指定的值为 <ph id="ph1">&lt;see langword="null" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="206" translate="yes" xml:space="preserve" uid="P:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.WSTrust13ResponseSerializer">
+          <source>Gets or sets the WS-Trust 1.3 Response (RSTR) serializer.</source>
+          <target state="translated">获取或设置 WS-Trust 1.3 响应 (RSTR) 序列化程序。</target>       </trans-unit>
+        <trans-unit id="207" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.WSTrust13ResponseSerializer">
+          <source>The WS-Trust 1.3 Response (RSTR) serializer.</source>
+          <target state="translated">WS-Trust1.3 Response (RSTR) 序列化程序。</target>       </trans-unit>
+        <trans-unit id="208" translate="yes" xml:space="preserve" uid="P:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.WSTrust13ResponseSerializer">
+          <source>The specified value is <ph id="ph1">&lt;see langword="null" /&gt;</ph>.</source>
+          <target state="translated">指定的值为 <ph id="ph1">&lt;see langword="null" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="209" translate="yes" xml:space="preserve" uid="P:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.WSTrustFeb2005RequestSerializer">
+          <source>Gets or sets the WS-Trust Feb 2005 Request (RST) serializer.</source>
+          <target state="translated">获取或设置 WS-Trust Feb 2005 请求 (RST) 序列化程序。</target>       </trans-unit>
+        <trans-unit id="210" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.WSTrustFeb2005RequestSerializer">
+          <source>The WS-Trust Feb 2005 Request (RST) serializer.</source>
+          <target state="translated">WS-Trust Feb 2005 Request (RST) 序列化程序。</target>       </trans-unit>
+        <trans-unit id="211" translate="yes" xml:space="preserve" uid="P:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.WSTrustFeb2005RequestSerializer">
+          <source>The specified value is <ph id="ph1">&lt;see langword="null" /&gt;</ph>.</source>
+          <target state="translated">指定的值为 <ph id="ph1">&lt;see langword="null" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="212" translate="yes" xml:space="preserve" uid="P:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.WSTrustFeb2005ResponseSerializer">
+          <source>Gets or sets the WS-Trust Feb 2005 Response (RSTR) serializer.</source>
+          <target state="translated">获取或设置 WS-Trust Feb 2005 响应 (RSTR) 序列化程序。</target>       </trans-unit>
+        <trans-unit id="213" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.WSTrustFeb2005ResponseSerializer">
+          <source>The WS-Trust Feb 2005 Response (RSTR) serializer.</source>
+          <target state="translated">WS-Trust Feb 2005 Response (RSTR) 序列化程序。</target>       </trans-unit>
+        <trans-unit id="214" translate="yes" xml:space="preserve" uid="P:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.WSTrustFeb2005ResponseSerializer">
+          <source>The specified value is <ph id="ph1">&lt;see langword="null" /&gt;</ph>.</source>
+          <target state="translated">指定的值为 <ph id="ph1">&lt;see langword="null" /&gt;</ph>。</target>       </trans-unit>
+      </group>
+    </body>
+  </file>
+</xliff>

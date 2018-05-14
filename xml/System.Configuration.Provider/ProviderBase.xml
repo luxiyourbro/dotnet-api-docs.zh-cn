@@ -1,239 +1,120 @@
-<Type Name="ProviderBase" FullName="System.Configuration.Provider.ProviderBase">
-  <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="8ac4b3e2914d1d8ccd4f48a74612cd6abd56d602" />
-    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
-    <Meta Name="ms.translationtype" Value="HT" />
-    <Meta Name="ms.contentlocale" Value="zh-CN" />
-    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
-  </Metadata>
-  <TypeSignature Language="C#" Value="public abstract class ProviderBase" />
-  <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract beforefieldinit ProviderBase extends System.Object" />
-  <TypeSignature Language="DocId" Value="T:System.Configuration.Provider.ProviderBase" />
-  <TypeSignature Language="VB.NET" Value="Public MustInherit Class ProviderBase" />
-  <TypeSignature Language="C++ CLI" Value="public ref class ProviderBase abstract" />
-  <AssemblyInfo>
-    <AssemblyName>System.Configuration</AssemblyName>
-    <AssemblyVersion>4.0.0.0</AssemblyVersion>
-  </AssemblyInfo>
-  <AssemblyInfo>
-    <AssemblyName>System.Configuration.ConfigurationManager</AssemblyName>
-    <AssemblyVersion>4.0.0.0</AssemblyVersion>
-  </AssemblyInfo>
-  <Base>
-    <BaseTypeName>System.Object</BaseTypeName>
-  </Base>
-  <Interfaces />
-  <Docs>
-    <summary>
-      <span data-ttu-id="d5518-101">提供了针对可扩展的提供程序模型的基实现。</span>
-      <span class="sxs-lookup">
-        <span data-stu-id="d5518-101">Provides a base implementation for the extensible provider model.</span>
-      </span>
-    </summary>
-    <remarks>
-      <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="d5518-102">提供程序模型旨在封装全部或部分的多个 ASP.NET 功能，例如成员资格、 配置文件和受保护的配置的功能。</span><span class="sxs-lookup"><span data-stu-id="d5518-102">The provider model is intended to encapsulate all or part of the functionality of multiple ASP.NET features, such as membership, profiles, and protected configuration.</span></span> <span data-ttu-id="d5518-103">它允许开发人员可以创建提供封装的功能的多个实现的支持类。</span><span class="sxs-lookup"><span data-stu-id="d5518-103">It allows the developer to create supporting classes that provide multiple implementations of the encapsulated functionality.</span></span> <span data-ttu-id="d5518-104">此外，开发人员可以编写使用提供程序模型的新功能。</span><span class="sxs-lookup"><span data-stu-id="d5518-104">In addition, developers can write new features using the provider model.</span></span> <span data-ttu-id="d5518-105">这可以是功能的支持的多个实现，而不复制功能代码或重新实现方法需要更改的情况下编写代码的应用程序层的有效方式。</span><span class="sxs-lookup"><span data-stu-id="d5518-105">This can be an effective way to support multiple implementations of a feature's functionality without duplicating the feature code or recoding the application layer if the implementation method needs to be changed.</span></span>  
-  
- <span data-ttu-id="d5518-106"><xref:System.Configuration.Provider.ProviderBase>类很简单，只包含几个基本的方法和属性所共有的所有提供程序。</span><span class="sxs-lookup"><span data-stu-id="d5518-106">The <xref:System.Configuration.Provider.ProviderBase> class is simple, containing only a few basic methods and properties that are common to all providers.</span></span> <span data-ttu-id="d5518-107">特定于功能的提供程序 (如<xref:System.Web.Security.MembershipProvider>) 继承<xref:System.Configuration.Provider.ProviderBase>并建立的所需的方法和该功能的特定于实现的提供程序必须支持的属性。</span><span class="sxs-lookup"><span data-stu-id="d5518-107">Feature-specific providers (such as <xref:System.Web.Security.MembershipProvider>) inherit from <xref:System.Configuration.Provider.ProviderBase> and establish the necessary methods and properties that the implementation-specific providers for that feature must support.</span></span> <span data-ttu-id="d5518-108">特定于实现的提供程序 (如<xref:System.Web.Security.SqlMembershipProvider>) 反过来继承的特定于功能的提供程序 (在这种情况下， <xref:System.Web.Security.MembershipProvider>)。</span><span class="sxs-lookup"><span data-stu-id="d5518-108">Implementation-specific providers (such as <xref:System.Web.Security.SqlMembershipProvider>) inherit in turn from a feature-specific provider (in this case, <xref:System.Web.Security.MembershipProvider>).</span></span>  
-  
- <span data-ttu-id="d5518-109">提供程序模型的最重要方面是，提取应用程序代码 （例如，是否数据将保存为文本文件或数据库） 的实现。</span><span class="sxs-lookup"><span data-stu-id="d5518-109">The most important aspect of the provider model is that the implementation (for example, whether data is persisted as a text file or in a database) is abstracted from the application code.</span></span> <span data-ttu-id="d5518-110">在配置文件中指定给定的功能特定于实现的提供程序的类型。</span><span class="sxs-lookup"><span data-stu-id="d5518-110">The type of the implementation-specific provider for the given feature is designated in a configuration file.</span></span> <span data-ttu-id="d5518-111">功能级别提供程序会将类型从配置文件中读取，并且可作为为功能代码中的工厂。</span><span class="sxs-lookup"><span data-stu-id="d5518-111">The feature-level provider then reads in the type from the configuration file and acts as a factory to the feature code.</span></span> <span data-ttu-id="d5518-112">应用程序开发人员然后可以在应用程序代码中使用的功能的类。</span><span class="sxs-lookup"><span data-stu-id="d5518-112">The application developer can then use the feature classes in the application code.</span></span> <span data-ttu-id="d5518-113">实现类型可以交换出在配置文件中，不再需要重写代码以适应不同的实现方法。</span><span class="sxs-lookup"><span data-stu-id="d5518-113">The implementation type can be swapped out in the configuration file, eliminating the need to rewrite the code to accommodate the different implementation methodology.</span></span>  
-  
- <span data-ttu-id="d5518-114">包含在 ASP.NET 提供程序是主要的数据持久性实现的功能，如配置文件或成员身份的抽象。</span><span class="sxs-lookup"><span data-stu-id="d5518-114">The providers included with ASP.NET are mostly abstractions of data persistence implementations for features like profiles or membership.</span></span> <span data-ttu-id="d5518-115">但是，此模型可应用于任何其他类型的无法提取并采用多种方式实现的功能。</span><span class="sxs-lookup"><span data-stu-id="d5518-115">However, this model can be applied to any other kind of feature functionality that could be abstracted and implemented in multiple ways.</span></span>  
-  
-   
-  
-## Examples  
- <span data-ttu-id="d5518-116">有关如何使用的示例<xref:System.Configuration.Provider.ProviderBase>类，请参阅[配置文件提供程序实现示例](http://msdn.microsoft.com/library/c36e8a56-b416-40b7-95c1-c662cfb8f906)。</span><span class="sxs-lookup"><span data-stu-id="d5518-116">For an example of how to use the <xref:System.Configuration.Provider.ProviderBase> class, see [Profile Provider Implementation Example](http://msdn.microsoft.com/library/c36e8a56-b416-40b7-95c1-c662cfb8f906).</span></span>  
-  
- ]]></format>
-    </remarks>
-  </Docs>
-  <Members>
-    <Member MemberName=".ctor">
-      <MemberSignature Language="C#" Value="protected ProviderBase ();" />
-      <MemberSignature Language="ILAsm" Value=".method familyhidebysig specialname rtspecialname instance void .ctor() cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Configuration.Provider.ProviderBase.#ctor" />
-      <MemberSignature Language="VB.NET" Value="Protected Sub New ()" />
-      <MemberSignature Language="C++ CLI" Value="protected:&#xA; ProviderBase();" />
-      <MemberType>Constructor</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Configuration</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>System.Configuration.ConfigurationManager</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Parameters />
-      <Docs>
-        <summary>
-          <span data-ttu-id="d5518-117">初始化 <see cref="T:System.Configuration.Provider.ProviderBase" /> 类的新实例。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d5518-117">Initializes a new instance of the <see cref="T:System.Configuration.Provider.ProviderBase" /> class.</span>
-          </span>
-        </summary>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="Description">
-      <MemberSignature Language="C#" Value="public virtual string Description { get; }" />
-      <MemberSignature Language="ILAsm" Value=".property instance string Description" />
-      <MemberSignature Language="DocId" Value="P:System.Configuration.Provider.ProviderBase.Description" />
-      <MemberSignature Language="VB.NET" Value="Public Overridable ReadOnly Property Description As String" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual property System::String ^ Description { System::String ^ get(); };" />
-      <MemberType>Property</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Configuration</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>System.Configuration.ConfigurationManager</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.String</ReturnType>
-      </ReturnValue>
-      <Docs>
-        <summary>
-          <span data-ttu-id="d5518-118">获取一条简短的易懂描述，它适合在管理工具或其他用户界面 (UI) 中显示。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d5518-118">Gets a brief, friendly description suitable for display in administrative tools or other user interfaces (UIs).</span>
-          </span>
-        </summary>
-        <value>
-          <span data-ttu-id="d5518-119">简短的易懂描述，适合在管理工具或其他 UI 中显示。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d5518-119">A brief, friendly description suitable for display in administrative tools or other UIs.</span>
-          </span>
-        </value>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="d5518-120">如果配置的提供程序不提供的说明的值<xref:System.Configuration.Provider.ProviderBase.Name%2A>默认情况下返回属性。</span><span class="sxs-lookup"><span data-stu-id="d5518-120">If a configured provider does not supply a description, the value of the <xref:System.Configuration.Provider.ProviderBase.Name%2A> property is returned as a default.</span></span>  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="Initialize">
-      <MemberSignature Language="C#" Value="public virtual void Initialize (string name, System.Collections.Specialized.NameValueCollection config);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void Initialize(string name, class System.Collections.Specialized.NameValueCollection config) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Configuration.Provider.ProviderBase.Initialize(System.String,System.Collections.Specialized.NameValueCollection)" />
-      <MemberSignature Language="VB.NET" Value="Public Overridable Sub Initialize (name As String, config As NameValueCollection)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual void Initialize(System::String ^ name, System::Collections::Specialized::NameValueCollection ^ config);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Configuration</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>System.Configuration.ConfigurationManager</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="name" Type="System.String" />
-        <Parameter Name="config" Type="System.Collections.Specialized.NameValueCollection" />
-      </Parameters>
-      <Docs>
-        <param name="name">
-          <span data-ttu-id="d5518-121">提供程序的友好名称。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d5518-121">The friendly name of the provider.</span>
-          </span>
-        </param>
-        <param name="config">
-          <span data-ttu-id="d5518-122">名称/值对的集合，表示在配置中为该提供程序指定的提供程序特定的属性。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d5518-122">A collection of the name/value pairs representing the provider-specific attributes specified in the configuration for this provider.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="d5518-123">初始化配置生成器。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d5518-123">Initializes the configuration builder.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="d5518-124">基类实现内部跟踪的次数提供程序的`Initialize`调用方法。</span><span class="sxs-lookup"><span data-stu-id="d5518-124">The base class implementation internally tracks the number of times the provider's `Initialize` method has been called.</span></span> <span data-ttu-id="d5518-125">如果不止一次初始化提供`InvalidOperationException`指出已初始化提供程序引发。</span><span class="sxs-lookup"><span data-stu-id="d5518-125">If a provider is initialized more than once, an `InvalidOperationException` is thrown stating that the provider is already initialized.</span></span>  
-  
- <span data-ttu-id="d5518-126">因为大多数功能提供程序调用<xref:System.Configuration.Provider.ProviderBase.Initialize%2A>之前执行特定于提供程序初始化时，此方法是一个中心位置以防止重复初始化。</span><span class="sxs-lookup"><span data-stu-id="d5518-126">Because most feature providers call <xref:System.Configuration.Provider.ProviderBase.Initialize%2A> prior to performing provider-specific initialization, this method is a central location for preventing double initialization.</span></span>  
-  
-   
-  
-## Examples  
- <span data-ttu-id="d5518-127">有关如何使用的示例<xref:System.Configuration.Provider.ProviderBase.Initialize%2A>，请参阅[配置文件提供程序实现示例](http://msdn.microsoft.com/library/c36e8a56-b416-40b7-95c1-c662cfb8f906)。</span><span class="sxs-lookup"><span data-stu-id="d5518-127">For an example of how to use <xref:System.Configuration.Provider.ProviderBase.Initialize%2A>, see [Profile Provider Implementation Example](http://msdn.microsoft.com/library/c36e8a56-b416-40b7-95c1-c662cfb8f906).</span></span>  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.ArgumentNullException">
-          <span data-ttu-id="d5518-128">提供程序的名称是 <see langword="null" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d5518-128">The name of the provider is <see langword="null" />.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.ArgumentException">
-          <span data-ttu-id="d5518-129">提供程序名称的长度为零。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d5518-129">The name of the provider has a length of zero.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.InvalidOperationException">
-          <span data-ttu-id="d5518-130">初始化提供程序后尝试在提供程序上调用 <see cref="M:System.Configuration.Provider.ProviderBase.Initialize(System.String,System.Collections.Specialized.NameValueCollection)" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d5518-130">An attempt is made to call <see cref="M:System.Configuration.Provider.ProviderBase.Initialize(System.String,System.Collections.Specialized.NameValueCollection)" /> on a provider after the provider has already been initialized.</span>
-          </span>
-        </exception>
-      </Docs>
-    </Member>
-    <Member MemberName="Name">
-      <MemberSignature Language="C#" Value="public virtual string Name { get; }" />
-      <MemberSignature Language="ILAsm" Value=".property instance string Name" />
-      <MemberSignature Language="DocId" Value="P:System.Configuration.Provider.ProviderBase.Name" />
-      <MemberSignature Language="VB.NET" Value="Public Overridable ReadOnly Property Name As String" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual property System::String ^ Name { System::String ^ get(); };" />
-      <MemberType>Property</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Configuration</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>System.Configuration.ConfigurationManager</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.String</ReturnType>
-      </ReturnValue>
-      <Docs>
-        <summary>
-          <span data-ttu-id="d5518-131">获得一个友好名称，用于在配置过程中引用提供程序。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d5518-131">Gets the friendly name used to refer to the provider during configuration.</span>
-          </span>
-        </summary>
-        <value>
-          <span data-ttu-id="d5518-132">用于在配置过程中引用提供程序的友好名称。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="d5518-132">The friendly name used to refer to the provider during configuration.</span>
-          </span>
-        </value>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="d5518-133">建议的模式，该字符串是: [*提供程序创建者*] [*实现类型*] [*功能*] 提供程序。</span><span class="sxs-lookup"><span data-stu-id="d5518-133">The recommended pattern for this string is: [*Provider Creator*][*Implementation Type*][*Feature*]Provider.</span></span> <span data-ttu-id="d5518-134">尽管<xref:System.Configuration.Provider.ProviderBase.Description%2A>属性也提供友好的说明，<xref:System.Configuration.Provider.ProviderBase.Name%2A>属性用作提供程序的标识符。</span><span class="sxs-lookup"><span data-stu-id="d5518-134">Although the <xref:System.Configuration.Provider.ProviderBase.Description%2A> property also provides a friendly description, the <xref:System.Configuration.Provider.ProviderBase.Name%2A> property is used as an identifier for the provider.</span></span>  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-  </Members>
-</Type>
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.2" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 xliff-core-1.2-transitional.xsd">
+  <file datatype="xml" original="ProviderBase.xml" source-language="en-US" target-language="zh-CN">
+    <header>
+      <tool tool-id="mdxliff" tool-name="mdxliff" tool-version="1.0-15c36f0" tool-company="Microsoft" />
+      <xliffext:skl_file_name xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">02cd5861-7ce2-4a82-b358-31f8435a0ac58ac4b3e2914d1d8ccd4f48a74612cd6abd56d602.skl</xliffext:skl_file_name>
+      <xliffext:version xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">1.2</xliffext:version>
+      <xliffext:ms.openlocfilehash xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">8ac4b3e2914d1d8ccd4f48a74612cd6abd56d602</xliffext:ms.openlocfilehash>
+      <xliffext:ms.sourcegitcommit xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b</xliffext:ms.sourcegitcommit>
+      <xliffext:ms.lasthandoff xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">04/03/2018</xliffext:ms.lasthandoff>
+      <xliffext:moniker_ids xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">netcore-2.0,netframework-4.5.1,netframework-4.5.2,netframework-4.5,netframework-4.6.1,netframework-4.6.2,netframework-4.6,netframework-4.7.1,netframework-4.7,xamarinmac-3.0</xliffext:moniker_ids>
+    </header>
+    <body>
+      <group id="content" extype="content">
+        <trans-unit id="101" translate="yes" xml:space="preserve" uid="T:System.Configuration.Provider.ProviderBase">
+          <source>Provides a base implementation for the extensible provider model.</source>
+          <target state="translated">提供了针对可扩展的提供程序模型的基实现。</target>       </trans-unit>
+        <trans-unit id="102" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Configuration.Provider.ProviderBase">
+          <source>The provider model is intended to encapsulate all or part of the functionality of multiple ASP.NET features, such as membership, profiles, and protected configuration.</source>
+          <target state="translated">提供程序模型旨在封装全部或部分的多个 ASP.NET 功能，例如成员资格、 配置文件和受保护的配置的功能。</target>       </trans-unit>
+        <trans-unit id="103" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Configuration.Provider.ProviderBase">
+          <source>It allows the developer to create supporting classes that provide multiple implementations of the encapsulated functionality.</source>
+          <target state="translated">它允许开发人员可以创建提供封装的功能的多个实现的支持类。</target>       </trans-unit>
+        <trans-unit id="104" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Configuration.Provider.ProviderBase">
+          <source>In addition, developers can write new features using the provider model.</source>
+          <target state="translated">此外，开发人员可以编写使用提供程序模型的新功能。</target>       </trans-unit>
+        <trans-unit id="105" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Configuration.Provider.ProviderBase">
+          <source>This can be an effective way to support multiple implementations of a feature's functionality without duplicating the feature code or recoding the application layer if the implementation method needs to be changed.</source>
+          <target state="translated">这可以是功能的支持的多个实现，而不复制功能代码或重新实现方法需要更改的情况下编写代码的应用程序层的有效方式。</target>       </trans-unit>
+        <trans-unit id="106" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Configuration.Provider.ProviderBase">
+          <source>The <ph id="ph1">&lt;xref:System.Configuration.Provider.ProviderBase&gt;</ph> class is simple, containing only a few basic methods and properties that are common to all providers.</source>
+          <target state="translated"><ph id="ph1">&lt;xref:System.Configuration.Provider.ProviderBase&gt;</ph>类很简单，只包含几个基本的方法和属性所共有的所有提供程序。</target>       </trans-unit>
+        <trans-unit id="107" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Configuration.Provider.ProviderBase">
+          <source>Feature-specific providers (such as <ph id="ph1">&lt;xref:System.Web.Security.MembershipProvider&gt;</ph>) inherit from <ph id="ph2">&lt;xref:System.Configuration.Provider.ProviderBase&gt;</ph> and establish the necessary methods and properties that the implementation-specific providers for that feature must support.</source>
+          <target state="translated">特定于功能的提供程序 (如<ph id="ph1">&lt;xref:System.Web.Security.MembershipProvider&gt;</ph>) 继承<ph id="ph2">&lt;xref:System.Configuration.Provider.ProviderBase&gt;</ph>并建立的所需的方法和该功能的特定于实现的提供程序必须支持的属性。</target>       </trans-unit>
+        <trans-unit id="108" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Configuration.Provider.ProviderBase">
+          <source>Implementation-specific providers (such as <ph id="ph1">&lt;xref:System.Web.Security.SqlMembershipProvider&gt;</ph>) inherit in turn from a feature-specific provider (in this case, <ph id="ph2">&lt;xref:System.Web.Security.MembershipProvider&gt;</ph>).</source>
+          <target state="translated">特定于实现的提供程序 (如<ph id="ph1">&lt;xref:System.Web.Security.SqlMembershipProvider&gt;</ph>) 反过来继承的特定于功能的提供程序 (在这种情况下， <ph id="ph2">&lt;xref:System.Web.Security.MembershipProvider&gt;</ph>)。</target>       </trans-unit>
+        <trans-unit id="109" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Configuration.Provider.ProviderBase">
+          <source>The most important aspect of the provider model is that the implementation (for example, whether data is persisted as a text file or in a database) is abstracted from the application code.</source>
+          <target state="translated">提供程序模型的最重要方面是，提取应用程序代码 （例如，是否数据将保存为文本文件或数据库） 的实现。</target>       </trans-unit>
+        <trans-unit id="110" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Configuration.Provider.ProviderBase">
+          <source>The type of the implementation-specific provider for the given feature is designated in a configuration file.</source>
+          <target state="translated">在配置文件中指定给定的功能特定于实现的提供程序的类型。</target>       </trans-unit>
+        <trans-unit id="111" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Configuration.Provider.ProviderBase">
+          <source>The feature-level provider then reads in the type from the configuration file and acts as a factory to the feature code.</source>
+          <target state="translated">功能级别提供程序会将类型从配置文件中读取，并且可作为为功能代码中的工厂。</target>       </trans-unit>
+        <trans-unit id="112" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Configuration.Provider.ProviderBase">
+          <source>The application developer can then use the feature classes in the application code.</source>
+          <target state="translated">应用程序开发人员然后可以在应用程序代码中使用的功能的类。</target>       </trans-unit>
+        <trans-unit id="113" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Configuration.Provider.ProviderBase">
+          <source>The implementation type can be swapped out in the configuration file, eliminating the need to rewrite the code to accommodate the different implementation methodology.</source>
+          <target state="translated">实现类型可以交换出在配置文件中，不再需要重写代码以适应不同的实现方法。</target>       </trans-unit>
+        <trans-unit id="114" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Configuration.Provider.ProviderBase">
+          <source>The providers included with ASP.NET are mostly abstractions of data persistence implementations for features like profiles or membership.</source>
+          <target state="translated">包含在 ASP.NET 提供程序是主要的数据持久性实现的功能，如配置文件或成员身份的抽象。</target>       </trans-unit>
+        <trans-unit id="115" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Configuration.Provider.ProviderBase">
+          <source>However, this model can be applied to any other kind of feature functionality that could be abstracted and implemented in multiple ways.</source>
+          <target state="translated">但是，此模型可应用于任何其他类型的无法提取并采用多种方式实现的功能。</target>       </trans-unit>
+        <trans-unit id="116" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Configuration.Provider.ProviderBase">
+          <source>For an example of how to use the <ph id="ph1">&lt;xref:System.Configuration.Provider.ProviderBase&gt;</ph> class, see <bpt id="p1">[</bpt>Profile Provider Implementation Example<ept id="p1">](http://msdn.microsoft.com/library/c36e8a56-b416-40b7-95c1-c662cfb8f906)</ept>.</source>
+          <target state="translated">有关如何使用的示例<ph id="ph1">&lt;xref:System.Configuration.Provider.ProviderBase&gt;</ph>类，请参阅<bpt id="p1">[</bpt>配置文件提供程序实现示例<ept id="p1">](http://msdn.microsoft.com/library/c36e8a56-b416-40b7-95c1-c662cfb8f906)</ept>。</target>       </trans-unit>
+        <trans-unit id="117" translate="yes" xml:space="preserve" uid="M:System.Configuration.Provider.ProviderBase.#ctor">
+          <source>Initializes a new instance of the <ph id="ph1">&lt;see cref="T:System.Configuration.Provider.ProviderBase" /&gt;</ph> class.</source>
+          <target state="translated">初始化 <ph id="ph1">&lt;see cref="T:System.Configuration.Provider.ProviderBase" /&gt;</ph> 类的新实例。</target>       </trans-unit>
+        <trans-unit id="118" translate="yes" xml:space="preserve" uid="P:System.Configuration.Provider.ProviderBase.Description">
+          <source>Gets a brief, friendly description suitable for display in administrative tools or other user interfaces (UIs).</source>
+          <target state="translated">获取一条简短的易懂描述，它适合在管理工具或其他用户界面 (UI) 中显示。</target>       </trans-unit>
+        <trans-unit id="119" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Configuration.Provider.ProviderBase.Description">
+          <source>A brief, friendly description suitable for display in administrative tools or other UIs.</source>
+          <target state="translated">简短的易懂描述，适合在管理工具或其他 UI 中显示。</target>       </trans-unit>
+        <trans-unit id="120" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Configuration.Provider.ProviderBase.Description">
+          <source>If a configured provider does not supply a description, the value of the <ph id="ph1">&lt;xref:System.Configuration.Provider.ProviderBase.Name%2A&gt;</ph> property is returned as a default.</source>
+          <target state="translated">如果配置的提供程序不提供的说明的值<ph id="ph1">&lt;xref:System.Configuration.Provider.ProviderBase.Name%2A&gt;</ph>默认情况下返回属性。</target>       </trans-unit>
+        <trans-unit id="121" translate="yes" xml:space="preserve" uid="M:System.Configuration.Provider.ProviderBase.Initialize(System.String,System.Collections.Specialized.NameValueCollection)">
+          <source>The friendly name of the provider.</source>
+          <target state="translated">提供程序的友好名称。</target>       </trans-unit>
+        <trans-unit id="122" translate="yes" xml:space="preserve" uid="M:System.Configuration.Provider.ProviderBase.Initialize(System.String,System.Collections.Specialized.NameValueCollection)">
+          <source>A collection of the name/value pairs representing the provider-specific attributes specified in the configuration for this provider.</source>
+          <target state="translated">名称/值对的集合，表示在配置中为该提供程序指定的提供程序特定的属性。</target>       </trans-unit>
+        <trans-unit id="123" translate="yes" xml:space="preserve" uid="M:System.Configuration.Provider.ProviderBase.Initialize(System.String,System.Collections.Specialized.NameValueCollection)">
+          <source>Initializes the configuration builder.</source>
+          <target state="translated">初始化配置生成器。</target>       </trans-unit>
+        <trans-unit id="124" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Configuration.Provider.ProviderBase.Initialize(System.String,System.Collections.Specialized.NameValueCollection)">
+          <source>The base class implementation internally tracks the number of times the provider's <ph id="ph1">`Initialize`</ph> method has been called.</source>
+          <target state="translated">基类实现内部跟踪的次数提供程序的<ph id="ph1">`Initialize`</ph>调用方法。</target>       </trans-unit>
+        <trans-unit id="125" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Configuration.Provider.ProviderBase.Initialize(System.String,System.Collections.Specialized.NameValueCollection)">
+          <source>If a provider is initialized more than once, an <ph id="ph1">`InvalidOperationException`</ph> is thrown stating that the provider is already initialized.</source>
+          <target state="translated">如果不止一次初始化提供<ph id="ph1">`InvalidOperationException`</ph>指出已初始化提供程序引发。</target>       </trans-unit>
+        <trans-unit id="126" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Configuration.Provider.ProviderBase.Initialize(System.String,System.Collections.Specialized.NameValueCollection)">
+          <source>Because most feature providers call <ph id="ph1">&lt;xref:System.Configuration.Provider.ProviderBase.Initialize%2A&gt;</ph> prior to performing provider-specific initialization, this method is a central location for preventing double initialization.</source>
+          <target state="translated">因为大多数功能提供程序调用<ph id="ph1">&lt;xref:System.Configuration.Provider.ProviderBase.Initialize%2A&gt;</ph>之前执行特定于提供程序初始化时，此方法是一个中心位置以防止重复初始化。</target>       </trans-unit>
+        <trans-unit id="127" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Configuration.Provider.ProviderBase.Initialize(System.String,System.Collections.Specialized.NameValueCollection)">
+          <source>For an example of how to use <ph id="ph1">&lt;xref:System.Configuration.Provider.ProviderBase.Initialize%2A&gt;</ph>, see <bpt id="p1">[</bpt>Profile Provider Implementation Example<ept id="p1">](http://msdn.microsoft.com/library/c36e8a56-b416-40b7-95c1-c662cfb8f906)</ept>.</source>
+          <target state="translated">有关如何使用的示例<ph id="ph1">&lt;xref:System.Configuration.Provider.ProviderBase.Initialize%2A&gt;</ph>，请参阅<bpt id="p1">[</bpt>配置文件提供程序实现示例<ept id="p1">](http://msdn.microsoft.com/library/c36e8a56-b416-40b7-95c1-c662cfb8f906)</ept>。</target>       </trans-unit>
+        <trans-unit id="128" translate="yes" xml:space="preserve" uid="M:System.Configuration.Provider.ProviderBase.Initialize(System.String,System.Collections.Specialized.NameValueCollection)">
+          <source>The name of the provider is <ph id="ph1">&lt;see langword="null" /&gt;</ph>.</source>
+          <target state="translated">提供程序的名称是 <ph id="ph1">&lt;see langword="null" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="129" translate="yes" xml:space="preserve" uid="M:System.Configuration.Provider.ProviderBase.Initialize(System.String,System.Collections.Specialized.NameValueCollection)">
+          <source>The name of the provider has a length of zero.</source>
+          <target state="translated">提供程序名称的长度为零。</target>       </trans-unit>
+        <trans-unit id="130" translate="yes" xml:space="preserve" uid="M:System.Configuration.Provider.ProviderBase.Initialize(System.String,System.Collections.Specialized.NameValueCollection)">
+          <source>An attempt is made to call <ph id="ph1">&lt;see cref="M:System.Configuration.Provider.ProviderBase.Initialize(System.String,System.Collections.Specialized.NameValueCollection)" /&gt;</ph> on a provider after the provider has already been initialized.</source>
+          <target state="translated">初始化提供程序后尝试在提供程序上调用 <ph id="ph1">&lt;see cref="M:System.Configuration.Provider.ProviderBase.Initialize(System.String,System.Collections.Specialized.NameValueCollection)" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="131" translate="yes" xml:space="preserve" uid="P:System.Configuration.Provider.ProviderBase.Name">
+          <source>Gets the friendly name used to refer to the provider during configuration.</source>
+          <target state="translated">获得一个友好名称，用于在配置过程中引用提供程序。</target>       </trans-unit>
+        <trans-unit id="132" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Configuration.Provider.ProviderBase.Name">
+          <source>The friendly name used to refer to the provider during configuration.</source>
+          <target state="translated">用于在配置过程中引用提供程序的友好名称。</target>       </trans-unit>
+        <trans-unit id="133" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Configuration.Provider.ProviderBase.Name">
+          <source>The recommended pattern for this string is: [<bpt id="p1">*</bpt>Provider Creator<ept id="p1">*</ept>][<bpt id="p2">*</bpt>Implementation Type<ept id="p2">*</ept>][<bpt id="p3">*</bpt>Feature<ept id="p3">*</ept>]Provider.</source>
+          <target state="translated">建议的模式，该字符串是: [<bpt id="p1">*</bpt>提供程序创建者<ept id="p1">*</ept>] [<bpt id="p2">*</bpt>实现类型<ept id="p2">*</ept>] [<bpt id="p3">*</bpt>功能<ept id="p3">*</ept>] 提供程序。</target>       </trans-unit>
+        <trans-unit id="134" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Configuration.Provider.ProviderBase.Name">
+          <source>Although the <ph id="ph1">&lt;xref:System.Configuration.Provider.ProviderBase.Description%2A&gt;</ph> property also provides a friendly description, the <ph id="ph2">&lt;xref:System.Configuration.Provider.ProviderBase.Name%2A&gt;</ph> property is used as an identifier for the provider.</source>
+          <target state="translated">尽管<ph id="ph1">&lt;xref:System.Configuration.Provider.ProviderBase.Description%2A&gt;</ph>属性也提供友好的说明，<ph id="ph2">&lt;xref:System.Configuration.Provider.ProviderBase.Name%2A&gt;</ph>属性用作提供程序的标识符。</target>       </trans-unit>
+      </group>
+    </body>
+  </file>
+</xliff>

@@ -1,1292 +1,642 @@
-<Type Name="BinaryFormatter" FullName="System.Runtime.Serialization.Formatters.Binary.BinaryFormatter">
-  <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="42f1258a65ffe522a7aa5d683ff80ce9ea8c1044" />
-    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
-    <Meta Name="ms.translationtype" Value="HT" />
-    <Meta Name="ms.contentlocale" Value="zh-CN" />
-    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
-  </Metadata>
-  <TypeSignature Language="C#" Value="public sealed class BinaryFormatter : System.Runtime.Remoting.Messaging.IRemotingFormatter" />
-  <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed beforefieldinit BinaryFormatter extends System.Object implements class System.Runtime.Remoting.Messaging.IRemotingFormatter, class System.Runtime.Serialization.IFormatter" />
-  <TypeSignature Language="DocId" Value="T:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter" />
-  <TypeSignature Language="VB.NET" Value="Public NotInheritable Class BinaryFormatter&#xA;Implements IRemotingFormatter" />
-  <TypeSignature Language="C++ CLI" Value="public ref class BinaryFormatter sealed : System::Runtime::Remoting::Messaging::IRemotingFormatter" />
-  <AssemblyInfo>
-    <AssemblyName>mscorlib</AssemblyName>
-    <AssemblyVersion>2.0.5.0</AssemblyVersion>
-    <AssemblyVersion>4.0.0.0</AssemblyVersion>
-  </AssemblyInfo>
-  <AssemblyInfo>
-    <AssemblyName>netstandard</AssemblyName>
-    <AssemblyVersion>2.0.0.0</AssemblyVersion>
-  </AssemblyInfo>
-  <AssemblyInfo>
-    <AssemblyName>System.Runtime.Serialization.Formatters</AssemblyName>
-    <AssemblyVersion>4.0.2.0</AssemblyVersion>
-    <AssemblyVersion>4.0.3.0</AssemblyVersion>
-  </AssemblyInfo>
-  <Base>
-    <BaseTypeName>System.Object</BaseTypeName>
-  </Base>
-  <Interfaces>
-    <Interface>
-      <InterfaceName>System.Runtime.Remoting.Messaging.IRemotingFormatter</InterfaceName>
-    </Interface>
-  </Interfaces>
-  <Attributes>
-    <Attribute>
-      <AttributeName>System.Runtime.InteropServices.ComVisible(true)</AttributeName>
-    </Attribute>
-  </Attributes>
-  <Docs>
-    <summary>
-      <span data-ttu-id="fa64b-101">以二进制格式序列化和反序列化对象或连接对象的整个图形。</span>
-      <span class="sxs-lookup">
-        <span data-stu-id="fa64b-101">Serializes and deserializes an object, or an entire graph of connected objects, in binary format.</span>
-      </span>
-    </summary>
-    <remarks>
-      <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="fa64b-102"><xref:System.Runtime.Serialization.Formatters.Soap.SoapFormatter>和<xref:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter>类实现<xref:System.Runtime.Remoting.Messaging.IRemotingFormatter>接口以支持远程过程调用 (Rpc) 和<xref:System.Runtime.Serialization.IFormatter>接口 (由继承<xref:System.Runtime.Remoting.Messaging.IRemotingFormatter>) 以支持序列化对象图。</span><span class="sxs-lookup"><span data-stu-id="fa64b-102">The <xref:System.Runtime.Serialization.Formatters.Soap.SoapFormatter> and <xref:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter> classes implement the <xref:System.Runtime.Remoting.Messaging.IRemotingFormatter> interface to support remote procedure calls (RPCs), and the <xref:System.Runtime.Serialization.IFormatter> interface (inherited by the <xref:System.Runtime.Remoting.Messaging.IRemotingFormatter>) to support serialization of a graph of objects.</span></span> <span data-ttu-id="fa64b-103"><xref:System.Runtime.Serialization.Formatters.Soap.SoapFormatter>类还支持使用 Rpc<xref:System.Runtime.Serialization.Formatters.ISoapMessage>对象，而无需使用<xref:System.Runtime.Remoting.Messaging.IRemotingFormatter>功能。</span><span class="sxs-lookup"><span data-stu-id="fa64b-103">The <xref:System.Runtime.Serialization.Formatters.Soap.SoapFormatter> class also supports RPCs with <xref:System.Runtime.Serialization.Formatters.ISoapMessage> objects, without using the <xref:System.Runtime.Remoting.Messaging.IRemotingFormatter> functionality.</span></span>  
-  
- <span data-ttu-id="fa64b-104">在 Rpc 期间，<xref:System.Runtime.Remoting.Messaging.IRemotingFormatter>接口允许两个单独的对象关系图的规范： 的对象要序列化的图和一个附加的图，包含传达有关 （适用于远程函数调用的信息的标头对象的数组例如，事务 ID 或方法签名）。</span><span class="sxs-lookup"><span data-stu-id="fa64b-104">During RPCs, the <xref:System.Runtime.Remoting.Messaging.IRemotingFormatter> interface allows the specification of two separate object graphs: the graph of objects to serialize, and an additional graph that contains an array of header objects that convey information about the remote function call (for example, transaction ID or a method signature).</span></span>  
-  
- <span data-ttu-id="fa64b-105">使用的 Rpc<xref:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter>分为两个不同的部分： 方法调用，发送到与包含调用的方法的远程对象的服务器，并从服务器发送到客户端状态的方法响应和响应从调用的方法的信息。</span><span class="sxs-lookup"><span data-stu-id="fa64b-105">RPCs that use the <xref:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter> separate into two distinct parts: method calls, which are sent to the server with the remote object that contains the method called, and method responses, which are sent from the server to the client with the status and response information from the called method.</span></span>  
-  
- <span data-ttu-id="fa64b-106">在方法调用的序列化过程的对象图的第一个对象必须支持<xref:System.Runtime.Remoting.Messaging.IMethodCallMessage>接口。</span><span class="sxs-lookup"><span data-stu-id="fa64b-106">During serialization of a method call the first object of the object graph must support the <xref:System.Runtime.Remoting.Messaging.IMethodCallMessage> interface.</span></span> <span data-ttu-id="fa64b-107">若要反序列化方法调用，使用<xref:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.Deserialize%2A>方法替换<xref:System.Runtime.Remoting.Messaging.HeaderHandler>参数。</span><span class="sxs-lookup"><span data-stu-id="fa64b-107">To deserialize a method call, use the <xref:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.Deserialize%2A> method with the <xref:System.Runtime.Remoting.Messaging.HeaderHandler> parameter.</span></span> <span data-ttu-id="fa64b-108">远程处理基础结构使用<xref:System.Runtime.Remoting.Messaging.HeaderHandler>委托来生成支持的对象<xref:System.Runtime.Serialization.ISerializable>接口。</span><span class="sxs-lookup"><span data-stu-id="fa64b-108">The remoting infrastructure uses the <xref:System.Runtime.Remoting.Messaging.HeaderHandler> delegate to produce an object that supports the <xref:System.Runtime.Serialization.ISerializable> interface.</span></span> <span data-ttu-id="fa64b-109">当<xref:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter>时，将调用<xref:System.Runtime.Remoting.Messaging.HeaderHandler>委托，它返回的 URI 的远程对象使用调用的方法。</span><span class="sxs-lookup"><span data-stu-id="fa64b-109">When the <xref:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter> invokes the <xref:System.Runtime.Remoting.Messaging.HeaderHandler> delegate, it returns the URI of the remote object with the method that is being called.</span></span> <span data-ttu-id="fa64b-110">在图中的第一个对象返回支持<xref:System.Runtime.Remoting.Messaging.IMethodCallMessage>接口。</span><span class="sxs-lookup"><span data-stu-id="fa64b-110">The first object in the graph returned supports the <xref:System.Runtime.Remoting.Messaging.IMethodCallMessage> interface.</span></span>  
-  
- <span data-ttu-id="fa64b-111">方法响应的序列化过程的方法调用完全相同，除非该对象的第一个对象关系图必须支持<xref:System.Runtime.Remoting.Messaging.IMethodReturnMessage>接口。</span><span class="sxs-lookup"><span data-stu-id="fa64b-111">The serialization procedure for a method response is identical to that of a method call, except the first object of the object graph must support the <xref:System.Runtime.Remoting.Messaging.IMethodReturnMessage> interface.</span></span> <span data-ttu-id="fa64b-112">若要反序列化方法响应，使用<xref:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.DeserializeMethodResponse%2A>方法。</span><span class="sxs-lookup"><span data-stu-id="fa64b-112">To deserialize a method response, use the <xref:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.DeserializeMethodResponse%2A> method.</span></span> <span data-ttu-id="fa64b-113">以节省时间，调用方对象有关的详细信息不会发送到远程对象在方法调用期间。</span><span class="sxs-lookup"><span data-stu-id="fa64b-113">To save time, details about the caller object are not sent to the remote object during the method call.</span></span> <span data-ttu-id="fa64b-114">这些详细信息改为从原始的方法调用传递到<xref:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.DeserializeMethodResponse%2A>中的方法<xref:System.Runtime.Remoting.Messaging.IMethodCallMessage>参数。</span><span class="sxs-lookup"><span data-stu-id="fa64b-114">These details are instead obtained from the original method call, which is passed to the <xref:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.DeserializeMethodResponse%2A> method in the <xref:System.Runtime.Remoting.Messaging.IMethodCallMessage> parameter.</span></span> <span data-ttu-id="fa64b-115">返回的图中的第一个对象<xref:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.DeserializeMethodResponse%2A>方法支持<xref:System.Runtime.Remoting.Messaging.IMethodReturnMessage>接口。</span><span class="sxs-lookup"><span data-stu-id="fa64b-115">The first object in the graph returned by the <xref:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.DeserializeMethodResponse%2A> method supports the <xref:System.Runtime.Remoting.Messaging.IMethodReturnMessage> interface.</span></span>  
-  
-> [!IMPORTANT]
->  <span data-ttu-id="fa64b-116">使用二进制序列化进行反序列化不受信任的数据，则可能导致的安全风险。</span><span class="sxs-lookup"><span data-stu-id="fa64b-116">Using binary serialization to deserialize untrusted data can lead to security risks.</span></span> <span data-ttu-id="fa64b-117">有关详细信息，请参阅[数据验证](https://www.owasp.org/index.php/Data_Validation)。</span><span class="sxs-lookup"><span data-stu-id="fa64b-117">For more information, see [Data Validation](https://www.owasp.org/index.php/Data_Validation).</span></span>  
-  
-## <a name="unpaired-surrogates"></a><span data-ttu-id="fa64b-118">不成对的代理项</span><span class="sxs-lookup"><span data-stu-id="fa64b-118">Unpaired Surrogates</span></span>  
- <span data-ttu-id="fa64b-119">在二进制序列化情况下会丢失任何不成对的代理项字符。</span><span class="sxs-lookup"><span data-stu-id="fa64b-119">Any unpaired surrogate characters are lost in binary serialization.</span></span> <span data-ttu-id="fa64b-120">例如，以下字符串包含一个高代理项 Unicode 字符`(\ud800`) 之间的两个`Test`单词：</span><span class="sxs-lookup"><span data-stu-id="fa64b-120">For example, the following string contains a high surrogate Unicode character `(\ud800`) in between the two `Test` words:</span></span>  
-  
- `Test\ud800Test`  
-  
- <span data-ttu-id="fa64b-121">在序列化之前, 的字节数组的字符串如下所示：</span><span class="sxs-lookup"><span data-stu-id="fa64b-121">Before serialization, the byte array of the string is as follows:</span></span>  
-  
-|<span data-ttu-id="fa64b-122">字节数组值</span><span class="sxs-lookup"><span data-stu-id="fa64b-122">Byte Array Value</span></span>|<span data-ttu-id="fa64b-123">字符</span><span class="sxs-lookup"><span data-stu-id="fa64b-123">Character</span></span>|  
-|----------------------|---------------|  
-|<span data-ttu-id="fa64b-124">84</span><span class="sxs-lookup"><span data-stu-id="fa64b-124">84</span></span>|<span data-ttu-id="fa64b-125">T</span><span class="sxs-lookup"><span data-stu-id="fa64b-125">T</span></span>|  
-|<span data-ttu-id="fa64b-126">101</span><span class="sxs-lookup"><span data-stu-id="fa64b-126">101</span></span>|<span data-ttu-id="fa64b-127">E</span><span class="sxs-lookup"><span data-stu-id="fa64b-127">e</span></span>|  
-|<span data-ttu-id="fa64b-128">115</span><span class="sxs-lookup"><span data-stu-id="fa64b-128">115</span></span>|<span data-ttu-id="fa64b-129">秒</span><span class="sxs-lookup"><span data-stu-id="fa64b-129">s</span></span>|  
-|<span data-ttu-id="fa64b-130">116</span><span class="sxs-lookup"><span data-stu-id="fa64b-130">116</span></span>|<span data-ttu-id="fa64b-131">t</span><span class="sxs-lookup"><span data-stu-id="fa64b-131">t</span></span>|  
-|<span data-ttu-id="fa64b-132">55296</span><span class="sxs-lookup"><span data-stu-id="fa64b-132">55296</span></span>|<span data-ttu-id="fa64b-133">\ud800</span><span class="sxs-lookup"><span data-stu-id="fa64b-133">\ud800</span></span>|  
-|<span data-ttu-id="fa64b-134">84</span><span class="sxs-lookup"><span data-stu-id="fa64b-134">84</span></span>|<span data-ttu-id="fa64b-135">T</span><span class="sxs-lookup"><span data-stu-id="fa64b-135">T</span></span>|  
-|<span data-ttu-id="fa64b-136">101</span><span class="sxs-lookup"><span data-stu-id="fa64b-136">101</span></span>|<span data-ttu-id="fa64b-137">E</span><span class="sxs-lookup"><span data-stu-id="fa64b-137">e</span></span>|  
-|<span data-ttu-id="fa64b-138">115</span><span class="sxs-lookup"><span data-stu-id="fa64b-138">115</span></span>|<span data-ttu-id="fa64b-139">秒</span><span class="sxs-lookup"><span data-stu-id="fa64b-139">s</span></span>|  
-|<span data-ttu-id="fa64b-140">116</span><span class="sxs-lookup"><span data-stu-id="fa64b-140">116</span></span>|<span data-ttu-id="fa64b-141">t</span><span class="sxs-lookup"><span data-stu-id="fa64b-141">t</span></span>|  
-  
- <span data-ttu-id="fa64b-142">反序列化后的高代理项 Unicode 字符将丢失：</span><span class="sxs-lookup"><span data-stu-id="fa64b-142">After deserialization, the high surrogate Unicode character is lost:</span></span>  
-  
-|<span data-ttu-id="fa64b-143">字节数组值</span><span class="sxs-lookup"><span data-stu-id="fa64b-143">Byte Array Value</span></span>|<span data-ttu-id="fa64b-144">字符</span><span class="sxs-lookup"><span data-stu-id="fa64b-144">Character</span></span>|  
-|----------------------|---------------|  
-|<span data-ttu-id="fa64b-145">84</span><span class="sxs-lookup"><span data-stu-id="fa64b-145">84</span></span>|<span data-ttu-id="fa64b-146">T</span><span class="sxs-lookup"><span data-stu-id="fa64b-146">T</span></span>|  
-|<span data-ttu-id="fa64b-147">101</span><span class="sxs-lookup"><span data-stu-id="fa64b-147">101</span></span>|<span data-ttu-id="fa64b-148">E</span><span class="sxs-lookup"><span data-stu-id="fa64b-148">e</span></span>|  
-|<span data-ttu-id="fa64b-149">115</span><span class="sxs-lookup"><span data-stu-id="fa64b-149">115</span></span>|<span data-ttu-id="fa64b-150">秒</span><span class="sxs-lookup"><span data-stu-id="fa64b-150">s</span></span>|  
-|<span data-ttu-id="fa64b-151">116</span><span class="sxs-lookup"><span data-stu-id="fa64b-151">116</span></span>|<span data-ttu-id="fa64b-152">t</span><span class="sxs-lookup"><span data-stu-id="fa64b-152">t</span></span>|  
-|<span data-ttu-id="fa64b-153">84</span><span class="sxs-lookup"><span data-stu-id="fa64b-153">84</span></span>|<span data-ttu-id="fa64b-154">T</span><span class="sxs-lookup"><span data-stu-id="fa64b-154">T</span></span>|  
-|<span data-ttu-id="fa64b-155">101</span><span class="sxs-lookup"><span data-stu-id="fa64b-155">101</span></span>|<span data-ttu-id="fa64b-156">E</span><span class="sxs-lookup"><span data-stu-id="fa64b-156">e</span></span>|  
-|<span data-ttu-id="fa64b-157">115</span><span class="sxs-lookup"><span data-stu-id="fa64b-157">115</span></span>|<span data-ttu-id="fa64b-158">秒</span><span class="sxs-lookup"><span data-stu-id="fa64b-158">s</span></span>|  
-|<span data-ttu-id="fa64b-159">116</span><span class="sxs-lookup"><span data-stu-id="fa64b-159">116</span></span>|<span data-ttu-id="fa64b-160">t</span><span class="sxs-lookup"><span data-stu-id="fa64b-160">t</span></span>|  
-  
-   
-  
-## Examples  
- [!code-cpp[BinaryFormatterClass Example#1](~/samples/snippets/cpp/VS_Snippets_Remoting/BinaryFormatterClass Example/CPP/binaryformatter.cpp#1)]
- [!code-csharp[BinaryFormatterClass Example#1](~/samples/snippets/csharp/VS_Snippets_Remoting/BinaryFormatterClass Example/CS/binaryformatter.cs#1)]
- [!code-vb[BinaryFormatterClass Example#1](~/samples/snippets/visualbasic/VS_Snippets_Remoting/BinaryFormatterClass Example/VB/binaryformatter.vb#1)]  
-  
- ]]></format>
-    </remarks>
-  </Docs>
-  <Members>
-    <MemberGroup MemberName=".ctor">
-      <AssemblyInfo>
-        <AssemblyName>mscorlib</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Docs>
-        <summary>
-          <span data-ttu-id="fa64b-161">初始化 <see cref="T:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter" /> 类的新实例。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="fa64b-161">Initializes a new instance of the <see cref="T:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter" /> class.</span>
-          </span>
-        </summary>
-      </Docs>
-    </MemberGroup>
-    <Member MemberName=".ctor">
-      <MemberSignature Language="C#" Value="public BinaryFormatter ();" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor() cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.#ctor" />
-      <MemberSignature Language="VB.NET" Value="Public Sub New ()" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; BinaryFormatter();" />
-      <MemberType>Constructor</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>mscorlib</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>netstandard</AssemblyName>
-        <AssemblyVersion>2.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>System.Runtime.Serialization.Formatters</AssemblyName>
-        <AssemblyVersion>4.0.2.0</AssemblyVersion>
-        <AssemblyVersion>4.0.3.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Parameters />
-      <Docs>
-        <summary>
-          <span data-ttu-id="fa64b-162">使用默认值初始化 <see cref="T:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter" /> 类的新实例。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="fa64b-162">Initializes a new instance of the <see cref="T:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter" /> class with default values.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="fa64b-163">此构造函数设置的属性<xref:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter>对象，如下所示：</span><span class="sxs-lookup"><span data-stu-id="fa64b-163">This constructor sets the properties of the <xref:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter> object as follows:</span></span>  
-  
-|<span data-ttu-id="fa64b-164">属性类型</span><span class="sxs-lookup"><span data-stu-id="fa64b-164">Property Type</span></span>|<span data-ttu-id="fa64b-165">条件</span><span class="sxs-lookup"><span data-stu-id="fa64b-165">Condition</span></span>|  
-|-------------------|---------------|  
-|<xref:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.SurrogateSelector%2A>|`null`|  
-|<xref:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.Context%2A>|<span data-ttu-id="fa64b-166">A<xref:System.Runtime.Serialization.StreamingContext>与一个值，指示可以传输到或从任何其他上下文接收序列化的数据。</span><span class="sxs-lookup"><span data-stu-id="fa64b-166">A <xref:System.Runtime.Serialization.StreamingContext> with a value that indicates that serialized data can be transmitted to or received from any of the other contexts.</span></span> <span data-ttu-id="fa64b-167">(<xref:System.Runtime.Serialization.StreamingContextStates.All?displayProperty=nameWithType>)</span><span class="sxs-lookup"><span data-stu-id="fa64b-167">(<xref:System.Runtime.Serialization.StreamingContextStates.All?displayProperty=nameWithType>)</span></span>|  
-  
-   
-  
-## Examples  
- [!code-cpp[BinaryFormatterClass Example#1](~/samples/snippets/cpp/VS_Snippets_Remoting/BinaryFormatterClass Example/CPP/binaryformatter.cpp#1)]
- [!code-csharp[BinaryFormatterClass Example#1](~/samples/snippets/csharp/VS_Snippets_Remoting/BinaryFormatterClass Example/CS/binaryformatter.cs#1)]
- [!code-vb[BinaryFormatterClass Example#1](~/samples/snippets/visualbasic/VS_Snippets_Remoting/BinaryFormatterClass Example/VB/binaryformatter.vb#1)]  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-    <Member MemberName=".ctor">
-      <MemberSignature Language="C#" Value="public BinaryFormatter (System.Runtime.Serialization.ISurrogateSelector selector, System.Runtime.Serialization.StreamingContext context);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(class System.Runtime.Serialization.ISurrogateSelector selector, valuetype System.Runtime.Serialization.StreamingContext context) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.#ctor(System.Runtime.Serialization.ISurrogateSelector,System.Runtime.Serialization.StreamingContext)" />
-      <MemberSignature Language="VB.NET" Value="Public Sub New (selector As ISurrogateSelector, context As StreamingContext)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; BinaryFormatter(System::Runtime::Serialization::ISurrogateSelector ^ selector, System::Runtime::Serialization::StreamingContext context);" />
-      <MemberType>Constructor</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>mscorlib</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>netstandard</AssemblyName>
-        <AssemblyVersion>2.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>System.Runtime.Serialization.Formatters</AssemblyName>
-        <AssemblyVersion>4.0.2.0</AssemblyVersion>
-        <AssemblyVersion>4.0.3.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Parameters>
-        <Parameter Name="selector" Type="System.Runtime.Serialization.ISurrogateSelector" />
-        <Parameter Name="context" Type="System.Runtime.Serialization.StreamingContext" />
-      </Parameters>
-      <Docs>
-        <param name="selector">
-          <span data-ttu-id="fa64b-168">要使用的 <see cref="T:System.Runtime.Serialization.ISurrogateSelector" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="fa64b-168">The <see cref="T:System.Runtime.Serialization.ISurrogateSelector" /> to use.</span>
-          </span>
-          <span data-ttu-id="fa64b-169">可以为 <see langword="null" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="fa64b-169">Can be <see langword="null" />.</span>
-          </span>
-        </param>
-        <param name="context">
-          <span data-ttu-id="fa64b-170">序列化数据的源和目标。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="fa64b-170">The source and destination for the serialized data.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="fa64b-171">使用给定的代理项选择器和流上下文来初始化 <see cref="T:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter" /> 类的新实例。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="fa64b-171">Initializes a new instance of the <see cref="T:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter" /> class with a given surrogate selector and streaming context.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="fa64b-172">初始化新`BinaryFormatter`用于序列化或反序列化的对象从指定<xref:System.IO.Stream>。</span><span class="sxs-lookup"><span data-stu-id="fa64b-172">Initializes a new `BinaryFormatter` for serialization or deserialization of objects from the specified <xref:System.IO.Stream>.</span></span>  
-  
- <span data-ttu-id="fa64b-173">使用指定的序列化或反序列化进程<xref:System.Runtime.Serialization.ISurrogateSelector>搜索要反序列化的对象类型注册的代理项。</span><span class="sxs-lookup"><span data-stu-id="fa64b-173">The serialization or deserialization process uses the specified <xref:System.Runtime.Serialization.ISurrogateSelector> to search for surrogates that are registered for the object types you want to deserialize.</span></span> <span data-ttu-id="fa64b-174">代理项是可序列化和反序列化的特定类的对象的帮助器。</span><span class="sxs-lookup"><span data-stu-id="fa64b-174">Surrogates are helpers that serialize and deserialize objects of specific classes.</span></span> <span data-ttu-id="fa64b-175">默认值<xref:System.Runtime.Serialization.ISurrogateSelector>无法处理从派生的对象序列化<xref:System.MarshalByRefObject>为远程处理目的。</span><span class="sxs-lookup"><span data-stu-id="fa64b-175">The default <xref:System.Runtime.Serialization.ISurrogateSelector> cannot handle the serialization of objects that derive from the <xref:System.MarshalByRefObject> for remoting purposes.</span></span> <span data-ttu-id="fa64b-176">在远程处理的情况下，指定<xref:System.Runtime.Serialization.ISurrogateSelector>替换派生自对象<xref:System.MarshalByRefObject>与<xref:System.Runtime.Remoting.ObjRef>序列化指定的代理项选择器的对象。</span><span class="sxs-lookup"><span data-stu-id="fa64b-176">In a remoting situation the specified <xref:System.Runtime.Serialization.ISurrogateSelector> replaces the object derived from <xref:System.MarshalByRefObject> with a <xref:System.Runtime.Remoting.ObjRef> object that is serialized by the specified surrogate selector.</span></span> <span data-ttu-id="fa64b-177">因此，如果你想要使用远程对象，设置`selector`参数的实例<xref:System.Runtime.Remoting.Messaging.RemotingSurrogateSelector>。</span><span class="sxs-lookup"><span data-stu-id="fa64b-177">Therefore, if you want to use remote objects, set the `selector` parameter to an instance of <xref:System.Runtime.Remoting.Messaging.RemotingSurrogateSelector>.</span></span> <span data-ttu-id="fa64b-178">如果不需要使用代理项，将设置`selector`参数为`null`。</span><span class="sxs-lookup"><span data-stu-id="fa64b-178">If you do not need surrogates, set the `selector` parameter to be `null`.</span></span>  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="AssemblyFormat">
-      <MemberSignature Language="C#" Value="public System.Runtime.Serialization.Formatters.FormatterAssemblyStyle AssemblyFormat { get; set; }" />
-      <MemberSignature Language="ILAsm" Value=".property instance valuetype System.Runtime.Serialization.Formatters.FormatterAssemblyStyle AssemblyFormat" />
-      <MemberSignature Language="DocId" Value="P:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.AssemblyFormat" />
-      <MemberSignature Language="VB.NET" Value="Public Property AssemblyFormat As FormatterAssemblyStyle" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::Runtime::Serialization::Formatters::FormatterAssemblyStyle AssemblyFormat { System::Runtime::Serialization::Formatters::FormatterAssemblyStyle get(); void set(System::Runtime::Serialization::Formatters::FormatterAssemblyStyle value); };" />
-      <MemberType>Property</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>mscorlib</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>netstandard</AssemblyName>
-        <AssemblyVersion>2.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>System.Runtime.Serialization.Formatters</AssemblyName>
-        <AssemblyVersion>4.0.2.0</AssemblyVersion>
-        <AssemblyVersion>4.0.3.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Runtime.Serialization.Formatters.FormatterAssemblyStyle</ReturnType>
-      </ReturnValue>
-      <Docs>
-        <summary>
-          <span data-ttu-id="fa64b-179">获取或设置与查找加集有关的反序列化器行为。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="fa64b-179">Gets or sets the behavior of the deserializer with regards to finding and loading assemblies.</span>
-          </span>
-        </summary>
-        <value>
-          <span data-ttu-id="fa64b-180">
-            <see cref="T:System.Runtime.Serialization.Formatters.FormatterAssemblyStyle" /> 值之一，它指定反序列化器行为。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="fa64b-180">One of the <see cref="T:System.Runtime.Serialization.Formatters.FormatterAssemblyStyle" /> values that specifies the deserializer behavior.</span>
-          </span>
-        </value>
-        <remarks>To be added.</remarks>
-        <altmember cref="T:System.Runtime.Serialization.Formatters.FormatterAssemblyStyle" />
-      </Docs>
-    </Member>
-    <Member MemberName="Binder">
-      <MemberSignature Language="C#" Value="public System.Runtime.Serialization.SerializationBinder Binder { get; set; }" />
-      <MemberSignature Language="ILAsm" Value=".property instance class System.Runtime.Serialization.SerializationBinder Binder" />
-      <MemberSignature Language="DocId" Value="P:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.Binder" />
-      <MemberSignature Language="VB.NET" Value="Public Property Binder As SerializationBinder" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::Runtime::Serialization::SerializationBinder ^ Binder { System::Runtime::Serialization::SerializationBinder ^ get(); void set(System::Runtime::Serialization::SerializationBinder ^ value); };" />
-      <MemberType>Property</MemberType>
-      <Implements>
-        <InterfaceMember>P:System.Runtime.Serialization.IFormatter.Binder</InterfaceMember>
-      </Implements>
-      <AssemblyInfo>
-        <AssemblyName>mscorlib</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>netstandard</AssemblyName>
-        <AssemblyVersion>2.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>System.Runtime.Serialization.Formatters</AssemblyName>
-        <AssemblyVersion>4.0.2.0</AssemblyVersion>
-        <AssemblyVersion>4.0.3.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Runtime.Serialization.SerializationBinder</ReturnType>
-      </ReturnValue>
-      <Docs>
-        <summary>
-          <span data-ttu-id="fa64b-181">获取或设置控制将序列化对象绑定到类型的 <see cref="T:System.Runtime.Serialization.SerializationBinder" /> 类型的对象。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="fa64b-181">Gets or sets an object of type <see cref="T:System.Runtime.Serialization.SerializationBinder" /> that controls the binding of a serialized object to a type.</span>
-          </span>
-        </summary>
-        <value>
-          <span data-ttu-id="fa64b-182">要与此格式化程序一起使用的序列化联编程序。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="fa64b-182">The serialization binder to use with this formatter.</span>
-          </span>
-        </value>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Examples  
- [!code-cpp[SerializationBinder Example#1](~/samples/snippets/cpp/VS_Snippets_Remoting/SerializationBinder Example/CPP/serializationbinder.cpp#1)]
- [!code-csharp[SerializationBinder Example#1](~/samples/snippets/csharp/VS_Snippets_Remoting/SerializationBinder Example/CS/serializationbinder.cs#1)]
- [!code-vb[SerializationBinder Example#1](~/samples/snippets/visualbasic/VS_Snippets_Remoting/SerializationBinder Example/VB/serializationbinder.vb#1)]  
-  
- ]]></format>
-        </remarks>
-        <altmember cref="T:System.Runtime.Serialization.SerializationBinder" />
-      </Docs>
-    </Member>
-    <Member MemberName="Context">
-      <MemberSignature Language="C#" Value="public System.Runtime.Serialization.StreamingContext Context { get; set; }" />
-      <MemberSignature Language="ILAsm" Value=".property instance valuetype System.Runtime.Serialization.StreamingContext Context" />
-      <MemberSignature Language="DocId" Value="P:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.Context" />
-      <MemberSignature Language="VB.NET" Value="Public Property Context As StreamingContext" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::Runtime::Serialization::StreamingContext Context { System::Runtime::Serialization::StreamingContext get(); void set(System::Runtime::Serialization::StreamingContext value); };" />
-      <MemberType>Property</MemberType>
-      <Implements>
-        <InterfaceMember>P:System.Runtime.Serialization.IFormatter.Context</InterfaceMember>
-      </Implements>
-      <AssemblyInfo>
-        <AssemblyName>mscorlib</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>netstandard</AssemblyName>
-        <AssemblyVersion>2.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>System.Runtime.Serialization.Formatters</AssemblyName>
-        <AssemblyVersion>4.0.2.0</AssemblyVersion>
-        <AssemblyVersion>4.0.3.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Runtime.Serialization.StreamingContext</ReturnType>
-      </ReturnValue>
-      <Docs>
-        <summary>
-          <span data-ttu-id="fa64b-183">获取或设置此格式化程序的 <see cref="T:System.Runtime.Serialization.StreamingContext" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="fa64b-183">Gets or sets the <see cref="T:System.Runtime.Serialization.StreamingContext" /> for this formatter.</span>
-          </span>
-        </summary>
-        <value>
-          <span data-ttu-id="fa64b-184">要与此格式化程序一起使用的流上下文。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="fa64b-184">The streaming context to use with this formatter.</span>
-          </span>
-        </value>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="fa64b-185"><xref:System.Runtime.Serialization.StreamingContext>提供描述的源和给定的序列化流的目标以及要保留该上下文和调用方定义的其他上下文的序列化一种方法的枚举。</span><span class="sxs-lookup"><span data-stu-id="fa64b-185">The <xref:System.Runtime.Serialization.StreamingContext> provides an enumeration that describes the source and the destination for a given serialized stream, as well as a way for serialization to retain that context and an additional caller-defined context.</span></span>  
-  
- ]]></format>
-        </remarks>
-        <altmember cref="T:System.Runtime.Serialization.StreamingContext" />
-      </Docs>
-    </Member>
-    <MemberGroup MemberName="Deserialize">
-      <AssemblyInfo>
-        <AssemblyName>mscorlib</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Docs>
-        <summary>
-          <span data-ttu-id="fa64b-186">将流反序列化为对象图形。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="fa64b-186">Deserializes a stream into an object graph.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
-  
-> [!IMPORTANT]
->  <span data-ttu-id="fa64b-187">调用此方法不受信任的数据会带来安全风险。</span><span class="sxs-lookup"><span data-stu-id="fa64b-187">Calling this method with untrusted data is a security risk.</span></span> <span data-ttu-id="fa64b-188">调用此方法仅受信任的数据。</span><span class="sxs-lookup"><span data-stu-id="fa64b-188">Call this method only with trusted data.</span></span> <span data-ttu-id="fa64b-189">有关详细信息，请参阅[数据验证](https://www.owasp.org/index.php/Data_Validation)。</span><span class="sxs-lookup"><span data-stu-id="fa64b-189">For more information, see [Data Validation](https://www.owasp.org/index.php/Data_Validation).</span></span>  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </MemberGroup>
-    <Member MemberName="Deserialize">
-      <MemberSignature Language="C#" Value="public object Deserialize (System.IO.Stream serializationStream);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance object Deserialize(class System.IO.Stream serializationStream) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.Deserialize(System.IO.Stream)" />
-      <MemberSignature Language="VB.NET" Value="Public Function Deserialize (serializationStream As Stream) As Object" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual System::Object ^ Deserialize(System::IO::Stream ^ serializationStream);" />
-      <MemberType>Method</MemberType>
-      <Implements>
-        <InterfaceMember>M:System.Runtime.Serialization.IFormatter.Deserialize(System.IO.Stream)</InterfaceMember>
-      </Implements>
-      <AssemblyInfo>
-        <AssemblyName>mscorlib</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>netstandard</AssemblyName>
-        <AssemblyVersion>2.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>System.Runtime.Serialization.Formatters</AssemblyName>
-        <AssemblyVersion>4.0.2.0</AssemblyVersion>
-        <AssemblyVersion>4.0.3.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Object</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="serializationStream" Type="System.IO.Stream" />
-      </Parameters>
-      <Docs>
-        <param name="serializationStream">
-          <span data-ttu-id="fa64b-190">要从其中反序列化对象图形的流。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="fa64b-190">The stream from which to deserialize the object graph.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="fa64b-191">将指定的流反序列化为对象图形。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="fa64b-191">Deserializes the specified stream into an object graph.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="fa64b-192">对象图的顶级（根）。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="fa64b-192">The top (root) of the object graph.</span>
-          </span>
-        </returns>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="fa64b-193">反序列化成功，流中的当前位置必须是开头的对象图。</span><span class="sxs-lookup"><span data-stu-id="fa64b-193">For successful deserialization, the current position in the stream must be at the beginning of the object graph.</span></span>  
-  
-> [!IMPORTANT]
->  <span data-ttu-id="fa64b-194">调用此方法不受信任的数据会带来安全风险。</span><span class="sxs-lookup"><span data-stu-id="fa64b-194">Calling this method with untrusted data is a security risk.</span></span> <span data-ttu-id="fa64b-195">调用此方法仅受信任的数据。</span><span class="sxs-lookup"><span data-stu-id="fa64b-195">Call this method only with trusted data.</span></span> <span data-ttu-id="fa64b-196">有关详细信息，请参阅[数据验证](https://www.owasp.org/index.php/Data_Validation)。</span><span class="sxs-lookup"><span data-stu-id="fa64b-196">For more information, see [Data Validation](https://www.owasp.org/index.php/Data_Validation).</span></span>  
-  
-   
-  
-## Examples  
- [!code-cpp[BinaryFormatterClass Example#1](~/samples/snippets/cpp/VS_Snippets_Remoting/BinaryFormatterClass Example/CPP/binaryformatter.cpp#1)]
- [!code-csharp[BinaryFormatterClass Example#1](~/samples/snippets/csharp/VS_Snippets_Remoting/BinaryFormatterClass Example/CS/binaryformatter.cs#1)]
- [!code-vb[BinaryFormatterClass Example#1](~/samples/snippets/visualbasic/VS_Snippets_Remoting/BinaryFormatterClass Example/VB/binaryformatter.vb#1)]  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.ArgumentNullException">
-          <span data-ttu-id="fa64b-197">
-            <paramref name="serializationStream" /> 为 <see langword="null" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="fa64b-197">The <paramref name="serializationStream" /> is <see langword="null" />.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.Runtime.Serialization.SerializationException">
-          <span data-ttu-id="fa64b-198">该 <paramref name="serializationStream" /> 支持查找，但其长度为 0。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="fa64b-198">The <paramref name="serializationStream" /> supports seeking, but its length is 0.</span>
-          </span>
-          <span data-ttu-id="fa64b-199">或</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="fa64b-199">-or-</span>
-          </span>
-          <span data-ttu-id="fa64b-200">目标类型为 <see cref="T:System.Decimal" />，但是值超出了 <see cref="T:System.Decimal" /> 类型的范围。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="fa64b-200">The target type is a <see cref="T:System.Decimal" />, but the value is out of range of the <see cref="T:System.Decimal" /> type.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.Security.SecurityException">
-          <span data-ttu-id="fa64b-201">调用方没有所要求的权限。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="fa64b-201">The caller does not have the required permission.</span>
-          </span>
-        </exception>
-        <permission cref="T:System.Security.Permissions.SecurityPermission">
-          <span data-ttu-id="fa64b-202">若要提供序列化服务。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="fa64b-202">To provide serialization services.</span>
-          </span>
-          <span data-ttu-id="fa64b-203">关联枚举：<see cref="F:System.Security.Permissions.SecurityPermissionFlag.SerializationFormatter" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="fa64b-203">Associated enumeration: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.SerializationFormatter" />.</span>
-          </span>
-        </permission>
-      </Docs>
-    </Member>
-    <Member MemberName="Deserialize">
-      <MemberSignature Language="C#" Value="public object Deserialize (System.IO.Stream serializationStream, System.Runtime.Remoting.Messaging.HeaderHandler handler);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance object Deserialize(class System.IO.Stream serializationStream, class System.Runtime.Remoting.Messaging.HeaderHandler handler) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.Deserialize(System.IO.Stream,System.Runtime.Remoting.Messaging.HeaderHandler)" />
-      <MemberSignature Language="VB.NET" Value="Public Function Deserialize (serializationStream As Stream, handler As HeaderHandler) As Object" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual System::Object ^ Deserialize(System::IO::Stream ^ serializationStream, System::Runtime::Remoting::Messaging::HeaderHandler ^ handler);" />
-      <MemberType>Method</MemberType>
-      <Implements>
-        <InterfaceMember>M:System.Runtime.Remoting.Messaging.IRemotingFormatter.Deserialize(System.IO.Stream,System.Runtime.Remoting.Messaging.HeaderHandler)</InterfaceMember>
-      </Implements>
-      <AssemblyInfo>
-        <AssemblyName>mscorlib</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Attributes>
-        <Attribute>
-          <AttributeName>System.Security.SecuritySafeCritical</AttributeName>
-        </Attribute>
-      </Attributes>
-      <ReturnValue>
-        <ReturnType>System.Object</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="serializationStream" Type="System.IO.Stream" />
-        <Parameter Name="handler" Type="System.Runtime.Remoting.Messaging.HeaderHandler" />
-      </Parameters>
-      <Docs>
-        <param name="serializationStream">
-          <span data-ttu-id="fa64b-204">要从其中反序列化对象图形的流。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="fa64b-204">The stream from which to deserialize the object graph.</span>
-          </span>
-        </param>
-        <param name="handler">
-          <span data-ttu-id="fa64b-205">处理 <c>serializationStream</c> 中的任何标头的 <see cref="T:System.Runtime.Remoting.Messaging.HeaderHandler" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="fa64b-205">The <see cref="T:System.Runtime.Remoting.Messaging.HeaderHandler" /> that handles any headers in the <c>serializationStream</c>.</span>
-          </span>
-          <span data-ttu-id="fa64b-206">可以为 <see langword="null" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="fa64b-206">Can be <see langword="null" />.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="fa64b-207">将指定的流反序列化为对象图形。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="fa64b-207">Deserializes the specified stream into an object graph.</span>
-          </span>
-          <span data-ttu-id="fa64b-208">所提供的 <see cref="T:System.Runtime.Remoting.Messaging.HeaderHandler" /> 处理该流中的任何标题。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="fa64b-208">The provided <see cref="T:System.Runtime.Remoting.Messaging.HeaderHandler" /> handles any headers in that stream.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="fa64b-209">反序列化的对象或对象图形的顶级对象（根）。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="fa64b-209">The deserialized object or the top object (root) of the object graph.</span>
-          </span>
-        </returns>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="fa64b-210">标头仅用于特定远程处理应用程序。</span><span class="sxs-lookup"><span data-stu-id="fa64b-210">Headers are used only for specific remoting applications.</span></span>  
-  
- <span data-ttu-id="fa64b-211">在反序列化成功的顺序流中的当前位置必须开头的对象图。</span><span class="sxs-lookup"><span data-stu-id="fa64b-211">In order for deserialization to succeed the current position in the stream must be at the beginning of the object graph.</span></span>  
-  
-> [!IMPORTANT]
->  <span data-ttu-id="fa64b-212">调用此方法不受信任的数据会带来安全风险。</span><span class="sxs-lookup"><span data-stu-id="fa64b-212">Calling this method with untrusted data is a security risk.</span></span> <span data-ttu-id="fa64b-213">调用此方法仅受信任的数据。</span><span class="sxs-lookup"><span data-stu-id="fa64b-213">Call this method only with trusted data.</span></span> <span data-ttu-id="fa64b-214">有关详细信息，请参阅[数据验证](https://www.owasp.org/index.php/Data_Validation)。</span><span class="sxs-lookup"><span data-stu-id="fa64b-214">For more information, see [Data Validation](https://www.owasp.org/index.php/Data_Validation).</span></span>  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.ArgumentNullException">
-          <span data-ttu-id="fa64b-215">
-            <paramref name="serializationStream" /> 为 <see langword="null" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="fa64b-215">The <paramref name="serializationStream" /> is <see langword="null" />.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.Runtime.Serialization.SerializationException">
-          <span data-ttu-id="fa64b-216">该 <paramref name="serializationStream" /> 支持查找，但其长度为 0。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="fa64b-216">The <paramref name="serializationStream" /> supports seeking, but its length is 0.</span>
-          </span>
-          <span data-ttu-id="fa64b-217">或</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="fa64b-217">-or-</span>
-          </span>
-          <span data-ttu-id="fa64b-218">目标类型为 <see cref="T:System.Decimal" />，但是值超出了 <see cref="T:System.Decimal" /> 类型的范围。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="fa64b-218">The target type is a <see cref="T:System.Decimal" />, but the value is out of range of the <see cref="T:System.Decimal" /> type.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.Security.SecurityException">
-          <span data-ttu-id="fa64b-219">调用方没有所要求的权限。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="fa64b-219">The caller does not have the required permission.</span>
-          </span>
-        </exception>
-        <permission cref="T:System.Security.Permissions.SecurityPermission">
-          <span data-ttu-id="fa64b-220">若要提供序列化服务。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="fa64b-220">To provide serialization services.</span>
-          </span>
-          <span data-ttu-id="fa64b-221">关联枚举：<see cref="F:System.Security.Permissions.SecurityPermissionFlag.SerializationFormatter" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="fa64b-221">Associated enumeration: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.SerializationFormatter" />.</span>
-          </span>
-        </permission>
-      </Docs>
-    </Member>
-    <Member MemberName="DeserializeMethodResponse">
-      <MemberSignature Language="C#" Value="public object DeserializeMethodResponse (System.IO.Stream serializationStream, System.Runtime.Remoting.Messaging.HeaderHandler handler, System.Runtime.Remoting.Messaging.IMethodCallMessage methodCallMessage);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance object DeserializeMethodResponse(class System.IO.Stream serializationStream, class System.Runtime.Remoting.Messaging.HeaderHandler handler, class System.Runtime.Remoting.Messaging.IMethodCallMessage methodCallMessage) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.DeserializeMethodResponse(System.IO.Stream,System.Runtime.Remoting.Messaging.HeaderHandler,System.Runtime.Remoting.Messaging.IMethodCallMessage)" />
-      <MemberSignature Language="VB.NET" Value="Public Function DeserializeMethodResponse (serializationStream As Stream, handler As HeaderHandler, methodCallMessage As IMethodCallMessage) As Object" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; System::Object ^ DeserializeMethodResponse(System::IO::Stream ^ serializationStream, System::Runtime::Remoting::Messaging::HeaderHandler ^ handler, System::Runtime::Remoting::Messaging::IMethodCallMessage ^ methodCallMessage);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>mscorlib</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Attributes>
-        <Attribute>
-          <AttributeName>System.Security.SecuritySafeCritical</AttributeName>
-        </Attribute>
-      </Attributes>
-      <ReturnValue>
-        <ReturnType>System.Object</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="serializationStream" Type="System.IO.Stream" />
-        <Parameter Name="handler" Type="System.Runtime.Remoting.Messaging.HeaderHandler" />
-        <Parameter Name="methodCallMessage" Type="System.Runtime.Remoting.Messaging.IMethodCallMessage" />
-      </Parameters>
-      <Docs>
-        <param name="serializationStream">
-          <span data-ttu-id="fa64b-222">要从其中反序列化对象图形的流。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="fa64b-222">The stream from which to deserialize the object graph.</span>
-          </span>
-        </param>
-        <param name="handler">
-          <span data-ttu-id="fa64b-223">处理 <c>serializationStream</c> 中的任何标头的 <see cref="T:System.Runtime.Remoting.Messaging.HeaderHandler" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="fa64b-223">The <see cref="T:System.Runtime.Remoting.Messaging.HeaderHandler" /> that handles any headers in the <c>serializationStream</c>.</span>
-          </span>
-          <span data-ttu-id="fa64b-224">可以为 <see langword="null" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="fa64b-224">Can be <see langword="null" />.</span>
-          </span>
-        </param>
-        <param name="methodCallMessage">
-          <span data-ttu-id="fa64b-225">该 <see cref="T:System.Runtime.Remoting.Messaging.IMethodCallMessage" /> 包含有关调用出处的详细信息。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="fa64b-225">The <see cref="T:System.Runtime.Remoting.Messaging.IMethodCallMessage" /> that contains details about where the call came from.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="fa64b-226">将对远程方法调用的响应从所提供的 <see cref="T:System.IO.Stream" /> 进行反序列化。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="fa64b-226">Deserializes a response to a remote method call from the provided <see cref="T:System.IO.Stream" />.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="fa64b-227">对远程方法调用的反序列化响应。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="fa64b-227">The deserialized response to the remote method call.</span>
-          </span>
-        </returns>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="fa64b-228">调用方对象有关的详细信息是在方法调用期间不发送到远程对象。</span><span class="sxs-lookup"><span data-stu-id="fa64b-228">Details about the caller object are not sent to the remote object during the method call.</span></span> <span data-ttu-id="fa64b-229">相反，这些详细信息可从传递给当前方法中的原始方法调用中获得`methodCallMessage`参数。</span><span class="sxs-lookup"><span data-stu-id="fa64b-229">Instead, these details are obtained from the original method call that is passed to the current method in the `methodCallMessage` parameter.</span></span>  
-  
- <span data-ttu-id="fa64b-230">在反序列化成功的顺序流中的当前位置必须开头的对象图。</span><span class="sxs-lookup"><span data-stu-id="fa64b-230">In order for deserialization to succeed the current position in the stream must be at the beginning of the object graph.</span></span>  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.ArgumentNullException">
-          <span data-ttu-id="fa64b-231">
-            <paramref name="serializationStream" /> 为 <see langword="null" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="fa64b-231">The <paramref name="serializationStream" /> is <see langword="null" />.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.Runtime.Serialization.SerializationException">
-          <span data-ttu-id="fa64b-232">该 <paramref name="serializationStream" /> 支持查找，但其长度为 0。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="fa64b-232">The <paramref name="serializationStream" /> supports seeking, but its length is 0.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.Security.SecurityException">
-          <span data-ttu-id="fa64b-233">调用方没有所要求的权限。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="fa64b-233">The caller does not have the required permission.</span>
-          </span>
-        </exception>
-        <permission cref="T:System.Security.Permissions.SecurityPermission">
-          <span data-ttu-id="fa64b-234">若要提供序列化服务。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="fa64b-234">To provide serialization services.</span>
-          </span>
-          <span data-ttu-id="fa64b-235">关联枚举：<see cref="F:System.Security.Permissions.SecurityPermissionFlag.SerializationFormatter" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="fa64b-235">Associated enumeration: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.SerializationFormatter" />.</span>
-          </span>
-        </permission>
-      </Docs>
-    </Member>
-    <Member MemberName="FilterLevel">
-      <MemberSignature Language="C#" Value="public System.Runtime.Serialization.Formatters.TypeFilterLevel FilterLevel { get; set; }" />
-      <MemberSignature Language="ILAsm" Value=".property instance valuetype System.Runtime.Serialization.Formatters.TypeFilterLevel FilterLevel" />
-      <MemberSignature Language="DocId" Value="P:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.FilterLevel" />
-      <MemberSignature Language="VB.NET" Value="Public Property FilterLevel As TypeFilterLevel" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::Runtime::Serialization::Formatters::TypeFilterLevel FilterLevel { System::Runtime::Serialization::Formatters::TypeFilterLevel get(); void set(System::Runtime::Serialization::Formatters::TypeFilterLevel value); };" />
-      <MemberType>Property</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>mscorlib</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>netstandard</AssemblyName>
-        <AssemblyVersion>2.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>System.Runtime.Serialization.Formatters</AssemblyName>
-        <AssemblyVersion>4.0.2.0</AssemblyVersion>
-        <AssemblyVersion>4.0.3.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Runtime.Serialization.Formatters.TypeFilterLevel</ReturnType>
-      </ReturnValue>
-      <Docs>
-        <summary>
-          <span data-ttu-id="fa64b-236">获取或设置 <see cref="T:System.Runtime.Serialization.Formatters.TypeFilterLevel" /> 所执行的自动反序列化的 <see cref="T:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="fa64b-236">Gets or sets the <see cref="T:System.Runtime.Serialization.Formatters.TypeFilterLevel" /> of automatic deserialization the <see cref="T:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter" /> performs.</span>
-          </span>
-        </summary>
-        <value>
-          <span data-ttu-id="fa64b-237">表示当前自动反序列化级别的 <see cref="T:System.Runtime.Serialization.Formatters.TypeFilterLevel" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="fa64b-237">The <see cref="T:System.Runtime.Serialization.Formatters.TypeFilterLevel" /> that represents the current automatic deserialization level.</span>
-          </span>
-        </value>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="fa64b-238">支持的值为<xref:System.Runtime.Serialization.Formatters.TypeFilterLevel.Low>和<xref:System.Runtime.Serialization.Formatters.TypeFilterLevel.Full>（默认值）。</span><span class="sxs-lookup"><span data-stu-id="fa64b-238">Supported values are <xref:System.Runtime.Serialization.Formatters.TypeFilterLevel.Low> and <xref:System.Runtime.Serialization.Formatters.TypeFilterLevel.Full> (the default).</span></span> <span data-ttu-id="fa64b-239">反序列化级别详细信息，请参阅[ &#91; \<topic://cpconAutomaticDeserializationInNETRemoting >&#93;](http://msdn.microsoft.com/library/313a0e88-5b2b-4a17-8391-0ddf9f7a787b)。</span><span class="sxs-lookup"><span data-stu-id="fa64b-239">For details about deserialization levels, see [&#91;\<topic://cpconAutomaticDeserializationInNETRemoting>&#93;](http://msdn.microsoft.com/library/313a0e88-5b2b-4a17-8391-0ddf9f7a787b).</span></span>  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-    <MemberGroup MemberName="Serialize">
-      <AssemblyInfo>
-        <AssemblyName>mscorlib</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Docs>
-        <summary>
-          <span data-ttu-id="fa64b-240">将对象或连接对象图形序列化为给定流。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="fa64b-240">Serializes an object, or graph of connected objects, to the given stream.</span>
-          </span>
-        </summary>
-      </Docs>
-    </MemberGroup>
-    <Member MemberName="Serialize">
-      <MemberSignature Language="C#" Value="public void Serialize (System.IO.Stream serializationStream, object graph);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void Serialize(class System.IO.Stream serializationStream, object graph) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.Serialize(System.IO.Stream,System.Object)" />
-      <MemberSignature Language="VB.NET" Value="Public Sub Serialize (serializationStream As Stream, graph As Object)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual void Serialize(System::IO::Stream ^ serializationStream, System::Object ^ graph);" />
-      <MemberType>Method</MemberType>
-      <Implements>
-        <InterfaceMember>M:System.Runtime.Serialization.IFormatter.Serialize(System.IO.Stream,System.Object)</InterfaceMember>
-      </Implements>
-      <AssemblyInfo>
-        <AssemblyName>mscorlib</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>netstandard</AssemblyName>
-        <AssemblyVersion>2.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>System.Runtime.Serialization.Formatters</AssemblyName>
-        <AssemblyVersion>4.0.2.0</AssemblyVersion>
-        <AssemblyVersion>4.0.3.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="serializationStream" Type="System.IO.Stream" />
-        <Parameter Name="graph" Type="System.Object" />
-      </Parameters>
-      <Docs>
-        <param name="serializationStream">
-          <span data-ttu-id="fa64b-241">图形要序列化为的流。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="fa64b-241">The stream to which the graph is to be serialized.</span>
-          </span>
-        </param>
-        <param name="graph">
-          <span data-ttu-id="fa64b-242">位于要序列化图形的根位置的对象。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="fa64b-242">The object at the root of the graph to serialize.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="fa64b-243">将对象或具有指定顶级（根）的对象图形序列化为给定流。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="fa64b-243">Serializes the object, or graph of objects with the specified top (root), to the given stream.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Examples  
- [!code-cpp[BinaryFormatterClass Example#1](~/samples/snippets/cpp/VS_Snippets_Remoting/BinaryFormatterClass Example/CPP/binaryformatter.cpp#1)]
- [!code-csharp[BinaryFormatterClass Example#1](~/samples/snippets/csharp/VS_Snippets_Remoting/BinaryFormatterClass Example/CS/binaryformatter.cs#1)]
- [!code-vb[BinaryFormatterClass Example#1](~/samples/snippets/visualbasic/VS_Snippets_Remoting/BinaryFormatterClass Example/VB/binaryformatter.vb#1)]  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.ArgumentNullException">
-          <span data-ttu-id="fa64b-244">
-            <paramref name="serializationStream" /> 为 <see langword="null" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="fa64b-244">The <paramref name="serializationStream" /> is <see langword="null" />.</span>
-          </span>
-          <span data-ttu-id="fa64b-245">或</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="fa64b-245">-or-</span>
-          </span>
-          <span data-ttu-id="fa64b-246">
-            <paramref name="graph" /> 为 null。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="fa64b-246">The <paramref name="graph" /> is null.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.Runtime.Serialization.SerializationException">
-          <span data-ttu-id="fa64b-247">序列化期间发生错误，如 <paramref name="graph" /> 参数中的某个对象未标记为可序列化。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="fa64b-247">An error has occurred during serialization, such as if an object in the <paramref name="graph" /> parameter is not marked as serializable.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.Security.SecurityException">
-          <span data-ttu-id="fa64b-248">调用方没有所要求的权限。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="fa64b-248">The caller does not have the required permission.</span>
-          </span>
-        </exception>
-        <permission cref="T:System.Security.Permissions.SecurityPermission">
-          <span data-ttu-id="fa64b-249">若要提供序列化服务。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="fa64b-249">To provide serialization services.</span>
-          </span>
-          <span data-ttu-id="fa64b-250">关联枚举：<see cref="F:System.Security.Permissions.SecurityPermissionFlag.SerializationFormatter" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="fa64b-250">Associated enumeration: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.SerializationFormatter" />.</span>
-          </span>
-        </permission>
-      </Docs>
-    </Member>
-    <Member MemberName="Serialize">
-      <MemberSignature Language="C#" Value="public void Serialize (System.IO.Stream serializationStream, object graph, System.Runtime.Remoting.Messaging.Header[] headers);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void Serialize(class System.IO.Stream serializationStream, object graph, class System.Runtime.Remoting.Messaging.Header[] headers) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.Serialize(System.IO.Stream,System.Object,System.Runtime.Remoting.Messaging.Header[])" />
-      <MemberSignature Language="VB.NET" Value="Public Sub Serialize (serializationStream As Stream, graph As Object, headers As Header())" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual void Serialize(System::IO::Stream ^ serializationStream, System::Object ^ graph, cli::array &lt;System::Runtime::Remoting::Messaging::Header ^&gt; ^ headers);" />
-      <MemberType>Method</MemberType>
-      <Implements>
-        <InterfaceMember>M:System.Runtime.Remoting.Messaging.IRemotingFormatter.Serialize(System.IO.Stream,System.Object,System.Runtime.Remoting.Messaging.Header[])</InterfaceMember>
-      </Implements>
-      <AssemblyInfo>
-        <AssemblyName>mscorlib</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Attributes>
-        <Attribute>
-          <AttributeName>System.Security.SecuritySafeCritical</AttributeName>
-        </Attribute>
-      </Attributes>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="serializationStream" Type="System.IO.Stream" />
-        <Parameter Name="graph" Type="System.Object" />
-        <Parameter Name="headers" Type="System.Runtime.Remoting.Messaging.Header[]" />
-      </Parameters>
-      <Docs>
-        <param name="serializationStream">
-          <span data-ttu-id="fa64b-251">对象要序列化为的流。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="fa64b-251">The stream to which the object is to be serialized.</span>
-          </span>
-        </param>
-        <param name="graph">
-          <span data-ttu-id="fa64b-252">位于要序列化图形的根位置的对象。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="fa64b-252">The object at the root of the graph to serialize.</span>
-          </span>
-        </param>
-        <param name="headers">
-          <span data-ttu-id="fa64b-253">将包括在序列化中的远程处理标题。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="fa64b-253">Remoting headers to include in the serialization.</span>
-          </span>
-          <span data-ttu-id="fa64b-254">可以为 <see langword="null" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="fa64b-254">Can be <see langword="null" />.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="fa64b-255">将对象或具有指定顶级（根）的对象图形序列化为附加所提供标题的给定流。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="fa64b-255">Serializes the object, or graph of objects with the specified top (root), to the given stream attaching the provided headers.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="fa64b-256">序列化过程包括中提供的信息`headers`前部的序列化流的参数。</span><span class="sxs-lookup"><span data-stu-id="fa64b-256">The serialization process includes the information supplied in the `headers` parameter at the front of the serialized stream.</span></span>  
-  
- <span data-ttu-id="fa64b-257">标头仅用于特定远程处理应用程序。</span><span class="sxs-lookup"><span data-stu-id="fa64b-257">Headers are used only for specific remoting applications.</span></span>  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.ArgumentNullException">
-          <span data-ttu-id="fa64b-258">
-            <paramref name="serializationStream" /> 为 <see langword="null" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="fa64b-258">The <paramref name="serializationStream" /> is <see langword="null" />.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.Runtime.Serialization.SerializationException">
-          <span data-ttu-id="fa64b-259">序列化期间发生错误，如 <paramref name="graph" /> 参数中的某个对象未标记为可序列化。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="fa64b-259">An error has occurred during serialization, such as if an object in the <paramref name="graph" /> parameter is not marked as serializable.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.Security.SecurityException">
-          <span data-ttu-id="fa64b-260">调用方没有所要求的权限。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="fa64b-260">The caller does not have the required permission.</span>
-          </span>
-        </exception>
-        <permission cref="T:System.Security.Permissions.SecurityPermission">
-          <span data-ttu-id="fa64b-261">若要提供序列化服务。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="fa64b-261">To provide serialization services.</span>
-          </span>
-          <span data-ttu-id="fa64b-262">关联枚举：<see cref="F:System.Security.Permissions.SecurityPermissionFlag.SerializationFormatter" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="fa64b-262">Associated enumeration: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.SerializationFormatter" />.</span>
-          </span>
-        </permission>
-      </Docs>
-    </Member>
-    <Member MemberName="SurrogateSelector">
-      <MemberSignature Language="C#" Value="public System.Runtime.Serialization.ISurrogateSelector SurrogateSelector { get; set; }" />
-      <MemberSignature Language="ILAsm" Value=".property instance class System.Runtime.Serialization.ISurrogateSelector SurrogateSelector" />
-      <MemberSignature Language="DocId" Value="P:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.SurrogateSelector" />
-      <MemberSignature Language="VB.NET" Value="Public Property SurrogateSelector As ISurrogateSelector" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::Runtime::Serialization::ISurrogateSelector ^ SurrogateSelector { System::Runtime::Serialization::ISurrogateSelector ^ get(); void set(System::Runtime::Serialization::ISurrogateSelector ^ value); };" />
-      <MemberType>Property</MemberType>
-      <Implements>
-        <InterfaceMember>P:System.Runtime.Serialization.IFormatter.SurrogateSelector</InterfaceMember>
-      </Implements>
-      <AssemblyInfo>
-        <AssemblyName>mscorlib</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>netstandard</AssemblyName>
-        <AssemblyVersion>2.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>System.Runtime.Serialization.Formatters</AssemblyName>
-        <AssemblyVersion>4.0.2.0</AssemblyVersion>
-        <AssemblyVersion>4.0.3.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Runtime.Serialization.ISurrogateSelector</ReturnType>
-      </ReturnValue>
-      <Docs>
-        <summary>
-          <span data-ttu-id="fa64b-263">获取或设置控制序列化和反序列化过程的类型替换的 <see cref="T:System.Runtime.Serialization.ISurrogateSelector" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="fa64b-263">Gets or sets a <see cref="T:System.Runtime.Serialization.ISurrogateSelector" /> that controls type substitution during serialization and deserialization.</span>
-          </span>
-        </summary>
-        <value>
-          <span data-ttu-id="fa64b-264">要与此格式化程序一起使用的代理项选择器。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="fa64b-264">The surrogate selector to use with this formatter.</span>
-          </span>
-        </value>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="fa64b-265">使用代理项选择器<xref:System.Runtime.Remoting>生成<xref:System.Runtime.Remoting.ObjRef>派生的对象的实例<xref:System.MarshalByRefObject>。</span><span class="sxs-lookup"><span data-stu-id="fa64b-265">The surrogate selector is used by <xref:System.Runtime.Remoting> to generate <xref:System.Runtime.Remoting.ObjRef> instances for objects that derive from <xref:System.MarshalByRefObject>.</span></span>  
-  
- ]]></format>
-        </remarks>
-        <altmember cref="T:System.Runtime.Serialization.SurrogateSelector" />
-      </Docs>
-    </Member>
-    <Member MemberName="TypeFormat">
-      <MemberSignature Language="C#" Value="public System.Runtime.Serialization.Formatters.FormatterTypeStyle TypeFormat { get; set; }" />
-      <MemberSignature Language="ILAsm" Value=".property instance valuetype System.Runtime.Serialization.Formatters.FormatterTypeStyle TypeFormat" />
-      <MemberSignature Language="DocId" Value="P:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.TypeFormat" />
-      <MemberSignature Language="VB.NET" Value="Public Property TypeFormat As FormatterTypeStyle" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::Runtime::Serialization::Formatters::FormatterTypeStyle TypeFormat { System::Runtime::Serialization::Formatters::FormatterTypeStyle get(); void set(System::Runtime::Serialization::Formatters::FormatterTypeStyle value); };" />
-      <MemberType>Property</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>mscorlib</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>netstandard</AssemblyName>
-        <AssemblyVersion>2.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <AssemblyInfo>
-        <AssemblyName>System.Runtime.Serialization.Formatters</AssemblyName>
-        <AssemblyVersion>4.0.2.0</AssemblyVersion>
-        <AssemblyVersion>4.0.3.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Runtime.Serialization.Formatters.FormatterTypeStyle</ReturnType>
-      </ReturnValue>
-      <Docs>
-        <summary>
-          <span data-ttu-id="fa64b-266">获取或设置类型说明在序列化流中的布局格式。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="fa64b-266">Gets or sets the format in which type descriptions are laid out in the serialized stream.</span>
-          </span>
-        </summary>
-        <value>
-          <span data-ttu-id="fa64b-267">要使用的类型布局的样式。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="fa64b-267">The style of type layouts to use.</span>
-          </span>
-        </value>
-        <remarks>To be added.</remarks>
-        <altmember cref="T:System.Runtime.Serialization.Formatters.FormatterTypeStyle" />
-      </Docs>
-    </Member>
-    <Member MemberName="UnsafeDeserialize">
-      <MemberSignature Language="C#" Value="public object UnsafeDeserialize (System.IO.Stream serializationStream, System.Runtime.Remoting.Messaging.HeaderHandler handler);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance object UnsafeDeserialize(class System.IO.Stream serializationStream, class System.Runtime.Remoting.Messaging.HeaderHandler handler) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.UnsafeDeserialize(System.IO.Stream,System.Runtime.Remoting.Messaging.HeaderHandler)" />
-      <MemberSignature Language="VB.NET" Value="Public Function UnsafeDeserialize (serializationStream As Stream, handler As HeaderHandler) As Object" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; System::Object ^ UnsafeDeserialize(System::IO::Stream ^ serializationStream, System::Runtime::Remoting::Messaging::HeaderHandler ^ handler);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>mscorlib</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Attributes>
-        <Attribute>
-          <AttributeName>System.Runtime.InteropServices.ComVisible(false)</AttributeName>
-        </Attribute>
-        <Attribute>
-          <AttributeName>System.Security.SecurityCritical</AttributeName>
-        </Attribute>
-      </Attributes>
-      <ReturnValue>
-        <ReturnType>System.Object</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="serializationStream" Type="System.IO.Stream" />
-        <Parameter Name="handler" Type="System.Runtime.Remoting.Messaging.HeaderHandler" />
-      </Parameters>
-      <Docs>
-        <param name="serializationStream">
-          <span data-ttu-id="fa64b-268">要从其中反序列化对象图形的流。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="fa64b-268">The stream from which to deserialize the object graph.</span>
-          </span>
-        </param>
-        <param name="handler">
-          <span data-ttu-id="fa64b-269">处理 <c>serializationStream</c> 中的任何标头的 <see cref="T:System.Runtime.Remoting.Messaging.HeaderHandler" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="fa64b-269">The <see cref="T:System.Runtime.Remoting.Messaging.HeaderHandler" /> that handles any headers in the <c>serializationStream</c>.</span>
-          </span>
-          <span data-ttu-id="fa64b-270">可以为 <see langword="null" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="fa64b-270">Can be <see langword="null" />.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="fa64b-271">将指定的流反序列化为对象图形。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="fa64b-271">Deserializes the specified stream into an object graph.</span>
-          </span>
-          <span data-ttu-id="fa64b-272">所提供的 <see cref="T:System.Runtime.Remoting.Messaging.HeaderHandler" /> 处理该流中的任何标题。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="fa64b-272">The provided <see cref="T:System.Runtime.Remoting.Messaging.HeaderHandler" /> handles any headers in that stream.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="fa64b-273">反序列化的对象或对象图形的顶级对象（根）。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="fa64b-273">The deserialized object or the top object (root) of the object graph.</span>
-          </span>
-        </returns>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="fa64b-274">标头仅用于特定远程处理应用程序。</span><span class="sxs-lookup"><span data-stu-id="fa64b-274">Headers are used only for specific remoting applications.</span></span>  
-  
- <span data-ttu-id="fa64b-275">此方法使用<xref:System.Security.Permissions.SecurityAction.LinkDemand?displayProperty=nameWithType>，防止它调用不受信任代码; 只能直接调用方需要具有<xref:System.Security.Permissions.SecurityPermissionAttribute.SerializationFormatter%2A?displayProperty=nameWithType>权限。</span><span class="sxs-lookup"><span data-stu-id="fa64b-275">This method uses <xref:System.Security.Permissions.SecurityAction.LinkDemand?displayProperty=nameWithType> to prevent it from being called from untrusted code; only the immediate caller is required to have <xref:System.Security.Permissions.SecurityPermissionAttribute.SerializationFormatter%2A?displayProperty=nameWithType> permission.</span></span> <span data-ttu-id="fa64b-276">如果可以从部分受信任代码调用你的代码，则不要使用此方法。</span><span class="sxs-lookup"><span data-stu-id="fa64b-276">Do not use this method if your code can be called from partially trusted code.</span></span> <span data-ttu-id="fa64b-277">在部分受信任的情况下，使用<xref:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.Deserialize%2A>相反。</span><span class="sxs-lookup"><span data-stu-id="fa64b-277">In partially trusted scenarios, use <xref:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.Deserialize%2A> instead.</span></span> <span data-ttu-id="fa64b-278">在完全信任方案中，<xref:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.UnsafeDeserialize%2A>提供更好的性能比<xref:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.Deserialize%2A>。</span><span class="sxs-lookup"><span data-stu-id="fa64b-278">In full trust scenarios, <xref:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.UnsafeDeserialize%2A> provides better performance than <xref:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.Deserialize%2A>.</span></span>  
-  
- <span data-ttu-id="fa64b-279">反序列化成功，流中的当前位置必须是开头的对象图。</span><span class="sxs-lookup"><span data-stu-id="fa64b-279">For successful deserialization, the current position in the stream must be at the beginning of the object graph.</span></span>  
-  
-> [!IMPORTANT]
->  <span data-ttu-id="fa64b-280">调用此方法不受信任的数据会带来安全风险。</span><span class="sxs-lookup"><span data-stu-id="fa64b-280">Calling this method with untrusted data is a security risk.</span></span> <span data-ttu-id="fa64b-281">调用此方法仅受信任的数据。</span><span class="sxs-lookup"><span data-stu-id="fa64b-281">Call this method only with trusted data.</span></span> <span data-ttu-id="fa64b-282">有关详细信息，请参阅[数据验证](https://www.owasp.org/index.php/Data_Validation)。</span><span class="sxs-lookup"><span data-stu-id="fa64b-282">For more information, see [Data Validation](https://www.owasp.org/index.php/Data_Validation).</span></span>  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.ArgumentNullException">
-          <span data-ttu-id="fa64b-283">
-            <paramref name="serializationStream" /> 为 <see langword="null" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="fa64b-283">The <paramref name="serializationStream" /> is <see langword="null" />.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.Runtime.Serialization.SerializationException">
-          <span data-ttu-id="fa64b-284">该 <paramref name="serializationStream" /> 支持查找，但其长度为 0。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="fa64b-284">The <paramref name="serializationStream" /> supports seeking, but its length is 0.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.Security.SecurityException">
-          <span data-ttu-id="fa64b-285">调用方没有所要求的权限。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="fa64b-285">The caller does not have the required permission.</span>
-          </span>
-        </exception>
-        <permission cref="T:System.Security.Permissions.SecurityPermission">
-          <span data-ttu-id="fa64b-286">若要提供序列化服务。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="fa64b-286">To provide serialization services.</span>
-          </span>
-          <span data-ttu-id="fa64b-287">关联枚举：<see cref="F:System.Security.Permissions.SecurityPermissionFlag.SerializationFormatter" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="fa64b-287">Associated enumeration: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.SerializationFormatter" />.</span>
-          </span>
-        </permission>
-      </Docs>
-    </Member>
-    <Member MemberName="UnsafeDeserializeMethodResponse">
-      <MemberSignature Language="C#" Value="public object UnsafeDeserializeMethodResponse (System.IO.Stream serializationStream, System.Runtime.Remoting.Messaging.HeaderHandler handler, System.Runtime.Remoting.Messaging.IMethodCallMessage methodCallMessage);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance object UnsafeDeserializeMethodResponse(class System.IO.Stream serializationStream, class System.Runtime.Remoting.Messaging.HeaderHandler handler, class System.Runtime.Remoting.Messaging.IMethodCallMessage methodCallMessage) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.UnsafeDeserializeMethodResponse(System.IO.Stream,System.Runtime.Remoting.Messaging.HeaderHandler,System.Runtime.Remoting.Messaging.IMethodCallMessage)" />
-      <MemberSignature Language="VB.NET" Value="Public Function UnsafeDeserializeMethodResponse (serializationStream As Stream, handler As HeaderHandler, methodCallMessage As IMethodCallMessage) As Object" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; System::Object ^ UnsafeDeserializeMethodResponse(System::IO::Stream ^ serializationStream, System::Runtime::Remoting::Messaging::HeaderHandler ^ handler, System::Runtime::Remoting::Messaging::IMethodCallMessage ^ methodCallMessage);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>mscorlib</AssemblyName>
-        <AssemblyVersion>2.0.5.0</AssemblyVersion>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Attributes>
-        <Attribute>
-          <AttributeName>System.Runtime.InteropServices.ComVisible(false)</AttributeName>
-        </Attribute>
-        <Attribute>
-          <AttributeName>System.Security.SecurityCritical</AttributeName>
-        </Attribute>
-      </Attributes>
-      <ReturnValue>
-        <ReturnType>System.Object</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="serializationStream" Type="System.IO.Stream" />
-        <Parameter Name="handler" Type="System.Runtime.Remoting.Messaging.HeaderHandler" />
-        <Parameter Name="methodCallMessage" Type="System.Runtime.Remoting.Messaging.IMethodCallMessage" />
-      </Parameters>
-      <Docs>
-        <param name="serializationStream">
-          <span data-ttu-id="fa64b-288">要从其中反序列化对象图形的流。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="fa64b-288">The stream from which to deserialize the object graph.</span>
-          </span>
-        </param>
-        <param name="handler">
-          <span data-ttu-id="fa64b-289">处理 <c>serializationStream</c> 中的任何标头的 <see cref="T:System.Runtime.Remoting.Messaging.HeaderHandler" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="fa64b-289">The <see cref="T:System.Runtime.Remoting.Messaging.HeaderHandler" /> that handles any headers in the <c>serializationStream</c>.</span>
-          </span>
-          <span data-ttu-id="fa64b-290">可以为 <see langword="null" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="fa64b-290">Can be <see langword="null" />.</span>
-          </span>
-        </param>
-        <param name="methodCallMessage">
-          <span data-ttu-id="fa64b-291">该 <see cref="T:System.Runtime.Remoting.Messaging.IMethodCallMessage" /> 包含有关调用出处的详细信息。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="fa64b-291">The <see cref="T:System.Runtime.Remoting.Messaging.IMethodCallMessage" /> that contains details about where the call came from.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="fa64b-292">将对远程方法调用的响应从所提供的 <see cref="T:System.IO.Stream" /> 进行反序列化。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="fa64b-292">Deserializes a response to a remote method call from the provided <see cref="T:System.IO.Stream" />.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="fa64b-293">对远程方法调用的反序列化响应。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="fa64b-293">The deserialized response to the remote method call.</span>
-          </span>
-        </returns>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="fa64b-294">调用方对象有关的详细信息是在方法调用期间不发送到远程对象。</span><span class="sxs-lookup"><span data-stu-id="fa64b-294">Details about the caller object are not sent to the remote object during the method call.</span></span> <span data-ttu-id="fa64b-295">相反，这些详细信息可从传递给当前方法中的原始方法调用中获得`methodCallMessage`参数。</span><span class="sxs-lookup"><span data-stu-id="fa64b-295">Instead, these details are obtained from the original method call that is passed to the current method in the `methodCallMessage` parameter.</span></span>  
-  
- <span data-ttu-id="fa64b-296">此方法使用<xref:System.Security.Permissions.SecurityAction.LinkDemand?displayProperty=nameWithType>，防止它调用不受信任代码; 只能直接调用方需要具有<xref:System.Security.Permissions.SecurityPermissionAttribute.SerializationFormatter%2A?displayProperty=nameWithType>权限。</span><span class="sxs-lookup"><span data-stu-id="fa64b-296">This method uses <xref:System.Security.Permissions.SecurityAction.LinkDemand?displayProperty=nameWithType> to prevent it from being called from untrusted code; only the immediate caller is required to have <xref:System.Security.Permissions.SecurityPermissionAttribute.SerializationFormatter%2A?displayProperty=nameWithType> permission.</span></span> <span data-ttu-id="fa64b-297">如果可以从部分受信任代码调用你的代码，则不要使用此方法。</span><span class="sxs-lookup"><span data-stu-id="fa64b-297">Do not use this method if your code can be called from partially trusted code.</span></span> <span data-ttu-id="fa64b-298">在部分受信任的情况下，使用<xref:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.DeserializeMethodResponse%2A>相反。</span><span class="sxs-lookup"><span data-stu-id="fa64b-298">In partially trusted scenarios, use <xref:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.DeserializeMethodResponse%2A> instead.</span></span> <span data-ttu-id="fa64b-299">在完全信任方案中，<xref:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.UnsafeDeserializeMethodResponse%2A>提供更好的性能比<xref:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.DeserializeMethodResponse%2A>。</span><span class="sxs-lookup"><span data-stu-id="fa64b-299">In full trust scenarios, <xref:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.UnsafeDeserializeMethodResponse%2A> provides better performance than <xref:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.DeserializeMethodResponse%2A>.</span></span>  
-  
- <span data-ttu-id="fa64b-300">反序列化成功，流中的当前位置必须是开头的对象图。</span><span class="sxs-lookup"><span data-stu-id="fa64b-300">For successful deserialization, the current position in the stream must be at the beginning of the object graph.</span></span>  
-  
-> [!IMPORTANT]
->  <span data-ttu-id="fa64b-301">调用此方法不受信任的数据会带来安全风险。</span><span class="sxs-lookup"><span data-stu-id="fa64b-301">Calling this method with untrusted data is a security risk.</span></span> <span data-ttu-id="fa64b-302">调用此方法仅受信任的数据。</span><span class="sxs-lookup"><span data-stu-id="fa64b-302">Call this method only with trusted data.</span></span> <span data-ttu-id="fa64b-303">有关详细信息，请参阅[数据验证](https://www.owasp.org/index.php/Data_Validation)。</span><span class="sxs-lookup"><span data-stu-id="fa64b-303">For more information, see [Data Validation](https://www.owasp.org/index.php/Data_Validation).</span></span>  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.ArgumentNullException">
-          <span data-ttu-id="fa64b-304">
-            <paramref name="serializationStream" /> 为 <see langword="null" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="fa64b-304">The <paramref name="serializationStream" /> is <see langword="null" />.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.Runtime.Serialization.SerializationException">
-          <span data-ttu-id="fa64b-305">该 <paramref name="serializationStream" /> 支持查找，但其长度为 0。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="fa64b-305">The <paramref name="serializationStream" /> supports seeking, but its length is 0.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.Security.SecurityException">
-          <span data-ttu-id="fa64b-306">调用方没有所要求的权限。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="fa64b-306">The caller does not have the required permission.</span>
-          </span>
-        </exception>
-        <permission cref="T:System.Security.Permissions.SecurityPermission">
-          <span data-ttu-id="fa64b-307">若要提供序列化服务。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="fa64b-307">To provide serialization services.</span>
-          </span>
-          <span data-ttu-id="fa64b-308">关联枚举：<see cref="F:System.Security.Permissions.SecurityPermissionFlag.SerializationFormatter" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="fa64b-308">Associated enumeration: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.SerializationFormatter" />.</span>
-          </span>
-        </permission>
-      </Docs>
-    </Member>
-  </Members>
-</Type>
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.2" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 xliff-core-1.2-transitional.xsd">
+  <file datatype="xml" original="BinaryFormatter.xml" source-language="en-US" target-language="zh-CN">
+    <header>
+      <tool tool-id="mdxliff" tool-name="mdxliff" tool-version="1.0-15c36f0" tool-company="Microsoft" />
+      <xliffext:skl_file_name xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">02cd5861-7ce2-4a82-b358-31f8435a0ac542f1258a65ffe522a7aa5d683ff80ce9ea8c1044.skl</xliffext:skl_file_name>
+      <xliffext:version xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">1.2</xliffext:version>
+      <xliffext:ms.openlocfilehash xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">42f1258a65ffe522a7aa5d683ff80ce9ea8c1044</xliffext:ms.openlocfilehash>
+      <xliffext:ms.sourcegitcommit xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b</xliffext:ms.sourcegitcommit>
+      <xliffext:ms.lasthandoff xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">04/03/2018</xliffext:ms.lasthandoff>
+      <xliffext:moniker_ids xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">netcore-2.0,netcore-2.1,netframework-4.5.1,netframework-4.5.2,netframework-4.5,netframework-4.6.1,netframework-4.6.2,netframework-4.6,netframework-4.7.1,netframework-4.7,netstandard-2.0,xamarinandroid-7.1,xamarinios-10.8,xamarinmac-3.0</xliffext:moniker_ids>
+    </header>
+    <body>
+      <group id="content" extype="content">
+        <trans-unit id="101" translate="yes" xml:space="preserve" uid="T:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter">
+          <source>Serializes and deserializes an object, or an entire graph of connected objects, in binary format.</source>
+          <target state="translated">以二进制格式序列化和反序列化对象或连接对象的整个图形。</target>       </trans-unit>
+        <trans-unit id="102" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter">
+          <source>The <ph id="ph1">&lt;xref:System.Runtime.Serialization.Formatters.Soap.SoapFormatter&gt;</ph> and <ph id="ph2">&lt;xref:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter&gt;</ph> classes implement the <ph id="ph3">&lt;xref:System.Runtime.Remoting.Messaging.IRemotingFormatter&gt;</ph> interface to support remote procedure calls (RPCs), and the <ph id="ph4">&lt;xref:System.Runtime.Serialization.IFormatter&gt;</ph> interface (inherited by the <ph id="ph5">&lt;xref:System.Runtime.Remoting.Messaging.IRemotingFormatter&gt;</ph>) to support serialization of a graph of objects.</source>
+          <target state="translated"><ph id="ph1">&lt;xref:System.Runtime.Serialization.Formatters.Soap.SoapFormatter&gt;</ph>和<ph id="ph2">&lt;xref:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter&gt;</ph>类实现<ph id="ph3">&lt;xref:System.Runtime.Remoting.Messaging.IRemotingFormatter&gt;</ph>接口以支持远程过程调用 (Rpc) 和<ph id="ph4">&lt;xref:System.Runtime.Serialization.IFormatter&gt;</ph>接口 (由继承<ph id="ph5">&lt;xref:System.Runtime.Remoting.Messaging.IRemotingFormatter&gt;</ph>) 以支持序列化对象图。</target>       </trans-unit>
+        <trans-unit id="103" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter">
+          <source>The <ph id="ph1">&lt;xref:System.Runtime.Serialization.Formatters.Soap.SoapFormatter&gt;</ph> class also supports RPCs with <ph id="ph2">&lt;xref:System.Runtime.Serialization.Formatters.ISoapMessage&gt;</ph> objects, without using the <ph id="ph3">&lt;xref:System.Runtime.Remoting.Messaging.IRemotingFormatter&gt;</ph> functionality.</source>
+          <target state="translated"><ph id="ph1">&lt;xref:System.Runtime.Serialization.Formatters.Soap.SoapFormatter&gt;</ph>类还支持使用 Rpc<ph id="ph2">&lt;xref:System.Runtime.Serialization.Formatters.ISoapMessage&gt;</ph>对象，而无需使用<ph id="ph3">&lt;xref:System.Runtime.Remoting.Messaging.IRemotingFormatter&gt;</ph>功能。</target>       </trans-unit>
+        <trans-unit id="104" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter">
+          <source>During RPCs, the <ph id="ph1">&lt;xref:System.Runtime.Remoting.Messaging.IRemotingFormatter&gt;</ph> interface allows the specification of two separate object graphs: the graph of objects to serialize, and an additional graph that contains an array of header objects that convey information about the remote function call (for example, transaction ID or a method signature).</source>
+          <target state="translated">在 Rpc 期间，<ph id="ph1">&lt;xref:System.Runtime.Remoting.Messaging.IRemotingFormatter&gt;</ph>接口允许两个单独的对象关系图的规范： 的对象要序列化的图和一个附加的图，包含传达有关 （适用于远程函数调用的信息的标头对象的数组例如，事务 ID 或方法签名）。</target>       </trans-unit>
+        <trans-unit id="105" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter">
+          <source>RPCs that use the <ph id="ph1">&lt;xref:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter&gt;</ph> separate into two distinct parts: method calls, which are sent to the server with the remote object that contains the method called, and method responses, which are sent from the server to the client with the status and response information from the called method.</source>
+          <target state="translated">使用的 Rpc<ph id="ph1">&lt;xref:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter&gt;</ph>分为两个不同的部分： 方法调用，发送到与包含调用的方法的远程对象的服务器，并从服务器发送到客户端状态的方法响应和响应从调用的方法的信息。</target>       </trans-unit>
+        <trans-unit id="106" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter">
+          <source>During serialization of a method call the first object of the object graph must support the <ph id="ph1">&lt;xref:System.Runtime.Remoting.Messaging.IMethodCallMessage&gt;</ph> interface.</source>
+          <target state="translated">在方法调用的序列化过程的对象图的第一个对象必须支持<ph id="ph1">&lt;xref:System.Runtime.Remoting.Messaging.IMethodCallMessage&gt;</ph>接口。</target>       </trans-unit>
+        <trans-unit id="107" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter">
+          <source>To deserialize a method call, use the <ph id="ph1">&lt;xref:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.Deserialize%2A&gt;</ph> method with the <ph id="ph2">&lt;xref:System.Runtime.Remoting.Messaging.HeaderHandler&gt;</ph> parameter.</source>
+          <target state="translated">若要反序列化方法调用，使用<ph id="ph1">&lt;xref:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.Deserialize%2A&gt;</ph>方法替换<ph id="ph2">&lt;xref:System.Runtime.Remoting.Messaging.HeaderHandler&gt;</ph>参数。</target>       </trans-unit>
+        <trans-unit id="108" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter">
+          <source>The remoting infrastructure uses the <ph id="ph1">&lt;xref:System.Runtime.Remoting.Messaging.HeaderHandler&gt;</ph> delegate to produce an object that supports the <ph id="ph2">&lt;xref:System.Runtime.Serialization.ISerializable&gt;</ph> interface.</source>
+          <target state="translated">远程处理基础结构使用<ph id="ph1">&lt;xref:System.Runtime.Remoting.Messaging.HeaderHandler&gt;</ph>委托来生成支持的对象<ph id="ph2">&lt;xref:System.Runtime.Serialization.ISerializable&gt;</ph>接口。</target>       </trans-unit>
+        <trans-unit id="109" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter">
+          <source>When the <ph id="ph1">&lt;xref:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter&gt;</ph> invokes the <ph id="ph2">&lt;xref:System.Runtime.Remoting.Messaging.HeaderHandler&gt;</ph> delegate, it returns the URI of the remote object with the method that is being called.</source>
+          <target state="translated">当<ph id="ph1">&lt;xref:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter&gt;</ph>时，将调用<ph id="ph2">&lt;xref:System.Runtime.Remoting.Messaging.HeaderHandler&gt;</ph>委托，它返回的 URI 的远程对象使用调用的方法。</target>       </trans-unit>
+        <trans-unit id="110" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter">
+          <source>The first object in the graph returned supports the <ph id="ph1">&lt;xref:System.Runtime.Remoting.Messaging.IMethodCallMessage&gt;</ph> interface.</source>
+          <target state="translated">在图中的第一个对象返回支持<ph id="ph1">&lt;xref:System.Runtime.Remoting.Messaging.IMethodCallMessage&gt;</ph>接口。</target>       </trans-unit>
+        <trans-unit id="111" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter">
+          <source>The serialization procedure for a method response is identical to that of a method call, except the first object of the object graph must support the <ph id="ph1">&lt;xref:System.Runtime.Remoting.Messaging.IMethodReturnMessage&gt;</ph> interface.</source>
+          <target state="translated">方法响应的序列化过程的方法调用完全相同，除非该对象的第一个对象关系图必须支持<ph id="ph1">&lt;xref:System.Runtime.Remoting.Messaging.IMethodReturnMessage&gt;</ph>接口。</target>       </trans-unit>
+        <trans-unit id="112" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter">
+          <source>To deserialize a method response, use the <ph id="ph1">&lt;xref:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.DeserializeMethodResponse%2A&gt;</ph> method.</source>
+          <target state="translated">若要反序列化方法响应，使用<ph id="ph1">&lt;xref:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.DeserializeMethodResponse%2A&gt;</ph>方法。</target>       </trans-unit>
+        <trans-unit id="113" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter">
+          <source>To save time, details about the caller object are not sent to the remote object during the method call.</source>
+          <target state="translated">以节省时间，调用方对象有关的详细信息不会发送到远程对象在方法调用期间。</target>       </trans-unit>
+        <trans-unit id="114" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter">
+          <source>These details are instead obtained from the original method call, which is passed to the <ph id="ph1">&lt;xref:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.DeserializeMethodResponse%2A&gt;</ph> method in the <ph id="ph2">&lt;xref:System.Runtime.Remoting.Messaging.IMethodCallMessage&gt;</ph> parameter.</source>
+          <target state="translated">这些详细信息改为从原始的方法调用传递到<ph id="ph1">&lt;xref:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.DeserializeMethodResponse%2A&gt;</ph>中的方法<ph id="ph2">&lt;xref:System.Runtime.Remoting.Messaging.IMethodCallMessage&gt;</ph>参数。</target>       </trans-unit>
+        <trans-unit id="115" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter">
+          <source>The first object in the graph returned by the <ph id="ph1">&lt;xref:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.DeserializeMethodResponse%2A&gt;</ph> method supports the <ph id="ph2">&lt;xref:System.Runtime.Remoting.Messaging.IMethodReturnMessage&gt;</ph> interface.</source>
+          <target state="translated">返回的图中的第一个对象<ph id="ph1">&lt;xref:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.DeserializeMethodResponse%2A&gt;</ph>方法支持<ph id="ph2">&lt;xref:System.Runtime.Remoting.Messaging.IMethodReturnMessage&gt;</ph>接口。</target>       </trans-unit>
+        <trans-unit id="116" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter">
+          <source>Using binary serialization to deserialize untrusted data can lead to security risks.</source>
+          <target state="translated">使用二进制序列化进行反序列化不受信任的数据，则可能导致的安全风险。</target>       </trans-unit>
+        <trans-unit id="117" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter">
+          <source>For more information, see <bpt id="p1">[</bpt>Data Validation<ept id="p1">](https://www.owasp.org/index.php/Data_Validation)</ept>.</source>
+          <target state="translated">有关详细信息，请参阅<bpt id="p1">[</bpt>数据验证<ept id="p1">](https://www.owasp.org/index.php/Data_Validation)</ept>。</target>       </trans-unit>
+        <trans-unit id="118" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter">
+          <source>Unpaired Surrogates</source>
+          <target state="translated">不成对的代理项</target>       </trans-unit>
+        <trans-unit id="119" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter">
+          <source>Any unpaired surrogate characters are lost in binary serialization.</source>
+          <target state="translated">在二进制序列化情况下会丢失任何不成对的代理项字符。</target>       </trans-unit>
+        <trans-unit id="120" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter">
+          <source>For example, the following string contains a high surrogate Unicode character <ph id="ph1">`(\ud800`</ph>) in between the two <ph id="ph2">`Test`</ph> words:</source>
+          <target state="translated">例如，以下字符串包含一个高代理项 Unicode 字符<ph id="ph1">`(\ud800`</ph>) 之间的两个<ph id="ph2">`Test`</ph>单词：</target>       </trans-unit>
+        <trans-unit id="121" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter">
+          <source>Before serialization, the byte array of the string is as follows:</source>
+          <target state="translated">在序列化之前, 的字节数组的字符串如下所示：</target>       </trans-unit>
+        <trans-unit id="122" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter">
+          <source>Byte Array Value</source>
+          <target state="translated">字节数组值</target>       </trans-unit>
+        <trans-unit id="123" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter">
+          <source>Character</source>
+          <target state="translated">字符</target>       </trans-unit>
+        <trans-unit id="124" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter">
+          <source>84</source>
+          <target state="translated">84</target>       </trans-unit>
+        <trans-unit id="125" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter">
+          <source>T</source>
+          <target state="translated">T</target>       </trans-unit>
+        <trans-unit id="126" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter">
+          <source>101</source>
+          <target state="translated">101</target>       </trans-unit>
+        <trans-unit id="127" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter">
+          <source>e</source>
+          <target state="translated">E</target>       </trans-unit>
+        <trans-unit id="128" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter">
+          <source>115</source>
+          <target state="translated">115</target>       </trans-unit>
+        <trans-unit id="129" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter">
+          <source>s</source>
+          <target state="translated">秒</target>       </trans-unit>
+        <trans-unit id="130" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter">
+          <source>116</source>
+          <target state="translated">116</target>       </trans-unit>
+        <trans-unit id="131" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter">
+          <source>t</source>
+          <target state="translated">t</target>       </trans-unit>
+        <trans-unit id="132" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter">
+          <source>55296</source>
+          <target state="translated">55296</target>       </trans-unit>
+        <trans-unit id="133" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter">
+          <source>\ud800</source>
+          <target state="translated">\ud800</target>       </trans-unit>
+        <trans-unit id="134" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter">
+          <source>84</source>
+          <target state="translated">84</target>       </trans-unit>
+        <trans-unit id="135" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter">
+          <source>T</source>
+          <target state="translated">T</target>       </trans-unit>
+        <trans-unit id="136" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter">
+          <source>101</source>
+          <target state="translated">101</target>       </trans-unit>
+        <trans-unit id="137" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter">
+          <source>e</source>
+          <target state="translated">E</target>       </trans-unit>
+        <trans-unit id="138" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter">
+          <source>115</source>
+          <target state="translated">115</target>       </trans-unit>
+        <trans-unit id="139" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter">
+          <source>s</source>
+          <target state="translated">秒</target>       </trans-unit>
+        <trans-unit id="140" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter">
+          <source>116</source>
+          <target state="translated">116</target>       </trans-unit>
+        <trans-unit id="141" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter">
+          <source>t</source>
+          <target state="translated">t</target>       </trans-unit>
+        <trans-unit id="142" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter">
+          <source>After deserialization, the high surrogate Unicode character is lost:</source>
+          <target state="translated">反序列化后的高代理项 Unicode 字符将丢失：</target>       </trans-unit>
+        <trans-unit id="143" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter">
+          <source>Byte Array Value</source>
+          <target state="translated">字节数组值</target>       </trans-unit>
+        <trans-unit id="144" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter">
+          <source>Character</source>
+          <target state="translated">字符</target>       </trans-unit>
+        <trans-unit id="145" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter">
+          <source>84</source>
+          <target state="translated">84</target>       </trans-unit>
+        <trans-unit id="146" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter">
+          <source>T</source>
+          <target state="translated">T</target>       </trans-unit>
+        <trans-unit id="147" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter">
+          <source>101</source>
+          <target state="translated">101</target>       </trans-unit>
+        <trans-unit id="148" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter">
+          <source>e</source>
+          <target state="translated">E</target>       </trans-unit>
+        <trans-unit id="149" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter">
+          <source>115</source>
+          <target state="translated">115</target>       </trans-unit>
+        <trans-unit id="150" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter">
+          <source>s</source>
+          <target state="translated">秒</target>       </trans-unit>
+        <trans-unit id="151" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter">
+          <source>116</source>
+          <target state="translated">116</target>       </trans-unit>
+        <trans-unit id="152" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter">
+          <source>t</source>
+          <target state="translated">t</target>       </trans-unit>
+        <trans-unit id="153" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter">
+          <source>84</source>
+          <target state="translated">84</target>       </trans-unit>
+        <trans-unit id="154" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter">
+          <source>T</source>
+          <target state="translated">T</target>       </trans-unit>
+        <trans-unit id="155" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter">
+          <source>101</source>
+          <target state="translated">101</target>       </trans-unit>
+        <trans-unit id="156" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter">
+          <source>e</source>
+          <target state="translated">E</target>       </trans-unit>
+        <trans-unit id="157" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter">
+          <source>115</source>
+          <target state="translated">115</target>       </trans-unit>
+        <trans-unit id="158" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter">
+          <source>s</source>
+          <target state="translated">秒</target>       </trans-unit>
+        <trans-unit id="159" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter">
+          <source>116</source>
+          <target state="translated">116</target>       </trans-unit>
+        <trans-unit id="160" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter">
+          <source>t</source>
+          <target state="translated">t</target>       </trans-unit>
+        <trans-unit id="161" translate="yes" xml:space="preserve" uid="T:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter">
+          <source>Initializes a new instance of the <ph id="ph1">&lt;see cref="T:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter" /&gt;</ph> class.</source>
+          <target state="translated">初始化 <ph id="ph1">&lt;see cref="T:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter" /&gt;</ph> 类的新实例。</target>       </trans-unit>
+        <trans-unit id="162" translate="yes" xml:space="preserve" uid="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.#ctor">
+          <source>Initializes a new instance of the <ph id="ph1">&lt;see cref="T:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter" /&gt;</ph> class with default values.</source>
+          <target state="translated">使用默认值初始化 <ph id="ph1">&lt;see cref="T:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter" /&gt;</ph> 类的新实例。</target>       </trans-unit>
+        <trans-unit id="163" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.#ctor">
+          <source>This constructor sets the properties of the <ph id="ph1">&lt;xref:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter&gt;</ph> object as follows:</source>
+          <target state="translated">此构造函数设置的属性<ph id="ph1">&lt;xref:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter&gt;</ph>对象，如下所示：</target>       </trans-unit>
+        <trans-unit id="164" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.#ctor">
+          <source>Property Type</source>
+          <target state="translated">属性类型</target>       </trans-unit>
+        <trans-unit id="165" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.#ctor">
+          <source>Condition</source>
+          <target state="translated">条件</target>       </trans-unit>
+        <trans-unit id="166" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.#ctor">
+          <source>A <ph id="ph1">&lt;xref:System.Runtime.Serialization.StreamingContext&gt;</ph> with a value that indicates that serialized data can be transmitted to or received from any of the other contexts.</source>
+          <target state="translated">A<ph id="ph1">&lt;xref:System.Runtime.Serialization.StreamingContext&gt;</ph>与一个值，指示可以传输到或从任何其他上下文接收序列化的数据。</target>       </trans-unit>
+        <trans-unit id="167" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.#ctor">
+          <source>(<ph id="ph1">&lt;xref:System.Runtime.Serialization.StreamingContextStates.All?displayProperty=nameWithType&gt;</ph>)</source>
+          <target state="translated">(<ph id="ph1">&lt;xref:System.Runtime.Serialization.StreamingContextStates.All?displayProperty=nameWithType&gt;</ph>)</target>       </trans-unit>
+        <trans-unit id="168" translate="yes" xml:space="preserve" uid="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.#ctor(System.Runtime.Serialization.ISurrogateSelector,System.Runtime.Serialization.StreamingContext)">
+          <source>The <ph id="ph1">&lt;see cref="T:System.Runtime.Serialization.ISurrogateSelector" /&gt;</ph> to use.</source>
+          <target state="translated">要使用的 <ph id="ph1">&lt;see cref="T:System.Runtime.Serialization.ISurrogateSelector" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="169" translate="yes" xml:space="preserve" uid="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.#ctor(System.Runtime.Serialization.ISurrogateSelector,System.Runtime.Serialization.StreamingContext)">
+          <source>Can be <ph id="ph1">&lt;see langword="null" /&gt;</ph>.</source>
+          <target state="translated">可以为 <ph id="ph1">&lt;see langword="null" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="170" translate="yes" xml:space="preserve" uid="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.#ctor(System.Runtime.Serialization.ISurrogateSelector,System.Runtime.Serialization.StreamingContext)">
+          <source>The source and destination for the serialized data.</source>
+          <target state="translated">序列化数据的源和目标。</target>       </trans-unit>
+        <trans-unit id="171" translate="yes" xml:space="preserve" uid="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.#ctor(System.Runtime.Serialization.ISurrogateSelector,System.Runtime.Serialization.StreamingContext)">
+          <source>Initializes a new instance of the <ph id="ph1">&lt;see cref="T:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter" /&gt;</ph> class with a given surrogate selector and streaming context.</source>
+          <target state="translated">使用给定的代理项选择器和流上下文来初始化 <ph id="ph1">&lt;see cref="T:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter" /&gt;</ph> 类的新实例。</target>       </trans-unit>
+        <trans-unit id="172" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.#ctor(System.Runtime.Serialization.ISurrogateSelector,System.Runtime.Serialization.StreamingContext)">
+          <source>Initializes a new <ph id="ph1">`BinaryFormatter`</ph> for serialization or deserialization of objects from the specified <ph id="ph2">&lt;xref:System.IO.Stream&gt;</ph>.</source>
+          <target state="translated">初始化新<ph id="ph1">`BinaryFormatter`</ph>用于序列化或反序列化的对象从指定<ph id="ph2">&lt;xref:System.IO.Stream&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="173" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.#ctor(System.Runtime.Serialization.ISurrogateSelector,System.Runtime.Serialization.StreamingContext)">
+          <source>The serialization or deserialization process uses the specified <ph id="ph1">&lt;xref:System.Runtime.Serialization.ISurrogateSelector&gt;</ph> to search for surrogates that are registered for the object types you want to deserialize.</source>
+          <target state="translated">使用指定的序列化或反序列化进程<ph id="ph1">&lt;xref:System.Runtime.Serialization.ISurrogateSelector&gt;</ph>搜索要反序列化的对象类型注册的代理项。</target>       </trans-unit>
+        <trans-unit id="174" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.#ctor(System.Runtime.Serialization.ISurrogateSelector,System.Runtime.Serialization.StreamingContext)">
+          <source>Surrogates are helpers that serialize and deserialize objects of specific classes.</source>
+          <target state="translated">代理项是可序列化和反序列化的特定类的对象的帮助器。</target>       </trans-unit>
+        <trans-unit id="175" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.#ctor(System.Runtime.Serialization.ISurrogateSelector,System.Runtime.Serialization.StreamingContext)">
+          <source>The default <ph id="ph1">&lt;xref:System.Runtime.Serialization.ISurrogateSelector&gt;</ph> cannot handle the serialization of objects that derive from the <ph id="ph2">&lt;xref:System.MarshalByRefObject&gt;</ph> for remoting purposes.</source>
+          <target state="translated">默认值<ph id="ph1">&lt;xref:System.Runtime.Serialization.ISurrogateSelector&gt;</ph>无法处理从派生的对象序列化<ph id="ph2">&lt;xref:System.MarshalByRefObject&gt;</ph>为远程处理目的。</target>       </trans-unit>
+        <trans-unit id="176" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.#ctor(System.Runtime.Serialization.ISurrogateSelector,System.Runtime.Serialization.StreamingContext)">
+          <source>In a remoting situation the specified <ph id="ph1">&lt;xref:System.Runtime.Serialization.ISurrogateSelector&gt;</ph> replaces the object derived from <ph id="ph2">&lt;xref:System.MarshalByRefObject&gt;</ph> with a <ph id="ph3">&lt;xref:System.Runtime.Remoting.ObjRef&gt;</ph> object that is serialized by the specified surrogate selector.</source>
+          <target state="translated">在远程处理的情况下，指定<ph id="ph1">&lt;xref:System.Runtime.Serialization.ISurrogateSelector&gt;</ph>替换派生自对象<ph id="ph2">&lt;xref:System.MarshalByRefObject&gt;</ph>与<ph id="ph3">&lt;xref:System.Runtime.Remoting.ObjRef&gt;</ph>序列化指定的代理项选择器的对象。</target>       </trans-unit>
+        <trans-unit id="177" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.#ctor(System.Runtime.Serialization.ISurrogateSelector,System.Runtime.Serialization.StreamingContext)">
+          <source>Therefore, if you want to use remote objects, set the <ph id="ph1">`selector`</ph> parameter to an instance of <ph id="ph2">&lt;xref:System.Runtime.Remoting.Messaging.RemotingSurrogateSelector&gt;</ph>.</source>
+          <target state="translated">因此，如果你想要使用远程对象，设置<ph id="ph1">`selector`</ph>参数的实例<ph id="ph2">&lt;xref:System.Runtime.Remoting.Messaging.RemotingSurrogateSelector&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="178" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.#ctor(System.Runtime.Serialization.ISurrogateSelector,System.Runtime.Serialization.StreamingContext)">
+          <source>If you do not need surrogates, set the <ph id="ph1">`selector`</ph> parameter to be <ph id="ph2">`null`</ph>.</source>
+          <target state="translated">如果不需要使用代理项，将设置<ph id="ph1">`selector`</ph>参数为<ph id="ph2">`null`</ph>。</target>       </trans-unit>
+        <trans-unit id="179" translate="yes" xml:space="preserve" uid="P:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.AssemblyFormat">
+          <source>Gets or sets the behavior of the deserializer with regards to finding and loading assemblies.</source>
+          <target state="translated">获取或设置与查找加集有关的反序列化器行为。</target>       </trans-unit>
+        <trans-unit id="180" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.AssemblyFormat">
+          <source>One of the <ph id="ph1">&lt;see cref="T:System.Runtime.Serialization.Formatters.FormatterAssemblyStyle" /&gt;</ph> values that specifies the deserializer behavior.</source>
+          <target state="translated"><ph id="ph1">&lt;see cref="T:System.Runtime.Serialization.Formatters.FormatterAssemblyStyle" /&gt;</ph> 值之一，它指定反序列化器行为。</target>       </trans-unit>
+        <trans-unit id="181" translate="yes" xml:space="preserve" uid="P:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.Binder">
+          <source>Gets or sets an object of type <ph id="ph1">&lt;see cref="T:System.Runtime.Serialization.SerializationBinder" /&gt;</ph> that controls the binding of a serialized object to a type.</source>
+          <target state="translated">获取或设置控制将序列化对象绑定到类型的 <ph id="ph1">&lt;see cref="T:System.Runtime.Serialization.SerializationBinder" /&gt;</ph> 类型的对象。</target>       </trans-unit>
+        <trans-unit id="182" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.Binder">
+          <source>The serialization binder to use with this formatter.</source>
+          <target state="translated">要与此格式化程序一起使用的序列化联编程序。</target>       </trans-unit>
+        <trans-unit id="183" translate="yes" xml:space="preserve" uid="P:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.Context">
+          <source>Gets or sets the <ph id="ph1">&lt;see cref="T:System.Runtime.Serialization.StreamingContext" /&gt;</ph> for this formatter.</source>
+          <target state="translated">获取或设置此格式化程序的 <ph id="ph1">&lt;see cref="T:System.Runtime.Serialization.StreamingContext" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="184" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.Context">
+          <source>The streaming context to use with this formatter.</source>
+          <target state="translated">要与此格式化程序一起使用的流上下文。</target>       </trans-unit>
+        <trans-unit id="185" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.Context">
+          <source>The <ph id="ph1">&lt;xref:System.Runtime.Serialization.StreamingContext&gt;</ph> provides an enumeration that describes the source and the destination for a given serialized stream, as well as a way for serialization to retain that context and an additional caller-defined context.</source>
+          <target state="translated"><ph id="ph1">&lt;xref:System.Runtime.Serialization.StreamingContext&gt;</ph>提供描述的源和给定的序列化流的目标以及要保留该上下文和调用方定义的其他上下文的序列化一种方法的枚举。</target>       </trans-unit>
+        <trans-unit id="186" translate="yes" xml:space="preserve" uid="T:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter">
+          <source>Deserializes a stream into an object graph.</source>
+          <target state="translated">将流反序列化为对象图形。</target>       </trans-unit>
+        <trans-unit id="187" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter">
+          <source>Calling this method with untrusted data is a security risk.</source>
+          <target state="translated">调用此方法不受信任的数据会带来安全风险。</target>       </trans-unit>
+        <trans-unit id="188" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter">
+          <source>Call this method only with trusted data.</source>
+          <target state="translated">调用此方法仅受信任的数据。</target>       </trans-unit>
+        <trans-unit id="189" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter">
+          <source>For more information, see <bpt id="p1">[</bpt>Data Validation<ept id="p1">](https://www.owasp.org/index.php/Data_Validation)</ept>.</source>
+          <target state="translated">有关详细信息，请参阅<bpt id="p1">[</bpt>数据验证<ept id="p1">](https://www.owasp.org/index.php/Data_Validation)</ept>。</target>       </trans-unit>
+        <trans-unit id="190" translate="yes" xml:space="preserve" uid="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.Deserialize(System.IO.Stream)">
+          <source>The stream from which to deserialize the object graph.</source>
+          <target state="translated">要从其中反序列化对象图形的流。</target>       </trans-unit>
+        <trans-unit id="191" translate="yes" xml:space="preserve" uid="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.Deserialize(System.IO.Stream)">
+          <source>Deserializes the specified stream into an object graph.</source>
+          <target state="translated">将指定的流反序列化为对象图形。</target>       </trans-unit>
+        <trans-unit id="192" translate="yes" xml:space="preserve" uid="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.Deserialize(System.IO.Stream)">
+          <source>The top (root) of the object graph.</source>
+          <target state="translated">对象图的顶级（根）。</target>       </trans-unit>
+        <trans-unit id="193" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.Deserialize(System.IO.Stream)">
+          <source>For successful deserialization, the current position in the stream must be at the beginning of the object graph.</source>
+          <target state="translated">反序列化成功，流中的当前位置必须是开头的对象图。</target>       </trans-unit>
+        <trans-unit id="194" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.Deserialize(System.IO.Stream)">
+          <source>Calling this method with untrusted data is a security risk.</source>
+          <target state="translated">调用此方法不受信任的数据会带来安全风险。</target>       </trans-unit>
+        <trans-unit id="195" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.Deserialize(System.IO.Stream)">
+          <source>Call this method only with trusted data.</source>
+          <target state="translated">调用此方法仅受信任的数据。</target>       </trans-unit>
+        <trans-unit id="196" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.Deserialize(System.IO.Stream)">
+          <source>For more information, see <bpt id="p1">[</bpt>Data Validation<ept id="p1">](https://www.owasp.org/index.php/Data_Validation)</ept>.</source>
+          <target state="translated">有关详细信息，请参阅<bpt id="p1">[</bpt>数据验证<ept id="p1">](https://www.owasp.org/index.php/Data_Validation)</ept>。</target>       </trans-unit>
+        <trans-unit id="197" translate="yes" xml:space="preserve" uid="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.Deserialize(System.IO.Stream)">
+          <source>The <ph id="ph1">&lt;paramref name="serializationStream" /&gt;</ph> is <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="serializationStream" /&gt;</ph> 为 <ph id="ph2">&lt;see langword="null" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="198" translate="yes" xml:space="preserve" uid="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.Deserialize(System.IO.Stream)">
+          <source>The <ph id="ph1">&lt;paramref name="serializationStream" /&gt;</ph> supports seeking, but its length is 0.</source>
+          <target state="translated">该 <ph id="ph1">&lt;paramref name="serializationStream" /&gt;</ph> 支持查找，但其长度为 0。</target>       </trans-unit>
+        <trans-unit id="199" translate="yes" xml:space="preserve" uid="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.Deserialize(System.IO.Stream)">
+          <source>-or-</source>
+          <target state="translated">或</target>       </trans-unit>
+        <trans-unit id="200" translate="yes" xml:space="preserve" uid="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.Deserialize(System.IO.Stream)">
+          <source>The target type is a <ph id="ph1">&lt;see cref="T:System.Decimal" /&gt;</ph>, but the value is out of range of the <ph id="ph2">&lt;see cref="T:System.Decimal" /&gt;</ph> type.</source>
+          <target state="translated">目标类型为 <ph id="ph1">&lt;see cref="T:System.Decimal" /&gt;</ph>，但是值超出了 <ph id="ph2">&lt;see cref="T:System.Decimal" /&gt;</ph> 类型的范围。</target>       </trans-unit>
+        <trans-unit id="201" translate="yes" xml:space="preserve" uid="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.Deserialize(System.IO.Stream)">
+          <source>The caller does not have the required permission.</source>
+          <target state="translated">调用方没有所要求的权限。</target>       </trans-unit>
+        <trans-unit id="202" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.Deserialize(System.IO.Stream)">
+          <source>To provide serialization services.</source>
+          <target state="translated">若要提供序列化服务。</target>       </trans-unit>
+        <trans-unit id="203" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.Deserialize(System.IO.Stream)">
+          <source>Associated enumeration: <ph id="ph1">&lt;see cref="F:System.Security.Permissions.SecurityPermissionFlag.SerializationFormatter" /&gt;</ph>.</source>
+          <target state="translated">关联枚举：<ph id="ph1">&lt;see cref="F:System.Security.Permissions.SecurityPermissionFlag.SerializationFormatter" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="204" translate="yes" xml:space="preserve" uid="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.Deserialize(System.IO.Stream,System.Runtime.Remoting.Messaging.HeaderHandler)">
+          <source>The stream from which to deserialize the object graph.</source>
+          <target state="translated">要从其中反序列化对象图形的流。</target>       </trans-unit>
+        <trans-unit id="205" translate="yes" xml:space="preserve" uid="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.Deserialize(System.IO.Stream,System.Runtime.Remoting.Messaging.HeaderHandler)">
+          <source>The <ph id="ph1">&lt;see cref="T:System.Runtime.Remoting.Messaging.HeaderHandler" /&gt;</ph> that handles any headers in the <bpt id="p1">&lt;c&gt;</bpt>serializationStream<ept id="p1">&lt;/c&gt;</ept>.</source>
+          <target state="translated">处理 <bpt id="p1">&lt;c&gt;</bpt>serializationStream<ept id="p1">&lt;/c&gt;</ept> 中的任何标头的 <ph id="ph1">&lt;see cref="T:System.Runtime.Remoting.Messaging.HeaderHandler" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="206" translate="yes" xml:space="preserve" uid="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.Deserialize(System.IO.Stream,System.Runtime.Remoting.Messaging.HeaderHandler)">
+          <source>Can be <ph id="ph1">&lt;see langword="null" /&gt;</ph>.</source>
+          <target state="translated">可以为 <ph id="ph1">&lt;see langword="null" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="207" translate="yes" xml:space="preserve" uid="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.Deserialize(System.IO.Stream,System.Runtime.Remoting.Messaging.HeaderHandler)">
+          <source>Deserializes the specified stream into an object graph.</source>
+          <target state="translated">将指定的流反序列化为对象图形。</target>       </trans-unit>
+        <trans-unit id="208" translate="yes" xml:space="preserve" uid="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.Deserialize(System.IO.Stream,System.Runtime.Remoting.Messaging.HeaderHandler)">
+          <source>The provided <ph id="ph1">&lt;see cref="T:System.Runtime.Remoting.Messaging.HeaderHandler" /&gt;</ph> handles any headers in that stream.</source>
+          <target state="translated">所提供的 <ph id="ph1">&lt;see cref="T:System.Runtime.Remoting.Messaging.HeaderHandler" /&gt;</ph> 处理该流中的任何标题。</target>       </trans-unit>
+        <trans-unit id="209" translate="yes" xml:space="preserve" uid="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.Deserialize(System.IO.Stream,System.Runtime.Remoting.Messaging.HeaderHandler)">
+          <source>The deserialized object or the top object (root) of the object graph.</source>
+          <target state="translated">反序列化的对象或对象图形的顶级对象（根）。</target>       </trans-unit>
+        <trans-unit id="210" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.Deserialize(System.IO.Stream,System.Runtime.Remoting.Messaging.HeaderHandler)">
+          <source>Headers are used only for specific remoting applications.</source>
+          <target state="translated">标头仅用于特定远程处理应用程序。</target>       </trans-unit>
+        <trans-unit id="211" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.Deserialize(System.IO.Stream,System.Runtime.Remoting.Messaging.HeaderHandler)">
+          <source>In order for deserialization to succeed the current position in the stream must be at the beginning of the object graph.</source>
+          <target state="translated">在反序列化成功的顺序流中的当前位置必须开头的对象图。</target>       </trans-unit>
+        <trans-unit id="212" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.Deserialize(System.IO.Stream,System.Runtime.Remoting.Messaging.HeaderHandler)">
+          <source>Calling this method with untrusted data is a security risk.</source>
+          <target state="translated">调用此方法不受信任的数据会带来安全风险。</target>       </trans-unit>
+        <trans-unit id="213" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.Deserialize(System.IO.Stream,System.Runtime.Remoting.Messaging.HeaderHandler)">
+          <source>Call this method only with trusted data.</source>
+          <target state="translated">调用此方法仅受信任的数据。</target>       </trans-unit>
+        <trans-unit id="214" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.Deserialize(System.IO.Stream,System.Runtime.Remoting.Messaging.HeaderHandler)">
+          <source>For more information, see <bpt id="p1">[</bpt>Data Validation<ept id="p1">](https://www.owasp.org/index.php/Data_Validation)</ept>.</source>
+          <target state="translated">有关详细信息，请参阅<bpt id="p1">[</bpt>数据验证<ept id="p1">](https://www.owasp.org/index.php/Data_Validation)</ept>。</target>       </trans-unit>
+        <trans-unit id="215" translate="yes" xml:space="preserve" uid="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.Deserialize(System.IO.Stream,System.Runtime.Remoting.Messaging.HeaderHandler)">
+          <source>The <ph id="ph1">&lt;paramref name="serializationStream" /&gt;</ph> is <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="serializationStream" /&gt;</ph> 为 <ph id="ph2">&lt;see langword="null" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="216" translate="yes" xml:space="preserve" uid="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.Deserialize(System.IO.Stream,System.Runtime.Remoting.Messaging.HeaderHandler)">
+          <source>The <ph id="ph1">&lt;paramref name="serializationStream" /&gt;</ph> supports seeking, but its length is 0.</source>
+          <target state="translated">该 <ph id="ph1">&lt;paramref name="serializationStream" /&gt;</ph> 支持查找，但其长度为 0。</target>       </trans-unit>
+        <trans-unit id="217" translate="yes" xml:space="preserve" uid="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.Deserialize(System.IO.Stream,System.Runtime.Remoting.Messaging.HeaderHandler)">
+          <source>-or-</source>
+          <target state="translated">或</target>       </trans-unit>
+        <trans-unit id="218" translate="yes" xml:space="preserve" uid="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.Deserialize(System.IO.Stream,System.Runtime.Remoting.Messaging.HeaderHandler)">
+          <source>The target type is a <ph id="ph1">&lt;see cref="T:System.Decimal" /&gt;</ph>, but the value is out of range of the <ph id="ph2">&lt;see cref="T:System.Decimal" /&gt;</ph> type.</source>
+          <target state="translated">目标类型为 <ph id="ph1">&lt;see cref="T:System.Decimal" /&gt;</ph>，但是值超出了 <ph id="ph2">&lt;see cref="T:System.Decimal" /&gt;</ph> 类型的范围。</target>       </trans-unit>
+        <trans-unit id="219" translate="yes" xml:space="preserve" uid="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.Deserialize(System.IO.Stream,System.Runtime.Remoting.Messaging.HeaderHandler)">
+          <source>The caller does not have the required permission.</source>
+          <target state="translated">调用方没有所要求的权限。</target>       </trans-unit>
+        <trans-unit id="220" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.Deserialize(System.IO.Stream,System.Runtime.Remoting.Messaging.HeaderHandler)">
+          <source>To provide serialization services.</source>
+          <target state="translated">若要提供序列化服务。</target>       </trans-unit>
+        <trans-unit id="221" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.Deserialize(System.IO.Stream,System.Runtime.Remoting.Messaging.HeaderHandler)">
+          <source>Associated enumeration: <ph id="ph1">&lt;see cref="F:System.Security.Permissions.SecurityPermissionFlag.SerializationFormatter" /&gt;</ph>.</source>
+          <target state="translated">关联枚举：<ph id="ph1">&lt;see cref="F:System.Security.Permissions.SecurityPermissionFlag.SerializationFormatter" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="222" translate="yes" xml:space="preserve" uid="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.DeserializeMethodResponse(System.IO.Stream,System.Runtime.Remoting.Messaging.HeaderHandler,System.Runtime.Remoting.Messaging.IMethodCallMessage)">
+          <source>The stream from which to deserialize the object graph.</source>
+          <target state="translated">要从其中反序列化对象图形的流。</target>       </trans-unit>
+        <trans-unit id="223" translate="yes" xml:space="preserve" uid="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.DeserializeMethodResponse(System.IO.Stream,System.Runtime.Remoting.Messaging.HeaderHandler,System.Runtime.Remoting.Messaging.IMethodCallMessage)">
+          <source>The <ph id="ph1">&lt;see cref="T:System.Runtime.Remoting.Messaging.HeaderHandler" /&gt;</ph> that handles any headers in the <bpt id="p1">&lt;c&gt;</bpt>serializationStream<ept id="p1">&lt;/c&gt;</ept>.</source>
+          <target state="translated">处理 <bpt id="p1">&lt;c&gt;</bpt>serializationStream<ept id="p1">&lt;/c&gt;</ept> 中的任何标头的 <ph id="ph1">&lt;see cref="T:System.Runtime.Remoting.Messaging.HeaderHandler" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="224" translate="yes" xml:space="preserve" uid="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.DeserializeMethodResponse(System.IO.Stream,System.Runtime.Remoting.Messaging.HeaderHandler,System.Runtime.Remoting.Messaging.IMethodCallMessage)">
+          <source>Can be <ph id="ph1">&lt;see langword="null" /&gt;</ph>.</source>
+          <target state="translated">可以为 <ph id="ph1">&lt;see langword="null" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="225" translate="yes" xml:space="preserve" uid="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.DeserializeMethodResponse(System.IO.Stream,System.Runtime.Remoting.Messaging.HeaderHandler,System.Runtime.Remoting.Messaging.IMethodCallMessage)">
+          <source>The <ph id="ph1">&lt;see cref="T:System.Runtime.Remoting.Messaging.IMethodCallMessage" /&gt;</ph> that contains details about where the call came from.</source>
+          <target state="translated">该 <ph id="ph1">&lt;see cref="T:System.Runtime.Remoting.Messaging.IMethodCallMessage" /&gt;</ph> 包含有关调用出处的详细信息。</target>       </trans-unit>
+        <trans-unit id="226" translate="yes" xml:space="preserve" uid="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.DeserializeMethodResponse(System.IO.Stream,System.Runtime.Remoting.Messaging.HeaderHandler,System.Runtime.Remoting.Messaging.IMethodCallMessage)">
+          <source>Deserializes a response to a remote method call from the provided <ph id="ph1">&lt;see cref="T:System.IO.Stream" /&gt;</ph>.</source>
+          <target state="translated">将对远程方法调用的响应从所提供的 <ph id="ph1">&lt;see cref="T:System.IO.Stream" /&gt;</ph> 进行反序列化。</target>       </trans-unit>
+        <trans-unit id="227" translate="yes" xml:space="preserve" uid="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.DeserializeMethodResponse(System.IO.Stream,System.Runtime.Remoting.Messaging.HeaderHandler,System.Runtime.Remoting.Messaging.IMethodCallMessage)">
+          <source>The deserialized response to the remote method call.</source>
+          <target state="translated">对远程方法调用的反序列化响应。</target>       </trans-unit>
+        <trans-unit id="228" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.DeserializeMethodResponse(System.IO.Stream,System.Runtime.Remoting.Messaging.HeaderHandler,System.Runtime.Remoting.Messaging.IMethodCallMessage)">
+          <source>Details about the caller object are not sent to the remote object during the method call.</source>
+          <target state="translated">调用方对象有关的详细信息是在方法调用期间不发送到远程对象。</target>       </trans-unit>
+        <trans-unit id="229" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.DeserializeMethodResponse(System.IO.Stream,System.Runtime.Remoting.Messaging.HeaderHandler,System.Runtime.Remoting.Messaging.IMethodCallMessage)">
+          <source>Instead, these details are obtained from the original method call that is passed to the current method in the <ph id="ph1">`methodCallMessage`</ph> parameter.</source>
+          <target state="translated">相反，这些详细信息可从传递给当前方法中的原始方法调用中获得<ph id="ph1">`methodCallMessage`</ph>参数。</target>       </trans-unit>
+        <trans-unit id="230" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.DeserializeMethodResponse(System.IO.Stream,System.Runtime.Remoting.Messaging.HeaderHandler,System.Runtime.Remoting.Messaging.IMethodCallMessage)">
+          <source>In order for deserialization to succeed the current position in the stream must be at the beginning of the object graph.</source>
+          <target state="translated">在反序列化成功的顺序流中的当前位置必须开头的对象图。</target>       </trans-unit>
+        <trans-unit id="231" translate="yes" xml:space="preserve" uid="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.DeserializeMethodResponse(System.IO.Stream,System.Runtime.Remoting.Messaging.HeaderHandler,System.Runtime.Remoting.Messaging.IMethodCallMessage)">
+          <source>The <ph id="ph1">&lt;paramref name="serializationStream" /&gt;</ph> is <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="serializationStream" /&gt;</ph> 为 <ph id="ph2">&lt;see langword="null" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="232" translate="yes" xml:space="preserve" uid="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.DeserializeMethodResponse(System.IO.Stream,System.Runtime.Remoting.Messaging.HeaderHandler,System.Runtime.Remoting.Messaging.IMethodCallMessage)">
+          <source>The <ph id="ph1">&lt;paramref name="serializationStream" /&gt;</ph> supports seeking, but its length is 0.</source>
+          <target state="translated">该 <ph id="ph1">&lt;paramref name="serializationStream" /&gt;</ph> 支持查找，但其长度为 0。</target>       </trans-unit>
+        <trans-unit id="233" translate="yes" xml:space="preserve" uid="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.DeserializeMethodResponse(System.IO.Stream,System.Runtime.Remoting.Messaging.HeaderHandler,System.Runtime.Remoting.Messaging.IMethodCallMessage)">
+          <source>The caller does not have the required permission.</source>
+          <target state="translated">调用方没有所要求的权限。</target>       </trans-unit>
+        <trans-unit id="234" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.DeserializeMethodResponse(System.IO.Stream,System.Runtime.Remoting.Messaging.HeaderHandler,System.Runtime.Remoting.Messaging.IMethodCallMessage)">
+          <source>To provide serialization services.</source>
+          <target state="translated">若要提供序列化服务。</target>       </trans-unit>
+        <trans-unit id="235" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.DeserializeMethodResponse(System.IO.Stream,System.Runtime.Remoting.Messaging.HeaderHandler,System.Runtime.Remoting.Messaging.IMethodCallMessage)">
+          <source>Associated enumeration: <ph id="ph1">&lt;see cref="F:System.Security.Permissions.SecurityPermissionFlag.SerializationFormatter" /&gt;</ph>.</source>
+          <target state="translated">关联枚举：<ph id="ph1">&lt;see cref="F:System.Security.Permissions.SecurityPermissionFlag.SerializationFormatter" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="236" translate="yes" xml:space="preserve" uid="P:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.FilterLevel">
+          <source>Gets or sets the <ph id="ph1">&lt;see cref="T:System.Runtime.Serialization.Formatters.TypeFilterLevel" /&gt;</ph> of automatic deserialization the <ph id="ph2">&lt;see cref="T:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter" /&gt;</ph> performs.</source>
+          <target state="translated">获取或设置 <ph id="ph1">&lt;see cref="T:System.Runtime.Serialization.Formatters.TypeFilterLevel" /&gt;</ph> 所执行的自动反序列化的 <ph id="ph2">&lt;see cref="T:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="237" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.FilterLevel">
+          <source>The <ph id="ph1">&lt;see cref="T:System.Runtime.Serialization.Formatters.TypeFilterLevel" /&gt;</ph> that represents the current automatic deserialization level.</source>
+          <target state="translated">表示当前自动反序列化级别的 <ph id="ph1">&lt;see cref="T:System.Runtime.Serialization.Formatters.TypeFilterLevel" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="238" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.FilterLevel">
+          <source>Supported values are <ph id="ph1">&lt;xref:System.Runtime.Serialization.Formatters.TypeFilterLevel.Low&gt;</ph> and <ph id="ph2">&lt;xref:System.Runtime.Serialization.Formatters.TypeFilterLevel.Full&gt;</ph> (the default).</source>
+          <target state="translated">支持的值为<ph id="ph1">&lt;xref:System.Runtime.Serialization.Formatters.TypeFilterLevel.Low&gt;</ph>和<ph id="ph2">&lt;xref:System.Runtime.Serialization.Formatters.TypeFilterLevel.Full&gt;</ph>（默认值）。</target>       </trans-unit>
+        <trans-unit id="239" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.FilterLevel">
+          <source>For details about deserialization levels, see <bpt id="p1">[</bpt>&amp;#91;<ph id="ph1">\&lt;</ph>topic://cpconAutomaticDeserializationInNETRemoting&gt;&amp;#93;<ept id="p1">](http://msdn.microsoft.com/library/313a0e88-5b2b-4a17-8391-0ddf9f7a787b)</ept>.</source>
+          <target state="translated">反序列化级别详细信息，请参阅<bpt id="p1">[</bpt> &amp;#91; <ph id="ph1">\&lt;</ph>topic://cpconAutomaticDeserializationInNETRemoting &gt;&amp;#93;<ept id="p1">](http://msdn.microsoft.com/library/313a0e88-5b2b-4a17-8391-0ddf9f7a787b)</ept>。</target>       </trans-unit>
+        <trans-unit id="240" translate="yes" xml:space="preserve" uid="T:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter">
+          <source>Serializes an object, or graph of connected objects, to the given stream.</source>
+          <target state="translated">将对象或连接对象图形序列化为给定流。</target>       </trans-unit>
+        <trans-unit id="241" translate="yes" xml:space="preserve" uid="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.Serialize(System.IO.Stream,System.Object)">
+          <source>The stream to which the graph is to be serialized.</source>
+          <target state="translated">图形要序列化为的流。</target>       </trans-unit>
+        <trans-unit id="242" translate="yes" xml:space="preserve" uid="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.Serialize(System.IO.Stream,System.Object)">
+          <source>The object at the root of the graph to serialize.</source>
+          <target state="translated">位于要序列化图形的根位置的对象。</target>       </trans-unit>
+        <trans-unit id="243" translate="yes" xml:space="preserve" uid="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.Serialize(System.IO.Stream,System.Object)">
+          <source>Serializes the object, or graph of objects with the specified top (root), to the given stream.</source>
+          <target state="translated">将对象或具有指定顶级（根）的对象图形序列化为给定流。</target>       </trans-unit>
+        <trans-unit id="244" translate="yes" xml:space="preserve" uid="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.Serialize(System.IO.Stream,System.Object)">
+          <source>The <ph id="ph1">&lt;paramref name="serializationStream" /&gt;</ph> is <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="serializationStream" /&gt;</ph> 为 <ph id="ph2">&lt;see langword="null" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="245" translate="yes" xml:space="preserve" uid="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.Serialize(System.IO.Stream,System.Object)">
+          <source>-or-</source>
+          <target state="translated">或</target>       </trans-unit>
+        <trans-unit id="246" translate="yes" xml:space="preserve" uid="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.Serialize(System.IO.Stream,System.Object)">
+          <source>The <ph id="ph1">&lt;paramref name="graph" /&gt;</ph> is null.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="graph" /&gt;</ph> 为 null。</target>       </trans-unit>
+        <trans-unit id="247" translate="yes" xml:space="preserve" uid="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.Serialize(System.IO.Stream,System.Object)">
+          <source>An error has occurred during serialization, such as if an object in the <ph id="ph1">&lt;paramref name="graph" /&gt;</ph> parameter is not marked as serializable.</source>
+          <target state="translated">序列化期间发生错误，如 <ph id="ph1">&lt;paramref name="graph" /&gt;</ph> 参数中的某个对象未标记为可序列化。</target>       </trans-unit>
+        <trans-unit id="248" translate="yes" xml:space="preserve" uid="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.Serialize(System.IO.Stream,System.Object)">
+          <source>The caller does not have the required permission.</source>
+          <target state="translated">调用方没有所要求的权限。</target>       </trans-unit>
+        <trans-unit id="249" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.Serialize(System.IO.Stream,System.Object)">
+          <source>To provide serialization services.</source>
+          <target state="translated">若要提供序列化服务。</target>       </trans-unit>
+        <trans-unit id="250" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.Serialize(System.IO.Stream,System.Object)">
+          <source>Associated enumeration: <ph id="ph1">&lt;see cref="F:System.Security.Permissions.SecurityPermissionFlag.SerializationFormatter" /&gt;</ph>.</source>
+          <target state="translated">关联枚举：<ph id="ph1">&lt;see cref="F:System.Security.Permissions.SecurityPermissionFlag.SerializationFormatter" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="251" translate="yes" xml:space="preserve" uid="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.Serialize(System.IO.Stream,System.Object,System.Runtime.Remoting.Messaging.Header[])">
+          <source>The stream to which the object is to be serialized.</source>
+          <target state="translated">对象要序列化为的流。</target>       </trans-unit>
+        <trans-unit id="252" translate="yes" xml:space="preserve" uid="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.Serialize(System.IO.Stream,System.Object,System.Runtime.Remoting.Messaging.Header[])">
+          <source>The object at the root of the graph to serialize.</source>
+          <target state="translated">位于要序列化图形的根位置的对象。</target>       </trans-unit>
+        <trans-unit id="253" translate="yes" xml:space="preserve" uid="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.Serialize(System.IO.Stream,System.Object,System.Runtime.Remoting.Messaging.Header[])">
+          <source>Remoting headers to include in the serialization.</source>
+          <target state="translated">将包括在序列化中的远程处理标题。</target>       </trans-unit>
+        <trans-unit id="254" translate="yes" xml:space="preserve" uid="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.Serialize(System.IO.Stream,System.Object,System.Runtime.Remoting.Messaging.Header[])">
+          <source>Can be <ph id="ph1">&lt;see langword="null" /&gt;</ph>.</source>
+          <target state="translated">可以为 <ph id="ph1">&lt;see langword="null" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="255" translate="yes" xml:space="preserve" uid="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.Serialize(System.IO.Stream,System.Object,System.Runtime.Remoting.Messaging.Header[])">
+          <source>Serializes the object, or graph of objects with the specified top (root), to the given stream attaching the provided headers.</source>
+          <target state="translated">将对象或具有指定顶级（根）的对象图形序列化为附加所提供标题的给定流。</target>       </trans-unit>
+        <trans-unit id="256" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.Serialize(System.IO.Stream,System.Object,System.Runtime.Remoting.Messaging.Header[])">
+          <source>The serialization process includes the information supplied in the <ph id="ph1">`headers`</ph> parameter at the front of the serialized stream.</source>
+          <target state="translated">序列化过程包括中提供的信息<ph id="ph1">`headers`</ph>前部的序列化流的参数。</target>       </trans-unit>
+        <trans-unit id="257" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.Serialize(System.IO.Stream,System.Object,System.Runtime.Remoting.Messaging.Header[])">
+          <source>Headers are used only for specific remoting applications.</source>
+          <target state="translated">标头仅用于特定远程处理应用程序。</target>       </trans-unit>
+        <trans-unit id="258" translate="yes" xml:space="preserve" uid="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.Serialize(System.IO.Stream,System.Object,System.Runtime.Remoting.Messaging.Header[])">
+          <source>The <ph id="ph1">&lt;paramref name="serializationStream" /&gt;</ph> is <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="serializationStream" /&gt;</ph> 为 <ph id="ph2">&lt;see langword="null" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="259" translate="yes" xml:space="preserve" uid="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.Serialize(System.IO.Stream,System.Object,System.Runtime.Remoting.Messaging.Header[])">
+          <source>An error has occurred during serialization, such as if an object in the <ph id="ph1">&lt;paramref name="graph" /&gt;</ph> parameter is not marked as serializable.</source>
+          <target state="translated">序列化期间发生错误，如 <ph id="ph1">&lt;paramref name="graph" /&gt;</ph> 参数中的某个对象未标记为可序列化。</target>       </trans-unit>
+        <trans-unit id="260" translate="yes" xml:space="preserve" uid="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.Serialize(System.IO.Stream,System.Object,System.Runtime.Remoting.Messaging.Header[])">
+          <source>The caller does not have the required permission.</source>
+          <target state="translated">调用方没有所要求的权限。</target>       </trans-unit>
+        <trans-unit id="261" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.Serialize(System.IO.Stream,System.Object,System.Runtime.Remoting.Messaging.Header[])">
+          <source>To provide serialization services.</source>
+          <target state="translated">若要提供序列化服务。</target>       </trans-unit>
+        <trans-unit id="262" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.Serialize(System.IO.Stream,System.Object,System.Runtime.Remoting.Messaging.Header[])">
+          <source>Associated enumeration: <ph id="ph1">&lt;see cref="F:System.Security.Permissions.SecurityPermissionFlag.SerializationFormatter" /&gt;</ph>.</source>
+          <target state="translated">关联枚举：<ph id="ph1">&lt;see cref="F:System.Security.Permissions.SecurityPermissionFlag.SerializationFormatter" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="263" translate="yes" xml:space="preserve" uid="P:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.SurrogateSelector">
+          <source>Gets or sets a <ph id="ph1">&lt;see cref="T:System.Runtime.Serialization.ISurrogateSelector" /&gt;</ph> that controls type substitution during serialization and deserialization.</source>
+          <target state="translated">获取或设置控制序列化和反序列化过程的类型替换的 <ph id="ph1">&lt;see cref="T:System.Runtime.Serialization.ISurrogateSelector" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="264" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.SurrogateSelector">
+          <source>The surrogate selector to use with this formatter.</source>
+          <target state="translated">要与此格式化程序一起使用的代理项选择器。</target>       </trans-unit>
+        <trans-unit id="265" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.SurrogateSelector">
+          <source>The surrogate selector is used by <ph id="ph1">&lt;xref:System.Runtime.Remoting&gt;</ph> to generate <ph id="ph2">&lt;xref:System.Runtime.Remoting.ObjRef&gt;</ph> instances for objects that derive from <ph id="ph3">&lt;xref:System.MarshalByRefObject&gt;</ph>.</source>
+          <target state="translated">使用代理项选择器<ph id="ph1">&lt;xref:System.Runtime.Remoting&gt;</ph>生成<ph id="ph2">&lt;xref:System.Runtime.Remoting.ObjRef&gt;</ph>派生的对象的实例<ph id="ph3">&lt;xref:System.MarshalByRefObject&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="266" translate="yes" xml:space="preserve" uid="P:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.TypeFormat">
+          <source>Gets or sets the format in which type descriptions are laid out in the serialized stream.</source>
+          <target state="translated">获取或设置类型说明在序列化流中的布局格式。</target>       </trans-unit>
+        <trans-unit id="267" translate="yes" xml:space="preserve" extradata="MT" uid="P:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.TypeFormat">
+          <source>The style of type layouts to use.</source>
+          <target state="translated">要使用的类型布局的样式。</target>       </trans-unit>
+        <trans-unit id="268" translate="yes" xml:space="preserve" uid="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.UnsafeDeserialize(System.IO.Stream,System.Runtime.Remoting.Messaging.HeaderHandler)">
+          <source>The stream from which to deserialize the object graph.</source>
+          <target state="translated">要从其中反序列化对象图形的流。</target>       </trans-unit>
+        <trans-unit id="269" translate="yes" xml:space="preserve" uid="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.UnsafeDeserialize(System.IO.Stream,System.Runtime.Remoting.Messaging.HeaderHandler)">
+          <source>The <ph id="ph1">&lt;see cref="T:System.Runtime.Remoting.Messaging.HeaderHandler" /&gt;</ph> that handles any headers in the <bpt id="p1">&lt;c&gt;</bpt>serializationStream<ept id="p1">&lt;/c&gt;</ept>.</source>
+          <target state="translated">处理 <bpt id="p1">&lt;c&gt;</bpt>serializationStream<ept id="p1">&lt;/c&gt;</ept> 中的任何标头的 <ph id="ph1">&lt;see cref="T:System.Runtime.Remoting.Messaging.HeaderHandler" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="270" translate="yes" xml:space="preserve" uid="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.UnsafeDeserialize(System.IO.Stream,System.Runtime.Remoting.Messaging.HeaderHandler)">
+          <source>Can be <ph id="ph1">&lt;see langword="null" /&gt;</ph>.</source>
+          <target state="translated">可以为 <ph id="ph1">&lt;see langword="null" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="271" translate="yes" xml:space="preserve" uid="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.UnsafeDeserialize(System.IO.Stream,System.Runtime.Remoting.Messaging.HeaderHandler)">
+          <source>Deserializes the specified stream into an object graph.</source>
+          <target state="translated">将指定的流反序列化为对象图形。</target>       </trans-unit>
+        <trans-unit id="272" translate="yes" xml:space="preserve" uid="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.UnsafeDeserialize(System.IO.Stream,System.Runtime.Remoting.Messaging.HeaderHandler)">
+          <source>The provided <ph id="ph1">&lt;see cref="T:System.Runtime.Remoting.Messaging.HeaderHandler" /&gt;</ph> handles any headers in that stream.</source>
+          <target state="translated">所提供的 <ph id="ph1">&lt;see cref="T:System.Runtime.Remoting.Messaging.HeaderHandler" /&gt;</ph> 处理该流中的任何标题。</target>       </trans-unit>
+        <trans-unit id="273" translate="yes" xml:space="preserve" uid="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.UnsafeDeserialize(System.IO.Stream,System.Runtime.Remoting.Messaging.HeaderHandler)">
+          <source>The deserialized object or the top object (root) of the object graph.</source>
+          <target state="translated">反序列化的对象或对象图形的顶级对象（根）。</target>       </trans-unit>
+        <trans-unit id="274" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.UnsafeDeserialize(System.IO.Stream,System.Runtime.Remoting.Messaging.HeaderHandler)">
+          <source>Headers are used only for specific remoting applications.</source>
+          <target state="translated">标头仅用于特定远程处理应用程序。</target>       </trans-unit>
+        <trans-unit id="275" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.UnsafeDeserialize(System.IO.Stream,System.Runtime.Remoting.Messaging.HeaderHandler)">
+          <source>This method uses <ph id="ph1">&lt;xref:System.Security.Permissions.SecurityAction.LinkDemand?displayProperty=nameWithType&gt;</ph> to prevent it from being called from untrusted code; only the immediate caller is required to have <ph id="ph2">&lt;xref:System.Security.Permissions.SecurityPermissionAttribute.SerializationFormatter%2A?displayProperty=nameWithType&gt;</ph> permission.</source>
+          <target state="translated">此方法使用<ph id="ph1">&lt;xref:System.Security.Permissions.SecurityAction.LinkDemand?displayProperty=nameWithType&gt;</ph>，防止它调用不受信任代码; 只能直接调用方需要具有<ph id="ph2">&lt;xref:System.Security.Permissions.SecurityPermissionAttribute.SerializationFormatter%2A?displayProperty=nameWithType&gt;</ph>权限。</target>       </trans-unit>
+        <trans-unit id="276" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.UnsafeDeserialize(System.IO.Stream,System.Runtime.Remoting.Messaging.HeaderHandler)">
+          <source>Do not use this method if your code can be called from partially trusted code.</source>
+          <target state="translated">如果可以从部分受信任代码调用你的代码，则不要使用此方法。</target>       </trans-unit>
+        <trans-unit id="277" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.UnsafeDeserialize(System.IO.Stream,System.Runtime.Remoting.Messaging.HeaderHandler)">
+          <source>In partially trusted scenarios, use <ph id="ph1">&lt;xref:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.Deserialize%2A&gt;</ph> instead.</source>
+          <target state="translated">在部分受信任的情况下，使用<ph id="ph1">&lt;xref:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.Deserialize%2A&gt;</ph>相反。</target>       </trans-unit>
+        <trans-unit id="278" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.UnsafeDeserialize(System.IO.Stream,System.Runtime.Remoting.Messaging.HeaderHandler)">
+          <source>In full trust scenarios, <ph id="ph1">&lt;xref:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.UnsafeDeserialize%2A&gt;</ph> provides better performance than <ph id="ph2">&lt;xref:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.Deserialize%2A&gt;</ph>.</source>
+          <target state="translated">在完全信任方案中，<ph id="ph1">&lt;xref:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.UnsafeDeserialize%2A&gt;</ph>提供更好的性能比<ph id="ph2">&lt;xref:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.Deserialize%2A&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="279" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.UnsafeDeserialize(System.IO.Stream,System.Runtime.Remoting.Messaging.HeaderHandler)">
+          <source>For successful deserialization, the current position in the stream must be at the beginning of the object graph.</source>
+          <target state="translated">反序列化成功，流中的当前位置必须是开头的对象图。</target>       </trans-unit>
+        <trans-unit id="280" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.UnsafeDeserialize(System.IO.Stream,System.Runtime.Remoting.Messaging.HeaderHandler)">
+          <source>Calling this method with untrusted data is a security risk.</source>
+          <target state="translated">调用此方法不受信任的数据会带来安全风险。</target>       </trans-unit>
+        <trans-unit id="281" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.UnsafeDeserialize(System.IO.Stream,System.Runtime.Remoting.Messaging.HeaderHandler)">
+          <source>Call this method only with trusted data.</source>
+          <target state="translated">调用此方法仅受信任的数据。</target>       </trans-unit>
+        <trans-unit id="282" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.UnsafeDeserialize(System.IO.Stream,System.Runtime.Remoting.Messaging.HeaderHandler)">
+          <source>For more information, see <bpt id="p1">[</bpt>Data Validation<ept id="p1">](https://www.owasp.org/index.php/Data_Validation)</ept>.</source>
+          <target state="translated">有关详细信息，请参阅<bpt id="p1">[</bpt>数据验证<ept id="p1">](https://www.owasp.org/index.php/Data_Validation)</ept>。</target>       </trans-unit>
+        <trans-unit id="283" translate="yes" xml:space="preserve" uid="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.UnsafeDeserialize(System.IO.Stream,System.Runtime.Remoting.Messaging.HeaderHandler)">
+          <source>The <ph id="ph1">&lt;paramref name="serializationStream" /&gt;</ph> is <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="serializationStream" /&gt;</ph> 为 <ph id="ph2">&lt;see langword="null" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="284" translate="yes" xml:space="preserve" uid="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.UnsafeDeserialize(System.IO.Stream,System.Runtime.Remoting.Messaging.HeaderHandler)">
+          <source>The <ph id="ph1">&lt;paramref name="serializationStream" /&gt;</ph> supports seeking, but its length is 0.</source>
+          <target state="translated">该 <ph id="ph1">&lt;paramref name="serializationStream" /&gt;</ph> 支持查找，但其长度为 0。</target>       </trans-unit>
+        <trans-unit id="285" translate="yes" xml:space="preserve" uid="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.UnsafeDeserialize(System.IO.Stream,System.Runtime.Remoting.Messaging.HeaderHandler)">
+          <source>The caller does not have the required permission.</source>
+          <target state="translated">调用方没有所要求的权限。</target>       </trans-unit>
+        <trans-unit id="286" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.UnsafeDeserialize(System.IO.Stream,System.Runtime.Remoting.Messaging.HeaderHandler)">
+          <source>To provide serialization services.</source>
+          <target state="translated">若要提供序列化服务。</target>       </trans-unit>
+        <trans-unit id="287" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.UnsafeDeserialize(System.IO.Stream,System.Runtime.Remoting.Messaging.HeaderHandler)">
+          <source>Associated enumeration: <ph id="ph1">&lt;see cref="F:System.Security.Permissions.SecurityPermissionFlag.SerializationFormatter" /&gt;</ph>.</source>
+          <target state="translated">关联枚举：<ph id="ph1">&lt;see cref="F:System.Security.Permissions.SecurityPermissionFlag.SerializationFormatter" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="288" translate="yes" xml:space="preserve" uid="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.UnsafeDeserializeMethodResponse(System.IO.Stream,System.Runtime.Remoting.Messaging.HeaderHandler,System.Runtime.Remoting.Messaging.IMethodCallMessage)">
+          <source>The stream from which to deserialize the object graph.</source>
+          <target state="translated">要从其中反序列化对象图形的流。</target>       </trans-unit>
+        <trans-unit id="289" translate="yes" xml:space="preserve" uid="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.UnsafeDeserializeMethodResponse(System.IO.Stream,System.Runtime.Remoting.Messaging.HeaderHandler,System.Runtime.Remoting.Messaging.IMethodCallMessage)">
+          <source>The <ph id="ph1">&lt;see cref="T:System.Runtime.Remoting.Messaging.HeaderHandler" /&gt;</ph> that handles any headers in the <bpt id="p1">&lt;c&gt;</bpt>serializationStream<ept id="p1">&lt;/c&gt;</ept>.</source>
+          <target state="translated">处理 <bpt id="p1">&lt;c&gt;</bpt>serializationStream<ept id="p1">&lt;/c&gt;</ept> 中的任何标头的 <ph id="ph1">&lt;see cref="T:System.Runtime.Remoting.Messaging.HeaderHandler" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="290" translate="yes" xml:space="preserve" uid="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.UnsafeDeserializeMethodResponse(System.IO.Stream,System.Runtime.Remoting.Messaging.HeaderHandler,System.Runtime.Remoting.Messaging.IMethodCallMessage)">
+          <source>Can be <ph id="ph1">&lt;see langword="null" /&gt;</ph>.</source>
+          <target state="translated">可以为 <ph id="ph1">&lt;see langword="null" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="291" translate="yes" xml:space="preserve" uid="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.UnsafeDeserializeMethodResponse(System.IO.Stream,System.Runtime.Remoting.Messaging.HeaderHandler,System.Runtime.Remoting.Messaging.IMethodCallMessage)">
+          <source>The <ph id="ph1">&lt;see cref="T:System.Runtime.Remoting.Messaging.IMethodCallMessage" /&gt;</ph> that contains details about where the call came from.</source>
+          <target state="translated">该 <ph id="ph1">&lt;see cref="T:System.Runtime.Remoting.Messaging.IMethodCallMessage" /&gt;</ph> 包含有关调用出处的详细信息。</target>       </trans-unit>
+        <trans-unit id="292" translate="yes" xml:space="preserve" uid="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.UnsafeDeserializeMethodResponse(System.IO.Stream,System.Runtime.Remoting.Messaging.HeaderHandler,System.Runtime.Remoting.Messaging.IMethodCallMessage)">
+          <source>Deserializes a response to a remote method call from the provided <ph id="ph1">&lt;see cref="T:System.IO.Stream" /&gt;</ph>.</source>
+          <target state="translated">将对远程方法调用的响应从所提供的 <ph id="ph1">&lt;see cref="T:System.IO.Stream" /&gt;</ph> 进行反序列化。</target>       </trans-unit>
+        <trans-unit id="293" translate="yes" xml:space="preserve" uid="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.UnsafeDeserializeMethodResponse(System.IO.Stream,System.Runtime.Remoting.Messaging.HeaderHandler,System.Runtime.Remoting.Messaging.IMethodCallMessage)">
+          <source>The deserialized response to the remote method call.</source>
+          <target state="translated">对远程方法调用的反序列化响应。</target>       </trans-unit>
+        <trans-unit id="294" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.UnsafeDeserializeMethodResponse(System.IO.Stream,System.Runtime.Remoting.Messaging.HeaderHandler,System.Runtime.Remoting.Messaging.IMethodCallMessage)">
+          <source>Details about the caller object are not sent to the remote object during the method call.</source>
+          <target state="translated">调用方对象有关的详细信息是在方法调用期间不发送到远程对象。</target>       </trans-unit>
+        <trans-unit id="295" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.UnsafeDeserializeMethodResponse(System.IO.Stream,System.Runtime.Remoting.Messaging.HeaderHandler,System.Runtime.Remoting.Messaging.IMethodCallMessage)">
+          <source>Instead, these details are obtained from the original method call that is passed to the current method in the <ph id="ph1">`methodCallMessage`</ph> parameter.</source>
+          <target state="translated">相反，这些详细信息可从传递给当前方法中的原始方法调用中获得<ph id="ph1">`methodCallMessage`</ph>参数。</target>       </trans-unit>
+        <trans-unit id="296" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.UnsafeDeserializeMethodResponse(System.IO.Stream,System.Runtime.Remoting.Messaging.HeaderHandler,System.Runtime.Remoting.Messaging.IMethodCallMessage)">
+          <source>This method uses <ph id="ph1">&lt;xref:System.Security.Permissions.SecurityAction.LinkDemand?displayProperty=nameWithType&gt;</ph> to prevent it from being called from untrusted code; only the immediate caller is required to have <ph id="ph2">&lt;xref:System.Security.Permissions.SecurityPermissionAttribute.SerializationFormatter%2A?displayProperty=nameWithType&gt;</ph> permission.</source>
+          <target state="translated">此方法使用<ph id="ph1">&lt;xref:System.Security.Permissions.SecurityAction.LinkDemand?displayProperty=nameWithType&gt;</ph>，防止它调用不受信任代码; 只能直接调用方需要具有<ph id="ph2">&lt;xref:System.Security.Permissions.SecurityPermissionAttribute.SerializationFormatter%2A?displayProperty=nameWithType&gt;</ph>权限。</target>       </trans-unit>
+        <trans-unit id="297" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.UnsafeDeserializeMethodResponse(System.IO.Stream,System.Runtime.Remoting.Messaging.HeaderHandler,System.Runtime.Remoting.Messaging.IMethodCallMessage)">
+          <source>Do not use this method if your code can be called from partially trusted code.</source>
+          <target state="translated">如果可以从部分受信任代码调用你的代码，则不要使用此方法。</target>       </trans-unit>
+        <trans-unit id="298" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.UnsafeDeserializeMethodResponse(System.IO.Stream,System.Runtime.Remoting.Messaging.HeaderHandler,System.Runtime.Remoting.Messaging.IMethodCallMessage)">
+          <source>In partially trusted scenarios, use <ph id="ph1">&lt;xref:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.DeserializeMethodResponse%2A&gt;</ph> instead.</source>
+          <target state="translated">在部分受信任的情况下，使用<ph id="ph1">&lt;xref:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.DeserializeMethodResponse%2A&gt;</ph>相反。</target>       </trans-unit>
+        <trans-unit id="299" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.UnsafeDeserializeMethodResponse(System.IO.Stream,System.Runtime.Remoting.Messaging.HeaderHandler,System.Runtime.Remoting.Messaging.IMethodCallMessage)">
+          <source>In full trust scenarios, <ph id="ph1">&lt;xref:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.UnsafeDeserializeMethodResponse%2A&gt;</ph> provides better performance than <ph id="ph2">&lt;xref:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.DeserializeMethodResponse%2A&gt;</ph>.</source>
+          <target state="translated">在完全信任方案中，<ph id="ph1">&lt;xref:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.UnsafeDeserializeMethodResponse%2A&gt;</ph>提供更好的性能比<ph id="ph2">&lt;xref:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.DeserializeMethodResponse%2A&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="300" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.UnsafeDeserializeMethodResponse(System.IO.Stream,System.Runtime.Remoting.Messaging.HeaderHandler,System.Runtime.Remoting.Messaging.IMethodCallMessage)">
+          <source>For successful deserialization, the current position in the stream must be at the beginning of the object graph.</source>
+          <target state="translated">反序列化成功，流中的当前位置必须是开头的对象图。</target>       </trans-unit>
+        <trans-unit id="301" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.UnsafeDeserializeMethodResponse(System.IO.Stream,System.Runtime.Remoting.Messaging.HeaderHandler,System.Runtime.Remoting.Messaging.IMethodCallMessage)">
+          <source>Calling this method with untrusted data is a security risk.</source>
+          <target state="translated">调用此方法不受信任的数据会带来安全风险。</target>       </trans-unit>
+        <trans-unit id="302" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.UnsafeDeserializeMethodResponse(System.IO.Stream,System.Runtime.Remoting.Messaging.HeaderHandler,System.Runtime.Remoting.Messaging.IMethodCallMessage)">
+          <source>Call this method only with trusted data.</source>
+          <target state="translated">调用此方法仅受信任的数据。</target>       </trans-unit>
+        <trans-unit id="303" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.UnsafeDeserializeMethodResponse(System.IO.Stream,System.Runtime.Remoting.Messaging.HeaderHandler,System.Runtime.Remoting.Messaging.IMethodCallMessage)">
+          <source>For more information, see <bpt id="p1">[</bpt>Data Validation<ept id="p1">](https://www.owasp.org/index.php/Data_Validation)</ept>.</source>
+          <target state="translated">有关详细信息，请参阅<bpt id="p1">[</bpt>数据验证<ept id="p1">](https://www.owasp.org/index.php/Data_Validation)</ept>。</target>       </trans-unit>
+        <trans-unit id="304" translate="yes" xml:space="preserve" uid="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.UnsafeDeserializeMethodResponse(System.IO.Stream,System.Runtime.Remoting.Messaging.HeaderHandler,System.Runtime.Remoting.Messaging.IMethodCallMessage)">
+          <source>The <ph id="ph1">&lt;paramref name="serializationStream" /&gt;</ph> is <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="serializationStream" /&gt;</ph> 为 <ph id="ph2">&lt;see langword="null" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="305" translate="yes" xml:space="preserve" uid="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.UnsafeDeserializeMethodResponse(System.IO.Stream,System.Runtime.Remoting.Messaging.HeaderHandler,System.Runtime.Remoting.Messaging.IMethodCallMessage)">
+          <source>The <ph id="ph1">&lt;paramref name="serializationStream" /&gt;</ph> supports seeking, but its length is 0.</source>
+          <target state="translated">该 <ph id="ph1">&lt;paramref name="serializationStream" /&gt;</ph> 支持查找，但其长度为 0。</target>       </trans-unit>
+        <trans-unit id="306" translate="yes" xml:space="preserve" uid="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.UnsafeDeserializeMethodResponse(System.IO.Stream,System.Runtime.Remoting.Messaging.HeaderHandler,System.Runtime.Remoting.Messaging.IMethodCallMessage)">
+          <source>The caller does not have the required permission.</source>
+          <target state="translated">调用方没有所要求的权限。</target>       </trans-unit>
+        <trans-unit id="307" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.UnsafeDeserializeMethodResponse(System.IO.Stream,System.Runtime.Remoting.Messaging.HeaderHandler,System.Runtime.Remoting.Messaging.IMethodCallMessage)">
+          <source>To provide serialization services.</source>
+          <target state="translated">若要提供序列化服务。</target>       </trans-unit>
+        <trans-unit id="308" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.UnsafeDeserializeMethodResponse(System.IO.Stream,System.Runtime.Remoting.Messaging.HeaderHandler,System.Runtime.Remoting.Messaging.IMethodCallMessage)">
+          <source>Associated enumeration: <ph id="ph1">&lt;see cref="F:System.Security.Permissions.SecurityPermissionFlag.SerializationFormatter" /&gt;</ph>.</source>
+          <target state="translated">关联枚举：<ph id="ph1">&lt;see cref="F:System.Security.Permissions.SecurityPermissionFlag.SerializationFormatter" /&gt;</ph>。</target>       </trans-unit>
+      </group>
+    </body>
+  </file>
+</xliff>

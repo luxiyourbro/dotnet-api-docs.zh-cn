@@ -1,286 +1,135 @@
-<Type Name="UrlAuthorizationModule" FullName="System.Web.Security.UrlAuthorizationModule">
-  <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="be5d071b917e424696668088467a08d983ec9ba0" />
-    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
-    <Meta Name="ms.translationtype" Value="HT" />
-    <Meta Name="ms.contentlocale" Value="zh-CN" />
-    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
-  </Metadata>
-  <TypeSignature Language="C#" Value="public sealed class UrlAuthorizationModule : System.Web.IHttpModule" />
-  <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed beforefieldinit UrlAuthorizationModule extends System.Object implements class System.Web.IHttpModule" />
-  <TypeSignature Language="DocId" Value="T:System.Web.Security.UrlAuthorizationModule" />
-  <TypeSignature Language="VB.NET" Value="Public NotInheritable Class UrlAuthorizationModule&#xA;Implements IHttpModule" />
-  <TypeSignature Language="C++ CLI" Value="public ref class UrlAuthorizationModule sealed : System::Web::IHttpModule" />
-  <AssemblyInfo>
-    <AssemblyName>System.Web</AssemblyName>
-    <AssemblyVersion>4.0.0.0</AssemblyVersion>
-  </AssemblyInfo>
-  <Base>
-    <BaseTypeName>System.Object</BaseTypeName>
-  </Base>
-  <Interfaces>
-    <Interface>
-      <InterfaceName>System.Web.IHttpModule</InterfaceName>
-    </Interface>
-  </Interfaces>
-  <Docs>
-    <summary>
-      <span data-ttu-id="42a05-101">验证用户具有访问所请求的 URL 的权限。</span>
-      <span class="sxs-lookup">
-        <span data-stu-id="42a05-101">Verifies that the user has permission to access the URL requested.</span>
-      </span>
-      <span data-ttu-id="42a05-102">此类不能被继承。</span>
-      <span class="sxs-lookup">
-        <span data-stu-id="42a05-102">This class cannot be inherited.</span>
-      </span>
-    </summary>
-    <remarks>
-      <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="42a05-103"><xref:System.Web.Security.UrlAuthorizationModule>确定当前用户是否请求的 url，根据用户允许访问<xref:System.Security.Principal.IIdentity.Name%2A>或角色的成员的用户列表。</span><span class="sxs-lookup"><span data-stu-id="42a05-103">The <xref:System.Web.Security.UrlAuthorizationModule> determines whether the current user is permitted access to the requested URL, based on the user <xref:System.Security.Principal.IIdentity.Name%2A> or the list of roles that a user is a member of.</span></span> <span data-ttu-id="42a05-104">有关如何确定用户名称的信息，请参阅[ASP.NET 身份验证](http://msdn.microsoft.com/library/fc10b0ef-4ce4-4a7f-9174-886325221ee1)。</span><span class="sxs-lookup"><span data-stu-id="42a05-104">For information about how the user name is determined, see [ASP.NET Authentication](http://msdn.microsoft.com/library/fc10b0ef-4ce4-4a7f-9174-886325221ee1).</span></span> <span data-ttu-id="42a05-105">有关如何管理用户角色的信息，请参阅[使用角色管理授权](http://msdn.microsoft.com/library/01954ce4-39a2-487f-8153-a69f6f6f3195)。</span><span class="sxs-lookup"><span data-stu-id="42a05-105">For information about how to manage user roles, see [Managing Authorization Using Roles](http://msdn.microsoft.com/library/01954ce4-39a2-487f-8153-a69f6f6f3195).</span></span>  
-  
- <span data-ttu-id="42a05-106">为用户或角色的授权管理使用的配置元素。</span><span class="sxs-lookup"><span data-stu-id="42a05-106">Authorization for a user or a role is managed using the  configuration element.</span></span> <span data-ttu-id="42a05-107">您可以允许或拒绝用户或角色使用`allow`或`deny`子元素，分别。</span><span class="sxs-lookup"><span data-stu-id="42a05-107">You can allow or deny a user or a role using the `allow` or `deny` subelements, respectively.</span></span> <span data-ttu-id="42a05-108">`allow`和`deny`子元素解释它们出现在配置中的顺序。</span><span class="sxs-lookup"><span data-stu-id="42a05-108">The `allow` and `deny` subelements are interpreted in the order they appear in the configuration.</span></span> <span data-ttu-id="42a05-109">元素指定允许或拒绝访问后<xref:System.Web.Security.UrlAuthorizationModule>完成其授权检查。</span><span class="sxs-lookup"><span data-stu-id="42a05-109">Once an element specifies that access is allowed or denied, the <xref:System.Web.Security.UrlAuthorizationModule> completes its authorization check.</span></span> <span data-ttu-id="42a05-110">例如下, 一节从 Web.config 文件要求用户 （通过拒绝匿名用户），登录，然后仅允许用户要具有访问权限的管理员角色中。</span><span class="sxs-lookup"><span data-stu-id="42a05-110">For example, the following  section from a Web.config file requires users to log on (by denying anonymous users), and then allows only users in the Administrators role to have access.</span></span> <span data-ttu-id="42a05-111">不在的管理员角色的用户被拒绝。</span><span class="sxs-lookup"><span data-stu-id="42a05-111">Users not in the Administrators role are denied.</span></span>  
-  
-```  
-<authorization>  
-  <deny users="?" />  
-  <allow roles="Administrators" />  
-  <deny users="*" />  
-</authorization>  
-```  
-  
- <span data-ttu-id="42a05-112">用户或角色必须专门为拒绝，若要拒绝对 URL 的用户或角色授予的权限。</span><span class="sxs-lookup"><span data-stu-id="42a05-112">A user or role must be specifically denied to refuse the user or role permission to a URL.</span></span> <span data-ttu-id="42a05-113">也就是说，如果不指定前面的示例一样`<deny users="*" />`元素，则所有经过身份验证的用户已允许访问所请求的 URL，而不考虑哪些角色它们是一样的成员。</span><span class="sxs-lookup"><span data-stu-id="42a05-113">That is, if the previous example had not specified the `<deny users="*" />` element, then all authenticated users would have been allowed access to the requested URL, regardless of what role they were a member of.</span></span>  
-  
-   
-  
-## Examples  
- <span data-ttu-id="42a05-114">下面的代码示例在拒绝对 John 和所有匿名用户，供 Kim 和管理员角色的成员授予访问权限。</span><span class="sxs-lookup"><span data-stu-id="42a05-114">The following code example grants access to Kim and members of the Admins role, while denying it to John and all anonymous users.</span></span>  
-  
-```  
-<authorization>  
-  <allow users="Kim"/>  
-  <allow roles="Admins"/>  
-  <deny users="John"/>  
-  <deny users="?"/>  
-</authorization>  
-```  
-  
- ]]></format>
-    </remarks>
-  </Docs>
-  <Members>
-    <Member MemberName=".ctor">
-      <MemberSignature Language="C#" Value="public UrlAuthorizationModule ();" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor() cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Web.Security.UrlAuthorizationModule.#ctor" />
-      <MemberSignature Language="VB.NET" Value="Public Sub New ()" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; UrlAuthorizationModule();" />
-      <MemberType>Constructor</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Web</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Parameters />
-      <Docs>
-        <summary>
-          <span data-ttu-id="42a05-115">创建 <see cref="T:System.Web.Security.UrlAuthorizationModule" /> 类的实例。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="42a05-115">Creates an instance of the <see cref="T:System.Web.Security.UrlAuthorizationModule" /> class.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="42a05-116">此构造函数不应从应用程序代码中调用。</span><span class="sxs-lookup"><span data-stu-id="42a05-116">This constructor is not intended to be called from application code.</span></span>  
-  
- <span data-ttu-id="42a05-117">ASP.NET 调用此构造函数可创建的实例<xref:System.Web.Security.UrlAuthorizationModule>类。</span><span class="sxs-lookup"><span data-stu-id="42a05-117">ASP.NET calls this constructor to create an instance of the <xref:System.Web.Security.UrlAuthorizationModule> class.</span></span> <span data-ttu-id="42a05-118">后调用的构造函数，它调用<xref:System.Web.Security.UrlAuthorizationModule.Init%2A>方法以初始化新<xref:System.Web.Security.UrlAuthorizationModule>对象。</span><span class="sxs-lookup"><span data-stu-id="42a05-118">After calling the constructor, it calls the <xref:System.Web.Security.UrlAuthorizationModule.Init%2A> method to initialize the new <xref:System.Web.Security.UrlAuthorizationModule> object.</span></span>  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="CheckUrlAccessForPrincipal">
-      <MemberSignature Language="C#" Value="public static bool CheckUrlAccessForPrincipal (string virtualPath, System.Security.Principal.IPrincipal user, string verb);" />
-      <MemberSignature Language="ILAsm" Value=".method public static hidebysig bool CheckUrlAccessForPrincipal(string virtualPath, class System.Security.Principal.IPrincipal user, string verb) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Web.Security.UrlAuthorizationModule.CheckUrlAccessForPrincipal(System.String,System.Security.Principal.IPrincipal,System.String)" />
-      <MemberSignature Language="VB.NET" Value="Public Shared Function CheckUrlAccessForPrincipal (virtualPath As String, user As IPrincipal, verb As String) As Boolean" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; static bool CheckUrlAccessForPrincipal(System::String ^ virtualPath, System::Security::Principal::IPrincipal ^ user, System::String ^ verb);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>System.Web</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Boolean</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="virtualPath" Type="System.String" />
-        <Parameter Name="user" Type="System.Security.Principal.IPrincipal" />
-        <Parameter Name="verb" Type="System.String" />
-      </Parameters>
-      <Docs>
-        <param name="virtualPath">
-          <span data-ttu-id="42a05-119">文件的虚拟路径。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="42a05-119">The virtual path to the file.</span>
-          </span>
-        </param>
-        <param name="user">
-          <span data-ttu-id="42a05-120">一个表示当前用户的 <see cref="T:System.Security.Principal.IPrincipal" /> 对象。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="42a05-120">An <see cref="T:System.Security.Principal.IPrincipal" /> object representing the current user.</span>
-          </span>
-        </param>
-        <param name="verb">
-          <span data-ttu-id="42a05-121">用于进行请求的 HTTP 谓词。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="42a05-121">The HTTP verb used to make the request.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="42a05-122">确定用户是否具有对所请求的文件的访问权。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="42a05-122">Determines whether the user has access to the requested file.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="42a05-123">如果当前用户可以访问该文件，则返回 <see langword="true" />；否则返回 <see langword="false" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="42a05-123">
-              <see langword="true" /> if the current user can access the file; otherwise, <see langword="false" />.</span>
-          </span>
-        </returns>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="42a05-124"><xref:System.Web.Security.UrlAuthorizationModule.CheckUrlAccessForPrincipal%2A>方法检查以确定当前用户是否被授予访问权限的应用程序的 Web.config 文件中请求的文件。</span><span class="sxs-lookup"><span data-stu-id="42a05-124">The <xref:System.Web.Security.UrlAuthorizationModule.CheckUrlAccessForPrincipal%2A> method checks to see whether the current user is granted access to the requested file in the Web.config file for the application.</span></span>  
-  
- <span data-ttu-id="42a05-125">用于发出请求的 HTTP 谓词是否`GET`， `POST`，或`HEAD`、<xref:System.Web.Security.UrlAuthorizationModule.CheckUrlAccessForPrincipal%2A>方法检查文件的读取访问权限。</span><span class="sxs-lookup"><span data-stu-id="42a05-125">If the HTTP verb used to make the request is `GET`, `POST`, or `HEAD`, the <xref:System.Web.Security.UrlAuthorizationModule.CheckUrlAccessForPrincipal%2A> method checks for read access to the file.</span></span> <span data-ttu-id="42a05-126">如果使用任何其他谓词，则<xref:System.Web.Security.UrlAuthorizationModule.CheckUrlAccessForPrincipal%2A>检查文件的读/写访问权限。</span><span class="sxs-lookup"><span data-stu-id="42a05-126">If any other verb is used, the <xref:System.Web.Security.UrlAuthorizationModule.CheckUrlAccessForPrincipal%2A> checks for read/write access to the file.</span></span>  
-  
- <span data-ttu-id="42a05-127">有关详细信息和示例 Web.config 文件，请参阅<xref:System.Web.Security.UrlAuthorizationModule>类文档。</span><span class="sxs-lookup"><span data-stu-id="42a05-127">For more information and an example Web.config file, see the <xref:System.Web.Security.UrlAuthorizationModule> class documentation.</span></span>  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.ArgumentNullException">
-          <span data-ttu-id="42a05-128">
-            <paramref name="virtualPath" /> 为 <see langword="null" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="42a05-128">
-              <paramref name="virtualPath" /> is <see langword="null" />.</span>
-          </span>
-          <span data-ttu-id="42a05-129">\- 或 -</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="42a05-129">\- or -</span>
-          </span>
-          <span data-ttu-id="42a05-130">
-            <paramref name="user" /> 为 <see langword="null" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="42a05-130">
-              <paramref name="user" /> is <see langword="null" />.</span>
-          </span>
-          <span data-ttu-id="42a05-131">\- 或 -</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="42a05-131">\- or -</span>
-          </span>
-          <span data-ttu-id="42a05-132">
-            <paramref name="verb" /> 为 <see langword="null" />。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="42a05-132">
-              <paramref name="verb" /> is <see langword="null" />.</span>
-          </span>
-        </exception>
-        <exception cref="T:System.ArgumentException">
-          <span data-ttu-id="42a05-133">
-            <paramref name="virtualPath" /> 位于应用程序根路径之外。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="42a05-133">
-              <paramref name="virtualPath" /> is outside of the application root path.</span>
-          </span>
-        </exception>
-      </Docs>
-    </Member>
-    <Member MemberName="Dispose">
-      <MemberSignature Language="C#" Value="public void Dispose ();" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void Dispose() cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Web.Security.UrlAuthorizationModule.Dispose" />
-      <MemberSignature Language="VB.NET" Value="Public Sub Dispose ()" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual void Dispose();" />
-      <MemberType>Method</MemberType>
-      <Implements>
-        <InterfaceMember>M:System.Web.IHttpModule.Dispose</InterfaceMember>
-      </Implements>
-      <AssemblyInfo>
-        <AssemblyName>System.Web</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters />
-      <Docs>
-        <summary>
-          <span data-ttu-id="42a05-134">释放 <see cref="T:System.Web.Security.UrlAuthorizationModule" /> 使用的所有资源，内存除外。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="42a05-134">Releases all resources, other than memory, used by the <see cref="T:System.Web.Security.UrlAuthorizationModule" />.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="42a05-135">此方法不应从应用程序代码中调用。</span><span class="sxs-lookup"><span data-stu-id="42a05-135">This method is not intended to be called from application code.</span></span>  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="Init">
-      <MemberSignature Language="C#" Value="public void Init (System.Web.HttpApplication app);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void Init(class System.Web.HttpApplication app) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Web.Security.UrlAuthorizationModule.Init(System.Web.HttpApplication)" />
-      <MemberSignature Language="VB.NET" Value="Public Sub Init (app As HttpApplication)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual void Init(System::Web::HttpApplication ^ app);" />
-      <MemberType>Method</MemberType>
-      <Implements>
-        <InterfaceMember>M:System.Web.IHttpModule.Init(System.Web.HttpApplication)</InterfaceMember>
-      </Implements>
-      <AssemblyInfo>
-        <AssemblyName>System.Web</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="app" Type="System.Web.HttpApplication" />
-      </Parameters>
-      <Docs>
-        <param name="app">
-          <span data-ttu-id="42a05-136">当前的 <see cref="T:System.Web.HttpApplication" /> 实例。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="42a05-136">The current <see cref="T:System.Web.HttpApplication" /> instance.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="42a05-137">初始化 <see cref="T:System.Web.Security.UrlAuthorizationModule" /> 对象。</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="42a05-137">Initializes the <see cref="T:System.Web.Security.UrlAuthorizationModule" /> object.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="42a05-138">此方法不应从应用程序代码中调用。</span><span class="sxs-lookup"><span data-stu-id="42a05-138">This method is not intended to be called from application code.</span></span>  
-  
- <span data-ttu-id="42a05-139"><xref:System.Web.Security.UrlAuthorizationModule.Init%2A>方法可确保<xref:System.Web.Security.UrlAuthorizationModule>包含在处理<xref:System.Web.HttpApplication.AuthorizeRequest>事件。</span><span class="sxs-lookup"><span data-stu-id="42a05-139">The <xref:System.Web.Security.UrlAuthorizationModule.Init%2A> method ensures that the <xref:System.Web.Security.UrlAuthorizationModule> is included in the processing of the <xref:System.Web.HttpApplication.AuthorizeRequest> event.</span></span>  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-  </Members>
-</Type>
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.2" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 xliff-core-1.2-transitional.xsd">
+  <file datatype="xml" original="UrlAuthorizationModule.xml" source-language="en-US" target-language="zh-CN">
+    <header>
+      <tool tool-id="mdxliff" tool-name="mdxliff" tool-version="1.0-15c36f0" tool-company="Microsoft" />
+      <xliffext:skl_file_name xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">02cd5861-7ce2-4a82-b358-31f8435a0ac5be5d071b917e424696668088467a08d983ec9ba0.skl</xliffext:skl_file_name>
+      <xliffext:version xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">1.2</xliffext:version>
+      <xliffext:ms.openlocfilehash xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">be5d071b917e424696668088467a08d983ec9ba0</xliffext:ms.openlocfilehash>
+      <xliffext:ms.sourcegitcommit xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b</xliffext:ms.sourcegitcommit>
+      <xliffext:ms.lasthandoff xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">04/03/2018</xliffext:ms.lasthandoff>
+      <xliffext:moniker_ids xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">netframework-4.5.1,netframework-4.5.2,netframework-4.5,netframework-4.6.1,netframework-4.6.2,netframework-4.6,netframework-4.7.1,netframework-4.7</xliffext:moniker_ids>
+    </header>
+    <body>
+      <group id="content" extype="content">
+        <trans-unit id="101" translate="yes" xml:space="preserve" uid="T:System.Web.Security.UrlAuthorizationModule">
+          <source>Verifies that the user has permission to access the URL requested.</source>
+          <target state="translated">验证用户具有访问所请求的 URL 的权限。</target>       </trans-unit>
+        <trans-unit id="102" translate="yes" xml:space="preserve" uid="T:System.Web.Security.UrlAuthorizationModule">
+          <source>This class cannot be inherited.</source>
+          <target state="translated">此类不能被继承。</target>       </trans-unit>
+        <trans-unit id="103" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Web.Security.UrlAuthorizationModule">
+          <source>The <ph id="ph1">&lt;xref:System.Web.Security.UrlAuthorizationModule&gt;</ph> determines whether the current user is permitted access to the requested URL, based on the user <ph id="ph2">&lt;xref:System.Security.Principal.IIdentity.Name%2A&gt;</ph> or the list of roles that a user is a member of.</source>
+          <target state="translated"><ph id="ph1">&lt;xref:System.Web.Security.UrlAuthorizationModule&gt;</ph>确定当前用户是否请求的 url，根据用户允许访问<ph id="ph2">&lt;xref:System.Security.Principal.IIdentity.Name%2A&gt;</ph>或角色的成员的用户列表。</target>       </trans-unit>
+        <trans-unit id="104" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Web.Security.UrlAuthorizationModule">
+          <source>For information about how the user name is determined, see <bpt id="p1">[</bpt>ASP.NET Authentication<ept id="p1">](http://msdn.microsoft.com/library/fc10b0ef-4ce4-4a7f-9174-886325221ee1)</ept>.</source>
+          <target state="translated">有关如何确定用户名称的信息，请参阅<bpt id="p1">[</bpt>ASP.NET 身份验证<ept id="p1">](http://msdn.microsoft.com/library/fc10b0ef-4ce4-4a7f-9174-886325221ee1)</ept>。</target>       </trans-unit>
+        <trans-unit id="105" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Web.Security.UrlAuthorizationModule">
+          <source>For information about how to manage user roles, see <bpt id="p1">[</bpt>Managing Authorization Using Roles<ept id="p1">](http://msdn.microsoft.com/library/01954ce4-39a2-487f-8153-a69f6f6f3195)</ept>.</source>
+          <target state="translated">有关如何管理用户角色的信息，请参阅<bpt id="p1">[</bpt>使用角色管理授权<ept id="p1">](http://msdn.microsoft.com/library/01954ce4-39a2-487f-8153-a69f6f6f3195)</ept>。</target>       </trans-unit>
+        <trans-unit id="106" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Web.Security.UrlAuthorizationModule">
+          <source>Authorization for a user or a role is managed using the  configuration element.</source>
+          <target state="translated">为用户或角色的授权管理使用的配置元素。</target>       </trans-unit>
+        <trans-unit id="107" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Web.Security.UrlAuthorizationModule">
+          <source>You can allow or deny a user or a role using the <ph id="ph1">`allow`</ph> or <ph id="ph2">`deny`</ph> subelements, respectively.</source>
+          <target state="translated">您可以允许或拒绝用户或角色使用<ph id="ph1">`allow`</ph>或<ph id="ph2">`deny`</ph>子元素，分别。</target>       </trans-unit>
+        <trans-unit id="108" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Web.Security.UrlAuthorizationModule">
+          <source>The <ph id="ph1">`allow`</ph> and <ph id="ph2">`deny`</ph> subelements are interpreted in the order they appear in the configuration.</source>
+          <target state="translated"><ph id="ph1">`allow`</ph>和<ph id="ph2">`deny`</ph>子元素解释它们出现在配置中的顺序。</target>       </trans-unit>
+        <trans-unit id="109" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Web.Security.UrlAuthorizationModule">
+          <source>Once an element specifies that access is allowed or denied, the <ph id="ph1">&lt;xref:System.Web.Security.UrlAuthorizationModule&gt;</ph> completes its authorization check.</source>
+          <target state="translated">元素指定允许或拒绝访问后<ph id="ph1">&lt;xref:System.Web.Security.UrlAuthorizationModule&gt;</ph>完成其授权检查。</target>       </trans-unit>
+        <trans-unit id="110" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Web.Security.UrlAuthorizationModule">
+          <source>For example, the following  section from a Web.config file requires users to log on (by denying anonymous users), and then allows only users in the Administrators role to have access.</source>
+          <target state="translated">例如下, 一节从 Web.config 文件要求用户 （通过拒绝匿名用户），登录，然后仅允许用户要具有访问权限的管理员角色中。</target>       </trans-unit>
+        <trans-unit id="111" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Web.Security.UrlAuthorizationModule">
+          <source>Users not in the Administrators role are denied.</source>
+          <target state="translated">不在的管理员角色的用户被拒绝。</target>       </trans-unit>
+        <trans-unit id="112" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Web.Security.UrlAuthorizationModule">
+          <source>A user or role must be specifically denied to refuse the user or role permission to a URL.</source>
+          <target state="translated">用户或角色必须专门为拒绝，若要拒绝对 URL 的用户或角色授予的权限。</target>       </trans-unit>
+        <trans-unit id="113" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Web.Security.UrlAuthorizationModule">
+          <source>That is, if the previous example had not specified the <ph id="ph1">`&lt;deny users="*" /&gt;`</ph> element, then all authenticated users would have been allowed access to the requested URL, regardless of what role they were a member of.</source>
+          <target state="translated">也就是说，如果不指定前面的示例一样<ph id="ph1">`&lt;deny users="*" /&gt;`</ph>元素，则所有经过身份验证的用户已允许访问所请求的 URL，而不考虑哪些角色它们是一样的成员。</target>       </trans-unit>
+        <trans-unit id="114" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Web.Security.UrlAuthorizationModule">
+          <source>The following code example grants access to Kim and members of the Admins role, while denying it to John and all anonymous users.</source>
+          <target state="translated">下面的代码示例在拒绝对 John 和所有匿名用户，供 Kim 和管理员角色的成员授予访问权限。</target>       </trans-unit>
+        <trans-unit id="115" translate="yes" xml:space="preserve" uid="M:System.Web.Security.UrlAuthorizationModule.#ctor">
+          <source>Creates an instance of the <ph id="ph1">&lt;see cref="T:System.Web.Security.UrlAuthorizationModule" /&gt;</ph> class.</source>
+          <target state="translated">创建 <ph id="ph1">&lt;see cref="T:System.Web.Security.UrlAuthorizationModule" /&gt;</ph> 类的实例。</target>       </trans-unit>
+        <trans-unit id="116" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.Security.UrlAuthorizationModule.#ctor">
+          <source>This constructor is not intended to be called from application code.</source>
+          <target state="translated">此构造函数不应从应用程序代码中调用。</target>       </trans-unit>
+        <trans-unit id="117" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.Security.UrlAuthorizationModule.#ctor">
+          <source>ASP.NET calls this constructor to create an instance of the <ph id="ph1">&lt;xref:System.Web.Security.UrlAuthorizationModule&gt;</ph> class.</source>
+          <target state="translated">ASP.NET 调用此构造函数可创建的实例<ph id="ph1">&lt;xref:System.Web.Security.UrlAuthorizationModule&gt;</ph>类。</target>       </trans-unit>
+        <trans-unit id="118" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.Security.UrlAuthorizationModule.#ctor">
+          <source>After calling the constructor, it calls the <ph id="ph1">&lt;xref:System.Web.Security.UrlAuthorizationModule.Init%2A&gt;</ph> method to initialize the new <ph id="ph2">&lt;xref:System.Web.Security.UrlAuthorizationModule&gt;</ph> object.</source>
+          <target state="translated">后调用的构造函数，它调用<ph id="ph1">&lt;xref:System.Web.Security.UrlAuthorizationModule.Init%2A&gt;</ph>方法以初始化新<ph id="ph2">&lt;xref:System.Web.Security.UrlAuthorizationModule&gt;</ph>对象。</target>       </trans-unit>
+        <trans-unit id="119" translate="yes" xml:space="preserve" uid="M:System.Web.Security.UrlAuthorizationModule.CheckUrlAccessForPrincipal(System.String,System.Security.Principal.IPrincipal,System.String)">
+          <source>The virtual path to the file.</source>
+          <target state="translated">文件的虚拟路径。</target>       </trans-unit>
+        <trans-unit id="120" translate="yes" xml:space="preserve" uid="M:System.Web.Security.UrlAuthorizationModule.CheckUrlAccessForPrincipal(System.String,System.Security.Principal.IPrincipal,System.String)">
+          <source>An <ph id="ph1">&lt;see cref="T:System.Security.Principal.IPrincipal" /&gt;</ph> object representing the current user.</source>
+          <target state="translated">一个表示当前用户的 <ph id="ph1">&lt;see cref="T:System.Security.Principal.IPrincipal" /&gt;</ph> 对象。</target>       </trans-unit>
+        <trans-unit id="121" translate="yes" xml:space="preserve" uid="M:System.Web.Security.UrlAuthorizationModule.CheckUrlAccessForPrincipal(System.String,System.Security.Principal.IPrincipal,System.String)">
+          <source>The HTTP verb used to make the request.</source>
+          <target state="translated">用于进行请求的 HTTP 谓词。</target>       </trans-unit>
+        <trans-unit id="122" translate="yes" xml:space="preserve" uid="M:System.Web.Security.UrlAuthorizationModule.CheckUrlAccessForPrincipal(System.String,System.Security.Principal.IPrincipal,System.String)">
+          <source>Determines whether the user has access to the requested file.</source>
+          <target state="translated">确定用户是否具有对所请求的文件的访问权。</target>       </trans-unit>
+        <trans-unit id="123" translate="yes" xml:space="preserve" uid="M:System.Web.Security.UrlAuthorizationModule.CheckUrlAccessForPrincipal(System.String,System.Security.Principal.IPrincipal,System.String)">
+          <source><ph id="ph1">&lt;see langword="true" /&gt;</ph> if the current user can access the file; otherwise, <ph id="ph2">&lt;see langword="false" /&gt;</ph>.</source>
+          <target state="translated">如果当前用户可以访问该文件，则返回 <ph id="ph1">&lt;see langword="true" /&gt;</ph>；否则返回 <ph id="ph2">&lt;see langword="false" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="124" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.Security.UrlAuthorizationModule.CheckUrlAccessForPrincipal(System.String,System.Security.Principal.IPrincipal,System.String)">
+          <source>The <ph id="ph1">&lt;xref:System.Web.Security.UrlAuthorizationModule.CheckUrlAccessForPrincipal%2A&gt;</ph> method checks to see whether the current user is granted access to the requested file in the Web.config file for the application.</source>
+          <target state="translated"><ph id="ph1">&lt;xref:System.Web.Security.UrlAuthorizationModule.CheckUrlAccessForPrincipal%2A&gt;</ph>方法检查以确定当前用户是否被授予访问权限的应用程序的 Web.config 文件中请求的文件。</target>       </trans-unit>
+        <trans-unit id="125" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.Security.UrlAuthorizationModule.CheckUrlAccessForPrincipal(System.String,System.Security.Principal.IPrincipal,System.String)">
+          <source>If the HTTP verb used to make the request is <ph id="ph1">`GET`</ph>, <ph id="ph2">`POST`</ph>, or <ph id="ph3">`HEAD`</ph>, the <ph id="ph4">&lt;xref:System.Web.Security.UrlAuthorizationModule.CheckUrlAccessForPrincipal%2A&gt;</ph> method checks for read access to the file.</source>
+          <target state="translated">用于发出请求的 HTTP 谓词是否<ph id="ph1">`GET`</ph>， <ph id="ph2">`POST`</ph>，或<ph id="ph3">`HEAD`</ph>、<ph id="ph4">&lt;xref:System.Web.Security.UrlAuthorizationModule.CheckUrlAccessForPrincipal%2A&gt;</ph>方法检查文件的读取访问权限。</target>       </trans-unit>
+        <trans-unit id="126" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.Security.UrlAuthorizationModule.CheckUrlAccessForPrincipal(System.String,System.Security.Principal.IPrincipal,System.String)">
+          <source>If any other verb is used, the <ph id="ph1">&lt;xref:System.Web.Security.UrlAuthorizationModule.CheckUrlAccessForPrincipal%2A&gt;</ph> checks for read/write access to the file.</source>
+          <target state="translated">如果使用任何其他谓词，则<ph id="ph1">&lt;xref:System.Web.Security.UrlAuthorizationModule.CheckUrlAccessForPrincipal%2A&gt;</ph>检查文件的读/写访问权限。</target>       </trans-unit>
+        <trans-unit id="127" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.Security.UrlAuthorizationModule.CheckUrlAccessForPrincipal(System.String,System.Security.Principal.IPrincipal,System.String)">
+          <source>For more information and an example Web.config file, see the <ph id="ph1">&lt;xref:System.Web.Security.UrlAuthorizationModule&gt;</ph> class documentation.</source>
+          <target state="translated">有关详细信息和示例 Web.config 文件，请参阅<ph id="ph1">&lt;xref:System.Web.Security.UrlAuthorizationModule&gt;</ph>类文档。</target>       </trans-unit>
+        <trans-unit id="128" translate="yes" xml:space="preserve" uid="M:System.Web.Security.UrlAuthorizationModule.CheckUrlAccessForPrincipal(System.String,System.Security.Principal.IPrincipal,System.String)">
+          <source><ph id="ph1">&lt;paramref name="virtualPath" /&gt;</ph> is <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="virtualPath" /&gt;</ph> 为 <ph id="ph2">&lt;see langword="null" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="129" translate="yes" xml:space="preserve" uid="M:System.Web.Security.UrlAuthorizationModule.CheckUrlAccessForPrincipal(System.String,System.Security.Principal.IPrincipal,System.String)">
+          <source><ph id="ph1">\-</ph> or -</source>
+          <target state="translated"><ph id="ph1">\-</ph> 或 -</target>       </trans-unit>
+        <trans-unit id="130" translate="yes" xml:space="preserve" uid="M:System.Web.Security.UrlAuthorizationModule.CheckUrlAccessForPrincipal(System.String,System.Security.Principal.IPrincipal,System.String)">
+          <source><ph id="ph1">&lt;paramref name="user" /&gt;</ph> is <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="user" /&gt;</ph> 为 <ph id="ph2">&lt;see langword="null" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="131" translate="yes" xml:space="preserve" uid="M:System.Web.Security.UrlAuthorizationModule.CheckUrlAccessForPrincipal(System.String,System.Security.Principal.IPrincipal,System.String)">
+          <source><ph id="ph1">\-</ph> or -</source>
+          <target state="translated"><ph id="ph1">\-</ph> 或 -</target>       </trans-unit>
+        <trans-unit id="132" translate="yes" xml:space="preserve" uid="M:System.Web.Security.UrlAuthorizationModule.CheckUrlAccessForPrincipal(System.String,System.Security.Principal.IPrincipal,System.String)">
+          <source><ph id="ph1">&lt;paramref name="verb" /&gt;</ph> is <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="verb" /&gt;</ph> 为 <ph id="ph2">&lt;see langword="null" /&gt;</ph>。</target>       </trans-unit>
+        <trans-unit id="133" translate="yes" xml:space="preserve" uid="M:System.Web.Security.UrlAuthorizationModule.CheckUrlAccessForPrincipal(System.String,System.Security.Principal.IPrincipal,System.String)">
+          <source><ph id="ph1">&lt;paramref name="virtualPath" /&gt;</ph> is outside of the application root path.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="virtualPath" /&gt;</ph> 位于应用程序根路径之外。</target>       </trans-unit>
+        <trans-unit id="134" translate="yes" xml:space="preserve" uid="M:System.Web.Security.UrlAuthorizationModule.Dispose">
+          <source>Releases all resources, other than memory, used by the <ph id="ph1">&lt;see cref="T:System.Web.Security.UrlAuthorizationModule" /&gt;</ph>.</source>
+          <target state="translated">释放 <ph id="ph1">&lt;see cref="T:System.Web.Security.UrlAuthorizationModule" /&gt;</ph> 使用的所有资源，内存除外。</target>       </trans-unit>
+        <trans-unit id="135" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.Security.UrlAuthorizationModule.Dispose">
+          <source>This method is not intended to be called from application code.</source>
+          <target state="translated">此方法不应从应用程序代码中调用。</target>       </trans-unit>
+        <trans-unit id="136" translate="yes" xml:space="preserve" uid="M:System.Web.Security.UrlAuthorizationModule.Init(System.Web.HttpApplication)">
+          <source>The current <ph id="ph1">&lt;see cref="T:System.Web.HttpApplication" /&gt;</ph> instance.</source>
+          <target state="translated">当前的 <ph id="ph1">&lt;see cref="T:System.Web.HttpApplication" /&gt;</ph> 实例。</target>       </trans-unit>
+        <trans-unit id="137" translate="yes" xml:space="preserve" uid="M:System.Web.Security.UrlAuthorizationModule.Init(System.Web.HttpApplication)">
+          <source>Initializes the <ph id="ph1">&lt;see cref="T:System.Web.Security.UrlAuthorizationModule" /&gt;</ph> object.</source>
+          <target state="translated">初始化 <ph id="ph1">&lt;see cref="T:System.Web.Security.UrlAuthorizationModule" /&gt;</ph> 对象。</target>       </trans-unit>
+        <trans-unit id="138" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.Security.UrlAuthorizationModule.Init(System.Web.HttpApplication)">
+          <source>This method is not intended to be called from application code.</source>
+          <target state="translated">此方法不应从应用程序代码中调用。</target>       </trans-unit>
+        <trans-unit id="139" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Web.Security.UrlAuthorizationModule.Init(System.Web.HttpApplication)">
+          <source>The <ph id="ph1">&lt;xref:System.Web.Security.UrlAuthorizationModule.Init%2A&gt;</ph> method ensures that the <ph id="ph2">&lt;xref:System.Web.Security.UrlAuthorizationModule&gt;</ph> is included in the processing of the <ph id="ph3">&lt;xref:System.Web.HttpApplication.AuthorizeRequest&gt;</ph> event.</source>
+          <target state="translated"><ph id="ph1">&lt;xref:System.Web.Security.UrlAuthorizationModule.Init%2A&gt;</ph>方法可确保<ph id="ph2">&lt;xref:System.Web.Security.UrlAuthorizationModule&gt;</ph>包含在处理<ph id="ph3">&lt;xref:System.Web.HttpApplication.AuthorizeRequest&gt;</ph>事件。</target>       </trans-unit>
+      </group>
+    </body>
+  </file>
+</xliff>

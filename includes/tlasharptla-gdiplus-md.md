@@ -1,1 +1,0 @@
-<span data-ttu-id="cdb39-101">Microsoft Windows GDI+</span><span class="sxs-lookup"><span data-stu-id="cdb39-101">Microsoft Windows GDI+</span></span>

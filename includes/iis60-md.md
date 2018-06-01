@@ -1,1 +1,0 @@
-<span data-ttu-id="30821-101">Internet 信息服务 (IIS) 6.0</span><span class="sxs-lookup"><span data-stu-id="30821-101">Internet Information Services (IIS) 6.0</span></span>

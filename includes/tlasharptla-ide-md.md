@@ -1,1 +1,0 @@
-<span data-ttu-id="fb912-101">集成开发环境 (IDE)</span><span class="sxs-lookup"><span data-stu-id="fb912-101">Integrated Development Environment (IDE)</span></span>

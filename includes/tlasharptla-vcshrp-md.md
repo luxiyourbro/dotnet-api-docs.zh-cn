@@ -1,1 +1,0 @@
-<span data-ttu-id="e2ec4-101">Microsoft Visual C#</span><span class="sxs-lookup"><span data-stu-id="e2ec4-101">Microsoft Visual C#</span></span>

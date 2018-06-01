@@ -1,1 +1,0 @@
-<span data-ttu-id="c77bf-101">Microsoft Windows XP Service Pack 2 (SP2)</span><span class="sxs-lookup"><span data-stu-id="c77bf-101">Microsoft Windows XP Service Pack 2 (SP2)</span></span>

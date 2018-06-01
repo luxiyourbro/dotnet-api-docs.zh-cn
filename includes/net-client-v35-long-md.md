@@ -1,1 +1,0 @@
-<span data-ttu-id="98daf-101">.NET Framework Client Profile</span><span class="sxs-lookup"><span data-stu-id="98daf-101">.NET Framework Client Profile</span></span>

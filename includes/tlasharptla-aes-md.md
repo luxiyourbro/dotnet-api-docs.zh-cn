@@ -1,1 +1,0 @@
-<span data-ttu-id="2ea0f-101">高级加密标准 (AES)</span><span class="sxs-lookup"><span data-stu-id="2ea0f-101">Advanced Encryption Standard (AES)</span></span>

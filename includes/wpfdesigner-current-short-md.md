@@ -1,1 +1,0 @@
-<span data-ttu-id="aaf52-101">WPF 设计器</span><span class="sxs-lookup"><span data-stu-id="aaf52-101">WPF Designer</span></span>

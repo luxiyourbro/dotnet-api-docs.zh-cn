@@ -1,1 +1,0 @@
-<span data-ttu-id="dd44b-101">承载功能</span><span class="sxs-lookup"><span data-stu-id="dd44b-101">hosting features</span></span>

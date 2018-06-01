@@ -1,1 +1,0 @@
-<span data-ttu-id="cbe0a-101">Microsoft 记事本</span><span class="sxs-lookup"><span data-stu-id="cbe0a-101">Microsoft Notepad</span></span>

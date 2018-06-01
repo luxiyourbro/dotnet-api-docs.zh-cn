@@ -1,1 +1,0 @@
-<span data-ttu-id="c34bd-101">Windows</span><span class="sxs-lookup"><span data-stu-id="c34bd-101">Windows</span></span>

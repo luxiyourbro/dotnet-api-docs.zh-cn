@@ -1,1 +1,0 @@
-<span data-ttu-id="3df05-101">Microsoft Internet 信息服务 (IIS) 7.0</span><span class="sxs-lookup"><span data-stu-id="3df05-101">Microsoft Internet Information Services (IIS) 7.0</span></span>

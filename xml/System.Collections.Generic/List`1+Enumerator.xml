@@ -1,11 +1,11 @@
 <Type Name="List&lt;T&gt;+Enumerator" FullName="System.Collections.Generic.List&lt;T&gt;+Enumerator">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="6238be31faea3e1ea695a39d1455efce2f8d1223" />
-    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
+    <Meta Name="ms.openlocfilehash" Value="329cf0e6fd8349fd996a2a07ddab3d47fabed2a6" />
+    <Meta Name="ms.sourcegitcommit" Value="3907f9a5780957d9c85af2e54c0a5bc2a5bf19ab" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="zh-CN" />
-    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
-    <Meta Name="ms.locfileid" Value="30367631" />
+    <Meta Name="ms.lasthandoff" Value="06/13/2018" />
+    <Meta Name="ms.locfileid" Value="35417142" />
   </Metadata>
   <TypeSignature Language="C#" Value="public struct List&lt;T&gt;.Enumerator : System.Collections.Generic.IEnumerator&lt;T&gt;" />
   <TypeSignature Language="ILAsm" Value=".class nested public sequential ansi serializable sealed beforefieldinit List`1/Enumerator&lt;T&gt; extends System.ValueType implements class System.Collections.Generic.IEnumerator`1&lt;!T&gt;, class System.Collections.IEnumerator, class System.IDisposable" />
@@ -106,14 +106,13 @@
 ## Remarks  
  <xref:System.Collections.Generic.List%601.Enumerator.Current%2A> 未定义任何以下条件下：  
   
--   枚举器创建后立即，枚举数定位在集合中，第一个元素之前。   <xref:System.Collections.Generic.List%601.Enumerator.MoveNext%2A> 必须调用来枚举器向前移动到集合，然后再读取的值的第一个元素<xref:System.Collections.Generic.List%601.Enumerator.Current%2A>。  
+- 枚举数定位在集合的第一个元素之前。 发生这种情况是创建一个枚举器或<xref:System.Collections.Generic.List%601.Enumerator.System%23Collections%23IEnumerator%23Reset%2A>调用方法。 <xref:System.Collections.Generic.List%601.Enumerator.MoveNext%2A>必须调用方法来枚举器向前移动到集合，然后再读取的值的第一个元素<xref:System.Collections.Generic.List%601.Enumerator.Current%2A>属性。  
   
--   上次调用<xref:System.Collections.Generic.List%601.Enumerator.MoveNext%2A>返回`false`，指示集合的末尾。  
-  
- 在调用 <xref:System.Collections.Generic.List%601.Enumerator.Current%2A> 之前，<xref:System.Collections.Generic.List%601.Enumerator.MoveNext%2A> 返回相同的对象。 <xref:System.Collections.Generic.List%601.Enumerator.MoveNext%2A> 将 <xref:System.Collections.Generic.List%601.Enumerator.Current%2A> 设置为下一个元素。 如果列表修改之间<xref:System.Collections.IEnumerator.MoveNext%2A>和<xref:System.Collections.IEnumerator.Current%2A>，<xref:System.Collections.IEnumerator.Current%2A>返回到，设置的元素，即使枚举数已经无效。  
-  
-> [!NOTE]
->  为了提高性能，此属性不引发异常，如果枚举数定位的第一个元素之前或之后的最后一个元素。 属性的值是不确定的。 若要改为获取异常，强制转换<xref:System.Collections.Generic.List%601.Enumerator>到<xref:System.Collections.IEnumerator?displayProperty=nameWithType>接口，然后再使用它。  
+- 上次调用<xref:System.Collections.Generic.List%601.Enumerator.MoveNext%2A>返回`false`，指示集合的末尾，枚举数定位在集合的最后一个元素之后。
+
+- 由于在集合中，如添加、 修改或删除元素所做的更改，枚举数将失效。
+
+ <xref:System.Collections.Generic.List%601.Enumerator.Current%2A> 不会移动的位置的枚举器，并对连续调用<xref:System.Collections.Generic.List%601.Enumerator.Current%2A>之前返回同一对象<xref:System.Collections.Generic.List%601.Enumerator.MoveNext%2A>或<xref:System.Collections.Generic.List%601.Enumerator.System%23Collections%23IEnumerator%23Reset%2A>调用。  
   
  ]]></format>
         </remarks>
@@ -188,8 +187,7 @@
       <Parameters />
       <Docs>
         <summary>使枚举数前进到 <see cref="T:System.Collections.Generic.List`1" /> 的下一个元素。</summary>
-        <returns>
-          如果枚举数已成功地推进到下一个元素，则为 <see langword="true" />；如果枚举数传递到集合的末尾，则为 <see langword="false" />。</returns>
+        <returns>如果枚举数已成功地推进到下一个元素，则为 <see langword="true" />；如果枚举数传递到集合的末尾，则为 <see langword="false" />。</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -243,17 +241,18 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Collections.IEnumerator.Current%2A> 未定义任何以下条件下：  
+ <xref:System.Collections.Generic.List%601.Enumerator.System%23Collections%23IEnumerator%23Current%2A> 未定义任何以下条件下：  
   
--   枚举数定位在集合中，第一个元素之前立即创建枚举器之后或紧跟<xref:System.Collections.IEnumerator.Reset%2A>调用。 <xref:System.Collections.IEnumerator.MoveNext%2A> 必须调用来枚举器向前移动到集合，然后再读取的值的第一个元素<xref:System.Collections.IEnumerator.Current%2A>。  
+- 枚举数定位在集合的第一个元素之前。 发生这种情况是创建一个枚举器或<xref:System.Collections.Generic.List%601.Enumerator.System%23Collections%23IEnumerator%23Reset%2A>调用方法。 <xref:System.Collections.Generic.List%601.Enumerator.MoveNext%2A>必须调用方法来枚举器向前移动到集合，然后再读取的值的第一个元素<xref:System.Collections.Generic.List%601.Enumerator.System%23Collections%23IEnumerator%23Current%2A>属性。  
   
--   上次调用<xref:System.Collections.IEnumerator.MoveNext%2A>返回`false`，指示集合的末尾。  
-  
- <xref:System.Collections.IEnumerator.Current%2A> 返回同一对象，直到<xref:System.Collections.IEnumerator.MoveNext%2A>或<xref:System.Collections.IEnumerator.Reset%2A>调用。 <xref:System.Collections.IEnumerator.MoveNext%2A> 将 <xref:System.Collections.IEnumerator.Current%2A> 设置为下一个元素。 如果列表修改之间<xref:System.Collections.IEnumerator.MoveNext%2A>和<xref:System.Collections.IEnumerator.Current%2A>，<xref:System.Collections.IEnumerator.Current%2A>返回到，设置的元素，即使枚举数已经无效。  
+- 上次调用<xref:System.Collections.Generic.List%601.Enumerator.MoveNext%2A>返回`false`，指示集合的末尾，枚举数定位在集合的最后一个元素之后。
+
+- 由于在集合中，如添加、 修改或删除元素所做的更改，枚举数将失效。
+
+ <xref:System.Collections.Generic.List%601.Enumerator.System%23Collections%23IEnumerator%23Current%2A> 不会移动的位置的枚举器，并对连续调用<xref:System.Collections.Generic.List%601.Enumerator.System%23Collections%23IEnumerator%23Current%2A>之前返回同一对象<xref:System.Collections.Generic.List%601.Enumerator.MoveNext%2A>或<xref:System.Collections.Generic.List%601.Enumerator.System%23Collections%23IEnumerator%23Reset%2A>调用。  
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.InvalidOperationException">枚举器位于集合中第一个元素之前或最后一个元素之后。</exception>
         <altmember cref="M:System.Collections.IEnumerator.MoveNext" />
         <altmember cref="M:System.Collections.IEnumerator.Reset" />
         <altmember cref="T:System.Collections.IEnumerator" />

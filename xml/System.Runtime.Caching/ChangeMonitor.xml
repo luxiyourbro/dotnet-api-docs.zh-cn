@@ -1,17 +1,18 @@
 <Type Name="ChangeMonitor" FullName="System.Runtime.Caching.ChangeMonitor">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="ef439688d7b98a238cf8640eb07e63804432a3ba" />
-    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
+    <Meta Name="ms.openlocfilehash" Value="d7f673552db74d3ed1ff4f6fe8dcc10612167e5c" />
+    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="zh-CN" />
-    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
-    <Meta Name="ms.locfileid" Value="30480491" />
+    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
+    <Meta Name="ms.locfileid" Value="36542091" />
   </Metadata>
   <TypeSignature Language="C#" Value="public abstract class ChangeMonitor : IDisposable" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract beforefieldinit ChangeMonitor extends System.Object implements class System.IDisposable" />
   <TypeSignature Language="DocId" Value="T:System.Runtime.Caching.ChangeMonitor" />
   <TypeSignature Language="VB.NET" Value="Public MustInherit Class ChangeMonitor&#xA;Implements IDisposable" />
   <TypeSignature Language="C++ CLI" Value="public ref class ChangeMonitor abstract : IDisposable" />
+  <TypeSignature Language="F#" Value="type ChangeMonitor = class&#xA;    interface IDisposable" />
   <AssemblyInfo>
     <AssemblyName>System.Runtime.Caching</AssemblyName>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
@@ -52,50 +53,7 @@
     </remarks>
     <threadsafe>此类型是线程安全的。</threadsafe>
     <block subset="none" type="overrides">
-      <para>如果创建自定义的缓存实现或派生的更改监视器类型，必须遵循特定的准则。 以下列表总结了这些准则。 有关详细信息，请参阅各个方法或属性的文档。  
-  
--   派生类的构造函数必须设置<see cref="P:System.Runtime.Caching.ChangeMonitor.UniqueId" />属性，开始监视，并调用<see cref="M:System.Runtime.Caching.ChangeMonitor.InitializationComplete" />在方法返回之前的方法。 如果一个构造函数在构造过程中遇到错误，并且必须以释放资源，构造函数只能调用<see cref="Overload:System.Runtime.Caching.ChangeMonitor.Dispose" />重载后<see cref="M:System.Runtime.Caching.ChangeMonitor.InitializationComplete" />调用方法，因为<see cref="Overload:System.Runtime.Caching.ChangeMonitor.Dispose" />重载将引发<see cref="T:System.InvalidOperationException" />如果初始化未完成的异常。  
-  
--   如果在未发生更改之前初始化是正在监视的数据完成，则构造函数必须调用<see cref="M:System.Runtime.Caching.ChangeMonitor.OnChanged(System.Object)" />方法之前调用<see cref="M:System.Runtime.Caching.ChangeMonitor.InitializationComplete" />方法。  
-  
--   后派生<see cref="T:System.Runtime.Caching.ChangeMonitor" />实例化类型时，你必须插入自定义监视器<see cref="T:System.Runtime.Caching.ObjectCache" />实现。 如果要使用更改监视器完毕后，调用或<see cref="Overload:System.Runtime.Caching.ChangeMonitor.Dispose" />方法。  
-  
--   后<see cref="T:System.Runtime.Caching.ChangeMonitor" />实例插入到<see cref="T:System.Runtime.Caching.ObjectCache" />实现，<see cref="T:System.Runtime.Caching.ObjectCache" />实例需要更改监视器已释放。 即使插入无效并导致异常，<see cref="T:System.Runtime.Caching.ObjectCache" />实现必须调用<see cref="Overload:System.Runtime.Caching.ChangeMonitor.Dispose" />重载。  
-  
--   派生的更改监视器插入到缓存后,<see cref="T:System.Runtime.Caching.ObjectCache" />实现必须调用<see cref="M:System.Runtime.Caching.ChangeMonitor.NotifyOnChanged(System.Runtime.Caching.OnChangedCallback)" />，通过传递<see cref="T:System.Runtime.Caching.OnChangedCallback" />对象。 <see cref="M:System.Runtime.Caching.ChangeMonitor.NotifyOnChanged(System.Runtime.Caching.OnChangedCallback)" />可以调用仅一次的方法。 如果已发生了依赖项更改，<see cref="T:System.Runtime.Caching.OnChangedCallback" />实例将立即调用时<see cref="M:System.Runtime.Caching.ChangeMonitor.NotifyOnChanged(System.Runtime.Caching.OnChangedCallback)" />调用。 否则为<see cref="T:System.Runtime.Caching.OnChangedCallback" />实例将会调用一次。 这一次调用将发生种情况时<see cref="M:System.Runtime.Caching.ChangeMonitor.OnChanged(System.Object)" />调用方法，因为<see cref="T:System.Runtime.Caching.ChangeMonitor" />实例检测到更改，或当<see cref="M:System.Runtime.Caching.ChangeMonitor.Dispose" />方法调用<see cref="T:System.Runtime.Caching.ChangeMonitor" />，以先发生者为准。  
-  
--   <see cref="T:System.Runtime.Caching.OnChangedCallback" />由提供的实例<see cref="T:System.Runtime.Caching.ObjectCache" />实现应删除此关联的缓存项，通过使用指定的原因<see cref="F:System.Web.Caching.CacheItemRemovedReason.DependencyChanged" />枚举。  
-  
--   A<see cref="T:System.Runtime.Caching.ChangeMonitor" />实例可以调用<see cref="M:System.Runtime.Caching.ChangeMonitor.OnChanged(System.Object)" />方法之前已调用的缓存实现<see cref="M:System.Runtime.Caching.ChangeMonitor.NotifyOnChanged(System.Runtime.Caching.OnChangedCallback)" />方法还是之后。 如果<see cref="M:System.Runtime.Caching.ChangeMonitor.OnChanged(System.Object)" />方法之前调用<see cref="M:System.Runtime.Caching.ChangeMonitor.NotifyOnChanged(System.Runtime.Caching.OnChangedCallback)" />名为 base<see cref="T:System.Runtime.Caching.ChangeMonitor" />实现将通知发生这种情况的缓存，将触发要传递给回调<see cref="M:System.Runtime.Caching.ChangeMonitor.NotifyOnChanged(System.Runtime.Caching.OnChangedCallback)" />时立即<see cref="M:System.Runtime.Caching.ChangeMonitor.NotifyOnChanged(System.Runtime.Caching.OnChangedCallback)" />调用。 传递给任何状态数据<see cref="M:System.Runtime.Caching.ChangeMonitor.OnChanged(System.Object)" />方法保存的更改监视器并随后传递到<see cref="M:System.Runtime.Caching.ChangeMonitor.NotifyOnChanged(System.Runtime.Caching.OnChangedCallback)" />方法时<see cref="M:System.Runtime.Caching.ChangeMonitor.NotifyOnChanged(System.Runtime.Caching.OnChangedCallback)" />调用方法。  
-  
--   更改监视器必须实现<see cref="M:System.Runtime.Caching.ChangeMonitor.Dispose(System.Boolean)" />方法。 有关更多信息，请参见 <see cref="M:System.Runtime.Caching.ChangeMonitor.Dispose(System.Boolean)" /> 方法文档。  
-  
--   <see cref="M:System.Runtime.Caching.ChangeMonitor.Dispose" />必须调用方法重载，若要释放<see cref="T:System.Runtime.Caching.ChangeMonitor" />实例。 调用 Dispose 的规则如下所示：  
-  
-    -   某个项插入缓存之前，它是调用方，若要释放的责任<see cref="T:System.Runtime.Caching.ChangeMonitor" />实例。  
-  
-    -   一次缓存项和<see cref="T:System.Runtime.Caching.ChangeMonitor" />与其关联的实例传递到缓存中，缓存实施者必须确保，<see cref="Overload:System.Runtime.Caching.ChangeMonitor.Dispose" />调用方法时，即使插入操作失败。  
-  
-    -   在将项及其关联<see cref="T:System.Runtime.Caching.ChangeMonitor" />实例传递到缓存中，调用方必须不会释放依赖项，因为当<see cref="Overload:System.Runtime.Caching.ChangeMonitor.Dispose" />方法调用，因此调用将被视为依赖项已更改。 因此，<see cref="M:System.Runtime.Caching.ChangeMonitor.OnChanged(System.Object)" />自动调用方法。  
-  
--   考虑到，这些规则<see cref="Overload:System.Runtime.Caching.ChangeMonitor.Dispose" />必须按以下方式之一调用方法：  
-  
-    -   用户必须调用<see cref="M:System.Runtime.Caching.ChangeMonitor.Dispose" />方法重载，如果他们决定不向缓存中插入派生的更改监视器实例。  
-  
-    -   如果实现尝试插入对象缓存的更改监视器实例，但插入失败，缓存实现负责调用<see cref="M:System.Runtime.Caching.ChangeMonitor.Dispose" />重载。 在插入尝试会导致异常，必须释放任何关联的依赖关系类型的缓存实现。  
-  
-    -   如果删除缓存项，则缓存实现还必须释放依赖项的类型。  
-  
-    -   内部实现<see cref="M:System.Runtime.Caching.ChangeMonitor.OnChanged(System.Object)" />方法将自动调用<see cref="Overload:System.Runtime.Caching.ChangeMonitor.Dispose" />方法在调用回调，之后注册通过<see cref="M:System.Runtime.Caching.ChangeMonitor.NotifyOnChanged(System.Runtime.Caching.OnChangedCallback)" />。  
-  
- <block subset="none" type="note"><para>  
- 自动对在事件激发期间的 dispose 方法调用时才会出现的初始化<see cref="T:System.Runtime.Caching.ChangeMonitor" />以前完成实例。  
-  
-</para></block>  
-  
- 当派生的更改监视器的构造函数调用<see cref="M:System.Runtime.Caching.ChangeMonitor.InitializationComplete" />方法时，如果更改监视器的状态已更改 （构造函数时仍处于活动状态监视已更改状态） 则<see cref="M:System.Runtime.Caching.ChangeMonitor.InitializationComplete" />方法将自动释放此更改监视器的类型。  
-  
--   <see cref="P:System.Runtime.Caching.ChangeMonitor.HasChanged" />属性设置为<see langword="true" />后<see cref="M:System.Runtime.Caching.ChangeMonitor.OnChanged(System.Object)" />方法由派生的更改监视器实例，而不管是否调用<see cref="T:System.Runtime.Caching.OnChangedCallback" />已通过调用设置对象<see cref="M:System.Runtime.Caching.ChangeMonitor.NotifyOnChanged(System.Runtime.Caching.OnChangedCallback)" />方法或不。</para>
+      <para>如果创建自定义的缓存实现或派生的更改监视器类型，必须遵循特定的准则。以下列表总结了这些准则。有关详细信息，请参阅各个方法或属性的文档。 的派生类构造函数必须设置<see cref="P:System.Runtime.Caching.ChangeMonitor.UniqueId" />属性，开始监视，并调用<see cref="M:System.Runtime.Caching.ChangeMonitor.InitializationComplete" />在方法返回之前的方法。如果一个构造函数在构造过程中遇到错误，并且必须以释放资源，构造函数只能调用<see cref="Overload:System.Runtime.Caching.ChangeMonitor.Dispose" />重载后<see cref="M:System.Runtime.Caching.ChangeMonitor.InitializationComplete" />调用方法，因为<see cref="Overload:System.Runtime.Caching.ChangeMonitor.Dispose" />重载将引发<see cref="T:System.InvalidOperationException" />如果初始化未完成的异常。 -如果中发生更改之前初始化是正在监视的数据完成，则构造函数必须调用<see cref="M:System.Runtime.Caching.ChangeMonitor.OnChanged(System.Object)" />方法之前调用<see cref="M:System.Runtime.Caching.ChangeMonitor.InitializationComplete" />方法。 频率派生<see cref="T:System.Runtime.Caching.ChangeMonitor" />实例化类型时，你必须插入自定义监视器<see cref="T:System.Runtime.Caching.ObjectCache" />实现。如果要使用更改监视器完毕后，调用或<see cref="Overload:System.Runtime.Caching.ChangeMonitor.Dispose" />方法。 -之后<see cref="T:System.Runtime.Caching.ChangeMonitor" />实例插入到<see cref="T:System.Runtime.Caching.ObjectCache" />实现，<see cref="T:System.Runtime.Caching.ObjectCache" />实例需要更改监视器已释放。即使插入无效并导致异常，<see cref="T:System.Runtime.Caching.ObjectCache" />实现必须调用<see cref="Overload:System.Runtime.Caching.ChangeMonitor.Dispose" />重载。 后派生的更改监视器插入到缓存中，<see cref="T:System.Runtime.Caching.ObjectCache" />实现必须调用<see cref="M:System.Runtime.Caching.ChangeMonitor.NotifyOnChanged(System.Runtime.Caching.OnChangedCallback)" />，通过传递<see cref="T:System.Runtime.Caching.OnChangedCallback" />对象。<see cref="M:System.Runtime.Caching.ChangeMonitor.NotifyOnChanged(System.Runtime.Caching.OnChangedCallback)" />可以调用仅一次的方法。如果已发生了依赖项更改，<see cref="T:System.Runtime.Caching.OnChangedCallback" />实例将立即调用时<see cref="M:System.Runtime.Caching.ChangeMonitor.NotifyOnChanged(System.Runtime.Caching.OnChangedCallback)" />调用。否则为<see cref="T:System.Runtime.Caching.OnChangedCallback" />实例将会调用一次。这一次调用将发生种情况时<see cref="M:System.Runtime.Caching.ChangeMonitor.OnChanged(System.Object)" />调用方法，因为<see cref="T:System.Runtime.Caching.ChangeMonitor" />实例检测到更改，或当<see cref="M:System.Runtime.Caching.ChangeMonitor.Dispose" />方法调用<see cref="T:System.Runtime.Caching.ChangeMonitor" />，以先发生者为准。 -<see cref="T:System.Runtime.Caching.OnChangedCallback" />由提供的实例<see cref="T:System.Runtime.Caching.ObjectCache" />实现应删除此关联的缓存项，通过使用指定的原因<see cref="F:System.Web.Caching.CacheItemRemovedReason.DependencyChanged" />枚举。 -A<see cref="T:System.Runtime.Caching.ChangeMonitor" />实例可以调用<see cref="M:System.Runtime.Caching.ChangeMonitor.OnChanged(System.Object)" />方法之前已调用的缓存实现<see cref="M:System.Runtime.Caching.ChangeMonitor.NotifyOnChanged(System.Runtime.Caching.OnChangedCallback)" />方法还是之后。如果<see cref="M:System.Runtime.Caching.ChangeMonitor.OnChanged(System.Object)" />方法之前调用<see cref="M:System.Runtime.Caching.ChangeMonitor.NotifyOnChanged(System.Runtime.Caching.OnChangedCallback)" />名为 base<see cref="T:System.Runtime.Caching.ChangeMonitor" />实现将通知发生这种情况的缓存，将触发要传递给回调<see cref="M:System.Runtime.Caching.ChangeMonitor.NotifyOnChanged(System.Runtime.Caching.OnChangedCallback)" />时立即<see cref="M:System.Runtime.Caching.ChangeMonitor.NotifyOnChanged(System.Runtime.Caching.OnChangedCallback)" />调用。传递给任何状态数据<see cref="M:System.Runtime.Caching.ChangeMonitor.OnChanged(System.Object)" />方法保存的更改监视器并随后传递到<see cref="M:System.Runtime.Caching.ChangeMonitor.NotifyOnChanged(System.Runtime.Caching.OnChangedCallback)" />方法时<see cref="M:System.Runtime.Caching.ChangeMonitor.NotifyOnChanged(System.Runtime.Caching.OnChangedCallback)" />调用方法。 -A 更改监视器必须实现<see cref="M:System.Runtime.Caching.ChangeMonitor.Dispose(System.Boolean)" />方法。有关详细信息，请参阅<see cref="M:System.Runtime.Caching.ChangeMonitor.Dispose(System.Boolean)" />方法文档。 -<see cref="M:System.Runtime.Caching.ChangeMonitor.Dispose" />必须调用方法重载，若要释放<see cref="T:System.Runtime.Caching.ChangeMonitor" />实例。调用 Dispose 的规则如下所示:-某个项插入缓存之前，它是调用方，若要释放的责任<see cref="T:System.Runtime.Caching.ChangeMonitor" />实例。 -一次缓存项和<see cref="T:System.Runtime.Caching.ChangeMonitor" />与其关联的实例传递到缓存中，缓存实施者必须确保，<see cref="Overload:System.Runtime.Caching.ChangeMonitor.Dispose" />调用方法时，即使插入操作失败。 -在将项及其关联<see cref="T:System.Runtime.Caching.ChangeMonitor" />实例传递到缓存中，调用方必须不会释放依赖项，因为当<see cref="Overload:System.Runtime.Caching.ChangeMonitor.Dispose" />方法调用，因此调用将被视为依赖项已更改。因此，<see cref="M:System.Runtime.Caching.ChangeMonitor.OnChanged(System.Object)" />自动调用方法。 -考虑到，这些规则<see cref="Overload:System.Runtime.Caching.ChangeMonitor.Dispose" />必须按以下方式之一调用方法:-用户必须调用<see cref="M:System.Runtime.Caching.ChangeMonitor.Dispose" />方法重载，如果他们决定不向缓存中插入派生的更改监视器实例。 -如果实现尝试插入对象缓存的更改监视器实例，但插入操作将失败，缓存实现负责调用<see cref="M:System.Runtime.Caching.ChangeMonitor.Dispose" />重载。在插入尝试会导致异常，必须释放任何关联的依赖关系类型的缓存实现。 -如果删除缓存项，则缓存实现还必须释放依赖项的类型。 -的内部实现<see cref="M:System.Runtime.Caching.ChangeMonitor.OnChanged(System.Object)" />方法将自动调用<see cref="Overload:System.Runtime.Caching.ChangeMonitor.Dispose" />方法在调用回调，之后注册通过<see cref="M:System.Runtime.Caching.ChangeMonitor.NotifyOnChanged(System.Runtime.Caching.OnChangedCallback)" />。<block subset="none" type="note"><para> 自动对在事件激发期间的 dispose 方法调用时才会出现的初始化<see cref="T:System.Runtime.Caching.ChangeMonitor" />以前完成实例。</para></block>  当派生的更改监视器的构造函数调用<see cref="M:System.Runtime.Caching.ChangeMonitor.InitializationComplete" />方法时，如果更改监视器的状态已更改 （构造函数时仍处于活动状态监视已更改状态） 则<see cref="M:System.Runtime.Caching.ChangeMonitor.InitializationComplete" />方法将自动释放此更改监视器的类型。 -<see cref="P:System.Runtime.Caching.ChangeMonitor.HasChanged" />属性设置为<see langword="true" />后<see cref="M:System.Runtime.Caching.ChangeMonitor.OnChanged(System.Object)" />方法由派生的更改监视器实例，而不管是否调用<see cref="T:System.Runtime.Caching.OnChangedCallback" />已通过调用设置对象<see cref="M:System.Runtime.Caching.ChangeMonitor.NotifyOnChanged(System.Runtime.Caching.OnChangedCallback)" />方法或不。</para>
     </block>
     <altmember cref="N:System.Web.Caching" />
     <altmember cref="T:System.Runtime.Caching.ObjectCache" />
@@ -124,7 +82,7 @@
  ]]></format>
         </remarks>
         <block subset="none" type="overrides">
-          <para>派生类的构造函数必须设置<see cref="P:System.Runtime.Caching.ChangeMonitor.UniqueId" />属性，开始监视，并调用<see cref="M:System.Runtime.Caching.ChangeMonitor.InitializationComplete" />类之前它将返回。 如果在初始化之前的依赖项发生更改已完成 （例如，如果在缓存中找不到依赖的缓存密钥时），则构造函数必须调用<see cref="M:System.Runtime.Caching.ChangeMonitor.OnChanged(System.Object)" />方法之前调用<see cref="M:System.Runtime.Caching.ChangeMonitor.InitializationComplete" />方法。 在这种情况下，构造函数可以调用<see cref="M:System.Runtime.Caching.ChangeMonitor.Dispose" />方法之后才<see cref="M:System.Runtime.Caching.ChangeMonitor.InitializationComplete" />调用方法，因为<see cref="M:System.Runtime.Caching.ChangeMonitor.Dispose" />方法引发异常，如果未完成初始化。</para>
+          <para>派生类的构造函数必须设置<see cref="P:System.Runtime.Caching.ChangeMonitor.UniqueId" />属性，开始监视，并调用<see cref="M:System.Runtime.Caching.ChangeMonitor.InitializationComplete" />类之前它将返回。如果在初始化之前的依赖项发生更改已完成 （例如，如果在缓存中找不到依赖的缓存密钥时），则构造函数必须调用<see cref="M:System.Runtime.Caching.ChangeMonitor.OnChanged(System.Object)" />方法之前调用<see cref="M:System.Runtime.Caching.ChangeMonitor.InitializationComplete" />方法。在这种情况下，构造函数可以调用<see cref="M:System.Runtime.Caching.ChangeMonitor.Dispose" />方法之后才<see cref="M:System.Runtime.Caching.ChangeMonitor.InitializationComplete" />调用方法，因为<see cref="M:System.Runtime.Caching.ChangeMonitor.Dispose" />方法引发异常，如果未完成初始化。</para>
         </block>
       </Docs>
     </Member>
@@ -151,6 +109,7 @@
       <MemberSignature Language="DocId" Value="M:System.Runtime.Caching.ChangeMonitor.Dispose" />
       <MemberSignature Language="VB.NET" Value="Public Sub Dispose ()" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual void Dispose();" />
+      <MemberSignature Language="F#" Value="abstract member Dispose : unit -&gt; unit&#xA;override this.Dispose : unit -&gt; unit" Usage="changeMonitor.Dispose " />
       <MemberType>Method</MemberType>
       <Implements>
         <InterfaceMember>M:System.IDisposable.Dispose</InterfaceMember>
@@ -211,6 +170,7 @@
       <MemberSignature Language="DocId" Value="M:System.Runtime.Caching.ChangeMonitor.Dispose(System.Boolean)" />
       <MemberSignature Language="VB.NET" Value="Protected MustOverride Sub Dispose (disposing As Boolean)" />
       <MemberSignature Language="C++ CLI" Value="protected:&#xA; abstract void Dispose(bool disposing);" />
+      <MemberSignature Language="F#" Value="abstract member Dispose : bool -&gt; unit" Usage="changeMonitor.Dispose disposing" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Runtime.Caching</AssemblyName>
@@ -223,8 +183,7 @@
         <Parameter Name="disposing" Type="System.Boolean" />
       </Parameters>
       <Docs>
-        <param name="disposing">
-          若要释放托管资源和非托管资源，以及对 <see cref="T:System.Runtime.Caching.ChangeMonitor" /> 实例的任何引用，则为 <see langword="true" />；若要仅释放非托管资源，则为 <see langword="false" />。 传递 <see langword="false" /> 时，<see cref="M:System.Runtime.Caching.ChangeMonitor.Dispose(System.Boolean)" /> 方法由 <see langword="finalizer" /> 线程调用，所有外部托管引用由于已经作为垃圾回收，因此可能不再有效。</param>
+        <param name="disposing">若要释放托管资源和非托管资源，以及对 <see cref="T:System.Runtime.Caching.ChangeMonitor" /> 实例的任何引用，则为 <see langword="true" />；若要仅释放非托管资源，则为 <see langword="false" />。 传递 <see langword="false" /> 时，<see cref="M:System.Runtime.Caching.ChangeMonitor.Dispose(System.Boolean)" /> 方法由 <see langword="finalizer" /> 线程调用，所有外部托管引用由于已经作为垃圾回收，因此可能不再有效。</param>
         <summary>释放所有托管资源和非托管资源，以及对 <see cref="T:System.Runtime.Caching.ChangeMonitor" /> 实例的任何引用。 此重载必须由派生的更改监视器类实现。</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
@@ -235,9 +194,7 @@
  ]]></format>
         </remarks>
         <block subset="none" type="overrides">
-          <para>更改监视器必须实现<see cref="M:System.Runtime.Caching.ChangeMonitor.Dispose(System.Boolean)" />重载以释放所有托管和非托管资源时的值<paramref name="disposing" />是<see langword="true" />。 <see cref="M:System.Runtime.Caching.ChangeMonitor.Dispose(System.Boolean)" />具有方法重载<paramref name="disposing" />值<see langword="true" />只调用一次，即，当第一次释放实例时。 更改监视器不能调用<see cref="M:System.Runtime.Caching.ChangeMonitor.Dispose(System.Boolean)" />直接重载。 派生的更改监视器可以调用公共参数的<see cref="M:System.Runtime.Caching.ChangeMonitor.Dispose" />方法对基础<see cref="T:System.Runtime.Caching.ChangeMonitor" />类。  
-  
- 或者，更改监视器可以实现终结器方法。 在这种情况下，可以调用终结器<see cref="M:System.Runtime.Caching.ChangeMonitor.Dispose(System.Boolean)" />方法并将其传递<paramref name="disposing" />值<see langword="false" />。 但是，这是通常不必要的。 通常，由保留的更改监视器实例的引用的服务执行对依赖项更改的监视。 引用避免被垃圾回收，该实例，因此不必要的终结器方法。 若要在一个依赖项更改时, 避免内存泄露，<see cref="M:System.Runtime.Caching.ChangeMonitor.OnChanged(System.Object)" />方法释放更改监视器实例 （除非初始化尚未完成）。</para>
+          <para>更改监视器必须实现<see cref="M:System.Runtime.Caching.ChangeMonitor.Dispose(System.Boolean)" />重载以释放所有托管和非托管资源时的值<paramref name="disposing" />是<see langword="true" />。<see cref="M:System.Runtime.Caching.ChangeMonitor.Dispose(System.Boolean)" />具有方法重载<paramref name="disposing" />值<see langword="true" />只调用一次，即，当第一次释放实例时。更改监视器不能调用<see cref="M:System.Runtime.Caching.ChangeMonitor.Dispose(System.Boolean)" />直接重载。派生的更改监视器可以调用公共参数的<see cref="M:System.Runtime.Caching.ChangeMonitor.Dispose" />方法对基础<see cref="T:System.Runtime.Caching.ChangeMonitor" />类。或者，更改监视器可以实现终结器方法。在这种情况下，可以调用终结器<see cref="M:System.Runtime.Caching.ChangeMonitor.Dispose(System.Boolean)" />方法并将其传递<paramref name="disposing" />值<see langword="false" />。但是，这是通常不必要的。通常，由保留的更改监视器实例的引用的服务执行对依赖项更改的监视。引用避免被垃圾回收，该实例，因此不必要的终结器方法。若要在一个依赖项更改时, 避免内存泄露，<see cref="M:System.Runtime.Caching.ChangeMonitor.OnChanged(System.Object)" />方法释放更改监视器实例 （除非初始化尚未完成）。</para>
         </block>
       </Docs>
     </Member>
@@ -247,6 +204,7 @@
       <MemberSignature Language="DocId" Value="P:System.Runtime.Caching.ChangeMonitor.HasChanged" />
       <MemberSignature Language="VB.NET" Value="Public ReadOnly Property HasChanged As Boolean" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; property bool HasChanged { bool get(); };" />
+      <MemberSignature Language="F#" Value="member this.HasChanged : bool" Usage="System.Runtime.Caching.ChangeMonitor.HasChanged" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Runtime.Caching</AssemblyName>
@@ -257,8 +215,7 @@
       </ReturnValue>
       <Docs>
         <summary>获取一个值，该值指示由 <see cref="T:System.Runtime.Caching.ChangeMonitor" /> 类监视的状态已发生更改。</summary>
-        <value>
-          如果由 <see cref="T:System.Runtime.Caching.ChangeMonitor" /> 实例监视的状态已发生更改，则为 <see langword="true" />；否则为 <see langword="false" />。</value>
+        <value>如果由 <see cref="T:System.Runtime.Caching.ChangeMonitor" /> 实例监视的状态已发生更改，则为 <see langword="true" />；否则为 <see langword="false" />。</value>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -282,6 +239,7 @@
       <MemberSignature Language="DocId" Value="M:System.Runtime.Caching.ChangeMonitor.InitializationComplete" />
       <MemberSignature Language="VB.NET" Value="Protected Sub InitializationComplete ()" />
       <MemberSignature Language="C++ CLI" Value="protected:&#xA; void InitializationComplete();" />
+      <MemberSignature Language="F#" Value="member this.InitializationComplete : unit -&gt; unit" Usage="changeMonitor.InitializationComplete " />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Runtime.Caching</AssemblyName>
@@ -304,7 +262,7 @@
  ]]></format>
         </remarks>
         <block subset="none" type="overrides">
-          <para>派生类的构造函数必须调用基<see cref="M:System.Runtime.Caching.ChangeMonitor.InitializationComplete" />构造函数将返回之前的方法。 派生类的构造函数可以调用<see cref="M:System.Runtime.Caching.ChangeMonitor.Dispose" />方法之后才<see cref="M:System.Runtime.Caching.ChangeMonitor.InitializationComplete" />调用，因为<see cref="M:System.Runtime.Caching.ChangeMonitor.Dispose" />方法引发异常，如果未完成初始化。</para>
+          <para>派生类的构造函数必须调用基<see cref="M:System.Runtime.Caching.ChangeMonitor.InitializationComplete" />构造函数将返回之前的方法。派生类的构造函数可以调用<see cref="M:System.Runtime.Caching.ChangeMonitor.Dispose" />方法之后才<see cref="M:System.Runtime.Caching.ChangeMonitor.InitializationComplete" />调用，因为<see cref="M:System.Runtime.Caching.ChangeMonitor.Dispose" />方法引发异常，如果未完成初始化。</para>
         </block>
       </Docs>
     </Member>
@@ -314,6 +272,7 @@
       <MemberSignature Language="DocId" Value="P:System.Runtime.Caching.ChangeMonitor.IsDisposed" />
       <MemberSignature Language="VB.NET" Value="Public ReadOnly Property IsDisposed As Boolean" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; property bool IsDisposed { bool get(); };" />
+      <MemberSignature Language="F#" Value="member this.IsDisposed : bool" Usage="System.Runtime.Caching.ChangeMonitor.IsDisposed" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Runtime.Caching</AssemblyName>
@@ -324,8 +283,7 @@
       </ReturnValue>
       <Docs>
         <summary>获取一个值，该值指示释放 <see cref="T:System.Runtime.Caching.ChangeMonitor" /> 类的派生实例。</summary>
-        <value>
-          如果释放该实例，则为 <see langword="true" />；否则为 <see langword="false" />。</value>
+        <value>如果释放该实例，则为 <see langword="true" />；否则为 <see langword="false" />。</value>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -341,6 +299,7 @@
       <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void NotifyOnChanged(class System.Runtime.Caching.OnChangedCallback onChangedCallback) cil managed" />
       <MemberSignature Language="DocId" Value="M:System.Runtime.Caching.ChangeMonitor.NotifyOnChanged(System.Runtime.Caching.OnChangedCallback)" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; void NotifyOnChanged(System::Runtime::Caching::OnChangedCallback ^ onChangedCallback);" />
+      <MemberSignature Language="F#" Value="member this.NotifyOnChanged : System.Runtime.Caching.OnChangedCallback -&gt; unit" Usage="changeMonitor.NotifyOnChanged onChangedCallback" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Runtime.Caching</AssemblyName>
@@ -376,9 +335,7 @@
         <exception cref="T:System.ArgumentNullException">
           <paramref name="onChangedCallback" /> 为 <see langword="null" />。</exception>
         <block subset="none" type="overrides">
-          <para>1.  必须调用<see cref="M:System.Runtime.Caching.ChangeMonitor.NotifyOnChanged(System.Runtime.Caching.OnChangedCallback)" />方法的任何依赖项更改的通知。 如果已发生了依赖项更改，<see cref="T:System.Runtime.Caching.OnChangedCallback" />实例时将会调用<see cref="M:System.Runtime.Caching.ChangeMonitor.NotifyOnChanged(System.Runtime.Caching.OnChangedCallback)" />调用。 否则为<see cref="T:System.Runtime.Caching.OnChangedCallback" />实例将会调用一次时<see cref="M:System.Runtime.Caching.ChangeMonitor.OnChanged(System.Object)" />调用方法时，或者当<see cref="M:System.Runtime.Caching.ChangeMonitor.Dispose" />调用方法，以先发生者为准。 <see cref="T:System.Runtime.Caching.OnChangedCallback" />提供缓存实现实例应删除缓存项，如果请求的缓存调用方，则引发必要的更改或更新事件，回退到原始缓存调用方。  
-  
-2.  对象缓存实现必须删除与依赖关系更改相关联的缓存项。</para>
+          <para>1.必须调用<see cref="M:System.Runtime.Caching.ChangeMonitor.NotifyOnChanged(System.Runtime.Caching.OnChangedCallback)" />方法的任何依赖项更改的通知。如果已发生了依赖项更改，<see cref="T:System.Runtime.Caching.OnChangedCallback" />实例时将会调用<see cref="M:System.Runtime.Caching.ChangeMonitor.NotifyOnChanged(System.Runtime.Caching.OnChangedCallback)" />调用。否则为<see cref="T:System.Runtime.Caching.OnChangedCallback" />实例将会调用一次时<see cref="M:System.Runtime.Caching.ChangeMonitor.OnChanged(System.Object)" />调用方法时，或者当<see cref="M:System.Runtime.Caching.ChangeMonitor.Dispose" />调用方法，以先发生者为准。<see cref="T:System.Runtime.Caching.OnChangedCallback" />提供缓存实现实例应删除缓存项，如果请求的缓存调用方，则引发必要的更改或更新事件，回退到原始缓存调用方。2.对象缓存实现必须删除与依赖关系更改相关联的缓存项。</para>
         </block>
         <altmember cref="M:System.Runtime.Caching.ChangeMonitor.OnChanged(System.Object)" />
       </Docs>
@@ -389,6 +346,7 @@
       <MemberSignature Language="DocId" Value="M:System.Runtime.Caching.ChangeMonitor.OnChanged(System.Object)" />
       <MemberSignature Language="VB.NET" Value="Protected Sub OnChanged (state As Object)" />
       <MemberSignature Language="C++ CLI" Value="protected:&#xA; void OnChanged(System::Object ^ state);" />
+      <MemberSignature Language="F#" Value="member this.OnChanged : obj -&gt; unit" Usage="changeMonitor.OnChanged state" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Runtime.Caching</AssemblyName>
@@ -424,6 +382,7 @@
       <MemberSignature Language="DocId" Value="P:System.Runtime.Caching.ChangeMonitor.UniqueId" />
       <MemberSignature Language="VB.NET" Value="Public MustOverride ReadOnly Property UniqueId As String" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; abstract property System::String ^ UniqueId { System::String ^ get(); };" />
+      <MemberSignature Language="F#" Value="member this.UniqueId : string" Usage="System.Runtime.Caching.ChangeMonitor.UniqueId" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Runtime.Caching</AssemblyName>

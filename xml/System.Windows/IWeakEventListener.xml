@@ -1,24 +1,25 @@
 <Type Name="IWeakEventListener" FullName="System.Windows.IWeakEventListener">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="3a1bf86fcc21c642d34254ee3721d50b914beee5" />
-    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
+    <Meta Name="ms.openlocfilehash" Value="7c3b1a2e5ca5345941bf0defae6b6b61e709598f" />
+    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="zh-CN" />
-    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
-    <Meta Name="ms.locfileid" Value="30676101" />
+    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
+    <Meta Name="ms.locfileid" Value="36459037" />
   </Metadata>
   <TypeSignature Language="C#" Value="public interface IWeakEventListener" />
   <TypeSignature Language="ILAsm" Value=".class public interface auto ansi abstract IWeakEventListener" />
   <TypeSignature Language="DocId" Value="T:System.Windows.IWeakEventListener" />
   <TypeSignature Language="VB.NET" Value="Public Interface IWeakEventListener" />
   <TypeSignature Language="C++ CLI" Value="public interface class IWeakEventListener" />
+  <TypeSignature Language="F#" Value="type IWeakEventListener = interface" />
   <AssemblyInfo>
     <AssemblyName>WindowsBase</AssemblyName>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
   </AssemblyInfo>
   <Interfaces />
   <Docs>
-    <summary>为希望通过 WeakEvent 模式和 <see cref="T:System.Windows.WeakEventManager" /> 接收事件的类提供事件侦听支持。</summary>
+    <summary>Provides event listening support for classes that expect to receive events through the WeakEvent pattern and a <see cref="T:System.Windows.WeakEventManager" />.</summary>
     <remarks>
       <format type="text/markdown"><![CDATA[  
   
@@ -42,6 +43,7 @@
       <MemberSignature Language="DocId" Value="M:System.Windows.IWeakEventListener.ReceiveWeakEvent(System.Type,System.Object,System.EventArgs)" />
       <MemberSignature Language="VB.NET" Value="Public Function ReceiveWeakEvent (managerType As Type, sender As Object, e As EventArgs) As Boolean" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; bool ReceiveWeakEvent(Type ^ managerType, System::Object ^ sender, EventArgs ^ e);" />
+      <MemberSignature Language="F#" Value="abstract member ReceiveWeakEvent : Type * obj * EventArgs -&gt; bool" Usage="iWeakEventListener.ReceiveWeakEvent (managerType, sender, e)" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>WindowsBase</AssemblyName>
@@ -56,12 +58,12 @@
         <Parameter Name="e" Type="System.EventArgs" />
       </Parameters>
       <Docs>
-        <param name="managerType">调用此方法的 <see cref="T:System.Windows.WeakEventManager" /> 的类型。</param>
-        <param name="sender">发出该事件的对象。</param>
-        <param name="e">事件数据。</param>
-        <summary>接收集中事件管理器中的事件。</summary>
+        <param name="managerType">The type of the <see cref="T:System.Windows.WeakEventManager" /> calling this method.</param>
+        <param name="sender">Object that originated the event.</param>
+        <param name="e">Event data.</param>
+        <summary>Receives events from the centralized event manager.</summary>
         <returns>
-          如果侦听器已对事件进行了处理，则为 <see langword="true" />。 在 [!INCLUDE[TLA2#tla_winclient](~/includes/tla2sharptla-winclient-md.md)] 中，<see cref="T:System.Windows.WeakEventManager" /> 处理为侦听器未处理的事件注册侦听器被视为错误。 无论如何，如果此方法接收到它未能识别或处理的事件，它都应该返回 <see langword="false" />。</returns>
+          <see langword="true" /> if the listener handled the event. It is considered an error by the <see cref="T:System.Windows.WeakEventManager" /> handling in [!INCLUDE[TLA2#tla_winclient](~/includes/tla2sharptla-winclient-md.md)] to register a listener for an event that the listener does not handle. Regardless, the method should return <see langword="false" /> if it receives an event that it does not recognize or handle.</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -74,9 +76,7 @@
  ]]></format>
         </remarks>
         <block subset="none" type="overrides">
-          <para>此方法旨在接收所有可能的事件接收方所在侦听器列表中。 尤其是在实现侦听多个事件的类，必须检查传入的类型<paramref name="managerType" />才能知道哪个事件调用的参数对应于。 这就是为什么要模式的一部分的每个事件必须有一个专用<see cref="T:System.Windows.WeakEventManager" />。 此外，<paramref name="e" />参数被类型化为常规<see cref="T:System.EventArgs" />。 因此，按顺序将获得事件数据外的任何特定属性，您的实现需要强制转换为特定事件数据类型。  
-  
- 通常情况下，基于事件的标识检查后<see cref="T:System.Windows.WeakEventManager" />类型，您的实现应调用私有类处理程序。 你的类处理程序可能是完全相同的类处理程序用于处理该事件的通过添加的常规事件模式通过添加的侦听器<see langword="+=" />到发件人上的事件。 下面的示例部分提供了一个大致的实现模板。</para>
+          <para>此方法旨在接收所有可能的事件接收方所在侦听器列表中。尤其是在实现侦听多个事件的类，必须检查传入的类型<paramref name="managerType" />才能知道哪个事件调用的参数对应于。这就是为什么要模式的一部分的每个事件必须有一个专用<see cref="T:System.Windows.WeakEventManager" />。此外，<paramref name="e" />参数被类型化为常规<see cref="T:System.EventArgs" />。因此，按顺序将获得事件数据外的任何特定属性，您的实现需要强制转换为特定事件数据类型。通常情况下，基于事件的标识检查后<see cref="T:System.Windows.WeakEventManager" />类型，您的实现应调用私有类处理程序。你的类处理程序可能是完全相同的类处理程序用于处理该事件的通过添加的常规事件模式通过添加的侦听器<see langword="+=" />到发件人上的事件。下面的示例部分提供了一个大致的实现模板。</para>
         </block>
         <altmember cref="T:System.Windows.WeakEventManager" />
       </Docs>

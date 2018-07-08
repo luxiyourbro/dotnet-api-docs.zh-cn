@@ -1,11 +1,11 @@
 <Type Name="ClientFormsIdentity" FullName="System.Web.ClientServices.ClientFormsIdentity">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="b3f0b0d839caa85bbe26af3561725579fa017283" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="f6dacb7a050b755bd275e866b6ef026770c73b4c" />
+    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="zh-CN" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36604653" />
+    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
+    <Meta Name="ms.locfileid" Value="37608271" />
   </Metadata>
   <TypeSignature Language="C#" Value="public class ClientFormsIdentity : IDisposable, System.Security.Principal.IIdentity" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit ClientFormsIdentity extends System.Object implements class System.IDisposable, class System.Security.Principal.IIdentity" />
@@ -15,6 +15,7 @@
   <TypeSignature Language="F#" Value="type ClientFormsIdentity = class&#xA;    interface IIdentity&#xA;    interface IDisposable" />
   <AssemblyInfo>
     <AssemblyName>System.Web.Extensions</AssemblyName>
+    <AssemblyVersion>3.5.0.0</AssemblyVersion>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
   </AssemblyInfo>
   <Base>
@@ -34,16 +35,16 @@
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 客户端应用程序服务功能使用此类来表示经过身份验证的用户。 当你配置应用程序使用客户端应用程序服务和 forms 身份验证时，你可以通过调用来进行验证用户`static`<xref:System.Web.Security.Membership.ValidateUser%2A?displayProperty=nameWithType>方法。 身份验证后，你可以检索对当前的引用<xref:System.Web.ClientServices.ClientFormsIdentity>实例通过<xref:System.Security.Principal.IPrincipal.Identity%2A>属性<xref:System.Security.Principal.IPrincipal>通过检索`static`<xref:System.Threading.Thread.CurrentPrincipal%2A?displayProperty=nameWithType>属性。 有关详细信息，请参阅[客户端应用程序服务](~/docs/framework/common-client-technologies/client-application-services.md)。  
+ 客户端应用程序服务功能使用此类来表示身份验证的用户。 在配置应用程序以使用客户端应用程序服务和 forms 身份验证时，可以验证用户身份通过调用`static`<xref:System.Web.Security.Membership.ValidateUser%2A?displayProperty=nameWithType>方法。 身份验证后，可以检索与当前的引用<xref:System.Web.ClientServices.ClientFormsIdentity>实例通过<xref:System.Security.Principal.IPrincipal.Identity%2A>的属性<xref:System.Security.Principal.IPrincipal>通过检索`static`<xref:System.Threading.Thread.CurrentPrincipal%2A?displayProperty=nameWithType>属性。 有关详细信息，请参阅[客户端应用程序服务](~/docs/framework/common-client-technologies/client-application-services.md)。  
   
- 通常会访问<xref:System.Web.ClientServices.ClientFormsIdentity>对象作为<xref:System.Security.Principal.IIdentity>引用以避免直接依赖于此类。 你可以确定用户是否已验证通过检查<xref:System.Security.Principal.IIdentity.IsAuthenticated%2A?displayProperty=nameWithType>的标识属性。 但是，适用于 Windows，但不是能为客户端应用程序服务，则可能会验证该用户。 若要确定用户是否客户端应用程序服务进行身份验证，则应该还确认<xref:System.Security.Principal.IIdentity.AuthenticationType%2A?displayProperty=nameWithType>属性值是"ClientForms"。  
+ 通常会访问<xref:System.Web.ClientServices.ClientFormsIdentity>对象作为<xref:System.Security.Principal.IIdentity>引用以避免此类上的直接依赖项。 您可以确定用户是否进行身份验证通过检查<xref:System.Security.Principal.IIdentity.IsAuthenticated%2A?displayProperty=nameWithType>标识的属性。 但是，对于 Windows，但不适用于客户端应用程序服务，则可能会验证该用户。 若要确定用户是否为客户端应用程序服务进行身份验证，还应确认的<xref:System.Security.Principal.IIdentity.AuthenticationType%2A?displayProperty=nameWithType>属性值是"ClientForms"。  
   
- 你必须使用显式<xref:System.Web.ClientServices.ClientFormsIdentity>引用来调用<xref:System.Web.ClientServices.ClientFormsIdentity.RevalidateUser%2A>方法，不能由<xref:System.Security.Principal.IIdentity>接口。  
+ 必须使用显式<xref:System.Web.ClientServices.ClientFormsIdentity>引用来调用<xref:System.Web.ClientServices.ClientFormsIdentity.RevalidateUser%2A>方法，它不由<xref:System.Security.Principal.IIdentity>接口。  
   
    
   
 ## Examples  
- 下面的代码示例演示如何使用此类应用程序退出脱机状态时以静默方式重新验证用户。 在此示例中，<xref:System.Windows.Forms.CheckBox.CheckedChanged>事件处理程序更新的脱机状态，以匹配的复选框值。 如果用户设置为联机状态应用程序，事件处理程序将尝试重新验证用户，通过调用<xref:System.Web.ClientServices.ClientFormsIdentity.RevalidateUser%2A>方法。 但是，如果身份验证服务器不可用，事件处理程序将返回为脱机状态的应用程序。  
+ 下面的代码示例演示如何使用此类应用程序退出脱机状态时以无提示方式重新验证用户。 在此示例中，<xref:System.Windows.Forms.CheckBox.CheckedChanged>事件处理程序更新脱机状态以与复选框的值匹配。 如果用户设置应用程序进入联机状态，事件处理程序将尝试重新验证用户，通过调用<xref:System.Web.ClientServices.ClientFormsIdentity.RevalidateUser%2A>方法。 但是，如果身份验证服务器不可用，事件处理程序将返回为脱机状态的应用程序。  
   
 > [!NOTE]
 >  <xref:System.Web.ClientServices.ClientFormsIdentity.RevalidateUser%2A> 方法只是为了方便。 因为它没有返回值，所以无法指示重新验证是否失败。 例如，如果在服务器上更改了用户凭据，则重新验证可能会失败。 在这种情况下，你可能要包含在服务调用失败之后显式验证用户的代码。 有关详细信息，请参阅中的访问 Web 设置部分[演练： 使用客户端应用程序服务](~/docs/framework/common-client-technologies/walkthrough-using-client-application-services.md)。  
@@ -75,6 +76,7 @@
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Parameters>
@@ -106,6 +108,7 @@
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -118,7 +121,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 此属性不适合在应用程序代码中使用。 不能有意修改通过此属性，检索到的 cookie 和它们所包含任何有用信息。  
+ 此属性不适用于在应用程序代码中使用。 不能有意义的方式修改通过此属性，检索到的 cookie，并包含任何有用信息。  
   
  ]]></format>
         </remarks>
@@ -134,6 +137,7 @@
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -146,12 +150,12 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 通常会访问<xref:System.Web.ClientServices.ClientFormsIdentity>对象作为<xref:System.Security.Principal.IIdentity>引用以避免直接依赖于此类。 你可以确定用户是否已验证通过检查<xref:System.Security.Principal.IIdentity.IsAuthenticated%2A?displayProperty=nameWithType>的标识属性。 但是，适用于 Windows，但不是能为客户端应用程序服务，则可能会验证该用户。 若要确定用户是否客户端应用程序服务进行身份验证，则应该还确认<xref:System.Security.Principal.IIdentity.AuthenticationType%2A?displayProperty=nameWithType>属性值是"ClientForms"。 有关详细信息，请参阅<xref:System.Web.ClientServices.ClientFormsIdentity>类概述。  
+ 通常会访问<xref:System.Web.ClientServices.ClientFormsIdentity>对象作为<xref:System.Security.Principal.IIdentity>引用以避免此类上的直接依赖项。 您可以确定用户是否进行身份验证通过检查<xref:System.Security.Principal.IIdentity.IsAuthenticated%2A?displayProperty=nameWithType>标识的属性。 但是，对于 Windows，但不适用于客户端应用程序服务，则可能会验证该用户。 若要确定用户是否为客户端应用程序服务进行身份验证，还应确认的<xref:System.Security.Principal.IIdentity.AuthenticationType%2A?displayProperty=nameWithType>属性值是"ClientForms"。 有关详细信息，请参阅<xref:System.Web.ClientServices.ClientFormsIdentity>类概述。  
   
    
   
 ## Examples  
- 下面的代码示例演示如何使用通过此属性<xref:System.Security.Principal.IIdentity>引用，以确定用户当前是否为客户端应用程序服务进行身份验证。 此示例假定应用程序是在默认配置中，用户无需身份验证 cookie 过期时再次登录。 否则为<xref:System.Net.WebException>可能表示的用户登录名已过期。 有关详细信息，请参阅[如何：配置客户端应用程序服务](~/docs/framework/common-client-technologies/how-to-configure-client-application-services.md)。  
+ 下面的代码示例演示如何使用此属性通过<xref:System.Security.Principal.IIdentity>引用以确定用户当前是否为客户端应用程序服务进行身份验证。 此示例假定应用程序是在默认配置中的用户不需要以要求在身份验证 cookie 过期时再次登录。 否则为<xref:System.Net.WebException>可能表示用户登录名已过期。 有关详细信息，请参阅[如何：配置客户端应用程序服务](~/docs/framework/common-client-technologies/how-to-configure-client-application-services.md)。  
   
  [!code-csharp[ClientApplicationServices#312](~/samples/snippets/csharp/VS_Snippets_Winforms/ClientApplicationServices/CS/Class1.cs#312)]
  [!code-vb[ClientApplicationServices#312](~/samples/snippets/visualbasic/VS_Snippets_Winforms/ClientApplicationServices/VB/Class1.vb#312)]  
@@ -186,6 +190,7 @@
       </Implements>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -198,7 +203,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 在完成使用 <xref:System.Web.ClientServices.ClientFormsIdentity.Dispose%2A> 后，应调用 <xref:System.Web.ClientServices.ClientFormsIdentity>。 <xref:System.Web.ClientServices.ClientFormsIdentity.Dispose%2A> 方法使 <xref:System.Web.ClientServices.ClientFormsIdentity> 处于不可用状态。 在调用<xref:System.Web.ClientServices.ClientFormsIdentity.Dispose%2A>，必须释放对所有引用<xref:System.Web.ClientServices.ClientFormsIdentity>以便垃圾回收器才能回收的内存，<xref:System.Web.ClientServices.ClientFormsIdentity>占用。 有关详细信息，请参阅[清洗向上非托管资源](~/docs/standard/garbage-collection/unmanaged.md)和[实现 Dispose 方法](~/docs/standard/garbage-collection/implementing-dispose.md)。  
+ 在完成使用 <xref:System.Web.ClientServices.ClientFormsIdentity.Dispose%2A> 后，应调用 <xref:System.Web.ClientServices.ClientFormsIdentity>。 <xref:System.Web.ClientServices.ClientFormsIdentity.Dispose%2A> 方法使 <xref:System.Web.ClientServices.ClientFormsIdentity> 处于不可用状态。 在调用<xref:System.Web.ClientServices.ClientFormsIdentity.Dispose%2A>，必须释放对所有引用<xref:System.Web.ClientServices.ClientFormsIdentity>这样垃圾回收器才能收回内存的<xref:System.Web.ClientServices.ClientFormsIdentity>占用。 有关详细信息，请参阅[清理了非托管资源](~/docs/standard/garbage-collection/unmanaged.md)并[实现 Dispose 方法](~/docs/standard/garbage-collection/implementing-dispose.md)。  
   
 > [!NOTE]
 >  每次释放对 <xref:System.Web.ClientServices.ClientFormsIdentity.Dispose%2A> 的最后一个引用前，均应调用 <xref:System.Web.ClientServices.ClientFormsIdentity>。 否则，在垃圾回收器调用 <xref:System.Web.ClientServices.ClientFormsIdentity> 对象的 `Finalize` 方法之前，该对象正在使用的资源不会被释放。  
@@ -217,6 +222,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -232,15 +238,15 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 此方法称为由公共`Dispose()`方法和<xref:System.Object.Finalize%2A>方法。 `Dispose()` 调用受保护`Dispose(Boolean)`方法替换`disposing`参数设置为`true`。 <xref:System.Object.Finalize%2A> 调用`Dispose`与`disposing`设置为`false`。  
+ 调用此方法由公共`Dispose()`方法和<xref:System.Object.Finalize%2A>方法。 `Dispose()` 调用受保护`Dispose(Boolean)`方法替换`disposing`参数设置为`true`。 <xref:System.Object.Finalize%2A> 调用`Dispose`与`disposing`设置为`false`。  
   
- 当`disposing`参数为 true 时，此方法释放由任何托管对象持有的全部资源此<xref:System.Web.ClientServices.ClientFormsIdentity>引用。 此方法调用每个引用对象的 `Dispose()` 方法。  
+ 当`disposing`参数为 true 时，此方法释放任何托管对象所持有的所有资源，此<xref:System.Web.ClientServices.ClientFormsIdentity>的引用。 此方法调用每个引用对象的 `Dispose()` 方法。  
   
  ]]></format>
         </remarks>
         <block subset="none" type="overrides">
           <para>
-            <see langword="Dispose" /> 可以多次调用由其他对象。在重写<see langword="Dispose(Boolean)" />请注意不要引用已释放的以前调用中的对象<see langword="Dispose" />。有关如何实现详细信息<see langword="Dispose(Boolean)" />，请参阅 [实现释放 Method](~/docs/standard/garbage-collection/implementing-dispose.md)。有关详细信息<see langword="Dispose" />和<see cref="M:System.Object.Finalize" />，请参阅 [清洗向上非托管 Resources](~/docs/standard/garbage-collection/unmanaged.md) 和 [重写 Finalize 方法] (http://msdn.microsoft.com/library/8026cb68-fe93-43fc-96c1-c09ad7d64cd3)。</para>
+            <see langword="Dispose" /> 可以多次调用由其他对象。重写时<see langword="Dispose(Boolean)" />小心不要引用已经释放的早期调用中的对象<see langword="Dispose" />。详细了解如何实现<see langword="Dispose(Boolean)" />，请参阅 [实现 Dispose Method](~/docs/standard/garbage-collection/implementing-dispose.md)。有关详细信息<see langword="Dispose" />并<see cref="M:System.Object.Finalize" />，请参阅 [清理了非托管 Resources](~/docs/standard/garbage-collection/unmanaged.md) 和 [重写 Finalize 方法] (http://msdn.microsoft.com/library/8026cb68-fe93-43fc-96c1-c09ad7d64cd3)。</para>
         </block>
       </Docs>
     </Member>
@@ -254,6 +260,7 @@
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -266,12 +273,12 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 通常会访问<xref:System.Web.ClientServices.ClientFormsIdentity>对象作为<xref:System.Security.Principal.IIdentity>引用以避免直接依赖于此类。 你可以确定用户是否已验证通过检查<xref:System.Security.Principal.IIdentity.IsAuthenticated%2A?displayProperty=nameWithType>的标识属性。 但是，适用于 Windows，但不是能为客户端应用程序服务，则可能会验证该用户。 若要确定用户是否客户端应用程序服务进行身份验证，则应该还确认<xref:System.Security.Principal.IIdentity.AuthenticationType%2A?displayProperty=nameWithType>属性值是"ClientForms"。 有关详细信息，请参阅<xref:System.Web.ClientServices.ClientFormsIdentity>类概述。  
+ 通常会访问<xref:System.Web.ClientServices.ClientFormsIdentity>对象作为<xref:System.Security.Principal.IIdentity>引用以避免此类上的直接依赖项。 您可以确定用户是否进行身份验证通过检查<xref:System.Security.Principal.IIdentity.IsAuthenticated%2A?displayProperty=nameWithType>标识的属性。 但是，对于 Windows，但不适用于客户端应用程序服务，则可能会验证该用户。 若要确定用户是否为客户端应用程序服务进行身份验证，还应确认的<xref:System.Security.Principal.IIdentity.AuthenticationType%2A?displayProperty=nameWithType>属性值是"ClientForms"。 有关详细信息，请参阅<xref:System.Web.ClientServices.ClientFormsIdentity>类概述。  
   
    
   
 ## Examples  
- 下面的代码示例演示如何使用通过此属性<xref:System.Security.Principal.IIdentity>引用，以确定用户当前是否为客户端应用程序服务进行身份验证。 此示例假定应用程序是在默认配置中，用户无需身份验证 cookie 过期时再次登录。 否则为<xref:System.Net.WebException>可能表示的用户登录名已过期。 有关详细信息，请参阅[如何：配置客户端应用程序服务](~/docs/framework/common-client-technologies/how-to-configure-client-application-services.md)。  
+ 下面的代码示例演示如何使用此属性通过<xref:System.Security.Principal.IIdentity>引用以确定用户当前是否为客户端应用程序服务进行身份验证。 此示例假定应用程序是在默认配置中的用户不需要以要求在身份验证 cookie 过期时再次登录。 否则为<xref:System.Net.WebException>可能表示用户登录名已过期。 有关详细信息，请参阅[如何：配置客户端应用程序服务](~/docs/framework/common-client-technologies/how-to-configure-client-application-services.md)。  
   
  [!code-csharp[ClientApplicationServices#312](~/samples/snippets/csharp/VS_Snippets_Winforms/ClientApplicationServices/CS/Class1.cs#312)]
  [!code-vb[ClientApplicationServices#312](~/samples/snippets/visualbasic/VS_Snippets_Winforms/ClientApplicationServices/VB/Class1.vb#312)]  
@@ -297,6 +304,7 @@
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -318,6 +326,7 @@
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -339,6 +348,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -351,7 +361,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 当您使用窗体身份验证来验证当前用户，<xref:System.Web.ClientServices.ClientFormsIdentity>类存储用户凭据，只要运行应用程序。 但是，仅验证该用户，直到身份验证 cookie 过期。 Cookie 过期后，用户必须重新验证来访问远程角色或 Web 设置服务。 你可以使用**服务的高级设置**对话框中，为应用程序，以自动重新验证用户，配置中所述[如何： 配置客户端应用程序服务](~/docs/framework/common-client-technologies/how-to-configure-client-application-services.md)。 但是，如果你配置你的应用程序遵守 cookie 到期时间，你可以以编程方式重新验证用户通过调用<xref:System.Web.ClientServices.ClientFormsIdentity.RevalidateUser%2A>方法。 此方法也是有用时从脱机模式切换到联机模式下，因为应用程序可能已关闭期间脱机。  
+ 当您使用窗体身份验证来验证当前用户<xref:System.Web.ClientServices.ClientFormsIdentity>类存储用户凭据，只要运行应用程序。 但是，身份验证 cookie 过期之前，只被验证该用户。 在 cookie 过期后，用户必须重新验证来访问远程角色或 Web 设置服务。 可以使用**服务的高级设置**对话框可以配置你的应用程序以自动重新验证用户，如中所述[如何： 配置客户端应用程序服务](~/docs/framework/common-client-technologies/how-to-configure-client-application-services.md)。 但是，如果您应用程序配置为接受 cookie 到期时间，您可以以编程方式重新验证用户通过调用<xref:System.Web.ClientServices.ClientFormsIdentity.RevalidateUser%2A>方法。 此方法也是有用时从脱机模式切换到联机模式下，因为该应用程序可能已关闭下脱机。  
   
 > [!NOTE]
 >  <xref:System.Web.ClientServices.ClientFormsIdentity.RevalidateUser%2A> 方法只是为了方便。 因为它没有返回值，所以无法指示重新验证是否失败。 例如，如果在服务器上更改了用户凭据，则重新验证可能会失败。 在这种情况下，你可能要包含在服务调用失败之后显式验证用户的代码。 有关详细信息，请参阅中的访问 Web 设置部分[演练： 使用客户端应用程序服务](~/docs/framework/common-client-technologies/walkthrough-using-client-application-services.md)。  
@@ -359,7 +369,7 @@
    
   
 ## Examples  
- 下面的代码示例演示如何使用此方法以在应用程序退出脱机状态时以静默方式重新验证用户。 在此示例中，<xref:System.Windows.Forms.CheckBox.CheckedChanged>事件处理程序更新的脱机状态，以匹配的复选框值。 如果用户设置为联机状态应用程序，事件处理程序将尝试重新验证用户。 但是，如果身份验证服务器不可用，事件处理程序将返回为脱机状态的应用程序。  
+ 下面的代码示例演示如何使用此方法在应用程序退出脱机状态时以无提示方式重新验证用户。 在此示例中，<xref:System.Windows.Forms.CheckBox.CheckedChanged>事件处理程序更新脱机状态以与复选框的值匹配。 如果用户设置应用程序进入联机状态，事件处理程序将尝试重新验证用户。 但是，如果身份验证服务器不可用，事件处理程序将返回为脱机状态的应用程序。  
   
  [!code-csharp[ClientApplicationServices#315](~/samples/snippets/csharp/VS_Snippets_Winforms/ClientApplicationServices/CS/Class1.cs#315)]
  [!code-vb[ClientApplicationServices#315](~/samples/snippets/visualbasic/VS_Snippets_Winforms/ClientApplicationServices/VB/Class1.vb#315)]  

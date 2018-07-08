@@ -1,11 +1,11 @@
 <Type Name="SecureString" FullName="System.Security.SecureString">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="a1b83b7cb358be3a46e68daac29ed99f5f5e062e" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="33d8833577ad9ff07a3d7d2a201f63adcb72d98a" />
+    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="zh-CN" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36527810" />
+    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
+    <Meta Name="ms.locfileid" Value="37629867" />
   </Metadata>
   <TypeSignature Language="C#" Value="public sealed class SecureString : IDisposable" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed SecureString extends System.Object implements class System.IDisposable" />
@@ -19,6 +19,7 @@
   </AssemblyInfo>
   <AssemblyInfo>
     <AssemblyName>mscorlib</AssemblyName>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
     <AssemblyVersion>2.0.5.0</AssemblyVersion>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
   </AssemblyInfo>
@@ -45,82 +46,82 @@
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Security.SecureString> 是提供安全的度量值的字符串类型。 它将尝试以避免将敏感字符串存储在以纯文本形式的进程内存。  (有关限制，但是，请参阅[如何安全的方法是 SecureString？](#HowSecure)部分。)实例的值<xref:System.Security.SecureString>使用支持的基础平台，该实例已初始化或修改值，则一种机制自动保护。 你的应用程序可以呈现实例不可变，以通过调用防止进一步修改<xref:System.Security.SecureString.MakeReadOnly%2A>方法。  
+ <xref:System.Security.SecureString> 是字符串类型，它提供措施。 它将尝试以避免以明文形式的进程内存中存储可能敏感的字符串。  (有关限制，但是，请参阅[SecureString 的是否安全？](#HowSecure)部分。)实例的值<xref:System.Security.SecureString>使用一种机制，该实例已初始化或修改值时由基础平台支持自动保护。 应用程序可以使实例不可变，并通过调用防止进一步修改<xref:System.Security.SecureString.MakeReadOnly%2A>方法。  
   
  最大长度<xref:System.Security.SecureString>实例为 65,536 个字符。  
   
 > [!IMPORTANT]
->  此类型实现<xref:System.IDisposable>接口。 在完成使用类型的实例后，您应释放它的中，直接或间接。 若要直接释放类型，调用其<xref:System.IDisposable.Dispose%2A>中的方法`try` / `catch`块。 若要间接释放类型，请使用 `using`（在 C# 中）或 `Using`（在 Visual Basic 中）等语言构造。 有关详细信息，请参阅中的"使用实现 IDisposable 的对象"部分<xref:System.IDisposable>接口主题。  
+>  此类型实现<xref:System.IDisposable>接口。 完成使用类型的实例后，您应释放它直接或间接。 若要直接释放类型，调用其<xref:System.IDisposable.Dispose%2A>中的方法`try` / `catch`块。 若要间接释放类型，请使用 `using`（在 C# 中）或 `Using`（在 Visual Basic 中）等语言构造。 有关详细信息，请参阅中的"使用对象实现 IDisposable"一节<xref:System.IDisposable>接口主题。  
   
- <xref:System.Security.SecureString>类和其成员都不是对 COM 可见。 有关详情，请参阅<xref:System.Runtime.InteropServices.ComVisibleAttribute>。  
+ <xref:System.Security.SecureString>类和其成员不是对 COM 可见。 有关详情，请参阅<xref:System.Runtime.InteropServices.ComVisibleAttribute>。  
   
  本节内容：  
   
  [Vs 的字符串。SecureString](#vsString)   
  [SecureString 操作](#Ops)   
  [SecureString 和互操作](#interop)   
- [安全是 SecureString？](#HowSecure)  
+ [SecureString 是否安全？](#HowSecure)  
   
 <a name="vsString"></a>   
 ## <a name="string-versus-securestring"></a>与 SecureString 的字符串  
- 实例<xref:System.String?displayProperty=nameWithType>类既不可变，并且不再需要时，不能以编程方式计划进行垃圾回收; 也就是说，实例为只读之后创建，并且不可能预测时，该实例将为从计算机内存中删除。 因为<xref:System.String?displayProperty=nameWithType>实例是不可变，看起来要修改现有实例的操作实际创建它来操作的副本。 因此，如果<xref:System.String>对象包含敏感信息，例如密码、 信用卡号或个人数据，则它使用的原因是你的应用程序无法从计算机内存中删除数据后，信息可能被泄漏的风险.  
+ 实例<xref:System.String?displayProperty=nameWithType>类既不可变，并不再需要时，不能以编程方式计划进行垃圾回收; 也就是说，该实例是只读的创建，并不能预测时将实例后从计算机内存中删除。 因为<xref:System.String?displayProperty=nameWithType>实例是不可变，看起来要修改现有实例的操作实际创建一份该操作。 因此，如果<xref:System.String>对象包含敏感信息，如密码、 信用卡号或个人数据，则在使用，因为你的应用程序不能从计算机内存中删除数据后，可能会泄露信息的风险.  
   
- A<xref:System.Security.SecureString>对象都类似于<xref:System.String>对象，因为它具有一个文本值。 但是，值<xref:System.Security.SecureString>对象被固定在内存中，可以使用一种保护机制，例如可以修改提供的基础的操作系统，加密，直到你的应用程序将其标记为只读的并可以从计算机内存中删除通过应用程序调用<xref:System.Security.SecureString.Dispose%2A>方法或.NET Framework 垃圾回收器。  
+ 一个<xref:System.Security.SecureString>对象都类似于<xref:System.String>对象，其文本值。 但是，值<xref:System.Security.SecureString>对象被固定在内存中，可以使用一种保护机制，如可以修改由基础操作系统提供的加密，直到你的应用程序将其标记为只读的并可以从计算机内存中删除通过应用程序调用<xref:System.Security.SecureString.Dispose%2A>方法或.NET Framework 垃圾回收器。  
   
- 有关限制的讨论<xref:System.Security.SecureString>类，请参阅[如何安全的方法是 SecureString？](#HowSecure)部分。  
+ 有关限制的讨论<xref:System.Security.SecureString>类，请参阅[SecureString 的是否安全？](#HowSecure)部分。  
   
  [返回页首](#top)  
   
 <a name="Ops"></a>   
 ## <a name="securestring-operations"></a>SecureString 操作  
- <xref:System.Security.SecureString>类包括的成员，您可以执行以下操作：  
+ <xref:System.Security.SecureString>类包括成员，您可以执行以下操作：  
   
  实例化<xref:System.Security.SecureString>对象  
- 实例化<xref:System.Security.SecureString>通过调用其无参数构造函数的对象。  
+ 实例化<xref:System.Security.SecureString>对象通过调用其无参数构造函数。  
   
  添加到字符<xref:System.Security.SecureString>对象  
- 可以将单个字符添加到的一次<xref:System.Security.SecureString>对象通过调用其<xref:System.Security.SecureString.AppendChar%2A>或<xref:System.Security.SecureString.InsertAt%2A>方法。  
+ 可以在一次向添加单个字符<xref:System.Security.SecureString>对象通过调用其<xref:System.Security.SecureString.AppendChar%2A>或<xref:System.Security.SecureString.InsertAt%2A>方法。  
   
 > [!IMPORTANT]
->  A<xref:System.Security.SecureString>对象应永远不会从构造<xref:System.String>，这是因为敏感数据已受到不可变的内存持久性后果<xref:System.String>类。 构造的最好办法<xref:System.Security.SecureString>对象时字符在时间的非托管源，如<xref:System.Console.ReadKey%2A?displayProperty=nameWithType>方法。  
+>  一个<xref:System.Security.SecureString>对象应永远不会从构造<xref:System.String>，这是因为敏感数据已受到的不可变的内存持久性后果<xref:System.String>类。 构造的最好办法<xref:System.Security.SecureString>对象时一次一字符的非托管源，如<xref:System.Console.ReadKey%2A?displayProperty=nameWithType>方法。  
   
  删除从字符<xref:System.Security.SecureString>对象  
- 你可以通过调用来替换单个字符<xref:System.Security.SecureString.SetAt%2A>方法，通过调用中删除单个字符<xref:System.Security.SecureString.RemoveAt%2A>方法或删除的所有字符从<xref:System.Security.SecureString>实例通过调用<xref:System.Security.SecureString.Clear%2A>方法。  
+ 您可以通过调用来替换单个字符<xref:System.Security.SecureString.SetAt%2A>方法，通过调用删除单个字符<xref:System.Security.SecureString.RemoveAt%2A>方法或删除所有从字符<xref:System.Security.SecureString>实例通过调用<xref:System.Security.SecureString.Clear%2A>方法。  
   
- 请<xref:System.Security.SecureString>对象只读的  
- 定义字符串后，<xref:System.Security.SecureString>对象表示，则调用其<xref:System.Security.SecureString.MakeReadOnly%2A>方法，以使字符串，只读的。  
+ 使<xref:System.Security.SecureString>对象只读的  
+ 定义字符串后，<xref:System.Security.SecureString>对象表示，则调用其<xref:System.Security.SecureString.MakeReadOnly%2A>方法可使字符串只读的。  
   
  获取其相关信息<xref:System.Security.SecureString>对象  
- <xref:System.Security.SecureString>类具有提供有关字符串的信息的仅有两个成员： 其<xref:System.Security.SecureString.Length%2A>属性，它指示的字符串; 中的 UTF16 编码的代码单位数和<xref:System.Security.SecureString.IsReadOnly%2A>，方法，该值指示实例是否只读的。  
+ <xref:System.Security.SecureString>类具有提供的字符串信息的只有两个成员： 其<xref:System.Security.SecureString.Length%2A>属性，用于指示的; 在字符串的 UTF16 编码的代码单位数和<xref:System.Security.SecureString.IsReadOnly%2A>，方法，它指示实例是否为只读的。  
   
- 释放的内存分配给<xref:System.Security.SecureString>实例  
+ 释放分配给内存<xref:System.Security.SecureString>实例  
  因为<xref:System.Security.SecureString>实现<xref:System.IDisposable>接口，通过调用释放其内存<xref:System.Security.SecureString.Dispose%2A>方法。  
   
- <xref:System.Security.SecureString>类没有任何成员检查、 比较，或将的值转换<xref:System.Security.SecureString>。 如果未指定此类成员可帮助防止意外或恶意的公开实例的值。 使用的相应成员<xref:System.Runtime.InteropServices.Marshal?displayProperty=nameWithType>类，如<xref:System.Runtime.InteropServices.Marshal.SecureStringToBSTR%2A>方法，以操作的值<xref:System.Security.SecureString>对象。  
+ <xref:System.Security.SecureString>类具有的检查、 比较或转换的值没有成员<xref:System.Security.SecureString>。 此类成员不存在可帮助防止意外或恶意公开实例的值。 使用的适当成员<xref:System.Runtime.InteropServices.Marshal?displayProperty=nameWithType>类，如<xref:System.Runtime.InteropServices.Marshal.SecureStringToBSTR%2A>方法，以操作的值<xref:System.Security.SecureString>对象。  
   
- .NET Framework 类库通常使用<xref:System.Security.SecureString>实例通过以下方式：  
+ .NET Framework 类库通常使用<xref:System.Security.SecureString>实例在以下方面：  
   
--   通过提供到进程的密码信息<xref:System.Diagnostics.ProcessStartInfo>结构，或通过调用的重载<xref:System.Diagnostics.Process.Start%2A?displayProperty=nameWithType>具有类型参数的方法<xref:System.Security.SecureString>。  
+-   通过使用提供给进程的密码信息<xref:System.Diagnostics.ProcessStartInfo>结构，或通过调用的重载<xref:System.Diagnostics.Process.Start%2A?displayProperty=nameWithType>具有类型参数的方法<xref:System.Security.SecureString>。  
   
--   通过调用提供网络密码信息<xref:System.Net.NetworkCredential>具有类型参数的类构造函数<xref:System.Security.SecureString>或通过使用<xref:System.Net.NetworkCredential.SecurePassword%2A?displayProperty=nameWithType>属性。  
+-   若要提供网络密码信息通过调用<xref:System.Net.NetworkCredential>具有类型参数的类构造函数<xref:System.Security.SecureString>或使用<xref:System.Net.NetworkCredential.SecurePassword%2A?displayProperty=nameWithType>属性。  
   
--   通过调用提供 SQL Server 身份验证的密码信息<xref:System.Data.SqlClient.SqlCredential.%23ctor%2A?displayProperty=nameWithType>构造函数或检索的值的<xref:System.Data.SqlClient.SqlCredential.Password%2A?displayProperty=nameWithType>属性。  
+-   若要提供 SQL Server 身份验证的密码信息通过调用<xref:System.Data.SqlClient.SqlCredential.%23ctor%2A?displayProperty=nameWithType>构造函数或检索的值<xref:System.Data.SqlClient.SqlCredential.Password%2A?displayProperty=nameWithType>属性。  
   
--   将字符串传递到非托管代码。 有关详细信息，请参阅[SecureString 和互操作](#interop)部分。  
+-   若要将字符串传递给非托管代码。 有关详细信息，请参阅[SecureString 和互操作](#interop)部分。  
   
  [返回页首](#top)  
   
 <a name="interop"></a>   
 ## <a name="securestring-and-interop"></a>SecureString 和互操作  
- 由于操作系统不直接支持<xref:System.Security.SecureString>，必须将转换的值<xref:System.Security.SecureString>之前将字符串传递给本机方法的必需的字符串类型的对象。  <xref:System.Runtime.InteropServices.Marshal>类具有执行此操作的五个方法：  
+ 因为操作系统不直接支持<xref:System.Security.SecureString>，必须将转换的值<xref:System.Security.SecureString>对象之前将字符串传递给本机方法的必需的字符串类型。  <xref:System.Runtime.InteropServices.Marshal>类具有执行此操作的五种方法：  
   
--   <xref:System.Runtime.InteropServices.Marshal.SecureStringToBSTR%2A?displayProperty=nameWithType>哪些将<xref:System.Security.SecureString>字符串值与二进制字符串 (BSTR) 后识别由 com 使用。  
+-   <xref:System.Runtime.InteropServices.Marshal.SecureStringToBSTR%2A?displayProperty=nameWithType>转换<xref:System.Security.SecureString>字符串值与二进制字符串 (BSTR) 后被 com。  
   
--   <xref:System.Runtime.InteropServices.Marshal.SecureStringToCoTaskMemAnsi%2A?displayProperty=nameWithType> 和<xref:System.Runtime.InteropServices.Marshal.SecureStringToGlobalAllocAnsi%2A?displayProperty=nameWithType>，复制<xref:System.Security.SecureString>字符串到非托管内存中的 ANSI 字符串值。  
+-   <xref:System.Runtime.InteropServices.Marshal.SecureStringToCoTaskMemAnsi%2A?displayProperty=nameWithType> 并<xref:System.Runtime.InteropServices.Marshal.SecureStringToGlobalAllocAnsi%2A?displayProperty=nameWithType>，哪一份<xref:System.Security.SecureString>字符串到非托管内存中的 ANSI 字符串值。  
   
--   <xref:System.Runtime.InteropServices.Marshal.SecureStringToCoTaskMemUnicode%2A?displayProperty=nameWithType> 和<xref:System.Runtime.InteropServices.Marshal.SecureStringToCoTaskMemUnicode%2A?displayProperty=nameWithType>，复制<xref:System.Security.SecureString>字符串到非托管内存中的 Unicode 字符串值。  
+-   <xref:System.Runtime.InteropServices.Marshal.SecureStringToCoTaskMemUnicode%2A?displayProperty=nameWithType> 并<xref:System.Runtime.InteropServices.Marshal.SecureStringToCoTaskMemUnicode%2A?displayProperty=nameWithType>，哪一份<xref:System.Security.SecureString>字符串到非托管内存中的 Unicode 字符串值。  
   
- 上述每种方法创建非托管内存中的纯文本字符串。 它负责的开发人员可以清空并不再需要时，就会立即释放该内存。 每个字符串转换和内存分配方法有一个相应的方法来清空并释放分配的内存：  
+ 这些方法的每个非托管内存中创建一个纯文本字符串。 它负责的开发人员来清零和不再需要时，就立即释放该内存。 每个字符串转换和内存分配方法有相应的方法来清零和释放已分配的内存：  
   
 |分配和转换方法|零和 free 方法|  
 |--------------------------------------|--------------------------|  
@@ -133,36 +134,36 @@
  [返回页首](#top)  
   
 <a name="HowSecure"></a>   
-## <a name="how-secure-is-securestring"></a>安全是 SecureString？  
- 正确，创建时<xref:System.Security.SecureString>实例提供更多的数据保护比<xref:System.String>。 字符在时间来源，创建一个字符串时<xref:System.String>而在内存中，创建多个中间<xref:System.Security.SecureString>创建单个实例。  垃圾回收的<xref:System.String>对象是不确定的。 此外，因为其内存不固定，因此垃圾回收器将制作的其他副本<xref:System.String>值时移动和压缩内存。 与此相反，内存分配给<xref:System.Security.SecureString>对象已固定，并且可以通过调用释放该内存<xref:System.Security.SecureString.Dispose%2A>方法。  
+## <a name="how-secure-is-securestring"></a>SecureString 是否安全？  
+ 如果正确，创建<xref:System.Security.SecureString>实例提供更多的数据保护比<xref:System.String>。 从字符在时间源，创建一个字符串时<xref:System.String>在内存中，会创建多个中间而<xref:System.Security.SecureString>创建单个实例。  垃圾回收的<xref:System.String>对象具有不确定性。 此外，因为其内存不固定，因此垃圾回收器将制作的其他副本<xref:System.String>值时移动和压缩内存。 与此相反，分配给内存<xref:System.Security.SecureString>对象已固定，并且可以通过调用释放该内存<xref:System.Security.SecureString.Dispose%2A>方法。  
   
  尽管数据存储在<xref:System.Security.SecureString>实例是比中存储的数据更安全<xref:System.String>实例时，有一些重要限制如何安全<xref:System.Security.SecureString>实例。 这些方法包括：  
   
  平台  
- 在 Windows 操作系统的内容<xref:System.Security.SecureString>实例的内部字符数组进行加密。 但是，由于缺少 Api 或密钥管理问题，加密不是在所有平台上可用。 因为此平台依赖关系，<xref:System.Security.SecureString>不加密在非 Windows 平台上的内部存储。 在这些平台上使用的其他技术用于提供额外的保护。
+ 在 Windows 操作系统的内容<xref:System.Security.SecureString>实例的内部字符数组进行加密。 但是，由于缺少 Api 或密钥管理问题，加密不是在所有平台上。 因为此平台依赖关系，<xref:System.Security.SecureString>不会加密非 Windows 平台上的内部存储。 在这些平台上使用的其他技术用于提供额外的保护。
   
  持续时间  
- 即使<xref:System.Security.SecureString>实现是能够充分利用加密，纯文本分配给<xref:System.Security.SecureString>实例可能会暴露在不同时间：  
+ 即使<xref:System.Security.SecureString>实现能够充分利用加密，纯文本分配给<xref:System.Security.SecureString>实例可能会暴露在不同时间：  
   
--   因为 Windows 不提供操作系统级别的安全字符串实现，.NET Framework 仍必须将安全字符串值转换为其纯文本表示形式，才能使用它。  
+-   因为 Windows 不提供在操作系统级别的安全字符串实现，.NET Framework 仍必须将安全字符串值转换为纯文本表示形式中，若要使用它。  
   
--   每当修改了值的安全字符串由方法如<xref:System.Security.SecureString.AppendChar%2A>或<xref:System.Security.SecureString.RemoveAt%2A>，必须解密 （即，已转换的回纯文本），并修改，然后再次加密。  
+-   每当此安全字符串的值由修改方法如<xref:System.Security.SecureString.AppendChar%2A>或<xref:System.Security.SecureString.RemoveAt%2A>，必须对其进行解密 （即，转换后的返回为纯文本），修改和重新加密。  
   
 -   如果在互操作调用中使用的安全字符串，则它必须转换为 ANSI 字符串、 Unicode 字符串或二进制字符串 (BSTR) 中。 有关详细信息，请参阅[SecureString 和互操作](#interop)部分。  
   
- 为其的时间间隔<xref:System.Security.SecureString>公开实例的值相对于只是缩短<xref:System.String>类。  
+ 时间间隔<xref:System.Security.SecureString>公开实例的值只是与缩短<xref:System.String>类。  
   
- 与使用情况的存储  
- 一般来说，<xref:System.Security.SecureString>类定义的字符串值，应受保护或保密的存储机制。 但是，在.NET Framework 本身，之外没有使用情况的机制支持<xref:System.Security.SecureString>。 这意味着，必须转换为可用形式 （通常明文形式），其目标，可以识别的安全字符串和解密和转换必须出现在用户空间。  
+ 存储而不是使用情况  
+ 一般来说，<xref:System.Security.SecureString>类定义的字符串值应受保护或保持机密的一种存储机制。 但是，在.NET Framework 本身，外部没有使用情况的机制支持<xref:System.Security.SecureString>。 这意味着必须安全字符串转换为可用形式 （通常明文形式），其目标，可以识别并解密和转换必须出现在用户空间中。  
   
- 总体，<xref:System.Security.SecureString>比更安全<xref:System.String>因为它在限制的敏感字符串数据透露。 但是，这些字符串可能仍会暴露给任何进程或有权访问原始的内存，如主计算机、 进程转储或用户可查看交换文件上运行的恶意进程的操作。 而不是使用<xref:System.Security.SecureString>若要保护的密码，建议的替代项是使用的不透明的句柄存储在外部进程的凭据。  
+ 总体上，<xref:System.Security.SecureString>比更安全<xref:System.String>因为它限制了区分大小的字符串数据的透露。 但是，这些字符串可能仍会面临的任何进程或有权访问原始内存，如主计算机、 进程转储或用户可查看交换文件上运行的恶意进程的操作。 而不是使用<xref:System.Security.SecureString>来保护密码，建议的替代项是使用不透明句柄存储在外部进程的凭据。  
   
  [返回页首](#top)  
   
    
   
 ## Examples  
- 下面的示例演示如何使用<xref:System.Security.SecureString>来保护以用作凭据以启动新进程的用户的密码。  
+ 下面的示例演示如何使用<xref:System.Security.SecureString>来保护用户的密码用作凭据，以启动新进程。  
   
  [!code-csharp[System.Security.SecureString.Ctor#4](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Security.SecureString.Ctor/cs/ctor4.cs#4)]
  [!code-vb[System.Security.SecureString.Ctor#4](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Security.SecureString.Ctor/vb/ctor4.vb#4)]  
@@ -197,6 +198,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -216,7 +218,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Examples  
- 下面的示例使用默认值 （或无参数） 构造函数实例化一个新<xref:System.Security.SecureString>对象。 然后，它调用<xref:System.Security.SecureString.AppendChar%2A>方法以向其中添加字符的数组。  
+ 下面的示例使用默认值 （或无参数） 构造函数实例化一个新<xref:System.Security.SecureString>对象。 然后，它调用<xref:System.Security.SecureString.AppendChar%2A>方法将字符数组添加到它。  
   
  [!code-cpp[System.Security.SecureString.Ctor#2](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Security.SecureString.Ctor/cpp/Ctor2.cpp#2)]
  [!code-csharp[System.Security.SecureString.Ctor#2](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Security.SecureString.Ctor/cs/Ctor2.cs#2)]
@@ -247,6 +249,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -276,14 +279,14 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 此构造函数初始化新<xref:System.Security.SecureString>对象中的字符数`value`指定的`length`; 然后加密实例的值。  
+ 此构造函数初始化新<xref:System.Security.SecureString>对象中的字符数`value`指定的`length`; 然后进行加密的实例的值。  
   
  在 C# 中，仅在不安全代码的上下文中定义此构造函数。  
   
    
   
 ## Examples  
- 下面的示例实例化一个新<xref:System.Security.SecureString>通过将其构造函数指针传递给字符数组的对象。  
+ 下面的示例实例化新<xref:System.Security.SecureString>对象通过其构造函数指针传递给字符数组。  
   
  [!code-cpp[System.Security.SecureString.Ctor2#1](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.security.securestring.ctor2/cpp/ctor1.cpp#1)]
  [!code-csharp[System.Security.SecureString.Ctor2#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.security.securestring.ctor2/cs/ctor1.cs#1)]  
@@ -296,7 +299,7 @@
           <paramref name="length" /> 小于零或大于 65,536。</exception>
         <exception cref="T:System.Security.Cryptography.CryptographicException">保护或取消保护此安全字符串的值时出错。</exception>
         <exception cref="T:System.NotSupportedException">此平台上不支持此操作。</exception>
-        <permission cref="T:System.Security.SecurityCriticalAttribute">需要完全信任直接调用方。 此成员不能由部分受信任或不透明的代码。</permission>
+        <permission cref="T:System.Security.SecurityCriticalAttribute">直接调用方需要完全信任。 不能由部分受信任的或透明的代码使用此成员。</permission>
       </Docs>
     </Member>
     <Member MemberName="AppendChar">
@@ -313,6 +316,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -343,18 +347,18 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 如果实现使用一种保护机制，如加密，如果有的话，此安全字符串的值未受保护;`c`追加; 则安全字符串的新值是重新保护。  
+ 如果该实现使用一种保护机制，如加密、 未受保护; 如果有的话，此安全字符串的值`c`追加; 安全字符串的新值不重新保护。  
   
    
   
 ## Examples  
- 下面的示例演示如何<xref:System.Security.SecureString.AppendChar%2A>， <xref:System.Security.SecureString.InsertAt%2A>， <xref:System.Security.SecureString.RemoveAt%2A>， <xref:System.Security.SecureString.SetAt%2A>，和<xref:System.Security.SecureString.Clear%2A>方法影响的值<xref:System.Security.SecureString>对象。  
+ 下面的示例演示如何<xref:System.Security.SecureString.AppendChar%2A>， <xref:System.Security.SecureString.InsertAt%2A>， <xref:System.Security.SecureString.RemoveAt%2A>， <xref:System.Security.SecureString.SetAt%2A>，并<xref:System.Security.SecureString.Clear%2A>方法影响的值<xref:System.Security.SecureString>对象。  
   
  [!code-cpp[SecureString.xAt#1](~/samples/snippets/cpp/VS_Snippets_CLR/SecureString.xAt/CPP/SecureString.xAt.cpp#1)]
  [!code-csharp[SecureString.xAt#1](~/samples/snippets/csharp/VS_Snippets_CLR/SecureString.xAt/CS/xat.cs#1)]
  [!code-vb[SecureString.xAt#1](~/samples/snippets/visualbasic/VS_Snippets_CLR/SecureString.xAt/VB/xat.vb#1)]  
   
- 下面的示例演示如何<xref:System.Security.SecureString.AppendChar%2A>和<xref:System.Security.SecureString.RemoveAt%2A>方法可以用于收集密码中的字符。  
+ 下面的示例演示如何<xref:System.Security.SecureString.AppendChar%2A>和<xref:System.Security.SecureString.RemoveAt%2A>方法可用于收集密码中的字符。  
   
  [!code-cpp[SecureString.xChar#1](~/samples/snippets/cpp/VS_Snippets_CLR/SecureString.xChar/CPP/SecureString.xChar.cpp#1)]
  [!code-csharp[SecureString.xChar#1](~/samples/snippets/csharp/VS_Snippets_CLR/SecureString.xChar/CS/xchar.cs#1)]
@@ -382,6 +386,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -404,12 +409,12 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 计算机内存中包含此安全字符串的值为零，则此安全字符串的值的长度设置为零。  
+ 包含此安全字符串的值的计算机内存被清零，则此安全字符串的值的长度设置为零。  
   
    
   
 ## Examples  
- 下面的示例演示如何<xref:System.Security.SecureString.AppendChar%2A>， <xref:System.Security.SecureString.InsertAt%2A>， <xref:System.Security.SecureString.RemoveAt%2A>， <xref:System.Security.SecureString.SetAt%2A>，和<xref:System.Security.SecureString.Clear%2A>方法影响的值<xref:System.Security.SecureString>对象。  
+ 下面的示例演示如何<xref:System.Security.SecureString.AppendChar%2A>， <xref:System.Security.SecureString.InsertAt%2A>， <xref:System.Security.SecureString.RemoveAt%2A>， <xref:System.Security.SecureString.SetAt%2A>，并<xref:System.Security.SecureString.Clear%2A>方法影响的值<xref:System.Security.SecureString>对象。  
   
  [!code-cpp[SecureString.xAt#1](~/samples/snippets/cpp/VS_Snippets_CLR/SecureString.xAt/CPP/SecureString.xAt.cpp#1)]
  [!code-csharp[SecureString.xAt#1](~/samples/snippets/csharp/VS_Snippets_CLR/SecureString.xAt/CS/xat.cs#1)]
@@ -436,6 +441,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -486,6 +492,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -508,7 +515,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Security.SecureString.Dispose%2A>方法将写入到分配的内存包含此值的二进制零<xref:System.Security.SecureString>对象，然后释放分配的内存。  
+ <xref:System.Security.SecureString.Dispose%2A>方法将写入到已分配的内存，其中包含此值的二进制零<xref:System.Security.SecureString>对象，然后释放已分配的内存。  
   
  有关详细信息，请参阅[垃圾回收](~/docs/standard/garbage-collection/index.md)。  
   
@@ -530,6 +537,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -564,12 +572,12 @@
 ## Remarks  
  索引是从零开始;此安全字符串中的第一个字符的索引位置零。  
   
- 如果实现使用一种保护机制，如加密，如果有的话，此安全字符串的值未受保护;`c`指定的索引位置; 插入新值是重新保护。 <xref:System.Security.SecureString.InsertAt%2A>方法生成相同的结果<xref:System.Security.SecureString.AppendChar%2A>方法，如果将一个字符插入一个安全字符串，末尾`index`参数<xref:System.Security.SecureString.InsertAt%2A>设置为此实例的长度。  
+ 如果该实现使用一种保护机制，如加密、 安全字符串，如果有的值是不受保护;`c`插入到指定的索引位置; 则新值是重新保护。 <xref:System.Security.SecureString.InsertAt%2A>方法生成与相同的结果<xref:System.Security.SecureString.AppendChar%2A>方法，如果将安全字符串的末尾插入字符`index`参数的<xref:System.Security.SecureString.InsertAt%2A>设置为此实例的长度。  
   
    
   
 ## Examples  
- 下面的示例演示如何<xref:System.Security.SecureString.AppendChar%2A>， <xref:System.Security.SecureString.InsertAt%2A>， <xref:System.Security.SecureString.RemoveAt%2A>， <xref:System.Security.SecureString.SetAt%2A>，和<xref:System.Security.SecureString.Clear%2A>方法影响的值<xref:System.Security.SecureString>对象。  
+ 下面的示例演示如何<xref:System.Security.SecureString.AppendChar%2A>， <xref:System.Security.SecureString.InsertAt%2A>， <xref:System.Security.SecureString.RemoveAt%2A>， <xref:System.Security.SecureString.SetAt%2A>，并<xref:System.Security.SecureString.Clear%2A>方法影响的值<xref:System.Security.SecureString>对象。  
   
  [!code-cpp[SecureString.xAt#1](~/samples/snippets/cpp/VS_Snippets_CLR/SecureString.xAt/CPP/SecureString.xAt.cpp#1)]
  [!code-csharp[SecureString.xAt#1](~/samples/snippets/csharp/VS_Snippets_CLR/SecureString.xAt/CS/xat.cs#1)]
@@ -598,6 +606,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -621,7 +630,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 实例后<xref:System.Security.SecureString>只读通过标记<xref:System.Security.SecureString.MakeReadOnly%2A>任何尝试修改的值的实例引发方法， <xref:System.InvalidOperationException>。 使用<xref:System.Security.SecureString.IsReadOnly%2A>方法来测试是否<xref:System.Security.SecureString>是只读的然后再尝试对其进行修改。  
+ 实例后<xref:System.Security.SecureString>标记为通过只读<xref:System.Security.SecureString.MakeReadOnly%2A>方法，任何尝试修改的值的实例，则会引发<xref:System.InvalidOperationException>。 使用<xref:System.Security.SecureString.IsReadOnly%2A>方法来测试是否<xref:System.Security.SecureString>尝试对其进行修改之前是只读的。  
   
  ]]></format>
         </remarks>
@@ -643,6 +652,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -665,7 +675,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Security.SecureString.Length%2A>属性返回的数目<xref:System.Char>此实例中的对象，而非 Unicode 字符的数量。 Unicode 字符可能由多个<xref:System.Char>对象。  
+ <xref:System.Security.SecureString.Length%2A>属性返回的数<xref:System.Char>此实例中的对象，不是 Unicode 字符数。 Unicode 字符可能由多个<xref:System.Char>对象。  
   
  最大长度<xref:System.Security.SecureString>实例为 65,536 个字符。  
   
@@ -688,6 +698,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -710,16 +721,16 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 初始化的实例的文本值<xref:System.Security.SecureString>类，该类具有<xref:System.Security.SecureString.%23ctor%2A>构造函数，并修改的值与<xref:System.Security.SecureString.Clear%2A>， <xref:System.Security.SecureString.RemoveAt%2A>， <xref:System.Security.SecureString.SetAt%2A>， <xref:System.Security.SecureString.InsertAt%2A>，和<xref:System.Security.SecureString.AppendChar%2A>方法。  
+ 初始化的实例的文本值<xref:System.Security.SecureString>类的<xref:System.Security.SecureString.%23ctor%2A>构造函数，并修改的值与<xref:System.Security.SecureString.Clear%2A>， <xref:System.Security.SecureString.RemoveAt%2A>， <xref:System.Security.SecureString.SetAt%2A>， <xref:System.Security.SecureString.InsertAt%2A>，和<xref:System.Security.SecureString.AppendChar%2A>方法。  
   
- 所做的最后一个修改后，使用<xref:System.Security.SecureString.MakeReadOnly%2A>方法来执行实例的值不可变 （只读）。 值标记为只读之后，任何进一步试图修改该值会导致<xref:System.InvalidOperationException>。  
+ 进行最终修改后，使用<xref:System.Security.SecureString.MakeReadOnly%2A>方法以使该实例的值不可变 （只读）。 以只读方式标记值后，任何进一步尝试对其进行修改，则会引发<xref:System.InvalidOperationException>。  
   
- 调用的效果<xref:System.Security.SecureString.MakeReadOnly%2A>是永久因为<xref:System.Security.SecureString>类提供了进行安全字符串，然后重新可修改任何方法。 使用<xref:System.Security.SecureString.IsReadOnly%2A>方法来测试的实例是<xref:System.Security.SecureString>是只读的。  
+ 调用的效果<xref:System.Security.SecureString.MakeReadOnly%2A>是永久性的因为<xref:System.Security.SecureString>类提供任何用于再次可修改的安全字符串。 使用<xref:System.Security.SecureString.IsReadOnly%2A>方法来测试实例是否<xref:System.Security.SecureString>是只读的。  
   
    
   
 ## Examples  
- 下面的示例演示如何<xref:System.Security.SecureString.AppendChar%2A>和<xref:System.Security.SecureString.RemoveAt%2A>方法可以用于收集密码中的字符。 收集密码后，进行只读的。  
+ 下面的示例演示如何<xref:System.Security.SecureString.AppendChar%2A>和<xref:System.Security.SecureString.RemoveAt%2A>方法可用于收集密码中的字符。 收集密码后，它由只读的。  
   
  [!code-cpp[SecureString.xChar#1](~/samples/snippets/cpp/VS_Snippets_CLR/SecureString.xChar/CPP/SecureString.xChar.cpp#1)]
  [!code-csharp[SecureString.xChar#1](~/samples/snippets/csharp/VS_Snippets_CLR/SecureString.xChar/CS/xchar.cs#1)]
@@ -745,6 +756,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -775,20 +787,20 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 索引是从零开始;此实例中的第一个字符的索引位置零。  
+ 索引是从零开始;在此实例中的第一个字符的索引位置零。  
   
- 如果实现使用一种保护机制，如加密，如果有的话，此安全字符串的值未受保护;位于指定的索引位置处的字符被删除;然后，新值是重新保护。  
+ 如果该实现使用一种保护机制，如加密、 未受保护; 如果有的话，此安全字符串的值移除位于指定的索引位置处的字符;新值则重新保护。  
   
    
   
 ## Examples  
- 下面的示例演示如何<xref:System.Security.SecureString.AppendChar%2A>， <xref:System.Security.SecureString.InsertAt%2A>， <xref:System.Security.SecureString.RemoveAt%2A>， <xref:System.Security.SecureString.SetAt%2A>，和<xref:System.Security.SecureString.Clear%2A>方法影响的值<xref:System.Security.SecureString>对象。  
+ 下面的示例演示如何<xref:System.Security.SecureString.AppendChar%2A>， <xref:System.Security.SecureString.InsertAt%2A>， <xref:System.Security.SecureString.RemoveAt%2A>， <xref:System.Security.SecureString.SetAt%2A>，并<xref:System.Security.SecureString.Clear%2A>方法影响的值<xref:System.Security.SecureString>对象。  
   
  [!code-cpp[SecureString.xAt#1](~/samples/snippets/cpp/VS_Snippets_CLR/SecureString.xAt/CPP/SecureString.xAt.cpp#1)]
  [!code-csharp[SecureString.xAt#1](~/samples/snippets/csharp/VS_Snippets_CLR/SecureString.xAt/CS/xat.cs#1)]
  [!code-vb[SecureString.xAt#1](~/samples/snippets/visualbasic/VS_Snippets_CLR/SecureString.xAt/VB/xat.vb#1)]  
   
- 下面的示例演示如何<xref:System.Security.SecureString.AppendChar%2A>和<xref:System.Security.SecureString.RemoveAt%2A>方法可以用于收集密码中的字符。  
+ 下面的示例演示如何<xref:System.Security.SecureString.AppendChar%2A>和<xref:System.Security.SecureString.RemoveAt%2A>方法可用于收集密码中的字符。  
   
  [!code-cpp[SecureString.xChar#1](~/samples/snippets/cpp/VS_Snippets_CLR/SecureString.xChar/CPP/SecureString.xChar.cpp#1)]
  [!code-csharp[SecureString.xChar#1](~/samples/snippets/csharp/VS_Snippets_CLR/SecureString.xChar/CS/xchar.cs#1)]
@@ -817,6 +829,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -849,14 +862,14 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 索引是从零开始;此实例中的第一个字符的索引位置零。  
+ 索引是从零开始;在此实例中的第一个字符的索引位置零。  
   
- 如果实现使用一种保护机制，如加密，如果有的话，此安全字符串的值未受保护;`c`分配给指定的索引位置; 则新值是重新保护。  
+ 如果该实现使用一种保护机制，如加密、 安全字符串，如果有的值是不受保护;`c`分配给指定的索引位置; 则新值是重新保护。  
   
    
   
 ## Examples  
- 下面的示例演示如何<xref:System.Security.SecureString.AppendChar%2A>， <xref:System.Security.SecureString.InsertAt%2A>， <xref:System.Security.SecureString.RemoveAt%2A>， <xref:System.Security.SecureString.SetAt%2A>，和<xref:System.Security.SecureString.Clear%2A>方法影响的值<xref:System.Security.SecureString>对象。  
+ 下面的示例演示如何<xref:System.Security.SecureString.AppendChar%2A>， <xref:System.Security.SecureString.InsertAt%2A>， <xref:System.Security.SecureString.RemoveAt%2A>， <xref:System.Security.SecureString.SetAt%2A>，并<xref:System.Security.SecureString.Clear%2A>方法影响的值<xref:System.Security.SecureString>对象。  
   
  [!code-cpp[SecureString.xAt#1](~/samples/snippets/cpp/VS_Snippets_CLR/SecureString.xAt/CPP/SecureString.xAt.cpp#1)]
  [!code-csharp[SecureString.xAt#1](~/samples/snippets/csharp/VS_Snippets_CLR/SecureString.xAt/CS/xat.cs#1)]

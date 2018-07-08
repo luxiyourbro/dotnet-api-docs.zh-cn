@@ -1,11 +1,11 @@
 <Type Name="AutoResetEvent" FullName="System.Threading.AutoResetEvent">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="7526a17165511a13b7213d3a9d257c6304cccb3b" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="c79efb880d15907bddea1d039a240af1ebfce8c7" />
+    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="zh-CN" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36407147" />
+    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
+    <Meta Name="ms.locfileid" Value="37609129" />
   </Metadata>
   <TypeSignature Language="C#" Value="public sealed class AutoResetEvent : System.Threading.EventWaitHandle" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed beforefieldinit AutoResetEvent extends System.Threading.EventWaitHandle" />
@@ -22,6 +22,8 @@
   </AssemblyInfo>
   <AssemblyInfo>
     <AssemblyName>mscorlib</AssemblyName>
+    <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
     <AssemblyVersion>2.0.5.0</AssemblyVersion>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
   </AssemblyInfo>
@@ -31,6 +33,7 @@
   </AssemblyInfo>
   <Base>
     <BaseTypeName>System.Threading.EventWaitHandle</BaseTypeName>
+    <BaseTypeName FrameworkAlternate="netframework-1.1">System.Threading.WaitHandle</BaseTypeName>
   </Base>
   <Interfaces />
   <Attributes>
@@ -44,37 +47,37 @@
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- `AutoResetEvent` 允许的线程以互相通信通过发送信号。 通常情况下，当线程需要对资源的独占访问时使用此类。  
+ `AutoResetEvent` 允许线程能够相互通信通过发出信号。 通常情况下，线程需要对资源的独占访问时使用此类。  
   
 > [!IMPORTANT]
->  此类型实现<xref:System.IDisposable>接口。 在使用完类型后，您应直接或间接释放类型。 若要直接释放类型，调用其<xref:System.IDisposable.Dispose%2A>中的方法`try` / `catch`块。 若要间接释放类型，请使用 `using`（在 C# 中）或 `Using`（在 Visual Basic 中）等语言构造。 有关详细信息，请参阅中的"使用实现 IDisposable 的对象"部分<xref:System.IDisposable>接口主题。  
+>  此类型实现<xref:System.IDisposable>接口。 在使用完类型后，您应直接或间接释放类型。 若要直接释放类型，调用其<xref:System.IDisposable.Dispose%2A>中的方法`try` / `catch`块。 若要间接释放类型，请使用 `using`（在 C# 中）或 `Using`（在 Visual Basic 中）等语言构造。 有关详细信息，请参阅中的"使用对象实现 IDisposable"一节<xref:System.IDisposable>接口主题。  
   
- 线程通过调用等待信号<xref:System.Threading.WaitHandle.WaitOne%2A>上`AutoResetEvent`。 如果`AutoResetEvent`处于是非终止的状态，此线程受到阻止，线程当前控制要指示该资源是通过调用可用的资源等待<xref:System.Threading.EventWaitHandle.Set%2A>。  
+ 线程通过调用等待一个信号<xref:System.Threading.WaitHandle.WaitOne%2A>上`AutoResetEvent`。 如果`AutoResetEvent`处于非信号状态，线程被阻塞，等待线程当前控件要发出信号的资源是通过调用可用的资源<xref:System.Threading.EventWaitHandle.Set%2A>。  
   
- 调用`Set`信号`AutoResetEvent`释放正在等待的线程。 `AutoResetEvent` 单个正在等待的线程已发布，并自动返回给非终止状态之前，将保持终止状态。 如果没有线程在等待，状态将无限期地保持发送信号。  
+ 调用`Set`信号`AutoResetEvent`释放等待线程。 `AutoResetEvent` 将保持终止状态直到一个等待线程释放，并自动返回到非信号状态。 如果没有线程处于等待状态，状态将无限期地保持已发出信号。  
   
- 如果一个线程调用<xref:System.Threading.WaitHandle.WaitOne%2A>时<xref:System.Threading.AutoResetEvent>是发送信号状态; 在线程不会阻止。 <xref:System.Threading.AutoResetEvent>立即释放线程并返回到非终止状态。  
+ 如果某个线程调用<xref:System.Threading.WaitHandle.WaitOne%2A>虽然<xref:System.Threading.AutoResetEvent>是在已发出信号状态下，该线程不会阻止。 <xref:System.Threading.AutoResetEvent>立即释放相应线程并返回到非信号状态。  
   
 > [!IMPORTANT]
->  不能保证，对每个调用<xref:System.Threading.EventWaitHandle.Set%2A>方法将释放线程。 如果两个调用太靠近在一起，以便第二次调用前释放线程发生，则释放只有一个线程。 它是就像第二个调用未发生。 此外，如果<xref:System.Threading.EventWaitHandle.Set%2A>时没有任何等待的线程调用与<xref:System.Threading.AutoResetEvent>已终止，则调用不起作用。  
+>  不能保证的每个调用<xref:System.Threading.EventWaitHandle.Set%2A>方法将释放一个线程。 如果两次调用太靠近在一起，以便第二次调用前释放线程发生，只有一个线程被释放。 就像第二次调用未发生。 此外，如果<xref:System.Threading.EventWaitHandle.Set%2A>时没有等待的线程调用和<xref:System.Threading.AutoResetEvent>已终止，则调用不起作用。  
   
- 你可以控制的初始状态`AutoResetEvent`通过将一个布尔值传递给构造函数：`true`如果初始状态终止状态和`false`否则为。  
+ 您可以控制的初始状态`AutoResetEvent`通过将一个布尔值传递给构造函数：`true`如果信号的初始状态和`false`否则为。  
   
  `AutoResetEvent` 也可以用于`static`<xref:System.Threading.WaitHandle.WaitAll%2A>和<xref:System.Threading.WaitHandle.WaitAny%2A>方法。  
   
- 有关线程同步机制的详细信息，请参阅[AutoResetEvent](~/docs/standard/threading/autoresetevent.md)的概念性文档。  
+ 有关线程同步机制的详细信息，请参阅[AutoResetEvent](~/docs/standard/threading/autoresetevent.md)概念性文档中。  
   
  从.NET Framework 2.0 版中，开始<xref:System.Threading.AutoResetEvent>派生自新<xref:System.Threading.EventWaitHandle>类。 <xref:System.Threading.AutoResetEvent>功能上等效于<xref:System.Threading.EventWaitHandle>使用创建<xref:System.Threading.EventResetMode.AutoReset?displayProperty=nameWithType>。  
   
 > [!NOTE]
->  与不同<xref:System.Threading.AutoResetEvent>类，<xref:System.Threading.EventWaitHandle>类提供对访问已命名系统同步事件。  
+>  与不同<xref:System.Threading.AutoResetEvent>类，<xref:System.Threading.EventWaitHandle>类提供了对访问已命名系统同步事件。  
   
    
   
 ## Examples  
- 下面的示例演示如何使用<xref:System.Threading.AutoResetEvent>通过调用一次释放一个线程<xref:System.Threading.EventWaitHandle.Set%2A>方法 （基类） 每次用户需按**Enter**密钥。 此示例将启动三个线程，等待<xref:System.Threading.AutoResetEvent>中发送信号状态的已创建。 第一个线程，所以立即释放因为<xref:System.Threading.AutoResetEvent>已处于终止状态。 这将重置<xref:System.Threading.AutoResetEvent>为非终止状态，以便随后的线程阻塞。 未释放被阻止的线程，直到用户释放它们一个按一次**Enter**密钥。  
+ 下面的示例演示如何使用<xref:System.Threading.AutoResetEvent>通过调用一次释放一个线程<xref:System.Threading.EventWaitHandle.Set%2A>方法 （基类） 每次用户需按**Enter**密钥。 该示例启动三个线程，等待<xref:System.Threading.AutoResetEvent>中已发出信号状态的已创建。 第一个线程，所以立即释放因为<xref:System.Threading.AutoResetEvent>已处于已发出信号状态。 这将重置<xref:System.Threading.AutoResetEvent>为非终止状态，以便后续线程阻塞。 不释放被阻止的线程，直到用户释放它们其中一个按一次**Enter**密钥。  
   
- 线程释放从第一个后<xref:System.Threading.AutoResetEvent>，等待另一个<xref:System.Threading.AutoResetEvent>是非终止状态中创建。 阻止所有三个线程，因此<xref:System.Threading.EventWaitHandle.Set%2A>方法必须调用三次以将其释放。  
+ 从第一个线程释放后<xref:System.Threading.AutoResetEvent>，等待另一个<xref:System.Threading.AutoResetEvent>中非终止状态的已创建。 所有三个线程阻止，因此<xref:System.Threading.EventWaitHandle.Set%2A>方法必须调用三次以将其释放。  
   
  [!code-cpp[System.Threading.AutoResetEvent#3](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Threading.AutoResetEvent/CPP/simplerisbetter.cpp#3)]
  [!code-csharp[System.Threading.AutoResetEvent#3](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.AutoResetEvent/CS/simplerisbetter.cs#3)]
@@ -82,7 +85,7 @@
   
  ]]></format>
     </remarks>
-    <threadsafe>此类是线程安全的。</threadsafe>
+    <threadsafe>此类是线程安全。</threadsafe>
     <altmember cref="T:System.Threading.WaitHandle" />
   </Docs>
   <Members>
@@ -103,6 +106,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -120,13 +125,13 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Examples  
- 下面的示例使用<xref:System.Threading.AutoResetEvent>来同步两个线程的活动。 第一个线程，即应用程序线程执行`Main`。 它将值写入到受保护的资源，即`static`(`Shared`在 Visual Basic 中) 名为字段`number`。 第二个线程执行静态`ThreadProc`方法，读取写入的值`Main`。  
+ 下面的示例使用<xref:System.Threading.AutoResetEvent>同步两个线程的活动。 第一个线程，这是应用程序线程，执行`Main`。 它将值写入到受保护的资源，即`static`(`Shared`在 Visual Basic 中) 名为字段`number`。 第二个线程执行静态`ThreadProc`方法，读取写入的值`Main`。  
   
- `ThreadProc`方法等待<xref:System.Threading.AutoResetEvent>。 当`Main`调用<xref:System.Threading.EventWaitHandle.Set%2A>方法<xref:System.Threading.AutoResetEvent>、`ThreadProc`方法读取一个值。 <xref:System.Threading.AutoResetEvent>立即重置，因此`ThreadProc`方法将再次等待。  
+ `ThreadProc`方法等待<xref:System.Threading.AutoResetEvent>。 当`Main`调用<xref:System.Threading.EventWaitHandle.Set%2A>方法<xref:System.Threading.AutoResetEvent>，则`ThreadProc`方法读取一个值。 <xref:System.Threading.AutoResetEvent>立即重置，因此`ThreadProc`方法将再次等待。  
   
- 程序逻辑保证`ThreadProc`方法将永远不会读取相同的值两次。 它不保证，`ThreadProc`方法将读取编写的每个值`Main`。 确保这一点需要第二个<xref:System.Threading.AutoResetEvent>锁。  
+ 程序逻辑可保证`ThreadProc`方法永远不会读取相同的值两次。 它并不保证`ThreadProc`方法将读取编写的每个值`Main`。 确保这一点需要第二个<xref:System.Threading.AutoResetEvent>锁。  
   
- 每个写入操作之后,`Main`产生通过调用<xref:System.Threading.Thread.Sleep%2A?displayProperty=nameWithType>方法，以使第二个线程执行有机会。 否则为单处理器计算机上`Main`将写入任何之间的许多值两个读取操作。  
+ 每个写入操作之后,`Main`通过调用将产生<xref:System.Threading.Thread.Sleep%2A?displayProperty=nameWithType>方法，以让人可以执行的第二个线程。 否则为在单处理器计算机`Main`将写入多个值之间任何两个读取操作。  
   
  [!code-cpp[System.Threading.AutoResetEvent#1](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Threading.AutoResetEvent/CPP/class1.cpp#1)]
  [!code-csharp[System.Threading.AutoResetEvent#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.AutoResetEvent/CS/class1.cs#1)]
@@ -135,6 +140,50 @@
  ]]></format>
         </remarks>
         <altmember cref="T:System.Threading.WaitHandle" />
+      </Docs>
+    </Member>
+    <Member MemberName="Reset">
+      <MemberSignature Language="C#" Value="public bool Reset ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance bool Reset() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Threading.AutoResetEvent.Reset" />
+      <MemberSignature Language="VB.NET" Value="Public Function Reset () As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; bool Reset();" />
+      <MemberSignature Language="F#" Value="member this.Reset : unit -&gt; bool" Usage="autoResetEvent.Reset " />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Set">
+      <MemberSignature Language="C#" Value="public bool Set ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance bool Set() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Threading.AutoResetEvent.Set" />
+      <MemberSignature Language="VB.NET" Value="Public Function Set () As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; bool Set();" />
+      <MemberSignature Language="F#" Value="member this.Set : unit -&gt; bool" Usage="autoResetEvent.Set " />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
       </Docs>
     </Member>
   </Members>

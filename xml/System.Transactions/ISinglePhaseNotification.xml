@@ -1,11 +1,11 @@
 <Type Name="ISinglePhaseNotification" FullName="System.Transactions.ISinglePhaseNotification">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="93e84c76de1b5f1e9f1ebae936445903569d5441" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="b68f852419e6c9edb29e501f50f7e935516381f0" />
+    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="zh-CN" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36605209" />
+    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
+    <Meta Name="ms.locfileid" Value="37754366" />
   </Metadata>
   <TypeSignature Language="C#" Value="public interface ISinglePhaseNotification : System.Transactions.IEnlistmentNotification" />
   <TypeSignature Language="ILAsm" Value=".class public interface auto ansi abstract ISinglePhaseNotification implements class System.Transactions.IEnlistmentNotification" />
@@ -15,6 +15,7 @@
   <TypeSignature Language="F#" Value="type ISinglePhaseNotification = interface&#xA;    interface IEnlistmentNotification" />
   <AssemblyInfo>
     <AssemblyName>System.Transactions</AssemblyName>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
     <AssemblyVersion>2.0.5.0</AssemblyVersion>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
   </AssemblyInfo>
@@ -38,13 +39,13 @@
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 你应注意，即使你的资源管理器实现此接口以支持单阶段提交优化时，也不能保证它将接收的单阶段提交。 事务管理器仍可以改为发送两阶段提交通知。  
+ 您应该注意，资源管理器实现此接口以支持单阶段提交优化，即使它不能保证它将接收单阶段提交。 事务管理器仍可改为发送两阶段提交通知。  
   
- 若要在资源管理器作为一名参与者在事务中登记，调用<xref:System.Transactions.Transaction.EnlistVolatile%2A>方法或<xref:System.Transactions.Transaction.EnlistDurable%2A>方法<xref:System.Transactions.Transaction>类。 具体而言，`EnlistmentOptions`参数应等于<xref:System.Transactions.EnlistmentOptions.None>以确保执行单阶段提交。 如果错误地将其设置为<xref:System.Transactions.EnlistmentOptions.EnlistDuringPrepareRequired>，都会执行提交任何单阶段。  
+ 若要登记在事务中的参与者作为资源管理器，请调用<xref:System.Transactions.Transaction.EnlistVolatile%2A>方法或<xref:System.Transactions.Transaction.EnlistDurable%2A>方法的<xref:System.Transactions.Transaction>类。 具体而言，`EnlistmentOptions`参数应等于<xref:System.Transactions.EnlistmentOptions.None>以确保执行单阶段提交。 如果错误地设置为<xref:System.Transactions.EnlistmentOptions.EnlistDuringPrepareRequired>，任何单个阶段执行提交操作。  
   
- 由于<xref:System.Transactions.ISinglePhaseNotification>接口派生自<xref:System.Transactions.IEnlistmentNotification>接口，用于两阶段提交通知，资源管理器还必须实现的后者的所有方法。  它是两阶段提交的事务管理器的选择，或与此资源管理器使用单阶段提交优化。  但是，实现此接口为资源管理器提供了可用时要利用的优化。  
+ 由于<xref:System.Transactions.ISinglePhaseNotification>接口派生<xref:System.Transactions.IEnlistmentNotification>接口，用于两阶段提交通知，资源管理器还必须实现的后一种所有方法。  它是两阶段提交的事务管理器的选择，或与此资源管理器一起使用单阶段提交优化。  但是，实现此接口可以提供资源管理器时便可充分利用优化的机会。  
   
- 如果使用优化和事务管理器调用<xref:System.Transactions.ISinglePhaseNotification.SinglePhaseCommit%2A>登记的资源的方法，资源管理器应响应此调用通过使用各种不同方法<xref:System.Transactions.SinglePhaseEnlistment>类，如果告诉事务管理器事务是提交或回滚。  
+ 如果使用优化，事务管理器调用<xref:System.Transactions.ISinglePhaseNotification.SinglePhaseCommit%2A>方法的已登记的资源，资源管理器应响应此调用使用的各种方法<xref:System.Transactions.SinglePhaseEnlistment>类通知事务管理器，如果事务是提交或回滚。  
   
  ]]></format>
     </remarks>
@@ -52,19 +53,20 @@
   </Docs>
   <Members>
     <Member MemberName="SinglePhaseCommit">
-      <MemberSignature Language="C#" Value="public void SinglePhaseCommit (System.Transactions.SinglePhaseEnlistment singlePhaseEnlistment);" FrameworkAlternate="netcore-2.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netstandard-2.0;netcore-2.1;netframework-4.7.2" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void SinglePhaseCommit(class System.Transactions.SinglePhaseEnlistment singlePhaseEnlistment) cil managed" FrameworkAlternate="netcore-2.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netstandard-2.0;netcore-2.1;netframework-4.7.2" />
-      <MemberSignature Language="DocId" Value="M:System.Transactions.ISinglePhaseNotification.SinglePhaseCommit(System.Transactions.SinglePhaseEnlistment)" FrameworkAlternate="netcore-2.0;netframework-4.7.2;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; void SinglePhaseCommit(System::Transactions::SinglePhaseEnlistment ^ singlePhaseEnlistment);" FrameworkAlternate="netcore-2.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netstandard-2.0;netcore-2.1;netframework-4.7.2" />
+      <MemberSignature Language="C#" Value="public void SinglePhaseCommit (System.Transactions.SinglePhaseEnlistment singlePhaseEnlistment);" FrameworkAlternate="netcore-2.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netstandard-2.0;netcore-2.1;netframework-4.7.2;netframework-2.0;netframework-3.0;netframework-3.5;netframework-4.0" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void SinglePhaseCommit(class System.Transactions.SinglePhaseEnlistment singlePhaseEnlistment) cil managed" FrameworkAlternate="netcore-2.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netstandard-2.0;netcore-2.1;netframework-4.7.2;netframework-2.0;netframework-3.0;netframework-3.5;netframework-4.0" />
+      <MemberSignature Language="DocId" Value="M:System.Transactions.ISinglePhaseNotification.SinglePhaseCommit(System.Transactions.SinglePhaseEnlistment)" FrameworkAlternate="netcore-2.1;netframework-2.0;netframework-3.0;netframework-3.5;netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7.1;netstandard-2.0" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void SinglePhaseCommit(System::Transactions::SinglePhaseEnlistment ^ singlePhaseEnlistment);" FrameworkAlternate="netcore-2.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netstandard-2.0;netcore-2.1;netframework-4.7.2;netframework-2.0;netframework-3.0;netframework-3.5;netframework-4.0" />
       <MemberSignature Language="C#" Value="public void SinglePhaseCommit (System.Transactions.SinglePhaseEnlistment enlistment);" FrameworkAlternate="xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0" />
       <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void SinglePhaseCommit(class System.Transactions.SinglePhaseEnlistment enlistment) cil managed" FrameworkAlternate="xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0" />
-      <MemberSignature Language="DocId" Value="M:System.Transactions.ISinglePhaseNotification.SinglePhaseCommit(System.Transactions.SinglePhaseEnlistment)" FrameworkAlternate="netframework-4.7;netcore-2.1;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7.1;netstandard-2.0" />
+      <MemberSignature Language="DocId" Value="M:System.Transactions.ISinglePhaseNotification.SinglePhaseCommit(System.Transactions.SinglePhaseEnlistment)" FrameworkAlternate="netframework-4.7;netcore-2.0;netframework-4.7.2;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0" />
       <MemberSignature Language="VB.NET" Value="Public Sub SinglePhaseCommit (enlistment As SinglePhaseEnlistment)" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; void SinglePhaseCommit(System::Transactions::SinglePhaseEnlistment ^ enlistment);" FrameworkAlternate="xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0" />
       <MemberSignature Language="F#" Value="abstract member SinglePhaseCommit : System.Transactions.SinglePhaseEnlistment -&gt; unit" Usage="iSinglePhaseNotification.SinglePhaseCommit enlistment" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Transactions</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -81,7 +83,7 @@
         <ReturnType>System.Void</ReturnType>
       </ReturnValue>
       <Parameters>
-        <Parameter Name="singlePhaseEnlistment" Type="System.Transactions.SinglePhaseEnlistment" Index="0" FrameworkAlternate="netcore-2.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netstandard-2.0;netcore-2.1;netframework-4.7.2" />
+        <Parameter Name="singlePhaseEnlistment" Type="System.Transactions.SinglePhaseEnlistment" Index="0" FrameworkAlternate="netcore-2.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netstandard-2.0;netcore-2.1;netframework-4.7.2;netframework-2.0;netframework-3.0;netframework-3.5;netframework-4.0" />
         <Parameter Name="enlistment" Type="System.Transactions.SinglePhaseEnlistment" Index="0" FrameworkAlternate="xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0" />
       </Parameters>
       <Docs>
@@ -92,13 +94,13 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 它是两阶段提交的事务管理器的选择，或与此资源管理器使用单阶段提交优化。  有关单阶段和两阶段提交的详细信息，请参阅[中 Single-Phase 提交事务和多个阶段](http://msdn.microsoft.com/library/74b3cfe1-d33a-45b8-91f4-dfd6f6598c4d)。  
+ 它是两阶段提交的事务管理器的选择，或与此资源管理器一起使用单阶段提交优化。  单阶段和两阶段提交的详细信息，请参阅[Committing A Transaction 转换中 Single-Phase and Multi-phase](http://msdn.microsoft.com/library/74b3cfe1-d33a-45b8-91f4-dfd6f6598c4d)。  
   
- 因此，在资源管理器，此登记任一<xref:System.Transactions.ISinglePhaseNotification.SinglePhaseCommit%2A>调用方法时，或两个阶段中定义的提交方法<xref:System.Transactions.IEnlistmentNotification>称为接口。  
+ 因此，在资源管理器，此登记上任一<xref:System.Transactions.ISinglePhaseNotification.SinglePhaseCommit%2A>调用方法时，或两个阶段的提交方法中还有更多定义<xref:System.Transactions.IEnlistmentNotification>称为接口。  
   
- 此方法的实现应调用<xref:System.Transactions.SinglePhaseEnlistment.Committed%2A>方法或<xref:System.Transactions.SinglePhaseEnlistment.Aborted%2A>方法`singlePhaseEnlistment`参数以指示是否应提交或回滚事务。  
+ 此方法的实现应调用<xref:System.Transactions.SinglePhaseEnlistment.Committed%2A>方法或<xref:System.Transactions.SinglePhaseEnlistment.Aborted%2A>方法的`singlePhaseEnlistment`参数以指示是否应提交或回滚事务。  
   
- 当只有一个可变参与者支持单阶段提交，或当有零个或多个可变登记和一个持久登记，事务管理器将调用此方法。 在后一种情况下，易失性登记接收<xref:System.Transactions.IEnlistmentNotification.Prepare%2A>两-阶段提交和唯一的持久登记通知会接收的单阶段提交通知。  
+ 只有一个可变登记支持单阶段提交时或者当有零或多个可变登记和一个持久登记，事务管理器将调用此方法。 在后一种情况下，可变登记会接收<xref:System.Transactions.IEnlistmentNotification.Prepare%2A>双-阶段提交和唯一的持久登记的通知接收单阶段提交通知。  
   
  ]]></format>
         </remarks>

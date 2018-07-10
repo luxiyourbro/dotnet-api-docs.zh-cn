@@ -1,11 +1,11 @@
 <Type Name="IProvideCustomContentState" FullName="System.Windows.Navigation.IProvideCustomContentState">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="e177a1ab1a88dfebeb61428bf7a1fa4fbaa974f6" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="e865ab5b5955c788af8ee53fe8dd03348ab79143" />
+    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="zh-CN" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36465390" />
+    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
+    <Meta Name="ms.locfileid" Value="37551898" />
   </Metadata>
   <TypeSignature Language="C#" Value="public interface IProvideCustomContentState" />
   <TypeSignature Language="ILAsm" Value=".class public interface auto ansi abstract IProvideCustomContentState" />
@@ -15,6 +15,7 @@
   <TypeSignature Language="F#" Value="type IProvideCustomContentState = interface" />
   <AssemblyInfo>
     <AssemblyName>PresentationFramework</AssemblyName>
+    <AssemblyVersion>3.0.0.0</AssemblyVersion>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
   </AssemblyInfo>
   <Interfaces />
@@ -24,9 +25,9 @@
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Windows.Navigation.IProvideCustomContentState> 可以将关联的一条自定义状态，作为一个自定义实现<xref:System.Windows.Navigation.CustomContentState>类，与已导航离开的内容的导航历史记录条目。  
+ <xref:System.Windows.Navigation.IProvideCustomContentState> 可以将关联的一条自定义状态，为自定义实现<xref:System.Windows.Navigation.CustomContentState>类，与已导航离开的内容的导航历史记录条目。  
   
- 自定义状态还可以以这种方式使用以下方法关联：  
+ 自定义状态也可以在这种方式使用以下关联：  
   
 -   调用**AddBackEntry**:  
   
@@ -36,7 +37,7 @@
   
     -   <xref:System.Windows.Controls.Frame.AddBackEntry%2A?displayProperty=nameWithType>。  
   
--   设置<xref:System.Windows.Navigation.NavigatingCancelEventArgs.Content%2A?displayProperty=nameWithType>引发以下事件之一：  
+-   设置<xref:System.Windows.Navigation.NavigatingCancelEventArgs.Content%2A?displayProperty=nameWithType>时引发以下事件之一：  
   
     -   <xref:System.Windows.Navigation.NavigationService.Navigating?displayProperty=nameWithType>  
   
@@ -46,20 +47,20 @@
   
     -   <xref:System.Windows.Navigation.NavigationWindow.Navigating?displayProperty=nameWithType>  
   
- 必须实现<xref:System.Windows.Navigation.IProvideCustomContentState>时你自定义将状态添加到导航历史记录通过调用**AddBackEntry**，否则为导航历史记录将无法正常工作; 考虑执行以下步骤：  
+ 必须实现<xref:System.Windows.Navigation.IProvideCustomContentState>当你自定义将状态添加到导航历史记录通过调用**AddBackEntry**，否则为导航历史记录将无法正常工作; 请考虑以下步骤：  
   
-1.  **AddBackEntry**调用以将自定义的状态相关联的当前内容。  
+1.  **AddBackEntry**调用以将自定义状态与当前内容相关联。  
   
-2.  导航历史记录条目导航回和<xref:System.Windows.Navigation.CustomContentState.Replay%2A>被调用的自定义状态的方法，并且状态应用到内容。  
+2.  导航历史记录条目导航回和<xref:System.Windows.Navigation.CustomContentState.Replay%2A>调用方法的自定义状态，且状态应用于内容。  
   
 3.  前进导航历史记录中导航到以前的内容。  
   
-4.  导航历史记录条目向后导航，但不是在上次与之关联的导航历史记录条目已导航到保留自定义的状态。  
+4.  导航历史记录项向后导航，但不是在上次与之关联的导航历史记录条目导航到保留的自定义状态。  
   
- 这是默认行为，因为它已添加到导航历史记录中后，可能会更改最初记录在自定义状态的状态。 如果向后导航的自定义的状态对象并将应用其状态，在某些方面的状态更改之前导航历史记录中的项导航到之前, 的状态更改不能反映自定义状态对象中。 此外，<xref:System.Windows.Navigation.NavigationService.AddBackEntry%2A>不显式调用以添加新的自定义状态对象反映状态更改。 因此，以确保当前状态的特定导航始终存储在导航历史记录，<xref:System.Windows.Navigation.IProvideCustomContentState.GetContentState%2A>调用。  
+ 这是默认行为，因为它已添加到导航历史记录后，可能会更改最初在自定义状态中记录的状态。 如果向后导航的自定义状态对象，并应用其状态之前的状态更改的某些方面, 导航历史记录中的项导航到之前, 状态的更改不能会反映在自定义状态对象。 此外，<xref:System.Windows.Navigation.NavigationService.AddBackEntry%2A>无法显式调用以添加新的自定义状态对象，用于反映状态更改。 因此，以确保当前状态的特定导航始终存储在导航历史记录、<xref:System.Windows.Navigation.IProvideCustomContentState.GetContentState%2A>调用。  
   
 > [!IMPORTANT]
->  如果将信息存储在自定义内容的状态时，无法存储到要为其记住状态的页面的实例的任何引用。 这可以防止[!INCLUDE[TLA2#tla_wpf](~/includes/tla2sharptla-wpf-md.md)]从释放的页实例和破坏默认导航历史记录行为的用途。 如果你必须执行此操作，则可以考虑使用<xref:System.Windows.Controls.Page.KeepAlive%2A>相反。  
+>  信息存储在自定义内容的状态时，无法存储到要为其记住状态的页面的实例的任何引用。 这可以防止[!INCLUDE[TLA2#tla_wpf](~/includes/tla2sharptla-wpf-md.md)]从释放的页实例和破坏了默认导航历史记录行为的用途。 如果必须执行此操作，则可以考虑使用<xref:System.Windows.Controls.Page.KeepAlive%2A>相反。  
   
  ]]></format>
     </remarks>
@@ -75,6 +76,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>PresentationFramework</AssemblyName>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>

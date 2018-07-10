@@ -1,11 +1,11 @@
 <Type Name="Monitor" FullName="System.Threading.Monitor">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="04c73d8d6d8c0205db70235fd1bb85ce866c6212" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="90a2111b4e95ea3ea80a469c06f7334a9e6eac2b" />
+    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="zh-CN" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36606684" />
+    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
+    <Meta Name="ms.locfileid" Value="37549125" />
   </Metadata>
   <TypeSignature Language="C#" Value="public static class Monitor" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract sealed beforefieldinit Monitor extends System.Object" />
@@ -22,6 +22,8 @@
   </AssemblyInfo>
   <AssemblyInfo>
     <AssemblyName>mscorlib</AssemblyName>
+    <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
     <AssemblyVersion>2.0.5.0</AssemblyVersion>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
   </AssemblyInfo>
@@ -44,49 +46,49 @@
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Threading.Monitor>类可以同步对代码区域的访问的应用和释放通过调用对特定对象的锁<xref:System.Threading.Monitor.Enter%2A?displayProperty=nameWithType>， <xref:System.Threading.Monitor.TryEnter%2A?displayProperty=nameWithType>，和<xref:System.Threading.Monitor.Exit%2A?displayProperty=nameWithType>方法。 对象锁提供的功能限制到块的代码，通常称为临界区的访问。 一个线程拥有对象的锁，而没有其他线程可以获取该锁。 你还可以使用<xref:System.Threading.Monitor>类，以确保没有其他线程允许访问应用程序的部分代码正在执行的锁的所有者，除非另一个线程正在执行使用不同的锁定的对象的代码。  
+ <xref:System.Threading.Monitor>类使您可以通过应用和特定对象上的锁释放通过调用同步代码区域的访问<xref:System.Threading.Monitor.Enter%2A?displayProperty=nameWithType>， <xref:System.Threading.Monitor.TryEnter%2A?displayProperty=nameWithType>，和<xref:System.Threading.Monitor.Exit%2A?displayProperty=nameWithType>方法。 对象锁提供的功能限制到块的代码，通常称为关键部分的访问。 一个线程拥有对象的锁，而没有其他线程可以获取该锁。 此外可以使用<xref:System.Threading.Monitor>类，以确保没有其他线程可以访问的应用程序的某个部分的代码正在执行的锁的所有者，除非其他线程正在执行使用不同的锁定的对象的代码。  
   
  本文内容：  
   
- [监视器类： 概述](#Overview)   
+ [Monitor 类： 概述](#Overview)   
  [锁对象](#Lock)   
- [临界区](#CriticalSection)   
- [脉冲、 PulseAll 和等待](#Pulse)   
+ [关键节](#CriticalSection)   
+ [Pulse 和 PulseAll 等待](#Pulse)   
  [监视器和等待句柄](#WaitHandles)  
   
 <a name="Overview"></a>   
-## <a name="the-monitor-class-an-overview"></a>监视器类： 概述  
+## <a name="the-monitor-class-an-overview"></a>Monitor 类： 概述  
  <xref:System.Threading.Monitor> 具有以下功能：  
   
--   它是与按需对象相关联。  
+-   它是与按需的对象相关联。  
   
--   它是未绑定，这意味着它可以直接从任何上下文调用。  
+-   未绑定，这意味着它可以直接从任何上下文调用。  
   
--   实例<xref:System.Threading.Monitor>无法创建类; 的方法<xref:System.Threading.Monitor>类是所有静态。 每个方法传递控制的访问的同步的对象的关键部分。  
+-   实例<xref:System.Threading.Monitor>无法创建类; 方法的<xref:System.Threading.Monitor>类都是静态的。 每个方法传递控制访问的同步的对象的关键部分。  
   
 > [!NOTE]
->  使用<xref:System.Threading.Monitor>字符串以外的锁对象的类 (即，而不引用类型<xref:System.String>)，不是值类型。 有关详细信息，请参阅的重载<xref:System.Threading.Monitor.Enter%2A>方法和[的锁对象](#Lock)本文后面的部分。  
+>  使用<xref:System.Threading.Monitor>字符串以外的锁对象的类 (即，不是引用类型<xref:System.String>)，不是值类型。 有关详细信息，请参阅的重载<xref:System.Threading.Monitor.Enter%2A>方法和[锁对象](#Lock)本文后面的部分。  
   
  下表介绍可以通过访问同步的对象的线程执行的操作：  
   
 |操作|描述|  
 |------------|-----------------|  
-|<xref:System.Threading.Monitor.Enter%2A>, <xref:System.Threading.Monitor.TryEnter%2A>|获取对象锁。 此操作还将标记的关键部分的开头。 没有其他线程可以进入临界区，除非它使用不同的锁定的对象的关键部分中执行的说明。|  
-|<xref:System.Threading.Monitor.Wait%2A>|若要允许其他线程锁定和访问的对象中释放对象上的锁。 调用线程等待时另一个线程访问的对象。 脉冲信号用于通知正在等待的线程对对象的状态进行的更改。|  
-|<xref:System.Threading.Monitor.Pulse%2A> （信号） <xref:System.Threading.Monitor.PulseAll%2A>|将信号发送到一个或多个正在等待的线程。 该信号通知正在等待的线程锁定对象的状态已更改，并准备释放锁的锁的所有者。 正在等待的线程置于对象的就绪队列，以便它最终可能会收到对象的锁。 一旦线程拥有该锁，它可以检查以确定是否已达到所需的状态的对象的新状态。|  
-|<xref:System.Threading.Monitor.Exit%2A>|释放对象上的锁。 此操作还将标记临界区受锁定对象的末尾。|  
+|<xref:System.Threading.Monitor.Enter%2A>, <xref:System.Threading.Monitor.TryEnter%2A>|获取一个对象的锁。 此操作还表示关键部分的开头。 没有其他线程可以进入关键节，除非它使用不同的锁定的对象的关键部分中执行的说明。|  
+|<xref:System.Threading.Monitor.Wait%2A>|若要允许其他线程锁定，并访问该对象释放对象上的锁。 另一个线程访问对象时，调用线程等待。 脉冲信号用于通知等待线程有关对象的状态更改。|  
+|<xref:System.Threading.Monitor.Pulse%2A> （信号） <xref:System.Threading.Monitor.PulseAll%2A>|将信号发送到一个或多个等待线程。 该信号通知的锁定对象的状态已更改，在等待线程和锁的所有者已准备好释放锁。 等待线程位于对象的准备就绪的队列，以便它最终可能会收到对象的锁。 一旦线程拥有该锁，它可以检查以查看是否已到达所需的状态的对象的新状态。|  
+|<xref:System.Threading.Monitor.Exit%2A>|释放对象锁。 此操作还将标记的关键部分保护锁定对象的末尾。|  
   
- 开头[!INCLUDE[net_v40_long](~/includes/net-v40-long-md.md)]，有两个重载组<xref:System.Threading.Monitor.Enter%2A>和<xref:System.Threading.Monitor.TryEnter%2A>方法。 一组重载具有`ref`（在 C# 中) 或`ByRef`（在 Visual Basic)<xref:System.Boolean>以原子方式设置为的参数`true`如果已获取锁，即使获取锁时，将引发异常。 如果非常重要释放在所有情况下，锁，即使该锁定保护的资源可能处于不一致状态，请使用这些重载。  
+ 开头[!INCLUDE[net_v40_long](~/includes/net-v40-long-md.md)]，有两个组的重载<xref:System.Threading.Monitor.Enter%2A>和<xref:System.Threading.Monitor.TryEnter%2A>方法。 一组重载具有`ref`（在 C# 中) 或`ByRef`（在 Visual Basic)<xref:System.Boolean>参数以原子方式设置为`true`如果已获取锁，即使当获取锁时引发异常。 如果问题比较严重释放在所有情况下，锁，即使该锁定保护的资源可能处于不一致状态，请使用这些重载。  
   
 <a name="Lock"></a>   
 ## <a name="the-lock-object"></a>锁对象  
- 监视器类组成`static`（在 C# 中) 或`Shared`（在 Visual Basic) 对控件访问关键部分对象操作的方法。  为每个同步的对象来维护以下信息：  
+ Monitor 类组成`static`（在 C# 中) 或`Shared`（在 Visual Basic) 控制访问的关键部分对象上运行。  为每个同步对象维护的以下信息：  
   
 -   对当前持有锁的线程的引用。  
   
 -   对就绪的队列，其中包含准备好获取锁的线程的引用。  
   
--   对包含正在等待的锁定对象状态的更改通知的线程的等待队列的引用。  
+-   对包含的锁定对象的状态的更改通知等待的线程的等待队列的引用。  
   
  <xref:System.Threading.Monitor> 锁定对象（即引用类型），而不是值类型。 虽然可以将值类型传递到 <xref:System.Threading.Monitor.Enter%2A> 和 <xref:System.Threading.Monitor.Exit%2A>，但对每个调用它都分别进行了装箱。 由于每次调用都将创建一个单独的对象，所以绝不会阻止 <xref:System.Threading.Monitor.Enter%2A> 并且它应该保护的代码不会真正同步。 此外，传递到 <xref:System.Threading.Monitor.Exit%2A> 的对象不同于传递到 <xref:System.Threading.Monitor.Enter%2A> 的对象，因此 <xref:System.Threading.Monitor> 将引发 <xref:System.Threading.SynchronizationLockException> 异常并显示消息“从代码的非同步块调用了对象同步方法。”  
   
@@ -102,38 +104,38 @@
  [!code-csharp[Conceptual.Monitors#3](~/samples/snippets/csharp/VS_Snippets_CLR/conceptual.monitors/cs/badbox1.cs#3)]
  [!code-vb[Conceptual.Monitors#3](~/samples/snippets/visualbasic/VS_Snippets_CLR/conceptual.monitors/vb/badbox1.vb#3)]  
   
- 在选择上要同步的对象时，应仅在私有或内部对象上锁定。 锁定对外部对象可能会导致死锁，因为不相关的代码可以选择要锁定上用于不同目的的相同对象。  
+ 选择要同步的对象，便应仅在私有或内部对象上锁定。 外部对象上锁定可能会导致死锁，因为不相关的代码可能选择相同的对象上锁定用于不同目的。  
   
- 请注意，你可以同步多个应用程序域中的某个对象，如果用于锁的对象派生自<xref:System.MarshalByRefObject>。  
+ 请注意，如果用于锁的对象派生可以同步多个应用程序域中的某个对象<xref:System.MarshalByRefObject>。  
   
 <a name="CriticalSection"></a>   
-## <a name="the-critical-section"></a>临界区  
- 使用<xref:System.Threading.Monitor.Enter%2A>和<xref:System.Threading.Monitor.Exit%2A>标记的开头和末尾临界区的方法。  
+## <a name="the-critical-section"></a>关键节  
+ 使用<xref:System.Threading.Monitor.Enter%2A>和<xref:System.Threading.Monitor.Exit%2A>方法将标记的开头和结尾的关键部分。  
   
 > [!NOTE]
->  提供的功能<xref:System.Threading.Monitor.Enter%2A>和<xref:System.Threading.Monitor.Exit%2A>方法等同于所提供的[锁](~/docs/csharp/language-reference/keywords/lock-statement.md)C# 中的语句和[SyncLock](~/docs/visual-basic/language-reference/statements/synclock-statement.md)只不过在 Visual Basic 中的语句语言构造换行<xref:System.Threading.Monitor.Enter%28System.Object%2CSystem.Boolean%40%29?displayProperty=nameWithType>方法重载与<xref:System.Threading.Monitor.Exit%2A?displayProperty=nameWithType>中的方法`try`...`finally` 若要确保监视器释放的块。  
+>  提供的功能<xref:System.Threading.Monitor.Enter%2A>和<xref:System.Threading.Monitor.Exit%2A>方法等同于由提供[锁](~/docs/csharp/language-reference/keywords/lock-statement.md)C# 中的语句和[SyncLock](~/docs/visual-basic/language-reference/statements/synclock-statement.md)不同之处在于在 Visual Basic 中的语句语言构造大大降低环绕<xref:System.Threading.Monitor.Enter%28System.Object%2CSystem.Boolean%40%29?displayProperty=nameWithType>方法重载并<xref:System.Threading.Monitor.Exit%2A?displayProperty=nameWithType>中的方法`try`...`finally` 若要确保监视器被释放的块。  
   
- 如果关键部分是一组连续的说明，然后获取的锁的<xref:System.Threading.Monitor.Enter%2A>方法将保证只有一个线程可以执行所包含的代码使用锁定的对象。 在这种情况下，我们建议你将在此代码置于`try`块并将对<xref:System.Threading.Monitor.Exit%2A>中的方法`finally`块。 这可确保即使发生异常，也将释放该锁定。 下面的代码段说明了此模式。  
+ 如果关键部分是一组连续的说明，然后获取的锁的<xref:System.Threading.Monitor.Enter%2A>方法可保证只有一个线程可以执行与锁定的对象所包含的代码。 在这种情况下，我们建议你将在该代码放`try`阻止并发出到呼叫<xref:System.Threading.Monitor.Exit%2A>中的方法`finally`块。 这可确保即使发生异常，也将释放该锁定。 下面的代码段演示了此模式。  
   
  [!code-csharp[System.Threading.Monitor.Class#2](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.threading.monitor.class/cs/Pattern2.cs#2)]
  [!code-vb[System.Threading.Monitor.Class#2](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.threading.monitor.class/vb/Pattern2.vb#2)]  
   
- 此工具通常用于同步访问静态或实例方法的类。  
+ 此工具通常用于同步访问静态方法或类的实例方法。  
   
- 如果临界区跨越整个方法，可以通过锁定设施放置<xref:System.Runtime.CompilerServices.MethodImplAttribute?displayProperty=nameWithType>方法，并指定<xref:System.Runtime.CompilerServices.MethodImplOptions.Synchronized>的构造函数中的值<xref:System.Runtime.CompilerServices.MethodImplAttribute?displayProperty=nameWithType>。 当你使用此特性，<xref:System.Threading.Monitor.Enter%2A>和<xref:System.Threading.Monitor.Exit%2A>方法调用，则不需要。 下面的代码片段阐释了这种模式：  
+ 如果临界区跨越整个方法，可以通过锁定设施放置<xref:System.Runtime.CompilerServices.MethodImplAttribute?displayProperty=nameWithType>方法，并指定<xref:System.Runtime.CompilerServices.MethodImplOptions.Synchronized>的构造函数中的值<xref:System.Runtime.CompilerServices.MethodImplAttribute?displayProperty=nameWithType>。 使用此属性时<xref:System.Threading.Monitor.Enter%2A>和<xref:System.Threading.Monitor.Exit%2A>不需要方法调用。 下面的代码段演示了这种模式：  
   
  [!code-csharp[System.Threading.Monitor.Class#3](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.threading.monitor.class/cs/Pattern2.cs#3)]
  [!code-vb[System.Threading.Monitor.Class#3](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.threading.monitor.class/vb/Pattern2.vb#3)]  
   
- 请注意，该特性将导致当前线程持有锁，直到该方法返回;如果可以更快地释放锁，则使用<xref:System.Threading.Monitor>类，C#[锁](~/docs/csharp/language-reference/keywords/lock-statement.md)语句或 Visual Basic [SyncLock](~/docs/visual-basic/language-reference/statements/synclock-statement.md)内而不是属性的方法的语句。  
+ 请注意，该属性会导致当前线程持有锁，直到该方法返回;如果可以更快地释放锁，则使用<xref:System.Threading.Monitor>类，C#[锁](~/docs/csharp/language-reference/keywords/lock-statement.md)语句或 Visual Basic [SyncLock](~/docs/visual-basic/language-reference/statements/synclock-statement.md)语句而不是属性的方法。  
   
- 尽管很可能<xref:System.Threading.Monitor.Enter%2A>和<xref:System.Threading.Monitor.Exit%2A>锁定和释放用于跨成员或类边界的给定的对象的语句，不建议这样做。  
+ 尽管很可能<xref:System.Threading.Monitor.Enter%2A>和<xref:System.Threading.Monitor.Exit%2A>锁定和释放给定的对象跨成员或类边界的语句，不推荐这样做。  
   
 <a name="Pulse"></a>   
-## <a name="pulse-pulseall-and-wait"></a>脉冲、 PulseAll 和等待  
- 后一个线程拥有该锁，并已进入锁保护的关键部分，就可以调用<xref:System.Threading.Monitor.Wait%2A?displayProperty=nameWithType>， <xref:System.Threading.Monitor.Pulse%2A?displayProperty=nameWithType>，和<xref:System.Threading.Monitor.PulseAll%2A?displayProperty=nameWithType>方法。  
+## <a name="pulse-pulseall-and-wait"></a>Pulse 和 PulseAll 等待  
+ 后一个线程拥有该锁，并已进入关键节锁保护，它可以调用<xref:System.Threading.Monitor.Wait%2A?displayProperty=nameWithType>， <xref:System.Threading.Monitor.Pulse%2A?displayProperty=nameWithType>，和<xref:System.Threading.Monitor.PulseAll%2A?displayProperty=nameWithType>方法。  
   
- <xref:System.Threading.Monitor.Wait%2A> 如果被保留，允许正在等待的线程或线程获取锁，并进入临界区，并等待通知通过调用释放的锁<xref:System.Threading.Monitor.Pulse%2A?displayProperty=nameWithType>或<xref:System.Threading.Monitor.PulseAll%2A?displayProperty=nameWithType>方法。 当 <xref:System.Threading.Monitor.Wait%2A> 获得通知后，它将返回并再次获取该锁定。  
+ <xref:System.Threading.Monitor.Wait%2A> 如果它保留、 允许等待线程或线程获得的锁，并进入关键节，并等待通过调用通知释放锁<xref:System.Threading.Monitor.Pulse%2A?displayProperty=nameWithType>或<xref:System.Threading.Monitor.PulseAll%2A?displayProperty=nameWithType>方法。 当 <xref:System.Threading.Monitor.Wait%2A> 获得通知后，它将返回并再次获取该锁定。  
   
  在等待队列中等待处理的下一个线程的 <xref:System.Threading.Monitor.Pulse%2A> 和 <xref:System.Threading.Monitor.PulseAll%2A> 信号。  
   
@@ -141,32 +143,32 @@
 ## <a name="monitors-and-wait-handles"></a>监视器和等待句柄  
  务必要注意的使用之间的区别<xref:System.Threading.Monitor>类和<xref:System.Threading.WaitHandle>对象。  
   
--   <xref:System.Threading.Monitor>类是纯托管且完全可移植，并且可能在操作系统资源要求方面更加高效。  
+-   <xref:System.Threading.Monitor>类是纯托管且完全可移植，并且可能会在操作系统资源需求方面更加高效。  
   
 -   <xref:System.Threading.WaitHandle> 对象表示操作系统可等待对象，有助于托管和非托管代码之间进行同步，并公开一些高级操作系统功能，如同时等待多个对象的功能。  
   
    
   
 ## Examples  
- 下面的示例使用<xref:System.Threading.Monitor>类所表示的随机数生成器的单个实例对访问进行同步<xref:System.Random>类。 该示例创建十个任务，其中每个线程池线程异步执行。 每个任务生成 10,000 的随机数字，计算其平均值，并更新维护随机数生成数的运行总计和其结果相加值的两个过程级别变量。 所有任务都执行后，这两个值然后用于计算的总体平均值。  
+ 下面的示例使用<xref:System.Threading.Monitor>类所表示的随机数生成器的单个实例对访问进行同步<xref:System.Random>类。 该示例创建了十个任务，其中每个线程池线程异步执行。 每个任务生成 10,000 的随机数字、 计算其平均值，并更新维护的随机数字生成数的运行总计和其总和的两个过程级变量。 所有任务都执行完成后，然后使用这两个值来计算总体的平均值。  
   
  [!code-csharp[System.Threading.Monitor.Class#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.threading.monitor.class/cs/example1.cs#1)]
  [!code-vb[System.Threading.Monitor.Class#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.threading.monitor.class/vb/example1.vb#1)]  
   
- 由于它们可以访问从一个线程池线程上运行任何任务，可以访问变量`total`和`n`还必须同步。 <xref:System.Threading.Interlocked.Add%2A?displayProperty=nameWithType>方法用于此目的。  
+ 由于它们可以从任何线程池线程上运行的任务进行访问，访问到的变量`total`和`n`也必须同步。 <xref:System.Threading.Interlocked.Add%2A?displayProperty=nameWithType>方法用于此目的。  
   
- 下面的示例演示如何组合的使用<xref:System.Threading.Monitor>类 (通过实现`lock`或`SyncLock`语言构造)，则<xref:System.Threading.Interlocked>类，与<xref:System.Threading.AutoResetEvent>类。 它定义了两个`internal`（在 C# 中) 或`Friend`（在 Visual Basic) 类，`SyncResource`和`UnSyncResource`，它们分别提供对资源的同步和不同步访问。 若要确保示例展示同步和不同步的访问 （它可以是这种情况，如果每个方法调用快速完成） 之间的差异，此方法包含一次随机延迟： 对于线程其<xref:System.Threading.Thread.ManagedThreadId%2A?displayProperty=nameWithType>属性为偶数，方法调用<xref:System.Threading.Thread.Sleep%2A?displayProperty=nameWithType>以引入 2000 毫秒延迟。 请注意，因为`SyncResource`类不是公共的没有客户端代码对同步资源采用锁，内部类将自己采用锁。 这可以防止恶意代码对公共对象采用锁。  
+ 下面的示例演示如何组合的使用的<xref:System.Threading.Monitor>类 (通过实现`lock`或`SyncLock`语言构造)，则<xref:System.Threading.Interlocked>类，和<xref:System.Threading.AutoResetEvent>类。 它定义了两个`internal`（在 C# 中) 或`Friend`（在 Visual Basic) 类，`SyncResource`和`UnSyncResource`，它们分别提供对资源的同步和不同步访问。 若要确保该示例阐释了同步和不同步访问 （这可能是这种情况，如果每个方法调用快速完成） 之间的差异，此方法包含随机延迟： 对于线程<xref:System.Threading.Thread.ManagedThreadId%2A?displayProperty=nameWithType>属性为偶数，方法调用<xref:System.Threading.Thread.Sleep%2A?displayProperty=nameWithType>引入 2,000 毫秒的延迟。 注意，因为`SyncResource`类不是公共的没有任何客户端代码对同步资源采用锁; 内部类本身所需的锁。 这可以防止恶意代码对公共对象采用锁。  
   
  [!code-csharp[Conceptual.Monitors#1](~/samples/snippets/csharp/VS_Snippets_CLR/conceptual.monitors/cs/source.cs#1)]
  [!code-vb[Conceptual.Monitors#1](~/samples/snippets/visualbasic/VS_Snippets_CLR/conceptual.monitors/vb/source.vb#1)]  
   
- 该示例定义一个变量， `numOps`，定义将要尝试访问资源的线程数。 应用程序线程调用<xref:System.Threading.ThreadPool.QueueUserWorkItem%28System.Threading.WaitCallback%29?displayProperty=nameWithType>方法同步和不同步每个访问五次。 <xref:System.Threading.ThreadPool.QueueUserWorkItem%28System.Threading.WaitCallback%29?displayProperty=nameWithType>方法只有一个参数，一个委托，可不接受任何参数且不返回值。 对于同步访问，它将调用`SyncUpdateResource`方法; 对于不同步访问，它将调用`UnSyncUpdateResource`方法。 方法调用每个组后, 应用程序线程调用[AutoResetEvent.WaitOne](xref:System.Threading.WaitHandle.WaitOne*)方法，以便阻止，直到<xref:System.Threading.AutoResetEvent>实例发出信号。  
+ 该示例定义一个变量， `numOps`，定义将要尝试访问资源的线程数。 应用程序线程调用<xref:System.Threading.ThreadPool.QueueUserWorkItem%28System.Threading.WaitCallback%29?displayProperty=nameWithType>方法的同步和不同步访问五次每个。 <xref:System.Threading.ThreadPool.QueueUserWorkItem%28System.Threading.WaitCallback%29?displayProperty=nameWithType>方法具有一个参数，不接受任何参数且不返回值的委托。 对于同步访问，它将调用`SyncUpdateResource`方法; 因此，对于不同步访问，它将调用`UnSyncUpdateResource`方法。 在方法调用的每个集之后, 应用程序线程调用[AutoResetEvent.WaitOne](xref:System.Threading.WaitHandle.WaitOne*)方法，以便阻止，直到<xref:System.Threading.AutoResetEvent>实例发出信号。  
   
- 每次调用`SyncUpdateResource`方法都会调用内部`SyncResource.Access`方法，然后调用<xref:System.Threading.Interlocked.Decrement%2A?displayProperty=nameWithType>方法以递减`numOps`计数器。 <xref:System.Threading.Interlocked.Decrement%2A?displayProperty=nameWithType>方法用于递减计数器，因为否则你无法确保第二个线程将访问的值之前第一个线程的递减, 值已存储在变量中。 当上一次同步的工作线程递减为零的计数器时，指示所有同步线程都已完成对资源的访问`SyncUpdateResource`方法调用<xref:System.Threading.EventWaitHandle.Set%2A?displayProperty=nameWithType>方法，发出主线程继续信号执行。  
+ 每次调用`SyncUpdateResource`方法都会调用内部`SyncResource.Access`方法，然后调用<xref:System.Threading.Interlocked.Decrement%2A?displayProperty=nameWithType>方法以递减`numOps`计数器。 <xref:System.Threading.Interlocked.Decrement%2A?displayProperty=nameWithType>方法用于递减该计数器，因为否则您无法确保第二个线程将访问的值之前第一个线程的递减, 值已存储在变量。 当上一次同步工作线程递减为零的计数器时，指示所有同步线程已完成访问资源`SyncUpdateResource`方法调用<xref:System.Threading.EventWaitHandle.Set%2A?displayProperty=nameWithType>方法，发出主线程继续的信号执行。  
   
- 每次调用`UnSyncUpdateResource`方法都会调用内部`UnSyncResource.Access`方法，然后调用<xref:System.Threading.Interlocked.Decrement%2A?displayProperty=nameWithType>方法以递减`numOps`计数器。 同样，<xref:System.Threading.Interlocked.Decrement%2A?displayProperty=nameWithType>方法用于递减以确保第二个线程不会在第一个线程的递减值已分配给变量之前访问值的计数器。 当上一次同步辅助线程递减为零的计数器时，指示没有不同步线程需要访问资源，`UnSyncUpdateResource`方法调用<xref:System.Threading.EventWaitHandle.Set%2A?displayProperty=nameWithType>方法，发出主线程继续执行的信号.  
+ 每次调用`UnSyncUpdateResource`方法都会调用内部`UnSyncResource.Access`方法，然后调用<xref:System.Threading.Interlocked.Decrement%2A?displayProperty=nameWithType>方法以递减`numOps`计数器。 再次重申，<xref:System.Threading.Interlocked.Decrement%2A?displayProperty=nameWithType>方法用于递减的计数器以确保第二个线程不会在第一个线程的递减值已分配给变量之前访问值。 当上一次同步工作线程递减为零的计数器时，指示没有更多不同步线程需要访问的资源，`UnSyncUpdateResource`方法调用<xref:System.Threading.EventWaitHandle.Set%2A?displayProperty=nameWithType>方法，发出主线程继续执行的信号.  
   
- 如示例的输出所示，同步访问可确保另一个线程必须在调用线程退出受保护的资源之后才能访问该资源；每个线程都在其前置任务上等待。 另一方面，而无需锁定，`UnSyncResource.Access`线程到达的顺序调用方法。  
+ 如示例的输出所示，同步访问可确保另一个线程必须在调用线程退出受保护的资源之后才能访问该资源；每个线程都在其前置任务上等待。 但是，无锁，`UnSyncResource.Access`线程到达它的顺序调用方法。  
   
  ]]></format>
     </remarks>
@@ -202,6 +204,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -227,13 +231,13 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 使用`Enter`获取<xref:System.Threading.Monitor>上作为参数传递的对象。 如果另一个线程执行`Enter`对象上但尚未执行相应<xref:System.Threading.Monitor.Exit%2A>，将阻止当前线程，直到另一个线程释放该对象。 它是合法的同一线程调用`Enter`多次而无需阻止它; 但是，相同数目的`Exit`之前等待的对象上的其他线程将取消阻止必须调用的调用。  
+ 使用`Enter`获取<xref:System.Threading.Monitor>上作为参数传递的对象。 如果已执行了另一个线程`Enter`对象上但尚未执行相应<xref:System.Threading.Monitor.Exit%2A>，当前线程会阻塞，直到另一个线程释放对象。 是合法的同一线程调用`Enter`多次而无需阻止它; 但是，相同数目的`Exit`之前等待的对象上的其他线程将取消阻止，则必须调用的调用。  
   
- 使用<xref:System.Threading.Monitor>以锁定对象 （即，引用类型） 而不是值类型。 传递到值类型变量时`Enter`，它作为对象进行了装箱。 如果传递到相同的变量`Enter`同样，它被装箱为单独的对象，并在线程不阻止。 在此情况下，代码的`Monitor`是应该保护未受到保护。 此外，当你将该变量传递到`Exit`，创建另一个单独的对象。 因为该对象传递给`Exit`不同于传递给对象`Enter`，`Monitor`引发<xref:System.Threading.SynchronizationLockException>。 有关详细信息，请参阅概念性主题[监视器](xref:System.Threading.Monitor)。  
+ 使用<xref:System.Threading.Monitor>来锁定对象 （即，引用类型） 而不是值类型。 传递到值类型变量时`Enter`，它被装箱为对象。 如果传递到相同的变量`Enter`同样，它被装箱为单独的对象，并在线程不会阻止。 在此情况下，代码的`Monitor`是应该保护不受保护。 此外，当您将该变量传递到`Exit`，创建另一个单独的对象。 因为该对象传递给`Exit`不同于传递给对象`Enter`，`Monitor`引发<xref:System.Threading.SynchronizationLockException>。 有关详细信息，请参阅概念性主题[监视器](xref:System.Threading.Monitor)。  
   
- <xref:System.Threading.Thread.Interrupt%2A> 可以中断线程等待输入`Monitor`对象上。 A<xref:System.Threading.ThreadInterruptedException>将引发。  
+ <xref:System.Threading.Thread.Interrupt%2A> 可能会中断线程正在等待输入`Monitor`对象上。 一个<xref:System.Threading.ThreadInterruptedException>将引发。  
   
- 使用 C# `try`...`finally` 块 (`Try`...`Finally` 在 Visual Basic 中) 以确保释放监视器，或使用 C#`lock`语句 (`SyncLock`在 Visual Basic 中的语句)，以便包装<xref:System.Threading.Monitor.Enter%2A>和<xref:System.Threading.Monitor.Exit%2A>中的方法`try`...`finally` 块。  
+ 使用 C# `try`...`finally` 块 (`Try`...`Finally` 在 Visual Basic 中) 以确保释放监视器，或使用 C#`lock`语句 (`SyncLock`在 Visual Basic 中的语句)，用于包装<xref:System.Threading.Monitor.Enter%2A>并<xref:System.Threading.Monitor.Exit%2A>中的方法`try`...`finally` 块。  
   
    
   
@@ -290,18 +294,18 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 使用`Enter`获取<xref:System.Threading.Monitor>作为传递的对象上`obj`参数。 如果另一个线程执行`Enter`对象上但尚未执行相应<xref:System.Threading.Monitor.Exit%2A>，将阻止当前线程，直到另一个线程释放该对象。 它是合法的同一线程调用`Enter`多次而无需阻止它; 但是，相同数目的`Exit`之前等待的对象上的其他线程将取消阻止必须调用的调用。  
+ 使用`Enter`来获取<xref:System.Threading.Monitor>作为传递的对象上`obj`参数。 如果已执行了另一个线程`Enter`对象上但尚未执行相应<xref:System.Threading.Monitor.Exit%2A>，当前线程会阻塞，直到另一个线程释放对象。 是合法的同一线程调用`Enter`多次而无需阻止它; 但是，相同数目的`Exit`之前等待的对象上的其他线程将取消阻止，则必须调用的调用。  
   
- 如果获取了该锁不因为引发了异常，所指定的变量`lockTaken`参数是`false`此方法结束后。 这样，在所有情况下，确定它是否是释放锁所需的程序。 如果此方法返回而不引发异常时，所指定的变量`lockTaken`参数始终是`true`，并且没有无需对其进行测试。  
+ 如果不采取锁，因为引发了异常，所指定的变量`lockTaken`参数是`false`此方法结束后。 这样，若要确定是否需要释放锁，在所有情况下，该程序。 如果此方法返回而不引发异常时，所指定的变量`lockTaken`参数始终是`true`，并且无需对其进行测试。  
   
- 使用<xref:System.Threading.Monitor>以锁定对象 （即，引用类型） 而不是值类型。 传递到值类型变量时`Enter`，它作为对象进行了装箱。 如果传递到相同的变量`Enter`同样，它被装箱为单独的对象，并在线程不阻止。 在此情况下，代码的`Monitor`是应该保护未受到保护。 此外，当你将该变量传递到`Exit`，创建另一个单独的对象。 因为该对象传递给`Exit`不同于传递给对象`Enter`，`Monitor`引发<xref:System.Threading.SynchronizationLockException>。 有关详细信息，请参阅概念性主题[监视器](xref:System.Threading.Monitor)。  
+ 使用<xref:System.Threading.Monitor>来锁定对象 （即，引用类型） 而不是值类型。 传递到值类型变量时`Enter`，它被装箱为对象。 如果传递到相同的变量`Enter`同样，它被装箱为单独的对象，并在线程不会阻止。 在此情况下，代码的`Monitor`是应该保护不受保护。 此外，当您将该变量传递到`Exit`，创建另一个单独的对象。 因为该对象传递给`Exit`不同于传递给对象`Enter`，`Monitor`引发<xref:System.Threading.SynchronizationLockException>。 有关详细信息，请参阅概念性主题[监视器](xref:System.Threading.Monitor)。  
   
- <xref:System.Threading.Thread.Interrupt%2A> 可以中断线程等待输入`Monitor`对象上。 A<xref:System.Threading.ThreadInterruptedException>将引发。  
+ <xref:System.Threading.Thread.Interrupt%2A> 可能会中断线程正在等待输入`Monitor`对象上。 一个<xref:System.Threading.ThreadInterruptedException>将引发。  
   
    
   
 ## Examples  
- 下面的代码演示使用的基本模式<xref:System.Threading.Monitor.Enter%28System.Object%2CSystem.Boolean%40%29>方法重载。 此重载始终设置传递给该变量的值`ref`参数 (`ByRef`在 Visual Basic 中) `lockTaken`，即使该方法将引发异常，因此该变量的值是可靠的方法来测试是否锁定必须是发布。  
+ 下面的代码演示使用的基本模式<xref:System.Threading.Monitor.Enter%28System.Object%2CSystem.Boolean%40%29>方法重载。 此重载总是设置传递给该变量的值`ref`参数 (`ByRef`在 Visual Basic 中) `lockTaken`，即使该方法将引发异常，因此该变量的值是可靠的方式来测试是否锁必须是发布。  
   
  [!code-csharp[System.Threading.Monitor.Enter#2](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.threading.monitor.enter/cs/example.cs#2)]
  [!code-vb[System.Threading.Monitor.Enter#2](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.threading.monitor.enter/vb/example.vb#2)]  
@@ -331,6 +335,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -359,9 +365,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 调用线程必须拥有上的锁`obj`参数。 如果调用线程拥有对指定的对象的锁定并已完成的数量相等`Exit`和<xref:System.Threading.Monitor.Enter%2A>调用对于对象，然后释放锁。 如果调用线程已不调用`Exit`尽可能多的次数`Enter`，不释放锁。  
+ 调用线程必须在拥有的锁`obj`参数。 如果调用线程拥有指定对象上的锁，并且具有相同数量`Exit`和<xref:System.Threading.Monitor.Enter%2A>调用对于对象，则释放该锁。 如果调用线程不调用`Exit`多少次`Enter`，不释放锁。  
   
- 如果该锁被释放，其他线程处于准备队列中的对象，其中一个线程获取锁。 如果其他线程等待获取锁的等待队列中，它们将不自动移到就绪的队列时的锁的所有者调用`Exit`。 若要将一个或多个正在等待的线程移到就绪的队列，调用<xref:System.Threading.Monitor.Pulse%2A>或<xref:System.Threading.Monitor.PulseAll%2A>之前调用`Exit`。  
+ 如果该锁被释放，其他线程处于准备就绪的队列对象的某个线程获取锁。 如果其他线程等待获取锁的等待队列中，它们不会自动移到准备就绪的队列时锁的所有者调用`Exit`。 若要将一个或多个等待线程移动到准备就绪的队列，调用<xref:System.Threading.Monitor.Pulse%2A>或<xref:System.Threading.Monitor.PulseAll%2A>然后再调用`Exit`。  
   
    
   
@@ -423,9 +429,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 此方法仅适用于可通过使用的方法来获取的锁<xref:System.Threading.Monitor>类，或通过使用 C#`lock`语句或 Visual Basic`SyncLock`语句，用于实现与<xref:System.Threading.Monitor>。  
+ 此方法仅适用于使用的方法获得的锁<xref:System.Threading.Monitor>类，或通过使用 C#`lock`语句或 Visual Basic`SyncLock`语句，实现与<xref:System.Threading.Monitor>。  
   
- 使用此方法使用诊断工具，如<xref:System.Diagnostics.Debug.Assert%2A>方法和<xref:System.Diagnostics.Contracts.Contract>类中，以调试涉及的锁定问题<xref:System.Threading.Monitor>类。  
+ 使用此方法通过诊断工具，如<xref:System.Diagnostics.Debug.Assert%2A>方法和<xref:System.Diagnostics.Contracts.Contract>类中，以调试涉及的锁定问题<xref:System.Threading.Monitor>类。  
   
  ]]></format>
         </remarks>
@@ -450,6 +456,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -475,18 +483,18 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 仅该锁的当前所有者可以指示正在等待对象使用`Pulse`。  
+ 仅当前锁的所有者可以发出信号等待对象使用`Pulse`。  
   
- 当前拥有指定的对象上的锁的线程调用此方法来对锁定的行中的下一个线程。 在收到脉冲，正在等待的线程移到就绪的队列。 时，调用的线程`Pulse`释放锁后，在准备队列中 （这不一定接收到脉冲的线程） 的下一个线程获取该锁。  
+ 当前拥有指定对象上的锁的线程调用此方法来发出信号的锁的行中的下一个线程。 一旦收到状况了如指掌，等待线程移到准备就绪的队列。 该线程的调用时`Pulse`释放锁后，在准备就绪的队列 （它不一定接收到脉冲的线程） 中的下一个线程获取该锁。  
   
 > [!IMPORTANT]
->  <xref:System.Threading.Monitor>类不维护状态指示<xref:System.Threading.Monitor.Pulse%2A>调用方法。 因此，如果调用<xref:System.Threading.Monitor.Pulse%2A>无线程等待时，下一个线程上调用<xref:System.Threading.Monitor.Wait%2A>块就像<xref:System.Threading.Monitor.Pulse%2A>永远不会调用一样。 如果使用两个线程<xref:System.Threading.Monitor.Pulse%2A>和<xref:System.Threading.Monitor.Wait%2A>进行交互，这可能导致死锁。 与此相反的行为<xref:System.Threading.AutoResetEvent>类： 如果你发出信号<xref:System.Threading.AutoResetEvent>通过调用其<xref:System.Threading.EventWaitHandle.Set%2A>方法，并且没有任何线程在等待，<xref:System.Threading.AutoResetEvent>保留在终止状态，直到线程调用<xref:System.Threading.WaitHandle.WaitOne%2A>， <xref:System.Threading.WaitHandle.WaitAny%2A>，或<xref:System.Threading.WaitHandle.WaitAll%2A>。 <xref:System.Threading.AutoResetEvent>释放该线程并返回到未终止的状态。  
+>  <xref:System.Threading.Monitor>类不维护状态，指示<xref:System.Threading.Monitor.Pulse%2A>调用方法。 因此，如果您调用<xref:System.Threading.Monitor.Pulse%2A>没有线程在等待，在下一个调用线程<xref:System.Threading.Monitor.Wait%2A>块像<xref:System.Threading.Monitor.Pulse%2A>从未被调用过。 如果使用的两个线程<xref:System.Threading.Monitor.Pulse%2A>和<xref:System.Threading.Monitor.Wait%2A>进行交互，这可能导致死锁。 与此相反的行为<xref:System.Threading.AutoResetEvent>类： 如果你发出信号<xref:System.Threading.AutoResetEvent>通过调用其<xref:System.Threading.EventWaitHandle.Set%2A>方法中，没有线程在等待，并且<xref:System.Threading.AutoResetEvent>保持终止状态，直到某个线程调用在<xref:System.Threading.WaitHandle.WaitOne%2A>， <xref:System.Threading.WaitHandle.WaitAny%2A>，或<xref:System.Threading.WaitHandle.WaitAll%2A>。 <xref:System.Threading.AutoResetEvent>释放该线程并返回到未终止的状态。  
   
- 请注意同步的对象包含多个引用，其中包括对当前拥有锁定、 到就绪的队列，其中包含准备好获取锁的线程，引用和对等待队列的引用的线程的引用的包含正在等待的对象的状态的更改通知的线程。  
+ 请注意同步的对象包含多个引用，其中包括对在线程当前持有锁、 准备就绪的队列，其中包含准备好获取锁的线程，对的引用和对等待队列的引用的引用的包含的对象的状态的更改通知等待的线程。  
   
  `Pulse`， <xref:System.Threading.Monitor.PulseAll%2A>，和<xref:System.Threading.Monitor.Wait%2A>方法必须从调用代码的同步块内。  
   
- 若要指示多个线程，使用<xref:System.Threading.Monitor.PulseAll%2A>方法。  
+ 若要通知的多个线程信息，请使用<xref:System.Threading.Monitor.PulseAll%2A>方法。  
   
  ]]></format>
         </remarks>
@@ -513,6 +521,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -538,15 +548,15 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 当前拥有指定的对象上的锁的线程调用此方法来等待获取锁的对象上的所有线程。 发送信号后，正在等待的线程会移到就绪的队列。 时，调用的线程`PulseAll`释放锁后，准备就绪的队列中的下一步线程获取该锁。  
+ 当前拥有指定对象上的锁的线程调用此方法以向等待获取锁的对象上的所有线程发出都信号。 发送信号后，等待线程会移到准备就绪的队列。 该线程的调用时`PulseAll`释放锁后，在准备就绪的队列中的下一个线程获取该锁。  
   
- 请注意同步的对象包含多个引用，其中包括对当前拥有锁定、 到就绪的队列，其中包含准备好获取锁的线程，引用和对等待队列的引用的线程的引用的包含正在等待的对象的状态的更改通知的线程。  
+ 请注意同步的对象包含多个引用，其中包括对在线程当前持有锁、 准备就绪的队列，其中包含准备好获取锁的线程，对的引用和对等待队列的引用的引用的包含的对象的状态的更改通知等待的线程。  
   
  <xref:System.Threading.Monitor.Pulse%2A>， `PulseAll`，和<xref:System.Threading.Monitor.Wait%2A>方法必须从调用代码的同步块内。  
   
- 备注<xref:System.Threading.Monitor.Pulse%2A>方法说明发生如果<xref:System.Threading.Monitor.Pulse%2A>等待无线程时调用。  
+ 备注<xref:System.Threading.Monitor.Pulse%2A>解释发生的方法如果<xref:System.Threading.Monitor.Pulse%2A>没有线程处于等待状态时调用。  
   
- 若要指示单线程，使用`Pulse`方法。  
+ 若要通知一个线程的信息，请使用`Pulse`方法。  
   
  ]]></format>
         </remarks>
@@ -584,6 +594,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -605,14 +617,14 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 如果成功，此方法获取排他锁上`obj`参数。 指示在锁可用，此方法将立即返回。  
+ 如果成功，此方法将获取排他锁上`obj`参数。 此方法立即返回锁可用。  
   
- 此方法类似于是<xref:System.Threading.Monitor.Enter%2A>，但它将永远不会阻止当前线程。 如果线程无法输入不阻止的情况下，该方法返回`false,`。  
+ 此方法是类似于<xref:System.Threading.Monitor.Enter%2A>，但它将永远不会阻止当前线程。 如果该线程不能输入而不会阻塞，则该方法将返回`false,`。  
   
 > [!NOTE]
->  使用<xref:System.Threading.Monitor>以锁定对象 （即，引用类型） 而不是值类型。 有关详细信息，请参阅<xref:System.Threading.Monitor>文章。  
+>  使用<xref:System.Threading.Monitor>来锁定对象 （即，引用类型） 而不是值类型。 有关详细信息，请参阅<xref:System.Threading.Monitor>一文。  
   
- 若要确保线程不进入临界区，您应检查方法的返回值，并在临界区中执行代码，仅当其返回值为`true`。 下面的代码段显示用于调用此方法的模式。 请注意，应调用<xref:System.Threading.Monitor.Exit%2A>中`finally`块以确保调用线程释放它对关键部分的锁定，如果发生异常。  
+ 若要确保线程不会进入关键节，应检查方法的返回值，并执行代码的关键部分中，仅当其返回值为`true`。 下面的代码段显示了用于调用此方法的模式。 请注意，应调用<xref:System.Threading.Monitor.Exit%2A>在`finally`块来确保调用线程释放关键节上的其锁定，如果发生异常。  
   
  [!code-csharp[System.Threading.Monitor.TryEnter#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/System.Threading.Monitor.TryEnter/cs/pattern1.cs#1)]
  [!code-vb[System.Threading.Monitor.TryEnter#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/System.Threading.Monitor.TryEnter/vb/pattern1.vb#1)]  
@@ -672,16 +684,16 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 如果成功，此方法获取排他锁上`obj`参数。 指示在锁可用，此方法将立即返回。  
+ 如果成功，此方法将获取排他锁上`obj`参数。 此方法立即返回锁可用。  
   
- 如果获取了该锁不因为引发了异常，所指定的变量`lockTaken`参数是`false`此方法结束后。 这样，在所有情况下，确定它是否是释放锁所需的程序。  
+ 如果不采取锁，因为引发了异常，所指定的变量`lockTaken`参数是`false`此方法结束后。 这样，若要确定是否需要释放锁，在所有情况下，该程序。  
   
- 此方法类似于是<xref:System.Threading.Monitor.Enter%28System.Object%2CSystem.Boolean%40%29>，但它将永远不会阻止当前线程。 如果在线程不会阻止，无法进入`lockTaken`参数设置为`false`方法返回时。  
+ 此方法是类似于<xref:System.Threading.Monitor.Enter%28System.Object%2CSystem.Boolean%40%29>，但它将永远不会阻止当前线程。 如果线程而不会阻止，无法进入`lockTaken`参数设置为`false`方法返回时。  
   
 > [!NOTE]
->  使用<xref:System.Threading.Monitor>以锁定对象 （即，引用类型） 而不是值类型。 有关详细信息，请参阅<xref:System.Threading.Monitor>一文。  
+>  使用<xref:System.Threading.Monitor>来锁定对象 （即，引用类型） 而不是值类型。 有关详细信息，请参阅<xref:System.Threading.Monitor>一文。  
   
- 若要确保线程不进入临界区，你应该检查的值`lockTaken`并在临界区中执行代码，其值时才`true`。 下面的代码段显示用于调用此方法的模式。 请注意，应调用<xref:System.Threading.Monitor.Exit%2A>中`finally`块以确保调用线程释放它对关键部分的锁定，如果发生异常。  
+ 若要确保线程不会进入关键节，则应检查的值`lockTaken`并执行代码的关键部分中，仅当其值为`true`。 下面的代码段显示了用于调用此方法的模式。 请注意，应调用<xref:System.Threading.Monitor.Exit%2A>在`finally`块来确保调用线程释放关键节上的其锁定，如果发生异常。  
   
  [!code-csharp[System.Threading.Monitor.TryEnter#2](~/samples/snippets/csharp/VS_Snippets_CLR_System/System.Threading.Monitor.TryEnter/cs/pattern1.cs#2)]
  [!code-vb[System.Threading.Monitor.TryEnter#2](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/System.Threading.Monitor.TryEnter/vb/pattern1.vb#2)]  
@@ -689,7 +701,7 @@
    
   
 ## Examples  
- 下面的代码演示使用的基本模式<xref:System.Threading.Monitor.TryEnter%28System.Object%2CSystem.Boolean%40%29>方法重载。 此重载始终设置传递给该变量的值`ref`参数 (`ByRef`在 Visual Basic 中) `lockTaken`，即使该方法将引发异常，因此该变量的值是可靠的方法来测试是否锁定必须是发布。  
+ 下面的代码演示使用的基本模式<xref:System.Threading.Monitor.TryEnter%28System.Object%2CSystem.Boolean%40%29>方法重载。 此重载总是设置传递给该变量的值`ref`参数 (`ByRef`在 Visual Basic 中) `lockTaken`，即使该方法将引发异常，因此该变量的值是可靠的方式来测试是否锁必须是发布。  
   
  [!code-csharp[System.Threading.Monitor.Enter#3](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.threading.monitor.enter/cs/example.cs#3)]
  [!code-vb[System.Threading.Monitor.Enter#3](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.threading.monitor.enter/vb/example.vb#3)]  
@@ -719,6 +731,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -742,12 +756,12 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 如果`millisecondsTimeout`参数等于<xref:System.Threading.Timeout.Infinite>，此方法相当于<xref:System.Threading.Monitor.Enter%2A>。 如果`millisecondsTimeout`等于 0，则此方法相当于<xref:System.Threading.Monitor.TryEnter%2A>。  
+ 如果`millisecondsTimeout`参数等于<xref:System.Threading.Timeout.Infinite>，此方法等效于<xref:System.Threading.Monitor.Enter%2A>。 如果`millisecondsTimeout`等于 0，则此方法等效于<xref:System.Threading.Monitor.TryEnter%2A>。  
   
 > [!NOTE]
->  使用<xref:System.Threading.Monitor>以锁定对象 （即，引用类型） 而不是值类型。 有关详细信息，请参阅<xref:System.Threading.Monitor>文章。  
+>  使用<xref:System.Threading.Monitor>来锁定对象 （即，引用类型） 而不是值类型。 有关详细信息，请参阅<xref:System.Threading.Monitor>一文。  
   
- 若要确保线程不进入临界区，您应检查方法的返回值，并在临界区中执行代码，仅当其返回值为`true`。 下面的代码段显示用于调用此方法的模式。 请注意，应调用<xref:System.Threading.Monitor.Exit%2A>中`finally`块以确保调用线程释放它对关键部分的锁定，如果发生异常。  
+ 若要确保线程不会进入关键节，应检查方法的返回值，并执行代码的关键部分中，仅当其返回值为`true`。 下面的代码段显示了用于调用此方法的模式。 请注意，应调用<xref:System.Threading.Monitor.Exit%2A>在`finally`块来确保调用线程释放关键节上的其锁定，如果发生异常。  
   
  [!code-csharp[System.Threading.Monitor.TryEnter#3](~/samples/snippets/csharp/VS_Snippets_CLR_System/System.Threading.Monitor.TryEnter/cs/pattern1.cs#3)]
  [!code-vb[System.Threading.Monitor.TryEnter#3](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/System.Threading.Monitor.TryEnter/vb/pattern1.vb#3)]  
@@ -778,6 +792,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -802,12 +818,12 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 如果值`timeout`参数转换为毫秒等于 – 1，则此方法相当于<xref:System.Threading.Monitor.Enter%2A>。 如果值`timeout`等于 0，则此方法相当于<xref:System.Threading.Monitor.TryEnter%2A>。  
+ 如果的值`timeout`参数转换为毫秒等于 – 1，则此方法等效于<xref:System.Threading.Monitor.Enter%2A>。 如果的值`timeout`等于 0，则此方法等效于<xref:System.Threading.Monitor.TryEnter%2A>。  
   
 > [!NOTE]
->  使用<xref:System.Threading.Monitor>以锁定对象 （即，引用类型） 而不是值类型。 有关详细信息，请参阅<xref:System.Threading.Monitor>类主题。  
+>  使用<xref:System.Threading.Monitor>来锁定对象 （即，引用类型） 而不是值类型。 有关详细信息，请参阅<xref:System.Threading.Monitor>类主题。  
   
- 若要确保线程不进入临界区，您应检查方法的返回值，并在临界区中执行代码，仅当其返回值为`true`。 下面的代码段显示用于调用此方法的模式。 请注意，应调用<xref:System.Threading.Monitor.Exit%2A>中`finally`块以确保调用线程释放它对关键部分的锁定，如果发生异常。  
+ 若要确保线程不会进入关键节，应检查方法的返回值，并执行代码的关键部分中，仅当其返回值为`true`。 下面的代码段显示了用于调用此方法的模式。 请注意，应调用<xref:System.Threading.Monitor.Exit%2A>在`finally`块来确保调用线程释放关键节上的其锁定，如果发生异常。  
   
  [!code-csharp[System.Threading.Monitor.TryEnter#5](~/samples/snippets/csharp/VS_Snippets_CLR_System/System.Threading.Monitor.TryEnter/cs/pattern1.cs#5)]
  [!code-vb[System.Threading.Monitor.TryEnter#5](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/System.Threading.Monitor.TryEnter/vb/pattern1.vb#5)]  
@@ -862,14 +878,14 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 如果`millisecondsTimeout`参数等于<xref:System.Threading.Timeout.Infinite>，此方法相当于<xref:System.Threading.Monitor.Enter%28System.Object%29>。 如果`millisecondsTimeout`等于 0，则此方法相当于<xref:System.Threading.Monitor.TryEnter%28System.Object%29>。  
+ 如果`millisecondsTimeout`参数等于<xref:System.Threading.Timeout.Infinite>，此方法等效于<xref:System.Threading.Monitor.Enter%28System.Object%29>。 如果`millisecondsTimeout`等于 0，则此方法等效于<xref:System.Threading.Monitor.TryEnter%28System.Object%29>。  
   
- 如果获取了该锁不因为引发了异常，所指定的变量`lockTaken`参数是`false`此方法结束后。 这样，在所有情况下，确定它是否是释放锁所需的程序。  
+ 如果不采取锁，因为引发了异常，所指定的变量`lockTaken`参数是`false`此方法结束后。 这样，若要确定是否需要释放锁，在所有情况下，该程序。  
   
 > [!NOTE]
->  使用<xref:System.Threading.Monitor>以锁定对象 （即，引用类型） 而不是值类型。 有关详细信息，请参阅<xref:System.Threading.Monitor>类主题。  
+>  使用<xref:System.Threading.Monitor>来锁定对象 （即，引用类型） 而不是值类型。 有关详细信息，请参阅<xref:System.Threading.Monitor>类主题。  
   
- 若要确保线程不进入临界区，你应该检查的值`lockTaken`并在临界区中执行代码，其值时才`true`。 下面的代码段显示用于调用此方法的模式。 请注意，应调用<xref:System.Threading.Monitor.Exit%2A>中`finally`块以确保调用线程释放它对关键部分的锁定，如果发生异常。  
+ 若要确保线程不会进入关键节，则应检查的值`lockTaken`并执行代码的关键部分中，仅当其值为`true`。 下面的代码段显示了用于调用此方法的模式。 请注意，应调用<xref:System.Threading.Monitor.Exit%2A>在`finally`块来确保调用线程释放关键节上的其锁定，如果发生异常。  
   
  [!code-csharp[System.Threading.Monitor.TryEnter#4](~/samples/snippets/csharp/VS_Snippets_CLR_System/System.Threading.Monitor.TryEnter/cs/pattern1.cs#4)]
  [!code-vb[System.Threading.Monitor.TryEnter#4](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/System.Threading.Monitor.TryEnter/vb/pattern1.vb#4)]  
@@ -877,7 +893,7 @@
    
   
 ## Examples  
- 下面的代码演示使用的基本模式<xref:System.Threading.Monitor.TryEnter%28System.Object%2CSystem.Boolean%40%29>方法重载。 此重载始终设置传递给该变量的值`ref`参数 (`ByRef`在 Visual Basic 中) `lockTaken`，即使该方法将引发异常，因此该变量的值是可靠的方法来测试是否锁定必须是发布。  
+ 下面的代码演示使用的基本模式<xref:System.Threading.Monitor.TryEnter%28System.Object%2CSystem.Boolean%40%29>方法重载。 此重载总是设置传递给该变量的值`ref`参数 (`ByRef`在 Visual Basic 中) `lockTaken`，即使该方法将引发异常，因此该变量的值是可靠的方式来测试是否锁必须是发布。  
   
  [!code-csharp[System.Threading.Monitor.Enter#4](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.threading.monitor.enter/cs/example.cs#4)]
  [!code-vb[System.Threading.Monitor.Enter#4](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.threading.monitor.enter/vb/example.vb#4)]  
@@ -933,14 +949,14 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 如果值`timeout`参数转换为毫秒等于 – 1，则此方法相当于<xref:System.Threading.Monitor.Enter%28System.Object%29>。 如果值`timeout`等于 0，则此方法相当于<xref:System.Threading.Monitor.TryEnter%28System.Object%29>。  
+ 如果的值`timeout`参数转换为毫秒等于 – 1，则此方法等效于<xref:System.Threading.Monitor.Enter%28System.Object%29>。 如果的值`timeout`等于 0，则此方法等效于<xref:System.Threading.Monitor.TryEnter%28System.Object%29>。  
   
- 如果获取了该锁不因为引发了异常，所指定的变量`lockTaken`参数是`false`此方法结束后。 这样，在所有情况下，确定它是否是释放锁所需的程序。  
+ 如果不采取锁，因为引发了异常，所指定的变量`lockTaken`参数是`false`此方法结束后。 这样，若要确定是否需要释放锁，在所有情况下，该程序。  
   
 > [!NOTE]
->  使用<xref:System.Threading.Monitor>以锁定对象 （即，引用类型） 而不是值类型。 有关详细信息，请参阅<xref:System.Threading.Monitor>类主题。  
+>  使用<xref:System.Threading.Monitor>来锁定对象 （即，引用类型） 而不是值类型。 有关详细信息，请参阅<xref:System.Threading.Monitor>类主题。  
   
- 若要确保线程不进入临界区，你应该检查的值`lockTaken`并在临界区中执行代码，其值时才`true`。 下面的代码段显示用于调用此方法的模式。 请注意，应调用<xref:System.Threading.Monitor.Exit%2A>中`finally`块以确保调用线程释放它对关键部分的锁定，如果发生异常。  
+ 若要确保线程不会进入关键节，则应检查的值`lockTaken`并执行代码的关键部分中，仅当其值为`true`。 下面的代码段显示了用于调用此方法的模式。 请注意，应调用<xref:System.Threading.Monitor.Exit%2A>在`finally`块来确保调用线程释放关键节上的其锁定，如果发生异常。  
   
  [!code-csharp[System.Threading.Monitor.TryEnter#6](~/samples/snippets/csharp/VS_Snippets_CLR_System/System.Threading.Monitor.TryEnter/cs/pattern1.cs#6)]
  [!code-vb[System.Threading.Monitor.TryEnter#6](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/System.Threading.Monitor.TryEnter/vb/pattern1.vb#6)]  
@@ -984,6 +1000,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1005,19 +1023,19 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 当前拥有指定的对象上的锁的线程调用此方法以释放该对象，以便另一个线程可以访问它。 调用方等待重新获取锁时被阻止。 当调用方需要要等待的时间将因另一个线程操作而导致的状态更改时调用此方法。  
+ 当前拥有指定对象上的锁的线程调用此方法以释放该对象，以便另一个线程可以访问它。 等待重新获取锁时阻止调用方。 当调用方需要等待导致另一个线程的操作的状态更改时，调用此方法。  
   
- 当线程调用`Wait`，它释放对象上的锁并进入对象的等待队列。 对象的准备队列中的下一步线程 （如果有） 获取该锁并具有独占使用的对象。 调用的所有线程`Wait`保留在等待队列中直到它们接收到信号从<xref:System.Threading.Monitor.Pulse%2A>或<xref:System.Threading.Monitor.PulseAll%2A>、 发送锁所有者。 如果`Pulse`影响仅位于等待队列最前面的线程的发送。 如果`PulseAll`发送，等待该对象的所有线程会受到都影响。 接收到信号时，一个或多个线程离开等待队列，并进入就绪队列。 允许就绪的队列中的线程重新获取锁。  
+ 当线程调用`Wait`，释放对象上的锁，并进入对象的等待队列。 对象的准备就绪的队列中的下一个线程 （如果有） 获取该锁和独占使用的对象。 调用的所有线程`Wait`保留在等待队列，直到它们接收来自信号<xref:System.Threading.Monitor.Pulse%2A>或<xref:System.Threading.Monitor.PulseAll%2A>、 发送的锁的所有者。 如果`Pulse`发送，只有等待队列的开头处的线程会受到影响。 如果`PulseAll`发送，等待对对象的所有线程会受到都影响。 当收到信号时，一个或多个线程保持等待队列，然后输入准备就绪的队列。 准备就绪的队列中的线程，允许重新获取该锁。  
   
- 此方法返回时调用的线程重新获取该锁的对象上。 请注意，此方法会无限期阻止如果锁持有者不会调用`Pulse`或`PulseAll`。  
+ 此方法返回时调用的线程重新获取该锁的对象上。 请注意，如果锁持有者不会调用该方法会阻止无限期地`Pulse`或`PulseAll`。  
   
- 调用方执行`Wait`一次，无论的次数<xref:System.Threading.Monitor.Enter%2A>已调用为指定的对象。 从概念上讲，`Wait`方法将存储的调用方调用的次数`Enter`对象上并调用`Exit`足够多的次数，根据需要以完全释放锁定的对象。 然后，调用方阻止等待重新获取对象时。 当调用方重新获取该锁时，系统会调用`Enter`根据需要进行还原保存的多次`Enter`对调用方的计数。 调用`Wait`释放指定对象的锁; 如果调用方对其他对象的锁的所有者，这些锁也不会释放。  
+ 调用方执行`Wait`一次，无论有多少次<xref:System.Threading.Monitor.Enter%2A>已调用为指定的对象。 从概念上讲，`Wait`方法将存储在调用方调用的次数`Enter`对象并调用`Exit`尽可能多地需要完全释放锁定的对象。 然后，调用方被阻塞等待重新获取该对象时。 当调用方重新获取该锁时，系统会调用`Enter`根据需要还原保存的多次`Enter`调用方的计数。 调用`Wait`释放指定对象的锁; 如果调用方是对其他对象的锁的所有者，这些锁也不会释放。  
   
- 请注意同步的对象包含多个引用，其中包括对当前拥有锁定、 到就绪的队列，其中包含准备好获取锁的线程，引用和对等待队列的引用的线程的引用的包含正在等待的对象的状态的更改通知的线程。  
+ 请注意同步的对象包含多个引用，其中包括对在线程当前持有锁、 准备就绪的队列，其中包含准备好获取锁的线程，对的引用和对等待队列的引用的引用的包含的对象的状态的更改通知等待的线程。  
   
  <xref:System.Threading.Monitor.Pulse%2A>， <xref:System.Threading.Monitor.PulseAll%2A>，和`Wait`方法必须从调用代码的同步块内。  
   
- 备注<xref:System.Threading.Monitor.Pulse%2A>方法说明发生如果<xref:System.Threading.Monitor.Pulse%2A>等待无线程时调用。  
+ 备注<xref:System.Threading.Monitor.Pulse%2A>解释发生的方法如果<xref:System.Threading.Monitor.Pulse%2A>没有线程处于等待状态时调用。  
   
  ]]></format>
         </remarks>
@@ -1045,6 +1063,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1068,25 +1088,25 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 此方法不返回直到它重新排他锁获取上`obj`参数。  
+ 此方法不返回直到它重新上获取排他锁`obj`参数。  
   
- 当前拥有指定的对象上的锁的线程调用此方法以释放该对象，以便另一个线程可以访问它。 调用方等待重新获取锁时被阻止。 当调用方需要要等待的时间将因另一个线程操作而导致的状态更改时调用此方法。  
+ 当前拥有指定对象上的锁的线程调用此方法以释放该对象，以便另一个线程可以访问它。 等待重新获取锁时阻止调用方。 当调用方需要等待导致另一个线程的操作的状态更改时，调用此方法。  
   
- 超时可确保，当前线程不会阻止无限期地如果另一个线程释放锁，但第一个调用不<xref:System.Threading.Monitor.Pulse%2A>或<xref:System.Threading.Monitor.PulseAll%2A>方法。 它还移动到就绪的队列，绕过早在等待队列中，其他线程，以便它可以更快地重新获取锁的线程。 该线程可以测试的返回值<xref:System.Threading.Monitor.Wait%2A>方法来确定是否它重新获取之前超时的锁。线程可以评估条件导致它进入等待，并且如果需要调用<xref:System.Threading.Monitor.Wait%2A>再次方法。  
+ 超时可确保，当前线程不会无限期阻塞如果另一个线程释放锁，但第一个调用不<xref:System.Threading.Monitor.Pulse%2A>或<xref:System.Threading.Monitor.PulseAll%2A>方法。 此外，它还会将线程移到准备就绪的队列，以便它可以更快地重新获取该锁绕过早在等待队列中，其他线程。 该线程可以测试的返回值<xref:System.Threading.Monitor.Wait%2A>方法，以确定它是否重新获取则在超时之前的锁。线程可以评估条件导致它进入等待，并且如果必要调用<xref:System.Threading.Monitor.Wait%2A>再次方法。  
   
- 当线程调用`Wait`，它释放对象上的锁并进入对象的等待队列。 对象的准备队列中的下一步线程 （如果有） 获取该锁并具有独占使用的对象。 调用的线程`Wait`保留在等待队列中一直持有锁的线程调用<xref:System.Threading.Monitor.PulseAll%2A>，或它是在队列中的下一步并持有锁的线程调用<xref:System.Threading.Monitor.Pulse%2A>。 但是，如果`millisecondsTimeout`超时之前另一个线程调用此对象的已用<xref:System.Threading.Monitor.Pulse%2A>或<xref:System.Threading.Monitor.PulseAll%2A>方法，原始线程将移动到就绪的队列，以便重新获取锁。  
-  
-> [!NOTE]
->  如果<xref:System.Threading.Timeout.Infinite>为指定`millisecondsTimeout`参数，此方法会无限期阻止除非持有者的锁定调用<xref:System.Threading.Monitor.Pulse%2A>或<xref:System.Threading.Monitor.PulseAll%2A>。 如果`millisecondsTimeout`等于 0，调用线程`Wait`释放的锁，然后立即进入就绪队列以便重新获取锁。  
-  
- 调用方执行`Wait`一次，无论的次数<xref:System.Threading.Monitor.Enter%2A>已调用为指定的对象。 从概念上讲，`Wait`方法将存储的调用方调用的次数<xref:System.Threading.Monitor.Enter%2A>对象上并调用<xref:System.Threading.Monitor.Exit%2A>足够多的次数，根据需要以完全释放锁定的对象。 然后，调用方阻止等待重新获取对象时。 当调用方重新获取该锁时，系统会调用<xref:System.Threading.Monitor.Enter%2A>根据需要进行还原保存的多次<xref:System.Threading.Monitor.Enter%2A>对调用方的计数。 调用`Wait`释放指定对象的锁; 如果调用方对其他对象的锁的所有者，这些锁也不会释放。  
+ 当线程调用`Wait`，释放对象上的锁，并进入对象的等待队列。 对象的准备就绪的队列中的下一个线程 （如果有） 获取该锁和独占使用的对象。 调用的线程`Wait`仍在等待队列中直至持有锁的线程调用<xref:System.Threading.Monitor.PulseAll%2A>，或它是在队列中的下一步并持有锁的线程调用<xref:System.Threading.Monitor.Pulse%2A>。 但是，如果`millisecondsTimeout`前另一个线程调用此对象的经过<xref:System.Threading.Monitor.Pulse%2A>或<xref:System.Threading.Monitor.PulseAll%2A>方法，在原始线程将移动到准备就绪的队列，以便重新获取该锁。  
   
 > [!NOTE]
->  同步的对象包含多个引用，其中包括对当前拥有锁定、 到就绪的队列，其中包含准备好获取锁的线程，引用和等待队列，其中包含的引用的线程的引用正在等待的对象的状态的更改通知的线程。  
+>  如果<xref:System.Threading.Timeout.Infinite>为指定`millisecondsTimeout`参数，此方法会无限期阻止除非锁持有者调用<xref:System.Threading.Monitor.Pulse%2A>或<xref:System.Threading.Monitor.PulseAll%2A>。 如果`millisecondsTimeout`等于 0，调用的线程`Wait`释放锁，然后立即进入就绪队列以便重新获取该锁。  
+  
+ 调用方执行`Wait`一次，无论有多少次<xref:System.Threading.Monitor.Enter%2A>已调用为指定的对象。 从概念上讲，`Wait`方法将存储在调用方调用的次数<xref:System.Threading.Monitor.Enter%2A>对象并调用<xref:System.Threading.Monitor.Exit%2A>尽可能多地需要完全释放锁定的对象。 然后，调用方被阻塞等待重新获取该对象时。 当调用方重新获取该锁时，系统会调用<xref:System.Threading.Monitor.Enter%2A>根据需要还原保存的多次<xref:System.Threading.Monitor.Enter%2A>调用方的计数。 调用`Wait`释放指定对象的锁; 如果调用方是对其他对象的锁的所有者，这些锁也不会释放。  
+  
+> [!NOTE]
+>  同步的对象包含多个引用，其中包括对在线程当前持有锁、 准备就绪的队列，其中包含准备好获取锁的线程，对的引用和对等待队列，其中包含的引用的引用有关的对象的状态的更改通知等待的线程。  
   
  <xref:System.Threading.Monitor.Pulse%2A>， <xref:System.Threading.Monitor.PulseAll%2A>，和`Wait`方法必须从调用代码的同步块内。  
   
- 备注<xref:System.Threading.Monitor.Pulse%2A>方法说明发生如果<xref:System.Threading.Monitor.Pulse%2A>等待无线程时调用。  
+ 备注<xref:System.Threading.Monitor.Pulse%2A>解释发生的方法如果<xref:System.Threading.Monitor.Pulse%2A>没有线程处于等待状态时调用。  
   
  ]]></format>
         </remarks>
@@ -1116,6 +1136,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1140,25 +1162,25 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 此方法不返回直到它重新排他锁获取上`obj`参数。  
+ 此方法不返回直到它重新上获取排他锁`obj`参数。  
   
- 当前拥有指定的对象上的锁的线程调用此方法以释放该对象，以便另一个线程可以访问它。 调用方等待重新获取锁时被阻止。 当调用方需要要等待的时间将因另一个线程操作而导致的状态更改时调用此方法。  
+ 当前拥有指定对象上的锁的线程调用此方法以释放该对象，以便另一个线程可以访问它。 等待重新获取锁时阻止调用方。 当调用方需要等待导致另一个线程的操作的状态更改时，调用此方法。  
   
- 超时可确保，当前线程不会阻止无限期地如果另一个线程释放锁，但第一个调用不<xref:System.Threading.Monitor.Pulse%2A>或<xref:System.Threading.Monitor.PulseAll%2A>方法。 它还移动到就绪的队列，绕过早在等待队列中，其他线程，以便它可以更快地重新获取锁的线程。 该线程可以测试的返回值<xref:System.Threading.Monitor.Wait%2A>方法来确定是否它重新获取之前超时的锁。线程可以评估条件导致它进入等待，并且如果需要调用<xref:System.Threading.Monitor.Wait%2A>再次方法。  
+ 超时可确保，当前线程不会无限期阻塞如果另一个线程释放锁，但第一个调用不<xref:System.Threading.Monitor.Pulse%2A>或<xref:System.Threading.Monitor.PulseAll%2A>方法。 此外，它还会将线程移到准备就绪的队列，以便它可以更快地重新获取该锁绕过早在等待队列中，其他线程。 该线程可以测试的返回值<xref:System.Threading.Monitor.Wait%2A>方法，以确定它是否重新获取则在超时之前的锁。线程可以评估条件导致它进入等待，并且如果必要调用<xref:System.Threading.Monitor.Wait%2A>再次方法。  
   
- 当线程调用`Wait`，它释放对象上的锁并进入对象的等待队列。 对象的准备队列中的下一步线程 （如果有） 获取该锁并具有独占使用的对象。 调用的线程`Wait`保留在等待队列中一直持有锁的线程调用<xref:System.Threading.Monitor.PulseAll%2A>，或它是在队列中的下一步并持有锁的线程调用<xref:System.Threading.Monitor.Pulse%2A>。 但是，如果`timeout`超时之前另一个线程调用此对象的已用<xref:System.Threading.Monitor.Pulse%2A>或<xref:System.Threading.Monitor.PulseAll%2A>方法，原始线程将移动到就绪的队列，以便重新获取锁。  
-  
-> [!NOTE]
->  如果<xref:System.TimeSpan>表示-1 毫秒指定`timeout`参数，此方法会无限期阻止除非持有者的锁定调用<xref:System.Threading.Monitor.Pulse%2A>或<xref:System.Threading.Monitor.PulseAll%2A>。 如果`timeout`为 0 毫秒，调用线程`Wait`释放的锁，然后立即进入就绪队列以便重新获取锁。  
-  
- 调用方执行`Wait`一次，无论的次数<xref:System.Threading.Monitor.Enter%2A>已调用为指定的对象。 从概念上讲，`Wait`方法将存储的调用方调用的次数<xref:System.Threading.Monitor.Enter%2A>对象上并调用<xref:System.Threading.Monitor.Exit%2A>足够多的次数，根据需要以完全释放锁定的对象。 然后，调用方阻止等待重新获取对象时。 当调用方重新获取该锁时，系统会调用<xref:System.Threading.Monitor.Enter%2A>根据需要进行还原保存的多次<xref:System.Threading.Monitor.Enter%2A>对调用方的计数。 调用`Wait`释放指定对象的锁; 如果调用方对其他对象的锁的所有者，这些锁也不会释放。  
+ 当线程调用`Wait`，释放对象上的锁，并进入对象的等待队列。 对象的准备就绪的队列中的下一个线程 （如果有） 获取该锁和独占使用的对象。 调用的线程`Wait`仍在等待队列中直至持有锁的线程调用<xref:System.Threading.Monitor.PulseAll%2A>，或它是在队列中的下一步并持有锁的线程调用<xref:System.Threading.Monitor.Pulse%2A>。 但是，如果`timeout`前另一个线程调用此对象的经过<xref:System.Threading.Monitor.Pulse%2A>或<xref:System.Threading.Monitor.PulseAll%2A>方法，在原始线程将移动到准备就绪的队列，以便重新获取该锁。  
   
 > [!NOTE]
->  同步的对象包含多个引用，其中包括对当前拥有锁定、 到就绪的队列，其中包含准备好获取锁的线程，引用和等待队列，其中包含的引用的线程的引用正在等待的对象的状态的更改通知的线程。  
+>  如果<xref:System.TimeSpan>指定表示-1 毫秒`timeout`参数，此方法会无限期阻止除非锁持有者调用<xref:System.Threading.Monitor.Pulse%2A>或<xref:System.Threading.Monitor.PulseAll%2A>。 如果`timeout`为 0 毫秒，调用的线程`Wait`释放锁，然后立即进入就绪队列以便重新获取该锁。  
+  
+ 调用方执行`Wait`一次，无论有多少次<xref:System.Threading.Monitor.Enter%2A>已调用为指定的对象。 从概念上讲，`Wait`方法将存储在调用方调用的次数<xref:System.Threading.Monitor.Enter%2A>对象并调用<xref:System.Threading.Monitor.Exit%2A>尽可能多地需要完全释放锁定的对象。 然后，调用方被阻塞等待重新获取该对象时。 当调用方重新获取该锁时，系统会调用<xref:System.Threading.Monitor.Enter%2A>根据需要还原保存的多次<xref:System.Threading.Monitor.Enter%2A>调用方的计数。 调用`Wait`释放指定对象的锁; 如果调用方是对其他对象的锁的所有者，这些锁也不会释放。  
+  
+> [!NOTE]
+>  同步的对象包含多个引用，其中包括对在线程当前持有锁、 准备就绪的队列，其中包含准备好获取锁的线程，对的引用和对等待队列，其中包含的引用的引用有关的对象的状态的更改通知等待的线程。  
   
  <xref:System.Threading.Monitor.Pulse%2A>， <xref:System.Threading.Monitor.PulseAll%2A>，和`Wait`方法必须从调用代码的同步块内。  
   
- 备注<xref:System.Threading.Monitor.Pulse%2A>方法说明发生如果<xref:System.Threading.Monitor.Pulse%2A>等待无线程时调用。  
+ 备注<xref:System.Threading.Monitor.Pulse%2A>解释发生的方法如果<xref:System.Threading.Monitor.Pulse%2A>没有线程处于等待状态时调用。  
   
  ]]></format>
         </remarks>
@@ -1181,6 +1203,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1216,32 +1240,32 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 此方法不返回直到它重新排他锁获取上`obj`参数。  
+ 此方法不返回直到它重新上获取排他锁`obj`参数。  
   
- 当前拥有指定的对象上的锁的线程调用此方法以释放该对象，以便另一个线程可以访问它。 调用方等待重新获取锁时被阻止。 当调用方需要要等待的时间将因另一个线程操作而导致的状态更改时调用此方法。  
+ 当前拥有指定对象上的锁的线程调用此方法以释放该对象，以便另一个线程可以访问它。 等待重新获取锁时阻止调用方。 当调用方需要等待导致另一个线程的操作的状态更改时，调用此方法。  
   
- 超时可确保，当前线程不会阻止无限期地如果另一个线程释放锁，但第一个调用不<xref:System.Threading.Monitor.Pulse%2A>或<xref:System.Threading.Monitor.PulseAll%2A>方法。 它还移动到就绪的队列，绕过早在等待队列中，其他线程，以便它可以更快地重新获取锁的线程。 该线程可以测试的返回值<xref:System.Threading.Monitor.Wait%2A>方法来确定是否它重新获取之前超时的锁。线程可以评估条件导致它进入等待，并且如果需要调用<xref:System.Threading.Monitor.Wait%2A>再次方法。  
+ 超时可确保，当前线程不会无限期阻塞如果另一个线程释放锁，但第一个调用不<xref:System.Threading.Monitor.Pulse%2A>或<xref:System.Threading.Monitor.PulseAll%2A>方法。 此外，它还会将线程移到准备就绪的队列，以便它可以更快地重新获取该锁绕过早在等待队列中，其他线程。 该线程可以测试的返回值<xref:System.Threading.Monitor.Wait%2A>方法，以确定它是否重新获取则在超时之前的锁。线程可以评估条件导致它进入等待，并且如果必要调用<xref:System.Threading.Monitor.Wait%2A>再次方法。  
   
- 当线程调用`Wait`，它释放的锁并进入等待队列。 此时，准备就绪的队列中的下一步线程 （如果存在） 允许控制的锁。 调用的线程`Wait`保留在等待队列中一直持有锁的线程调用<xref:System.Threading.Monitor.PulseAll%2A>，或它是在队列中的下一步并持有锁的线程调用<xref:System.Threading.Monitor.Pulse%2A>。 但是，如果`millisecondsTimeout`超时之前另一个线程调用此对象的已用<xref:System.Threading.Monitor.Pulse%2A>或<xref:System.Threading.Monitor.PulseAll%2A>方法，原始线程将移动到就绪的队列，以便重新获取锁。  
-  
-> [!NOTE]
->  如果<xref:System.Threading.Timeout.Infinite>为指定`millisecondsTimeout`参数，此方法会无限期阻止除非持有者的锁定调用<xref:System.Threading.Monitor.Pulse%2A>或<xref:System.Threading.Monitor.PulseAll%2A>。 如果`millisecondsTimeout`等于 0，调用线程`Wait`释放的锁，然后立即进入就绪队列以便重新获取锁。  
-  
- 调用方执行`Wait`一次，无论的次数<xref:System.Threading.Monitor.Enter%2A>已调用为指定的对象。 从概念上讲，`Wait`方法将存储的调用方调用的次数<xref:System.Threading.Monitor.Enter%2A>对象上并调用<xref:System.Threading.Monitor.Exit%2A>足够多的次数，根据需要以完全释放锁定的对象。 然后，调用方阻止等待重新获取对象时。 当调用方重新获取该锁时，系统会调用<xref:System.Threading.Monitor.Enter%2A>根据需要进行还原保存的多次<xref:System.Threading.Monitor.Enter%2A>对调用方的计数。 调用`Wait`释放指定对象的锁; 如果调用方对其他对象的锁的所有者，这些锁也不会释放。  
+ 当线程调用`Wait`，释放该锁，并进入等待队列。 此时，在准备就绪的队列中的下一个线程 （如果有） 允许控制锁。 调用的线程`Wait`仍在等待队列中直至持有锁的线程调用<xref:System.Threading.Monitor.PulseAll%2A>，或它是在队列中的下一步并持有锁的线程调用<xref:System.Threading.Monitor.Pulse%2A>。 但是，如果`millisecondsTimeout`前另一个线程调用此对象的经过<xref:System.Threading.Monitor.Pulse%2A>或<xref:System.Threading.Monitor.PulseAll%2A>方法，在原始线程将移动到准备就绪的队列，以便重新获取该锁。  
   
 > [!NOTE]
->  同步的对象包含多个引用，其中包括对当前拥有锁定、 到就绪的队列，其中包含准备好获取锁的线程，引用和等待队列，其中包含的引用的线程的引用正在等待的对象的状态的更改通知的线程。  
+>  如果<xref:System.Threading.Timeout.Infinite>为指定`millisecondsTimeout`参数，此方法会无限期阻止除非锁持有者调用<xref:System.Threading.Monitor.Pulse%2A>或<xref:System.Threading.Monitor.PulseAll%2A>。 如果`millisecondsTimeout`等于 0，调用的线程`Wait`释放锁，然后立即进入就绪队列以便重新获取该锁。  
+  
+ 调用方执行`Wait`一次，无论有多少次<xref:System.Threading.Monitor.Enter%2A>已调用为指定的对象。 从概念上讲，`Wait`方法将存储在调用方调用的次数<xref:System.Threading.Monitor.Enter%2A>对象并调用<xref:System.Threading.Monitor.Exit%2A>尽可能多地需要完全释放锁定的对象。 然后，调用方被阻塞等待重新获取该对象时。 当调用方重新获取该锁时，系统会调用<xref:System.Threading.Monitor.Enter%2A>根据需要还原保存的多次<xref:System.Threading.Monitor.Enter%2A>调用方的计数。 调用`Wait`释放指定对象的锁; 如果调用方是对其他对象的锁的所有者，这些锁也不会释放。  
+  
+> [!NOTE]
+>  同步的对象包含多个引用，其中包括对在线程当前持有锁、 准备就绪的队列，其中包含准备好获取锁的线程，对的引用和对等待队列，其中包含的引用的引用有关的对象的状态的更改通知等待的线程。  
   
  <xref:System.Threading.Monitor.Pulse%2A>， <xref:System.Threading.Monitor.PulseAll%2A>，和`Wait`方法必须从调用代码的同步块内。  
   
- 备注<xref:System.Threading.Monitor.Pulse%2A>方法说明发生如果<xref:System.Threading.Monitor.Pulse%2A>等待无线程时调用。  
+ 备注<xref:System.Threading.Monitor.Pulse%2A>解释发生的方法如果<xref:System.Threading.Monitor.Pulse%2A>没有线程处于等待状态时调用。  
   
 ## <a name="notes-on-exiting-the-context"></a>在退出上下文的说明  
- `exitContext`参数无任何效果，除非<xref:System.Threading.Monitor.Wait%2A>从非默认托管上下文内部调用方法。 如果你的线程位于对派生自的类的实例的调用会发生此<xref:System.ContextBoundObject>。 即使你当前正在执行一个方法不派生自的类上<xref:System.ContextBoundObject>、 like <xref:System.String>，你可以在非默认上下文是如果<xref:System.ContextBoundObject>位于当前的应用程序域中的堆栈上。  
+ `exitContext`参数无任何效果，除非<xref:System.Threading.Monitor.Wait%2A>从非默认托管上下文中调用方法。 如果你的线程是派生自的类的实例的调用内部发生这种情况<xref:System.ContextBoundObject>。 即使当前正在执行一种方法不派生自的类上<xref:System.ContextBoundObject>，例如<xref:System.String>，可以在非默认上下文中是如果<xref:System.ContextBoundObject>是当前的应用程序域中的堆栈上。  
   
- 你的代码执行时在非默认上下文中，指定`true`为`exitContext`导致线程退出非默认托管的上下文 (即转换到默认上下文) 执行之前<xref:System.Threading.Monitor.Wait%2A>方法。 它的调用后将返回到原始的非默认上下文<xref:System.Threading.Monitor.Wait%2A>方法完成。  
+ 时在非默认上下文中执行代码时，指定`true`有关`exitContext`会导致线程退出非默认托管的上下文 (即，转换到默认上下文) 执行前<xref:System.Threading.Monitor.Wait%2A>方法。 在调用后返回到原始的非默认上下文<xref:System.Threading.Monitor.Wait%2A>方法完成。  
   
- 这一点可能很有用，在此上下文绑定类具有<xref:System.Runtime.Remoting.Contexts.SynchronizationAttribute>应用的属性。 在这种情况下，对类的成员的所有调用将自动都同步，并且同步域是类的代码的整个正文。 如果某个成员的调用堆栈中的代码将调用<xref:System.Threading.Monitor.Wait%2A>方法并指定`true`为`exitContext`，在线程退出同步域，允许对象的任何成员的调用来继续在被阻止的线程。 当<xref:System.Threading.Monitor.Wait%2A>方法返回时，调用线程必须等待重新进入的同步域。  
+ 在上下文绑定类时这很有用<xref:System.Runtime.Remoting.Contexts.SynchronizationAttribute>应用属性。 在这种情况下，所有调用的类的成员将自动都同步，并同步域是为类代码的整个正文。 如果某个成员的调用堆栈中的代码将调用<xref:System.Threading.Monitor.Wait%2A>方法，并指定`true`为`exitContext`，在线程退出同步域，这样在调用对象的任何成员以继续操作被阻止的线程。 当<xref:System.Threading.Monitor.Wait%2A>方法返回时，调用线程必须等待以重新输入同步域。  
   
  ]]></format>
         </remarks>
@@ -1265,6 +1289,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1296,32 +1322,32 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 此方法不返回直到它重新排他锁获取上`obj`参数。  
+ 此方法不返回直到它重新上获取排他锁`obj`参数。  
   
- 当前拥有指定的对象上的锁的线程调用此方法以释放该对象，以便另一个线程可以访问它。 调用方等待重新获取锁时被阻止。 当调用方需要要等待的时间将因另一个线程操作而导致的状态更改时调用此方法。  
+ 当前拥有指定对象上的锁的线程调用此方法以释放该对象，以便另一个线程可以访问它。 等待重新获取锁时阻止调用方。 当调用方需要等待导致另一个线程的操作的状态更改时，调用此方法。  
   
- 超时可确保，当前线程不会阻止无限期地如果另一个线程释放锁，但第一个调用不<xref:System.Threading.Monitor.Pulse%2A>或<xref:System.Threading.Monitor.PulseAll%2A>方法。 它还移动到就绪的队列，绕过早在等待队列中，其他线程，以便它可以更快地重新获取锁的线程。 该线程可以测试的返回值<xref:System.Threading.Monitor.Wait%2A>方法来确定是否它重新获取之前超时的锁。线程可以评估条件导致它进入等待，并且如果需要调用<xref:System.Threading.Monitor.Wait%2A>再次方法。  
+ 超时可确保，当前线程不会无限期阻塞如果另一个线程释放锁，但第一个调用不<xref:System.Threading.Monitor.Pulse%2A>或<xref:System.Threading.Monitor.PulseAll%2A>方法。 此外，它还会将线程移到准备就绪的队列，以便它可以更快地重新获取该锁绕过早在等待队列中，其他线程。 该线程可以测试的返回值<xref:System.Threading.Monitor.Wait%2A>方法，以确定它是否重新获取则在超时之前的锁。线程可以评估条件导致它进入等待，并且如果必要调用<xref:System.Threading.Monitor.Wait%2A>再次方法。  
   
- 当线程调用`Wait`，它释放的锁并进入等待队列。 此时，准备就绪的队列中的下一步线程 （如果存在） 允许控制的锁。 调用的线程`Wait`保留在等待队列中一直持有锁的线程调用<xref:System.Threading.Monitor.PulseAll%2A>，或它是在队列中的下一步并持有锁的线程调用<xref:System.Threading.Monitor.Pulse%2A>。 但是，如果`timeout`另一个线程调用此对象的经过毫秒<xref:System.Threading.Monitor.Pulse%2A>或<xref:System.Threading.Monitor.PulseAll%2A>方法，原始线程将移动到就绪的队列，以便重新获取锁。  
-  
-> [!NOTE]
->  如果<xref:System.TimeSpan>表示-1 毫秒指定`timeout`参数，此方法会无限期阻止除非持有者的锁定调用<xref:System.Threading.Monitor.Pulse%2A>或<xref:System.Threading.Monitor.PulseAll%2A>。 如果`timeout`为 0 毫秒，调用线程`Wait`释放的锁，然后立即进入就绪队列以便重新获取锁。  
-  
- 调用方执行`Wait`一次，无论的次数<xref:System.Threading.Monitor.Enter%2A>已调用为指定的对象。 从概念上讲，`Wait`方法将存储的调用方调用的次数<xref:System.Threading.Monitor.Enter%2A>对象上并调用<xref:System.Threading.Monitor.Exit%2A>足够多的次数，根据需要以完全释放锁定的对象。 然后，调用方阻止等待重新获取对象时。 当调用方重新获取该锁时，系统会调用<xref:System.Threading.Monitor.Enter%2A>根据需要进行还原保存的多次<xref:System.Threading.Monitor.Enter%2A>对调用方的计数。 调用`Wait`释放指定对象的锁; 如果调用方对其他对象的锁的所有者，这些锁也不会释放。  
+ 当线程调用`Wait`，释放该锁，并进入等待队列。 此时，在准备就绪的队列中的下一个线程 （如果有） 允许控制锁。 调用的线程`Wait`仍在等待队列中直至持有锁的线程调用<xref:System.Threading.Monitor.PulseAll%2A>，或它是在队列中的下一步并持有锁的线程调用<xref:System.Threading.Monitor.Pulse%2A>。 但是，如果`timeout`毫秒等待另一个线程调用此对象之前<xref:System.Threading.Monitor.Pulse%2A>或<xref:System.Threading.Monitor.PulseAll%2A>方法，在原始线程将移动到准备就绪的队列，以便重新获取该锁。  
   
 > [!NOTE]
->  同步的对象包含多个引用，其中包括对当前拥有锁定、 到就绪的队列，其中包含准备好获取锁的线程，引用和等待队列，其中包含的引用的线程的引用正在等待的对象的状态的更改通知的线程。  
+>  如果<xref:System.TimeSpan>指定表示-1 毫秒`timeout`参数，此方法会无限期阻止除非锁持有者调用<xref:System.Threading.Monitor.Pulse%2A>或<xref:System.Threading.Monitor.PulseAll%2A>。 如果`timeout`为 0 毫秒，调用的线程`Wait`释放锁，然后立即进入就绪队列以便重新获取该锁。  
+  
+ 调用方执行`Wait`一次，无论有多少次<xref:System.Threading.Monitor.Enter%2A>已调用为指定的对象。 从概念上讲，`Wait`方法将存储在调用方调用的次数<xref:System.Threading.Monitor.Enter%2A>对象并调用<xref:System.Threading.Monitor.Exit%2A>尽可能多地需要完全释放锁定的对象。 然后，调用方被阻塞等待重新获取该对象时。 当调用方重新获取该锁时，系统会调用<xref:System.Threading.Monitor.Enter%2A>根据需要还原保存的多次<xref:System.Threading.Monitor.Enter%2A>调用方的计数。 调用`Wait`释放指定对象的锁; 如果调用方是对其他对象的锁的所有者，这些锁也不会释放。  
+  
+> [!NOTE]
+>  同步的对象包含多个引用，其中包括对在线程当前持有锁、 准备就绪的队列，其中包含准备好获取锁的线程，对的引用和对等待队列，其中包含的引用的引用有关的对象的状态的更改通知等待的线程。  
   
  <xref:System.Threading.Monitor.Pulse%2A>， <xref:System.Threading.Monitor.PulseAll%2A>，和`Wait`方法必须从调用代码的同步块内。  
   
- 备注<xref:System.Threading.Monitor.Pulse%2A>方法说明发生如果<xref:System.Threading.Monitor.Pulse%2A>等待无线程时调用。  
+ 备注<xref:System.Threading.Monitor.Pulse%2A>解释发生的方法如果<xref:System.Threading.Monitor.Pulse%2A>没有线程处于等待状态时调用。  
   
 ## <a name="notes-on-exiting-the-context"></a>在退出上下文的说明  
- `exitContext`参数无任何效果，除非<xref:System.Threading.Monitor.Wait%2A>从非默认托管上下文内部调用方法。 如果你的线程位于对派生自的类的实例的调用会发生此<xref:System.ContextBoundObject>。 即使你当前正在执行一个方法不派生自的类上<xref:System.ContextBoundObject>、 like <xref:System.String>，你可以在非默认上下文是如果<xref:System.ContextBoundObject>位于当前的应用程序域中的堆栈上。  
+ `exitContext`参数无任何效果，除非<xref:System.Threading.Monitor.Wait%2A>从非默认托管上下文中调用方法。 如果你的线程是派生自的类的实例的调用内部发生这种情况<xref:System.ContextBoundObject>。 即使当前正在执行一种方法不派生自的类上<xref:System.ContextBoundObject>，例如<xref:System.String>，可以在非默认上下文中是如果<xref:System.ContextBoundObject>是当前的应用程序域中的堆栈上。  
   
- 你的代码执行时在非默认上下文中，指定`true`为`exitContext`导致线程退出非默认托管的上下文 (即转换到默认上下文) 执行之前<xref:System.Threading.Monitor.Wait%2A>方法。 它的调用后将返回到原始的非默认上下文<xref:System.Threading.Monitor.Wait%2A>方法完成。  
+ 时在非默认上下文中执行代码时，指定`true`有关`exitContext`会导致线程退出非默认托管的上下文 (即，转换到默认上下文) 执行前<xref:System.Threading.Monitor.Wait%2A>方法。 在调用后返回到原始的非默认上下文<xref:System.Threading.Monitor.Wait%2A>方法完成。  
   
- 这一点可能很有用，在此上下文绑定类具有<xref:System.Runtime.Remoting.Contexts.SynchronizationAttribute>应用的属性。 在这种情况下，对类的成员的所有调用将自动都同步，并且同步域是类的代码的整个正文。 如果某个成员的调用堆栈中的代码将调用<xref:System.Threading.Monitor.Wait%2A>方法并指定`true`为`exitContext`，在线程退出同步域，允许对象的任何成员的调用来继续在被阻止的线程。 当<xref:System.Threading.Monitor.Wait%2A>方法返回时，调用线程必须等待重新进入的同步域。  
+ 在上下文绑定类时这很有用<xref:System.Runtime.Remoting.Contexts.SynchronizationAttribute>应用属性。 在这种情况下，所有调用的类的成员将自动都同步，并同步域是为类代码的整个正文。 如果某个成员的调用堆栈中的代码将调用<xref:System.Threading.Monitor.Wait%2A>方法，并指定`true`为`exitContext`，在线程退出同步域，这样在调用对象的任何成员以继续操作被阻止的线程。 当<xref:System.Threading.Monitor.Wait%2A>方法返回时，调用线程必须等待以重新输入同步域。  
   
  ]]></format>
         </remarks>

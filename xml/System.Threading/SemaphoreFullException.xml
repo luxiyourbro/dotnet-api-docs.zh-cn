@@ -1,11 +1,11 @@
 <Type Name="SemaphoreFullException" FullName="System.Threading.SemaphoreFullException">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="465d12c63165fb84e4220d19a875fd17949ddf2c" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="3376f73eb9294bdba4a519f82e567653975fccf6" />
+    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="zh-CN" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36605969" />
+    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
+    <Meta Name="ms.locfileid" Value="37548674" />
   </Metadata>
   <TypeSignature Language="C#" Value="public class SemaphoreFullException : SystemException" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi serializable beforefieldinit SemaphoreFullException extends System.SystemException" />
@@ -29,6 +29,10 @@
     <AssemblyName>netstandard</AssemblyName>
     <AssemblyVersion>2.0.0.0</AssemblyVersion>
   </AssemblyInfo>
+  <AssemblyInfo>
+    <AssemblyName>System</AssemblyName>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
   <Base>
     <BaseTypeName>System.Exception</BaseTypeName>
     <BaseTypeName FrameworkAlternate="netframework-4.5">System.SystemException</BaseTypeName>
@@ -48,19 +52,19 @@
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 上一个信号量计数会递减每当一个线程进入信号量，和一个线程释放信号量时，会增加的时。 当计数为零时，其他线程释放信号量一直进行阻止后续请求。 如果所有线程都已都释放信号量，计数是最大值时指定创建信号量。 如果编程错误导致调用线程<xref:System.Threading.Semaphore.Release%2A?displayProperty=nameWithType>方法此时，<xref:System.Threading.SemaphoreFullException>引发。  
+ 上一个信号量计数将减少每次一个线程进入信号量，并递增时线程释放信号量。 当计数为零时，后续请求阻止，直到其他线程释放信号量。 如果所有线程都已都释放信号量，计数是最大值时指定创建信号量。 如果编程错误导致线程调用<xref:System.Threading.Semaphore.Release%2A?displayProperty=nameWithType>方法在此情况下，<xref:System.Threading.SemaphoreFullException>引发。  
   
 > [!NOTE]
->  <xref:System.Threading.Semaphore>类不会强制在调用线程标识<xref:System.Threading.WaitHandle.WaitOne%2A?displayProperty=nameWithType>和<xref:System.Threading.Semaphore.Release%2A?displayProperty=nameWithType>方法。 没有必要的线程调用<xref:System.Threading.WaitHandle.WaitOne%2A>调用<xref:System.Threading.Semaphore.Release%2A>。  
+>  <xref:System.Threading.Semaphore>类不会强制线程标识在调用<xref:System.Threading.WaitHandle.WaitOne%2A?displayProperty=nameWithType>和<xref:System.Threading.Semaphore.Release%2A?displayProperty=nameWithType>方法。 不是必需的线程调用<xref:System.Threading.WaitHandle.WaitOne%2A>调用<xref:System.Threading.Semaphore.Release%2A>。  
   
- <xref:System.Threading.SemaphoreFullException> 不一定表示何处出现异常代码的问题。 考虑以下方案： 线程 A 和线程 B 进入了最大计数为两个信号量。 线程 B 中的编程错误导致它来调用<xref:System.Threading.Semaphore.Release%2A>两次，以便信号量计数已满。 因此，当线程 A 最终调用<xref:System.Threading.Semaphore.Release%2A>、<xref:System.Threading.SemaphoreFullException>引发。  
+ <xref:System.Threading.SemaphoreFullException> 并不一定表示发生了异常的代码的问题。 请考虑以下方案： 线程 A 和线程 B 输入的最大计数为两个信号量。 线程 B 中的编程错误后，即可调用<xref:System.Threading.Semaphore.Release%2A>两次，以便在信号量计数已满。 因此，当线程 A 最终调用<xref:System.Threading.Semaphore.Release%2A>、<xref:System.Threading.SemaphoreFullException>引发。  
   
  有关 <xref:System.Threading.SemaphoreFullException> 类的实例的初始属性值列表，请参见 <xref:System.Threading.SemaphoreFullException.%23ctor> 构造函数。  
   
    
   
 ## Examples  
- 下面的代码示例演示一个线程中的编程错误可能导致<xref:System.Threading.SemaphoreFullException>另一线程中： 两个线程进入信号量。 第二个线程释放信号量两次，第一个线程仍在执行其任务时。 当第一个线程完成并释放信号量时，信号量计数已满，并引发异常。  
+ 下面的代码示例演示如何在一个线程中的编程错误可能会导致<xref:System.Threading.SemaphoreFullException>另一线程中： 两个线程进入信号量。 第一个线程仍在执行其任务时两次，第二个线程释放信号量。 当第一个线程完成并释放信号量时，信号量计数已满并且引发异常。  
   
  [!code-cpp[System.Threading.SemaphoreFullException#1](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Threading.SemaphoreFullException/CPP/source.cpp#1)]
  [!code-csharp[System.Threading.SemaphoreFullException#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.SemaphoreFullException/CS/source.cs#1)]
@@ -105,6 +109,10 @@
         <AssemblyName>netstandard</AssemblyName>
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
       <Parameters />
       <Docs>
         <summary>使用默认值初始化 <see cref="T:System.Threading.SemaphoreFullException" /> 类的新实例。</summary>
@@ -112,7 +120,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 此构造函数初始化<xref:System.Exception.Message%2A>为系统提供的消息的描述错误，如"中添加给定的计数信号量将导致其超出其最大计数。"的新实例的属性 此消息将当前系统区域性考虑在内。  
+ 此构造函数初始化<xref:System.Exception.Message%2A>为系统提供的描述错误，例如"添加给定的计数为信号量将导致其超出其最大计数。"的消息的新实例的属性 此消息将当前系统区域性考虑在内。  
   
  下表显示 <xref:System.Threading.SemaphoreFullException> 类的实例的初始属性值。  
   
@@ -150,6 +158,10 @@
         <AssemblyName>netstandard</AssemblyName>
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
       <Parameters>
         <Parameter Name="message" Type="System.String" />
       </Parameters>
@@ -160,9 +172,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 内容`message`文本字符串用于通知用户有关异常。 此构造函数的调用方需要确保此字符串已针对当前系统区域性进行了本地化。  
+ 内容`message`文本字符串，用于通知用户有关的异常。 此构造函数的调用方需要确保此字符串已针对当前系统区域性进行了本地化。  
   
- 下表显示的实例的初始属性值<xref:System.Threading.SemaphoreFullException>使用此构造函数初始化的类。  
+ 下表显示的实例的初始属性值<xref:System.Threading.SemaphoreFullException>类使用此构造函数进行初始化。  
   
 |Property|“值”|  
 |--------------|-----------|  
@@ -195,6 +207,10 @@
         <AssemblyName>System.Threading</AssemblyName>
         <AssemblyVersion>4.1.0.0</AssemblyVersion>
         <AssemblyVersion>4.1.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Parameters>
         <Parameter Name="info" Type="System.Runtime.Serialization.SerializationInfo" />
@@ -238,6 +254,10 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System</AssemblyName>
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Parameters>

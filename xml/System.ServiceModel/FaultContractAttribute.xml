@@ -1,11 +1,11 @@
 <Type Name="FaultContractAttribute" FullName="System.ServiceModel.FaultContractAttribute">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="89bc38b0d324c5acef904d36980d3cbed4c16a1d" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="3071b82efc7840d11fa3f73c57b2c8e276b7a8d4" />
+    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="zh-CN" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36610847" />
+    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
+    <Meta Name="ms.locfileid" Value="37452838" />
   </Metadata>
   <TypeSignature Language="C#" Value="public sealed class FaultContractAttribute : Attribute" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed beforefieldinit FaultContractAttribute extends System.Attribute" />
@@ -16,6 +16,7 @@
   <AssemblyInfo>
     <AssemblyName>System.ServiceModel</AssemblyName>
     <AssemblyVersion>2.0.5.0</AssemblyVersion>
+    <AssemblyVersion>3.0.0.0</AssemblyVersion>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
   </AssemblyInfo>
   <AssemblyInfo>
@@ -41,7 +42,7 @@
 ## Remarks  
  使用 <xref:System.ServiceModel.FaultContractAttribute> 属性标记操作以声明一个或多个特定的异常条件，这些条件可作为操作返回的显式 SOAP 错误消息添加到服务操作的 Web 服务描述语言 (WSDL) 的描述中。  
   
- 在所有托管应用程序中，处理错误由 <xref:System.Exception> 对象表示。 在基于 SOAP 的应用程序如 Windows Communication Foundation (WCF) 应用程序，服务方法来传递处理错误信息使用 SOAP 错误消息。 由于在两种错误系统下执行 WCF 应用程序，必须发送到客户端的任何托管的异常信息必须可从异常转换为 SOAP 错误。 您可以使用默认的服务异常行为，或者可以显式控制异常是否能被映射到错误消息，以及如何映射到错误消息。 异常和 WCF 应用程序中的 SOAP 错误的概述，请参阅[指定和处理在协定和服务中的错误](~/docs/framework/wcf/specifying-and-handling-faults-in-contracts-and-services.md)。  
+ 在所有托管应用程序中，处理错误由 <xref:System.Exception> 对象表示。 在基于 SOAP 的应用程序如 Windows Communication Foundation (WCF) 应用程序，服务方法进行通信使用 SOAP 错误消息的处理错误信息。 因为在这两种错误系统下执行 WCF 应用程序，必须从异常转化为 SOAP 错误转换必须发送到客户端的任何托管的异常信息。 您可以使用默认的服务异常行为，或者可以显式控制异常是否能被映射到错误消息，以及如何映射到错误消息。 有关异常和 WCF 应用程序中的 SOAP 错误的概述，请参阅[指定和处理在协定和服务中的错误](~/docs/framework/wcf/specifying-and-handling-faults-in-contracts-and-services.md)。  
   
  建议服务操作使用 <xref:System.ServiceModel.FaultContractAttribute> 来正式指定在正常操作过程中客户端可能收到的所有 SOAP 错误。 此外，还建议在 SOAP 错误中仅返回客户端必须了解的信息，以将信息泄露风险降至最低。  
   
@@ -64,10 +65,10 @@
   
  在大多数情况下，将错误消息的 <xref:System.ServiceModel.FaultContractAttribute.ProtectionLevel%2A> 设置为 <xref:System.Net.Security.ProtectionLevel.EncryptAndSign> 已经足够了。 有关更多详细信息，请参阅[了解保护级别](~/docs/framework/wcf/understanding-protection-level.md)。  
   
- 若要从使用 <xref:System.ServiceModel.FaultContractAttribute> 进行标记的操作返回指定的错误，则在操作过程中发生托管异常时将引发 <xref:System.ServiceModel.FaultException%601>（此处类型参数为可序列化的错误信息）。 WCF 客户端应用程序作为相同类型呈现的 SOAP 错误，如抛出客户端实现-也就是说，作为<xref:System.ServiceModel.FaultException%601>（其中类型参数是可序列化的错误信息）。 <xref:System.ServiceModel.FaultContractAttribute> 只能用来为双向服务操作和异步操作对指定 SOAP 错误；单向操作并不支持 SOAP 错误，因而不支持 <xref:System.ServiceModel.FaultContractAttribute>。  
+ 若要从使用 <xref:System.ServiceModel.FaultContractAttribute> 进行标记的操作返回指定的错误，则在操作过程中发生托管异常时将引发 <xref:System.ServiceModel.FaultException%601>（此处类型参数为可序列化的错误信息）。 WCF 客户端应用程序的类型相同呈现的 SOAP 错误，如客户端实现中，它是引发作为<xref:System.ServiceModel.FaultException%601>（此处类型参数为可序列化的错误信息）。 <xref:System.ServiceModel.FaultContractAttribute> 只能用来为双向服务操作和异步操作对指定 SOAP 错误；单向操作并不支持 SOAP 错误，因而不支持 <xref:System.ServiceModel.FaultContractAttribute>。  
   
 > [!NOTE]
->  您可以使用任意可序列化的类型来传达错误信息。 在此版本的 WCF 中的唯一限制是在中指定类型<xref:System.ServiceModel.FaultContractAttribute>必须可由序列化<xref:System.Runtime.Serialization.DataContractSerializer?displayProperty=nameWithType>。 有关序列化支持<xref:System.Runtime.Serialization.DataContractSerializer>提供，请参阅[数据协定序列化程序](~/docs/framework/wcf/feature-details/data-contract-serializer.md)。  
+>  您可以使用任意可序列化的类型来传达错误信息。 在此版本的 WCF 中的唯一限制是在指定的类型<xref:System.ServiceModel.FaultContractAttribute>必须是可序列化的<xref:System.Runtime.Serialization.DataContractSerializer?displayProperty=nameWithType>。 有关序列化支持<xref:System.Runtime.Serialization.DataContractSerializer>提供了，请参阅[数据协定序列化程序](~/docs/framework/wcf/feature-details/data-contract-serializer.md)。  
   
  例如，若要指定客户端可能收到包含 <xref:System.Int32> 的 SOAP 错误，请将该类型参数置于服务方法的 <xref:System.ServiceModel.FaultContractAttribute> 之中。  
   
@@ -82,17 +83,17 @@
  [!code-csharp[C_FCA#2](~/samples/snippets/csharp/VS_Snippets_CFX/c_fca/cs/fcademo.cs#2)]
  [!code-vb[C_FCA#2](~/samples/snippets/visualbasic/VS_Snippets_CFX/c_fca/vb/fcademo.vb#2)]  
   
- 上面的示例很基本；使用 <xref:System.Int32?displayProperty=nameWithType> 代码几乎可以传递所有信息，因此该详细信息类型并非最为有用的。 通常情况下，WCF 应用程序使用特定于客户端错误信息要求的详细信息类型来指定 SOAP 错误。 有关更多的完整示例，请参见“示例”部分。  
+ 上面的示例很基本；使用 <xref:System.Int32?displayProperty=nameWithType> 代码几乎可以传递所有信息，因此该详细信息类型并非最为有用的。 通常情况下，WCF 应用程序使用特定于客户端的错误的信息要求的详细信息类型指定 SOAP 错误。 有关更多的完整示例，请参见“示例”部分。  
   
 > [!NOTE]
 >  如果指定一个类型参数为 <xref:System.ServiceModel.FaultException%601> 的 <xref:System.String?displayProperty=nameWithType>，则该字符串值将被分配给客户端应用程序中的 Detail 属性；客户端无法通过调用 <xref:System.ServiceModel.FaultException%601.ToString%2A?displayProperty=nameWithType> 方法来检索该字符串。 若要在客户端应用程序调用 <xref:System.Exception.ToString%2A?displayProperty=nameWithType> 时返回该字符串值，则将在操作内引发 <xref:System.ServiceModel.FaultException?displayProperty=nameWithType> 异常，并将该字符串传递给构造函数。  
   
- 若要在引发了异常或 <xref:System.ServiceModel.FaultException%601> 时显式控制应用程序的行为，则请在 <xref:System.ServiceModel.Dispatcher.IErrorHandler?displayProperty=nameWithType>、<xref:System.ServiceModel.Description.IServiceBehavior?displayProperty=nameWithType> 或 <xref:System.ServiceModel.Description.IContractBehavior?displayProperty=nameWithType> 上实现 <xref:System.ServiceModel.Description.IEndpointBehavior?displayProperty=nameWithType> 接口，并将其分配给 <xref:System.ServiceModel.Dispatcher.ChannelDispatcher.ErrorHandlers%2A?displayProperty=nameWithType> 属性。 <xref:System.ServiceModel.Dispatcher.IErrorHandler> 您可以显式控制生成的 SOAP 错误以及是否将其发送回客户端。  
+ 若要在引发了异常或 <xref:System.ServiceModel.FaultException%601> 时显式控制应用程序的行为，则请在 <xref:System.ServiceModel.Dispatcher.IErrorHandler?displayProperty=nameWithType>、<xref:System.ServiceModel.Description.IServiceBehavior?displayProperty=nameWithType> 或 <xref:System.ServiceModel.Description.IContractBehavior?displayProperty=nameWithType> 上实现 <xref:System.ServiceModel.Description.IEndpointBehavior?displayProperty=nameWithType> 接口，并将其分配给 <xref:System.ServiceModel.Dispatcher.ChannelDispatcher.ErrorHandlers%2A?displayProperty=nameWithType> 属性。 <xref:System.ServiceModel.Dispatcher.IErrorHandler> 使您可以显式控制生成的 SOAP 错误，以及是否将其发送回客户端。  
   
- 为了便于调试，设置<xref:System.ServiceModel.ServiceBehaviorAttribute.IncludeExceptionDetailInFaults%2A?displayProperty=nameWithType>到`true`代码或者您可以使用<xref:System.ServiceModel.Description.ServiceDebugBehavior.IncludeExceptionDetailInFaults%2A?displayProperty=nameWithType>应用程序配置文件中。 当启用时，服务会自动将异常信息返回到调用方。 这些错误在客户端显示为 <xref:System.ServiceModel.FaultException> 异常。  
+ 为了便于调试，设置<xref:System.ServiceModel.ServiceBehaviorAttribute.IncludeExceptionDetailInFaults%2A?displayProperty=nameWithType>到`true`中的代码也可以使用<xref:System.ServiceModel.Description.ServiceDebugBehavior.IncludeExceptionDetailInFaults%2A?displayProperty=nameWithType>应用程序配置文件中。 当启用时，服务会自动将异常信息返回到调用方。 这些错误在客户端显示为 <xref:System.ServiceModel.FaultException> 异常。  
   
 > [!IMPORTANT]
->  因为托管的异常可以公开内部应用程序信息，请设置<xref:System.ServiceModel.ServiceBehaviorAttribute.IncludeExceptionDetailInFaults%2A?displayProperty=nameWithType>或<xref:System.ServiceModel.Description.ServiceDebugBehavior.IncludeExceptionDetailInFaults%2A?displayProperty=nameWithType>到`true`可以允许 WCF 客户端获得有关内部服务操作异常，包括个人信息身份信息或其他敏感信息。  
+>  因为托管的异常可以公开内部应用程序的信息，设置<xref:System.ServiceModel.ServiceBehaviorAttribute.IncludeExceptionDetailInFaults%2A?displayProperty=nameWithType>或<xref:System.ServiceModel.Description.ServiceDebugBehavior.IncludeExceptionDetailInFaults%2A?displayProperty=nameWithType>到`true`可以允许 WCF 客户端获取有关内部服务操作异常，包括个人信息标识或其他敏感信息。  
 >   
 >  因此，仅建议将 <xref:System.ServiceModel.ServiceBehaviorAttribute.IncludeExceptionDetailInFaults%2A?displayProperty=nameWithType> 或 <xref:System.ServiceModel.Description.ServiceDebugBehavior.IncludeExceptionDetailInFaults%2A?displayProperty=nameWithType> 设置为 `true` 作为一种临时调试服务应用程序的方法。 此外，以这种方式返回未处理的托管异常的方法的 WSDL 并不包含类型为 <xref:System.ServiceModel.FaultException%601> 的 <xref:System.String> 的协定。 客户端必须预见未知 SOAP 错误的可能性 (返回给 WCF 客户端作为<xref:System.ServiceModel.FaultException?displayProperty=nameWithType>对象) 以便正确获取调试信息。  
   
@@ -104,7 +105,7 @@
  [!code-csharp[FaultContractAttribute#1](~/samples/snippets/csharp/VS_Snippets_CFX/faultcontractattribute/cs/services.cs#1)]
  [!code-vb[FaultContractAttribute#1](~/samples/snippets/visualbasic/VS_Snippets_CFX/faultcontractattribute/vb/services.vb#1)]  
   
- 下面的代码示例演示 WCF 客户端的`ISampleService`作为此 SOAP 错误<xref:System.ServiceModel.FaultException%601>类型的`GreetingFault`。  
+ 下面的代码示例演示的 WCF 客户端`ISampleService`作为此 SOAP 错误<xref:System.ServiceModel.FaultException%601>类型的`GreetingFault`。  
   
  [!code-csharp[FaultContractAttribute#3](~/samples/snippets/csharp/VS_Snippets_CFX/faultcontractattribute/cs/client.cs#3)]
  [!code-vb[FaultContractAttribute#3](~/samples/snippets/visualbasic/VS_Snippets_CFX/faultcontractattribute/vb/client.vb#3)]  
@@ -124,6 +125,7 @@
       <AssemblyInfo>
         <AssemblyName>System.ServiceModel</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -169,6 +171,7 @@
       <AssemblyInfo>
         <AssemblyName>System.ServiceModel</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -204,6 +207,7 @@
       <AssemblyInfo>
         <AssemblyName>System.ServiceModel</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -242,6 +246,7 @@
       <AssemblyInfo>
         <AssemblyName>System.ServiceModel</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -271,6 +276,7 @@
       <AssemblyInfo>
         <AssemblyName>System.ServiceModel</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -299,6 +305,7 @@
       <AssemblyInfo>
         <AssemblyName>System.ServiceModel</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -327,6 +334,7 @@
       <AssemblyInfo>
         <AssemblyName>System.ServiceModel</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>

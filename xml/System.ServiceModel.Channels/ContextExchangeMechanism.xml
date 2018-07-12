@@ -1,11 +1,11 @@
 <Type Name="ContextExchangeMechanism" FullName="System.ServiceModel.Channels.ContextExchangeMechanism">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="433656842150ed58a18e0987d34a2b164231a71b" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="af79b503cc30b8212bfd4524b7ac1e678e7a00fc" />
+    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="zh-CN" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36422474" />
+    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
+    <Meta Name="ms.locfileid" Value="37621574" />
   </Metadata>
   <TypeSignature Language="C#" Value="public enum ContextExchangeMechanism" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed ContextExchangeMechanism extends System.Enum" />
@@ -16,6 +16,10 @@
   <AssemblyInfo>
     <AssemblyName>System.ServiceModel</AssemblyName>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <AssemblyInfo>
+    <AssemblyName>System.WorkflowServices</AssemblyName>
+    <AssemblyVersion>3.5.0.0</AssemblyVersion>
   </AssemblyInfo>
   <Base>
     <BaseTypeName>System.Enum</BaseTypeName>
@@ -35,13 +39,13 @@
   
  需求支持上下文交换协议的服务终结点可以在其发布的策略中明确此需求。 表示要求客户端支持 SOAP 级上下文交换协议或表示要求启用 HTTP Cookie 支持的策略断言可以由终结点发布。 如何将这些断言生成到服务策略中是由 <xref:System.ServiceModel.Channels.ContextBindingElement.ContextExchangeMechanism%2A> 属性的值控制的，如下所示：  
   
--   为 HttpCookie，将生成以下断言：  
+-   对于 HttpCookie，生成以下断言：  
   
     ```  
     <HttpUseCookie xmlns="http://schemas.xmlsoap.org/soap/http"/>  
     ```  
   
--   为 ContextSoapHeader，将生成以下断言：  
+-   对于 ContextSoapHeader，生成以下断言：  
   
     ```  
     <IncludeContext   
@@ -49,9 +53,9 @@
     protectionLevel="Sign" />  
     ```  
   
- 在传输层实现 HttpCookie 枚举。 在客户端发出初始请求，然后由服务在响应答复时提供上下文的单工通信情况下，可以使用此枚举。 在该对话的生存期内，客户端和服务之间的所有后续消息都将包含此上下文。 对于使用 HTTP 传输和同意允许使用 HTTP cookie 的客户端的服务终结点，可以利用 HttpCookie 枚举来交换应用程序上下文。 当使用 HTTP Cookie 来传播上下文时，应使用传输安全来保护 HTTP Cookie。 此机制不能与非 HTTP 传输一起使用。  
+ HttpCookie 枚举是在传输层上实现的。 在客户端发出初始请求，然后由服务在响应答复时提供上下文的单工通信情况下，可以使用此枚举。 在该对话的生存期内，客户端和服务之间的所有后续消息都将包含此上下文。 对于使用 HTTP 传输和客户端，以允许使用 HTTP cookie 的服务终结点，可以利用 HttpCookie 枚举来交换应用程序上下文。 当使用 HTTP Cookie 来传播上下文时，应使用传输安全来保护 HTTP Cookie。 此机制不能与非 HTTP 传输一起使用。  
   
- ContextSoapHeader 枚举提供了一种替代方法，在自定义上下文通道中实现，并可以用于非 HTTP 传输和其他消息交换模式，如请求-答复和双工会话。 此上下文交换协议提供一种基于 SOAP 的功能，它等效于 HTTP Cookie 在传输层提供的功能。 它引入了新的 `wsc:Context` SOAP 标头来表示上下文信息。 和必须保护 WS-Addressing 标头一样，在传输过程中必须保护 `wsc:Context` 标头不被修改：到达后，这些标头用于将消息调度到正确的工作流实例。 因此，当绑定提供消息保护功能时，`wsc:Context` 标头必需在 SOAP 或传输级进行数字签名。  
+ ContextSoapHeader 枚举提供了一种替代方法，在自定义上下文通道中实现和可以用于非 HTTP 传输和其他消息交换模式，如请求-答复和双工会话。 此上下文交换协议提供一种基于 SOAP 的功能，它等效于 HTTP Cookie 在传输层提供的功能。 它引入了新的 `wsc:Context` SOAP 标头来表示上下文信息。 和必须保护 WS-Addressing 标头一样，在传输过程中必须保护 `wsc:Context` 标头不被修改：到达后，这些标头用于将消息调度到正确的工作流实例。 因此，当绑定提供消息保护功能时，`wsc:Context` 标头必需在 SOAP 或传输级进行数字签名。  
   
  通道层使用 <xref:System.ServiceModel.Channels.ContextMessageProperty> 与应用程序层之间来回传递上下文。  
   
@@ -70,6 +74,10 @@
       <AssemblyInfo>
         <AssemblyName>System.ServiceModel</AssemblyName>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.WorkflowServices</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.ServiceModel.Channels.ContextExchangeMechanism</ReturnType>
@@ -90,6 +98,10 @@
       <AssemblyInfo>
         <AssemblyName>System.ServiceModel</AssemblyName>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.WorkflowServices</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.ServiceModel.Channels.ContextExchangeMechanism</ReturnType>

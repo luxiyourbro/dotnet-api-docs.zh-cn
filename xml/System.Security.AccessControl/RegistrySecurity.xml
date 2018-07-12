@@ -1,11 +1,11 @@
 <Type Name="RegistrySecurity" FullName="System.Security.AccessControl.RegistrySecurity">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="29a33c426d863c3351e76033a8ef74e3bb7b04ba" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="7a9af43b313937a3daa2acb8218dbaabc67a0a60" />
+    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="zh-CN" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36532357" />
+    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
+    <Meta Name="ms.locfileid" Value="37466852" />
   </Metadata>
   <TypeSignature Language="C#" Value="public sealed class RegistrySecurity : System.Security.AccessControl.NativeObjectSecurity" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed beforefieldinit RegistrySecurity extends System.Security.AccessControl.NativeObjectSecurity" />
@@ -19,6 +19,7 @@
   </AssemblyInfo>
   <AssemblyInfo>
     <AssemblyName>mscorlib</AssemblyName>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
     <AssemblyVersion>2.0.5.0</AssemblyVersion>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
   </AssemblyInfo>
@@ -36,54 +37,54 @@
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- A<xref:System.Security.AccessControl.RegistrySecurity>对象指定访问权限的某个注册表项，并且还指定如何审核访问尝试。 对注册表项的访问权限表示为规则，由表示每个访问规则<xref:System.Security.AccessControl.RegistryAccessRule>对象。 每个审核规则由<xref:System.Security.AccessControl.RegistryAuditRule>对象。  
+ 一个<xref:System.Security.AccessControl.RegistrySecurity>对象指定注册表项的访问权限以及如何审核访问尝试。 注册表项的访问权限表示为规则，由表示每个访问规则<xref:System.Security.AccessControl.RegistryAccessRule>对象。 每个审核规则由<xref:System.Security.AccessControl.RegistryAuditRule>对象。  
   
- 这反映了基础的 Windows 安全系统，其中每个安全对象具有最多有一个自定义访问控制列表 (DACL) 控制对受保护的对象，且最多指定的访问权限的系统访问控制列表 (SACL) 访问尝试进行审核。 DACL 和 SACL 进行排序的指定访问和审核用户和组的访问控制项 (ACE) 的列表。 A<xref:System.Security.AccessControl.RegistryAccessRule>或<xref:System.Security.AccessControl.RegistryAuditRule>对象可以表示多个 ACE。  
+ 这反映了基础的 Windows 安全系统，其中每个安全对象具有最多有一个自定义访问控制列表 (DACL) 控制对受保护的对象，并最多指定的访问权限的一个系统访问控制列表 (SACL) 访问尝试进行审核。 DACL 和 SACL 进行排序的访问控制项 (ACE) 指定的访问和审核用户和组的列表。 一个<xref:System.Security.AccessControl.RegistryAccessRule>或<xref:System.Security.AccessControl.RegistryAuditRule>对象可以表示多个 ACE。  
   
 > [!NOTE]
->  Windows 访问控制安全性仅可以应用于注册表项中。 它不能应用于单个键/值对存储在注册表项。  
+>  Windows 访问控制安全性只能应用到注册表项。 它不能应用于单个键/值对存储在的密钥。  
   
- <xref:System.Security.AccessControl.RegistrySecurity>， <xref:System.Security.AccessControl.RegistryAccessRule>，和<xref:System.Security.AccessControl.RegistryAuditRule>类隐藏 Acl 和 Ace 的实现详细信息。 这使你忽略十七不同的 ACE 类型和正确维护继承和访问权限的传播的复杂性。 这些对象还旨在防止以下常见的访问控制错误：  
+ <xref:System.Security.AccessControl.RegistrySecurity>， <xref:System.Security.AccessControl.RegistryAccessRule>，和<xref:System.Security.AccessControl.RegistryAuditRule>类隐藏的 Acl 和 Ace 的实现详细信息。 它们允许您忽略十七个不同的 ACE 类型和继承和传播的访问权限进行正确维护的复杂性。 这些对象还旨在阻止以下常见的访问控制错误：  
   
--   使用 null DACL 创建安全描述符。 对 DACL 的 null 引用允许任何用户将访问规则添加到一个对象，该对象可能创建的拒绝服务攻击。 一个新<xref:System.Security.AccessControl.RegistrySecurity>对象开始时始终具有一个空元素，此操作会拒绝所有用户的所有访问权限的 DACL。  
+-   创建具有 null DACL 的安全描述符。 对 DACL 的 null 引用允许任何用户将访问规则添加到一个对象，可能会创建拒绝服务攻击。 一个新<xref:System.Security.AccessControl.RegistrySecurity>对象开始时始终使用空的 DACL，此操作会拒绝所有用户的所有访问权限。  
   
--   违反 Ace 的规范顺序。 如果 DACL 中的 ACE 列表不保存在规范顺序，用户可能会无意中被赋予访问受保护的对象。 例如，被拒绝的访问权限必须始终出现在允许的访问权限之前。 <xref:System.Security.AccessControl.RegistrySecurity> 对象内部维护正确的顺序。  
+-   违反 Ace 的规范顺序。 如果 DACL 中的 ACE 列表不会保存在规范顺序，用户可能会无意中被赋予访问受保护的对象。 例如，被拒绝的访问权限必须始终出现在允许的访问权限之前。 <xref:System.Security.AccessControl.RegistrySecurity> 对象在内部维护正确的顺序。  
   
--   操作安全描述符标志，它应在资源管理器控件。  
+-   操作应仅资源管理器控制下的安全描述符标志。  
   
--   创建 ACE 标志的无效的组合。  
+-   正在创建无效的 ACE 标志组合。  
   
--   操纵继承的 Ace。 继承和传播由资源管理器，以响应对访问和审核规则所做的更改处理。  
+-   处理继承的 Ace。 继承和传播由资源管理器，以响应对访问和审核规则所做的更改处理。  
   
 -   将无意义的 Ace 插入到 Acl。  
   
- 不支持的.NET 安全对象的唯一功能是应当避免由应用程序开发人员，如下所示的大部分的危险活动：  
+ 不支持的.NET 安全对象的唯一功能是危险的活动，应避免使用由大多数应用程序开发人员，如下所示：  
   
--   低级通常由资源管理器执行的任务。  
+-   通常由资源管理器执行的低级别任务。  
   
--   添加或移除访问控制项的不维护规范排序的方式。  
+-   添加或删除访问控制项中不维护规范排序的方式。  
   
- 若要修改的注册表项的 Windows 访问控制安全性，请使用<xref:Microsoft.Win32.RegistryKey.GetAccessControl%2A?displayProperty=nameWithType>方法以获取<xref:System.Security.AccessControl.RegistrySecurity>对象。 通过添加和删除规则，修改安全对象，然后使用<xref:Microsoft.Win32.RegistryKey.SetAccessControl%2A?displayProperty=nameWithType>方法以将其重新附加。  
+ 若要修改 Windows 注册表项的访问控制安全性，请使用<xref:Microsoft.Win32.RegistryKey.GetAccessControl%2A?displayProperty=nameWithType>方法以获取<xref:System.Security.AccessControl.RegistrySecurity>对象。 通过添加和删除规则，修改安全对象，然后使用<xref:Microsoft.Win32.RegistryKey.SetAccessControl%2A?displayProperty=nameWithType>方法以将其重新附加。  
   
 > [!IMPORTANT]
->  对所做的更改<xref:System.Security.AccessControl.RegistrySecurity>对象并不会影响注册表项的访问级别，直到你调用<xref:Microsoft.Win32.RegistryKey.SetAccessControl%2A?displayProperty=nameWithType>方法以将修改过的安全对象分配给注册表项。  
+>  对所做的更改<xref:System.Security.AccessControl.RegistrySecurity>对象并不会影响注册表项的访问级别，直到你调用<xref:Microsoft.Win32.RegistryKey.SetAccessControl%2A?displayProperty=nameWithType>方法以将修改过的安全对象分配到注册表项。  
   
- 若要将访问控制安全性复制到另一个注册表项，使用<xref:Microsoft.Win32.RegistryKey.GetAccessControl%2A?displayProperty=nameWithType>方法以获取<xref:System.Security.AccessControl.RegistrySecurity>对象表示第一个注册表项的访问和审核规则，然后使用<xref:Microsoft.Win32.RegistryKey.SetAccessControl%2A?displayProperty=nameWithType>用于将分配到这些规则方法第二个注册表项。 此外可以将这些规则分配到的第二个注册表项<xref:Microsoft.Win32.RegistryKey.OpenSubKey%2A?displayProperty=nameWithType>或<xref:Microsoft.Win32.RegistryKey.CreateSubKey%2A?displayProperty=nameWithType>采用的方法<xref:System.Security.AccessControl.RegistrySecurity>对象参数。  
+ 若要将访问控制安全性复制到另一个注册表项，请使用<xref:Microsoft.Win32.RegistryKey.GetAccessControl%2A?displayProperty=nameWithType>方法以获取<xref:System.Security.AccessControl.RegistrySecurity>表示第一个注册表项的访问和审核规则的对象，然后使用<xref:Microsoft.Win32.RegistryKey.SetAccessControl%2A?displayProperty=nameWithType>方法来分配到这些规则第二个注册表项。 此外可以将规则分配到与第二个注册表项<xref:Microsoft.Win32.RegistryKey.OpenSubKey%2A?displayProperty=nameWithType>或<xref:Microsoft.Win32.RegistryKey.CreateSubKey%2A?displayProperty=nameWithType>采用方法<xref:System.Security.AccessControl.RegistrySecurity>对象参数。  
   
- 以安全描述符定义语言 (SDDL) 中的投资的用户可以使用<xref:System.Security.AccessControl.ObjectSecurity.SetSecurityDescriptorSddlForm%2A>方法以设置的注册表项，访问规则和<xref:System.Security.AccessControl.ObjectSecurity.GetSecurityDescriptorSddlForm%2A>方法来获取表示访问规则的 SDDL 格式的字符串。 这不是建议新的开发。  
+ 安全描述符定义语言 (SDDL) 投资的用户可以使用<xref:System.Security.AccessControl.ObjectSecurity.SetSecurityDescriptorSddlForm%2A>方法以设置注册表项的访问规则和<xref:System.Security.AccessControl.ObjectSecurity.GetSecurityDescriptorSddlForm%2A>方法来获取一个字符串，表示访问规则的 SDDL 格式。 这不被建议用于新开发。  
   
    
   
 ## Examples  
- 本部分包含两个代码示例。 第一个示例显示如何兼容规则合并时添加和删除和第二个显示继承和传播标志的添加和删除的规则的影响。  
+ 本部分包含两个代码示例。 第一个示例显示了如何兼容规则合并时添加和删除，且第二个显示继承和传播标志的添加和删除的规则的影响。  
   
  示例 1  
   
- 下面的代码示例演示如何<xref:System.Security.AccessControl.RegistrySecurity.RemoveAccessRule%2A>兼容的规则，从方法中删除的权限和如何<xref:System.Security.AccessControl.RegistrySecurity.AddAccessRule%2A>方法将合并的权限具有兼容的规则。  
+ 下面的代码示例演示如何<xref:System.Security.AccessControl.RegistrySecurity.RemoveAccessRule%2A>方法从兼容规则，将删除权限和如何<xref:System.Security.AccessControl.RegistrySecurity.AddAccessRule%2A>方法将使用兼容的规则的权限合并。  
   
- 该示例创建<xref:System.Security.AccessControl.RegistrySecurity>对象并将添加一个规则： 允许当前用户<xref:System.Security.AccessControl.RegistryRights.ReadKey?displayProperty=nameWithType>权限。 然后，示例创建一个规则，授予用户<xref:System.Security.AccessControl.RegistryRights.SetValue?displayProperty=nameWithType>、 具有相同的继承和传播权限在第一个规则，并使用<xref:System.Security.AccessControl.RegistrySecurity.RemoveAccessRule%2A>方法以删除从此新规则<xref:System.Security.AccessControl.RegistrySecurity>对象。 <xref:System.Security.AccessControl.RegistryRights.SetValue> 是的构成<xref:System.Security.AccessControl.RegistryRights.ReadKey>，因此它将删除从兼容的规则。 中的规则<xref:System.Security.AccessControl.RegistrySecurity>显示对象，显示的剩余构成部分<xref:System.Security.AccessControl.RegistryRights.ReadKey>。  
+ 此示例将创建<xref:System.Security.AccessControl.RegistrySecurity>对象并将添加一个规则： 允许当前用户<xref:System.Security.AccessControl.RegistryRights.ReadKey?displayProperty=nameWithType>权限。 然后，示例创建一个规则，授予用户<xref:System.Security.AccessControl.RegistryRights.SetValue?displayProperty=nameWithType>、 具有相同的继承和传播权限作为第一个规则，并使用<xref:System.Security.AccessControl.RegistrySecurity.RemoveAccessRule%2A>方法中删除此新规则与<xref:System.Security.AccessControl.RegistrySecurity>对象。 <xref:System.Security.AccessControl.RegistryRights.SetValue> 是的构成<xref:System.Security.AccessControl.RegistryRights.ReadKey>，因此它从兼容规则中删除。 中的规则<xref:System.Security.AccessControl.RegistrySecurity>对象，分别显示剩余组成部分<xref:System.Security.AccessControl.RegistryRights.ReadKey>。  
   
- 然后，示例代码调用<xref:System.Security.AccessControl.RegistrySecurity.AddAccessRule%2A>方法合并<xref:System.Security.AccessControl.RegistryRights.SetValue>右键回中的规则<xref:System.Security.AccessControl.RegistrySecurity>对象。  
+ 然后，示例代码调用<xref:System.Security.AccessControl.RegistrySecurity.AddAccessRule%2A>方法来合并<xref:System.Security.AccessControl.RegistryRights.SetValue>回中的规则右键<xref:System.Security.AccessControl.RegistrySecurity>对象。  
   
 > [!NOTE]
 >  此示例不会附加到的安全对象<xref:Microsoft.Win32.RegistryKey>对象。 本部分中的第二个示例将附加的安全对象，也是如此示例<xref:Microsoft.Win32.RegistryKey.GetAccessControl%2A?displayProperty=nameWithType>和<xref:Microsoft.Win32.RegistryKey.SetAccessControl%2A?displayProperty=nameWithType>。  
@@ -93,9 +94,9 @@
   
  示例 2  
   
- 下面的代码示例演示使用继承和传播访问规则。 该示例创建<xref:System.Security.AccessControl.RegistrySecurity>对象，然后创建并添加了具有两个规则<xref:System.Security.AccessControl.InheritanceFlags.ContainerInherit>标志。 第一条规则都具有任何传播标志，而第二个<xref:System.Security.AccessControl.PropagationFlags.NoPropagateInherit>和<xref:System.Security.AccessControl.PropagationFlags.InheritOnly>。  
+ 下面的代码示例演示如何使用继承和传播访问规则。 此示例将创建<xref:System.Security.AccessControl.RegistrySecurity>对象，然后创建并添加了具有两个规则<xref:System.Security.AccessControl.InheritanceFlags.ContainerInherit>标志。 第一条规则有任何传播标志，而第二个<xref:System.Security.AccessControl.PropagationFlags.NoPropagateInherit>和<xref:System.Security.AccessControl.PropagationFlags.InheritOnly>。  
   
- 该程序显示中的规则<xref:System.Security.AccessControl.RegistrySecurity>对象，然后使用<xref:System.Security.AccessControl.RegistrySecurity>对象以创建一个子项。 程序创建子项和一个三级子项，则将显示每个子项的安全性。 最后，程序将删除测试密钥。  
+ 该程序显示中的规则<xref:System.Security.AccessControl.RegistrySecurity>对象，然后使用<xref:System.Security.AccessControl.RegistrySecurity>对象来创建一个子项。 该程序创建子项和孙级子项，则将显示每个子项的安全性。 最后，程序会删除测试密钥。  
   
  [!code-csharp[System.Security.AccessControl.RegistryAccessRule.ctor2#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Security.AccessControl.RegistryAccessRule.ctor2/CS/source.cs#1)]
  [!code-vb[System.Security.AccessControl.RegistryAccessRule.ctor2#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Security.AccessControl.RegistryAccessRule.ctor2/VB/source.vb#1)]  
@@ -117,6 +118,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -151,6 +153,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -168,7 +171,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 派生自的类<xref:System.Security.AccessControl.ObjectSecurity>类替代<xref:System.Security.AccessControl.ObjectSecurity.AccessRightType%2A>属性，并返回它们用于表示的访问权限的类型。 当使用数组或包含多个类型的安全对象的集合时，使用此属性来确定要用于每个安全对象的正确的枚举类型。  
+ 派生的类<xref:System.Security.AccessControl.ObjectSecurity>类重写<xref:System.Security.AccessControl.ObjectSecurity.AccessRightType%2A>属性，并返回它们用于表示访问权限的类型。 数组或包含多个类型的安全对象的集合时，使用此属性来确定要使用每个安全对象的正确的枚举类型。  
   
  ]]></format>
         </remarks>
@@ -187,6 +190,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -222,10 +226,10 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 创建访问控制规则的推荐的方式是使用的构造函数<xref:System.Security.AccessControl.RegistryAccessRule>类。  
+ 创建访问控制规则的建议的方法是使用的构造函数<xref:System.Security.AccessControl.RegistryAccessRule>类。  
   
 > [!NOTE]
->  虽然可以指定<xref:System.Security.AccessControl.InheritanceFlags.ObjectInherit?displayProperty=nameWithType>标志，则没有必要这样做。 对于访问控制，子项中的名称/值对不是单独的对象。 名称/值对的访问权限由该子项的权限控制。 此外，由于所有子项都是容器 （即，它们可以包含其他子项），它们不受<xref:System.Security.AccessControl.InheritanceFlags.ObjectInherit>标志。 最后，指定<xref:System.Security.AccessControl.InheritanceFlags.ObjectInherit>标志不必要地增加复杂性进行维护的规则，因为它干扰兼容的规则的正常组合。  
+>  虽然可以指定<xref:System.Security.AccessControl.InheritanceFlags.ObjectInherit?displayProperty=nameWithType>标志，则没有必要这样做。 用于访问控制的目的，在一个子项的名称/值对不是单独的对象。 名称/值对的访问权限会受该子项的权限。 此外，由于所有子项的容器 （即，它们可以包含其他子项），它们不受<xref:System.Security.AccessControl.InheritanceFlags.ObjectInherit>标志。 最后，指定<xref:System.Security.AccessControl.InheritanceFlags.ObjectInherit>标志不必要地复杂化维护的规则，因为它会影响正常兼容规则组合起来。  
   
  ]]></format>
         </remarks>
@@ -251,6 +255,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -268,7 +273,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 派生自的类<xref:System.Security.AccessControl.ObjectSecurity>类替代<xref:System.Security.AccessControl.ObjectSecurity.AccessRuleType%2A>属性，并返回它们用于表示访问规则的类型。 当使用数组或包含多个类型的安全对象的集合时，使用此属性来确定要使用每个安全对象的正确的访问规则类型。  
+ 派生的类<xref:System.Security.AccessControl.ObjectSecurity>类重写<xref:System.Security.AccessControl.ObjectSecurity.AccessRuleType%2A>属性，并返回它们用于表示访问规则的类型。 数组或包含多个类型的安全对象的集合时，使用此属性来确定要使用每个安全对象的正确的访问规则类型。  
   
  ]]></format>
         </remarks>
@@ -288,6 +293,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -308,23 +314,23 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Security.AccessControl.RegistrySecurity.AddAccessRule%2A>方法搜索与同一用户或组，以及相同的规则<xref:System.Security.AccessControl.AccessControlType>作为`rule`。 如果找不到之后，`rule`添加。 如果找到匹配规则是中的权限`rule`合并与现有规则。  
+ <xref:System.Security.AccessControl.RegistrySecurity.AddAccessRule%2A>方法搜索与同一用户或组和相同的规则<xref:System.Security.AccessControl.AccessControlType>作为`rule`。 如果找不到，`rule`添加。 如果找到匹配规则是中的权限`rule`与现有规则合并。  
   
- 如果它们具有不同的继承标志，则不能合并规则。 例如，如果用户允许读访问，任何继承标志，和<xref:System.Security.AccessControl.RegistrySecurity.AddAccessRule%2A>用于添加一个规则，授予用户写访问，子项的继承 (<xref:System.Security.AccessControl.InheritanceFlags.ContainerInherit?displayProperty=nameWithType>)，不能合并两个规则。  
+ 无法合并规则，如果它们具有不同的继承标志。 例如，如果用户允许读访问，没有继承标志，并<xref:System.Security.AccessControl.RegistrySecurity.AddAccessRule%2A>用于添加一个规则，授予用户写访问，子项的继承 (<xref:System.Security.AccessControl.InheritanceFlags.ContainerInherit?displayProperty=nameWithType>)，不能合并两个规则。  
   
- 具有不同的规则<xref:System.Security.AccessControl.AccessControlType>永远不会合并值。  
+ 具有不同的规则<xref:System.Security.AccessControl.AccessControlType>值将永远不会合并。  
   
- 规则 express 最经济的方法中的权限。 例如，如果用户具有<xref:System.Security.AccessControl.RegistryRights.QueryValues>，<xref:System.Security.AccessControl.RegistryRights.Notify>和<xref:System.Security.AccessControl.RegistryRights.ReadPermissions>权限，而您添加规则允许<xref:System.Security.AccessControl.RegistryRights.EnumerateSubKeys>权限，用户拥有的所有组成部分<xref:System.Security.AccessControl.RegistryRights.ReadKey>权限。 如果你查询用户的权限，你将看到一个规则，其中包含<xref:System.Security.AccessControl.RegistryRights.ReadKey>权限。 同样，如果你删除<xref:System.Security.AccessControl.RegistryRights.EnumerateSubKeys>权限外，其他构成<xref:System.Security.AccessControl.RegistryRights.ReadKey>权限将重新出现。  
+ 规则 express 最经济的方法中的权限。 例如，如果用户具有<xref:System.Security.AccessControl.RegistryRights.QueryValues>，<xref:System.Security.AccessControl.RegistryRights.Notify>并<xref:System.Security.AccessControl.RegistryRights.ReadPermissions>，并且您将添加规则，以允许<xref:System.Security.AccessControl.RegistryRights.EnumerateSubKeys>权限，用户拥有的所有组成部分<xref:System.Security.AccessControl.RegistryRights.ReadKey>权限。 如果您查询用户的权限，你将看到一个规则，其中包含<xref:System.Security.AccessControl.RegistryRights.ReadKey>权限。 同样，如果删除<xref:System.Security.AccessControl.RegistryRights.EnumerateSubKeys>权限的其他成员<xref:System.Security.AccessControl.RegistryRights.ReadKey>权限将重新出现。  
   
    
   
 ## Examples  
- 下面的代码示例创建注册表访问规则，并将它们添加到<xref:System.Security.AccessControl.RegistrySecurity>合并对象，显示如何允许和拒绝权限的规则都保持独立，时的相同的兼容规则类型。  
+ 下面的代码示例创建注册表访问规则，并将它们添加到<xref:System.Security.AccessControl.RegistrySecurity>合并对象，其中显示如何允许和拒绝权限的规则都保持独立，而兼容的相同规则类型。  
   
 > [!NOTE]
 >  此示例不会附加到的安全对象<xref:Microsoft.Win32.RegistryKey>对象。 附加安全对象的示例可在<xref:Microsoft.Win32.RegistryKey.GetAccessControl%2A?displayProperty=nameWithType>和<xref:Microsoft.Win32.RegistryKey.SetAccessControl%2A?displayProperty=nameWithType>。  
   
- 在找不到的代码示例，演示继承和传播标志<xref:System.Security.AccessControl.RegistryAccessRule>类。  
+ 可以在中找到的代码示例演示了继承和传播标志<xref:System.Security.AccessControl.RegistryAccessRule>类。  
   
  [!code-csharp[System.Security.AccessControl.RegistrySecurity.AddAccessRule#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Security.AccessControl.RegistrySecurity.AddAccessRule/CS/source.cs#1)]
  [!code-vb[System.Security.AccessControl.RegistrySecurity.AddAccessRule#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Security.AccessControl.RegistrySecurity.AddAccessRule/VB/source.vb#1)]  
@@ -349,6 +355,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -369,9 +376,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Security.AccessControl.RegistrySecurity.AddAuditRule%2A>规则具有相同的用户或组作为方法搜索`rule`。 如果找不到之后，`rule`添加。 如果找到匹配规则是中的标志`rule`合并到现有规则。  
+ <xref:System.Security.AccessControl.RegistrySecurity.AddAuditRule%2A>方法搜索的规则具有相同的用户或组作为`rule`。 如果找不到，`rule`添加。 如果找到匹配规则是中的标志`rule`合并到现有规则。  
   
- 如果它们具有不同的继承标志，则不能合并规则。 例如，如果尝试写入注册表项失败进行特定的用户，没有任何继承标志，审核和<xref:System.Security.AccessControl.RegistrySecurity.AddAuditRule%2A>用于添加一个规则，指定是否要为同一用户，但使用的继承审核更改权限的尝试失败子项 (<xref:System.Security.AccessControl.InheritanceFlags.ContainerInherit?displayProperty=nameWithType>)，不能合并两个规则。  
+ 无法合并规则，如果它们具有不同的继承标志。 例如，为特定用户，没有任何继承标志，审核如果尝试写入注册表项失败和<xref:System.Security.AccessControl.RegistrySecurity.AddAuditRule%2A>用于添加一个规则，指定是否要为同一用户，但具有一个继承的审核更改权限的尝试失败子项 (<xref:System.Security.AccessControl.InheritanceFlags.ContainerInherit?displayProperty=nameWithType>)，不能合并两个规则。  
   
  ]]></format>
         </remarks>
@@ -390,6 +397,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -425,10 +433,10 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 创建审核规则的建议的方法是使用的构造函数<xref:System.Security.AccessControl.RegistryAuditRule>类。  
+ 若要创建的审核规则的建议的方法是使用的构造函数<xref:System.Security.AccessControl.RegistryAuditRule>类。  
   
 > [!NOTE]
->  虽然可以指定<xref:System.Security.AccessControl.InheritanceFlags.ObjectInherit?displayProperty=nameWithType>标志，则没有必要这样做。 对于审核控制，子项中的名称/值对不是单独的对象。 名称/值对的审核权限由该子项的权限控制。 此外，由于所有子项都是容器 （即，它们可以包含其他子项），它们不受<xref:System.Security.AccessControl.InheritanceFlags.ObjectInherit>标志。 最后，指定<xref:System.Security.AccessControl.InheritanceFlags.ObjectInherit>标志不必要地增加复杂性进行维护的规则，因为它干扰兼容的规则的正常组合。  
+>  虽然可以指定<xref:System.Security.AccessControl.InheritanceFlags.ObjectInherit?displayProperty=nameWithType>标志，则没有必要这样做。 出于审核控制，在一个子项的名称/值对不是单独的对象。 名称/值对的审核权限由该子项的权限控制。 此外，由于所有子项的容器 （即，它们可以包含其他子项），它们不受<xref:System.Security.AccessControl.InheritanceFlags.ObjectInherit>标志。 最后，指定<xref:System.Security.AccessControl.InheritanceFlags.ObjectInherit>标志不必要地复杂化维护的规则，因为它会影响正常兼容规则组合起来。  
   
  ]]></format>
         </remarks>
@@ -454,6 +462,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -471,7 +480,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 派生自的类<xref:System.Security.AccessControl.ObjectSecurity>类替代<xref:System.Security.AccessControl.ObjectSecurity.AuditRuleType%2A>属性，并返回它们用于表示审核权限的类型。 当使用数组或包含多个类型的安全对象的集合时，使用此属性来确定要用于每个安全对象的正确的审核规则类型。  
+ 派生的类<xref:System.Security.AccessControl.ObjectSecurity>类重写<xref:System.Security.AccessControl.ObjectSecurity.AuditRuleType%2A>属性，并返回它们用于表示审核权限的类型。 数组或包含多个类型的安全对象的集合时，使用此属性来确定要使用每个安全对象的正确的审核规则类型。  
   
  ]]></format>
         </remarks>
@@ -491,6 +500,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -512,16 +522,16 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 当前<xref:System.Security.AccessControl.RegistrySecurity>具有相同的用户和相同的规则，将会搜索<xref:System.Security.AccessControl.AccessControlType>值作为`rule`。 如果找到任何此类规则，不执行任何操作，并且该方法返回`false`。 如果找到匹配的规则，它们继承和兼容性标志将检查与中指定的标志的兼容性`rule`。 如果找到任何兼容的规则，不执行任何操作，并且该方法返回`false`。 如果找到具有兼容的标志的规则，则在指定的权限`rule`会从兼容的规则，并且该方法返回`true`。 如果`rule`指定不兼容的规则中包含的权限，根据这些权限不执行任何操作。 如果从兼容的规则中移除所有权限，将整个规则都删除从当前<xref:System.Security.AccessControl.RegistrySecurity>对象。  
+ 当前<xref:System.Security.AccessControl.RegistrySecurity>具有相同的用户以及相同的规则中搜索<xref:System.Security.AccessControl.AccessControlType>值作为`rule`。 如果找到任何此类规则，不执行任何操作，并且该方法返回`false`。 如果找到匹配规则，将检查其继承和兼容性标志是否与中指定的标志的兼容性`rule`。 如果找到不兼容的规则，不执行任何操作，并且该方法返回`false`。 如果找到具有兼容的标志的规则，则在指定的权限`rule`删除从兼容规则，并且该方法返回`true`。 如果`rule`指定不兼容的规则中包含的权限，根据这些权限不执行任何操作。 如果从兼容规则移除的所有权限，整个规则都已从当前<xref:System.Security.AccessControl.RegistrySecurity>对象。  
   
    
   
 ## Examples  
- 下面的代码示例演示如何<xref:System.Security.AccessControl.RegistrySecurity.RemoveAccessRule%2A>兼容的规则，从方法中删除的权限和如何<xref:System.Security.AccessControl.RegistrySecurity.AddAccessRule%2A>方法将合并的权限具有兼容的规则。  
+ 下面的代码示例演示如何<xref:System.Security.AccessControl.RegistrySecurity.RemoveAccessRule%2A>方法从兼容规则，将删除权限和如何<xref:System.Security.AccessControl.RegistrySecurity.AddAccessRule%2A>方法将使用兼容的规则的权限合并。  
   
- 该示例创建<xref:System.Security.AccessControl.RegistrySecurity>对象并将添加一个规则： 允许当前用户<xref:System.Security.AccessControl.RegistryRights.ReadKey?displayProperty=nameWithType>权限。 然后，示例创建一个规则，授予用户<xref:System.Security.AccessControl.RegistryRights.SetValue?displayProperty=nameWithType>、 具有相同的继承和传播权限在第一个规则，并使用<xref:System.Security.AccessControl.RegistrySecurity.RemoveAccessRule%2A>方法以删除从此新规则<xref:System.Security.AccessControl.RegistrySecurity>对象。 <xref:System.Security.AccessControl.RegistryRights.SetValue> 是的构成<xref:System.Security.AccessControl.RegistryRights.ReadKey>，因此它将删除从兼容的规则。 中的规则<xref:System.Security.AccessControl.RegistrySecurity>显示对象，显示的剩余构成部分<xref:System.Security.AccessControl.RegistryRights.ReadKey>。  
+ 此示例将创建<xref:System.Security.AccessControl.RegistrySecurity>对象并将添加一个规则： 允许当前用户<xref:System.Security.AccessControl.RegistryRights.ReadKey?displayProperty=nameWithType>权限。 然后，示例创建一个规则，授予用户<xref:System.Security.AccessControl.RegistryRights.SetValue?displayProperty=nameWithType>、 具有相同的继承和传播权限作为第一个规则，并使用<xref:System.Security.AccessControl.RegistrySecurity.RemoveAccessRule%2A>方法中删除此新规则与<xref:System.Security.AccessControl.RegistrySecurity>对象。 <xref:System.Security.AccessControl.RegistryRights.SetValue> 是的构成<xref:System.Security.AccessControl.RegistryRights.ReadKey>，因此它从兼容规则中删除。 中的规则<xref:System.Security.AccessControl.RegistrySecurity>对象，分别显示剩余组成部分<xref:System.Security.AccessControl.RegistryRights.ReadKey>。  
   
- 然后，示例代码调用<xref:System.Security.AccessControl.RegistrySecurity.RemoveAccessRule%2A>方法合并<xref:System.Security.AccessControl.RegistryRights.SetValue>右键回中的规则<xref:System.Security.AccessControl.RegistrySecurity>对象。  
+ 然后，示例代码调用<xref:System.Security.AccessControl.RegistrySecurity.RemoveAccessRule%2A>方法来合并<xref:System.Security.AccessControl.RegistryRights.SetValue>回中的规则右键<xref:System.Security.AccessControl.RegistrySecurity>对象。  
   
 > [!NOTE]
 >  此示例不会附加到的安全对象<xref:Microsoft.Win32.RegistryKey>对象。 本部分中的第二个示例将附加的安全对象，也是如此示例<xref:Microsoft.Win32.RegistryKey.GetAccessControl%2A?displayProperty=nameWithType> <xref:Microsoft.Win32.RegistryKey.SetAccessControl%2A?displayProperty=nameWithType>。  
@@ -549,6 +559,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -569,16 +580,16 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 当前<xref:System.Security.AccessControl.RegistrySecurity>具有相同的用户和相同的规则，将会搜索<xref:System.Security.AccessControl.AccessControlType>值作为`rule`。 任何权限、 继承标志或由指定的传播标志`rule`时执行此搜索将忽略。 如果不找到任何匹配的规则，不执行任何操作。  
+ 当前<xref:System.Security.AccessControl.RegistrySecurity>具有相同的用户以及相同的规则中搜索<xref:System.Security.AccessControl.AccessControlType>值作为`rule`。 任何权限、 继承标志或传播标志指定`rule`时执行此搜索，将忽略。 如果不找到任何匹配的规则，不执行任何操作。  
   
- 例如，如果用户具有允许具有不同的继承和传播标志的各种权限的多个规则，则可以删除所有这些规则通过创建<xref:System.Security.AccessControl.RegistryAccessRule>对象，它指定用户和<xref:System.Security.AccessControl.AccessControlType.Allow?displayProperty=nameWithType>、 标志，任何任意权限与并将传递到该规则<xref:System.Security.AccessControl.RegistrySecurity.RemoveAccessRuleAll%2A>方法。  
+ 例如，如果用户具有多个规则，允许具有不同的继承和传播标志的各种权限，则可以删除所有这些规则通过创建<xref:System.Security.AccessControl.RegistryAccessRule>对象，它指定用户和<xref:System.Security.AccessControl.AccessControlType.Allow?displayProperty=nameWithType>、 使用任何任意权限和标志，并将传递到该规则<xref:System.Security.AccessControl.RegistrySecurity.RemoveAccessRuleAll%2A>方法。  
   
    
   
 ## Examples  
- 下面的代码示例演示<xref:System.Security.AccessControl.RegistrySecurity.RemoveAccessRuleAll%2A>方法中删除与用户匹配的所有规则和<xref:System.Security.AccessControl.AccessControlType>，忽略权限和标志。  
+ 下面的代码示例演示<xref:System.Security.AccessControl.RegistrySecurity.RemoveAccessRuleAll%2A>方法中删除所有与用户匹配的规则和<xref:System.Security.AccessControl.AccessControlType>，忽略权限和标志。  
   
- 该示例创建<xref:System.Security.AccessControl.RegistrySecurity>对象并将添加规则，允许和拒绝具有各种权限的当前用户，具有不同的继承和传播标志。 然后，示例创建一个新规则，允许当前用户接管所有权，并将传递到该规则<xref:System.Security.AccessControl.RegistrySecurity.RemoveAccessRuleAll%2A>方法移除允许访问的两个规则。  
+ 此示例将创建<xref:System.Security.AccessControl.RegistrySecurity>对象，并添加允许和拒绝具有不同的继承和传播标志的当前用户的各种权限的规则。 该示例然后创建新的规则，允许当前用户取得所有权，并将传递到该规则<xref:System.Security.AccessControl.RegistrySecurity.RemoveAccessRuleAll%2A>方法中删除允许访问的两个规则。  
   
 > [!NOTE]
 >  此示例不会附加到的安全对象<xref:Microsoft.Win32.RegistryKey>对象。 请参阅<xref:Microsoft.Win32.RegistryKey.GetAccessControl%2A?displayProperty=nameWithType>方法和<xref:Microsoft.Win32.RegistryKey.SetAccessControl%2A?displayProperty=nameWithType>方法。  
@@ -606,6 +617,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -626,17 +638,17 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 仅当完全匹配时，才移除规则`rule`中的所有详细信息，包括标志。 具有相同的用户的其他规则和<xref:System.Security.AccessControl.AccessControlType>不会受到影响。  
+ 仅当完全匹配时移除规则`rule`中的所有详细信息，包括标志。 其他规则具有相同的用户和<xref:System.Security.AccessControl.AccessControlType>不会受到影响。  
   
 > [!IMPORTANT]
->  一个规则表示一个或多个基础访问控制项 (ACE)，这些条目拆分或组合根据需要，修改用户的访问安全性规则时。 因此，一个规则可能特定的格式时已添加，而这种情况下不再存在<xref:System.Security.AccessControl.RegistrySecurity.RemoveAccessRuleSpecific%2A>方法不能删除它。  
+>  一个规则表示一个或多个基础访问控制项 (ACE)，这些条目拆分或组合根据需要修改用户的访问安全性规则时。 因此，存在的规则可能无法再在特定窗体时添加，并在这种情况下<xref:System.Security.AccessControl.RegistrySecurity.RemoveAccessRuleSpecific%2A>方法不能删除它。  
   
    
   
 ## Examples  
- 下面的代码示例演示<xref:System.Security.AccessControl.RegistrySecurity.RemoveAccessRuleSpecific%2A>方法删除规则，仅当它与完全匹配。  
+ 下面的代码示例演示<xref:System.Security.AccessControl.RegistrySecurity.RemoveAccessRuleSpecific%2A>方法删除规则，仅当完全匹配。  
   
- 该示例创建两个规则，允许不同的权限。 规则具有兼容的继承和传播标志，因此添加第二条规则时合并与第一个。 该示例通过调用<xref:System.Security.AccessControl.RegistrySecurity.RemoveAccessRuleSpecific%2A>方法，指定第一个规则，但由于合并规则不存在规则相匹配。 该示例然后调用<xref:System.Security.AccessControl.RegistrySecurity.RemoveAccessRule%2A>方法删除第二条规则从合并的规则，并最后调用<xref:System.Security.AccessControl.RegistrySecurity.RemoveAccessRuleSpecific%2A>方法删除第一个规则。  
+ 该示例创建两个规则，允许不同的权限。 规则具有兼容的继承和传播标志，因此添加第二个规则时合并的第一个。 此示例调用<xref:System.Security.AccessControl.RegistrySecurity.RemoveAccessRuleSpecific%2A>方法，指定第一个规则，但由于合并规则不匹配的规则。 该示例然后调用<xref:System.Security.AccessControl.RegistrySecurity.RemoveAccessRule%2A>方法删除第二个规则从合并的规则，并最后调用<xref:System.Security.AccessControl.RegistrySecurity.RemoveAccessRuleSpecific%2A>方法的第一个规则中删除。  
   
 > [!NOTE]
 >  此示例不会附加到的安全对象<xref:Microsoft.Win32.RegistryKey>对象。 请参阅<xref:Microsoft.Win32.RegistryKey.GetAccessControl%2A?displayProperty=nameWithType>方法和<xref:Microsoft.Win32.RegistryKey.SetAccessControl%2A?displayProperty=nameWithType>方法。  
@@ -664,6 +676,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -685,7 +698,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 当前<xref:System.Security.AccessControl.RegistrySecurity>搜索已为同一用户的审核规则`rule`。 如果找到任何此类规则，不执行任何操作，并且该方法返回`false`。 如果找到匹配的规则，它们继承和兼容性标志将检查与中指定的标志的兼容性`rule`。 如果找到任何兼容的规则，不执行任何操作，并且该方法返回`false`。 如果找到具有兼容的标志的规则，则在指定的权限`rule`会从兼容的规则，并且该方法返回`true`。 如果`rule`指定不兼容的规则中包含的权限，根据这些权限不执行任何操作。 如果从兼容的规则中移除所有权限，将整个规则都删除从当前<xref:System.Security.AccessControl.RegistrySecurity>对象。  
+ 当前<xref:System.Security.AccessControl.RegistrySecurity>搜索的审核规则具有相同用户作为`rule`。 如果找到任何此类规则，不执行任何操作，并且该方法返回`false`。 如果找到匹配规则，将检查其继承和兼容性标志是否与中指定的标志的兼容性`rule`。 如果找到不兼容的规则，不执行任何操作，并且该方法返回`false`。 如果找到具有兼容的标志的规则，则在指定的权限`rule`删除从兼容规则，并且该方法返回`true`。 如果`rule`指定不兼容的规则中包含的权限，根据这些权限不执行任何操作。 如果从兼容规则移除的所有权限，整个规则都已从当前<xref:System.Security.AccessControl.RegistrySecurity>对象。  
   
  ]]></format>
         </remarks>
@@ -707,6 +720,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -727,7 +741,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 当前<xref:System.Security.AccessControl.RegistrySecurity>会为使用相同用户作为的审核规则搜索`rule`。 任何权限、 继承标志或由指定的传播标志`rule`时执行此搜索将忽略。 如果不找到任何匹配的规则，不执行任何操作。  
+ 当前<xref:System.Security.AccessControl.RegistrySecurity>搜索的审核规则具有相同用户作为`rule`。 任何权限、 继承标志或传播标志指定`rule`时执行此搜索，将忽略。 如果不找到任何匹配的规则，不执行任何操作。  
   
  ]]></format>
         </remarks>
@@ -749,6 +763,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -769,10 +784,10 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 仅当完全匹配时，才移除规则`rule`中的所有详细信息，包括标志。 不会影响同一用户其他审核规则。  
+ 仅当完全匹配时移除规则`rule`中的所有详细信息，包括标志。 不会影响同一个用户的其他审核规则。  
   
 > [!IMPORTANT]
->  一个规则表示一个或多个基础访问控制项 (ACE)，这些条目拆分或组合根据需要，修改用户的审核安全规则时。 因此，一个规则可能特定的格式时已添加，而这种情况下不再存在<xref:System.Security.AccessControl.RegistrySecurity.RemoveAuditRuleSpecific%2A>方法不能删除它。  
+>  一个规则表示一个或多个基础访问控制项 (ACE)，这些条目拆分或组合根据需要修改用户的审核安全规则时。 因此，存在的规则可能无法再在特定窗体时添加，并在这种情况下<xref:System.Security.AccessControl.RegistrySecurity.RemoveAuditRuleSpecific%2A>方法不能删除它。  
   
  ]]></format>
         </remarks>
@@ -794,6 +809,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -814,14 +830,14 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 如果没有指定的规则，与匹配的用户的访问规则`rule`添加。  
+ 如果没有与指定的规则匹配的用户的访问规则`rule`添加。  
   
    
   
 ## Examples  
- 下面的代码示例演示如何<xref:System.Security.AccessControl.RegistrySecurity.ResetAccessRule%2A>方法会替换为指定匹配的规则匹配的用户的所有规则。  
+ 下面的代码示例演示如何将<xref:System.Security.AccessControl.RegistrySecurity.ResetAccessRule%2A>方法会替换为匹配指定的规则匹配的用户的所有规则。  
   
- 该示例创建<xref:System.Security.AccessControl.RegistrySecurity>对象并将添加规则，允许和拒绝具有各种权限的当前用户，具有不同的继承和传播标志。 然后，示例创建一个新规则，允许当前用户只能读取注册表项，并使用<xref:System.Security.AccessControl.RegistrySecurity.ResetAccessRule%2A>方法移除用户的所有规则并将其替换为新规则。  
+ 此示例将创建<xref:System.Security.AccessControl.RegistrySecurity>对象，并添加允许和拒绝具有不同的继承和传播标志的当前用户的各种权限的规则。 该示例然后创建新的规则，允许当前用户只能读取注册表项，并使用<xref:System.Security.AccessControl.RegistrySecurity.ResetAccessRule%2A>方法来删除该用户的所有规则并将它们替换为新的规则。  
   
 > [!NOTE]
 >  此示例不会附加到的安全对象<xref:Microsoft.Win32.RegistryKey>对象。 请参阅<xref:Microsoft.Win32.RegistryKey.GetAccessControl%2A?displayProperty=nameWithType>方法和<xref:Microsoft.Win32.RegistryKey.SetAccessControl%2A?displayProperty=nameWithType>方法。  
@@ -847,6 +863,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -867,16 +884,16 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 如果指定的规则具有<xref:System.Security.AccessControl.AccessControlType.Allow>，此方法的效果是移除所有<xref:System.Security.AccessControl.AccessControlType.Allow>对于指定的用户，并将它们替换为指定的规则的规则。 如果指定的规则具有<xref:System.Security.AccessControl.AccessControlType.Deny>，所有<xref:System.Security.AccessControl.AccessControlType.Deny>规则指定的用户替换与指定的规则。  
+ 如果指定的规则具有<xref:System.Security.AccessControl.AccessControlType.Allow>，此方法的效果是删除所有<xref:System.Security.AccessControl.AccessControlType.Allow>为指定的用户，它们替换为指定的规则的规则。 如果指定的规则具有<xref:System.Security.AccessControl.AccessControlType.Deny>，则所有<xref:System.Security.AccessControl.AccessControlType.Deny>规则指定的用户将替换为指定的规则。  
   
- 如果没有规则的用户和<xref:System.Security.AccessControl.AccessControlType>匹配指定的规则，`rule`添加。  
+ 如果没有规则的用户和<xref:System.Security.AccessControl.AccessControlType>匹配指定的规则`rule`添加。  
   
    
   
 ## Examples  
- 下面的代码示例演示<xref:System.Security.AccessControl.RegistrySecurity.SetAccessRule%2A>方法中删除与这两个用户匹配的所有规则和<xref:System.Security.AccessControl.AccessControlType>的`rule`、 忽略权限和标志，并将它们替换为`rule`。  
+ 下面的代码示例演示<xref:System.Security.AccessControl.RegistrySecurity.SetAccessRule%2A>方法移除匹配这两个用户的所有规则和<xref:System.Security.AccessControl.AccessControlType>的`rule`、 忽略权限和标志，并将它们替换为`rule`。  
   
- 该示例创建<xref:System.Security.AccessControl.RegistrySecurity>对象并将添加规则，允许和拒绝具有各种权限的当前用户，具有不同的继承和传播标志。 然后，示例创建一个新规则，允许当前用户只能读取注册表项，并使用<xref:System.Security.AccessControl.RegistrySecurity.SetAccessRule%2A>方法，以删除允许访问的两个规则，并将它们替换为新规则。 拒绝访问的规则不受影响。  
+ 此示例将创建<xref:System.Security.AccessControl.RegistrySecurity>对象，并添加允许和拒绝具有不同的继承和传播标志的当前用户的各种权限的规则。 该示例然后创建新的规则，允许当前用户只能读取注册表项，并使用<xref:System.Security.AccessControl.RegistrySecurity.SetAccessRule%2A>方法来删除允许访问的两个规则，并将它们替换为新的规则。 拒绝访问的规则不受影响。  
   
 > [!NOTE]
 >  此示例不会附加到的安全对象<xref:Microsoft.Win32.RegistryKey>对象。 请参阅<xref:Microsoft.Win32.RegistryKey.GetAccessControl%2A?displayProperty=nameWithType>方法和<xref:Microsoft.Win32.RegistryKey.SetAccessControl%2A?displayProperty=nameWithType>方法。  
@@ -904,6 +921,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -924,7 +942,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 如果没有指定的规则，与匹配的用户的审核规则`rule`添加。  
+ 如果没有与指定的规则匹配的用户的审核规则`rule`添加。  
   
  ]]></format>
         </remarks>

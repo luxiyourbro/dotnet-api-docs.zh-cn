@@ -1,11 +1,11 @@
 <Type Name="CriticalFinalizerObject" FullName="System.Runtime.ConstrainedExecution.CriticalFinalizerObject">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="fe97b05a2989e47897cb61a38334753cf0833bcd" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="ff978c2c7e9663073c3017bfd7df78e1e92251af" />
+    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="zh-CN" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36540537" />
+    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
+    <Meta Name="ms.locfileid" Value="37638700" />
   </Metadata>
   <TypeSignature Language="C#" Value="public abstract class CriticalFinalizerObject" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract beforefieldinit CriticalFinalizerObject extends System.Object" />
@@ -15,6 +15,7 @@
   <TypeSignature Language="F#" Value="type CriticalFinalizerObject = class" />
   <AssemblyInfo>
     <AssemblyName>mscorlib</AssemblyName>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
     <AssemblyVersion>2.0.5.0</AssemblyVersion>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
   </AssemblyInfo>
@@ -42,24 +43,24 @@
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 类派生自<xref:System.Runtime.ConstrainedExecution.CriticalFinalizerObject>类隐式视为受约束的执行区域 (CER)。  这要求在终结器仅调用具有高可靠性协定的代码中的代码。 有关 Cer 的详细信息，请参阅<xref:System.Runtime.ConstrainedExecution>命名空间。  
+ 类派生自<xref:System.Runtime.ConstrainedExecution.CriticalFinalizerObject>类隐式视为受约束的执行区域 (CER)。  这需要终结器只能调用具有强可靠性协定的代码中的代码。 有关 Cer 的详细信息，请参阅<xref:System.Runtime.ConstrainedExecution>命名空间。  
   
- 从派生的类中<xref:System.Runtime.ConstrainedExecution.CriticalFinalizerObject>类，公共语言运行时 (CLR) 可保证，所有关键终止代码将有机会若要执行，提供终结器遵循的规则为 CER，即使在情况下，CLR强制卸载应用程序域或中止的线程。 如果终结器 cer 违反规则，它可能无法成功执行。 此外，CLR 建立之间正常和关键终结器弱排序： 对于通过一次垃圾回收回收的对象，所有非关键的终结器调用任何关键终结器之前。 例如，如类<xref:System.IO.FileStream>，用于存储中的数据<xref:System.Runtime.InteropServices.SafeHandle>派生自的类<xref:System.Runtime.ConstrainedExecution.CriticalFinalizerObject>，可以运行一个标准的终结器清空现有的缓冲数据。  
+ 在从派生类中<xref:System.Runtime.ConstrainedExecution.CriticalFinalizerObject>类中，公共语言运行时 (CLR) 保证，所有关键终止代码将有机会执行，提供终结器遵循的规则为 CER，即使在情况下，CLR强制卸载应用程序域或中止线程。 如果终结器 cer 违反规则，它可能无法成功执行。 此外，CLR 建立在普通和关键终结器之间的弱排序： 对于在同一时间的垃圾回收的对象，所有非关键终结器调用之前的关键终结器。 例如，类，如<xref:System.IO.FileStream>，它保存在数据<xref:System.Runtime.InteropServices.SafeHandle>类派生自<xref:System.Runtime.ConstrainedExecution.CriticalFinalizerObject>，可以运行标准的终结器，若要刷新现有的缓冲数据。  
   
- 在大多数情况下，不需要编写派生自的类<xref:System.Runtime.ConstrainedExecution.CriticalFinalizerObject>类。 .NET Framework 类库提供了两个类，<xref:System.Runtime.InteropServices.SafeHandle>和<xref:System.Runtime.InteropServices.CriticalHandle>，句柄资源提供关键终止功能。 此外，.NET Framework 提供一组预写类派生自<xref:System.Runtime.InteropServices.SafeHandle>类，并且此组位于<xref:Microsoft.Win32.SafeHandles>命名空间。 这些类旨在提供通用功能的支持文件和操作系统句柄。  
+ 在大多数情况下，不需要编写派生的类<xref:System.Runtime.ConstrainedExecution.CriticalFinalizerObject>类。 .NET Framework 类库提供了两个类<xref:System.Runtime.InteropServices.SafeHandle>和<xref:System.Runtime.InteropServices.CriticalHandle>，句柄资源提供关键完成功能。 此外，.NET Framework 提供了一组预先编写的类派生自<xref:System.Runtime.InteropServices.SafeHandle>类，并且此集是否位于<xref:Microsoft.Win32.SafeHandles>命名空间。 这些类旨在提供通用功能的支持文件和操作系统句柄。  
   
    
   
 ## Examples  
- 下面的代码示例演示了利用<xref:Microsoft.Win32.SafeHandles.SafeFileHandle>类以提供的标准输入和输出流的关键终止。 <xref:Microsoft.Win32.SafeHandles.SafeFileHandle>派生自<xref:System.Runtime.InteropServices.SafeHandle>类时，传递到中的文件流<xref:System.IO.FileStream>构造函数。  
+ 下面的代码示例演示如何使用<xref:Microsoft.Win32.SafeHandles.SafeFileHandle>类提供的标准输入和输出流的临界终止。 <xref:Microsoft.Win32.SafeHandles.SafeFileHandle>派生自<xref:System.Runtime.InteropServices.SafeHandle>类中，传递到文件流<xref:System.IO.FileStream>构造函数。  
   
  [!code-csharp[SafeHandle.SafeFileHandle#1](~/samples/snippets/csharp/VS_Snippets_CLR/SafeHandle.SafeFileHandle/CS/program.cs#1)]
  [!code-vb[SafeHandle.SafeFileHandle#1](~/samples/snippets/visualbasic/VS_Snippets_CLR/SafeHandle.SafeFileHandle/vb/program.vb#1)]  
   
  ]]></format>
     </remarks>
-    <permission cref="T:System.Security.Permissions.SecurityPermission">表示调用非托管的代码的权限。 安全操作： <see cref="F:System.Security.Permissions.SecurityAction.LinkDemand" />。 关联的枚举： <see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /></permission>
-    <permission cref="F:System.Security.Permissions.SecurityAction.InheritanceDemand">对继承者的完全信任。 此类不能由部分受信任的代码使用。</permission>
+    <permission cref="T:System.Security.Permissions.SecurityPermission">若要调用非托管的代码的权限。 安全操作： <see cref="F:System.Security.Permissions.SecurityAction.LinkDemand" />。 关联的枚举： <see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /></permission>
+    <permission cref="F:System.Security.Permissions.SecurityAction.InheritanceDemand">继承者完全信任。 部分受信任的代码不能使用此类。</permission>
     <altmember cref="T:System.Runtime.InteropServices.SafeHandle" />
     <altmember cref="T:System.Runtime.InteropServices.CriticalHandle" />
     <altmember cref="N:Microsoft.Win32.SafeHandles" />
@@ -74,6 +75,7 @@
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -95,8 +97,8 @@
       <Docs>
         <summary>初始化 <see cref="T:System.Runtime.ConstrainedExecution.CriticalFinalizerObject" /> 类的新实例。</summary>
         <remarks>To be added.</remarks>
-        <permission cref="T:System.Security.Permissions.SecurityPermission">表示调用非托管的代码的权限。 安全操作： <see cref="F:System.Security.Permissions.SecurityAction.LinkDemand" />。 关联的枚举： <see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /></permission>
-        <permission cref="F:System.Security.Permissions.SecurityAction.InheritanceDemand">对继承者的完全信任。 此类不能由部分受信任的代码使用。</permission>
+        <permission cref="T:System.Security.Permissions.SecurityPermission">若要调用非托管的代码的权限。 安全操作： <see cref="F:System.Security.Permissions.SecurityAction.LinkDemand" />。 关联的枚举： <see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /></permission>
+        <permission cref="F:System.Security.Permissions.SecurityAction.InheritanceDemand">继承者完全信任。 部分受信任的代码不能使用此类。</permission>
       </Docs>
     </Member>
     <Member MemberName="Finalize">
@@ -109,6 +111,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -136,7 +139,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 从派生的任何类型的终结器<xref:System.Runtime.ConstrainedExecution.CriticalFinalizerObject>有机会执行并不会中止，假定终结器正确遵守受约束的执行区域 (CER) 的规则。  
+ 从派生的任何类型的终结器<xref:System.Runtime.ConstrainedExecution.CriticalFinalizerObject>到使执行并不会中止，假设终结器正确遵循受约束的执行区域 (CER) 的规则。  
   
  ]]></format>
         </remarks>

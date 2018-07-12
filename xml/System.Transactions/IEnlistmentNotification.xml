@@ -1,11 +1,11 @@
 <Type Name="IEnlistmentNotification" FullName="System.Transactions.IEnlistmentNotification">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="ce7c186bfa7974506e6f23870b923c6bfab1a333" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="7256756ee2810fe0aa45f03eee75996fac132199" />
+    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="zh-CN" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36406442" />
+    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
+    <Meta Name="ms.locfileid" Value="37754194" />
   </Metadata>
   <TypeSignature Language="C#" Value="public interface IEnlistmentNotification" />
   <TypeSignature Language="ILAsm" Value=".class public interface auto ansi abstract IEnlistmentNotification" />
@@ -15,6 +15,7 @@
   <TypeSignature Language="F#" Value="type IEnlistmentNotification = interface" />
   <AssemblyInfo>
     <AssemblyName>System.Transactions</AssemblyName>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
     <AssemblyVersion>2.0.5.0</AssemblyVersion>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
   </AssemblyInfo>
@@ -34,26 +35,26 @@
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 为了让资源管理器来参与事务，它必须通过事务管理器的事务中登记。 <xref:System.Transactions.Transaction> 类定义了一组提供此功能的方法，这些方法的名称以 `Enlist` 开头。 不同`Enlist`方法对应于不同类型的资源管理器可能具有的登记。  
+ 为了使资源管理器以参与事务，它必须通过事务管理器在事务中登记。 <xref:System.Transactions.Transaction> 类定义了一组提供此功能的方法，这些方法的名称以 `Enlist` 开头。 不同`Enlist`方法对应于不同类型的资源管理器可能具有的登记。  
   
- 此类描述资源管理器应实现以在登记参与时的事务管理器提供两阶段提交通知回调的接口。 用于每个资源管理器的实现的<xref:System.Transactions.IEnlistmentNotification>接口，你应登记使用<xref:System.Transactions.Transaction.EnlistVolatile%2A>方法或<xref:System.Transactions.Transaction.EnlistDurable%2A>方法<xref:System.Transactions.Transaction>类，具体取决于所需的资源是否是可变或持久性。 登记和 2PC 的详细信息，请参阅[作为参与者在事务中登记资源](~/docs/framework/data/transactions/enlisting-resources-as-participants-in-a-transaction.md)和[提交单阶段和多个阶段中的事务](~/docs/framework/data/transactions/committing-a-transaction-in-single-phase-and-multi-phase.md)分别。  
+ 此类描述资源管理器应实现以在登记参与时事务管理器提供两阶段提交通知回调的接口。 有关每个资源管理器的实现<xref:System.Transactions.IEnlistmentNotification>接口，则应使用其在登记<xref:System.Transactions.Transaction.EnlistVolatile%2A>方法或<xref:System.Transactions.Transaction.EnlistDurable%2A>方法的<xref:System.Transactions.Transaction>类，具体取决于所需的资源是可变或持久性。 登记和 2PC 的更多信息，请参阅[登记为参与者在事务中的资源](~/docs/framework/data/transactions/enlisting-resources-as-participants-in-a-transaction.md)并[单阶段和多阶段中提交事务](~/docs/framework/data/transactions/committing-a-transaction-in-single-phase-and-multi-phase.md)分别。  
   
- 事务管理器在两阶段提交协议的不同阶段登记的对象通知通过以下方法。  
+ 通过以下方法中，事务管理器会在两阶段提交协议的不同阶段通知登记的对象。  
   
 |方法|描述|  
 |------------|-----------------|  
-|<xref:System.Transactions.IEnlistmentNotification.Prepare%2A>|当事务管理器要求参与者它们是否能够提交事务时，登记对象的此方法由事务管理器的事务的第一个阶段中用作回调。|  
-|<xref:System.Transactions.IEnlistmentNotification.Commit%2A>|如果该事务被提交，登记对象的此方法由事务管理器在事务的第二个阶段中用作回调。|  
-|<xref:System.Transactions.IEnlistmentNotification.Rollback%2A>|如果 （即，回滚），则中止此事务，登记对象的此方法由事务管理器在事务的第二个阶段中用作回调。|  
-|<xref:System.Transactions.IEnlistmentNotification.InDoubt%2A>|如果事务的状态不明，登记对象的此方法由事务管理器在事务的第二个阶段中用作回调。|  
+|<xref:System.Transactions.IEnlistmentNotification.Prepare%2A>|事务管理器将询问参与者它们是否能够提交该事务时，此方法登记的对象由事务管理器的事务，在第一个阶段中用作回调。|  
+|<xref:System.Transactions.IEnlistmentNotification.Commit%2A>|如果该事务被提交，此方法登记的对象由事务管理器在事务的第二个阶段中用作回调。|  
+|<xref:System.Transactions.IEnlistmentNotification.Rollback%2A>|如果该事务被中止 （即，回滚），此方法登记的对象由事务管理器在事务的第二个阶段中用作回调。|  
+|<xref:System.Transactions.IEnlistmentNotification.InDoubt%2A>|如果事务不确定，此方法登记的对象由事务管理器在事务的第二个阶段中用作回调。|  
   
 > [!NOTE]
->  你应注意通知可能不会在按顺序，或按特定顺序发送。  
+>  您应注意，按顺序，或按特定顺序可能不会发送通知。  
   
    
   
 ## Examples  
- 下面的示例演示如何实现此接口，以及该对象登记在事务中使用参与者作为<xref:System.Transactions.Transaction.EnlistVolatile%2A>方法。  
+ 下面的示例显示了此接口，以及该对象登记在事务中使用的参与者为实现<xref:System.Transactions.Transaction.EnlistVolatile%2A>方法。  
   
  [!code-csharp[Tx_Enlist#1](~/samples/snippets/csharp/VS_Snippets_CFX/tx_enlist/cs/enlist.cs#1)]
  [!code-vb[Tx_Enlist#1](~/samples/snippets/visualbasic/VS_Snippets_CFX/tx_enlist/vb/enlist.vb#1)]  
@@ -72,6 +73,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Transactions</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -97,11 +99,11 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 它指示所有参与者提交事务时，事务管理器做出的承诺，在第二个阶段调用登记对象的此方法。  
+ 时指示所有参与者提交事务，事务管理器做出的承诺，在第二个阶段调用此方法的登记的对象。  
   
- 资源管理器应执行任何工作需要完成事务，随后又通知它完成通过调用 TM<xref:System.Transactions.Enlistment.Done%2A>方法`enlistment`参数。  
+ 资源管理器应执行任何工作需要完成交易记录，并随后告知它已完成通过调用 TM<xref:System.Transactions.Enlistment.Done%2A>方法`enlistment`参数。  
   
- 如果资源管理器已持久登记，但未通过调用响应<xref:System.Transactions.Enlistment.Done%2A>方法，事务管理器不确定的资源管理器已收到<xref:System.Transactions.IEnlistmentNotification.Commit%2A>调用。 在这种情况下，事务管理器将继续等待响应，并且保留信息与此事务。  如果<xref:System.Transactions.Enlistment.Done%2A>是永远不会调用，这段信息是围绕无限期保留在内存中或在系统级资源。 这会导致无法回收资源。 对于分布式事务，这可能最终填满 MSDTC 日志将停止 MSDTC 过程。 在由事务的情况下<xref:System.Transactions>，这会导致资源管理器的进程的内存消耗的逐步地持续增长。 因此，很重要，则调用<xref:System.Transactions.Enlistment.Done%2A>方法后资源管理器，可使用你准备工作。  
+ 如果资源管理器已持久登记，但不响应通过调用<xref:System.Transactions.Enlistment.Done%2A>方法中，事务管理器不能确定资源管理器已接收<xref:System.Transactions.IEnlistmentNotification.Commit%2A>调用。 在这种情况下，事务管理器将继续等待响应，并维护与此事务相关的信息。  如果<xref:System.Transactions.Enlistment.Done%2A>是永远不会调用，这条信息是围绕无限期保留在内存中或在系统范围资源。 这会导致无法回收资源。 在分布式事务的情况下这可能最终填满 MSDTC 日志将停止 MSDTC 过程。 在管理的事务的情况下<xref:System.Transactions>，这会导致在资源管理器的进程的内存使用情况的逐步地持续增长。 因此，很重要，则调用<xref:System.Transactions.Enlistment.Done%2A>方法一旦资源管理器通过您准备工作。  
   
  ]]></format>
         </remarks>
@@ -116,6 +118,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Transactions</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -141,14 +144,14 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 事务管理器在已调用单阶段提交操作单个持久资源，然后到持久的资源的连接已丢失之前得到事务结果时，将针对易失性资源调用此方法。 此时，无法安全地确定事务结果。  
+ 当事务管理器调用到单个持久资源，单阶段提交操作，然后与持久资源的连接丢失之前得到事务结果，易失性资源调用此方法。 此时，不能安全地确定事务结果。  
   
- 作为<xref:System.Transactions.IEnlistmentNotification.InDoubt%2A>是视为事务的最终状态，你不应调用<xref:System.Transactions.IEnlistmentNotification.Commit%2A>或<xref:System.Transactions.IEnlistmentNotification.Rollback%2A>之后调用<xref:System.Transactions.IEnlistmentNotification.InDoubt%2A>。  
+ 作为<xref:System.Transactions.IEnlistmentNotification.InDoubt%2A>被视为一个事务的最终状态，不应调用<xref:System.Transactions.IEnlistmentNotification.Commit%2A>或<xref:System.Transactions.IEnlistmentNotification.Rollback%2A>后调用<xref:System.Transactions.IEnlistmentNotification.InDoubt%2A>。  
   
 > [!NOTE]
->  此方法对于易失性资源的实现应对受影响的数据执行它了解任何恢复或包含操作。  它还必须调用<xref:System.Transactions.Enlistment.Done%2A>方法上`enlistment`参数时它已完成其工作。  
+>  此方法对于易失性资源的实现应在受影响的数据执行它了解任何恢复或封锁操作。  它还必须调用<xref:System.Transactions.Enlistment.Done%2A>上的方法上`enlistment`完成其工作时的参数。  
   
- 如果资源管理器已持久登记，但未通过调用响应<xref:System.Transactions.Enlistment.Done%2A>方法，事务管理器不确定的资源管理器已收到<xref:System.Transactions.IEnlistmentNotification.InDoubt%2A>调用。 在这种情况下，事务管理器将继续等待响应，并且保留信息与此事务。  如果<xref:System.Transactions.Enlistment.Done%2A>是永远不会调用，这段信息是围绕无限期保留在内存中或在系统级资源。 这会导致无法回收资源。 对于分布式事务，这可能最终填满 MSDTC 日志将停止 MSDTC 过程。 在由事务的情况下<xref:System.Transactions>，这会导致资源管理器的进程的内存消耗的逐步地持续增长。 因此，很重要，则调用<xref:System.Transactions.Enlistment.Done%2A>方法后资源管理器，可使用你准备工作。  
+ 如果资源管理器已持久登记，但不响应通过调用<xref:System.Transactions.Enlistment.Done%2A>方法中，事务管理器不能确定资源管理器已接收<xref:System.Transactions.IEnlistmentNotification.InDoubt%2A>调用。 在这种情况下，事务管理器将继续等待响应，并维护与此事务相关的信息。  如果<xref:System.Transactions.Enlistment.Done%2A>是永远不会调用，这条信息是围绕无限期保留在内存中或在系统范围资源。 这会导致无法回收资源。 在分布式事务的情况下这可能最终填满 MSDTC 日志将停止 MSDTC 过程。 在管理的事务的情况下<xref:System.Transactions>，这会导致在资源管理器的进程的内存使用情况的逐步地持续增长。 因此，很重要，则调用<xref:System.Transactions.Enlistment.Done%2A>方法一旦资源管理器通过您准备工作。  
   
  ]]></format>
         </remarks>
@@ -163,6 +166,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Transactions</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -188,15 +192,15 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 事务管理器时调用此方法的登记资源管理器的阶段 1 做出的承诺，它将询问参与者它们是否能够提交事务。  
+ 事务管理器时调用此方法的已登记的资源管理器在阶段 1 的承诺，它会要求参与者它们是否能够提交该事务。  
   
- 在实现持久的资源管理器时，你应记录你准备在此阶段的记录。 记录应包含所有必需的信息来执行恢复。 这包括<xref:System.Transactions.PreparingEnlistment.RecoveryInformation%2A>属性，传递给事务管理器中的<xref:System.Transactions.TransactionManager.Reenlist%2A>在恢复过程的方法。 有关恢复的详细信息，请参阅[执行恢复](http://msdn.microsoft.com/library/d342c5c7-da64-4a4c-8e63-b52f4fbf2691)。  
+ 在实现持久资源管理器时，应记录你在此阶段的准备记录。 记录应包含所有必要的信息来执行恢复。 这包括<xref:System.Transactions.PreparingEnlistment.RecoveryInformation%2A>属性，用于传递给事务管理器中<xref:System.Transactions.TransactionManager.Reenlist%2A>在恢复过程的方法。 有关恢复的详细信息，请参阅[Performing Recovery](http://msdn.microsoft.com/library/d342c5c7-da64-4a4c-8e63-b52f4fbf2691)。  
   
- 资源管理器应完成的所有工作都必须先完成，然后再调<xref:System.Transactions.PreparingEnlistment.Prepared%2A>方法`preparingEnlistment`参数以指示承诺其投票。 你应确保这在提交、 回滚或置疑接收任何第 2 阶段通知此类之前完成。 这是因为第 2 阶段通知时才会在同一线程调用的内联<xref:System.Transactions.PreparingEnlistment.Prepared%2A>第 1 阶段中的方法。 因此，在调用 <xref:System.Transactions.PreparingEnlistment.Prepared%2A> 后，您不应执行任何预计在收到第 2 阶段通知前就可完成的操作（如释放锁定）。  
+ 资源管理器应完成所有工作，必须完成后再调用<xref:System.Transactions.PreparingEnlistment.Prepared%2A>方法的`preparingEnlistment`参数以指示承诺对其投票。 应确保这一点在提交、 回滚或置疑接收任何第 2 阶段通知此类之前。 这是因为第 2 阶段通知可以发生在调用的同一线程上内联<xref:System.Transactions.PreparingEnlistment.Prepared%2A>在第 1 阶段的方法。 因此，在调用 <xref:System.Transactions.PreparingEnlistment.Prepared%2A> 后，您不应执行任何预计在收到第 2 阶段通知前就可完成的操作（如释放锁定）。  
   
- 你还可以调用的方法`preparingEnlistment`参数以指示回滚一票。  
+ 您还可以调用的方法`preparingEnlistment`参数来指示回滚一票。  
   
- 如果你想要只是观察并响应的事务，进度的对象没有参与它，此方法的实现应调用<xref:System.Transactions.Enlistment.Done%2A>方法`preparingEnlistment`参数时它已完成其工作。 这样，资源管理器将不会收到任何第 2 阶段通知。  
+ 如果你想要只是观察并做出响应的事务，进度的对象不参与它，此方法的实现应调用<xref:System.Transactions.Enlistment.Done%2A>方法的`preparingEnlistment`完成其工作时的参数。 通过这样做，资源管理器将不会收到任何第 2 阶段通知。  
   
  ]]></format>
         </remarks>
@@ -211,6 +215,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Transactions</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -236,11 +241,11 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 当事务正在回滚 （中止） 由于一个或多个事务参与者无法提交事务时，事务管理器将调用此方法的登记的对象。  
+ 当事务正在回滚 （中止），因为一个或多个事务参与者无法提交事务时，事务管理器将调用此方法的登记的对象。  
   
- 资源管理器应执行任何工作需要完成事务，随后又通知它完成通过调用 TM<xref:System.Transactions.Enlistment.Done%2A>方法`enlistment`参数。  
+ 资源管理器应执行任何工作需要完成交易记录，并随后告知它已完成通过调用 TM<xref:System.Transactions.Enlistment.Done%2A>方法`enlistment`参数。  
   
- 如果资源管理器已持久登记，但未通过调用响应<xref:System.Transactions.Enlistment.Done%2A>方法，事务管理器不确定的资源管理器已收到<xref:System.Transactions.IEnlistmentNotification.Rollback%2A>调用。 在这种情况下，事务管理器将继续等待响应，并且保留信息与此事务。  如果<xref:System.Transactions.Enlistment.Done%2A>是永远不会调用，这段信息是围绕无限期保留在内存中或在系统级资源。 这会导致无法回收资源。 对于分布式事务，这可能最终填满 MSDTC 日志将停止 MSDTC 过程。 在由事务的情况下<xref:System.Transactions>，这会导致资源管理器的进程的内存消耗的逐步地持续增长。 因此，很重要，则调用<xref:System.Transactions.Enlistment.Done%2A>方法后资源管理器，可使用你准备工作。  
+ 如果资源管理器已持久登记，但不响应通过调用<xref:System.Transactions.Enlistment.Done%2A>方法中，事务管理器不能确定资源管理器已接收<xref:System.Transactions.IEnlistmentNotification.Rollback%2A>调用。 在这种情况下，事务管理器将继续等待响应，并维护与此事务相关的信息。  如果<xref:System.Transactions.Enlistment.Done%2A>是永远不会调用，这条信息是围绕无限期保留在内存中或在系统范围资源。 这会导致无法回收资源。 在分布式事务的情况下这可能最终填满 MSDTC 日志将停止 MSDTC 过程。 在管理的事务的情况下<xref:System.Transactions>，这会导致在资源管理器的进程的内存使用情况的逐步地持续增长。 因此，很重要，则调用<xref:System.Transactions.Enlistment.Done%2A>方法一旦资源管理器通过您准备工作。  
   
  ]]></format>
         </remarks>

@@ -1,11 +1,11 @@
 <Type Name="SessionStateStoreProviderBase" FullName="System.Web.SessionState.SessionStateStoreProviderBase">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="750f19ccbe5ffeeefe94b6eba1845e3877c47a61" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="f67b526b76fe2727eda8b0a31e7600ff75016c6f" />
+    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="zh-CN" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36594038" />
+    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
+    <Meta Name="ms.locfileid" Value="37602807" />
   </Metadata>
   <TypeSignature Language="C#" Value="public abstract class SessionStateStoreProviderBase : System.Configuration.Provider.ProviderBase" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract beforefieldinit SessionStateStoreProviderBase extends System.Configuration.Provider.ProviderBase" />
@@ -15,6 +15,7 @@
   <TypeSignature Language="F#" Value="type SessionStateStoreProviderBase = class&#xA;    inherit ProviderBase" />
   <AssemblyInfo>
     <AssemblyName>System.Web</AssemblyName>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
   </AssemblyInfo>
   <Base>
@@ -27,32 +28,32 @@
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- ASP.NET 会话状态读取和写入 from 和 to 数据存储区中使用会话状态的会话数据存储提供程序。 会话状态存储提供程序是继承的类<xref:System.Web.SessionState.SessionStateStoreProviderBase>抽象类，并重写其成员实现特定于数据存储。 会话状态存储提供程序由<xref:System.Web.SessionState.SessionStateModule>期间 ASP.NET 页与存储的数据存储进行通信的处理和检索的会话变量和等的超时值的相关的会话信息的类。  
+ ASP.NET 会话状态读取和写入会话数据从 / 向数据存储区使用会话状态存储提供程序。 会话状态存储提供程序是继承的类<xref:System.Web.SessionState.SessionStateStoreProviderBase>抽象类，并重写其成员实现特定于数据存储。 会话状态存储提供程序由调用<xref:System.Web.SessionState.SessionStateModule>类在 ASP.NET 页面与存储的数据存储进行通信的处理和检索会话变量和相关的会话信息，例如超时值的过程。  
   
- 每个单独存储每个 ASP.NET 应用程序中的会话数据<xref:System.Web.SessionState.HttpSessionState.SessionID%2A>属性。 ASP.NET 应用程序不共享会话数据。  
+ 每个 ASP.NET 应用程序中的会话数据为每个单独存储<xref:System.Web.SessionState.HttpSessionState.SessionID%2A>属性。 ASP.NET 应用程序不共享会话数据。  
   
- 你可以指定自定义<xref:System.Web.SessionState.SessionStateStoreProviderBase>通过设置 ASP.NET 应用程序的实现`mode`属性`sessionState`到的配置元素<xref:System.Web.SessionState.SessionStateMode.Custom>和`customProvider`属性的自定义提供程序，名称为本主题的示例所示。  
+ 可以指定自定义<xref:System.Web.SessionState.SessionStateStoreProviderBase>通过设置为 ASP.NET 应用程序的实现`mode`的属性`sessionState`到的配置元素<xref:System.Web.SessionState.SessionStateMode.Custom>和`customProvider`作为属性的自定义提供程序名称本主题的示例中所示。  
   
 ## <a name="locking-session-store-data"></a>锁定会话存储数据  
- 由于 ASP.NET 应用程序是多线程，以支持对并发请求的响应，所以有可能并发请求可能会尝试访问相同的会话信息。 请考虑在所有框架集的多个帧访问同一个应用程序的位置的方案。 可以同时在不同线程在 Web 服务器上执行个框架集中每个帧的独立请求。 如果每个帧源的 ASP.NET 页访问会话状态变量，则会有多个线程同时访问的会话存储。  
+ 由于 ASP.NET 应用程序是多线程来支持对并发请求的响应，就可以并发请求可能会尝试访问相同的会话信息。 假设所有框架集的多个框架访问同一个应用程序的位置。 可以同时在不同的线程上的 Web 服务器上执行框架集中每个帧的独立请求。 如果每个帧源的 ASP.NET 页面访问会话状态变量，您可以具有多个线程并发访问会话存储区。  
   
- 若要避免数据冲突，在会话存储和意外的会话状态行为<xref:System.Web.SessionState.SessionStateModule>和<xref:System.Web.SessionState.SessionStateStoreProviderBase>类包含了特定会话的持续时间以独占方式锁定会话存储项的锁定功能ASP.NET 页的执行。 请注意，即使<xref:System.Web.Configuration.PagesSection.EnableSessionState%2A>属性标记为`ReadOnly`，在同一应用程序的其他 ASP.NET 页可能能够将写入到的会话存储中，以便从应用商店的数据可能仍最终等待只读会话的请求锁定数据释放。  
+ 若要避免在会话存储区和意外的会话状态行为的数据冲突<xref:System.Web.SessionState.SessionStateModule>和<xref:System.Web.SessionState.SessionStateStoreProviderBase>类包括为特定的会话的持续时间以独占方式锁定会话存储项的锁定功能ASP.NET 页执行。 请注意，即使<xref:System.Web.Configuration.PagesSection.EnableSessionState%2A>属性标记为`ReadOnly`，同一应用程序中的其他 ASP.NET 页可能能够写入会话存储区，因此对于只读会话存储中的数据仍可能最终会等待的请求锁定数据释放。  
   
- 对会话存储数据请求，对的调用中的开头设置锁定<xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItemExclusive%2A>方法。 完成请求后，在调用期间释放锁<xref:System.Web.SessionState.SessionStateStoreProviderBase.SetAndReleaseItemExclusive%2A>方法。  
+ 对会话存储区中调用的请求的开始处的数据设置锁定<xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItemExclusive%2A>方法。 完成请求后，在调用释放锁<xref:System.Web.SessionState.SessionStateStoreProviderBase.SetAndReleaseItemExclusive%2A>方法。  
   
- 如果<xref:System.Web.SessionState.SessionStateModule>对象在调用过程中遇到锁定的会话数据<xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItemExclusive%2A>或<xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItem%2A>方法，它将重新请求的会话数据隔半秒直到释放锁或的时间，会话数据已被锁定超过的值<xref:System.Web.Configuration.HttpRuntimeSection.ExecutionTimeout%2A>属性。 如果超出超时执行时间，则<xref:System.Web.SessionState.SessionStateModule>对象将调用<xref:System.Web.SessionState.SessionStateStoreProviderBase.ReleaseItemExclusive%2A>方法以释放会话存储数据并在该时间请求会话存储数据。  
+ 如果<xref:System.Web.SessionState.SessionStateModule>对象在调用过程中遇到锁定的会话数据<xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItemExclusive%2A>或<xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItem%2A>方法，它将重新请求的会话数据隔半秒之前释放锁或的时间，会话数据已被锁定的值超出了<xref:System.Web.Configuration.HttpRuntimeSection.ExecutionTimeout%2A>属性。 如果超出执行超时值，则<xref:System.Web.SessionState.SessionStateModule>对象将调用<xref:System.Web.SessionState.SessionStateStoreProviderBase.ReleaseItemExclusive%2A>方法以释放会话存储数据，在该时间请求会话存储数据。  
   
- 因为锁定会话存储数据可能会被释放通过调用<xref:System.Web.SessionState.SessionStateStoreProviderBase.ReleaseItemExclusive%2A>方法对的调用之前在单独线程上<xref:System.Web.SessionState.SessionStateStoreProviderBase.SetAndReleaseItemExclusive%2A>当前响应的方法，无法尝试设置和发布具有的会话状态存储数据已发布并由另一个会话修改。 若要避免此情况下，<xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItem%2A>和<xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItemExclusive%2A>方法返回的锁定标识符。 此锁标识符必须包含每个请求以修改锁定的会话存储数据。 会话存储仅当数据存储区中的锁定标识符匹配由提供的锁定标识符时修改数据<xref:System.Web.SessionState.SessionStateModule>。  
+ 因为锁定会话存储的数据可能会通过调用释放<xref:System.Web.SessionState.SessionStateStoreProviderBase.ReleaseItemExclusive%2A>方法之前调用单独的线程上<xref:System.Web.SessionState.SessionStateStoreProviderBase.SetAndReleaseItemExclusive%2A>当前响应的方法，可能会尝试设置和发布具有会话状态存储数据已发布并由另一个会话进行了修改。 若要避免这种情况下，<xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItem%2A>和<xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItemExclusive%2A>方法返回的锁定标识符。 此锁标识符必须包含每个请求以修改锁定的会话存储的数据。 会话存储区修改数据时，仅当数据存储区中的锁定标识符匹配所提供的锁定标识符<xref:System.Web.SessionState.SessionStateModule>。  
   
 ## <a name="deleting-expired-session-store-data"></a>删除过期的会话存储数据  
- 当<xref:System.Web.SessionState.HttpSessionState.Abandon%2A>针对特定会话调用方法，该会话的数据将删除从数据存储区使用<xref:System.Web.SessionState.SessionStateStoreProviderBase.RemoveItem%2A>方法; 否则，数据将保留在服务器今后的请求的会话数据存储区为会话。 这就需要通过<xref:System.Web.SessionState.SessionStateStoreProviderBase>实现中删除过期的会话数据。  
+ 当<xref:System.Web.SessionState.HttpSessionState.Abandon%2A>方法调用特定会话，则该会话中删除数据从数据存储区使用<xref:System.Web.SessionState.SessionStateStoreProviderBase.RemoveItem%2A>方法; 否则为，数据将保留在将来的服务器请求的会话数据存储区中的会话。 这就需要通过<xref:System.Web.SessionState.SessionStateStoreProviderBase>实现中删除过期的会话数据。  
   
    
   
 ## Examples  
  有关会话状态存储提供程序实现的示例，请参阅[实现会话状态存储提供程序](http://msdn.microsoft.com/library/baadfec5-c881-468a-9681-7d8796b05a66)。  
   
- 下面的代码示例演示的 ASP.NET 应用程序配置为使用自定义会话状态存储提供程序的 Web.config 文件。  
+ 下面的代码示例显示了配置为使用自定义会话状态存储提供程序的 ASP.NET 应用程序的 Web.config 文件。  
   
 ```  
 <configuration>  
@@ -87,6 +88,7 @@
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Parameters />
@@ -96,7 +98,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 不需要实现继承的类的构造函数<xref:System.Web.SessionState.SessionStateStoreProviderBase>抽象类。 值初始化<xref:System.Web.SessionState.SessionStateStoreProviderBase>实现传递给<xref:System.Configuration.Provider.ProviderBase.Initialize%2A>方法实现。  
+ 不需要实现继承的类的构造函数<xref:System.Web.SessionState.SessionStateStoreProviderBase>抽象类。 值初始化<xref:System.Web.SessionState.SessionStateStoreProviderBase>实现传递到<xref:System.Configuration.Provider.ProviderBase.Initialize%2A>方法的实现。  
   
    
   
@@ -117,6 +119,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -135,13 +138,13 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Web.SessionState.SessionStateModule>对象调用<xref:System.Web.SessionState.SessionStateStoreProviderBase.CreateNewStoreData%2A>ASP.NET 页中，请求的开始处方法期间<xref:System.Web.HttpApplication.AcquireRequestState>事件。 <xref:System.Web.SessionState.SessionStateStoreProviderBase.CreateNewStoreData%2A>如果调用方法：  
+ <xref:System.Web.SessionState.SessionStateModule>对象调用<xref:System.Web.SessionState.SessionStateStoreProviderBase.CreateNewStoreData%2A>方法请求的开始处的 ASP.NET 页中，在<xref:System.Web.HttpApplication.AcquireRequestState>事件。 <xref:System.Web.SessionState.SessionStateStoreProviderBase.CreateNewStoreData%2A>如果调用方法：  
   
--   传入的请求具有没有会话 ID，或  
+-   传入请求有任何会话 ID，或  
   
--   传入的请求具有一个会话 ID，但在数据存储中找不到该会话。  
+-   传入请求的会话 ID 为，但在数据存储区中找不到该会话。  
   
- <xref:System.Web.SessionState.SessionStateStoreProviderBase.CreateNewStoreData%2A>方法创建一个新<xref:System.Web.SessionState.SessionStateStoreData>具有一个空对象<xref:System.Web.SessionState.ISessionStateItemCollection>对象，<xref:System.Web.HttpStaticObjectsCollection>集合，并且指定`timeout`值。 <xref:System.Web.HttpStaticObjectsCollection>可以使用检索的 ASP.NET 应用程序的集合<xref:System.Web.SessionState.SessionStateUtility.GetSessionStaticObjects%2A>方法。  
+ <xref:System.Web.SessionState.SessionStateStoreProviderBase.CreateNewStoreData%2A>方法创建一个新<xref:System.Web.SessionState.SessionStateStoreData>具有一个空对象<xref:System.Web.SessionState.ISessionStateItemCollection>对象，<xref:System.Web.HttpStaticObjectsCollection>集合，并指定`timeout`值。 <xref:System.Web.HttpStaticObjectsCollection>可以使用检索的 ASP.NET 应用程序收集<xref:System.Web.SessionState.SessionStateUtility.GetSessionStaticObjects%2A>方法。  
   
    
   
@@ -162,6 +165,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -181,11 +185,11 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Web.SessionState.SessionStateStoreProviderBase.CreateUninitializedItem%2A>方法用于会话时`cookieless`和`regenerateExpiredSessionId`属性都是`true`。 具有`regenerateExpiredSessionId attribute`设置为`true`导致<xref:System.Web.SessionState.SessionStateModule>要生成一个新对象<xref:System.Web.SessionState.HttpSessionState.SessionID%2A>值时过期<xref:System.Web.SessionState.HttpSessionState.SessionID%2A>遇到值。  
+ <xref:System.Web.SessionState.SessionStateStoreProviderBase.CreateUninitializedItem%2A>方法与会话一起使用时`cookieless`并`regenerateExpiredSessionId`特性都是`true`。 无`regenerateExpiredSessionId attribute`设置为`true`会导致<xref:System.Web.SessionState.SessionStateModule>对象生成一个新<xref:System.Web.SessionState.HttpSessionState.SessionID%2A>值时过期<xref:System.Web.SessionState.HttpSessionState.SessionID%2A>遇到值。  
   
- 生成一个新的过程<xref:System.Web.SessionState.HttpSessionState.SessionID%2A>值需要将浏览器重定向到包含新生成的 URL<xref:System.Web.SessionState.HttpSessionState.SessionID%2A>值。 <xref:System.Web.SessionState.SessionStateStoreProviderBase.CreateUninitializedItem%2A>在包含过期的初始请求过程中调用方法<xref:System.Web.SessionState.HttpSessionState.SessionID%2A>值。 后<xref:System.Web.SessionState.SessionStateModule>对象获取一个新<xref:System.Web.SessionState.HttpSessionState.SessionID%2A>值来替换过期的值时，它调用<xref:System.Web.SessionState.SessionStateStoreProviderBase.CreateUninitializedItem%2A>方法将未初始化的项添加到会话状态数据存储。 然后，将浏览器重定向到包含新生成的 URL<xref:System.Web.SessionState.HttpSessionState.SessionID%2A>值。 会话数据存储区中未初始化的项是否存在可确保包括新生成的重定向的请求<xref:System.Web.SessionState.HttpSessionState.SessionID%2A>值不导致了错误的请求的过期的会话，而，相反，视为新的会话。  
+ 生成一个新的过程<xref:System.Web.SessionState.HttpSessionState.SessionID%2A>值需要将浏览器重定向到包含新生成的 URL<xref:System.Web.SessionState.HttpSessionState.SessionID%2A>值。 <xref:System.Web.SessionState.SessionStateStoreProviderBase.CreateUninitializedItem%2A>包含过期的初始请求过程中调用方法<xref:System.Web.SessionState.HttpSessionState.SessionID%2A>值。 之后<xref:System.Web.SessionState.SessionStateModule>对象获取一个新<xref:System.Web.SessionState.HttpSessionState.SessionID%2A>值来替换过期的值，它将调用<xref:System.Web.SessionState.SessionStateStoreProviderBase.CreateUninitializedItem%2A>方法将未初始化的项添加到会话状态数据存储。 然后，将浏览器重定向到包含新生成的 URL<xref:System.Web.SessionState.HttpSessionState.SessionID%2A>值。 未初始化的项在会话数据存储区中是否存在可确保重定向的请求，包括新生成<xref:System.Web.SessionState.HttpSessionState.SessionID%2A>值不被误解为请求过期的会话，而，相反，视为新的会话。  
   
- 会话数据存储区中的未经初始化即的项是与新生成相关联<xref:System.Web.SessionState.HttpSessionState.SessionID%2A>值和只包含默认值，包括过期日期和时间，以及一个值，对应于`actionFlags`参数<xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItem%2A>和<xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItemExclusive%2A>方法。 会话状态存储区中未初始化的条目应包含`actionFlags`值等于<xref:System.Web.SessionState.SessionStateActions.InitializeItem>枚举值。 此值传递给<xref:System.Web.SessionState.SessionStateModule>对象<xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItem%2A>和<xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItemExclusive%2A>方法，并通知<xref:System.Web.SessionState.SessionStateModule>当前会话是新但的对象未初始化的会话。 <xref:System.Web.SessionState.SessionStateModule>对象然后会初始化该新会话，并引发`Session_OnStart`事件。  
+ 会话数据存储区中的未初始化的条目是与新生成相关联<xref:System.Web.SessionState.HttpSessionState.SessionID%2A>值，并仅包含默认值，包括到期日期和时间值对应于`actionFlags`参数<xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItem%2A>和<xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItemExclusive%2A>方法。 会话状态存储中未初始化的条目应包含`actionFlags`值等于<xref:System.Web.SessionState.SessionStateActions.InitializeItem>枚举值。 此值传递给<xref:System.Web.SessionState.SessionStateModule>对象通过<xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItem%2A>并<xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItemExclusive%2A>方法，并通知<xref:System.Web.SessionState.SessionStateModule>对象，则当前会话将一个新的但未初始化的会话。 <xref:System.Web.SessionState.SessionStateModule>对象将初始化新的会话并引发`Session_OnStart`事件。  
   
  有关无 cookie 会话的详细信息，请参阅<xref:System.Web.SessionState.HttpSessionState.IsCookieless%2A>属性。  
   
@@ -208,6 +212,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -220,7 +225,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Web.SessionState.SessionStateStoreProviderBase.Dispose%2A?displayProperty=nameWithType>方法调用时<xref:System.Web.SessionState.SessionStateModule.Dispose%2A?displayProperty=nameWithType>方法执行在应用程序域关闭。 继承的类<xref:System.Web.SessionState.SessionStateStoreProviderBase>类可以使用此方法以释放不再使用中的任何资源。  
+ <xref:System.Web.SessionState.SessionStateStoreProviderBase.Dispose%2A?displayProperty=nameWithType>时调用方法<xref:System.Web.SessionState.SessionStateModule.Dispose%2A?displayProperty=nameWithType>方法执行的应用程序域关闭。 继承的类<xref:System.Web.SessionState.SessionStateStoreProviderBase>类可以使用此方法以释放不再中使用的任何资源。  
   
    
   
@@ -241,6 +246,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -256,7 +262,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Web.SessionState.SessionStateModule>对象调用<xref:System.Web.SessionState.SessionStateStoreProviderBase.EndRequest%2A>ASP.NET 页中，请求的末尾处方法期间<xref:System.Web.HttpApplication.EndRequest>事件。 你可以使用<xref:System.Web.SessionState.SessionStateStoreProviderBase.EndRequest%2A>方法来执行任何所需的会话状态存储提供程序的每个请求清理。  
+ <xref:System.Web.SessionState.SessionStateModule>对象调用<xref:System.Web.SessionState.SessionStateStoreProviderBase.EndRequest%2A>ASP.NET 页中，在请求结束方法期间<xref:System.Web.HttpApplication.EndRequest>事件。 可以使用<xref:System.Web.SessionState.SessionStateStoreProviderBase.EndRequest%2A>方法来执行任何所需的会话状态存储提供程序的每个请求清理。  
   
    
   
@@ -277,6 +283,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -303,17 +310,17 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Web.SessionState.SessionStateModule>对象调用<xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItem%2A>开头的请求，方法期间<xref:System.Web.HttpApplication.AcquireRequestState>事件，当<xref:System.Web.Configuration.PagesSection.EnableSessionState%2A>属性设置为`ReadOnly`。 如果<xref:System.Web.Configuration.PagesSection.EnableSessionState%2A>属性设置为`true`、<xref:System.Web.SessionState.SessionStateModule>对象改为调用<xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItemExclusive%2A>方法。  
+ <xref:System.Web.SessionState.SessionStateModule>对象调用<xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItem%2A>请求的开始处的方法期间<xref:System.Web.HttpApplication.AcquireRequestState>事件，当<xref:System.Web.Configuration.PagesSection.EnableSessionState%2A>属性设置为`ReadOnly`。 如果<xref:System.Web.Configuration.PagesSection.EnableSessionState%2A>属性设置为`true`，则<xref:System.Web.SessionState.SessionStateModule>对象改为调用<xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItemExclusive%2A>方法。  
   
- <xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItem%2A>方法返回<xref:System.Web.SessionState.SessionStateStoreData>对象填充数据存储区中的会话信息和更新会话数据的过期日期。 如果在数据存储中，未不找到任何会话项数据<xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItem%2A>方法设置`locked``out`参数`false`并返回`null`。 这将导致<xref:System.Web.SessionState.SessionStateModule>对象调用<xref:System.Web.SessionState.SessionStateStoreProviderBase.CreateNewStoreData%2A>方法在数据存储区中创建一个新会话项。  
+ <xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItem%2A>方法将返回<xref:System.Web.SessionState.SessionStateStoreData>对象填充有数据存储区中的会话信息和更新会话数据的到期日期。 如果在数据存储区中，未不找到任何会话项数据<xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItem%2A>方法设置`locked``out`参数`false`，并返回`null`。 这将导致<xref:System.Web.SessionState.SessionStateModule>对象调用<xref:System.Web.SessionState.SessionStateStoreProviderBase.CreateNewStoreData%2A>方法以在数据存储区中创建新的会话项。  
   
- 如果会话项在数据存储区中找到数据，但数据被锁定，<xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItem%2A>方法设置`locked``out`参数`true`，设置`lockAge``out`为当前日期和时间减去的日期的参数和锁定此项目时的时间 （其中从存储中检索数据），设置`lockId``out`参数的锁定标识符从数据存储区，并返回检索`null`。 这将导致<xref:System.Web.SessionState.SessionStateModule>对象调用<xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItem%2A>后半秒时间间隔，以尝试检索会话项信息的方法。  
+ 如果会话项在数据存储区中找到数据但不锁定数据，<xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItem%2A>方法设置`locked``out`参数`true`，设置`lockAge``out`参数为当前日期和时间减去的日期和项已锁定时的时间 （这从存储中检索数据），设置`lockId``out`的锁定标识符的参数将从数据存储和检索返回`null`。 这将导致<xref:System.Web.SessionState.SessionStateModule>对象调用<xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItem%2A>后半秒时间间隔尝试检索会话项信息的方法。  
   
- 如果值的`lockAge``out`参数设置为超过<xref:System.Web.Configuration.HttpRuntimeSection.ExecutionTimeout%2A>值，则<xref:System.Web.SessionState.SessionStateModule>对象调用<xref:System.Web.SessionState.SessionStateStoreProviderBase.ReleaseItemExclusive%2A>方法以清除在会话项数据，然后调用锁定<xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItem%2A>再次方法。  
+ 如果值的`lockAge``out`参数设置超过<xref:System.Web.Configuration.HttpRuntimeSection.ExecutionTimeout%2A>值，则<xref:System.Web.SessionState.SessionStateModule>对象调用<xref:System.Web.SessionState.SessionStateStoreProviderBase.ReleaseItemExclusive%2A>方法以清除锁定的会话项数据，然后调用<xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItem%2A>再次方法。  
   
- `actionFlags`使用参数时同时`cookieless`和`regenerateExpiredSessionId`属性都设置为`true`。 `actionFlags`值设置为<xref:System.Web.SessionState.SessionStateActions.InitializeItem>指示会话数据存储区中的项是需要初始化的新会话。 通过调用创建会话数据存储区中的未经初始化即的项<xref:System.Web.SessionState.SessionStateStoreProviderBase.CreateUninitializedItem%2A>方法。 如果会话数据存储区中的项不是未初始化的项，`actionFlags`参数将设置为零。  
+ `actionFlags`使用参数时同时`cookieless`并`regenerateExpiredSessionId`属性设置为`true`。 `actionFlags`值设置为<xref:System.Web.SessionState.SessionStateActions.InitializeItem>指示会话数据存储区中的项是需要初始化的新会话。 通过调用创建会话数据存储区中的未初始化的条目<xref:System.Web.SessionState.SessionStateStoreProviderBase.CreateUninitializedItem%2A>方法。 如果会话数据存储区中的项不是一个未初始化的项，`actionFlags`参数将设置为零。  
   
- 支持无 cookie 会话的自定义会话状态存储实施者应设置`actionFlags``out`从当前项的会话数据存储区返回的值的参数。 如果`actionFlags`请求的会话存储的参数值项等于<xref:System.Web.SessionState.SessionStateActions.InitializeItem>枚举值，则<xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItem%2A>方法应将值设置为零后设置数据存储区中`actionFlags``out`参数。  
+ 支持无 cookie 会话的自定义会话状态存储实现程序应设置`actionFlags``out`从当前项的会话数据存储区返回的值的参数。 如果`actionFlags`项，请求的会话存储的参数值等于<xref:System.Web.SessionState.SessionStateActions.InitializeItem>枚举值，则<xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItem%2A>方法应将值设置为零后设置数据存储区中`actionFlags``out`参数。  
   
    
   
@@ -334,6 +341,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -360,13 +368,13 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Web.SessionState.SessionStateModule>对象调用<xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItemExclusive%2A>开头的请求，方法期间<xref:System.Web.HttpApplication.AcquireRequestState>事件，当<xref:System.Web.Configuration.PagesSection.EnableSessionState%2A>属性设置为`true`，这是默认设置。 如果<xref:System.Web.Configuration.PagesSection.EnableSessionState%2A>属性设置为`ReadOnly`、<xref:System.Web.SessionState.SessionStateModule>对象改为调用<xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItem%2A>方法。  
+ <xref:System.Web.SessionState.SessionStateModule>对象调用<xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItemExclusive%2A>请求的开始处的方法期间<xref:System.Web.HttpApplication.AcquireRequestState>事件，当<xref:System.Web.Configuration.PagesSection.EnableSessionState%2A>属性设置为`true`，这是默认设置。 如果<xref:System.Web.Configuration.PagesSection.EnableSessionState%2A>属性设置为`ReadOnly`，则<xref:System.Web.SessionState.SessionStateModule>对象改为调用<xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItem%2A>方法。  
   
- <xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItemExclusive%2A>方法返回<xref:System.Web.SessionState.SessionStateStoreData>填充从数据存储的会话信息的对象更新所存储的数据的过期日期和请求的持续时间内锁定数据存储的会话项数据。 如果在数据存储中，未不找到任何会话项数据<xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItemExclusive%2A>方法设置`locked``out`参数`false`并返回`null`。 这将导致<xref:System.Web.SessionState.SessionStateModule>对象调用<xref:System.Web.SessionState.SessionStateStoreProviderBase.CreateNewStoreData%2A>方法在数据存储区中创建一个新会话项。 如果会话项在数据存储区中找到数据，但数据被锁定，<xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItemExclusive%2A>方法设置`locked``out`参数`true`，设置`lockAge``out`为当前日期和时间减去的日期的参数和锁定此项目时的时间 （其中从存储中检索数据），设置`lockId``out`参数的锁定标识符从数据存储区，并返回检索`null`。 这将导致<xref:System.Web.SessionState.SessionStateModule>对象调用<xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItemExclusive%2A>后尝试检索会话项信息并获取数据的锁的半秒间隔的方法。 如果值的`lockAge``out`参数设置为超出<xref:System.Web.Configuration.HttpRuntimeSection.ExecutionTimeout%2A>值，则<xref:System.Web.SessionState.SessionStateModule>调用<xref:System.Web.SessionState.SessionStateStoreProviderBase.ReleaseItemExclusive%2A>方法以清除在会话项数据，然后调用锁定<xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItemExclusive%2A>再次方法。  
+ <xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItemExclusive%2A>方法将返回<xref:System.Web.SessionState.SessionStateStoreData>会话中的信息填充数据存储的对象更新存储的数据的到期日期，并请求的持续期间锁定数据存储区上的会话项数据。 如果在数据存储区中，未不找到任何会话项数据<xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItemExclusive%2A>方法设置`locked``out`参数`false`，并返回`null`。 这将导致<xref:System.Web.SessionState.SessionStateModule>对象调用<xref:System.Web.SessionState.SessionStateStoreProviderBase.CreateNewStoreData%2A>方法以在数据存储区中创建新的会话项。 如果会话项在数据存储区中找到数据但不锁定数据，<xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItemExclusive%2A>方法设置`locked``out`参数`true`，设置`lockAge``out`参数为当前日期和时间减去的日期和项已锁定时的时间 （这从存储中检索数据），设置`lockId``out`的锁定标识符的参数将从数据存储和检索返回`null`。 这将导致<xref:System.Web.SessionState.SessionStateModule>对象调用<xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItemExclusive%2A>后半秒时间间隔尝试检索会话项信息并获取数据的锁的方法。 如果值的`lockAge``out`参数设置为超过<xref:System.Web.Configuration.HttpRuntimeSection.ExecutionTimeout%2A>值，则<xref:System.Web.SessionState.SessionStateModule>调用<xref:System.Web.SessionState.SessionStateStoreProviderBase.ReleaseItemExclusive%2A>方法以清除锁定的会话项数据，然后调用<xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItemExclusive%2A>再次方法。  
   
- `actionFlags`使用参数时`cookieless`和`regenerateExpiredSessionId`属性都设置为`true`。 `actionFlags`值设置为<xref:System.Web.SessionState.SessionStateActions.InitializeItem>指示会话数据存储区中的项是需要初始化的新会话。 通过调用创建会话数据存储区中的未经初始化即的项<xref:System.Web.SessionState.SessionStateStoreProviderBase.CreateUninitializedItem%2A>方法。 如果会话数据存储区中的项不是未初始化的项，`actionFlags`参数将设置为零。  
+ `actionFlags`使用参数时`cookieless`并`regenerateExpiredSessionId`属性均设置为`true`。 `actionFlags`值设置为<xref:System.Web.SessionState.SessionStateActions.InitializeItem>指示会话数据存储区中的项是需要初始化的新会话。 通过调用创建会话数据存储区中的未初始化的条目<xref:System.Web.SessionState.SessionStateStoreProviderBase.CreateUninitializedItem%2A>方法。 如果会话数据存储区中的项不是一个未初始化的项，`actionFlags`参数将设置为零。  
   
- 支持无 cookie 会话的自定义会话状态存储实施者应设置`actionFlags``out`从当前项的会话数据存储区返回的值的参数。 如果`actionFlags`请求的会话存储的参数值项等于<xref:System.Web.SessionState.SessionStateActions.InitializeItem>枚举值，则<xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItemExclusive%2A>方法应将值设置为零后设置数据存储区中`actionFlags``out`参数。  
+ 支持无 cookie 会话的自定义会话状态存储实现程序应设置`actionFlags``out`从当前项的会话数据存储区返回的值的参数。 如果`actionFlags`项，请求的会话存储的参数值等于<xref:System.Web.SessionState.SessionStateActions.InitializeItem>枚举值，则<xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItemExclusive%2A>方法应将值设置为零后设置数据存储区中`actionFlags``out`参数。  
   
    
   
@@ -387,6 +395,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -402,7 +411,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Web.SessionState.SessionStateModule>对象调用<xref:System.Web.SessionState.SessionStateStoreProviderBase.InitializeRequest%2A>方法，然后才能调用任何其他<xref:System.Web.SessionState.SessionStateStoreProviderBase>方法。 你可以使用<xref:System.Web.SessionState.SessionStateStoreProviderBase.InitializeRequest%2A>方法来执行任何所需的会话状态存储提供程序的每个请求的初始化。  
+ <xref:System.Web.SessionState.SessionStateModule>对象调用<xref:System.Web.SessionState.SessionStateStoreProviderBase.InitializeRequest%2A>方法，然后再调用任何其他<xref:System.Web.SessionState.SessionStateStoreProviderBase>方法。 可以使用<xref:System.Web.SessionState.SessionStateStoreProviderBase.InitializeRequest%2A>方法以执行任何所需的会话状态存储提供程序的每个请求初始化。  
   
    
   
@@ -423,6 +432,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -442,11 +452,11 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Web.SessionState.SessionStateModule>对象调用<xref:System.Web.SessionState.SessionStateStoreProviderBase.ReleaseItemExclusive%2A>方法来更新的到期日期并释放会话数据存储区中的项上的锁。 它在结束时调用的请求期间<xref:System.Web.HttpApplication.ReleaseRequestState>事件，如果会话值未更改。 如果会话值进行了修改，<xref:System.Web.SessionState.SessionStateModule>对象改为调用<xref:System.Web.SessionState.SessionStateStoreProviderBase.SetAndReleaseItemExclusive%2A>方法。  
+ <xref:System.Web.SessionState.SessionStateModule>对象调用<xref:System.Web.SessionState.SessionStateStoreProviderBase.ReleaseItemExclusive%2A>方法来更新的过期日期，并释放会话数据存储区中的项上的锁。 它在结束时调用的请求期间<xref:System.Web.HttpApplication.ReleaseRequestState>事件，如果会话值保持不变。 如果修改了会话值，<xref:System.Web.SessionState.SessionStateModule>对象改为调用<xref:System.Web.SessionState.SessionStateStoreProviderBase.SetAndReleaseItemExclusive%2A>方法。  
   
- <xref:System.Web.SessionState.SessionStateModule>对象还将调用<xref:System.Web.SessionState.SessionStateStoreProviderBase.ReleaseItemExclusive%2A>方法超过会话数据存储区中的项上的锁时<xref:System.Web.Configuration.HttpRuntimeSection.ExecutionTimeout%2A>值。 有关锁定的详细信息和有关的锁定标识符的详细信息，请参阅"锁定会话存储数据"中<xref:System.Web.SessionState.SessionStateStoreProviderBase>类概述。  
+ <xref:System.Web.SessionState.SessionStateModule>对象还将调用<xref:System.Web.SessionState.SessionStateStoreProviderBase.ReleaseItemExclusive%2A>方法时会话数据存储区中的项上的锁已超出<xref:System.Web.Configuration.HttpRuntimeSection.ExecutionTimeout%2A>值。 有关锁定的详细信息和有关锁定标识符的详细信息，请参阅"锁定会话存储区数据"中<xref:System.Web.SessionState.SessionStateStoreProviderBase>类概述。  
   
- <xref:System.Web.SessionState.SessionStateStoreProviderBase.ReleaseItemExclusive%2A>方法仅从一项中的当前应用程序与匹配提供的会话的会话数据存储中删除锁`id`和`lockId`值。 如果`lockId`与数据存储中的一个不匹配<xref:System.Web.SessionState.SessionStateStoreProviderBase.ReleaseItemExclusive%2A>方法不执行任何操作。  
+ <xref:System.Web.SessionState.SessionStateStoreProviderBase.ReleaseItemExclusive%2A>方法只从当前匹配的应用程序提供的会话的会话数据存储中的项中删除该锁`id`和`lockId`值。 如果`lockId`与数据存储中的一个不匹配<xref:System.Web.SessionState.SessionStateStoreProviderBase.ReleaseItemExclusive%2A>方法不执行任何操作。  
   
    
   
@@ -467,6 +477,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -488,7 +499,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Web.SessionState.SessionStateModule>对象调用<xref:System.Web.SessionState.SessionStateStoreProviderBase.RemoveItem%2A>方法末尾的请求期间<xref:System.Web.HttpApplication.ReleaseRequestState>事件，若要从会话数据存储区删除会话选项的数据，如果<xref:System.Web.SessionState.HttpSessionState.Abandon%2A>调用方法。 匹配提供的会话的当前应用程序仅会话数据`id`和`lockId`删除值。 有关锁定的详细信息和有关的锁定标识符的详细信息，请参阅"锁定会话存储数据"中<xref:System.Web.SessionState.SessionStateStoreProviderBase>类概述。  
+ <xref:System.Web.SessionState.SessionStateModule>对象调用<xref:System.Web.SessionState.SessionStateStoreProviderBase.RemoveItem%2A>方法在一个请求期间<xref:System.Web.HttpApplication.ReleaseRequestState>事件，若要从会话数据存储区删除会话项的数据，如果<xref:System.Web.SessionState.HttpSessionState.Abandon%2A>调用方法。 仅匹配提供的会话的当前应用程序的会话数据`id`和`lockId`删除值。 有关锁定的详细信息和有关锁定标识符的详细信息，请参阅"锁定会话存储区数据"中<xref:System.Web.SessionState.SessionStateStoreProviderBase>类概述。  
   
    
   
@@ -509,6 +520,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -526,13 +538,13 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Web.SessionState.SessionStateModule>对象调用<xref:System.Web.SessionState.SessionStateStoreProviderBase.ResetItemTimeout%2A>方法来更新到当前日期和时间加上该会话的到期日期和会话时间<xref:System.Web.SessionState.HttpSessionState.Timeout%2A>值时任一：  
+ <xref:System.Web.SessionState.SessionStateModule>对象调用<xref:System.Web.SessionState.SessionStateStoreProviderBase.ResetItemTimeout%2A>方法来更新到当前日期和时间加上该会话的到期日期和时间的会话<xref:System.Web.SessionState.HttpSessionState.Timeout%2A>时值是：  
   
 -   <xref:System.Web.Configuration.PagesSection.EnableSessionState%2A>属性是`true`，或  
   
--   请求未引发<xref:System.Web.HttpApplication.AcquireRequestState>和<xref:System.Web.HttpApplication.ReleaseRequestState>由于出错的事件。  
+-   请求不会发出<xref:System.Web.HttpApplication.AcquireRequestState>和<xref:System.Web.HttpApplication.ReleaseRequestState>由于出现错误的事件。  
   
- 如果请求 ASP.NET 页和<xref:System.Web.Configuration.PagesSection.EnableSessionState%2A>属性设置为`false`、<xref:System.Web.SessionState.SessionStateStoreProviderBase.ResetItemTimeout%2A>仍调用方法以更新的到期日期和时间的会话数据存储区中的数据。  
+ 如果请求 ASP.NET 页和<xref:System.Web.Configuration.PagesSection.EnableSessionState%2A>属性设置为`false`，则<xref:System.Web.SessionState.SessionStateStoreProviderBase.ResetItemTimeout%2A>仍调用方法来更新的到期日期和时间的会话数据存储区中的数据。  
   
    
   
@@ -553,6 +565,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -576,11 +589,11 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Web.SessionState.SessionStateModule>对象调用<xref:System.Web.SessionState.SessionStateStoreProviderBase.SetAndReleaseItemExclusive%2A>方法末尾的请求期间<xref:System.Web.HttpApplication.ReleaseRequestState>事件，将当前会话项信息插入到数据存储或使用当前值，更新数据存储区中的现有会话项信息若要更新的到期时间，该项目，并释放对数据的锁定。 匹配提供的会话的当前应用程序仅会话数据`id`和`lockId`更新值。 锁定的详细信息，请参阅"锁定会话存储区数据"中<xref:System.Web.SessionState.SessionStateStoreProviderBase>类概述。  
+ <xref:System.Web.SessionState.SessionStateModule>对象调用<xref:System.Web.SessionState.SessionStateStoreProviderBase.SetAndReleaseItemExclusive%2A>方法在一个请求期间<xref:System.Web.HttpApplication.ReleaseRequestState>事件，以将当前的会话项信息插入到数据存储区或使用当前值更新数据存储区中的现有会话项信息要更新的项的过期时间，才能释放锁的数据。 仅匹配提供的会话的当前应用程序的会话数据`id`和`lockId`更新值。 有关锁定的详细信息，请参阅"锁定会话存储区数据"中<xref:System.Web.SessionState.SessionStateStoreProviderBase>类概述。  
   
- 如果当前请求的会话值不进行了修改，<xref:System.Web.SessionState.SessionStateStoreProviderBase.SetAndReleaseItemExclusive%2A>不调用方法。 相反，<xref:System.Web.SessionState.SessionStateStoreProviderBase.ReleaseItemExclusive%2A>调用方法。  
+ 如果当前请求的会话值未被修改，<xref:System.Web.SessionState.SessionStateStoreProviderBase.SetAndReleaseItemExclusive%2A>不会调用方法。 相反，<xref:System.Web.SessionState.SessionStateStoreProviderBase.ReleaseItemExclusive%2A>调用方法。  
   
- 如果<xref:System.Web.SessionState.HttpSessionState.Abandon%2A>已调用方法，<xref:System.Web.SessionState.SessionStateStoreProviderBase.SetAndReleaseItemExclusive%2A>不调用方法。 相反，<xref:System.Web.SessionState.SessionStateModule>对象调用<xref:System.Web.SessionState.SessionStateStoreProviderBase.RemoveItem%2A>方法来从数据源删除会话项数据。  
+ 如果<xref:System.Web.SessionState.HttpSessionState.Abandon%2A>已调用方法，<xref:System.Web.SessionState.SessionStateStoreProviderBase.SetAndReleaseItemExclusive%2A>不会调用方法。 相反，<xref:System.Web.SessionState.SessionStateModule>对象调用<xref:System.Web.SessionState.SessionStateStoreProviderBase.RemoveItem%2A>方法来删除数据源中的会话项数据。  
   
    
   
@@ -601,6 +614,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -617,9 +631,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Web.SessionState.SessionStateModule>对象调用<xref:System.Web.SessionState.SessionStateStoreProviderBase.SetItemExpireCallback%2A>方法来确定在初始化模块时是否调用`Session_OnEnd`支持事件<xref:System.Web.SessionState.SessionStateStoreProviderBase>实现并将关联<xref:System.Web.SessionState.SessionStateItemExpireCallback>委托以及`Session_OnEnd`事件。  
+ <xref:System.Web.SessionState.SessionStateModule>对象调用<xref:System.Web.SessionState.SessionStateStoreProviderBase.SetItemExpireCallback%2A>方法来确定在初始化模块时是否调用`Session_OnEnd`支持事件<xref:System.Web.SessionState.SessionStateStoreProviderBase>实现并将关联<xref:System.Web.SessionState.SessionStateItemExpireCallback>委托，其`Session_OnEnd`事件。  
   
- 自定义会话状态存储提供程序实施者应使用<xref:System.Web.SessionState.SessionStateStoreProviderBase.SetItemExpireCallback%2A>方法，以通知<xref:System.Web.SessionState.SessionStateModule>对象是否调用`Session_OnEnd`支持事件并将本地引用设置为<xref:System.Web.SessionState.SessionStateItemExpireCallback>由提供的委托`expireCallback`参数。 自定义实现必须确定何时本地<xref:System.Web.SessionState.SessionStateItemExpireCallback>将调用委托。 例如，无法在调用过程中调用该委托<xref:System.Web.SessionState.SessionStateStoreProviderBase.RemoveItem%2A>方法，它放弃会话时调用。  
+ 自定义会话状态存储提供程序实施者应使用<xref:System.Web.SessionState.SessionStateStoreProviderBase.SetItemExpireCallback%2A>方法，从而通知<xref:System.Web.SessionState.SessionStateModule>对象是否调用`Session_OnEnd`支持事件并将本地引用设置为<xref:System.Web.SessionState.SessionStateItemExpireCallback>由提供的委托`expireCallback`参数。 自定义实现必须决定何时本地<xref:System.Web.SessionState.SessionStateItemExpireCallback>将调用委托。 例如，在调用的过程可以调用委托<xref:System.Web.SessionState.SessionStateStoreProviderBase.RemoveItem%2A>放弃会话时调用的方法。  
   
    
   

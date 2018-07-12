@@ -1,11 +1,11 @@
 <Type Name="CommonAcl" FullName="System.Security.AccessControl.CommonAcl">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="bb41e1eb4f0018ee8d138696f70e3be4c5900c3b" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="107c2006ca780c28267ef6d4d2fb56f63f02f079" />
+    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="zh-CN" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36532834" />
+    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
+    <Meta Name="ms.locfileid" Value="37466072" />
   </Metadata>
   <TypeSignature Language="C#" Value="public abstract class CommonAcl : System.Security.AccessControl.GenericAcl" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract beforefieldinit CommonAcl extends System.Security.AccessControl.GenericAcl" />
@@ -20,6 +20,7 @@
   </AssemblyInfo>
   <AssemblyInfo>
     <AssemblyName>mscorlib</AssemblyName>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
     <AssemblyVersion>2.0.5.0</AssemblyVersion>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
   </AssemblyInfo>
@@ -34,19 +35,19 @@
   
 ## Remarks  
   
--   继承和访问掩码标志的某些组合将毫无意义：  
+-   继承和访问掩码标志的某些组合是毫无意义：  
   
--   删除具有零访问掩码任何访问控制项 (ACE)。  
+-   删除具有零访问掩码的任何访问控制项 (ACE)。  
   
--   删除了对象 Acl 内的仅限继承的 Ace。  
+-   删除了对象 Acl 中的仅继承 Ace。  
   
--   <xref:System.Security.AccessControl.PropagationFlags.InheritOnly><xref:System.Security.AccessControl.PropagationFlags.NoPropagateInherit>， <xref:System.Security.AccessControl.InheritanceFlags.ContainerInherit>，和<xref:System.Security.AccessControl.InheritanceFlags.ObjectInherit>对叶中的所有 Ace 标志对象 Acl 将被清除。  
+-   <xref:System.Security.AccessControl.PropagationFlags.InheritOnly><xref:System.Security.AccessControl.PropagationFlags.NoPropagateInherit>， <xref:System.Security.AccessControl.InheritanceFlags.ContainerInherit>，和<xref:System.Security.AccessControl.InheritanceFlags.ObjectInherit>叶中的所有 ace 标志对象 Acl 将被清除。  
   
--   具有的 Ace<xref:System.Security.AccessControl.PropagationFlags.InheritOnly>中缺少标志<xref:System.Security.AccessControl.InheritanceFlags.ContainerInherit>或<xref:System.Security.AccessControl.InheritanceFlags.ObjectInherit>标志是无意义的; 它们删除。  
+-   具有的 Ace<xref:System.Security.AccessControl.PropagationFlags.InheritOnly>没有标志<xref:System.Security.AccessControl.InheritanceFlags.ContainerInherit>或<xref:System.Security.AccessControl.InheritanceFlags.ObjectInherit>标志是无意义; 它们删除。  
   
--   <xref:System.Security.AccessControl.PropagationFlags.NoPropagateInherit>中缺少标志<xref:System.Security.AccessControl.InheritanceFlags.ContainerInherit>或<xref:System.Security.AccessControl.InheritanceFlags.ObjectInherit>可以删除标志。  
+-   <xref:System.Security.AccessControl.PropagationFlags.NoPropagateInherit>没有标志<xref:System.Security.AccessControl.InheritanceFlags.ContainerInherit>或<xref:System.Security.AccessControl.InheritanceFlags.ObjectInherit>可以删除标志。  
   
--   具有的 Ace<xref:System.Security.AccessControl.AuditFlags>值<xref:System.Security.AccessControl.AuditFlags.Success>或<xref:System.Security.AccessControl.AuditFlags.Failure>在随机访问控制列表 (Dacl) 被删除。  
+-   具有的 Ace<xref:System.Security.AccessControl.AuditFlags>的值<xref:System.Security.AccessControl.AuditFlags.Success>或<xref:System.Security.AccessControl.AuditFlags.Failure>在自定义访问控制列表 (Dacl) 中删除。  
   
 -   任何审核未指定的 ACE<xref:System.Security.AccessControl.AuditFlags.Success>或<xref:System.Security.AccessControl.AuditFlags.Failure>中删除。  
   
@@ -54,21 +55,21 @@
   
 -   在系统访问控制列表 (Sacl)，删除 AccessAllowed 和 AccessDenied Ace。  
   
- 根据以下算法维护规范顺序：  
+ 按照下面的算法维护规范顺序：  
   
--   显式 Ace 的优先级高于继承的 Ace;此规则适用于 Dacl 和 Sacl。  
+-   显式 Ace 的优先级高于继承 Ace;此规则适用于 Dacl 和 Sacl。  
   
--   在 Dacl，之间的显式 Ace，拒绝访问的 Ace 优先于允许访问的 Ace。 为目录对象的 Acl，非对象 Ace 早对象 Ace。  
+-   之间的显式 Ace 的 Dacl 中拒绝访问的 Ace 的优先级高于允许访问的 Ace。 为目录对象的 Acl，非对象 Ace 对象 Ace 早于。  
   
 -   所有通用 Ace 优先于 noncommon Ace。  
   
 -   继承的 Ace 在规范化之后维护其相对顺序。  
   
--   无法识别和自定义 Ace Dacl 和 Sacl 中不允许。  
+-   无法识别和自定义的 Ace 的 Dacl 和 Sacl 中不允许。  
   
--   在连续范围 （显式 AccessDenied 和 AccessAllowed Ace 上的 Dacl，所有显式 Ace Sacl） 中的 Ace 进行排序通过使用<xref:System.Security.Principal.SecurityIdentifier.CompareTo%2A>方法<xref:System.Security.Principal.SecurityIdentifier>与中的 Ace 关联的对象。  
+-   在连续范围 （显式 AccessDenied 和 Sacl 上的所有显式 Ace 的 Dacl 上 AccessAllowed Ace），Ace 按使用进行排序<xref:System.Security.Principal.SecurityIdentifier.CompareTo%2A>方法的<xref:System.Security.Principal.SecurityIdentifier>与 Ace 关联的对象。  
   
- 如果适当，相邻的 Ace 将进行合并。  这将不会影响它会授予的访问控制语义减少的 ACL 的大小。  
+ 如果适用，组合相邻的 Ace。  这将减少 ACL 的大小而不会影响它会授予的访问控制语义。  
   
  ]]></format>
     </remarks>
@@ -89,6 +90,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -116,6 +118,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -143,6 +146,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -176,6 +180,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -203,6 +208,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -230,6 +236,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -257,6 +264,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -288,6 +296,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -318,6 +327,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -345,6 +355,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>

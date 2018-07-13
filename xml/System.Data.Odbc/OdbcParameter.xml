@@ -1,11 +1,11 @@
 <Type Name="OdbcParameter" FullName="System.Data.Odbc.OdbcParameter">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="28832a71bec8dc374624438f5981ee69ae576d51" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="86f08384607fc2c28a39dbe1b2a62868cceb6355" />
+    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="zh-CN" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36685887" />
+    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
+    <Meta Name="ms.locfileid" Value="37677759" />
   </Metadata>
   <TypeSignature Language="C#" Value="public sealed class OdbcParameter : System.Data.Common.DbParameter, ICloneable" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed beforefieldinit OdbcParameter extends System.Data.Common.DbParameter implements class System.Data.IDataParameter, class System.Data.IDbDataParameter, class System.ICloneable" />
@@ -15,6 +15,8 @@
   <TypeSignature Language="F#" Value="type OdbcParameter = class&#xA;    inherit DbParameter&#xA;    interface ICloneable&#xA;    interface IDbDataParameter&#xA;    interface IDataParameter" />
   <AssemblyInfo>
     <AssemblyName>System.Data</AssemblyName>
+    <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
   </AssemblyInfo>
   <AssemblyInfo>
@@ -23,6 +25,7 @@
   </AssemblyInfo>
   <Base>
     <BaseTypeName>System.Data.Common.DbParameter</BaseTypeName>
+    <BaseTypeName FrameworkAlternate="netframework-1.1">System.MarshalByRefObject</BaseTypeName>
   </Base>
   <Interfaces>
     <Interface>
@@ -42,7 +45,7 @@
 ## Remarks  
  参数名称不区分大小写。  
   
- 在查询用于 Oracle (MSDAORA) 和 ODBC.NET Framework 数据提供程序的 Microsoft OLE DB 提供程序的 Oracle 数据库时，使用`LIKE`子句为固定长度字段中的查询值可能不会返回所有预期的匹配项。 原因是当 Oracle 匹配中的固定长度字段值时`LIKE`子句，它与相匹配的字符串，包括任何填充尾随空格的整个长度。 例如，如果表中的 Oracle 数据库包含一个名为"Field1"定义为字段`char(3)`，并输入值"a"到该表中，下面的代码的行不会返回行。  
+ 在查询时使用 Oracle (MSDAORA) 和 ODBC.NET Framework 数据提供程序的 Microsoft OLE DB 访问接口的 Oracle 数据库，使用`LIKE`子句对查询中固定长度的字段的值可能不会返回所有预期的匹配项。 其原因在于当 Oracle 匹配中的固定长度字段的值时`LIKE`子句，它与匹配的字符串，包括任何填充尾随空格的整个长度。 例如，如果表中的 Oracle 数据库包含一个名为"Field1"定义为字段`char(3)`，然后输入值"a"到表中，以下代码行不会返回行。  
   
 ```vb  
 Dim queryString As String = "SELECT * FROM Table1 WHERE Field1 LIKE ?"  
@@ -58,14 +61,14 @@ command.Parameters.Add("@p1", OleDbType.Char, 3).Value = "a";
 OleDbDataReader reader = command.ExecuteReader();  
 ```  
   
- 这是因为 Oracle 存储"a"形式的列值 (填充"a"以尾随空格，以达到固定的字段长度为 3)，其中 Oracle 不会将其作为"a"的参数值的匹配项的情况下`LIKE`固定长度的字段的比较。  
+ 这是因为 Oracle 将列值存储为"a"(填充"a"使用尾随空格，以达到固定的字段长度 3)，其中 Oracle 不会视为"a"的参数值的匹配项的情况下`LIKE`比较的固定长度的字段。  
   
- 若要解决此问题，请将百分比 （"%"） 通配符字符追加到的参数值 (`"a%"`)，或改用 SQL`=`比较相反。  
+ 若要解决此问题，请将百分比 （"%"） 通配符字符追加到参数值 (`"a%"`)，或使用 SQL`=`比较相反。  
   
    
   
 ## Examples  
- 下面的示例创建的多个实例<xref:System.Data.Odbc.OdbcParameter>通过<xref:System.Data.Odbc.OdbcParameterCollection>内<xref:System.Data.Odbc.OdbcDataAdapter>。 这些参数用于从数据源选择的数据，在其中放置数据<xref:System.Data.DataSet>。 此示例假定<xref:System.Data.DataSet>和<xref:System.Data.Odbc.OdbcDataAdapter>已创建通过使用适当的架构、 命令和连接。  
+ 下面的示例创建的多个实例<xref:System.Data.Odbc.OdbcParameter>通过<xref:System.Data.Odbc.OdbcParameterCollection>内<xref:System.Data.Odbc.OdbcDataAdapter>。 这些参数用于从数据源选择数据并在其中放置数据<xref:System.Data.DataSet>。 此示例假定<xref:System.Data.DataSet>和一个<xref:System.Data.Odbc.OdbcDataAdapter>已创建使用适当的架构、 命令和连接。  
   
  [!code-csharp[Classic WebData OdbcParameter#1](~/samples/snippets/csharp/VS_Snippets_ADO.NET/Classic WebData OdbcParameter/CS/source.cs#1)]
  [!code-vb[Classic WebData OdbcParameter#1](~/samples/snippets/visualbasic/VS_Snippets_ADO.NET/Classic WebData OdbcParameter/VB/source.vb#1)]  
@@ -92,6 +95,8 @@ OleDbDataReader reader = command.ExecuteReader();
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -110,7 +115,7 @@ OleDbDataReader reader = command.ExecuteReader();
    
   
 ## Examples  
- 下面的示例创建<xref:System.Data.Odbc.OdbcParameter>并设置其属性的一些。  
+ 下面的示例创建<xref:System.Data.Odbc.OdbcParameter>和设置的某些属性。  
   
  [!code-csharp[Classic WebData OdbcParameter.OdbcParameter#1](~/samples/snippets/csharp/VS_Snippets_ADO.NET/Classic WebData OdbcParameter.OdbcParameter/CS/source.cs#1)]
  [!code-vb[Classic WebData OdbcParameter.OdbcParameter#1](~/samples/snippets/visualbasic/VS_Snippets_ADO.NET/Classic WebData OdbcParameter.OdbcParameter/VB/source.vb#1)]  
@@ -129,6 +134,8 @@ OleDbDataReader reader = command.ExecuteReader();
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -148,7 +155,7 @@ OleDbDataReader reader = command.ExecuteReader();
           <format type="text/markdown"><![CDATA[  
   
 ## Examples  
- 下面的示例创建<xref:System.Data.Odbc.OdbcParameter>并设置其属性的一些。  
+ 下面的示例创建<xref:System.Data.Odbc.OdbcParameter>和设置的某些属性。  
   
  [!code-csharp[Classic WebData OdbcParameter.OdbcParameter1#1](~/samples/snippets/csharp/VS_Snippets_ADO.NET/Classic WebData OdbcParameter.OdbcParameter1/CS/source.cs#1)]
  [!code-vb[Classic WebData OdbcParameter.OdbcParameter1#1](~/samples/snippets/visualbasic/VS_Snippets_ADO.NET/Classic WebData OdbcParameter.OdbcParameter1/VB/source.vb#1)]  
@@ -168,6 +175,8 @@ OleDbDataReader reader = command.ExecuteReader();
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -186,13 +195,13 @@ OleDbDataReader reader = command.ExecuteReader();
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 你使用的此重载时要格外小心<xref:System.Data.Odbc.OdbcParameter>构造函数来指定整数参数值。 因为此重载接受 <xref:System.Object> 类型的 `value`，所以当此值为零时，必须将整数值转换为 <xref:System.Object> 类型，如下面的 C# 示例所示。  
+ 使用此重载时要格外小心<xref:System.Data.Odbc.OdbcParameter>构造函数来指定整数参数值。 因为此重载接受 <xref:System.Object> 类型的 `value`，所以当此值为零时，必须将整数值转换为 <xref:System.Object> 类型，如下面的 C# 示例所示。  
   
 ```  
 Parameter = new OdbcParameter("@pname", Convert.ToInt32(0));  
 ```  
   
- 如果不执行此转换，则编译器将认为你尝试调用<xref:System.Data.Odbc.OdbcParameter.%23ctor%2A?displayProperty=nameWithType>构造函数重载。  
+ 如果不执行此转换，编译器将假定您尝试调用<xref:System.Data.Odbc.OdbcParameter.%23ctor%2A?displayProperty=nameWithType>构造函数重载。  
   
  ]]></format>
         </remarks>
@@ -208,6 +217,8 @@ Parameter = new OdbcParameter("@pname", Convert.ToInt32(0));
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -229,7 +240,7 @@ Parameter = new OdbcParameter("@pname", Convert.ToInt32(0));
           <format type="text/markdown"><![CDATA[  
   
 ## Examples  
- 下面的示例创建<xref:System.Data.Odbc.OdbcParameter>并设置其属性的一些。  
+ 下面的示例创建<xref:System.Data.Odbc.OdbcParameter>和设置的某些属性。  
   
  [!code-csharp[Classic WebData OdbcParameter.OdbcParameter2#1](~/samples/snippets/csharp/VS_Snippets_ADO.NET/Classic WebData OdbcParameter.OdbcParameter2/CS/source.cs#1)]
  [!code-vb[Classic WebData OdbcParameter.OdbcParameter2#1](~/samples/snippets/visualbasic/VS_Snippets_ADO.NET/Classic WebData OdbcParameter.OdbcParameter2/VB/source.vb#1)]  
@@ -249,6 +260,8 @@ Parameter = new OdbcParameter("@pname", Convert.ToInt32(0));
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -272,7 +285,7 @@ Parameter = new OdbcParameter("@pname", Convert.ToInt32(0));
           <format type="text/markdown"><![CDATA[  
   
 ## Examples  
- 下面的示例创建<xref:System.Data.Odbc.OdbcParameter>并设置其属性的一些。  
+ 下面的示例创建<xref:System.Data.Odbc.OdbcParameter>和设置的某些属性。  
   
  [!code-csharp[Classic WebData OdbcParameter.OdbcParameter3#1](~/samples/snippets/csharp/VS_Snippets_ADO.NET/Classic WebData OdbcParameter.OdbcParameter3/CS/source.cs#1)]
  [!code-vb[Classic WebData OdbcParameter.OdbcParameter3#1](~/samples/snippets/visualbasic/VS_Snippets_ADO.NET/Classic WebData OdbcParameter.OdbcParameter3/VB/source.vb#1)]  
@@ -291,6 +304,8 @@ Parameter = new OdbcParameter("@pname", Convert.ToInt32(0));
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -299,7 +314,7 @@ Parameter = new OdbcParameter("@pname", Convert.ToInt32(0));
       </AssemblyInfo>
       <Attributes>
         <Attribute>
-          <AttributeName>System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Advanced)</AttributeName>
+          <AttributeName>System.ComponentModel.EditorBrowsable</AttributeName>
         </Attribute>
       </Attributes>
       <Parameters>
@@ -333,7 +348,7 @@ Parameter = new OdbcParameter("@pname", Convert.ToInt32(0));
           <format type="text/markdown"><![CDATA[  
   
 ## Examples  
- 下面的示例创建<xref:System.Data.Odbc.OdbcParameter>并显示<xref:System.Data.Odbc.OdbcParameter.ParameterName%2A>。  
+ 下面的示例创建<xref:System.Data.Odbc.OdbcParameter>，并显示<xref:System.Data.Odbc.OdbcParameter.ParameterName%2A>。  
   
  [!code-csharp[Classic WebData OdbcParameter.OdbcParameter4#1](~/samples/snippets/csharp/VS_Snippets_ADO.NET/Classic WebData OdbcParameter.OdbcParameter4/CS/source.cs#1)]
  [!code-vb[Classic WebData OdbcParameter.OdbcParameter4#1](~/samples/snippets/visualbasic/VS_Snippets_ADO.NET/Classic WebData OdbcParameter.OdbcParameter4/VB/source.vb#1)]  
@@ -352,6 +367,7 @@ Parameter = new OdbcParameter("@pname", Convert.ToInt32(0));
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -360,7 +376,7 @@ Parameter = new OdbcParameter("@pname", Convert.ToInt32(0));
       </AssemblyInfo>
       <Attributes>
         <Attribute>
-          <AttributeName>System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Advanced)</AttributeName>
+          <AttributeName>System.ComponentModel.EditorBrowsable</AttributeName>
         </Attribute>
       </Attributes>
       <Parameters>
@@ -394,7 +410,7 @@ Parameter = new OdbcParameter("@pname", Convert.ToInt32(0));
           <format type="text/markdown"><![CDATA[  
   
 ## Examples  
- 下面的示例创建<xref:System.Data.Odbc.OdbcParameter>并显示<xref:System.Data.Odbc.OdbcParameter.ParameterName%2A>。  
+ 下面的示例创建<xref:System.Data.Odbc.OdbcParameter>，并显示<xref:System.Data.Odbc.OdbcParameter.ParameterName%2A>。  
   
 ```vb  
 Public Sub CreateOdbcParameter()  
@@ -431,6 +447,8 @@ public void CreateOdbcParameter()
       </Implements>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -448,12 +466,12 @@ public void CreateOdbcParameter()
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Data.Odbc.OdbcParameter.OdbcType%2A>和<xref:System.Data.Odbc.OdbcParameter.DbType%2A>链接。 因此，设置<xref:System.Data.Odbc.OdbcParameter.DbType%2A>更改<xref:System.Data.Odbc.OdbcParameter.OdbcType%2A>到支持<xref:System.Data.Odbc.OdbcParameter.OdbcType%2A>。  
+ <xref:System.Data.Odbc.OdbcParameter.OdbcType%2A>和<xref:System.Data.Odbc.OdbcParameter.DbType%2A>链接。 因此，设置<xref:System.Data.Odbc.OdbcParameter.DbType%2A>更改<xref:System.Data.Odbc.OdbcParameter.OdbcType%2A>为支持<xref:System.Data.Odbc.OdbcParameter.OdbcType%2A>。  
   
  有关支持的数据类型的列表，请参阅相应<xref:System.Data.Odbc.OdbcParameter.OdbcType%2A>成员。 有关详细信息，请参阅[DataAdapter 参数](~/docs/framework/data/adonet/dataadapter-parameters.md)。  
   
 > [!NOTE]
->  <xref:System.Data.DbType.Object> 不受 ODBC 的 Microsoft.NET Framework 数据提供程序。  
+>  <xref:System.Data.DbType.Object> 不受 ODBC Microsoft.NET Framework 数据提供程序。  
   
    
   
@@ -481,6 +499,8 @@ public void CreateOdbcParameter()
       </Implements>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -503,14 +523,14 @@ public void CreateOdbcParameter()
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 如果<xref:System.Data.ParameterDirection>是`Output`，和执行的关联<xref:System.Data.Odbc.OdbcCommand>不返回一个值，<xref:System.Data.Odbc.OdbcParameter>将包含 null 值。 处理 null 值使用<xref:System.DBNull>类。  
+ 如果<xref:System.Data.ParameterDirection>是`Output`，和关联的执行<xref:System.Data.Odbc.OdbcCommand>不会返回一个值，<xref:System.Data.Odbc.OdbcParameter>将包含 null 值。 处理 null 值使用<xref:System.DBNull>类。  
   
- `Output``InputOut`，和`ReturnValue`参数返回通过调用<xref:System.Data.Odbc.OdbcCommand.ExecuteReader%2A>无法访问，直到你调用<xref:System.Data.Odbc.OdbcDataReader.Close%2A>或`Dispose`上<xref:System.Data.Odbc.OdbcDataReader>。  
+ `Output``InputOut`，并`ReturnValue`参数返回通过调用<xref:System.Data.Odbc.OdbcCommand.ExecuteReader%2A>直到您调用不能访问<xref:System.Data.Odbc.OdbcDataReader.Close%2A>或`Dispose`上<xref:System.Data.Odbc.OdbcDataReader>。  
   
    
   
 ## Examples  
- 下面的示例创建<xref:System.Data.Odbc.OdbcParameter>并设置其属性的一些。  
+ 下面的示例创建<xref:System.Data.Odbc.OdbcParameter>和设置的某些属性。  
   
 ```vb  
 Public Sub CreateMyProc(connection As OdbcConnection)  
@@ -550,6 +570,8 @@ public void CreateMyProc(OdbcConnection connection)
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -571,7 +593,7 @@ public void CreateMyProc(OdbcConnection connection)
    
   
 ## Examples  
- 下面的示例创建<xref:System.Data.Odbc.OdbcParameter>并设置其属性的一些。  
+ 下面的示例创建<xref:System.Data.Odbc.OdbcParameter>和设置的某些属性。  
   
 ```vb  
 Public Sub CreateOdbcParameter()  
@@ -604,6 +626,8 @@ public void CreateOdbcParameter()
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -632,7 +656,7 @@ public void CreateOdbcParameter()
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Data.Odbc.OdbcParameter.OdbcType%2A>和<xref:System.Data.Odbc.OdbcParameter.DbType%2A>链接。 因此，设置<xref:System.Data.Odbc.OdbcParameter.DbType%2A>更改<xref:System.Data.Odbc.OdbcParameter.OdbcType%2A>到支持<xref:System.Data.Odbc.OdbcType>。  
+ <xref:System.Data.Odbc.OdbcParameter.OdbcType%2A>和<xref:System.Data.Odbc.OdbcParameter.DbType%2A>链接。 因此，设置<xref:System.Data.Odbc.OdbcParameter.DbType%2A>更改<xref:System.Data.Odbc.OdbcParameter.OdbcType%2A>为支持<xref:System.Data.Odbc.OdbcType>。  
   
  有关支持的数据类型的列表，请参阅相应<xref:System.Data.Odbc.OdbcType>成员。 有关详细信息，请参阅[DataAdapter 参数](~/docs/framework/data/adonet/dataadapter-parameters.md)。  
   
@@ -657,7 +681,7 @@ public void CreateOdbcParameter()
           <AttributeName>System.ComponentModel.Browsable(false)</AttributeName>
         </Attribute>
         <Attribute>
-          <AttributeName>System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Advanced)</AttributeName>
+          <AttributeName>System.ComponentModel.EditorBrowsable</AttributeName>
         </Attribute>
       </Attributes>
       <ReturnValue>
@@ -682,6 +706,8 @@ public void CreateOdbcParameter()
       </Implements>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -699,7 +725,7 @@ public void CreateOdbcParameter()
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 使用而不是命名参数，ODBC.NET 提供程序用问号 （？） 标记的位置参数在命令文本的语法。 中的参数对象<xref:System.Data.Odbc.OdbcParameterCollection>和实际参数接受的存储过程或参数化的 SQL 语句对应于根据的顺序彼此<xref:System.Data.Odbc.OdbcParameter>对象插入到集合中而不是按参数名称。 参数名称可以提供，但将参数对象绑定过程中忽略。  
+ 而不是命名参数，ODBC.NET 提供程序的命令文本语法中使用用问号 （？） 标记的位置参数。 中的参数对象<xref:System.Data.Odbc.OdbcParameterCollection>和实际参数接受由存储过程或参数化的 SQL 语句对应于每个其他基于依据的顺序<xref:System.Data.Odbc.OdbcParameter>对象插入到集合，而不是由参数名称。 参数名称可以提供，但将参数对象绑定过程中忽略。  
   
    
   
@@ -711,7 +737,7 @@ CREATE TABLE MyTable (col1 int, col2 smallmoney, col3 decimal)
 CREATE PROC MyProc (@p1 int, @p2 smallmoney, @p3 decimal) AS INSERT INTO MyTable VALUES (@p1, @p2, @p3)  
 ```  
   
- 下面的示例创建参数，并调用 MyProc 存储过程：  
+ 以下示例创建参数，并调用 MyProc 存储过程：  
   
 ```vb  
 Public Sub CreateMyProc(connection As OdbcConnection)  
@@ -755,6 +781,8 @@ public void CreateMyProc(OdbcConnection connection)
       </Implements>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -776,17 +804,17 @@ public void CreateMyProc(OdbcConnection connection)
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 此属性设置为数据库中的值以外的值取决于数据提供程序的实现，并可能会返回错误代码，截断或舍入数据。  
+ 此属性设置为在数据库中的值以外的值取决于数据访问接口的实现，并可能会返回错误代码，截断或舍入数据。  
   
- <xref:System.Data.Odbc.OdbcParameter.Precision%2A>属性仅会影响参数其<xref:System.Data.Odbc.OdbcType>是`Decimal`或`Numeric`。 对于其他数据类型，<xref:System.Data.Odbc.OdbcParameter.Precision%2A>将被忽略。  
+ <xref:System.Data.Odbc.OdbcParameter.Precision%2A>属性才影响参数其<xref:System.Data.Odbc.OdbcType>是`Decimal`或`Numeric`。 对于其他数据类型，<xref:System.Data.Odbc.OdbcParameter.Precision%2A>将被忽略。  
   
 > [!NOTE]
->  不支持此属性将数据传递到数据库强制使用。 若要舍入、 截断，或者将其传递到数据库之前强制数据，使用<xref:System.Math>类属于`System`之前将值分配给参数的命名空间`Value`属性。  
+>  不支持此属性将数据传递到数据库强制使用。 若要舍入、 截断，或者将其传递到数据库之前强制数据，请使用<xref:System.Math>的一部分，该类`System`之前将值分配给该参数的命名空间`Value`属性。  
   
    
   
 ## Examples  
- 下面的示例创建<xref:System.Data.Odbc.OdbcParameter>并设置其属性的一些。  
+ 下面的示例创建<xref:System.Data.Odbc.OdbcParameter>和设置的某些属性。  
   
 ```vb  
 Public Sub CreateOdbcParameter()  
@@ -821,6 +849,7 @@ public void CreateOdbcParameter()
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -837,7 +866,7 @@ public void CreateOdbcParameter()
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 执行命令时包括参数值、 代码可以显式设置参数的类型或参数可以推断出类型的值。 调用此方法将重置参数，以便它可以再次推断出类型参数中传递的值。 调用此方法对两者的影响<xref:System.Data.Odbc.OdbcParameter.DbType%2A>和<xref:System.Data.Odbc.OdbcParameter.OdbcType%2A>属性<xref:System.Data.Odbc.OdbcParameter>。  
+ 执行命令时包括参数值，代码可以显式设置参数的类型或参数可以推断其类型从其值。 调用此方法会重置参数，以便它可以再次推断出它的类型从传递的参数中的值。 调用此方法对两者的影响<xref:System.Data.Odbc.OdbcParameter.DbType%2A>并<xref:System.Data.Odbc.OdbcParameter.OdbcType%2A>的属性<xref:System.Data.Odbc.OdbcParameter>。  
   
  调用<xref:System.Data.Odbc.OdbcParameter.ResetDbType%2A>重置<xref:System.Data.Odbc.OdbcParameter.DbType%2A>为其默认值 （字符串）。  
   
@@ -855,6 +884,7 @@ public void CreateOdbcParameter()
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -871,7 +901,7 @@ public void CreateOdbcParameter()
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 执行命令时包括参数值、 代码可以显式设置参数的类型或参数可以推断出类型的值。 调用此方法将重置参数，以便它可以再次推断出类型参数中传递的值。 调用此方法对两者的影响<xref:System.Data.Odbc.OdbcParameter.DbType%2A>和<xref:System.Data.Odbc.OdbcParameter.OdbcType%2A>属性<xref:System.Data.Odbc.OdbcParameter>。  
+ 执行命令时包括参数值，代码可以显式设置参数的类型或参数可以推断其类型从其值。 调用此方法会重置参数，以便它可以再次推断出它的类型从传递的参数中的值。 调用此方法对两者的影响<xref:System.Data.Odbc.OdbcParameter.DbType%2A>并<xref:System.Data.Odbc.OdbcParameter.OdbcType%2A>的属性<xref:System.Data.Odbc.OdbcParameter>。  
   
  ]]></format>
         </remarks>
@@ -890,6 +920,8 @@ public void CreateOdbcParameter()
       </Implements>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -911,24 +943,24 @@ public void CreateOdbcParameter()
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Data.Odbc.OdbcParameter.Scale%2A>属性仅用于 decimal 和 numeric 输入参数。  
+ <xref:System.Data.Odbc.OdbcParameter.Scale%2A>属性仅用于小数和数值输入参数。  
   
- 为数据库中的值以外的值设置此属性的效果取决于数据提供程序的实现并可能返回错误代码，或截断或舍入的数据。  
+ 为数据库中的值以外的值设置此属性的效果取决于数据访问接口的实现并可能返回错误代码，或截断或舍入的数据。  
   
- <xref:System.Data.Odbc.OdbcParameter.Scale%2A>属性仅会影响参数其<xref:System.Data.Odbc.OdbcType>是`Decimal`或`Numeric`。 对于其他数据类型，<xref:System.Data.Odbc.OdbcParameter.Scale%2A>将被忽略。  
+ <xref:System.Data.Odbc.OdbcParameter.Scale%2A>属性才影响参数其<xref:System.Data.Odbc.OdbcType>是`Decimal`或`Numeric`。 对于其他数据类型，<xref:System.Data.Odbc.OdbcParameter.Scale%2A>将被忽略。  
   
- 使用 SQL Server 本机客户端时 10 （或更高版本） 若要绑定的类型为 Decimal、 Numeric、 VarNumeric、 DBDate 或 DBTimeStamp 的参数，必须手动指定适当的缩放值。  
-  
-> [!NOTE]
->  不支持此属性将数据传递到数据库强制使用。 若要舍入、 截断，或者将其传递到数据库之前强制数据，使用<xref:System.Math>类属于`System`之前将值分配给参数的命名空间`Value`属性。  
+ 使用 SQL Server 本机客户端时 10 （或更高版本） 参数类型为 Decimal、 Numeric、 VarNumeric、 为 DBDate 或 DBTimeStamp 的绑定，则必须手动指定适当的缩放值。  
   
 > [!NOTE]
->  附带.NET Framework 1.0 版的.NET framework 数据提供程序不验证`scale`的<xref:System.Decimal>参数值。 这会导致修改后的数据在数据源处插入。 如果你使用的.NET Framework 1.0 版，验证 s`cale`的 d`ecimal`之前设置参数值的值。 当你使用.NET Framework 1.1 版或更高版本，`scale`值超出了`decimal`参数的小数位数可能仅会被截断在刻度中，如果是基础的 ODBC 驱动程序的行为。  
+>  不支持此属性将数据传递到数据库强制使用。 若要舍入、 截断，或者将其传递到数据库之前强制数据，请使用<xref:System.Math>的一部分，该类`System`之前将值分配给该参数的命名空间`Value`属性。  
+  
+> [!NOTE]
+>  随.NET Framework 1.0 版的.NET framework 数据提供程序不会验证`scale`的<xref:System.Decimal>参数值。 这会导致修改的数据源中插入的数据。 如果使用.NET Framework 1.0 版，验证 s`cale` d 的`ecimal`之前设置参数值的值。 使用.NET Framework 1.1 版或更高版本时`scale`值超出了`decimal`参数的小数位数可能仅会被截断规模，如果这是基础 ODBC 驱动程序的行为。  
   
    
   
 ## Examples  
- 下面的示例创建<xref:System.Data.Odbc.OdbcParameter>并设置其属性的一些。  
+ 下面的示例创建<xref:System.Data.Odbc.OdbcParameter>和设置的某些属性。  
   
 ```vb  
 Public Sub CreateOdbcParameter()  
@@ -966,6 +998,8 @@ public void CreateOdbcParameter()
       </Implements>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -984,23 +1018,23 @@ public void CreateOdbcParameter()
 ## Remarks  
  <xref:System.Data.Odbc.OdbcParameter.Size%2A>属性用于二进制和字符串类型。  
   
- 对于非字符串数据类型和 ANSI 字符串数据，<xref:System.Data.Odbc.OdbcParameter.Size%2A>属性引用的字节数。 对于 Unicode 字符串数据，<xref:System.Data.Odbc.OdbcParameter.Size%2A>指的字符数。 字符串的计数不包括结尾的字符。  
+ 对于非字符串数据类型和 ANSI 字符串数据，<xref:System.Data.Odbc.OdbcParameter.Size%2A>属性引用的字节数。 对于 Unicode 字符串数据，<xref:System.Data.Odbc.OdbcParameter.Size%2A>指的是字符数。 字符串的计数不包括终止字符。  
   
- 对于可变长度数据类型，`Size`描述数据传输到服务器的最大数量。 例如，对于 Unicode 字符串值，`Size`无法用于限制发送到服务器以首先一百个字符的数据量。  
+ 对于可变长度数据类型，`Size`描述的最大传输到服务器的数据量。 例如，对于 Unicode 字符串值，`Size`无法用于限制发送到服务器的前 100 个字符的数据量。  
   
- 对于双向和输出参数和返回值，你必须设置的值`Size`。 这不是必需的输入参数，并且如果没有显式设置的值推断从指定的参数的实际大小执行参数化的语句时。  
+ 必须为双向参数、 输出参数和返回值，设置的值`Size`。 这不是必需的输入参数，如果未显式设置时的值会从指定的参数的实际大小时推断执行参数化的语句。  
   
- <xref:System.Data.Common.DbParameter.DbType%2A>， <xref:System.Data.Odbc.OdbcParameter.OdbcType%2A>，和<xref:System.Data.Odbc.OdbcParameter.Size%2A>参数属性可以通过设置推断<xref:System.Data.Odbc.OdbcParameter.Value%2A>。 因此，不需要指定它们。 但是，它们未公开在<xref:System.Data.Odbc.OdbcParameter>属性设置。 例如，如果已推断出参数的大小，`Size`语句执行后，不包含推断的值。  
+ <xref:System.Data.Common.DbParameter.DbType%2A>， <xref:System.Data.Odbc.OdbcParameter.OdbcType%2A>，并<xref:System.Data.Odbc.OdbcParameter.Size%2A>参数的属性，可以通过设置推断出<xref:System.Data.Odbc.OdbcParameter.Value%2A>。 因此，不需要指定它们。 但是，它们不会暴露在<xref:System.Data.Odbc.OdbcParameter>属性设置。 例如，如果已推断出参数的大小，`Size`语句执行后，不包含推断的值。  
   
 > [!NOTE]
 >  有关`OdbcParameter`与<xref:System.Data.Odbc.OdbcParameter.Direction%2A>的`ParameterDirection.Output`， `ParameterDirection.InputOutput`，或`ParameterDirection.ReturnValue`，如果数据源返回的值的大小超过指定执行命令时，将引发异常`Size`的<xref:System.Data.Odbc.OdbcParameter>.  
   
- 对于固定长度的数据类型的值`Size`将被忽略。 它可以检索用于信息说明，并返回最大传输到服务器参数的值时，提供程序使用的字节数。  
+ 对于固定长度的数据类型，值`Size`将被忽略。 它可以检索用于信息说明，并返回最大传输到服务器参数的值时，提供程序使用的字节数。  
   
    
   
 ## Examples  
- 下面的示例创建<xref:System.Data.Odbc.OdbcParameter>并设置其属性的一些。  
+ 下面的示例创建<xref:System.Data.Odbc.OdbcParameter>和设置的某些属性。  
   
 ```vb  
 Public Sub CreateOdbcParameter()  
@@ -1040,6 +1074,8 @@ public void CreateOdbcParameter()
       </Implements>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -1056,14 +1092,14 @@ public void CreateOdbcParameter()
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 当<xref:System.Data.Odbc.OdbcParameter.SourceColumn%2A>设置为任何内容而非空字符串，参数的值进行检索的列`SourceColumn`名称。 如果<xref:System.Data.Odbc.OdbcParameter.Direction%2A>设置为`Input`，值取自<xref:System.Data.DataSet>。 如果`Direction`设置为`Output`，从数据源中获取的值。 A`Direction`的`InputOutput`是这两者的组合。  
+ 当<xref:System.Data.Odbc.OdbcParameter.SourceColumn%2A>设置为非空字符串，参数的值从与列中检索的任何`SourceColumn`名称。 如果<xref:System.Data.Odbc.OdbcParameter.Direction%2A>设置为`Input`，获取的值是<xref:System.Data.DataSet>。 如果`Direction`设置为`Output`，从数据源中获取的值。 一个`Direction`的`InputOutput`是这两者的组合。  
   
- 有关如何使用<xref:System.Data.Odbc.OdbcParameter.SourceColumn%2A>属性，请参阅[DataAdapter 参数](~/docs/framework/data/adonet/dataadapter-parameters.md)和[使用 Dataadapter 更新数据源](~/docs/framework/data/adonet/updating-data-sources-with-dataadapters.md)。  
+ 有关如何使用详细信息<xref:System.Data.Odbc.OdbcParameter.SourceColumn%2A>属性，请参阅[DataAdapter 参数](~/docs/framework/data/adonet/dataadapter-parameters.md)并[使用 Dataadapter 更新数据源](~/docs/framework/data/adonet/updating-data-sources-with-dataadapters.md)。  
   
    
   
 ## Examples  
- 下面的示例创建<xref:System.Data.Odbc.OdbcParameter>并设置其属性的一些。  
+ 下面的示例创建<xref:System.Data.Odbc.OdbcParameter>和设置的某些属性。  
   
 ```vb  
 Public Sub CreateOdbcParameter()  
@@ -1094,6 +1130,7 @@ public void CreateOdbcParameter()
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -1110,22 +1147,22 @@ public void CreateOdbcParameter()
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Data.Odbc.OdbcParameter.SourceColumnNullMapping%2A> 由<xref:System.Data.Common.DbCommandBuilder>时处理可以为 null 的列正确生成更新命令。 通常，使用的<xref:System.Data.Odbc.OdbcParameter.SourceColumnNullMapping%2A>限制为开发人员从继承<xref:System.Data.Common.DbCommandBuilder>。  
+ <xref:System.Data.Odbc.OdbcParameter.SourceColumnNullMapping%2A> 由<xref:System.Data.Common.DbCommandBuilder>来正确处理为 null 的列时生成更新命令。 通常情况下，使用<xref:System.Data.Odbc.OdbcParameter.SourceColumnNullMapping%2A>继承的开发人员仅限于<xref:System.Data.Common.DbCommandBuilder>。  
   
- <xref:System.Data.Common.DbCommandBuilder> 使用此属性来确定源列是否可以为 null，并将此属性设置为`true`是否可以为 null，和`false`如果它不是。 当<xref:System.Data.Common.DbCommandBuilder>是生成其 Update 语句，它将检查<xref:System.Data.Odbc.OdbcParameter.SourceColumnNullMapping%2A>每个参数。 如果属性是`true`，<xref:System.Data.Common.DbCommandBuilder>生成 WHERE 子句，如下例所示。 在此查询表达式中，"FieldName"表示的字段的名称：  
+ <xref:System.Data.Common.DbCommandBuilder> 使用此属性来确定源列是否可以为 null，并将此属性设置为`true`是否可以为 null，和`false`如果不是。 当<xref:System.Data.Common.DbCommandBuilder>是生成其 Update 语句，它将检查<xref:System.Data.Odbc.OdbcParameter.SourceColumnNullMapping%2A>为每个参数。 如果该属性是`true`，<xref:System.Data.Common.DbCommandBuilder>生成 WHERE 子句，如下例所示。 在此查询表达式中，"FieldName"表示的字段的名称：  
   
 ```  
 ((@IsNull_FieldName = 1 AND FieldName IS NULL) OR   
   (FieldName = @Original_FieldName))  
 ```  
   
- 如果<xref:System.Data.Odbc.OdbcParameter.SourceColumnNullMapping%2A>字段是 false，<xref:System.Data.Common.DbCommandBuilder>生成以下 WHERE 子句：  
+ 如果<xref:System.Data.Odbc.OdbcParameter.SourceColumnNullMapping%2A>为 false，该字段为<xref:System.Data.Common.DbCommandBuilder>生成以下 WHERE 子句：  
   
 ```  
 FieldName = @OriginalFieldName  
 ```  
   
- 此外，@IsNull_FieldName如果源字段包含 null 值和 0，如果它不包含 1。 此机制允许 SQL Server 中的一个性能优化，并提供的可以在多个提供程序的通用代码。  
+ 此外，@IsNull_FieldName如果源字段包含 null 值和 0，如果它不包含 1。 此机制可以优化 SQL Server 中的性能，并提供的跨多个提供程序的通用代码。  
   
  ]]></format>
         </remarks>
@@ -1144,6 +1181,8 @@ FieldName = @OriginalFieldName
       </Implements>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -1161,14 +1200,14 @@ FieldName = @OriginalFieldName
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- `SourceVersion`由<xref:System.Data.Odbc.OdbcDataAdapter.UpdateCommand%2A>期间<xref:System.Data.Common.DbDataAdapter.Update*>操作，以确定是否将参数值设置为当前或原始。 这样，要更新的主键。  
+ `SourceVersion`由<xref:System.Data.Odbc.OdbcDataAdapter.UpdateCommand%2A>期间<xref:System.Data.Common.DbDataAdapter.Update*>运算来确定是否将参数值设置为当前或原始。 这样，要更新的主键。  
   
  此属性设置为的新版<xref:System.Data.DataRow>通过以下任一方法使用`Item`属性 (`DataRow`索引器)，或<xref:System.Data.DataRow.GetChildRows%2A>方法。  
   
    
   
 ## Examples  
- 下面的示例创建<xref:System.Data.Odbc.OdbcParameter>并设置其属性的一些。  
+ 下面的示例创建<xref:System.Data.Odbc.OdbcParameter>和设置的某些属性。  
   
 ```vb  
 Public Sub CreateOdbcParameter()  
@@ -1203,6 +1242,8 @@ public void CreateOdbcParameter()
       </Implements>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -1236,6 +1277,8 @@ public void CreateOdbcParameter()
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -1265,6 +1308,8 @@ public void CreateOdbcParameter()
       </Implements>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -1289,20 +1334,20 @@ public void CreateOdbcParameter()
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 用于输入参数的值绑定到<xref:System.Data.Odbc.OdbcCommand>，发送到服务器。 对于输出参数和返回值参数，该数值将在完成<xref:System.Data.Odbc.OdbcCommand>后<xref:System.Data.Odbc.OdbcDataReader>已关闭。  
+ 用于输入参数的值绑定到<xref:System.Data.Odbc.OdbcCommand>，发送到服务器。 对于输出参数和返回值参数，该数值将在完成<xref:System.Data.Odbc.OdbcCommand>前后<xref:System.Data.Odbc.OdbcDataReader>已关闭。  
   
- 当你向服务器发送 null 参数值时，用户必须指定<xref:System.DBNull>，而不是 null。 系统中的 null 值是一个空的对象具有任何值。 <xref:System.DBNull> 用于表示 null 值。 如果使用参数调用存储的过程参数具有默认值，设置<xref:System.Data.Odbc.OdbcParameter.Value%2A>为 null 的默认值要使用的会导致。  
+ 如果向服务器发送 null 参数值，用户必须指定<xref:System.DBNull>，而不是 null。 在系统中的 null 值是一个没有值的空对象。 <xref:System.DBNull> 用于表示 null 值。 如果使用参数来调用存储的过程参数具有默认值，设置<xref:System.Data.Odbc.OdbcParameter.Value%2A>为 null 的默认值要使用的原因。  
   
- 如果应用程序指定数据库类型，绑定的值转换为该类型时提供程序将数据发送到服务器。 提供程序尝试将任何类型的值的转换，如果它支持<xref:System.IConvertible>接口。 如果指定的类型不兼容的值，可能会导致转换错误。  
+ 如果应用程序指定的数据库类型，绑定的值转换为该类型时提供程序将数据发送到服务器。 提供程序尝试转换任何类型的值，如果它支持<xref:System.IConvertible>接口。 如果指定的类型不兼容的值，可能会导致转换错误。  
   
- 同时<xref:System.Data.Odbc.OdbcParameter.DbType%2A>和<xref:System.Data.Odbc.OdbcParameter.OdbcType%2A>属性可以通过设置推断<xref:System.Data.Odbc.OdbcParameter.Value%2A>。 如果适用，大小、 精度和小数位数，则还从推断<xref:System.Data.Odbc.OdbcParameter.Value%2A>执行参数化的语句时。 但是，不向用户公开推断出的值。  
+ 同时<xref:System.Data.Odbc.OdbcParameter.DbType%2A>并<xref:System.Data.Odbc.OdbcParameter.OdbcType%2A>属性可以通过设置推断出<xref:System.Data.Odbc.OdbcParameter.Value%2A>。 如果适用，大小、 精度和小数位数也将从推断<xref:System.Data.Odbc.OdbcParameter.Value%2A>执行参数化的语句时。 但是，推断出的值不向用户公开。  
   
  <xref:System.Data.Odbc.OdbcParameter.Value%2A>属性会被覆盖`Update`方法。  
   
    
   
 ## Examples  
- 下面的示例创建<xref:System.Data.Odbc.OdbcParameter>并设置其属性的一些。  
+ 下面的示例创建<xref:System.Data.Odbc.OdbcParameter>和设置的某些属性。  
   
 ```vb  
 Public Sub CreateOdbcParameter()  

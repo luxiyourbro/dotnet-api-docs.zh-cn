@@ -1,11 +1,11 @@
 <Type Name="Button" FullName="System.Web.UI.WebControls.Button">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="5755a0f1e480cba3b8892b8ea4347b10bbfd4cc4" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="4ef2c126cb86226bdd46949310ea402b45e4488d" />
+    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="zh-CN" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36583852" />
+    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
+    <Meta Name="ms.locfileid" Value="37742971" />
   </Metadata>
   <TypeSignature Language="C#" Value="public class Button : System.Web.UI.WebControls.WebControl, System.Web.UI.IPostBackEventHandler, System.Web.UI.WebControls.IButtonControl" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit Button extends System.Web.UI.WebControls.WebControl implements class System.Web.UI.IPostBackEventHandler, class System.Web.UI.WebControls.IButtonControl" />
@@ -15,6 +15,8 @@
   <TypeSignature Language="F#" Value="type Button = class&#xA;    inherit WebControl&#xA;    interface IButtonControl&#xA;    interface IPostBackEventHandler" />
   <AssemblyInfo>
     <AssemblyName>System.Web</AssemblyName>
+    <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
   </AssemblyInfo>
   <Base>
@@ -60,7 +62,7 @@
   
 -   [按钮的回发行为和服务器事件](#ButtonPostbackBehaviorandServerEvents)  
   
--   [客户端脚本中的处理按钮事件](#HandlingButtonEventsinClientScript)  
+-   [客户端脚本中处理按钮事件](#HandlingButtonEventsinClientScript)  
   
 -   [按钮控件和验证](#ButtonControlsAndValidation)  
   
@@ -68,71 +70,71 @@
   
 -   [数据绑定到控件](#BindingDataToTheControls)  
   
--   [使用带有 UpdatePanel 控件按钮](#UsingButtonsWithUpdatePanelControls)  
+-   [使用 UpdatePanel 控件的按钮](#UsingButtonsWithUpdatePanelControls)  
   
 -   [声明性语法](#DeclarativeSyntax)  
   
 <a name="Introduction"></a>   
 ## <a name="introduction"></a>介绍  
- 使用<xref:System.Web.UI.WebControls.Button>控件使用户能够发布到服务器的页面的 Web 页面上创建推送按钮。 控件触发可以处理以响应回发的服务器代码中的事件。 它还可能会引发发页面或，可以运行，并随后取消页面提交的之前可以处理的客户端脚本中的事件。  
+ 使用<xref:System.Web.UI.WebControls.Button>控件允许用户以发布到服务器的页面的网页上创建推送按钮。 该控件将触发可处理以响应回发的服务器代码中的事件。 它还可能会引发之前发布页面或可运行和后取消提交的页面可以处理的客户端脚本中的事件。  
   
 > [!NOTE]
->  ASP.NET 包括多种类型的按钮控件，其中每个在网页以不同方式显示。 它们是<xref:System.Web.UI.WebControls.Button>控件，将呈现为一个下压按钮;<xref:System.Web.UI.WebControls.LinkButton>控件，将呈现为链接; 与<xref:System.Web.UI.WebControls.ImageButton>控件，将呈现为图像; 与<xref:System.Web.UI.WebControls.ImageMap>控件，可以创建具有热点的图形，该控件可以单击了用户。 默认情况下，所有按钮控件都提交页面在单击时。 你还可以使用<xref:System.Web.UI.HtmlControls.HtmlButton>和<xref:System.Web.UI.HtmlControls.HtmlInputButton>控件以创建页上的按钮是可编程的服务器代码中。 有关 HTML 和 Web 服务器控件之间的差异的详细信息，请参阅[ASP.NET Web 服务器控件概述](http://msdn.microsoft.com/library/0d4854a3-6e79-4b7b-a27f-ac57cd9c2a84)。  
+>  ASP.NET 包括多种类型的按钮控件，其中每个在网页以不同方式显示。 它们是<xref:System.Web.UI.WebControls.Button>控件，它将呈现为按下按钮;<xref:System.Web.UI.WebControls.LinkButton>控件，它将呈现为链接; 并且<xref:System.Web.UI.WebControls.ImageButton>控件，它将呈现为图像; 和<xref:System.Web.UI.WebControls.ImageMap>控件，它允许您创建具有热点的图形，用户可以单击。 默认情况下，所有按钮控件都提交时单击该页面。 此外可以使用<xref:System.Web.UI.HtmlControls.HtmlButton>和<xref:System.Web.UI.HtmlControls.HtmlInputButton>控件在页上创建按钮才在服务器代码中可编程的。 HTML 和 Web 服务器控件之间的差异的详细信息，请参阅[ASP.NET Web 服务器控件概述](http://msdn.microsoft.com/library/0d4854a3-6e79-4b7b-a27f-ac57cd9c2a84)。  
   
- 默认情况下，<xref:System.Web.UI.WebControls.Button>控件是一个提交按钮。 提交按钮没有命令名称 (通过指定<xref:System.Web.UI.WebControls.Button.CommandName%2A>属性) 与关联的按钮以及只需网页回发到服务器的文章。 你可以提供的事件处理程序<xref:System.Web.UI.WebControls.Button.Click>事件以编程方式控制的操作执行时单击提交按钮。  
+ 默认情况下，<xref:System.Web.UI.WebControls.Button>控件是一个提交按钮。 一个提交按钮没有命令名称 (由指定<xref:System.Web.UI.WebControls.Button.CommandName%2A>属性) 的按钮和只是将网页回发到服务器关联。 你可以提供的事件处理程序<xref:System.Web.UI.WebControls.Button.Click>事件以编程方式控制的操作执行时单击提交按钮。  
   
- 命令按钮有与该按钮，如关联的命令名称`Sort`，通过设置<xref:System.Web.UI.WebControls.Button.CommandName%2A>属性。 此选项，可以创建多个<xref:System.Web.UI.WebControls.Button>在网站上的控件，并以编程方式确定哪些<xref:System.Web.UI.WebControls.Button>控件被单击。 你还可以使用<xref:System.Web.UI.WebControls.Button.CommandArgument%2A>与命令按钮来提供有关要执行，如的命令的其他信息的属性`Ascending`。 你可以提供的事件处理程序<xref:System.Web.UI.WebControls.Button.Command>事件以编程方式控制的操作执行时单击该命令按钮。  
+ 命令按钮有与该按钮，如关联的命令名称`Sort`，通过设置<xref:System.Web.UI.WebControls.Button.CommandName%2A>属性。 这使您可以创建多个<xref:System.Web.UI.WebControls.Button>在 Web 上的控件，并以编程方式确定哪些<xref:System.Web.UI.WebControls.Button>单击控件。 此外可以使用<xref:System.Web.UI.WebControls.Button.CommandArgument%2A>命令按钮，以提供其他信息的命令执行，如具有属性`Ascending`。 你可以提供的事件处理程序<xref:System.Web.UI.WebControls.Button.Command>单击命令按钮时执行的事件以编程方式控制的操作。  
   
 <a name="ButtonPostbackBehaviorandServerEvents"></a>   
 ## <a name="button-postback-behavior-and-server-events"></a>按钮的回发行为和服务器事件  
- 当用户单击任何 Web 服务器控件按钮时，该页是发送到服务器。 这使得 Web 页后，可以处理，在基于服务器的代码中引发任何挂起的事件。 当完成所有页面和控件处理时，页面将呈现自身到浏览器试。  
+ 当用户单击任何 Web 服务器控件按钮时，则将页发送到服务器。 这使得 Web 页以进行处理，在基于服务器的代码中引发任何挂起的事件。 在所有页面和控件处理已都完成，页面本身到浏览器将重新呈现。  
   
- 该按钮可以引发其自己<xref:System.Web.UI.WebControls.Button.Click>事件或<xref:System.Web.UI.WebControls.Button.Command>事件，你可以通过使用基于服务器的代码处理。 此函数不同于事件在基于客户端的 Web 应用程序中，或传统的 HTML 页中其中一个按钮`onclick`通过在客户端中运行的 JavaScript 事件进行处理。 有关详细信息，请参阅[ASP.NET Web 窗体服务器控件事件模型](http://msdn.microsoft.com/library/6304bff7-1b0e-4641-8acb-6d3b0badc4a3)。  
+ 该按钮可以引发其自己<xref:System.Web.UI.WebControls.Button.Click>事件或<xref:System.Web.UI.WebControls.Button.Command>事件，您可以通过使用基于服务器的代码处理。 这是不同于传统的 HTML 页中或在基于客户端的 Web 应用程序中，事件在按钮的`onclick`可通过在客户端中运行的 JavaScript 处理事件。 有关详细信息，请参阅[ASP.NET Web 窗体服务器控件事件模型](http://msdn.microsoft.com/library/6304bff7-1b0e-4641-8acb-6d3b0badc4a3)。  
   
- 当用户单击按钮控件时，页回发到服务器。 默认情况下，发回发到自身页面  
+ 当用户单击按钮控件时，页面回发到服务器。 默认情况下，页面回发到自身，  
   
- 你可以配置要发布到另一页的当前页的按钮。 这可用于创建多页窗体。 有关详细信息，请参阅[跨页发布 ASP.NET Web 窗体中](http://msdn.microsoft.com/library/fedf234e-b7c4-4644-a9e8-c1c0870b043b)。  
+ 你可以配置要发布到另一页的当前页的按钮。 这可用于创建多页窗体。 有关详细信息，请参阅[跨页面发送在 ASP.NET Web 窗体](http://msdn.microsoft.com/library/fedf234e-b7c4-4644-a9e8-c1c0870b043b)。  
   
 <a name="HandlingButtonEventsinClientScript"></a>   
-## <a name="handling-button-events-in-client-script"></a>客户端脚本中的处理按钮事件  
- 按钮控件可能会发出服务器事件和客户端事件。 服务器事件发生回发后，并且它们不为页面编写服务器端代码中处理。 客户端事件会在客户端脚本，通常 ECMAScript (JavaScript) 中处理，并引发了然后提交页面。 通过将客户端事件添加到 ASP.NET 按钮控件，你可以执行任务，例如在提交页上之前, 显示确认对话框，并可能会取消提交。 有关详细信息，请参阅[客户端脚本中的 ASP.NET Web Pages](http://msdn.microsoft.com/library/13edb6b9-2dea-43c6-b8c1-a47207de19aa)和[如何： 响应客户端脚本中的按钮 Web 服务器控件事件](http://msdn.microsoft.com/library/1ab97f0b-1c38-4897-85b0-ac915f6a182b)。  
+## <a name="handling-button-events-in-client-script"></a>客户端脚本中处理按钮事件  
+ 按钮控件可以引发服务器事件和客户端事件。 服务器事件发生回发后，以及为页面编写服务器端代码中处理。 客户端事件处理在客户端脚本中，通常 ECMAScript (JavaScript)，并提交页之前引发。 通过将客户端事件添加到 ASP.NET 按钮控件，可以执行任务，例如在提交页上之前, 显示确认对话框，并可能会取消提交。 有关详细信息，请参阅[客户端脚本在 ASP.NET Web Pages](http://msdn.microsoft.com/library/13edb6b9-2dea-43c6-b8c1-a47207de19aa)并[如何： 响应按钮 Web 服务器控件中的事件的客户端脚本](http://msdn.microsoft.com/library/1ab97f0b-1c38-4897-85b0-ac915f6a182b)。  
   
- 你可能还想<xref:System.Web.UI.WebControls.Button>控件还使用客户端脚本来执行回发 （而不是只需执行 HTTP POST 操作）。 这很有用，如果你想要以编程方式操作回发，如将其附加到页面上的其他元素。 你可以设置<xref:System.Web.UI.WebControls.Button>控件的<xref:System.Web.UI.WebControls.Button.UseSubmitBehavior%2A>属性`true`导致<xref:System.Web.UI.WebControls.Button>控件以使用客户端-脚本基于回发。  
+ 您可能还想<xref:System.Web.UI.WebControls.Button>控件还使用客户端脚本来执行回发 （而不是只需执行 HTTP POST 操作）。 这很有用，如果你想要以编程方式操作回发，例如将其附加到页面上其他元素。 可以设置<xref:System.Web.UI.WebControls.Button>控件的<xref:System.Web.UI.WebControls.Button.UseSubmitBehavior%2A>属性设置为`true`导致<xref:System.Web.UI.WebControls.Button>要使用客户端脚本控件基于回发。  
   
 <a name="ButtonControlsAndValidation"></a>   
 ## <a name="button-controls-and-validation"></a>按钮控件和验证  
- 如果某页包含 ASP.NET 验证控件，默认情况下，单击一个按钮控件导致执行其检查验证程序控件。 如果客户端验证已启用的验证程序控件，则不会提交页面，验证检查失败时。  
+ 如果页面包含 ASP.NET 验证程序控件，默认情况下，单击一个按钮控件导致执行其检查验证程序控件。 如果验证程序控件的启用了客户端验证，如果通过验证检查失败，则不提交页面。  
   
- 下表介绍了由使您能够更精确地控制验证过程的按钮控件支持的属性。  
+ 下表介绍了使您能够更精确地控制验证过程的按钮控件支持的属性。  
   
 |Property|描述|  
 |--------------|-----------------|  
-|<xref:System.Web.UI.WebControls.Button.CausesValidation%2A>|指定是否单击按钮还会执行验证检查。 将此属性设置为`false`以防止验证检查。|  
-|<xref:System.Web.UI.WebControls.Button.ValidationGroup%2A>|使用此选项可指定在单击该按钮时调用的页上的验证程序。 如果不建立了任何验证组，单击按钮会调用所有该页上的验证。|  
+|<xref:System.Web.UI.WebControls.Button.CausesValidation%2A>|指定是否单击的按钮也执行验证检查。 将此属性设置为`false`以防止验证检查。|  
+|<xref:System.Web.UI.WebControls.Button.ValidationGroup%2A>|可以指定在单击该按钮时调用的页上的验证程序。 如果不建立了任何验证组，单击按钮会调用所有页面上的验证程序。|  
   
  有关详细信息，请参阅[在 ASP.NET 网页中验证用户输入](http://msdn.microsoft.com/library/4ad3dacb-89e0-4cee-89ac-40a3f2a85461)。  
   
 <a name="ButtonsInDataControls"></a>   
 ## <a name="buttons-in-data-controls"></a>数据控件中的按钮  
- 按钮 Web 服务器控件通常用于在数据控件中，如中<xref:System.Web.UI.WebControls.DataList>， <xref:System.Web.UI.WebControls.GridView>，和<xref:System.Web.UI.WebControls.Repeater>列表控件。 在这些情况下，您通常不响应直接到按钮单击事件。 相反，数据控件中的按钮引发事件特定于数据控件。 例如，在<xref:System.Web.UI.WebControls.DataList>控件，一个按钮可能引发<xref:System.Web.UI.WebControls.DataList>控件的<xref:System.Web.UI.WebControls.DataList.ItemCommand>而不是引发的事件<xref:System.Web.UI.WebControls.Button>控件的<xref:System.Web.UI.WebControls.Button.Click>事件。  
+ 按钮 Web 服务器控件通常用于在数据控件中，例如中<xref:System.Web.UI.WebControls.DataList>， <xref:System.Web.UI.WebControls.GridView>，和<xref:System.Web.UI.WebControls.Repeater>列表控件。 在这些情况下，您通常不响应直接到按钮单击事件。 相反，数据控件中的按钮将引发一个事件，是特定于数据控件。 例如，在<xref:System.Web.UI.WebControls.DataList>控件中，一个按钮可能引发<xref:System.Web.UI.WebControls.DataList>控件的<xref:System.Web.UI.WebControls.DataList.ItemCommand>而不是引发的事件<xref:System.Web.UI.WebControls.Button>控件的<xref:System.Web.UI.WebControls.Button.Click>事件。  
   
- 因为数据绑定列表控件可以包含多个按钮，你可以设置按钮的<xref:System.Web.UI.WebControls.Button.CommandArgument%2A>属性来指定要为该事件的一部分传递的值。 你随后可以测试该参数以确定被单击的按钮。  
+ 由于数据绑定列表控件可以包含许多按钮，可以设置按钮的<xref:System.Web.UI.WebControls.Button.CommandArgument%2A>属性来指定要作为事件的一部分传递的值。 然后可以测试该参数以确定被单击的按钮。  
   
 <a name="BindingDataToTheControls"></a>   
 ## <a name="binding-data-to-the-controls"></a>数据绑定到控件  
- 你可以在以便控制它们的属性设置，将按钮 Web 服务器控件绑定到数据源动态。 例如，你可以设置按钮的<xref:System.Web.UI.WebControls.Button.Text%2A>通过使用数据绑定的属性。  
+ 可以在为了控制其属性设置将按钮 Web 服务器控件绑定到数据源动态。 例如，可以设置按钮的<xref:System.Web.UI.WebControls.Button.Text%2A>通过使用数据绑定的属性。  
   
 <a name="UsingButtonsWithUpdatePanelControls"></a>   
-## <a name="using-buttons-with-updatepanel-controls"></a>使用带有 UpdatePanel 控件按钮  
- 局部页面呈现使可以刷新不进行回发页面的部分。 <xref:System.Web.UI.UpdatePanel> 控件使你将标记为参与局部页面呈现的页的部分。 默认情况下，在控件的行为<xref:System.Web.UI.UpdatePanel>控制，包括<xref:System.Web.UI.WebControls.Button>控制，是在执行异步回发而不是回发。 这将刷新的内容<xref:System.Web.UI.UpdatePanel>控件从其回发的来源。  
+## <a name="using-buttons-with-updatepanel-controls"></a>使用 UpdatePanel 控件的按钮  
+ 在局部页面呈现使可能刷新不进行回发页面的部分。 <xref:System.Web.UI.UpdatePanel> 控件使你能够将标记参与局部页面呈现的页面部分。 默认情况下，所包含的控件的行为<xref:System.Web.UI.UpdatePanel>控制，包括<xref:System.Web.UI.WebControls.Button>控制，是执行异步回发而不是回发。 这将刷新的内容<xref:System.Web.UI.UpdatePanel>从回发所源自的控制。  
   
- 除了以下场景：<xref:System.Web.UI.WebControls.Button>内控件<xref:System.Web.UI.UpdatePanel>控件，你可以使用<xref:System.Web.UI.WebControls.Button>控制与<xref:System.Web.UI.UpdatePanel>以下方案中的控件：  
+ 除了的方案<xref:System.Web.UI.WebControls.Button>内的控件<xref:System.Web.UI.UpdatePanel>控件，可以使用<xref:System.Web.UI.WebControls.Button>控制与<xref:System.Web.UI.UpdatePanel>控件在以下方案：  
   
--   定义<xref:System.Web.UI.WebControls.Button>之外的控件<xref:System.Web.UI.UpdatePanel>控件用作<xref:System.Web.UI.AsyncPostBackTrigger>该面板的控件。 单击按钮时，它执行异步回发，并刷新面板的内容。  
+-   定义<xref:System.Web.UI.WebControls.Button>之外的控件<xref:System.Web.UI.UpdatePanel>控制作为<xref:System.Web.UI.AsyncPostBackTrigger>该面板的控件。 单击按钮时，它执行异步回发和刷新面板的内容。  
   
--   定义<xref:System.Web.UI.WebControls.Button>内控件<xref:System.Web.UI.UpdatePanel>控件用作<xref:System.Web.UI.PostBackTrigger>面板。 当单击按钮时，它可以执行回发，即使它位于<xref:System.Web.UI.UpdatePanel>控件。  
+-   定义<xref:System.Web.UI.WebControls.Button>内的控件<xref:System.Web.UI.UpdatePanel>控制作为<xref:System.Web.UI.PostBackTrigger>面板。 单击按钮时，它执行回发，即使它位于<xref:System.Web.UI.UpdatePanel>控件。  
   
- 有关更多信息局部页面呈现和使用<xref:System.Web.UI.UpdatePanel>控件，请参阅[UpdatePanel 控件概述](http://msdn.microsoft.com/library/29a2265d-9674-4c19-b70e-e5560ee9689a)和[局部页面呈现概述](http://msdn.microsoft.com/library/5c12736d-d9e9-464a-9388-3fe0f9f49e49)。  
+ 有关部分页呈现和使用详细信息<xref:System.Web.UI.UpdatePanel>控件，请参阅[UpdatePanel 控件概述](http://msdn.microsoft.com/library/29a2265d-9674-4c19-b70e-e5560ee9689a)并[部分页呈现概述](http://msdn.microsoft.com/library/5c12736d-d9e9-464a-9388-3fe0f9f49e49)。  
   
 <a name="DeclarativeSyntax"></a>   
 ## <a name="declarative-syntax"></a>声明性语法  
@@ -216,6 +218,8 @@
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Parameters />
@@ -249,6 +253,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -264,7 +270,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Examples  
- 下面的代码示例演示如何重写<xref:System.Web.UI.WebControls.Button.AddAttributesToRender%2A>方法在自定义服务器控件中，以便<xref:System.Web.UI.WebControls.Button>文本始终以红色显示。  
+ 下面的代码示例演示如何重写<xref:System.Web.UI.WebControls.Button.AddAttributesToRender%2A>中的自定义服务器控件中的方法，以便<xref:System.Web.UI.WebControls.Button>文本始终以红色显示。  
   
  [!code-aspx-csharp[CustomButtonAddAttributesToRender#1](~/samples/snippets/csharp/VS_Snippets_WebNet/CustomButtonAddAttributesToRender/CS/custombuttonaddattributestorendercs.aspx#1)]
  [!code-aspx-vb[CustomButtonAddAttributesToRender#1](~/samples/snippets/visualbasic/VS_Snippets_WebNet/CustomButtonAddAttributesToRender/VB/custombuttonaddattributestorendervb.aspx#1)]  
@@ -288,6 +294,8 @@
       </Implements>
       <AssemblyInfo>
         <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -308,23 +316,23 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 默认情况下，执行页验证时<xref:System.Web.UI.WebControls.Button>控件被单击。 页验证确定输入的控件是否与全部通过指定由验证控件的验证规则页上的验证控件。  
+ 默认情况下执行页验证时<xref:System.Web.UI.WebControls.Button>单击控件。 页验证确定输入的控件是否与全部通过指定验证控件的验证规则页上的验证控件关联。  
   
- 你可以指定或确定是否在客户端和服务器上执行验证时<xref:System.Web.UI.WebControls.Button>通过单击控件<xref:System.Web.UI.WebControls.Button.CausesValidation%2A>属性。 若要禁止从正在执行的验证，请设置<xref:System.Web.UI.WebControls.Button.CausesValidation%2A>属性`false`。  
+ 你可以指定或确定是否在客户端和服务器上执行验证时<xref:System.Web.UI.WebControls.Button>通过单击控件<xref:System.Web.UI.WebControls.Button.CausesValidation%2A>属性。 若要禁止从正在执行的验证，请设置<xref:System.Web.UI.WebControls.Button.CausesValidation%2A>属性设置为`false`。  
   
 > [!NOTE]
->  应设置<xref:System.Web.UI.WebControls.Button.CausesValidation%2A>属性`false`使用时<xref:System.Web.UI.WebControls.Button.PostBackUrl%2A>属性回发到不同的页。 在显式时应该检查验证回发到不同的页。 有关示例，请参阅备注部分的<xref:System.Web.UI.WebControls.Button.PostBackUrl%2A>属性。  
+>  应设置<xref:System.Web.UI.WebControls.Button.CausesValidation%2A>属性设置为`false`使用时<xref:System.Web.UI.WebControls.Button.PostBackUrl%2A>属性回发到不同的页面。 在回发至其他页面时，应显式检查验证。 有关示例，请参阅备注部分的<xref:System.Web.UI.WebControls.Button.PostBackUrl%2A>属性。  
   
- 此属性通常设置为`false`为`reset`或`clear`按钮，以防止在单击该按钮时执行验证。  
+ 此属性通常设置为`false`有关`reset`或`clear`按钮，以防止在单击按钮时执行验证。  
   
- 时的值<xref:System.Web.UI.WebControls.Button.CausesValidation%2A>属性设置为`true`，你还可以使用<xref:System.Web.UI.WebControls.Button.ValidationGroup%2A>属性来为其指定验证组的名称<xref:System.Web.UI.WebControls.Button>控件进行验证。  
+ 时的值<xref:System.Web.UI.WebControls.Button.CausesValidation%2A>属性设置为`true`，还可以使用<xref:System.Web.UI.WebControls.Button.ValidationGroup%2A>属性来为其指定验证组的名称<xref:System.Web.UI.WebControls.Button>控件引发验证。  
   
- 无法通过主题或样式表主题设置此属性。 有关详细信息，请参阅<xref:System.Web.UI.ThemeableAttribute>和[ASP.NET 主题和皮肤](http://msdn.microsoft.com/library/5df3ebbd-d46c-4502-9406-02f9df4ef2c3)。  
+ 无法通过主题或样式表主题设置此属性。 有关详细信息，请参阅<xref:System.Web.UI.ThemeableAttribute>并[ASP.NET 主题和外观](http://msdn.microsoft.com/library/5df3ebbd-d46c-4502-9406-02f9df4ef2c3)。  
   
    
   
 ## Examples  
- 下面的代码示例演示如何使用<xref:System.Web.UI.WebControls.Button.CausesValidation%2A>属性以防止在发生的页验证。 请注意，<xref:System.Web.UI.WebControls.BaseValidator.Validate%2A>方法单独激活每个验证控件。  
+ 下面的代码示例演示如何使用<xref:System.Web.UI.WebControls.Button.CausesValidation%2A>属性以防止发生页验证。 请注意，<xref:System.Web.UI.WebControls.BaseValidator.Validate%2A>方法单独激活每个验证的控件。  
   
 > [!IMPORTANT]
 >  此示例具有一个接受用户输入的文本框，这是一个潜在的安全威胁。 默认情况下，ASP.NET 网页验证用户输入是否不包含脚本或 HTML 元素。 有关详细信息，请参阅[脚本侵入概述](http://msdn.microsoft.com/library/772c7312-211a-4eb3-8d6e-eec0aa1dcc07)。  
@@ -351,6 +359,8 @@
       </Implements>
       <AssemblyInfo>
         <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -362,14 +372,14 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Web.UI.WebControls.Button.Click>引发事件时<xref:System.Web.UI.WebControls.Button>控件被单击。 此事件通常用时与不关联任何命令名称<xref:System.Web.UI.WebControls.Button>控件 （例如，带有提交按钮）。  
+ <xref:System.Web.UI.WebControls.Button.Click>引发事件时<xref:System.Web.UI.WebControls.Button>单击控件。 与关联没有命令名称时，通常使用此事件<xref:System.Web.UI.WebControls.Button>（例如，具有一个提交按钮） 控件。  
   
  有关处理事件的详细信息，请参阅[处理和引发事件](~/docs/standard/events/index.md)。  
   
    
   
 ## Examples  
- 下面的代码示例演示如何指定和代码的事件处理程序<xref:System.Web.UI.WebControls.Button.Click>为了在 Web 上显示一条消息的事件时页<xref:System.Web.UI.WebControls.Button>控件被单击。  
+ 下面的代码示例演示如何指定和编写代码的事件处理程序<xref:System.Web.UI.WebControls.Button.Click>事件，以在 Web 上显示一条消息时页<xref:System.Web.UI.WebControls.Button>单击控件。  
   
  [!code-aspx-csharp[ButtonClickText#1](~/samples/snippets/csharp/VS_Snippets_WebNet/ButtonClickText/cs/ButtonClickCS.aspx#1)]
  [!code-aspx-vb[ButtonClickText#1](~/samples/snippets/visualbasic/VS_Snippets_WebNet/ButtonClickText/vb/ButtonClickVB.aspx#1)]  
@@ -393,6 +403,8 @@
       </Implements>
       <AssemblyInfo>
         <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -404,22 +416,22 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Web.UI.WebControls.Button.Command>引发事件时<xref:System.Web.UI.WebControls.Button>控件被单击。 此事件通常用时的命令名称，如`Sort`，与关联<xref:System.Web.UI.WebControls.Button>控件。 此选项，可以创建多个<xref:System.Web.UI.WebControls.Button>在网站上的控件，并以编程方式确定哪些<xref:System.Web.UI.WebControls.Button>控件被单击。  
+ <xref:System.Web.UI.WebControls.Button.Command>引发事件时<xref:System.Web.UI.WebControls.Button>单击控件。 此事件时常用的命令名称，如`Sort`，与关联<xref:System.Web.UI.WebControls.Button>控件。 这使您可以创建多个<xref:System.Web.UI.WebControls.Button>在 Web 上的控件，并以编程方式确定哪些<xref:System.Web.UI.WebControls.Button>单击控件。  
   
 > [!NOTE]
->  <xref:System.Web.UI.WebControls.Button.Command>通过控件层次结构中的窗体中引发事件`BubbleEvent`。  
+>  <xref:System.Web.UI.WebControls.Button.Command>的控件层次结构中的窗体通过引发事件`BubbleEvent`。  
   
  有关处理事件的详细信息，请参阅[NIB： 使用事件](http://msdn.microsoft.com/library/01e4f1bc-e55e-413f-98c7-6588493e5f67)。  
   
    
   
 ## Examples  
- 下面的代码示例演示如何指定和代码的事件处理程序<xref:System.Web.UI.WebControls.Button.Command>事件以对列表进行排序时<xref:System.Web.UI.WebControls.Button>控件被单击。 此示例指定事件处理程序以声明方式，使用<xref:System.Web.UI.WebControls.Button.OnClick%2A>属性<xref:System.Web.UI.WebControls.Button>控件。  
+ 下面的代码示例演示如何指定和编写代码的事件处理程序<xref:System.Web.UI.WebControls.Button.Command>事件的列表进行排序时<xref:System.Web.UI.WebControls.Button>单击控件。 此示例中指定的事件处理程序以声明方式，使用<xref:System.Web.UI.WebControls.Button.OnClick%2A>属性的<xref:System.Web.UI.WebControls.Button>控件。  
   
  [!code-aspx-csharp[ButtonCommandNameArgument#1](~/samples/snippets/csharp/VS_Snippets_WebNet/ButtonCommandNameArgument/CS/buttoncommandnamecs.aspx#1)]
  [!code-aspx-vb[ButtonCommandNameArgument#1](~/samples/snippets/visualbasic/VS_Snippets_WebNet/ButtonCommandNameArgument/VB/buttoncommandnamevb.aspx#1)]  
   
- 下面的代码示例演示如何以编程方式将其添加到中的事件并指定事件处理程序`Page_Load`方法。  
+ 下面的代码示例演示如何指定事件处理程序，并以编程方式将其添加到中的事件`Page_Load`方法。  
   
  [!code-aspx-csharp[ButtonCommand#1](~/samples/snippets/csharp/VS_Snippets_WebNet/ButtonCommand/CS/buttoncommandcs.aspx#1)]
  [!code-aspx-vb[ButtonCommand#1](~/samples/snippets/visualbasic/VS_Snippets_WebNet/ButtonCommand/VB/buttoncommandvb.aspx#1)]  
@@ -443,6 +455,8 @@
       </Implements>
       <AssemblyInfo>
         <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -466,19 +480,19 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 使用<xref:System.Web.UI.WebControls.Button.CommandArgument%2A>属性指定一个参数，补充<xref:System.Web.UI.WebControls.Button.CommandName%2A>属性。  
+ 使用<xref:System.Web.UI.WebControls.Button.CommandArgument%2A>属性指定一个参数，用于补充<xref:System.Web.UI.WebControls.Button.CommandName%2A>属性。  
   
 > [!NOTE]
->  虽然可以设置<xref:System.Web.UI.WebControls.Button.CommandArgument%2A>本身的属性，它通常是只使用时<xref:System.Web.UI.WebControls.Button.CommandName%2A>也设置属性。  
+>  尽管您可以设置<xref:System.Web.UI.WebControls.Button.CommandArgument%2A>本身的属性，它通常是仅使用时<xref:System.Web.UI.WebControls.Button.CommandName%2A>属性也设置。  
   
- <xref:System.Web.UI.WebControls.Button.CommandArgument%2A>属性补充<xref:System.Web.UI.WebControls.Button.CommandName%2A>属性，它允许你提供有关要执行的命令的其他信息。 例如，如果你设置<xref:System.Web.UI.WebControls.Button.CommandName%2A>属性`Sort`和<xref:System.Web.UI.WebControls.Button.CommandArgument%2A>属性`Ascending`，指定按升序排序的命令。  
+ <xref:System.Web.UI.WebControls.Button.CommandArgument%2A>属性补充<xref:System.Web.UI.WebControls.Button.CommandName%2A>通过允许您提供有关要执行的命令的其他信息的属性。 例如，如果您设置<xref:System.Web.UI.WebControls.Button.CommandName%2A>属性设置为`Sort`并<xref:System.Web.UI.WebControls.Button.CommandArgument%2A>属性设置为`Ascending`，指定按升序排序的命令。  
   
- 无法通过主题或样式表主题设置此属性。 有关详细信息，请参阅<xref:System.Web.UI.ThemeableAttribute>和[ASP.NET 主题和皮肤](http://msdn.microsoft.com/library/5df3ebbd-d46c-4502-9406-02f9df4ef2c3)。  
+ 无法通过主题或样式表主题设置此属性。 有关详细信息，请参阅<xref:System.Web.UI.ThemeableAttribute>并[ASP.NET 主题和外观](http://msdn.microsoft.com/library/5df3ebbd-d46c-4502-9406-02f9df4ef2c3)。  
   
    
   
 ## Examples  
- 下面的代码示例演示如何使用<xref:System.Web.UI.WebControls.Button.CommandArgument%2A>属性创建<xref:System.Web.UI.WebControls.Button>列表以升序排序，排序的控件。  
+ 下面的代码示例演示如何使用<xref:System.Web.UI.WebControls.Button.CommandArgument%2A>属性以创建<xref:System.Web.UI.WebControls.Button>对按升序排序列表进行排序的控件。  
   
  [!code-aspx-csharp[ButtonCommandNameArgument#1](~/samples/snippets/csharp/VS_Snippets_WebNet/ButtonCommandNameArgument/CS/buttoncommandnamecs.aspx#1)]
  [!code-aspx-vb[ButtonCommandNameArgument#1](~/samples/snippets/visualbasic/VS_Snippets_WebNet/ButtonCommandNameArgument/VB/buttoncommandnamevb.aspx#1)]  
@@ -503,6 +517,8 @@
       </Implements>
       <AssemblyInfo>
         <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -524,16 +540,16 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 如果你具有多个<xref:System.Web.UI.WebControls.Button>控件在网页上，使用<xref:System.Web.UI.WebControls.Button.CommandName%2A>属性可指定或确定的命令名称与每个<xref:System.Web.UI.WebControls.Button>控件。 你可以设置<xref:System.Web.UI.WebControls.Button.CommandName%2A>与任何字符串，标识要执行的命令的属性。 然后，可以以编程方式确定的命令名称<xref:System.Web.UI.WebControls.Button>控件并执行相应的操作。  
+ 当有多个<xref:System.Web.UI.WebControls.Button>控件在网页上，使用<xref:System.Web.UI.WebControls.Button.CommandName%2A>属性可指定或确定的命令名与每个关联<xref:System.Web.UI.WebControls.Button>控件。 可以设置<xref:System.Web.UI.WebControls.Button.CommandName%2A>与任何字符串，标识要执行的命令的属性。 然后，可以以编程方式确定的命令名称<xref:System.Web.UI.WebControls.Button>控制并执行相应操作。  
   
- 有关该命令的其他信息如`Ascending`，可通过使用指定<xref:System.Web.UI.WebControls.Button.CommandArgument%2A>属性。  
+ 其他信息，有关该命令，如`Ascending`，可通过使用指定<xref:System.Web.UI.WebControls.Button.CommandArgument%2A>属性。  
   
- 无法通过主题或样式表主题设置此属性。 有关详细信息，请参阅<xref:System.Web.UI.ThemeableAttribute>和[ASP.NET 主题和皮肤](http://msdn.microsoft.com/library/5df3ebbd-d46c-4502-9406-02f9df4ef2c3)。  
+ 无法通过主题或样式表主题设置此属性。 有关详细信息，请参阅<xref:System.Web.UI.ThemeableAttribute>并[ASP.NET 主题和外观](http://msdn.microsoft.com/library/5df3ebbd-d46c-4502-9406-02f9df4ef2c3)。  
   
    
   
 ## Examples  
- 下面的代码示例演示如何使用<xref:System.Web.UI.WebControls.Button.CommandName%2A>属性创建<xref:System.Web.UI.WebControls.Button>对列表进行排序的控件。  
+ 下面的代码示例演示如何使用<xref:System.Web.UI.WebControls.Button.CommandName%2A>属性以创建<xref:System.Web.UI.WebControls.Button>对列表进行排序的控件。  
   
  [!code-aspx-csharp[ButtonCommandNameArgument#1](~/samples/snippets/csharp/VS_Snippets_WebNet/ButtonCommandNameArgument/CS/buttoncommandnamecs.aspx#1)]
  [!code-aspx-vb[ButtonCommandNameArgument#1](~/samples/snippets/visualbasic/VS_Snippets_WebNet/ButtonCommandNameArgument/VB/buttoncommandnamevb.aspx#1)]  
@@ -555,6 +571,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -568,14 +585,14 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Web.UI.WebControls.Button.GetPostBackOptions%2A>方法创建<xref:System.Web.UI.PostBackOptions>对象，表示<xref:System.Web.UI.WebControls.Button>控件的回发行为。 <xref:System.Web.UI.PostBackOptions>对象通常然后传递给<xref:System.Web.UI.ClientScriptManager.GetPostBackEventReference%28System.Web.UI.PostBackOptions%29?displayProperty=nameWithType>方法，用于获取对客户端脚本函数的引用，调用时，会导致页回发到服务器。  
+ <xref:System.Web.UI.WebControls.Button.GetPostBackOptions%2A>方法创建<xref:System.Web.UI.PostBackOptions>对象，表示<xref:System.Web.UI.WebControls.Button>控件的回发的行为。 <xref:System.Web.UI.PostBackOptions>对象通常然后传递给<xref:System.Web.UI.ClientScriptManager.GetPostBackEventReference%28System.Web.UI.PostBackOptions%29?displayProperty=nameWithType>方法，用于获取的客户端脚本函数的引用，调用时，会导致服务器回发到页面。  
   
- 此方法主要由控件开发人员扩展时使用<xref:System.Web.UI.WebControls.Button>类。  
+ 扩展时，使用此方法主要由控件开发人员<xref:System.Web.UI.WebControls.Button>类。  
   
  ]]></format>
         </remarks>
         <block subset="none" type="overrides">
-          <para>您可以重写<see cref="M:System.Web.UI.WebControls.Button.GetPostBackOptions" />在派生类来修改按钮控件的回发选项，或单击该按钮时调用客户端脚本中的方法。一定要调用基类的<see cref="M:System.Web.UI.WebControls.Button.GetPostBackOptions" />方法，以便这些标准的回发选项进行设置。</para>
+          <para>您可以重写<see cref="M:System.Web.UI.WebControls.Button.GetPostBackOptions" />修改 button 控件的回发选项，或单击该按钮时调用客户端脚本在派生类中的方法。请务必调用基类的<see cref="M:System.Web.UI.WebControls.Button.GetPostBackOptions" />方法，以便回发的标准选项设置。</para>
         </block>
         <altmember cref="T:System.Web.UI.PostBackOptions" />
       </Docs>
@@ -590,6 +607,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -605,7 +624,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Web.UI.WebControls.Button.Click>引发事件时<xref:System.Web.UI.WebControls.Button>控件被单击。 此事件通常用时与不关联任何命令名称<xref:System.Web.UI.WebControls.Button>控件 （例如，带有提交按钮）。  
+ <xref:System.Web.UI.WebControls.Button.Click>引发事件时<xref:System.Web.UI.WebControls.Button>单击控件。 与关联没有命令名称时，通常使用此事件<xref:System.Web.UI.WebControls.Button>（例如，具有一个提交按钮） 控件。  
   
  引发事件时，将通过委托调用事件处理程序。 有关详细信息，请参阅[处理和引发事件](~/docs/standard/events/index.md)。  
   
@@ -614,7 +633,7 @@
    
   
 ## Examples  
- 下面的代码示例演示如何指定和代码的事件处理程序<xref:System.Web.UI.WebControls.Button.Click>为了在网页上显示一个简单消息的事件。  
+ 下面的代码示例演示如何指定和编写代码的事件处理程序<xref:System.Web.UI.WebControls.Button.Click>事件，以在网页上显示一个简单的消息。  
   
  [!code-aspx-csharp[ButtonClickText#1](~/samples/snippets/csharp/VS_Snippets_WebNet/ButtonClickText/cs/ButtonClickCS.aspx#1)]
  [!code-aspx-vb[ButtonClickText#1](~/samples/snippets/visualbasic/VS_Snippets_WebNet/ButtonClickText/vb/ButtonClickVB.aspx#1)]  
@@ -622,7 +641,7 @@
  ]]></format>
         </remarks>
         <block subset="none" type="overrides">
-          <para>在重写<see cref="M:System.Web.UI.WebControls.Button.OnClick(System.EventArgs)" />在派生类中，一定要调用基类的<see cref="M:System.Web.UI.WebControls.Button.OnClick(System.EventArgs)" />方法，以便已注册的委托对事件进行接收。</para>
+          <para>重写时<see cref="M:System.Web.UI.WebControls.Button.OnClick(System.EventArgs)" />在派生类中，请务必调用基类的<see cref="M:System.Web.UI.WebControls.Button.OnClick(System.EventArgs)" />方法，以便已注册的委托接收事件。</para>
         </block>
         <altmember cref="E:System.Web.UI.WebControls.Button.Click" />
         <altmember cref="T:System.EventArgs" />
@@ -638,6 +657,7 @@
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -658,16 +678,16 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 使用<xref:System.Web.UI.WebControls.Button.OnClientClick%2A>属性来指定时，会执行的其他客户端脚本<xref:System.Web.UI.WebControls.Button>控件的<xref:System.Web.UI.WebControls.Button.Click>引发事件。 为此属性呈现在指定的脚本<xref:System.Web.UI.WebControls.Button>控件的`OnClick`属性除了控件的预定义的客户端脚本。  
+ 使用<xref:System.Web.UI.WebControls.Button.OnClientClick%2A>属性来指定时，会执行的其他客户端侧脚本<xref:System.Web.UI.WebControls.Button>控件的<xref:System.Web.UI.WebControls.Button.Click>引发事件。 为此属性呈现在指定的脚本<xref:System.Web.UI.WebControls.Button>控件的`OnClick`属性除了控件的预定义的客户端脚本。  
   
- 无法通过主题或样式表主题设置此属性。 有关详细信息，请参阅<xref:System.Web.UI.ThemeableAttribute>和[ASP.NET 主题和皮肤](http://msdn.microsoft.com/library/5df3ebbd-d46c-4502-9406-02f9df4ef2c3)。  
+ 无法通过主题或样式表主题设置此属性。 有关详细信息，请参阅<xref:System.Web.UI.ThemeableAttribute>并[ASP.NET 主题和外观](http://msdn.microsoft.com/library/5df3ebbd-d46c-4502-9406-02f9df4ef2c3)。  
   
    
   
 ## Examples  
- Visual Studio Web 站点项目与源代码是可用本主题可以附带：[下载](http://go.microsoft.com/fwlink/?LinkId=192871)。  
+ Visual Studio Web 站点项目的源代码是可随附于本主题：[下载](http://go.microsoft.com/fwlink/?LinkId=192871)。  
   
- 下面的代码示例演示如何使用<xref:System.Web.UI.WebControls.Button.OnClientClick%2A>属性来指定时，会执行的其他客户端脚本<xref:System.Web.UI.WebControls.Button>控件被单击。  
+ 下面的代码示例演示如何使用<xref:System.Web.UI.WebControls.Button.OnClientClick%2A>属性来指定时，会执行的其他客户端侧脚本<xref:System.Web.UI.WebControls.Button>单击控件。  
   
  [!code-aspx-csharp[Button.OnClientClick#1](~/samples/snippets/csharp/VS_Snippets_WebNet/Button.OnClientClick/cs/button.onclientclickcs.aspx#1)]
  [!code-aspx-vb[Button.OnClientClick#1](~/samples/snippets/visualbasic/VS_Snippets_WebNet/Button.OnClientClick/vb/button.onclientclickvb.aspx#1)]  
@@ -687,6 +707,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -702,10 +724,10 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Web.UI.WebControls.Button.Command>引发事件时<xref:System.Web.UI.WebControls.Button>控件被单击。 此事件通常用时的命令名称，如`Sort`，与关联<xref:System.Web.UI.WebControls.Button>控件。 此选项，可以创建多个<xref:System.Web.UI.WebControls.Button>在网站上的控件，并以编程方式确定哪些<xref:System.Web.UI.WebControls.Button>控件被单击。  
+ <xref:System.Web.UI.WebControls.Button.Command>引发事件时<xref:System.Web.UI.WebControls.Button>单击控件。 此事件时常用的命令名称，如`Sort`，与关联<xref:System.Web.UI.WebControls.Button>控件。 这使您可以创建多个<xref:System.Web.UI.WebControls.Button>在 Web 上的控件，并以编程方式确定哪些<xref:System.Web.UI.WebControls.Button>单击控件。  
   
 > [!NOTE]
->  <xref:System.Web.UI.WebControls.Button.Command>通过控件层次结构中的窗体中引发事件`BubbleEvent`。  
+>  <xref:System.Web.UI.WebControls.Button.Command>的控件层次结构中的窗体通过引发事件`BubbleEvent`。  
   
  引发事件时，将通过委托调用事件处理程序。 有关详细信息，请参阅[处理和引发事件](~/docs/standard/events/index.md)。  
   
@@ -714,12 +736,12 @@
    
   
 ## Examples  
- 下面的代码示例演示如何指定和代码的事件处理程序<xref:System.Web.UI.WebControls.Button.Command>事件以对列表进行排序时<xref:System.Web.UI.WebControls.Button>控件被单击。 此示例指定事件处理程序以声明方式，使用<xref:System.Web.UI.WebControls.Button.OnClick%2A>属性<xref:System.Web.UI.WebControls.Button>控件。  
+ 下面的代码示例演示如何指定和编写代码的事件处理程序<xref:System.Web.UI.WebControls.Button.Command>事件的列表进行排序时<xref:System.Web.UI.WebControls.Button>单击控件。 此示例中指定的事件处理程序以声明方式，使用<xref:System.Web.UI.WebControls.Button.OnClick%2A>属性的<xref:System.Web.UI.WebControls.Button>控件。  
   
  [!code-aspx-csharp[ButtonCommandNameArgument#1](~/samples/snippets/csharp/VS_Snippets_WebNet/ButtonCommandNameArgument/CS/buttoncommandnamecs.aspx#1)]
  [!code-aspx-vb[ButtonCommandNameArgument#1](~/samples/snippets/visualbasic/VS_Snippets_WebNet/ButtonCommandNameArgument/VB/buttoncommandnamevb.aspx#1)]  
   
- 下面的代码示例演示如何以编程方式将其添加到中的事件并指定事件处理程序`Page_Load`方法。  
+ 下面的代码示例演示如何指定事件处理程序，并以编程方式将其添加到中的事件`Page_Load`方法。  
   
  [!code-aspx-csharp[ButtonCommand#1](~/samples/snippets/csharp/VS_Snippets_WebNet/ButtonCommand/CS/buttoncommandcs.aspx#1)]
  [!code-aspx-vb[ButtonCommand#1](~/samples/snippets/visualbasic/VS_Snippets_WebNet/ButtonCommand/VB/buttoncommandvb.aspx#1)]  
@@ -727,7 +749,7 @@
  ]]></format>
         </remarks>
         <block subset="none" type="overrides">
-          <para>在重写<see cref="M:System.Web.UI.WebControls.Button.OnCommand(System.Web.UI.WebControls.CommandEventArgs)" />在派生类中，一定要调用基类的<see cref="M:System.Web.UI.WebControls.Button.OnCommand(System.Web.UI.WebControls.CommandEventArgs)" />方法，以便已注册的委托对事件进行接收。</para>
+          <para>重写时<see cref="M:System.Web.UI.WebControls.Button.OnCommand(System.Web.UI.WebControls.CommandEventArgs)" />在派生类中，请务必调用基类的<see cref="M:System.Web.UI.WebControls.Button.OnCommand(System.Web.UI.WebControls.CommandEventArgs)" />方法，以便已注册的委托接收事件。</para>
         </block>
         <altmember cref="E:System.Web.UI.WebControls.Button.Command" />
         <altmember cref="T:System.Web.UI.WebControls.CommandEventArgs" />
@@ -743,6 +765,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -758,7 +781,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Web.UI.WebControls.Button.OnPreRender%2A>派生从自定义类时，主要由控件开发人员使用方法<xref:System.Web.UI.WebControls.Button>控件。  
+ <xref:System.Web.UI.WebControls.Button.OnPreRender%2A>主要由控件开发人员使用方法，派生从自定义类时<xref:System.Web.UI.WebControls.Button>控件。  
   
  ]]></format>
         </remarks>
@@ -777,6 +800,7 @@
       </Implements>
       <AssemblyInfo>
         <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -803,15 +827,15 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Web.UI.WebControls.Button.PostBackUrl%2A>属性允许你执行跨页面 post 使用<xref:System.Web.UI.WebControls.Button>控件。  
+ <xref:System.Web.UI.WebControls.Button.PostBackUrl%2A>属性使您能够跨页后使用<xref:System.Web.UI.WebControls.Button>控件。  
   
 > [!NOTE]
->  只有正确指定的路径使用此属性。 例如，相对路径 (Test/default.aspx) 绝对路径 (https://localhost/WebApp/default.aspx)和虚拟 (~ \Test\default.aspx) 正常工作。 如不正确路径"/ Test/default.aspx"或"\Test\default.aspx"不起作用。 请参阅[ASP.NET Web 项目路径](http://msdn.microsoft.com/library/2447f50c-b849-483c-8093-85ed53e7a5bd)有关创建正确的路径的讨论。  
+>  只有正确指定的路径使用此属性。 例如，相对路径 (Test/default.aspx) 绝对路径 (https://localhost/WebApp/default.aspx)和虚拟 (~ \Test\default.aspx) 正常工作。 格式不正确路径如"/ Test/default.aspx"或"\Test\default.aspx"不起作用。 请参阅[ASP.NET Web 项目路径](http://msdn.microsoft.com/library/2447f50c-b849-483c-8093-85ed53e7a5bd)有关创建正确的路径的讨论。  
   
- 设置<xref:System.Web.UI.WebControls.Button.PostBackUrl%2A>属性时要发送到 Web 页的 url<xref:System.Web.UI.WebControls.Button>控件被单击。 例如，指定`Page2.aspx`导致包含的页<xref:System.Web.UI.WebControls.Button>控件来发送到`Page2.aspx`。 如果未指定的值<xref:System.Web.UI.WebControls.Button.PostBackUrl%2A>属性，在页发回发到自身。  
+ 设置<xref:System.Web.UI.WebControls.Button.PostBackUrl%2A>属性设置为 Web 页的 URL 时要发送到<xref:System.Web.UI.WebControls.Button>单击控件。 例如，指定`Page2.aspx`包含的页将导致<xref:System.Web.UI.WebControls.Button>控制要发布到`Page2.aspx`。 如果未指定的值<xref:System.Web.UI.WebControls.Button.PostBackUrl%2A>属性，页面回发到自身。  
   
 > [!IMPORTANT]
->  在执行与服务器端验证的控件与跨页回发时，你应检查页的<xref:System.Web.UI.Page.IsValid%2A>属性是`true`之前处理回发。 对于跨页回发，页面以检查是<xref:System.Web.UI.Page.PreviousPage%2A>。 下面的 VB 代码演示如何做到这一点：  
+>  在执行与服务器端验证的控件跨页回发时，应检查的页<xref:System.Web.UI.Page.IsValid%2A>属性是`true`之前处理回发。 对于跨页回发时，要检查的页面是<xref:System.Web.UI.Page.PreviousPage%2A>。 下面的 VB 代码演示如何做到这一点：  
   
 ```  
 Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load  
@@ -823,19 +847,19 @@ Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Lo
 End Sub  
 ```  
   
- 有关跨页发送技术的详细信息，请参阅[跨页发布 ASP.NET Web 窗体中](http://msdn.microsoft.com/library/fedf234e-b7c4-4644-a9e8-c1c0870b043b)。  
+ 有关跨页面张贴的技术的详细信息，请参阅[跨页面发送在 ASP.NET Web 窗体](http://msdn.microsoft.com/library/fedf234e-b7c4-4644-a9e8-c1c0870b043b)。  
   
- 无法通过主题或样式表主题设置此属性。 有关详细信息，请参阅<xref:System.Web.UI.ThemeableAttribute>和[ASP.NET 主题和皮肤](http://msdn.microsoft.com/library/5df3ebbd-d46c-4502-9406-02f9df4ef2c3)。  
+ 无法通过主题或样式表主题设置此属性。 有关详细信息，请参阅<xref:System.Web.UI.ThemeableAttribute>并[ASP.NET 主题和外观](http://msdn.microsoft.com/library/5df3ebbd-d46c-4502-9406-02f9df4ef2c3)。  
   
    
   
 ## Examples  
- 下面的代码示例演示如何使用<xref:System.Web.UI.WebControls.Button.PostBackUrl%2A>属性来执行跨页 post。 当用户单击<xref:System.Web.UI.WebControls.Button>控件，在页发到指定的目标页的文本框中输入的值<xref:System.Web.UI.WebControls.Button.PostBackUrl%2A>属性。 若要运行此示例，你还必须在此代码示例所在的目录中创建目标页的文件。 目标页的代码是下一步的示例中提供的。  
+ 下面的代码示例演示如何使用<xref:System.Web.UI.WebControls.Button.PostBackUrl%2A>属性执行跨页面发送。 当用户单击<xref:System.Web.UI.WebControls.Button>控件，页面发到指定的目标页的文本框中输入的值<xref:System.Web.UI.WebControls.Button.PostBackUrl%2A>属性。 若要运行此示例，您还必须在此代码示例所在的同一目录中创建目标页的文件。 目标页的代码在下一步的示例中提供。  
   
  [!code-aspx-csharp[Button.PostBackUrlProperty#1](~/samples/snippets/csharp/VS_Snippets_WebNet/Button.PostBackUrlProperty/CS/button.postbackurlpropertycs.aspx#1)]
  [!code-aspx-vb[Button.PostBackUrlProperty#1](~/samples/snippets/visualbasic/VS_Snippets_WebNet/Button.PostBackUrlProperty/VB/button.postbackurlpropertyvb.aspx#1)]  
   
- 下面的代码示例演示如何使用<xref:System.Web.UI.Page.PreviousPage%2A?displayProperty=nameWithType>属性来访问从另一个页使用的一个值，已发布<xref:System.Web.UI.WebControls.Button.PostBackUrl%2A>属性。 此页获取已发布从前一页，并将其显示给用户的字符串。 如果你尝试直接运行此代码示例，则将会出错，因为值`text`字段将为`null`。 相反，使用此代码创建一个目标页面并将该文件放在与上一示例的代码相同的目录。 文件的名称必须对应于指定的值<xref:System.Web.UI.WebControls.Button.PostBackUrl%2A>上一示例中的属性。 当你运行上一示例的代码时，此页将在发生跨页发送时自动执行。  
+ 下面的代码示例演示如何使用<xref:System.Web.UI.Page.PreviousPage%2A?displayProperty=nameWithType>属性来访问已发布的值从另一个页面使用<xref:System.Web.UI.WebControls.Button.PostBackUrl%2A>属性。 此页获取前一页从发布并为用户显示的字符串。 如果尝试直接运行此代码示例，则将会出现错误，因为值`text`字段将为`null`。 相反，使用此代码创建一个目标页面并将该文件放在与上一示例的代码相同的目录。 文件的名称必须对应于指定的值<xref:System.Web.UI.WebControls.Button.PostBackUrl%2A>上一示例中的属性。 运行上一示例的代码时，此页将跨页面发送发生时自动执行。  
   
 > [!IMPORTANT]
 >  此示例具有一个接受用户输入的文本框，这是一个潜在的安全威胁。 默认情况下，ASP.NET 网页验证用户输入是否不包含脚本或 HTML 元素。 有关详细信息，请参阅[脚本侵入概述](http://msdn.microsoft.com/library/772c7312-211a-4eb3-8d6e-eec0aa1dcc07)。  
@@ -861,6 +885,7 @@ End Sub
       </Implements>
       <AssemblyInfo>
         <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -876,7 +901,7 @@ End Sub
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 内部使用此事件<xref:System.Web.UI.WebControls.Button>控件，它被单击时，引发<xref:System.Web.UI.WebControls.Button.Click>事件，并定义，如果<xref:System.Web.UI.WebControls.Button.Command>事件。  
+ 此事件在内部使用<xref:System.Web.UI.WebControls.Button>控件，单击时，引发<xref:System.Web.UI.WebControls.Button.Click>事件，并定义，如果<xref:System.Web.UI.WebControls.Button.Command>事件。  
   
  ]]></format>
         </remarks>
@@ -894,6 +919,8 @@ End Sub
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -910,7 +937,7 @@ End Sub
           <format type="text/markdown"><![CDATA[  
   
 ## Examples  
- 下面的代码示例演示如何重写<xref:System.Web.UI.WebControls.Button.RenderContents%2A>方法中的自定义的服务器控件，以便它始终显示以下自定义的文本<xref:System.Web.UI.WebControls.Button>服务器控件。  
+ 下面的代码示例演示如何重写<xref:System.Web.UI.WebControls.Button.RenderContents%2A>方法中的自定义服务器控件，以便它将始终显示后一个自定义的文本<xref:System.Web.UI.WebControls.Button>服务器控件。  
   
  [!code-aspx-csharp[CustomButtonRenderContents#1](~/samples/snippets/csharp/VS_Snippets_WebNet/CustomButtonRenderContents/CS/custombuttonrendercontentscs.aspx#1)]
  [!code-aspx-vb[CustomButtonRenderContents#1](~/samples/snippets/visualbasic/VS_Snippets_WebNet/CustomButtonRenderContents/VB/custombuttonrendercontentsvb.aspx#1)]  
@@ -934,6 +961,8 @@ End Sub
       </Implements>
       <AssemblyInfo>
         <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -949,12 +978,12 @@ End Sub
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 内部使用此事件<xref:System.Web.UI.WebControls.Button>控件，它被单击时，引发<xref:System.Web.UI.WebControls.Button.Click>事件，并定义，如果<xref:System.Web.UI.WebControls.Button.Command>事件。  
+ 此事件在内部使用<xref:System.Web.UI.WebControls.Button>控件，单击时，引发<xref:System.Web.UI.WebControls.Button.Click>事件，并定义，如果<xref:System.Web.UI.WebControls.Button.Command>事件。  
   
    
   
 ## Examples  
- 下面的代码示例演示如何重写<xref:System.Web.UI.WebControls.Button.System%23Web%23UI%23IPostBackEventHandler%23RaisePostBackEvent%2A>方法，以便它始终引发<xref:System.Web.UI.WebControls.Button.OnClick%2A>中自定义事件<xref:System.Web.UI.WebControls.Button>控件。  
+ 下面的代码示例演示如何重写<xref:System.Web.UI.WebControls.Button.System%23Web%23UI%23IPostBackEventHandler%23RaisePostBackEvent%2A>方法，使其始终引发<xref:System.Web.UI.WebControls.Button.OnClick%2A>在自定义事件<xref:System.Web.UI.WebControls.Button>控件。  
   
  [!code-csharp[CustomButtonRaisePostBackEvent#2](~/samples/snippets/csharp/VS_Snippets_WebNet/CustomButtonRaisePostBackEvent/CS/custombuttonraisepostbackevent.cs#2)]
  [!code-vb[CustomButtonRaisePostBackEvent#2](~/samples/snippets/visualbasic/VS_Snippets_WebNet/CustomButtonRaisePostBackEvent/VB/custombuttonraisepostbackevent.vb#2)]  
@@ -978,6 +1007,8 @@ End Sub
       </Implements>
       <AssemblyInfo>
         <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -1001,9 +1032,9 @@ End Sub
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 使用<xref:System.Web.UI.WebControls.Button.Text%2A>属性指定或确定要在中显示的标题<xref:System.Web.UI.WebControls.Button>控件。  
+ 使用<xref:System.Web.UI.WebControls.Button.Text%2A>属性可指定或确定要在显示的标题<xref:System.Web.UI.WebControls.Button>控件。  
   
- 此属性的值设置时，可以自动保存到的资源文件通过使用设计器工具。 有关详细信息，请参阅<xref:System.ComponentModel.LocalizableAttribute>和[全球化和本地化](http://msdn.microsoft.com/library/8ef3838e-9d05-4236-9dd0-ceecff9df80d)。  
+ 此属性的值设置时，可以自动保存到资源文件使用设计器工具。 有关详细信息，请参阅<xref:System.ComponentModel.LocalizableAttribute>并[全球化和本地化](http://msdn.microsoft.com/library/8ef3838e-9d05-4236-9dd0-ceecff9df80d)。  
   
    
   
@@ -1028,6 +1059,7 @@ End Sub
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -1048,16 +1080,16 @@ End Sub
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 使用<xref:System.Web.UI.WebControls.Button.UseSubmitBehavior%2A>属性指定是否<xref:System.Web.UI.WebControls.Button>控件使用客户端浏览器的提交机制还是 ASP.NET 回发机制。 默认情况下此属性的值是`true`，从而导致<xref:System.Web.UI.WebControls.Button>控件以使用浏览器的提交机制。 如果指定`false`，ASP.NET 页框架会将客户端脚本添加到页后，可以窗体发布到服务器。  
+ 使用<xref:System.Web.UI.WebControls.Button.UseSubmitBehavior%2A>属性指定是否<xref:System.Web.UI.WebControls.Button>控件使用客户端浏览器的提交机制还是 ASP.NET 回发机制。 默认情况下此属性的值是`true`，从而导致<xref:System.Web.UI.WebControls.Button>控件以使用浏览器的提交机制。 如果指定`false`，ASP.NET 页面框架将客户端侧脚本添加到要发布到服务器窗体的页面。  
   
- 当<xref:System.Web.UI.WebControls.Button.UseSubmitBehavior%2A>属性是`false`，控件开发人员可以使用<xref:System.Web.UI.ClientScriptManager.GetPostBackEventReference%2A>方法以返回客户端回发事件<xref:System.Web.UI.WebControls.Button>。 返回的字符串<xref:System.Web.UI.ClientScriptManager.GetPostBackEventReference%2A>方法包含客户端函数调用的文本和可以插入到客户端事件处理程序。  
+ 当<xref:System.Web.UI.WebControls.Button.UseSubmitBehavior%2A>属性是`false`，控件开发人员可以使用<xref:System.Web.UI.ClientScriptManager.GetPostBackEventReference%2A>方法以返回客户端回发事件<xref:System.Web.UI.WebControls.Button>。 返回的字符串<xref:System.Web.UI.ClientScriptManager.GetPostBackEventReference%2A>方法包含客户端的函数调用的文本，并可以插入到客户端事件处理程序。  
   
- 无法通过主题或样式表主题设置此属性。 有关详细信息，请参阅<xref:System.Web.UI.ThemeableAttribute>和[ASP.NET 主题和皮肤](http://msdn.microsoft.com/library/5df3ebbd-d46c-4502-9406-02f9df4ef2c3)。  
+ 无法通过主题或样式表主题设置此属性。 有关详细信息，请参阅<xref:System.Web.UI.ThemeableAttribute>并[ASP.NET 主题和外观](http://msdn.microsoft.com/library/5df3ebbd-d46c-4502-9406-02f9df4ef2c3)。  
   
    
   
 ## Examples  
- 下面的代码示例演示如何使用<xref:System.Web.UI.WebControls.Button.UseSubmitBehavior%2A>属性指定的提交机制，<xref:System.Web.UI.WebControls.Button>控件回发到服务器时使用。 <xref:System.Web.UI.WebControls.Button.UseSubmitBehavior%2A>属性设置为`false`，从而导致该按钮以使用 ASP.NET 回发的机制。 如果您查看所呈现的页面上，使用你的浏览器查看源命令的源代码，你将看到客户端脚本，已添加由 ASP.NET 页框架窗体发布到服务器。  
+ 下面的代码示例演示如何使用<xref:System.Web.UI.WebControls.Button.UseSubmitBehavior%2A>属性指定的提交机制的<xref:System.Web.UI.WebControls.Button>控件回发到服务器时使用。 <xref:System.Web.UI.WebControls.Button.UseSubmitBehavior%2A>属性设置为`false`，导致该按钮以使用 ASP.NET 回发机制。 如果您查看呈现的网页使用你的浏览器查看源命令的源代码，您将看到客户端脚本已由 ASP.NET 页面框架以窗体发布到服务器。  
   
  [!code-aspx-csharp[Button.UseSubmitBehavior#1](~/samples/snippets/csharp/VS_Snippets_WebNet/Button.UseSubmitBehavior/CS/button.usesubmitbehaviorcs.aspx#1)]
  [!code-aspx-vb[Button.UseSubmitBehavior#1](~/samples/snippets/visualbasic/VS_Snippets_WebNet/Button.UseSubmitBehavior/VB/button.usesubmitbehaviorvb.aspx#1)]  
@@ -1080,6 +1112,7 @@ End Sub
       </Implements>
       <AssemblyInfo>
         <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -1100,16 +1133,16 @@ End Sub
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 验证组允许您将在页面上的验证控件分配给特定类别。 每个验证组都可以独立于其他页上的验证组进行验证。 使用<xref:System.Web.UI.WebControls.Button.ValidationGroup%2A>属性来为其指定验证组的名称<xref:System.Web.UI.WebControls.Button>控件回发到服务器时要进行验证。  
+ 验证组可以分配给特定类别的页面上的验证控件。 每个验证组可以独立于其他页上的验证组进行验证。 使用<xref:System.Web.UI.WebControls.Button.ValidationGroup%2A>属性指定的验证组的名称为其<xref:System.Web.UI.WebControls.Button>控件回发到服务器时导致验证。  
   
- 此属性才起作用时，才的值<xref:System.Web.UI.WebControls.Button.CausesValidation%2A>属性设置为`true`。 当指定的值<xref:System.Web.UI.WebControls.Button.ValidationGroup%2A>属性，只会验证控件且是指定组的一部分时验证<xref:System.Web.UI.WebControls.Button>控件回发到服务器。 如果未指定此属性的值与<xref:System.Web.UI.WebControls.Button.CausesValidation%2A>属性设置为`true`，该控件发回发到服务器时，该页上未分配给验证组的所有验证控件进行都验证。  
+ 此属性才起作用时，才的值<xref:System.Web.UI.WebControls.Button.CausesValidation%2A>属性设置为`true`。 指定的值时<xref:System.Web.UI.WebControls.Button.ValidationGroup%2A>属性，只是指定组的一部分的验证控件的验证时<xref:System.Web.UI.WebControls.Button>控件回发到服务器。 如果不指定此属性的值和<xref:System.Web.UI.WebControls.Button.CausesValidation%2A>属性设置为`true`，页面上未分配给验证组的所有验证控件时该控件回发到服务器进行都验证。  
   
- 无法通过主题或样式表主题设置此属性。 有关详细信息，请参阅<xref:System.Web.UI.ThemeableAttribute>和[ASP.NET 主题和皮肤](http://msdn.microsoft.com/library/5df3ebbd-d46c-4502-9406-02f9df4ef2c3)。  
+ 无法通过主题或样式表主题设置此属性。 有关详细信息，请参阅<xref:System.Web.UI.ThemeableAttribute>并[ASP.NET 主题和外观](http://msdn.microsoft.com/library/5df3ebbd-d46c-4502-9406-02f9df4ef2c3)。  
   
    
   
 ## Examples  
- 下面的代码示例演示如何使用<xref:System.Web.UI.WebControls.Button.ValidationGroup%2A>属性来指定要验证时的控件<xref:System.Web.UI.WebControls.Button>控件回发到服务器。 页面包含用于捕获从用户的数据的三个文本框和三个<xref:System.Web.UI.WebControls.RequiredFieldValidator>控件以确保用户未将一个文本框留空。 <xref:System.Web.UI.WebControls.RequiredFieldValidator>控制中的前两个文本框中为`PersonalInfoGroup`验证组和<xref:System.Web.UI.WebControls.RequiredFieldValidator>控件中的第三个文本框是`LocationInfoGroup`验证组。 当`Button1`单击后，仅验证组中的控件`PersonalInfoGroup`进行验证。 当`Button2`单击后，仅验证分组中的控件`LocationInfoGroup`进行验证。  
+ 下面的代码示例演示如何使用<xref:System.Web.UI.WebControls.Button.ValidationGroup%2A>属性来指定要验证时的控件<xref:System.Web.UI.WebControls.Button>控件回发到服务器。 页包含三个用于捕获用户数据的文本框和三个<xref:System.Web.UI.WebControls.RequiredFieldValidator>控制措施来确保用户未将一个文本框留空。 <xref:System.Web.UI.WebControls.RequiredFieldValidator>控制在前两个文本框中为`PersonalInfoGroup`验证组并<xref:System.Web.UI.WebControls.RequiredFieldValidator>控制第三个文本框处于`LocationInfoGroup`验证组。 当`Button1`单击时，仅验证组中的控件`PersonalInfoGroup`进行验证。 当`Button2`单击时，仅验证组中的控件`LocationInfoGroup`进行验证。  
   
 > [!IMPORTANT]
 >  此示例具有一个接受用户输入的文本框，这是一个潜在的安全威胁。 默认情况下，ASP.NET 网页验证用户输入是否不包含脚本或 HTML 元素。 有关详细信息，请参阅[脚本侵入概述](http://msdn.microsoft.com/library/772c7312-211a-4eb3-8d6e-eec0aa1dcc07)。  

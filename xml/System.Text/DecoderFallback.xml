@@ -1,11 +1,11 @@
 <Type Name="DecoderFallback" FullName="System.Text.DecoderFallback">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="feadc45545c140495a659aaedf79765561a93e69" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="814e2e246bf77e11b5d1adfe5d072a0a004466b4" />
+    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="zh-CN" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36607233" />
+    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
+    <Meta Name="ms.locfileid" Value="37755016" />
   </Metadata>
   <TypeSignature Language="C#" Value="public abstract class DecoderFallback" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract serializable beforefieldinit DecoderFallback extends System.Object" />
@@ -19,6 +19,7 @@
   </AssemblyInfo>
   <AssemblyInfo>
     <AssemblyName>mscorlib</AssemblyName>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
     <AssemblyVersion>2.0.5.0</AssemblyVersion>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
   </AssemblyInfo>
@@ -41,23 +42,23 @@
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 编码映射到编码的字节序列的 Unicode 字符。 特定编码由派生自的类型表示<xref:System.Text.Encoding>类。 具体而言，字符编码为字节序列通过调用编码类型<xref:System.Text.Encoding.GetBytes%2A?displayProperty=nameWithType>方法，并对字节序列解码为字符数组或字符串通过调用<xref:System.Text.Encoding.GetChars%2A?displayProperty=nameWithType>或<xref:System.Text.Encoding.GetString%2A?displayProperty=nameWithType>方法。  
+ 编码将 Unicode 字符映射到编码的字节序列。 由派生自的类型特定的编码表示<xref:System.Text.Encoding>类。 具体而言，编码为字节序列通过调用的编码类型<xref:System.Text.Encoding.GetBytes%2A?displayProperty=nameWithType>方法，并对字节序列解码为字符数组或字符串通过调用<xref:System.Text.Encoding.GetChars%2A?displayProperty=nameWithType>或<xref:System.Text.Encoding.GetString%2A?displayProperty=nameWithType>方法。  
   
- 如果输入的字节序列不能映射进行编码，在解码操作可能会失败。 例如，<xref:System.Text.ASCIIEncoding>对象无法解码字节序列，如果该序列表示具有的码位值超出了范围，U + 0000 到 U + 007F 的字符。  
+ 如果不能进行编码映射的输入的字节序列，解码操作可能会失败。 例如，<xref:System.Text.ASCIIEncoding>对象无法解码字节序列，如果该序列表示已超出了范围 u+0000 到 U + 007F 的码位值的字符。  
   
- 当解码转换，因此无法执行.NET Framework 提供一种称为回退的失败处理机制。 你的应用程序可以使用预定义的.NET Framework 解码器回退，或者它可以创建派生自的自定义解码器回退<xref:System.Text.DecoderFallback>和<xref:System.Text.DecoderFallbackBuffer>类。  
+ 当不能执行解码转换时，.NET Framework 提供了一种称为回退的失败处理机制。 你的应用程序可以使用预定义的.NET Framework 解码器回退，或者它可以创建派生自的自定义解码器回退<xref:System.Text.DecoderFallback>和<xref:System.Text.DecoderFallbackBuffer>类。  
   
- <xref:System.Text.DecoderFallback> 和<xref:System.Text.DecoderFallbackBuffer>所有基类都解码.NET Framework 中的回退处理程序。 它们支持以下三种回退处理机制：  
+ <xref:System.Text.DecoderFallback> 和<xref:System.Text.DecoderFallbackBuffer>所有基类都解码在.NET Framework 中的回退处理程序。 它们支持以下三种类型的处理机制的回退：  
   
--   最佳的回退，将不能进行解码的有效 Unicode 字符映射到近似等效值。 例如的最佳回退处理程序<xref:System.Text.ASCIIEncoding>类可能会映射到要从中 （U + 0041 + U + 0045） 的 Æ (U + 00 C 6)。 最佳回退处理程序还可以实现音译有一个字母 （如西里尔文） 到另一个 （如 Latin 或罗马）。 .NET Framework 不提供任何公共最佳回退实现。  
+-   最佳的回退，将无法解码的有效 Unicode 字符映射到近似等效值。 例如，最佳回退处理程序为<xref:System.Text.ASCIIEncoding>类可能会映射到 AE （u+0041 + U + 0045） 的存储 (U + 00 C 6)。 最佳回退处理程序可能还会实现音译有一个字母 （如西里尔文） 到另一个 （如 Latin 或罗马字母）。 .NET Framework 不提供任何公共最佳回退实现。  
   
--   不能与预定义的字符串解码的替换回退，哪些替换每个字符。 .NET Framework 提供了预定义的替换回退处理程序。 <xref:System.Text.DecoderReplacementFallback>类替换为问号字符为每个不能进行解码的字节序列 ("？"，或 U + 003F) 或替换字符 (U + FFFD)。 您可以通过对的调用中指定替代来自定义替换字符串<xref:System.Text.DecoderReplacementFallback.%23ctor%28System.String%29?displayProperty=nameWithType>构造函数。 发出替代字符串后，将继续在解码操作，将转换输入的其余部分。  
+-   替换回退，它取代了每个字符不能与预定义的字符串进行解码。 .NET Framework 提供了预定义的替换回退处理程序。 <xref:System.Text.DecoderReplacementFallback>类替换为问号字符无法解码的每个字节序列 ("？"，或 U + 003F) 或替换字符 (U + FFFD)。 可以通过在调用中指定替代来自定义替换字符串<xref:System.Text.DecoderReplacementFallback.%23ctor%28System.String%29?displayProperty=nameWithType>构造函数。 替代字符串，将发出之后，解码运算将继续转换输入的其余部分。  
   
--   不能对字节序列进行解码时将引发异常的异常回退。 .NET Framework 提供了一个预定义的异常回退处理程序。 <xref:System.Text.DecoderExceptionFallback>类将引发<xref:System.Text.DecoderFallbackException>时遇到无效的字节序列，并在解码操作终止。  
+-   无法解码字节序列时将引发异常的异常回退。 .NET Framework 提供了一个预定义的异常回退处理程序。 <xref:System.Text.DecoderExceptionFallback>类将引发<xref:System.Text.DecoderFallbackException>时遇到一个无效的字节序列，并解码操作终止。  
   
- 如果你选择实现自定义解决方案，则必须重写的以下抽象成员<xref:System.Text.DecoderFallback>类：  
+ 如果您选择实现自定义解决方案，必须重写的以下抽象成员<xref:System.Text.DecoderFallback>类：  
   
--   <xref:System.Text.DecoderFallback.CreateFallbackBuffer%2A>方法，它返回派生自的类实例<xref:System.Text.DecoderFallbackBuffer>。 具体取决于你正在开发的回退处理程序的类型<xref:System.Text.DecoderFallbackBuffer>实现负责执行映射或更换过程中，或用于引发异常。  
+-   <xref:System.Text.DecoderFallback.CreateFallbackBuffer%2A>方法，它返回派生自的类实例<xref:System.Text.DecoderFallbackBuffer>。 具体取决于你正在开发的回退处理程序的类型<xref:System.Text.DecoderFallbackBuffer>实现负责执行映射或更换过程中，或引发异常。  
   
 -   <xref:System.Text.DecoderFallback.MaxCharCount%2A>属性，它返回的最大回退实现可以返回的字符数。 对于异常回退处理程序，其值应为零。  
   
@@ -83,6 +84,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -115,6 +117,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -138,7 +141,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 此方法返回一个对象，该对象派生自<xref:System.Text.DecoderFallbackBuffer>，它负责执行回退的操作。 例如，预定义的<xref:System.Text.DecoderFallback>在.NET Framework 中，实现<xref:System.Text.DecoderReplacementFallback.CreateFallbackBuffer%2A?displayProperty=nameWithType>方法返回<xref:System.Text.DecoderReplacementFallbackBuffer>对象，与<xref:System.Text.DecoderExceptionFallback.CreateFallbackBuffer%2A?displayProperty=nameWithType>方法返回<xref:System.Text.DecoderExceptionFallbackBuffer>对象。  
+ 此方法返回一个对象派生自<xref:System.Text.DecoderFallbackBuffer>，它负责执行回退操作。 例如，预定义的<xref:System.Text.DecoderFallback>.NET Framework 中的实现<xref:System.Text.DecoderReplacementFallback.CreateFallbackBuffer%2A?displayProperty=nameWithType>方法将返回<xref:System.Text.DecoderReplacementFallbackBuffer>对象，和<xref:System.Text.DecoderExceptionFallback.CreateFallbackBuffer%2A?displayProperty=nameWithType>方法将返回<xref:System.Text.DecoderExceptionFallbackBuffer>对象。  
   
  <xref:System.Text.DecoderFallback.CreateFallbackBuffer%2A>遇到它不能进行解码的第一个字节时，解码器调用的方法。 <xref:System.Text.DecoderFallbackBuffer>此方法返回的对象提供回退实现，并负责返回字符串，用于替换无法解码的字节。  
   
@@ -161,6 +164,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -196,6 +200,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -238,6 +243,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>

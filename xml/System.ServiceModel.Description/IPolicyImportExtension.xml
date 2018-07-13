@@ -1,11 +1,11 @@
 <Type Name="IPolicyImportExtension" FullName="System.ServiceModel.Description.IPolicyImportExtension">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="6eee719fff1036e50d9fddef949d3c8b2dfe4b65" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="2dafea050ab8f58e92bc123d4611ca1624cfae00" />
+    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="zh-CN" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36616678" />
+    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
+    <Meta Name="ms.locfileid" Value="37456512" />
   </Metadata>
   <TypeSignature Language="C#" Value="public interface IPolicyImportExtension" />
   <TypeSignature Language="ILAsm" Value=".class public interface auto ansi abstract IPolicyImportExtension" />
@@ -16,6 +16,7 @@
   <AssemblyInfo>
     <AssemblyName>System.ServiceModel</AssemblyName>
     <AssemblyVersion>2.0.5.0</AssemblyVersion>
+    <AssemblyVersion>3.0.0.0</AssemblyVersion>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
   </AssemblyInfo>
   <Interfaces />
@@ -29,7 +30,7 @@
   
  与其副本 <xref:System.ServiceModel.Description.IPolicyExportExtension> 不同，<xref:System.ServiceModel.Description.IPolicyImportExtension> 不要求通过 <xref:System.ServiceModel.Channels.BindingElement> 对象实现；您既可以通过使用“示例”一节中阐示的客户端配置节来加载它，也可以通过编程方式将其添加到 <xref:System.ServiceModel.Description.WsdlImporter?displayProperty=nameWithType> 构造函数来加载它。  
   
- Windows Communication Foundation (WCF) 将传递到两个对象<xref:System.ServiceModel.Description.IPolicyImportExtension.ImportPolicy%2A>方法，<xref:System.ServiceModel.Description.MetadataImporter>和<xref:System.ServiceModel.Description.PolicyConversionContext>。 通常，<xref:System.ServiceModel.Description.PolicyConversionContext> 对象包含每个绑定范围的策略断言。  
+ Windows Communication Foundation (WCF) 将为两个对象传递给<xref:System.ServiceModel.Description.IPolicyImportExtension.ImportPolicy%2A>方法，<xref:System.ServiceModel.Description.MetadataImporter>和一个<xref:System.ServiceModel.Description.PolicyConversionContext>。 通常，<xref:System.ServiceModel.Description.PolicyConversionContext> 对象包含每个绑定范围的策略断言。  
   
  <xref:System.ServiceModel.Description.IPolicyImportExtension> 实现会完成以下操作步骤：  
   
@@ -39,7 +40,7 @@
   
 3.  通过将所要求的自定义 <xref:System.ServiceModel.Channels.BindingElement> 添加到 <xref:System.ServiceModel.Description.PolicyConversionContext.BindingElements%2A> 属性或修改 <xref:System.ServiceModel.Description.PolicyConversionContext.Contract%2A?displayProperty=nameWithType> 属性来修改绑定堆栈或协定。  
   
- 步骤 2 非常重要。 在调用所有策略导入程序后，WCF 将检查存在的任何策略断言的保留。 如果存在，WCF 会认为策略导入不成功，将不导入相关的绑定。  
+ 步骤 2 非常重要。 调用所有策略导入程序后，WCF 会检查存在的任何保留的策略断言。 如果存在，WCF 将假定策略导入不成功，并且不导入相关的绑定。  
   
 > [!IMPORTANT]
 >  恶意的元数据供应商可将格式错误的 XML 作为元数据的一部分进行发送，从而尝试利用策略导入程序。 强烈建议使用安全可靠的自定义策略导入程序，以处理发送给它的所有格式的 XML。  
@@ -49,7 +50,7 @@
  如果要导入和导出非策略断言的自定义 WSDL 元素，请参见 <xref:System.ServiceModel.Description.IWsdlExportExtension?displayProperty=nameWithType> 和 <xref:System.ServiceModel.Description.IWsdlImportExtension?displayProperty=nameWithType>。  
   
 > [!NOTE]
->  你可以使用自定义策略导入和导出程序与[ServiceModel 元数据实用工具 (Svcutil.exe)](~/docs/framework/wcf/servicemodel-metadata-utility-tool-svcutil-exe.md)通过在配置文件中使用的相同的配置元素和`/svcutilConfig:<configFile>`选项。  
+>  可以使用自定义策略导入程序和导出程序与[ServiceModel Metadata Utility Tool (Svcutil.exe)](~/docs/framework/wcf/servicemodel-metadata-utility-tool-svcutil-exe.md)配置文件中使用相同的配置元素和`/svcutilConfig:<configFile>`选项。  
   
    
   
@@ -82,6 +83,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.ServiceModel</AssemblyName>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -102,7 +104,7 @@
 ## Remarks  
  实现 `ImportPolicy` 方法可以获取策略断言，并修改某些导入协定或绑定，以支持该断言。 通常，策略导入程序可通过配置绑定元素或将其插入到正在导入的绑定，来对查找自定义策略断言作出响应。  
   
- Windows Communication Foundation (WCF) 将传递到两个对象<xref:System.ServiceModel.Description.IPolicyImportExtension.ImportPolicy%2A>方法，<xref:System.ServiceModel.Description.MetadataImporter>和<xref:System.ServiceModel.Description.PolicyConversionContext>。 通常，<xref:System.ServiceModel.Description.PolicyConversionContext> 对象包含每个绑定范围的策略断言。  
+ Windows Communication Foundation (WCF) 将为两个对象传递给<xref:System.ServiceModel.Description.IPolicyImportExtension.ImportPolicy%2A>方法，<xref:System.ServiceModel.Description.MetadataImporter>和一个<xref:System.ServiceModel.Description.PolicyConversionContext>。 通常，<xref:System.ServiceModel.Description.PolicyConversionContext> 对象包含每个绑定范围的策略断言。  
   
  <xref:System.ServiceModel.Description.IPolicyImportExtension> 实现会完成以下操作步骤：  
   
@@ -112,7 +114,7 @@
   
 3.  通过将所需的自定义 <xref:System.ServiceModel.Channels.BindingElement> 添加到 <xref:System.ServiceModel.Description.PolicyConversionContext.BindingElements%2A> 属性，或修改 <xref:System.ServiceModel.Description.PolicyConversionContext.Contract%2A?displayProperty=nameWithType> 属性，可以修改绑定堆栈或协定。  
   
- 步骤 2 非常重要。 在调用所有策略导入程序后，WCF 将检查存在的任何策略断言的保留。 如果存在，WCF 会认为策略导入不成功，将不导入相关的绑定。  
+ 步骤 2 非常重要。 调用所有策略导入程序后，WCF 会检查存在的任何保留的策略断言。 如果存在，WCF 将假定策略导入不成功，并且不导入相关的绑定。  
   
    
   

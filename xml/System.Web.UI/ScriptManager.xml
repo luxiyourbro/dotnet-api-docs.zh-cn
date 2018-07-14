@@ -1,11 +1,11 @@
 <Type Name="ScriptManager" FullName="System.Web.UI.ScriptManager">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="95c5186420f4885f7f4fc7e3ffbffd256c17e246" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="b82c646ee023f3228d9b6ef77146c12a2daf52d6" />
+    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="zh-CN" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36576443" />
+    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
+    <Meta Name="ms.locfileid" Value="37588103" />
   </Metadata>
   <TypeSignature Language="C#" Value="public class ScriptManager : System.Web.UI.Control, System.Web.UI.IPostBackDataHandler, System.Web.UI.IPostBackEventHandler, System.Web.UI.IScriptManager" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi ScriptManager extends System.Web.UI.Control implements class System.Web.UI.IPostBackDataHandler, class System.Web.UI.IPostBackEventHandler, class System.Web.UI.IScriptManager" />
@@ -15,6 +15,7 @@
   <TypeSignature Language="F#" Value="type ScriptManager = class&#xA;    inherit Control&#xA;    interface IPostBackDataHandler&#xA;    interface IPostBackEventHandler&#xA;    interface IScriptManager" />
   <AssemblyInfo>
     <AssemblyName>System.Web.Extensions</AssemblyName>
+    <AssemblyVersion>3.5.0.0</AssemblyVersion>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
   </AssemblyInfo>
   <Base>
@@ -61,9 +62,9 @@
   
 -   [介绍](#introduction)  
   
--   [局部页面呈现](#partial_page_rendering)  
+-   [在局部页面呈现](#partial_page_rendering)  
   
--   [主控页、 用户控件，与其他子组件使用 ScriptManager 控件](#using_the_scriptmanager_control_with_master_pages__user_controls__and_other_child_components)  
+-   [使用母版页、 用户控件和其他子组件使用 ScriptManager 控件](#using_the_scriptmanager_control_with_master_pages__user_controls__and_other_child_components)  
   
 -   [脚本管理和注册](#script_management_and_registration)  
   
@@ -77,25 +78,25 @@
   
 <a name="introduction"></a>   
 ## <a name="introduction"></a>介绍  
- <xref:System.Web.UI.ScriptManager>控件是在 ASP.NET 中的 Ajax 功能的核心。 控件管理页面上的所有 ASP.NET Ajax 资源。 这包括将 Microsoft Ajax Library 脚本下载到浏览器和协调使用启用的部分页面更新<xref:System.Web.UI.UpdatePanel>控件。 此外，<xref:System.Web.UI.ScriptManager>控制，你可以执行以下操作：  
+ <xref:System.Web.UI.ScriptManager>控件是 ASP.NET 中 Ajax 功能的核心。 该控件管理页上的所有 ASP.NET Ajax 资源。 这包括 Microsoft Ajax 库脚本下载到浏览器和协调通过启用部分页更新<xref:System.Web.UI.UpdatePanel>控件。 此外，<xref:System.Web.UI.ScriptManager>控件，可以执行以下操作：  
   
--   注册适用于部分页面更新的脚本。 若要管理你的脚本和核心库之间的依赖关系，你注册任何脚本是在 Microsoft Ajax Library 脚本之后加载。  
+-   注册适用于部分页更新的脚本。 为了管理您的脚本核心库之间的依赖关系，您注册任何脚本加载 Microsoft Ajax Library 脚本之后。  
   
 -   指定是否发布或调试脚本发送到浏览器。  
   
--   提供对 Web 服务方法中访问脚本通过注册 Web 服务用于<xref:System.Web.UI.ScriptManager>控件。  
+-   提供对访问 Web 服务方法从脚本通过注册 Web 服务与<xref:System.Web.UI.ScriptManager>控件。  
   
--   提供对 ASP.NET 身份验证、 角色和配置文件的访问，请从客户端脚本的应用程序服务通过注册这些服务用于<xref:System.Web.UI.ScriptManager>控件。  
+-   通过注册这些服务用于从客户端脚本的应用程序服务提供对 ASP.NET 身份验证、 角色和配置文件访问<xref:System.Web.UI.ScriptManager>控件。  
   
--   支持 ECMAScript (JavaScript)、 和浏览器中的函数的区域性特定的显示。  
+-   启用特定于区域性的 ECMAScript (JavaScript)、、 和函数在浏览器中的显示。  
   
--   通过使用访问嵌入的脚本文件或独立的脚本文件的本地化资源<xref:System.Web.UI.ScriptReferenceBase.ResourceUICultures%2A>属性<xref:System.Web.UI.ScriptReference>控件。  
+-   通过使用访问本地化资源为嵌入的脚本文件或独立的脚本文件<xref:System.Web.UI.ScriptReferenceBase.ResourceUICultures%2A>属性的<xref:System.Web.UI.ScriptReference>控件。  
   
--   注册实现的服务器控件<xref:System.Web.UI.IExtenderControl>或<xref:System.Web.UI.IScriptControl>接口与<xref:System.Web.UI.ScriptManager>控制，以便在呈现脚本所需的客户端组件和行为。  
+-   注册实现的服务器控件<xref:System.Web.UI.IExtenderControl>或<xref:System.Web.UI.IScriptControl>与<xref:System.Web.UI.ScriptManager>控件，以便呈现所需的客户端组件和行为的脚本。  
   
 <a name="partial_page_rendering"></a>   
-## <a name="partial-page-rendering"></a>局部页面呈现  
- ASP.NET 页能够支持局部页面呈现受以下因素：  
+## <a name="partial-page-rendering"></a>在局部页面呈现  
+ ASP.NET 页面的支持局部页面呈现的功能受以下因素：  
   
 -   <xref:System.Web.UI.ScriptManager>控件的<xref:System.Web.UI.ScriptManager.EnablePartialRendering%2A>属性必须为`true`（默认值）。  
   
@@ -103,85 +104,85 @@
   
 -   <xref:System.Web.UI.ScriptManager.SupportsPartialRendering%2A>属性必须为`true`（默认值）。 如果<xref:System.Web.UI.ScriptManager.SupportsPartialRendering%2A>未显式设置属性，其值基于浏览器功能。  
   
- 你可以重写的值<xref:System.Web.UI.ScriptManager.EnablePartialRendering%2A>属性在运行时期间或之前已在页面的<xref:System.Web.UI.Control.Init>事件。 如果你尝试在该页面的后更改此属性<xref:System.Web.UI.Control.Init>事件已发生的<xref:System.InvalidOperationException>引发异常。  
+ 可以重写的值<xref:System.Web.UI.ScriptManager.EnablePartialRendering%2A>属性在运行时期间或之前的页<xref:System.Web.UI.Control.Init>事件。 如果尝试将此属性更改后的页<xref:System.Web.UI.Control.Init>事件已发生的<xref:System.InvalidOperationException>引发异常。  
   
- 当支持局部页面呈现时，<xref:System.Web.UI.ScriptManager>控件呈现脚本，以启用异步回发和局部页面更新。 通过使用指定的页后，可以更新区域<xref:System.Web.UI.UpdatePanel>控件。 <xref:System.Web.UI.ScriptManager>控制处理异步回发和刷新仅的区域的页必须进行更新。 有关在局部页面呈现的详细信息，请参阅[局部页面呈现概述](http://msdn.microsoft.com/library/5c12736d-d9e9-464a-9388-3fe0f9f49e49)。 有关导致更新的条件的详细信息，请参阅[UpdatePanel 控件概述](http://msdn.microsoft.com/library/29a2265d-9674-4c19-b70e-e5560ee9689a)。  
+ 如果支持局部页面呈现，<xref:System.Web.UI.ScriptManager>控件呈现脚本以启用异步回发和部分页面更新。 要更新的页的区域被指定使用<xref:System.Web.UI.UpdatePanel>控件。 <xref:System.Web.UI.ScriptManager>控制处理异步回发和刷新仅的区域的页的更新。 有关在局部页面呈现的详细信息，请参阅[局部页面呈现概述](http://msdn.microsoft.com/library/5c12736d-d9e9-464a-9388-3fe0f9f49e49)。 有关导致更新的条件的详细信息，请参阅[UpdatePanel 控件概述](http://msdn.microsoft.com/library/29a2265d-9674-4c19-b70e-e5560ee9689a)。  
   
 <a name="using_the_scriptmanager_control_with_master_pages__user_controls__and_other_child_components"></a>   
-## <a name="using-the-scriptmanager-control-with-master-pages-user-controls-and-other-child-components"></a>主控页、 用户控件，与其他子组件使用 ScriptManager 控件  
- 一个页只能包含一个<xref:System.Web.UI.ScriptManager>其层次结构中的控件。 若要注册服务和嵌套的页、 用户控件或组件的脚本，如果父页已<xref:System.Web.UI.ScriptManager>控制，请使用<xref:System.Web.UI.ScriptManagerProxy>控件。 有关详细信息，请参阅[UpdatePanel 控件使用母版页](http://msdn.microsoft.com/library/b1c974d5-a6b2-4bb3-a3cc-61dd9dc0e1d6)  
+## <a name="using-the-scriptmanager-control-with-master-pages-user-controls-and-other-child-components"></a>使用母版页、 用户控件和其他子组件使用 ScriptManager 控件  
+ 一个页只能包含一个<xref:System.Web.UI.ScriptManager>其层次结构中的控件。 当父页面已具有注册服务和嵌套的页面、 用户控件或组件的脚本<xref:System.Web.UI.ScriptManager>控制，请使用<xref:System.Web.UI.ScriptManagerProxy>控件。 有关详细信息，请参阅[使用母版页使用 UpdatePanel 控件](http://msdn.microsoft.com/library/b1c974d5-a6b2-4bb3-a3cc-61dd9dc0e1d6)  
   
 <a name="script_management_and_registration"></a>   
 ## <a name="script-management-and-registration"></a>脚本管理和注册  
- <xref:System.Web.UI.ScriptManager>控制，你可以将则呈现的脚本注册为页面的一部分。 <xref:System.Web.UI.ScriptManager>控件注册方法可以分为以下三个类别：  
+ <xref:System.Web.UI.ScriptManager>控件使你能够注册脚本，然后呈现为页的一部分。 <xref:System.Web.UI.ScriptManager>控件注册方法可以分为以下三个类别：  
   
--   确保维护脚本依赖 Microsoft Ajax 库的注册方法。  
+-   保证 Microsoft Ajax Library 上的脚本依赖项将保留的注册方法。  
   
 -   注册方法不依赖于 Microsoft Ajax 库中，但与兼容<xref:System.Web.UI.UpdatePanel>控件。  
   
 -   注册方法，支持使用<xref:System.Web.UI.UpdatePanel>控件。  
   
- 有关如何创建和用于在 ASP.NET Ajax 脚本的详细信息，请参阅[是通过使用 Microsoft Ajax 库中创建自定义客户端脚本](http://msdn.microsoft.com/library/285e3a65-b42e-42c5-952d-baf184057899)。  
+ 有关如何创建和使用 ASP.NET Ajax 脚本的详细信息，请参阅[创建自定义客户端脚本中通过使用 Microsoft Ajax Library](http://msdn.microsoft.com/library/285e3a65-b42e-42c5-952d-baf184057899)。  
   
 ### <a name="registering-script-that-is-dependent-on-the-microsoft-ajax-library"></a>注册依赖于 Microsoft Ajax 库的脚本  
- 你可以使用以下方法可保证维护 Microsoft Ajax 库的任何依赖的方式注册脚本文件。  
+ 可以使用以下方法来保证 Microsoft Ajax Library 上的任何依赖项是一种方法中注册脚本文件。  
   
 |方法|定义|  
 |------------|----------------|  
-|<xref:System.Web.UI.ScriptManager.RegisterScriptControl%2A>|注册一个实现的服务器控件<xref:System.Web.UI.IScriptControl>用于定义客户端对象的接口。 <xref:System.Web.UI.ScriptManager>控件呈现支持客户端对象的脚本。|  
-|<xref:System.Web.UI.ScriptManager.RegisterExtenderControl%2A>|注册一个实现的服务器控件<xref:System.Web.UI.IExtenderControl>用于定义客户端对象的接口。 <xref:System.Web.UI.ScriptManager>控件呈现支持客户端对象的脚本。|  
+|<xref:System.Web.UI.ScriptManager.RegisterScriptControl%2A>|将服务器控件实现注册<xref:System.Web.UI.IScriptControl>用于定义客户端对象的接口。 <xref:System.Web.UI.ScriptManager>控件呈现支持客户端对象的脚本。|  
+|<xref:System.Web.UI.ScriptManager.RegisterExtenderControl%2A>|将服务器控件实现注册<xref:System.Web.UI.IExtenderControl>用于定义客户端对象的接口。 <xref:System.Web.UI.ScriptManager>控件呈现支持客户端对象的脚本。|  
   
-### <a name="registering-partial-page-update-compatible-scripts"></a>注册局部页面的更新兼容脚本  
- 你可以使用以下方法来注册脚本文件不依赖于 Microsoft Ajax Library 但与兼容<xref:System.Web.UI.UpdatePanel>控件。 这些方法对应于的类似方法<xref:System.Web.UI.ClientScriptManager>控件。 如果你是在内部使用的呈现脚本<xref:System.Web.UI.UpdatePanel>控制，请确保调用的方法的<xref:System.Web.UI.ScriptManager>控件。  
+### <a name="registering-partial-page-update-compatible-scripts"></a>注册部分页面更新兼容脚本  
+ 可以使用以下方法来注册脚本文件不依赖于 Microsoft Ajax Library 但与兼容<xref:System.Web.UI.UpdatePanel>控件。 这些方法对应于的类似方法<xref:System.Web.UI.ClientScriptManager>控件。 如果您是在内部使用的呈现脚本<xref:System.Web.UI.UpdatePanel>控件，请确保调用的方法<xref:System.Web.UI.ScriptManager>控件。  
   
 |方法|定义|  
 |------------|----------------|  
 |<xref:System.Web.UI.ScriptManager.RegisterArrayDeclaration%2A>|将值添加到 JavaScript 数组。 如果数组不存在，则创建它。|  
-|<xref:System.Web.UI.ScriptManager.RegisterClientScriptBlock%2A>|呈现`script`页打开之后的元素`<form>`标记。 作为字符串参数指定了脚本。|  
-|<xref:System.Web.UI.ScriptManager.RegisterClientScriptInclude%2A>|呈现`script`页打开之后的元素`<form>`标记。 通过将设置指定的脚本内容`src`属性设为指向脚本文件的 URL。|  
-|<xref:System.Web.UI.ScriptManager.RegisterClientScriptResource%2A>|呈现`script`页打开之后的元素`<form>`标记。 脚本内容指定的程序集中的资源名称。 `src`属性会自动填充的 URL 通过从程序集中检索命名的脚本的 HTTP 处理程序调用。|  
-|<xref:System.Web.UI.ScriptManager.RegisterExpandoAttribute%2A>|呈现自定义的名称/值特性对 (expando) 指定的控件的标记中。|  
-|<xref:System.Web.UI.ScriptManager.RegisterHiddenField%2A>|呈现的隐藏的字段。|  
-|<xref:System.Web.UI.ScriptManager.RegisterOnSubmitStatement%2A>|注册一个脚本在响应中执行的脚本`form`元素的`submit`事件。 `onSubmit`属性引用指定的脚本。|  
-|<xref:System.Web.UI.ScriptManager.RegisterStartupScript%2A>|呈现一个启动脚本块之前页面的右`</form>`标记。 要呈现的脚本被指定为字符串参数。|  
+|<xref:System.Web.UI.ScriptManager.RegisterClientScriptBlock%2A>|呈现`script`元素的页打开之后`<form>`标记。 该脚本指定为字符串参数。|  
+|<xref:System.Web.UI.ScriptManager.RegisterClientScriptInclude%2A>|呈现`script`元素的页打开之后`<form>`标记。 通过设置指定的脚本内容`src`属性指向脚本文件的 URL。|  
+|<xref:System.Web.UI.ScriptManager.RegisterClientScriptResource%2A>|呈现`script`元素的页打开之后`<form>`标记。 使用资源名称的程序集中指定脚本内容。 `src`属性会自动填充的 URL 的 HTTP 处理程序从程序集中检索的已命名的脚本调用。|  
+|<xref:System.Web.UI.ScriptManager.RegisterExpandoAttribute%2A>|呈现指定控件的标记中的自定义名称/值特性对 (expando)。|  
+|<xref:System.Web.UI.ScriptManager.RegisterHiddenField%2A>|呈现隐藏的字段。|  
+|<xref:System.Web.UI.ScriptManager.RegisterOnSubmitStatement%2A>|注册响应执行的脚本`form`元素的`submit`事件。 `onSubmit`属性引用指定的脚本。|  
+|<xref:System.Web.UI.ScriptManager.RegisterStartupScript%2A>|呈现页面的关闭之前只是一个启动脚本块`</form>`标记。 要呈现的脚本指定为字符串参数。|  
   
- 当你注册方法时，你指定用于该脚本的类型/密钥对。 如果已注册具有相同的类型/密钥对的脚本，则未注册的新脚本。 同样，如果已注册的脚本的类型/资源名称对存在，`script`引用该资源的元素不会再次添加。 当你注册 expando 属性的一个以前注册的属性时，会引发异常。 允许的数组值重复的注册。  
+ 注册方法时，您可以指定该脚本的类型/密钥对。 如果已注册具有相同的类型/密钥对的脚本，未注册一个新的脚本。 同样，如果已注册的脚本的类型中的资源名称对存在，`script`元素引用的资源不会再次添加。 注册以前注册的属性的 expando 属性时，将引发异常。 允许的数组值重复的注册。  
   
- 当调用<xref:System.Web.UI.ScriptManager.RegisterClientScriptInclude%2A>或<xref:System.Web.UI.ScriptManager.RegisterClientScriptResource%2A>方法，避免注册执行内联函数的脚本。 相反，应注册脚本，其中包含如事件处理程序的函数定义或自定义类定义你的应用程序。  
+ 当您调用<xref:System.Web.UI.ScriptManager.RegisterClientScriptInclude%2A>或<xref:System.Web.UI.ScriptManager.RegisterClientScriptResource%2A>方法，避免注册执行内联函数的脚本。 相反，注册包含函数定义，如事件处理程序或你的应用程序的自定义类定义的脚本。  
   
 ### <a name="registration-methods-for-updatepanel-controls"></a>UpdatePanel 控件的注册方法  
- 你可以使用以下方法以自定义部分页面更新，当你使用<xref:System.Web.UI.UpdatePanel>控件。  
+ 可以使用以下方法使用时，自定义部分页面更新<xref:System.Web.UI.UpdatePanel>控件。  
   
 |方法|定义|  
 |------------|----------------|  
 |<xref:System.Web.UI.ScriptManager.RegisterAsyncPostBackControl%2A>|将控件注册为异步回发的触发器。|  
 |<xref:System.Web.UI.ScriptManager.RegisterDataItem%2A>|在局部页面呈现期间将自定义数据发送到多个控件。|  
-|<xref:System.Web.UI.ScriptManager.RegisterDispose%2A>|注册控件中的 dispose 脚本<xref:System.Web.UI.UpdatePanel>控件。 在更新或删除 <xref:System.Web.UI.UpdatePanel> 控件时会执行脚本。 Dispose 方法用于客户端组件，是 Microsoft Ajax 库的一部分且必须在不再使用组件时释放资源。|  
-|<xref:System.Web.UI.ScriptManager.RegisterPostBackControl%2A>|将控件注册为完整的回发的触发器。 此方法用于内的控件<xref:System.Web.UI.UpdatePanel>将执行异步回发的控件。|  
+|<xref:System.Web.UI.ScriptManager.RegisterDispose%2A>|注册控件内部的释放脚本<xref:System.Web.UI.UpdatePanel>控件。 在更新或删除 <xref:System.Web.UI.UpdatePanel> 控件时会执行脚本。 Dispose 方法用于对客户端组件是 Microsoft Ajax 库的一部分，且必须在不再使用某个组件时释放资源。|  
+|<xref:System.Web.UI.ScriptManager.RegisterPostBackControl%2A>|将控件注册为完全回发的触发器。 此方法用于内部控件<xref:System.Web.UI.UpdatePanel>将执行异步回发的控件。|  
   
 <a name="web_service_references"></a>   
 ## <a name="web-service-references"></a>Web 服务引用  
- 你可以注册 Web 服务以从客户端脚本中调用通过创建<xref:System.Web.UI.ServiceReference>对象并将其添加到<xref:System.Web.UI.ScriptManager.Services%2A>集合<xref:System.Web.UI.ScriptManager>控件。 ASP.NET 生成每个客户端代理对象<xref:System.Web.UI.ServiceReference>对象在<xref:System.Web.UI.ScriptManager.Services%2A>集合。 你可以以编程方式添加<xref:System.Web.UI.ServiceReference>对象添加到<xref:System.Web.UI.ScriptManager.Services%2A>集合用于在运行时注册 Web 服务。  
+ 可以注册 Web 服务，以便通过创建从客户端脚本调用<xref:System.Web.UI.ServiceReference>对象并将其添加到<xref:System.Web.UI.ScriptManager.Services%2A>的集合<xref:System.Web.UI.ScriptManager>控件。 ASP.NET 生成每个客户端代理对象<xref:System.Web.UI.ServiceReference>对象中<xref:System.Web.UI.ScriptManager.Services%2A>集合。 您可以以编程方式添加<xref:System.Web.UI.ServiceReference>对象添加到<xref:System.Web.UI.ScriptManager.Services%2A>集合在运行时注册 Web 服务。  
   
- 有关如何访问脚本中的 Web 服务的详细信息，请参阅[公开 Web 服务迁移到 ASP.NET AJAX 中的客户端脚本](http://msdn.microsoft.com/library/fe3f6e9e-0acd-44c9-bf0f-0a8598fc13b8)和[从 ASP.NET AJAX 中的客户端脚本调用 Web 服务](http://msdn.microsoft.com/library/fc06c224-f01a-45be-94af-bd71afbc07b0)。  
+ 有关如何访问脚本中的 Web 服务的详细信息，请参阅[公开 Web 服务添加到 ASP.NET AJAX 中的客户端脚本](http://msdn.microsoft.com/library/fe3f6e9e-0acd-44c9-bf0f-0a8598fc13b8)并[从 ASP.NET AJAX 中的客户端脚本调用 Web 服务](http://msdn.microsoft.com/library/fc06c224-f01a-45be-94af-bd71afbc07b0)。  
   
 <a name="localization"></a>   
 ## <a name="localization"></a>本地化  
- <xref:System.Web.UI.ScriptManager>控件在所呈现的页面上，指向相应的本地化的脚本文件是脚本文件嵌入到程序集或独立的脚本文件中，但也生成引用。  
+ <xref:System.Web.UI.ScriptManager>控件在呈现的页指向相应的本地化的脚本文件的任一程序集或独立的脚本文件中嵌入的脚本文件中生成的引用。  
   
- 当<xref:System.Web.UI.ScriptManager.EnableScriptLocalization%2A>属性设置为`true`、<xref:System.Web.UI.ScriptManager>控件中检索本地化的资源 （例如本地化的字符串） 的当前区域性，如果它们存在。 <xref:System.Web.UI.ScriptManager>控件提供使用本地化的资源的以下功能：  
+ 当<xref:System.Web.UI.ScriptManager.EnableScriptLocalization%2A>属性设置为`true`，则<xref:System.Web.UI.ScriptManager>控件检索当前区域性的本地化的资源 （例如本地化的字符串），如果它们存在。 <xref:System.Web.UI.ScriptManager>控件提供了使用本地化的资源的以下功能：  
   
--   **脚本嵌入到程序集中的文件**。 <xref:System.Web.UI.ScriptManager>控件确定要发送到浏览器的区域性特定或回退区域性脚本文件。 通过使用特定于区域性的执行这<xref:System.Resources.NeutralResourcesLanguageAttribute>程序集属性、 与程序集和浏览器的 UI 区域性打包在一起 （如果有） 的资源。  
+-   **脚本文件嵌入程序集中**。 <xref:System.Web.UI.ScriptManager>控件将确定要发送到浏览器的区域性特定或回退区域性脚本文件。 这是通过使用特定于区域性的<xref:System.Resources.NeutralResourcesLanguageAttribute>程序集属性、 与该程序集，并在浏览器的 UI 区域性打包在一起 （如果有） 的资源。  
   
--   **独立的脚本文件**。 <xref:System.Web.UI.ScriptManager>控件定义的通过使用支持的 UI 区域性列表<xref:System.Web.UI.ScriptReferenceBase.ResourceUICultures%2A>属性<xref:System.Web.UI.ScriptReference>对象。  
+-   **独立的脚本文件**。 <xref:System.Web.UI.ScriptManager>控件定义的使用支持的 UI 区域性列表<xref:System.Web.UI.ScriptReferenceBase.ResourceUICultures%2A>属性的<xref:System.Web.UI.ScriptReference>对象。  
   
--   **在调试模式下**。 <xref:System.Web.UI.ScriptManager>控件尝试呈现包含调试信息的区域性特定的脚本文件。 例如，如果页处于调试模式下，当前区域性设置为 en MX 控件呈现脚本文件，如具有名称`scriptname`.en MX.debug.js，如果该文件存在。 如果文件不存在，将呈现的调试文件的适当的回退区域性。  
+-   **在调试模式下**。 <xref:System.Web.UI.ScriptManager>控件尝试呈现包含调试信息的特定于区域性的脚本文件。 例如，如果当前区域性设置为 en MX 页处于调试模式下，该控件将呈现脚本文件，如其名称`scriptname`.en MX.debug.js，如果该文件存在。 如果该文件不存在，将呈现相应回退区域性的调试文件  
   
- 有关如何将本地化资源的详细信息，请参阅[本地化资源组件库概述](http://msdn.microsoft.com/library/e6b15435-57c1-4dd1-9bd3-5d4c509685bb)。  
+ 有关如何将本地化资源的详细信息，请参阅[本地化资源的组件库概述](http://msdn.microsoft.com/library/e6b15435-57c1-4dd1-9bd3-5d4c509685bb)。  
   
 <a name="error_handling"></a>   
 ## <a name="error-handling"></a>错误处理  
- 当异步回发期间出现页面错误<xref:System.Web.UI.ScriptManager.AsyncPostBackError>引发事件。 在该服务器上的错误会发送到客户端的方式取决于<xref:System.Web.UI.ScriptManager.AllowCustomErrorsRedirect%2A>属性，<xref:System.Web.UI.ScriptManager.AsyncPostBackErrorMessage%2A>属性，且 Web.config 文件的自定义错误部分。 有关详细信息，请参阅[UpdatePanel 控件的自定义错误处理](http://msdn.microsoft.com/library/e15e7ffb-e4b2-4a89-b99e-16624a5861d0)。  
+ 在异步回发期间出现页面错误时<xref:System.Web.UI.ScriptManager.AsyncPostBackError>引发事件。 在该服务器上的错误发送到客户端的方式取决于<xref:System.Web.UI.ScriptManager.AllowCustomErrorsRedirect%2A>属性，<xref:System.Web.UI.ScriptManager.AsyncPostBackErrorMessage%2A>属性，并在 Web.config 文件的自定义错误部分。 有关详细信息，请参阅[UpdatePanel 控件的自定义错误处理](http://msdn.microsoft.com/library/e15e7ffb-e4b2-4a89-b99e-16624a5861d0)。  
   
 <a name="declarative_syntax"></a>   
 ## <a name="declarative-syntax"></a>声明性语法  
@@ -255,23 +256,23 @@
 ## Examples  
  下面的示例演示使用不同方案<xref:System.Web.UI.ScriptManager>控件。  
   
- **启用部分页面更新**  
+ **启用部分页更新**  
   
- 下面的示例演示如何使用<xref:System.Web.UI.ScriptManager>控件来启用局部页面更新。 在此示例中，<xref:System.Web.UI.WebControls.Calendar>和<xref:System.Web.UI.WebControls.DropDownList>控件位于<xref:System.Web.UI.UpdatePanel>控件。 默认情况下，值<xref:System.Web.UI.UpdatePanel.UpdateMode%2A>属性是<xref:System.Web.UI.UpdatePanelUpdateMode.Always>，和的值<xref:System.Web.UI.UpdatePanel.ChildrenAsTriggers%2A>属性是`true`。 因此，子控件的面板会导致异步回发。  
+ 下面的示例演示如何使用<xref:System.Web.UI.ScriptManager>控件以使部分页面更新。 在此示例中，<xref:System.Web.UI.WebControls.Calendar>和一个<xref:System.Web.UI.WebControls.DropDownList>控件位于<xref:System.Web.UI.UpdatePanel>控件。 默认情况下的值<xref:System.Web.UI.UpdatePanel.UpdateMode%2A>属性是<xref:System.Web.UI.UpdatePanelUpdateMode.Always>，和的值<xref:System.Web.UI.UpdatePanel.ChildrenAsTriggers%2A>属性是`true`。 因此，子控件的面板会导致异步回发。  
   
  [!code-aspx-csharp[System.Web.UI.UpdatePanel#1](~/samples/snippets/csharp/VS_Snippets_Atlas/System.Web.UI.UpdatePanel/CS/UpdatePanelExample1CS.aspx#1)]
  [!code-aspx-vb[System.Web.UI.UpdatePanel#1](~/samples/snippets/visualbasic/VS_Snippets_Atlas/System.Web.UI.UpdatePanel/VB/UpdatePanelExample1VB.aspx#1)]  
   
- **处理局部页面的更新错误并注册脚本**  
+ **处理部分页面更新错误和注册脚本**  
   
- 下面的示例演示如何提供自定义错误处理在局部页面更新过程。 默认情况下，在局部页面更新过程中发生错误时被显示一个 JavaScript 消息框。 此示例演示如何使用自定义错误处理程序通过提供的处理程序<xref:System.Web.UI.ScriptManager.AsyncPostBackError>事件，并通过设置<xref:System.Web.UI.ScriptManager.AsyncPostBackErrorMessage%2A>事件处理程序中的属性。 你还可以设置<xref:System.Web.UI.ScriptManager.AllowCustomErrorsRedirect%2A>属性指定在局部页面更新过程中发生错误时如何使用 Web.config 文件的自定义错误部分。 在此示例中，默认值的<xref:System.Web.UI.ScriptManager.AllowCustomErrorsRedirect%2A>使用属性。 这意味着如果 Web.config 文件包含的元素，该元素将确定错误的显示方式。 有关详细信息，请参阅[customErrors 元素 （ASP.NET 设置架构）](http://msdn.microsoft.com/library/288c32e2-df1f-4548-abda-de6b4cb989a6)。  
+ 下面的示例演示如何提供自定义错误处理在部分页面更新过程。 默认情况下，在部分页更新期间发生错误时被显示一个 JavaScript 消息框。 此示例演示如何使用自定义错误处理的处理程序，从而<xref:System.Web.UI.ScriptManager.AsyncPostBackError>事件，并通过设置<xref:System.Web.UI.ScriptManager.AsyncPostBackErrorMessage%2A>事件处理程序中的属性。 您还可以设置<xref:System.Web.UI.ScriptManager.AllowCustomErrorsRedirect%2A>属性来指定部分页面更新过程中发生错误时如何使用 Web.config 文件的自定义错误部分。 在此示例中，默认值的<xref:System.Web.UI.ScriptManager.AllowCustomErrorsRedirect%2A>使用属性。 这意味着如果 Web.config 文件包含的元素，该元素将确定错误的显示方式。 有关详细信息，请参阅[customErrors 元素 （ASP.NET 设置架构）](http://msdn.microsoft.com/library/288c32e2-df1f-4548-abda-de6b4cb989a6)。  
   
  [!code-aspx-csharp[System.Web.UI.ScriptManager.OnAsyncPostBackError#1](~/samples/snippets/csharp/VS_Snippets_Atlas/System.Web.UI.ScriptManager.OnAsyncPostBackError/CS/default.aspx#1)]
  [!code-aspx-vb[System.Web.UI.ScriptManager.OnAsyncPostBackError#1](~/samples/snippets/visualbasic/VS_Snippets_Atlas/System.Web.UI.ScriptManager.OnAsyncPostBackError/VB/default.aspx#1)]  
   
- **全球化的日期和浏览器中显示的时间**  
+ **全球化的日期和时间显示在浏览器中**  
   
- 下面的示例演示如何设置<xref:System.Web.UI.ScriptManager.EnableScriptGlobalization%2A>属性，以便该客户端脚本可以在浏览器中显示的特定于区域性的日期和时间。 在示例中，`Culture`指令的特性设置为`auto`。 因此，在当前的浏览器设置中指定的第一个语言确定的区域性和 UI 区域性页。 有关详细信息，请参阅[如何： 为 ASP.NET 网页全球化设置区域性和 UI 区域性](http://msdn.microsoft.com/library/76091f86-f967-4687-a40f-de87bd8cc9a0)。  
+ 下面的示例演示如何设置<xref:System.Web.UI.ScriptManager.EnableScriptGlobalization%2A>属性，以便该客户端脚本可以在浏览器中显示特定于区域性的日期和时间。 在示例中，`Culture`指令的特性设置为`auto`。 因此，在当前的浏览器设置中指定的第一个语言确定区域性和 UI 区域性的页。 有关详细信息，请参阅[如何： 为 ASP.NET 网页全球化设置区域性和 UI 区域性](http://msdn.microsoft.com/library/76091f86-f967-4687-a40f-de87bd8cc9a0)。  
   
  [!code-aspx-csharp[System.Web.UI.ScriptManager.EnableScriptGlobalization#1](~/samples/snippets/csharp/VS_Snippets_Atlas/System.Web.UI.ScriptManager.EnableScriptGlobalization/CS/default.aspx#1)]
  [!code-aspx-vb[System.Web.UI.ScriptManager.EnableScriptGlobalization#1](~/samples/snippets/visualbasic/VS_Snippets_Atlas/System.Web.UI.ScriptManager.EnableScriptGlobalization/VB/default.aspx#1)]  
@@ -295,6 +296,7 @@
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Parameters />
@@ -304,7 +306,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 此构造函数初始化由使用的内部字段<xref:System.Web.UI.ScriptManager>控件跟踪页、 控制和部署信息。  
+ 此构造函数初始化由内部字段<xref:System.Web.UI.ScriptManager>控件跟踪页面、 控制和部署信息。  
   
  ]]></format>
         </remarks>
@@ -321,7 +323,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 这些方法重载使你能够在浏览器中定义服务器状态和 （可选） 的历史记录条目的标题。 在创建历史时间点时，序列化和加密的数据会追加到网页的 URL 和浏览器的历史记录堆栈中包括一个条目。 状态数据可用于引发任何后续服务器导航事件时重新创建该页面。 有关详细信息，请参阅[管理浏览器历史记录中使用服务器控件](http://msdn.microsoft.com/library/bad617c8-f84c-4d94-8852-60af400810e9)。  
+ 这些方法重载使您能够在浏览器中定义服务器状态和 （可选） 的历史记录条目标题。 创建历史时间点时，序列化和加密的数据附加到 Web 页的 URL，并会在浏览器的历史记录堆栈中包括一项。 状态数据可用于重新创建该页面时引发的任何后续服务器导航事件。 有关详细信息，请参阅[管理浏览器历史记录中使用服务器控件](http://msdn.microsoft.com/library/bad617c8-f84c-4d94-8852-60af400810e9)。  
   
  ]]></format>
         </remarks>
@@ -337,6 +339,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -354,9 +357,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 此方法用于创建历史时间点，如果你想要保存的状态数据的多个键/值对。 在创建历史时间点时，序列化和加密的数据会追加到网页的 URL 和浏览器的历史记录堆栈中包括一个条目。 如果`title`参数是`null`，为历史记录堆栈中的状态条目的标题使用的网页标题。  
+ 此方法用于创建历史时间点，如果想要保存的状态数据的多个键/值对。 创建历史时间点时，序列化和加密的数据附加到 Web 页的 URL，并会在浏览器的历史记录堆栈中包括一项。 如果`title`参数是`null`，Web 页的标题用作历史记录堆栈中的状态条目的标题。  
   
- 状态数据可用于引发任何后续服务器导航事件时重新创建该页面。 有关详细信息，请参阅[管理浏览器历史记录中使用服务器控件](http://msdn.microsoft.com/library/bad617c8-f84c-4d94-8852-60af400810e9)。  
+ 状态数据可用于重新创建该页面时引发的任何后续服务器导航事件。 有关详细信息，请参阅[管理浏览器历史记录中使用服务器控件](http://msdn.microsoft.com/library/bad617c8-f84c-4d94-8852-60af400810e9)。  
   
  ]]></format>
         </remarks>
@@ -372,6 +375,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -389,9 +393,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 使用此方法时你只想要保存一个值来标识状态创建历史时间点。 在创建历史时间点时，序列化和加密的数据会追加到网页的 URL 和浏览器的历史记录堆栈中包括一个条目。 网页的标题用作历史记录堆栈中的状态条目的标题。  
+ 此方法用于创建历史时间点，如果只想要保存一个值，以标识的状态。 创建历史时间点时，序列化和加密的数据附加到 Web 页的 URL，并会在浏览器的历史记录堆栈中包括一项。 为标题的历史记录堆栈中的状态条目使用网页的标题。  
   
- 状态数据可用于引发任何后续服务器导航事件时重新创建该页面。 有关详细信息，请参阅[管理浏览器历史记录中使用服务器控件](http://msdn.microsoft.com/library/bad617c8-f84c-4d94-8852-60af400810e9)。  
+ 状态数据可用于重新创建该页面时引发的任何后续服务器导航事件。 有关详细信息，请参阅[管理浏览器历史记录中使用服务器控件](http://msdn.microsoft.com/library/bad617c8-f84c-4d94-8852-60af400810e9)。  
   
  ]]></format>
         </remarks>
@@ -407,6 +411,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -426,9 +431,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 使用此方法时要用于保存一个值来标识的状态和状态标题创建历史时间点。 在创建历史时间点时，序列化和加密的数据会追加到网页的 URL 和浏览器的历史记录堆栈中包括一个条目。 如果`title`参数是`null`，为历史记录堆栈中的状态条目的标题使用的网页标题。  
+ 使用此方法时要用于保存一个值，以确定的状态和状态标题创建历史时间点。 创建历史时间点时，序列化和加密的数据附加到 Web 页的 URL，并会在浏览器的历史记录堆栈中包括一项。 如果`title`参数是`null`，Web 页的标题用作历史记录堆栈中的状态条目的标题。  
   
- 状态数据可用于引发任何后续服务器导航事件时重新创建该页面。 有关详细信息，请参阅[管理浏览器历史记录中使用服务器控件](http://msdn.microsoft.com/library/bad617c8-f84c-4d94-8852-60af400810e9)。  
+ 状态数据可用于重新创建该页面时引发的任何后续服务器导航事件。 有关详细信息，请参阅[管理浏览器历史记录中使用服务器控件](http://msdn.microsoft.com/library/bad617c8-f84c-4d94-8852-60af400810e9)。  
   
  ]]></format>
         </remarks>
@@ -490,12 +495,12 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 使用<xref:System.Web.UI.ScriptManager.AjaxFrameworkMode%2A>属性以启用所有 Microsoft Ajax 脚本文件，来禁用所有 Microsoft Ajax 脚本文件，或显式包括各个脚本文件。  
+ 使用<xref:System.Web.UI.ScriptManager.AjaxFrameworkMode%2A>属性以启用所有 Microsoft Ajax 脚本文件，若要禁用所有 Microsoft Ajax 脚本文件，或显式包含各个脚本文件。  
   
    
   
 ## Examples  
- 下面的示例演示如何设置<xref:System.Web.UI.ScriptManager.AjaxFrameworkMode%2A>属性`Explicit`以便指明指明脚本可以显式指定。  
+ 下面的示例演示如何设置<xref:System.Web.UI.ScriptManager.AjaxFrameworkMode%2A>属性设置为`Explicit`就可指示脚本可以显式指定。  
   
 ```  
 <asp:ScriptManager ID="sm1" AjaxFrameworkMode="Explicit" runat="server">   
@@ -523,6 +528,7 @@
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -543,7 +549,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Web.UI.ScriptManager.AsyncPostBackError>异步回发期间页错误时引发事件。 服务器上的错误发送给客户端的方式取决于<xref:System.Web.UI.ScriptManager.AllowCustomErrorsRedirect%2A>属性，<xref:System.Web.UI.ScriptManager.AsyncPostBackErrorMessage%2A>属性，且 Web.config 文件的自定义错误部分。  
+ <xref:System.Web.UI.ScriptManager.AsyncPostBackError>异步回发期间发生页面错误时引发事件。 服务器上的错误发送给客户端的方式取决于<xref:System.Web.UI.ScriptManager.AllowCustomErrorsRedirect%2A>属性，<xref:System.Web.UI.ScriptManager.AsyncPostBackErrorMessage%2A>属性，并在 Web.config 文件的自定义错误部分。  
   
  ]]></format>
         </remarks>
@@ -560,6 +566,7 @@
       <MemberType>Event</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -576,12 +583,12 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Web.UI.ScriptManager.AsyncPostBackError>异步回发期间页错误时引发事件。 服务器上的错误发送给客户端的方式取决于<xref:System.Web.UI.ScriptManager.AllowCustomErrorsRedirect%2A>属性，<xref:System.Web.UI.ScriptManager.AsyncPostBackErrorMessage%2A>属性，且 Web.config 文件的自定义错误部分。  
+ <xref:System.Web.UI.ScriptManager.AsyncPostBackError>异步回发期间发生页面错误时引发事件。 服务器上的错误发送给客户端的方式取决于<xref:System.Web.UI.ScriptManager.AllowCustomErrorsRedirect%2A>属性，<xref:System.Web.UI.ScriptManager.AsyncPostBackErrorMessage%2A>属性，并在 Web.config 文件的自定义错误部分。  
   
    
   
 ## Examples  
- 下面的示例演示如何处理<xref:System.Web.UI.ScriptManager.AsyncPostBackError>事件设置<xref:System.Web.UI.ScriptManager.AsyncPostBackErrorMessage%2A>服务器异常错误消息的属性 （它将发送到客户端）。  
+ 下面的示例演示如何处理<xref:System.Web.UI.ScriptManager.AsyncPostBackError>事件以便设置<xref:System.Web.UI.ScriptManager.AsyncPostBackErrorMessage%2A>服务器异常错误消息的属性 （它将发送到客户端）。  
   
  [!code-aspx-csharp[System.Web.UI.ScriptManager.AsyncPostBackErrorMessage#1](~/samples/snippets/csharp/VS_Snippets_Atlas/System.Web.UI.ScriptManager.AsyncPostBackErrorMessage/CS/ScriptManager_AsyncPostBackErrorMessageCS.aspx#1)]
  [!code-aspx-vb[System.Web.UI.ScriptManager.AsyncPostBackErrorMessage#1](~/samples/snippets/visualbasic/VS_Snippets_Atlas/System.Web.UI.ScriptManager.AsyncPostBackErrorMessage/VB/ScriptManager_AsyncPostBackErrorMessageVB.aspx#1)]  
@@ -602,6 +609,7 @@
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -622,12 +630,12 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Web.UI.ScriptManager.AsyncPostBackError>异步回发期间页错误时引发事件。 服务器上的错误发送给客户端的方式取决于<xref:System.Web.UI.ScriptManager.AllowCustomErrorsRedirect%2A>属性，<xref:System.Web.UI.ScriptManager.AsyncPostBackErrorMessage%2A>属性，且 Web.config 文件的自定义错误部分。  
+ <xref:System.Web.UI.ScriptManager.AsyncPostBackError>异步回发期间发生页面错误时引发事件。 服务器上的错误发送给客户端的方式取决于<xref:System.Web.UI.ScriptManager.AllowCustomErrorsRedirect%2A>属性，<xref:System.Web.UI.ScriptManager.AsyncPostBackErrorMessage%2A>属性，并在 Web.config 文件的自定义错误部分。  
   
    
   
 ## Examples  
- 下面的示例演示如何处理<xref:System.Web.UI.ScriptManager.AsyncPostBackError>事件设置<xref:System.Web.UI.ScriptManager.AsyncPostBackErrorMessage%2A>服务器异常错误消息的属性 （它将发送到客户端）。  
+ 下面的示例演示如何处理<xref:System.Web.UI.ScriptManager.AsyncPostBackError>事件以便设置<xref:System.Web.UI.ScriptManager.AsyncPostBackErrorMessage%2A>服务器异常错误消息的属性 （它将发送到客户端）。  
   
  [!code-aspx-csharp[System.Web.UI.ScriptManager.AsyncPostBackErrorMessage#1](~/samples/snippets/csharp/VS_Snippets_Atlas/System.Web.UI.ScriptManager.AsyncPostBackErrorMessage/CS/ScriptManager_AsyncPostBackErrorMessageCS.aspx#1)]
  [!code-aspx-vb[System.Web.UI.ScriptManager.AsyncPostBackErrorMessage#1](~/samples/snippets/visualbasic/VS_Snippets_Atlas/System.Web.UI.ScriptManager.AsyncPostBackErrorMessage/VB/ScriptManager_AsyncPostBackErrorMessageVB.aspx#1)]  
@@ -650,6 +658,7 @@
       </Implements>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -667,13 +676,13 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Web.UI.ScriptManager.AsyncPostBackSourceElementID%2A>属性包含的值的控件 ID 的引发异步回发，可以是以下之一：  
+ <xref:System.Web.UI.ScriptManager.AsyncPostBackSourceElementID%2A>属性包含导致异步回发时，可以是以下值之一的控件 ID 的值：  
   
--   来自中控件的回发<xref:System.Web.UI.UpdatePanel>控制其<xref:System.Web.UI.UpdatePanel.ChildrenAsTriggers%2A>属性设置为`true`（默认值）。  
+-   来自内部的控件的回发<xref:System.Web.UI.UpdatePanel>控件<xref:System.Web.UI.UpdatePanel.ChildrenAsTriggers%2A>属性设置为`true`（默认值）。  
   
--   为触发器的控件回发<xref:System.Web.UI.UpdatePanel>控件。  
+-   来自触发器的控件的回发<xref:System.Web.UI.UpdatePanel>控件。  
   
--   从通过调用注册的控件回发<xref:System.Web.UI.ScriptManager.RegisterAsyncPostBackControl%2A>方法<xref:System.Web.UI.ScriptManager>控件。  
+-   来自通过调用已注册的控件的回发<xref:System.Web.UI.ScriptManager.RegisterAsyncPostBackControl%2A>方法的<xref:System.Web.UI.ScriptManager>控件。  
   
  ]]></format>
         </remarks>
@@ -690,6 +699,7 @@
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -719,6 +729,7 @@
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -750,7 +761,7 @@
 ## Remarks  
  <xref:System.Web.UI.AuthenticationServiceManager>此属性返回的对象表示向该页面注册的身份验证服务。 可以在中定义的身份验证服务<xref:System.Web.UI.ScriptManager>控件或关联<xref:System.Web.UI.ScriptManagerProxy>控件。  
   
- 你可以使用 ASP.NET 身份验证服务，或使用自定义身份验证服务。 你可以在标记中添加自定义的服务，通过包括`AuthenticationService`内的元素`asp:ScriptManager`元素在页面上，如下面的示例中所示。  
+ 可以使用 ASP.NET 身份验证服务，也可以使用自定义身份验证服务。 可以在标记中添加自定义服务，通过包括`AuthenticationService`元素内的`asp:ScriptManager`元素在页面上，如下面的示例中所示。  
   
 ```  
 <asp:ScriptManager ID="SM1" runat="server">  
@@ -774,6 +785,7 @@
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -803,6 +815,7 @@
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -832,7 +845,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 有关详细信息，请参阅[组合到一个复合脚本中的客户端脚本](http://msdn.microsoft.com/library/d0f608d0-b4c8-4795-990b-ede68c1239b3)。  
+ 有关详细信息，请参阅[组合到复合脚本的客户端脚本](http://msdn.microsoft.com/library/d0f608d0-b4c8-4795-990b-ede68c1239b3)。  
   
  ]]></format>
         </remarks>
@@ -848,6 +861,7 @@
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -910,7 +924,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 未设置此属性为`true`如果你设置<xref:System.Web.UI.ScriptManager.LoadScriptsBeforeUI%2A>到`true`已。  
+ 未设置此属性为`true`如果您设置<xref:System.Web.UI.ScriptManager.LoadScriptsBeforeUI%2A>到`true`已。  
   
  ]]></format>
         </remarks>
@@ -955,6 +969,7 @@
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -975,7 +990,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 使用<xref:System.Web.UI.ScriptManager.EnableHistory%2A>属性以启用 Web 页中的历史记录管理。  
+ 使用<xref:System.Web.UI.ScriptManager.EnableHistory%2A>属性以启用历史记录管理在网页中的。  
   
  ]]></format>
         </remarks>
@@ -991,6 +1006,7 @@
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -1011,9 +1027,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 你可以将静态页方法添加到 ASP.NET 页，并将其标记作为 Web 方法。 然后就像它们是 Web 服务，但不会创建单独的.asmx 文件的一部分，可以从脚本中调用这些方法。 若要在页面上创建 Web 方法，请导入<xref:System.Web.Services>命名空间并添加<xref:System.Web.Services.WebMethodAttribute>属性设为你想要公开的每个静态方法。 方法必须标记为公共类。  
+ 可以将静态页面方法添加到 ASP.NET 页面，并将其标记为 Web 方法。 然后就像 Web 服务，但无需创建单独的.asmx 文件的一部分，可以从脚本中调用这些方法。 若要创建 Web 方法在页面上，导入<xref:System.Web.Services>命名空间，并添加<xref:System.Web.Services.WebMethodAttribute>属性为每个你想要公开的静态方法。 方法必须标记为 public。  
   
- 有关详细信息，请参阅[公开 Web 服务迁移到 ASP.NET AJAX 中的客户端脚本](http://msdn.microsoft.com/library/fe3f6e9e-0acd-44c9-bf0f-0a8598fc13b8)。  
+ 有关详细信息，请参阅[公开 Web 服务添加到 ASP.NET AJAX 中的客户端脚本](http://msdn.microsoft.com/library/fe3f6e9e-0acd-44c9-bf0f-0a8598fc13b8)。  
   
  ]]></format>
         </remarks>
@@ -1029,6 +1045,7 @@
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -1049,9 +1066,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 即使<xref:System.Web.UI.ScriptManager.EnablePartialRendering%2A>属性是`true`，可能不会在局部页面呈现。 浏览器可能不支持局部页面呈现，或<xref:System.Web.UI.ScriptManager.SupportsPartialRendering%2A>属性设置为`false`。  
+ 即使<xref:System.Web.UI.ScriptManager.EnablePartialRendering%2A>属性是`true`，可能不会在局部页面呈现。 在浏览器可能不支持局部页面呈现，则<xref:System.Web.UI.ScriptManager.SupportsPartialRendering%2A>属性设置为`false`。  
   
- 你可以重写的值<xref:System.Web.UI.ScriptManager.EnablePartialRendering%2A>属性在运行时期间或之前已在页面的<xref:System.Web.UI.Control.Init>事件。 如果你尝试在该页面的后更改此属性<xref:System.Web.UI.Control.Init>事件已发生的<xref:System.InvalidOperationException>引发异常。  
+ 可以重写的值<xref:System.Web.UI.ScriptManager.EnablePartialRendering%2A>属性在运行时期间或之前的页<xref:System.Web.UI.Control.Init>事件。 如果尝试将此属性更改后的页<xref:System.Web.UI.Control.Init>事件已发生的<xref:System.InvalidOperationException>引发异常。  
   
  ]]></format>
         </remarks>
@@ -1070,6 +1087,7 @@
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -1090,7 +1108,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 当<xref:System.Web.UI.ScriptManager.EnableScriptGlobalization%2A>属性设置为`true`，例如该方法的全球化的 ECMAScript (JavaScript) 函数可显示区域性特定信息。 在浏览器中、 在服务器代码中，或在网站的配置文件中，可以设置该区域性。  
+ 当<xref:System.Web.UI.ScriptManager.EnableScriptGlobalization%2A>属性设置为`true`，全球化的 ECMAScript (JavaScript) 功能，如方法显示特定于区域性的信息。 在浏览器中，在服务器代码中，或网站的配置文件中，可以设置的区域性。  
   
  ]]></format>
         </remarks>
@@ -1106,6 +1124,7 @@
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -1126,10 +1145,10 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 当<xref:System.Web.UI.ScriptManager.EnableScriptLocalization%2A>属性设置为`true`、<xref:System.Web.UI.ScriptManager>对象将检索当前区域性的脚本文件，如果它们存在。 例如，页面可能指定名为 CustomScript.js 的脚本文件。 如果为 fr 的 CA，设置该区域性<xref:System.Web.UI.ScriptManager>对象将尝试检索名为 CustomScript.fr CA.js 的脚本文件。  
+ 当<xref:System.Web.UI.ScriptManager.EnableScriptLocalization%2A>属性设置为`true`，则<xref:System.Web.UI.ScriptManager>对象将检索当前区域性的脚本文件，如果它们存在。 例如，页面可能指定名为 CustomScript.js 的脚本文件。 如果该区域性设置为 fr-CA<xref:System.Web.UI.ScriptManager>对象会尝试检索名为 CustomScript.fr CA.js 的脚本文件。  
   
 > [!NOTE]
->  若要防止脚本文件呈现两次，<xref:System.Web.UI.ScriptManager.EnableScriptLocalization%2A>异步回发期间不能修改属性。  
+>  若要防止脚本文件呈现两次，<xref:System.Web.UI.ScriptManager.EnableScriptLocalization%2A>不能在异步回发期间修改属性。  
   
  ]]></format>
         </remarks>
@@ -1145,6 +1164,7 @@
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -1167,7 +1187,7 @@
 ## Remarks  
   
 > [!WARNING]
->  此属性应***永远不会***设置为`false`生产 web 站点上。  
+>  此属性应***永远不会***设置为`false`生产网站上。  
   
  ]]></format>
         </remarks>
@@ -1182,6 +1202,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -1198,7 +1219,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 此静态方法用于确定是否<xref:System.Web.UI.ScriptManager>控件是在页中，或访问的属性和方法<xref:System.Web.UI.ScriptManager>控制当你不知道其 id。  
+ 使用此静态方法来确定是否<xref:System.Web.UI.ScriptManager>控件是在页上，或访问的属性和方法的<xref:System.Web.UI.ScriptManager>控制当您不知道其 id。  
   
  ]]></format>
         </remarks>
@@ -1216,6 +1237,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -1240,6 +1262,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -1253,7 +1276,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 客户端脚本块中注册的<xref:System.Web.UI.ScriptManager>内的某个控件一起使用的控件<xref:System.Web.UI.UpdatePanel>控件。  
+ 注册客户端脚本块<xref:System.Web.UI.ScriptManager>内的控件一起使用的控件<xref:System.Web.UI.UpdatePanel>控件。  
   
  ]]></format>
         </remarks>
@@ -1270,6 +1293,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -1283,7 +1307,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- A`dispose`脚本时执行<xref:System.Web.UI.UpdatePanel>更新或删除控件。  
+ 一个`dispose`时，脚本会执行<xref:System.Web.UI.UpdatePanel>更新或删除控件。  
   
  ]]></format>
         </remarks>
@@ -1300,6 +1324,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -1313,7 +1338,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 自定义特性是可以读取和设置由客户端脚本的名称/值对。  
+ 自定义属性是可以读取和设置由客户端脚本的名称/值对。  
   
    
   
@@ -1338,6 +1363,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -1363,6 +1389,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -1376,7 +1403,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- `onsubmit`语句是在提交表单时执行的 ECMAScript (JavaScript)。  
+ `onsubmit`语句是提交表单时执行的 ECMAScript (JavaScript)。  
   
    
   
@@ -1399,6 +1426,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -1412,7 +1440,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 启动脚本是与执行启动控件时控件关联的客户端脚本。  
+ 启动脚本是与该控件启动时执行的控件相关联的客户端脚本。  
   
    
   
@@ -1437,6 +1465,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -1459,6 +1488,7 @@
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -1476,16 +1506,16 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Web.UI.ScriptManager.IsDebuggingEnabled%2A>属性返回`false`满足以下条件之一时：  
+ <xref:System.Web.UI.ScriptManager.IsDebuggingEnabled%2A>属性返回`false`以下条件的任何一个条件为 true 时：  
   
--   在配置文件的元素中`retail`属性设置为`true`。 此设置将替代所有其他设置。  
+-   中的配置文件中，元素`retail`属性设置为`true`。 这会替代所有其他设置。  
   
--   <xref:System.Web.UI.ScriptManager.ScriptMode%2A>属性设置为`Auto`或`Inherit`，和中未启用调试`compilation`的应用程序根 Web.config 文件的部分。  
+-   <xref:System.Web.UI.ScriptManager.ScriptMode%2A>属性设置为`Auto`或设置为`Inherit`，并在未启用调试`compilation`应用程序根 Web.config 文件部分。  
   
 -   <xref:System.Web.UI.ScriptManager.ScriptMode%2A> 属性设置为 `Release`。  
   
     > [!NOTE]
-    >  `debug`指令的特性不会影响支持 Ajax 的 ASP.NET 应用程序。 <xref:System.Web.UI.ScriptManager>控件使用的设置仅在 Web.config 文件中并在其<xref:System.Web.UI.ScriptManager.IsDebuggingEnabled%2A>和<xref:System.Web.UI.ScriptManager.ScriptMode%2A>属性来确定是否呈现调试脚本。  
+    >  `debug`指令的特性不会影响已启用 Ajax 的 ASP.NET 应用程序。 <xref:System.Web.UI.ScriptManager>控件使用的设置仅在 Web.config 文件，并在其<xref:System.Web.UI.ScriptManager.IsDebuggingEnabled%2A>和<xref:System.Web.UI.ScriptManager.ScriptMode%2A>属性以确定是否呈现调试脚本。  
   
  有关详细信息，请参阅[调试和跟踪 Ajax 应用程序概述](http://msdn.microsoft.com/library/92684ea0-7bb4-4a34-9203-3aa6394ce375)。  
   
@@ -1507,6 +1537,7 @@
       </Implements>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -1524,7 +1555,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 使用<xref:System.Web.UI.ScriptManager.IsInAsyncPostBack%2A>属性结合<xref:System.Web.UI.Page.IsPostBack%2A>属性来区分初始页面加载、 局部页面的更新和中的整页更新<xref:System.Web.UI.Control.Load>， <xref:System.Web.UI.Page.InitComplete>，或<xref:System.Web.UI.Control.PreRender>事件。  
+ 使用<xref:System.Web.UI.ScriptManager.IsInAsyncPostBack%2A>属性结合<xref:System.Web.UI.Page.IsPostBack%2A>属性来区分初始页面加载、 部分页面更新和中的整页更新<xref:System.Web.UI.Control.Load>， <xref:System.Web.UI.Page.InitComplete>，或<xref:System.Web.UI.Control.PreRender>事件。  
   
  ]]></format>
         </remarks>
@@ -1541,6 +1572,7 @@
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -1574,6 +1606,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -1592,7 +1625,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Web.UI.ScriptManager.LoadPostData%2A>方法主要由控件开发人员用来扩展的功能<xref:System.Web.UI.ScriptManager>控件。  
+ <xref:System.Web.UI.ScriptManager.LoadPostData%2A>方法主要由控件开发人员用来扩展功能<xref:System.Web.UI.ScriptManager>控件。  
   
  ]]></format>
         </remarks>
@@ -1609,6 +1642,7 @@
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -1629,13 +1663,13 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Web.UI.ScriptManager.LoadScriptsBeforeUI%2A>属性确定如何在脚本<xref:System.Web.UI.ScriptManager.Scripts%2A>集合加载相对于页 UI 的标记。  
+ <xref:System.Web.UI.ScriptManager.LoadScriptsBeforeUI%2A>属性确定如何在脚本<xref:System.Web.UI.ScriptManager.Scripts%2A>相对于页 UI 的标记加载集合。  
   
- 当<xref:System.Web.UI.ScriptManager.LoadScriptsBeforeUI%2A>属性是`true`、`script`元素呈现在加载页面的 UI 标记之前。 在此方案中，如果 UI 元素定义在脚本中，UI 将完全正常运行时加载。 但是，如果该脚本访问中为其实例尚未已创建的标记的 UI 元素，可能发生错误。 若要确保访问它们之前，加载了 UI 元素，处理的事件的类。  
+ 当<xref:System.Web.UI.ScriptManager.LoadScriptsBeforeUI%2A>属性是`true`、`script`元素呈现在加载页面的 UI 标记之前。 在此方案中，如果 UI 元素定义在脚本中，UI 完全正常运行时将其加载。 但是，如果脚本访问为其实例尚未已创建的标记中的 UI 元素，则可能发生错误。 若要确保访问它们之前加载了 UI 元素，处理的事件的类。  
   
- 当<xref:System.Web.UI.ScriptManager.LoadScriptsBeforeUI%2A>属性是`false`、`script`元素后呈现页面的 UI 标记呈现。 在此方案中，UI 加载速度更快，但它可能不是完全正常运行如果定义其他 UI 元素的脚本具有未完成加载。  
+ 当<xref:System.Web.UI.ScriptManager.LoadScriptsBeforeUI%2A>属性是`false`、`script`元素呈现在呈现页面的 UI 标记后。 在此方案中，UI 的加载速度更快，但它可能无法完全正常运行如果定义其他 UI 元素的脚本未完成加载。  
   
- 未设置此属性为`true`如果你设置<xref:System.Web.UI.ScriptManager.EnableCdn%2A>到`true`已。  
+ 未设置此属性为`true`如果您设置<xref:System.Web.UI.ScriptManager.EnableCdn%2A>到`true`已。  
   
  ]]></format>
         </remarks>
@@ -1653,6 +1687,7 @@
       <MemberType>Event</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -1669,7 +1704,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 当用户单击浏览器的**回**按钮，浏览器将转到以前查看过的 Url，其中包括包含历史时间点状态数据的 Url。 如果网页中的客户端代码检测到该 URL 包含历史记录状态数据，它将发出一个请求到服务器页。 回发事件，将充当和<xref:System.Web.UI.ScriptManagerProxy>服务器控件引发`Navigate`事件。 你可以处理此事件，并重新创建与事件使用传递的状态数据的根据需要在 Web 应用程序中的页。  
+ 当用户单击浏览器的**回**按钮，浏览器将导航到以前查看过的 Url，其中包括包含历史时间点的状态数据的 Url。 如果在网页中的客户端代码检测到此 URL 包含历史记录状态数据，它向服务器页发出请求。 这相当于为回发事件，并<xref:System.Web.UI.ScriptManagerProxy>服务器控件将引发`Navigate`事件。 可以处理此事件，并重新创建与事件使用传递的状态数据根据需要在 Web 应用程序中的页。  
   
  ]]></format>
         </remarks>
@@ -1685,6 +1720,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -1700,12 +1736,12 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Web.UI.ScriptManager.AsyncPostBackError>异步回发期间页错误时引发事件。 服务器上的错误发送给客户端的方式取决于<xref:System.Web.UI.ScriptManager.AllowCustomErrorsRedirect%2A>属性，<xref:System.Web.UI.ScriptManager.AsyncPostBackErrorMessage%2A>属性，且 Web.config 文件的自定义错误部分。  
+ <xref:System.Web.UI.ScriptManager.AsyncPostBackError>异步回发期间发生页面错误时引发事件。 服务器上的错误发送给客户端的方式取决于<xref:System.Web.UI.ScriptManager.AllowCustomErrorsRedirect%2A>属性，<xref:System.Web.UI.ScriptManager.AsyncPostBackErrorMessage%2A>属性，并在 Web.config 文件的自定义错误部分。  
   
    
   
 ## Examples  
- 下面的示例演示如何处理<xref:System.Web.UI.ScriptManager.AsyncPostBackError>事件设置<xref:System.Web.UI.ScriptManager.AsyncPostBackErrorMessage%2A>服务器异常错误消息的属性 （它将发送到客户端）。  
+ 下面的示例演示如何处理<xref:System.Web.UI.ScriptManager.AsyncPostBackError>事件以便设置<xref:System.Web.UI.ScriptManager.AsyncPostBackErrorMessage%2A>服务器异常错误消息的属性 （它将发送到客户端）。  
   
  [!code-aspx-csharp[System.Web.UI.ScriptManager.AsyncPostBackErrorMessage#1](~/samples/snippets/csharp/VS_Snippets_Atlas/System.Web.UI.ScriptManager.AsyncPostBackErrorMessage/CS/ScriptManager_AsyncPostBackErrorMessageCS.aspx#1)]
  [!code-aspx-vb[System.Web.UI.ScriptManager.AsyncPostBackErrorMessage#1](~/samples/snippets/visualbasic/VS_Snippets_Atlas/System.Web.UI.ScriptManager.AsyncPostBackErrorMessage/VB/ScriptManager_AsyncPostBackErrorMessageVB.aspx#1)]  
@@ -1726,6 +1762,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -1740,7 +1777,7 @@
         <remarks>To be added.</remarks>
         <exception cref="T:System.InvalidOperationException">页面上存在多个 <see cref="T:System.Web.UI.ScriptManager" /> 实例。</exception>
         <block subset="none" type="overrides">
-          <para>在重写此方法，调用基<see cref="M:System.Web.UI.ScriptManager.OnInit(System.EventArgs)" />为局部页面呈现正确处理方法，以便脚本文件。</para>
+          <para>当重写此方法，调用基<see cref="M:System.Web.UI.ScriptManager.OnInit(System.EventArgs)" />为局部页面呈现正确处理方法，以便脚本文件。</para>
         </block>
       </Docs>
     </Member>
@@ -1754,6 +1791,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -1769,13 +1807,13 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 有关 DOM 的信息，请参阅[文档对象模型 (DOM) 级别 1 规范](http://go.microsoft.com/fwlink/?LinkId=73305)World Wide Web Consortium (W3C) 网站上。  
+ 有关 DOM 的信息，请参阅[文档对象模型 (DOM) 级别 1 规范](http://go.microsoft.com/fwlink/?LinkId=73305)World Wide Web 联合会 (W3C) 网站上。  
   
  ]]></format>
         </remarks>
         <exception cref="T:System.InvalidOperationException">发出部分页面请求的浏览器至少不支持 DOM Level 1.0。</exception>
         <block subset="none" type="overrides">
-          <para>在重写此方法，调用基<see cref="M:System.Web.UI.ScriptManager.OnPreRender(System.EventArgs)" />为局部页面呈现正确处理方法，以便脚本块和服务。</para>
+          <para>当重写此方法，调用基<see cref="M:System.Web.UI.ScriptManager.OnPreRender(System.EventArgs)" />为局部页面呈现正确处理方法，以便脚本块和服务。</para>
         </block>
       </Docs>
     </Member>
@@ -1789,6 +1827,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -1813,6 +1852,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -1828,11 +1868,11 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 调用此方法<xref:System.Web.UI.ScriptManager.OnPreRender%2A>事件处理程序，每次为一个<xref:System.Web.UI.ScriptReference>中<xref:System.Web.UI.ScriptManager.Scripts%2A>集合。  
+ 调用此方法<xref:System.Web.UI.ScriptManager.OnPreRender%2A>事件处理程序，一次为每个<xref:System.Web.UI.ScriptReference>中<xref:System.Web.UI.ScriptManager.Scripts%2A>集合。  
   
- <xref:System.Web.UI.ScriptManager.ResolveScriptReference>重复脚本条目已得到解决后，将引发事件。  
+ <xref:System.Web.UI.ScriptManager.ResolveScriptReference>重复脚本条目已得到了解决后引发事件。  
   
- 重写此方法以影响单个脚本块在回发时或在局部页面更新的行为。  
+ 重写此方法来影响个别脚本块在回发或部分页面更新期间的行为。  
   
  ]]></format>
         </remarks>
@@ -1848,6 +1888,7 @@
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -1877,9 +1918,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Web.UI.ProfileServiceManager>此属性返回的对象表示向该页面注册配置文件服务。 可以在中定义配置文件服务<xref:System.Web.UI.ScriptManager>控件或关联<xref:System.Web.UI.ScriptManagerProxy>控件。  
+ <xref:System.Web.UI.ProfileServiceManager>此属性返回的对象表示向该页面注册配置文件服务。 可以在中定义的配置文件服务<xref:System.Web.UI.ScriptManager>控件或关联<xref:System.Web.UI.ScriptManagerProxy>控件。  
   
- 你可以使用 ASP.NET 配置文件服务，或使用自定义配置文件服务。 你可以在标记中添加自定义的服务，通过包括`ProfileService`内的元素`asp:ScriptManager`元素在页面上，如下面的示例中所示。  
+ 可以使用 ASP.NET 配置文件服务，也可以使用自定义配置文件服务。 可以在标记中添加自定义服务，通过包括`ProfileService`元素内的`asp:ScriptManager`元素在页面上，如下面的示例中所示。  
   
 ```  
 <asp:ScriptManager ID="SM1" runat="server">  
@@ -1904,6 +1945,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -1928,6 +1970,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -1940,7 +1983,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Web.UI.ScriptManager.RaisePostDataChangedEvent%2A>方法主要由控件开发人员用来扩展的功能<xref:System.Web.UI.ScriptManager>控件。 默认实现为<xref:System.Web.UI.ScriptManager>控件，会引发任何事件。  
+ <xref:System.Web.UI.ScriptManager.RaisePostDataChangedEvent%2A>方法主要由控件开发人员用来扩展功能<xref:System.Web.UI.ScriptManager>控件。 默认实现的<xref:System.Web.UI.ScriptManager>控件，会引发任何事件。  
   
  ]]></format>
         </remarks>
@@ -1965,6 +2008,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -1984,15 +2028,15 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 你使用<xref:System.Web.UI.ScriptManager.RegisterArrayDeclaration%2A>方法注册客户端脚本数组，它是与兼容局部页面呈现，且没有任何 Microsoft Ajax 库依赖项。 此方法注册数组时`control`表示控件内<xref:System.Web.UI.UpdatePanel>正在更新的控件。 若要注册一个数组，每次异步回发发生时，使用<xref:System.Web.UI.ScriptManager.RegisterArrayDeclaration%28System.Web.UI.Page%2CSystem.String%2CSystem.String%29>此方法的重载。  
+ 您使用<xref:System.Web.UI.ScriptManager.RegisterArrayDeclaration%2A>方法注册客户端脚本数组，它是与兼容局部页面呈现，且没有任何 Microsoft Ajax 库依赖项。 此方法注册数组时`control`表示控件内<xref:System.Web.UI.UpdatePanel>正在更新的控件。 若要注册一个数组，每次异步回发发生时，使用<xref:System.Web.UI.ScriptManager.RegisterArrayDeclaration%28System.Web.UI.Page%2CSystem.String%2CSystem.String%29>此方法的重载。  
   
- 如果你想要注册一个数组，其中不属于部分页面更新，如果你想要注册该数组只进行一次初始页呈现期间使用<xref:System.Web.UI.ClientScriptManager.RegisterArrayDeclaration%2A>方法<xref:System.Web.UI.ClientScriptManager>类。 你可以获取对引用<xref:System.Web.UI.ClientScriptManager>对象<xref:System.Web.UI.Page.ClientScript%2A>页属性。  
+ 如果你想要注册一个数组，其中不属于部分页面更新，如果你想要注册该数组只进行一次初始页呈现期间使用<xref:System.Web.UI.ClientScriptManager.RegisterArrayDeclaration%2A>方法的<xref:System.Web.UI.ClientScriptManager>类。 可以获取对的引用<xref:System.Web.UI.ClientScriptManager>对象从<xref:System.Web.UI.Page.ClientScript%2A>页属性。  
   
- <xref:System.Web.UI.ScriptManager.RegisterArrayDeclaration%2A>方法确定是否包含在指定的名称的数组`arrayName`参数已注册。 因此，该方法将添加中指定的值如果`arrayValue`。 因为要注册的数组基于<xref:System.Collections.ArrayList>类，允许重复项。 如果中的名称的已注册数组`arrayName`不存在，在创建数组中的值和`arrayValue`向其添加。  
+ <xref:System.Web.UI.ScriptManager.RegisterArrayDeclaration%2A>方法确定是否具有在指定的名称的数组`arrayName`已注册的参数。 因此，该方法将添加中指定的值如果`arrayValue`。 因为要注册的数组基于<xref:System.Collections.ArrayList>类，允许重复项。 如果中的名称的已注册数组`arrayName`不存在，该数组创建中的值和`arrayValue`添加到它。  
   
- 若要在数组中包含字符串文本，使用单引号 （'） 或转义的双引号括起来 (\\") 中`arrayValue`。  
+ 若要在数组中包含字符串文本，使用单引号 （'） 或转义的双引号引起来 (\\") 中`arrayValue`。  
   
- 请注意 JavaScript 作为数组中的分隔符将逗号 （，）。 你可以通过将传递以逗号分隔的字符串中指定多个数组值`arrayValue`。 用逗号分隔两个项`arrayValue`等效于调用<xref:System.Web.UI.ScriptManager.RegisterArrayDeclaration%2A>方法两次，一次每个项。  
+ 请注意 JavaScript 数组中的分隔符将逗号 （，）。 可以通过传递一个以逗号分隔的字符串中指定多个数组值`arrayValue`。 用逗号分隔两个项`arrayValue`等效于调用<xref:System.Web.UI.ScriptManager.RegisterArrayDeclaration%2A>方法两次，一次为每个项。  
   
  ]]></format>
         </remarks>
@@ -2010,6 +2054,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -2029,9 +2074,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 你使用<xref:System.Web.UI.ScriptManager.RegisterArrayDeclaration%2A>方法注册客户端脚本数组，它是与兼容局部页面呈现，且没有任何 Microsoft Ajax 库依赖项。 此方法在每次发生异步回发注册数组。 若要注册的控件，位于数组<xref:System.Web.UI.UpdatePanel>控制，以便仅在更新面板时，才注册该数组，请使用<xref:System.Web.UI.ScriptManager.RegisterArrayDeclaration%28System.Web.UI.Control%2CSystem.String%2CSystem.String%29>此方法的重载。  
+ 您使用<xref:System.Web.UI.ScriptManager.RegisterArrayDeclaration%2A>方法注册客户端脚本数组，它是与兼容局部页面呈现，且没有任何 Microsoft Ajax 库依赖项。 此方法注册该数组每次异步回发发生时。 若要注册中的控件的数组<xref:System.Web.UI.UpdatePanel>控件，以便仅在更新面板时注册该数组，请使用<xref:System.Web.UI.ScriptManager.RegisterArrayDeclaration%28System.Web.UI.Control%2CSystem.String%2CSystem.String%29>此方法的重载。  
   
- 如果你想要注册一个数组，其中不属于部分页面更新，如果你想要注册该数组只进行一次初始页呈现期间使用<xref:System.Web.UI.ClientScriptManager.RegisterArrayDeclaration%2A>方法<xref:System.Web.UI.ClientScriptManager>类。 你可以获取对引用<xref:System.Web.UI.ClientScriptManager>对象<xref:System.Web.UI.Page.ClientScript%2A>页属性。  
+ 如果你想要注册一个数组，其中不属于部分页面更新，如果你想要注册该数组只进行一次初始页呈现期间使用<xref:System.Web.UI.ClientScriptManager.RegisterArrayDeclaration%2A>方法的<xref:System.Web.UI.ClientScriptManager>类。 可以获取对的引用<xref:System.Web.UI.ClientScriptManager>对象从<xref:System.Web.UI.Page.ClientScript%2A>页属性。  
   
  ]]></format>
         </remarks>
@@ -2052,6 +2097,7 @@
       </Implements>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -2067,21 +2113,21 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Web.UI.ScriptManager.RegisterAsyncPostBackControl%2A>方法使您能够将 Web 服务器控件注册为触发器，以便他们执行异步回发而不是同步回发。 当<xref:System.Web.UI.UpdatePanel.ChildrenAsTriggers%2A>属性<xref:System.Web.UI.UpdatePanel>控件设置为`true`（这是默认值），回发控件内的<xref:System.Web.UI.UpdatePanel>控件将自动注册为异步回发的控件。  
+ <xref:System.Web.UI.ScriptManager.RegisterAsyncPostBackControl%2A>方法使您能够将 Web 服务器控件注册为触发器，以便他们执行异步回发而不是同步回发。 当<xref:System.Web.UI.UpdatePanel.ChildrenAsTriggers%2A>的属性<xref:System.Web.UI.UpdatePanel>控件设置为`true`（这是默认值），回发内的控件<xref:System.Web.UI.UpdatePanel>控件自动注册为异步回发控件。  
   
- 使用<xref:System.Web.UI.ScriptManager.RegisterAsyncPostBackControl%2A>方法注册外部的控件<xref:System.Web.UI.UpdatePanel>为触发器为异步回发，并可能会更新面板的内容的控件。 若要更新<xref:System.Web.UI.UpdatePanel>以编程方式控制，请调用<xref:System.Web.UI.UpdatePanel.Update%2A>方法。  
+ 使用<xref:System.Web.UI.ScriptManager.RegisterAsyncPostBackControl%2A>方法来注册控件外部<xref:System.Web.UI.UpdatePanel>控件作为触发器的异步回发，并可能会更新面板的内容。 若要更新<xref:System.Web.UI.UpdatePanel>以编程方式控制，请调用<xref:System.Web.UI.UpdatePanel.Update%2A>方法。  
   
- 你可以通过将添加触发器以声明方式`Triggers`元素<xref:System.Web.UI.UpdatePanel>控件。 在 Visual Studio 中，使用设计器的**UpdatePanelTrigger 集合编辑器**对话框。  
+ 您可以通过使用以声明方式添加触发器`Triggers`元素的<xref:System.Web.UI.UpdatePanel>控件。 在 Visual Studio 中，使用设计器的**UpdatePanelTrigger 集合编辑器**对话框。  
   
    
   
 ## Examples  
- 下面的示例演示如何调用<xref:System.Web.UI.ScriptManager.RegisterAsyncPostBackControl%2A>方法注册<xref:System.Web.UI.WebControls.Button>控制，以便它导致更新<xref:System.Web.UI.UpdatePanel>控件的内容。 <xref:System.Web.UI.WebControls.Button>控件不是内部<xref:System.Web.UI.UpdatePanel>控件。 显示两个按钮：`Button1`和`Button2`。 `Button1` 刷新面板的内容和`Button2`刷新整个页面。  
+ 下面的示例演示如何调用<xref:System.Web.UI.ScriptManager.RegisterAsyncPostBackControl%2A>方法来注册<xref:System.Web.UI.WebControls.Button>控件，以便它会导致更新<xref:System.Web.UI.UpdatePanel>控件的内容。 <xref:System.Web.UI.WebControls.Button>控件不是深入了解<xref:System.Web.UI.UpdatePanel>控件。 显示两个按钮：`Button1`和`Button2`。 `Button1` 刷新面板中，内容和`Button2`刷新整个页面。  
   
  [!code-aspx-csharp[System.Web.UI.ScriptManager.RegisterAsyncPostBackControl#1](~/samples/snippets/csharp/VS_Snippets_Atlas/System.Web.UI.ScriptManager.RegisterAsyncPostBackControl/CS/ScriptManager1CS.aspx#1)]
  [!code-aspx-vb[System.Web.UI.ScriptManager.RegisterAsyncPostBackControl#1](~/samples/snippets/visualbasic/VS_Snippets_Atlas/System.Web.UI.ScriptManager.RegisterAsyncPostBackControl/VB/ScriptManager1VB.aspx#1)]  
   
- 下面的示例演示如何调用<xref:System.Web.UI.ScriptManager.RegisterAsyncPostBackControl%2A>方法来注册用户控件，以便它导致更新<xref:System.Web.UI.UpdatePanel>控件的内容。 第一个示例演示使用用户控件的页面。 第二个示例显示用户控件。  
+ 下面的示例演示如何调用<xref:System.Web.UI.ScriptManager.RegisterAsyncPostBackControl%2A>方法来注册用户控件，以便它会导致更新<xref:System.Web.UI.UpdatePanel>控件的内容。 第一个示例显示了使用用户控件的页。 第二个示例显示了用户控件。  
   
  [!code-aspx-csharp[System.Web.UI.ScriptManager.RegisterAsyncPostBackControl#2](~/samples/snippets/csharp/VS_Snippets_Atlas/System.Web.UI.ScriptManager.RegisterAsyncPostBackControl/CS/ScriptManager2CS.aspx#2)]
  [!code-aspx-vb[System.Web.UI.ScriptManager.RegisterAsyncPostBackControl#2](~/samples/snippets/visualbasic/VS_Snippets_Atlas/System.Web.UI.ScriptManager.RegisterAsyncPostBackControl/VB/ScriptManager2VB.aspx#2)]  
@@ -2115,6 +2161,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -2138,13 +2185,13 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 你使用<xref:System.Web.UI.ScriptManager.RegisterClientScriptBlock%2A>方法注册客户端脚本块兼容具有局部页面呈现，且没有任何 Microsoft Ajax 库依赖项。 使用此方法注册的客户端脚本块被发送到页仅当`control`表示控件内<xref:System.Web.UI.UpdatePanel>正在更新的控件。 若要注册的脚本块每次异步回发发生时，使用<xref:System.Web.UI.ScriptManager.RegisterClientScriptBlock%28System.Web.UI.Page%2CSystem.Type%2CSystem.String%2CSystem.String%2CSystem.Boolean%29>此方法的重载。  
+ 您使用<xref:System.Web.UI.ScriptManager.RegisterClientScriptBlock%2A>方法来注册与局部页面呈现和的兼容的客户端脚本块没有任何 Microsoft Ajax 库依赖项。 使用此方法注册的客户端脚本块发送到页面时，才`control`表示控件内<xref:System.Web.UI.UpdatePanel>正在更新的控件。 若要注册的脚本块每次异步回发发生时，使用<xref:System.Web.UI.ScriptManager.RegisterClientScriptBlock%28System.Web.UI.Page%2CSystem.Type%2CSystem.String%2CSystem.String%2CSystem.Boolean%29>此方法的重载。  
   
- 如果你想要注册不属于部分页面更新，如果你想要注册的脚本块只进行一次初始页呈现期间使用的脚本块<xref:System.Web.UI.ClientScriptManager.RegisterClientScriptBlock%2A>方法<xref:System.Web.UI.ClientScriptManager>类。 你可以获取对引用<xref:System.Web.UI.ClientScriptManager>对象<xref:System.Web.UI.Page.ClientScript%2A>页属性。  
+ 如果你想要注册不属于部分页面更新，如果你想要注册的脚本块只进行一次初始页呈现期间使用的脚本块<xref:System.Web.UI.ClientScriptManager.RegisterClientScriptBlock%2A>方法的<xref:System.Web.UI.ClientScriptManager>类。 可以获取对的引用<xref:System.Web.UI.ClientScriptManager>对象从<xref:System.Web.UI.Page.ClientScript%2A>页属性。  
   
- 如果`addScriptTags`是`true`、<xref:System.Web.UI.ScriptManager.RegisterClientScriptBlock%2A>方法将添加`<script>`脚本块的标记。 传递`false`如果你想要创建`<script>`标记你自己，如你想要设置特定的特性`<script>`标记。 如果`addScriptTags`是`false`和`script`参数包含多个脚本块，则会引发异常。  
+ 如果`addScriptTags`是`true`，则<xref:System.Web.UI.ScriptManager.RegisterClientScriptBlock%2A>方法将添加`<script>`周围的脚本块的标记。 传递`false`如果你想要创建`<script>`标记，例如当你想要设置的属性特定于`<script>`标记。 如果`addScriptTags`是`false`和`script`参数包含多个脚本块，则会引发异常。  
   
- <xref:System.Web.UI.ScriptManager.RegisterClientScriptBlock%2A>方法在打开后将脚本块添加到页面`<form>`标记。 不保证的脚本块都是与它们注册的顺序相同的输出。 如果脚本块的顺序很重要，则应将脚本块连接到单个字符串 (例如，通过使用<xref:System.Text.StringBuilder>对象)，然后将它们注册为单个客户端脚本块。  
+ <xref:System.Web.UI.ScriptManager.RegisterClientScriptBlock%2A>方法打开后将脚本块添加到页面`<form>`标记。 脚本块不保证将它们注册的相同顺序的输出。 如果脚本块的顺序很重要，将脚本块连接成单个字符串 (例如，通过使用<xref:System.Text.StringBuilder>对象)，然后将它们注册为单个客户端脚本块。  
   
    
   
@@ -2170,6 +2217,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -2193,9 +2241,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 当你使用此方法注册一个脚本块时，每次异步回发发生时，被呈现该脚本。 若要注册脚本块内的控件<xref:System.Web.UI.UpdatePanel>控制，以便脚本已注册时，才<xref:System.Web.UI.UpdatePanel>控件更新，请使用<xref:System.Web.UI.ScriptManager.RegisterClientScriptBlock%28System.Web.UI.Control%2CSystem.Type%2CSystem.String%2CSystem.String%2CSystem.Boolean%29>此方法的重载。  
+ 当使用此方法注册一个脚本块时，每次异步回发发生时被呈现该脚本。 若要注册脚本块内的控件<xref:System.Web.UI.UpdatePanel>控件，以便注册的脚本时，才<xref:System.Web.UI.UpdatePanel>控件更新，请使用<xref:System.Web.UI.ScriptManager.RegisterClientScriptBlock%28System.Web.UI.Control%2CSystem.Type%2CSystem.String%2CSystem.String%2CSystem.Boolean%29>此方法的重载。  
   
- 如果你想要注册不属于部分页面更新，如果你想要注册的脚本块只进行一次初始页呈现期间使用的脚本块<xref:System.Web.UI.ClientScriptManager.RegisterClientScriptBlock%2A>方法<xref:System.Web.UI.ClientScriptManager>类。 你可以获取对引用<xref:System.Web.UI.ClientScriptManager>对象<xref:System.Web.UI.Page.ClientScript%2A>页属性。  
+ 如果你想要注册不属于部分页面更新，如果你想要注册的脚本块只进行一次初始页呈现期间使用的脚本块<xref:System.Web.UI.ClientScriptManager.RegisterClientScriptBlock%2A>方法的<xref:System.Web.UI.ClientScriptManager>类。 可以获取对的引用<xref:System.Web.UI.ClientScriptManager>对象从<xref:System.Web.UI.Page.ClientScript%2A>页属性。  
   
  ]]></format>
         </remarks>
@@ -2221,6 +2269,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -2242,13 +2291,13 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 你使用<xref:System.Web.UI.ScriptManager.RegisterClientScriptInclude%2A>方法中部分页面更新注册页或属于是否正在参与的页面的客户端脚本文件。 使用此方法注册的客户端脚本文件发送到页面时，才`control`表示控件内<xref:System.Web.UI.UpdatePanel>正在更新的控件。 若要注册的脚本文件每次异步回发发生时，使用<xref:System.Web.UI.ScriptManager.RegisterClientScriptInclude%28System.Web.UI.Page%2CSystem.Type%2CSystem.String%2CSystem.String%29>此方法的重载。  
+ 您使用<xref:System.Web.UI.ScriptManager.RegisterClientScriptInclude%2A>方法来注册页面或参与的页的一部分的客户端脚本文件中部分页面更新。 使用此方法注册的客户端脚本文件发送到页面时，才`control`表示控件内<xref:System.Web.UI.UpdatePanel>正在更新的控件。 若要注册的脚本文件每次异步回发发生时，使用<xref:System.Web.UI.ScriptManager.RegisterClientScriptInclude%28System.Web.UI.Page%2CSystem.Type%2CSystem.String%2CSystem.String%29>此方法的重载。  
   
- 如果你想要注册不属于部分页面更新，如果你想要注册的脚本块只进行一次初始页呈现期间使用的脚本块<xref:System.Web.UI.ClientScriptManager.RegisterClientScriptBlock%2A>方法<xref:System.Web.UI.ClientScriptManager>类。 你可以获取对引用<xref:System.Web.UI.ClientScriptManager>对象<xref:System.Web.UI.Page.ClientScript%2A>页属性。  
+ 如果你想要注册不属于部分页面更新，如果你想要注册的脚本块只进行一次初始页呈现期间使用的脚本块<xref:System.Web.UI.ClientScriptManager.RegisterClientScriptBlock%2A>方法的<xref:System.Web.UI.ClientScriptManager>类。 可以获取对的引用<xref:System.Web.UI.ClientScriptManager>对象从<xref:System.Web.UI.Page.ClientScript%2A>页属性。  
   
- <xref:System.Web.UI.ScriptManager.RegisterClientScriptInclude%2A>方法注册页上的客户端脚本文件呈现`script`其开始标记中包含的元素`src`属性。 `url`参数用于设置`src`属性。 若要解决 Url，请使用<xref:System.Web.UI.Control.ResolveClientUrl%2A>方法。 此方法使用被调用的以解析路径的 URL 的上下文。  
+ <xref:System.Web.UI.ScriptManager.RegisterClientScriptInclude%2A>方法注册客户端脚本文件的页上呈现`script`元素的开始标记包含`src`属性。 `url`参数用于设置`src`属性。 若要解决 Url，请使用<xref:System.Web.UI.Control.ResolveClientUrl%2A>方法。 此方法使用它调用的解析路径的 URL 的上下文。  
   
- 同时<xref:System.Web.UI.ScriptManager.RegisterClientScriptInclude%2A>和<xref:System.Web.UI.ScriptManager.RegisterClientScriptResource%2A>方法呈现到浏览器的脚本文件。 如果已呈现具有相同类型和密钥 （对于脚本文件） 或相同类型和资源名称 （对于嵌入的资源） 的脚本，则不会再次呈现脚本。  
+ 同时<xref:System.Web.UI.ScriptManager.RegisterClientScriptInclude%2A>和<xref:System.Web.UI.ScriptManager.RegisterClientScriptResource%2A>方法呈现到浏览器的脚本文件。 如果已呈现具有相同的类型和键 （对于脚本文件） 或相同类型和资源名称 （对于嵌入的资源） 的脚本，则不会再次呈现该脚本。  
   
    
   
@@ -2273,6 +2322,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -2294,9 +2344,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 使用此方法注册的脚本文件时，被呈现该脚本每次发生异步回发。 要注册脚本文件的控件，位于<xref:System.Web.UI.UpdatePanel>控制，以便脚本已注册时，才<xref:System.Web.UI.UpdatePanel>控件更新，请使用<xref:System.Web.UI.ScriptManager.RegisterClientScriptInclude%28System.Web.UI.Control%2CSystem.Type%2CSystem.String%2CSystem.String%29>此方法的重载。  
+ 使用此方法注册的脚本文件时，每次异步回发发生时被呈现该脚本。 若要注册控件内的脚本文件<xref:System.Web.UI.UpdatePanel>控件，以便注册的脚本时，才<xref:System.Web.UI.UpdatePanel>控件更新，请使用<xref:System.Web.UI.ScriptManager.RegisterClientScriptInclude%28System.Web.UI.Control%2CSystem.Type%2CSystem.String%2CSystem.String%29>此方法的重载。  
   
- 如果你想要注册不属于部分页面更新，如果你想要注册的脚本块只进行一次初始页呈现期间使用的脚本块<xref:System.Web.UI.ClientScriptManager.RegisterClientScriptBlock%2A>方法<xref:System.Web.UI.ClientScriptManager>类。 你可以获取对引用<xref:System.Web.UI.ClientScriptManager>对象<xref:System.Web.UI.Page.ClientScript%2A>页属性。  
+ 如果你想要注册不属于部分页面更新，如果你想要注册的脚本块只进行一次初始页呈现期间使用的脚本块<xref:System.Web.UI.ClientScriptManager.RegisterClientScriptBlock%2A>方法的<xref:System.Web.UI.ClientScriptManager>类。 可以获取对的引用<xref:System.Web.UI.ClientScriptManager>对象从<xref:System.Web.UI.Page.ClientScript%2A>页属性。  
   
  ]]></format>
         </remarks>
@@ -2324,6 +2374,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -2343,13 +2394,13 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 你使用<xref:System.Web.UI.ScriptManager.RegisterClientScriptResource%2A>方法以注册与局部页面呈现，兼容的脚本没有任何 Microsoft Ajax 库依赖项。 注册使用此方法注册的脚本资源时，才`control`表示控件内<xref:System.Web.UI.UpdatePanel>更新的控件。 若要注册的脚本每次异步回发发生时，使用<xref:System.Web.UI.ScriptManager.RegisterStartupScript%28System.Web.UI.Page%2CSystem.Type%2CSystem.String%2CSystem.String%2CSystem.Boolean%29>此方法的重载。  
+ 您使用<xref:System.Web.UI.ScriptManager.RegisterClientScriptResource%2A>方法来注册与局部页面呈现和的兼容的脚本没有任何 Microsoft Ajax 库依赖项。 注册使用此方法注册的脚本资源时，才`control`表示控件内<xref:System.Web.UI.UpdatePanel>更新的控件。 若要注册的脚本每次异步回发发生时，使用<xref:System.Web.UI.ScriptManager.RegisterStartupScript%28System.Web.UI.Page%2CSystem.Type%2CSystem.String%2CSystem.String%2CSystem.Boolean%29>此方法的重载。  
   
- 如果你想要注册不属于部分页面更新，如果你想要注册的脚本块只进行一次初始页呈现期间使用的脚本块<xref:System.Web.UI.ClientScriptManager.RegisterClientScriptBlock%2A>方法<xref:System.Web.UI.ClientScriptManager>类。 你可以获取对引用<xref:System.Web.UI.ClientScriptManager>对象<xref:System.Web.UI.Page.ClientScript%2A>页属性。  
+ 如果你想要注册不属于部分页面更新，如果你想要注册的脚本块只进行一次初始页呈现期间使用的脚本块<xref:System.Web.UI.ClientScriptManager.RegisterClientScriptBlock%2A>方法的<xref:System.Web.UI.ClientScriptManager>类。 可以获取对的引用<xref:System.Web.UI.ClientScriptManager>对象从<xref:System.Web.UI.Page.ClientScript%2A>页属性。  
   
- <xref:System.Web.UI.ScriptManager.RegisterClientScriptResource%2A>当从程序集的资源访问的 HTTP 处理程序通过使用方法。 此方法包含的内容中的资源 URL`script`元素。  
+ <xref:System.Web.UI.ScriptManager.RegisterClientScriptResource%2A>通过 HTTP 处理程序访问程序集中的资源时使用方法。 此方法包含的内容中的资源 URL`script`元素。  
   
- 同时<xref:System.Web.UI.ScriptManager.RegisterClientScriptInclude%2A>和<xref:System.Web.UI.ScriptManager.RegisterClientScriptResource%2A>方法加载到浏览器中的脚本文件。 如果已加载具有相同类型和密钥 （对于脚本文件） 或相同类型和资源名称 （对于嵌入的资源） 的脚本，脚本不会重新加载。  
+ 同时<xref:System.Web.UI.ScriptManager.RegisterClientScriptInclude%2A>和<xref:System.Web.UI.ScriptManager.RegisterClientScriptResource%2A>方法脚本文件加载到浏览器。 如果尚未加载具有相同的类型和键 （对于脚本文件） 或相同类型和资源名称 （对于嵌入的资源） 的脚本，则不重新加载该脚本。  
   
  ]]></format>
         </remarks>
@@ -2368,6 +2419,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -2387,9 +2439,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 使用此方法注册的脚本文件时，被呈现该脚本每次发生异步回发。 以注册的脚本的控件，位于<xref:System.Web.UI.UpdatePanel>控制，以便注册了脚本时，才<xref:System.Web.UI.UpdatePanel>控件更新，请使用<xref:System.Web.UI.ScriptManager.RegisterClientScriptResource%28System.Web.UI.Control%2CSystem.Type%2CSystem.String%29>此方法的重载。  
+ 使用此方法注册的脚本文件时，每次异步回发发生时被呈现该脚本。 若要注册的控件内的脚本<xref:System.Web.UI.UpdatePanel>控件，以便注册该脚本时，才<xref:System.Web.UI.UpdatePanel>控件更新，请使用<xref:System.Web.UI.ScriptManager.RegisterClientScriptResource%28System.Web.UI.Control%2CSystem.Type%2CSystem.String%29>此方法的重载。  
   
- 如果你想要注册不属于部分页面更新，如果你想要注册的脚本块只进行一次初始页呈现期间使用的脚本块<xref:System.Web.UI.ClientScriptManager.RegisterClientScriptBlock%2A>方法<xref:System.Web.UI.ClientScriptManager>类。 你可以获取对引用<xref:System.Web.UI.ClientScriptManager>对象<xref:System.Web.UI.Page.ClientScript%2A>页属性。  
+ 如果你想要注册不属于部分页面更新，如果你想要注册的脚本块只进行一次初始页呈现期间使用的脚本块<xref:System.Web.UI.ClientScriptManager.RegisterClientScriptBlock%2A>方法的<xref:System.Web.UI.ClientScriptManager>类。 可以获取对的引用<xref:System.Web.UI.ClientScriptManager>对象从<xref:System.Web.UI.Page.ClientScript%2A>页属性。  
   
  ]]></format>
         </remarks>
@@ -2416,6 +2468,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -2433,19 +2486,19 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 使用<xref:System.Web.UI.ScriptManager.RegisterDataItem%2A>方法将数据发送从服务器到客户端异步回发，而不考虑是否接收数据的控件位于期间<xref:System.Web.UI.UpdatePanel>控件。  
+ 使用<xref:System.Web.UI.ScriptManager.RegisterDataItem%2A>方法将数据发送从服务器到客户端在异步回发，而不考虑接收数据的控件是否是内部过程<xref:System.Web.UI.UpdatePanel>控件。  
   
- <xref:System.Web.UI.ScriptManager.RegisterDataItem%2A>可以仅在异步回发期间调用方法。 若要确定是否异步回发，请使用<xref:System.Web.UI.ScriptManager.IsInAsyncPostBack%2A>属性。 此方法调用采用名为的参数的重载`isJsonSerialized`设置为`false`。 当`isJsonSerialized`参数设置为`false`，该字符串未序列化 JavaScript 对象表示法 (JSON)。 有关 JSON 格式的详细信息，请参阅[JSON 简介](http://go.microsoft.com/fwlink/?LinkId=77297)Web 站点。  
+ <xref:System.Web.UI.ScriptManager.RegisterDataItem%2A>可以仅在异步回发过程中调用方法。 若要确定是否异步回发，请使用<xref:System.Web.UI.ScriptManager.IsInAsyncPostBack%2A>属性。 此方法将调用接受一个名为参数的重载`isJsonSerialized`设置为`false`。 当`isJsonSerialized`参数设置为`false`，该字符串不序列化 JavaScript 对象表示法 (JSON)。 有关 JSON 格式的详细信息，请参阅[JSON 简介](http://go.microsoft.com/fwlink/?LinkId=77297)Web 站点。  
   
- 注册到的数据项<xref:System.Web.UI.ScriptManager.RegisterDataItem%2A>方法可以访问客户端脚本，在过程中、 和的对象的事件。 在处理这些事件时，事件参数对象将传入的自定义数据。 例如，如果为事件提供一个处理程序，在类中，公开一个属性传递的自定义数据。  
+ 使用注册的数据项目<xref:System.Web.UI.ScriptManager.RegisterDataItem%2A>方法可以访问客户端脚本过程中的、 和对象的事件。 在您处理这些事件，事件参数对象中传递自定义数据。 例如，如果事件提供处理程序，自定义数据类，该类公开的属性中传递。  
   
    
   
 ## Examples  
- 下面的示例演示如何将数据发送到两个<xref:System.Web.UI.WebControls.Label>期间异步回发页面上的控件。 <xref:System.Web.UI.WebControls.Label>控件不是内部<xref:System.Web.UI.UpdatePanel>控件。  
+ 下面的示例演示如何将数据发送到两个<xref:System.Web.UI.WebControls.Label>异步回发期间页面上的控件。 <xref:System.Web.UI.WebControls.Label>控件不是深入了解<xref:System.Web.UI.UpdatePanel>控件。  
   
 > [!NOTE]
->  此示例中未发送的数据为仅用于说明目的。 在实际应用中，你将使用<xref:System.Web.UI.ScriptManager.RegisterDataItem%2A>方法以从服务器中发送自定义数据。  
+>  在此示例中发送的数据是仅用于说明目的。 在实际应用程序中，将使用<xref:System.Web.UI.ScriptManager.RegisterDataItem%2A>方法以从服务器发送自定义数据。  
   
  [!code-aspx-csharp[System.Web.UI.ScriptManager.RegisterDataItem#1](~/samples/snippets/csharp/VS_Snippets_Atlas/System.Web.UI.ScriptManager.RegisterDataItem/CS/ScriptManagerRegisterDataItemCS.aspx#1)]
  [!code-aspx-vb[System.Web.UI.ScriptManager.RegisterDataItem#1](~/samples/snippets/visualbasic/VS_Snippets_Atlas/System.Web.UI.ScriptManager.RegisterDataItem/VB/ScriptManagerRegisterDataItemVB.aspx#1)]  
@@ -2468,6 +2521,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -2487,21 +2541,21 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 你使用<xref:System.Web.UI.ScriptManager.RegisterDataItem%2A>方法将数据发送从服务器到客户端异步回发，而不考虑是否接收数据的控件位于期间<xref:System.Web.UI.UpdatePanel>控件。  
+ 您使用<xref:System.Web.UI.ScriptManager.RegisterDataItem%2A>方法将数据发送从服务器到客户端在异步回发，而不考虑接收数据的控件是否是内部过程<xref:System.Web.UI.UpdatePanel>控件。  
   
- 如果`dataItem`你注册的参数`control`未序列化为 JSON，设置`isJsonSerialized`参数`false`。 这样就避免了需要为每个字符串发送到客户端使用该函数。 有关 JSON 格式的详细信息，请参阅[JSON 简介](http://go.microsoft.com/fwlink/?LinkId=77297)Web 站点。  
+ 如果`dataItem`注册为参数`control`未序列化为 JSON，设置`isJsonSerialized`参数`false`。 这样可以避免需要使用用于发送到客户端每个字符串的函数。 有关 JSON 格式的详细信息，请参阅[JSON 简介](http://go.microsoft.com/fwlink/?LinkId=77297)Web 站点。  
   
- <xref:System.Web.UI.ScriptManager.RegisterDataItem%2A>可以仅在异步回发期间调用方法。 若要确定是否异步回发，请使用<xref:System.Web.UI.ScriptManager.IsInAsyncPostBack%2A>属性。  
+ <xref:System.Web.UI.ScriptManager.RegisterDataItem%2A>可以仅在异步回发过程中调用方法。 若要确定是否异步回发，请使用<xref:System.Web.UI.ScriptManager.IsInAsyncPostBack%2A>属性。  
   
- 通过使用已注册的数据项<xref:System.Web.UI.ScriptManager.RegisterDataItem%2A>方法可以访问客户端脚本，在过程中、 和的对象的事件。 在处理这些事件时，事件参数对象将传入的自定义数据。 例如，如果为事件提供一个处理程序，在类中，公开一个属性传递的自定义数据。  
+ 使用注册的数据项目<xref:System.Web.UI.ScriptManager.RegisterDataItem%2A>方法可以访问客户端脚本过程中的、 和对象的事件。 在您处理这些事件，事件参数对象中传递自定义数据。 例如，如果事件提供处理程序，自定义数据类，该类公开的属性中传递。  
   
    
   
 ## Examples  
- 下面的示例演示如何将数据发送到两个<xref:System.Web.UI.WebControls.Label>期间异步回发页面上的控件。 <xref:System.Web.UI.WebControls.Label>控件不是内部<xref:System.Web.UI.UpdatePanel>控件。 此示例演示不采用重载`isJsonSerialized`参数。 否则，用于检索对象的属性的过程是相同好像未使用该重载。  
+ 下面的示例演示如何将数据发送到两个<xref:System.Web.UI.WebControls.Label>异步回发期间页面上的控件。 <xref:System.Web.UI.WebControls.Label>控件不是深入了解<xref:System.Web.UI.UpdatePanel>控件。 此示例演示的重载不采用`isJsonSerialized`参数。 否则，用于检索对象的属性的过程是相同的像未使用该重载。  
   
 > [!NOTE]
->  此示例中未发送的数据为仅用于说明目的。 在实际应用中，你将使用<xref:System.Web.UI.ScriptManager.RegisterDataItem%2A>方法以从服务器中发送自定义数据。 例如，你无法使用数据项发送有关是否隐藏或显示未内的元素的客户端信息<xref:System.Web.UI.UpdatePanel>控件。  
+>  在此示例中发送的数据是仅用于说明目的。 在实际应用程序中，将使用<xref:System.Web.UI.ScriptManager.RegisterDataItem%2A>方法以从服务器发送自定义数据。 例如，可以使用的数据项目发送有关是否要隐藏或显示不是内部的元素的客户端信息<xref:System.Web.UI.UpdatePanel>控件。  
   
  [!code-aspx-csharp[System.Web.UI.ScriptManager.RegisterDataItem#1](~/samples/snippets/csharp/VS_Snippets_Atlas/System.Web.UI.ScriptManager.RegisterDataItem/CS/ScriptManagerRegisterDataItemCS.aspx#1)]
  [!code-aspx-vb[System.Web.UI.ScriptManager.RegisterDataItem#1](~/samples/snippets/visualbasic/VS_Snippets_Atlas/System.Web.UI.ScriptManager.RegisterDataItem/VB/ScriptManagerRegisterDataItemVB.aspx#1)]  
@@ -2524,6 +2578,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -2542,13 +2597,13 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 使用<xref:System.Web.UI.ScriptManager.RegisterDispose%2A>方法注册`dispose`控件内的脚本<xref:System.Web.UI.UpdatePanel>控件。 在异步回发，<xref:System.Web.UI.UpdatePanel>控件可以更新、 删除，或者创建。 当更新或删除任何面板`dispose`内的控件注册的脚本<xref:System.Web.UI.UpdatePanel>调用。 在典型的页面开发方案中，则不需要调用<xref:System.Web.UI.ScriptManager.RegisterDispose%2A>方法。  
+ 使用<xref:System.Web.UI.ScriptManager.RegisterDispose%2A>方法来注册`dispose`内的控件的脚本<xref:System.Web.UI.UpdatePanel>控件。 异步回发期间<xref:System.Web.UI.UpdatePanel>控件可以更新、 删除，或创建。 当更新或删除任何面板`dispose`内的控件注册脚本<xref:System.Web.UI.UpdatePanel>调用。 在典型的页面开发方案中，您不需要调用<xref:System.Web.UI.ScriptManager.RegisterDispose%2A>方法。  
   
- <xref:System.Web.UI.ScriptManager.RegisterDispose%2A>方法旨在用于由控件开发人员，以注册脚本，或者创建继承的控件<xref:System.Web.UI.IScriptControl>接口。 例如，你可能使用`dispose`脚本。 如果你通过使用合成开发的客户端控件。 在您的控件，你实现<xref:System.Web.UI.IScriptControl>和呈现单独的控件。 你注册`dispose`任何的方法项都不对应于定义的客户端组件如`Sys.TextBox`。 如果你自定义控件撰写对应于 Microsoft Ajax 库中的客户端组件的元素，不需要注册`dispose`脚本，因为`dispose`自动调用。 因此，使用<xref:System.Web.UI.ScriptManager.RegisterDispose%2A>客户端组件，是 Microsoft Ajax 库的一部分且必须在不再使用组件时释放资源的方法。  
+ <xref:System.Web.UI.ScriptManager.RegisterDispose%2A>方法旨在由控件开发人员若要注册脚本或创建继承的控件用于<xref:System.Web.UI.IScriptControl>接口。 例如，可以使用`dispose`编写脚本来使用合成开发客户端控件时。 在您的控制，您实现<xref:System.Web.UI.IScriptControl>和呈现单个控件。 你注册`dispose`不对应于定义的客户端组件如任何项的方法`Sys.TextBox`。 如果自定义控件进行组合与 Microsoft Ajax Library 中的客户端组件相对应的元素，不需要注册`dispose`脚本，因为`dispose`自动调用。 因此，使用<xref:System.Web.UI.ScriptManager.RegisterDispose%2A>客户端组件是 Microsoft Ajax 库的一部分，且必须在不再使用某个组件时释放资源的方法。  
   
- <xref:System.Web.UI.ScriptManager.RegisterDispose%2A>方法可以多次调用控件。 聚合多个脚本。 释放脚本的顺序匹配脚本已注册的顺序。  
+ <xref:System.Web.UI.ScriptManager.RegisterDispose%2A>方法可以多次调用控件。 聚合多个脚本。 释放脚本的顺序与在其中注册脚本的顺序相匹配。  
   
- 如果你注册`dispose`脚本的控件，将不在<xref:System.Web.UI.UpdatePanel>控件，将引发异常。 `dispose`脚本调用之间的类和事件。  
+ 如果你注册`dispose`控件不在脚本<xref:System.Web.UI.UpdatePanel>控件，将引发异常。 `dispose`之间调用脚本和类的事件。  
   
  ]]></format>
         </remarks>
@@ -2567,6 +2622,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -2590,11 +2646,11 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 你使用<xref:System.Web.UI.ScriptManager.RegisterExpandoAttribute%2A>方法注册的控件，与局部页面呈现，兼容的自定义 (expando) 属性没有任何 Microsoft Ajax 库依赖项。  
+ 您使用<xref:System.Web.UI.ScriptManager.RegisterExpandoAttribute%2A>方法来注册与局部页面呈现和的兼容的控件的自定义 (expando) 属性没有任何 Microsoft Ajax 库依赖项。  
   
- <xref:System.Web.UI.ScriptManager.RegisterExpandoAttribute%2A>方法注册为指定的控件的自定义特性的名称/值对。 属性是动态设置从 ECMAScript (JavaScript) 保持与呈现的控件的标记 XHTML 兼容性。 设置`encode`到`true`如果你有动态属性的值中的任何字符进行转义。  
+ <xref:System.Web.UI.ScriptManager.RegisterExpandoAttribute%2A>方法注册为指定的控件的自定义特性的名称/值对。 该属性是动态设置从 ECMAScript (JavaScript) 保持呈现的控件的标记的 XHTML 兼容性。 设置`encode`到`true`如果有任何动态属性的值的字符进行转义。  
   
- 如果未找到动态属性将添加到控件，出现脚本错误。  
+ 如果找不到动态属性将添加到该控件，则脚本发生错误。  
   
  ]]></format>
         </remarks>
@@ -2618,6 +2674,7 @@
       </Implements>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -2644,7 +2701,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 此方法主要适用于由控件开发人员使用。 调用<xref:System.Web.UI.ScriptManager.RegisterExtenderControl%2A>方法在一个自定义 ASP.NET Ajax 扩展程序控件从其`onInit`事件处理程序以注册该控件使用页。 若要参与局部页面呈现，必须注册 ASP.NET Ajax 扩展程序控件。  
+ 此方法主要适用于由控件开发人员。 调用<xref:System.Web.UI.ScriptManager.RegisterExtenderControl%2A>期间，从自定义 ASP.NET Ajax 扩展程序控件的方法及其`onInit`要向该控件的页面注册事件处理程序。 ASP.NET Ajax 扩展程序控件必须注册才能参与局部页面呈现。  
   
  <xref:System.Web.UI.ScriptManager.RegisterExtenderControl%2A>方法将指定的扩展程序控件添加到扩展程序控件和它们扩展的目标脚本控件的内部列表。 此列表处理期间<xref:System.Web.UI.Control.PreRender>事件。  
   
@@ -2672,6 +2729,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -2691,11 +2749,11 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 你使用<xref:System.Web.UI.ScriptManager.RegisterHiddenField%2A>方法注册的隐藏的字段的与兼容局部页面呈现，且没有任何 Microsoft Ajax 库依赖项。 此方法注册隐藏的字段，当正在注册字段控件<xref:System.Web.UI.UpdatePanel>正在更新的控件。 若要注册隐藏的字段每次异步回发发生时，使用<xref:System.Web.UI.ScriptManager.RegisterHiddenField%28System.Web.UI.Page%2CSystem.String%2CSystem.String%29>此方法的重载。  
+ 您使用<xref:System.Web.UI.ScriptManager.RegisterHiddenField%2A>方法来注册与局部页面呈现和的兼容的隐藏的字段没有任何 Microsoft Ajax 库依赖项。 此方法注册隐藏的字段时注册该字段的控件位于<xref:System.Web.UI.UpdatePanel>正在更新的控件。 若要注册隐藏的字段每次异步回发发生时，使用<xref:System.Web.UI.ScriptManager.RegisterHiddenField%28System.Web.UI.Page%2CSystem.String%2CSystem.String%29>此方法的重载。  
   
- 如果你想要注册不属于部分页面更新，如果你想要注册的隐藏的字段仅一次初始页呈现期间使用的隐藏的字段<xref:System.Web.UI.ClientScriptManager.RegisterHiddenField%2A>方法<xref:System.Web.UI.ClientScriptManager>类。 你可以获取对引用<xref:System.Web.UI.ClientScriptManager>对象<xref:System.Web.UI.Page.ClientScript%2A>页属性。  
+ 如果你想要注册不属于部分页面更新，如果你想要注册隐藏的字段仅一次初始页呈现期间使用的隐藏的字段<xref:System.Web.UI.ClientScriptManager.RegisterHiddenField%2A>方法的<xref:System.Web.UI.ClientScriptManager>类。 可以获取对的引用<xref:System.Web.UI.ClientScriptManager>对象从<xref:System.Web.UI.Page.ClientScript%2A>页属性。  
   
- <xref:System.Web.UI.ScriptManager.RegisterHiddenField%2A>方法创建一个隐藏`input`上呈现的 HTML 页面的元素。  
+ <xref:System.Web.UI.ScriptManager.RegisterHiddenField%2A>方法创建一个隐藏`input`上呈现的 HTML 页面元素。  
   
  ]]></format>
         </remarks>
@@ -2715,6 +2773,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -2734,9 +2793,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 你使用<xref:System.Web.UI.ScriptManager.RegisterHiddenField%2A>方法注册的隐藏的字段的与兼容局部页面呈现，且没有任何 Microsoft Ajax 库依赖项。 此方法在每次发生异步回发注册隐藏的字段。 若要注册隐藏的字段的控件，位于<xref:System.Web.UI.UpdatePanel>控制，以便仅在更新面板时，才注册该字段，请使用<xref:System.Web.UI.ScriptManager.RegisterHiddenField%28System.Web.UI.Control%2CSystem.String%2CSystem.String%29>此方法的重载。  
+ 您使用<xref:System.Web.UI.ScriptManager.RegisterHiddenField%2A>方法来注册与局部页面呈现和的兼容的隐藏的字段没有任何 Microsoft Ajax 库依赖项。 此方法在每次异步回发发生时注册隐藏的字段。 若要注册中的控件的隐藏的字段<xref:System.Web.UI.UpdatePanel>控件，以便仅在更新面板时注册该字段，请使用<xref:System.Web.UI.ScriptManager.RegisterHiddenField%28System.Web.UI.Control%2CSystem.String%2CSystem.String%29>此方法的重载。  
   
- 如果你想要注册不属于部分页面更新，如果你想要注册的隐藏的字段仅一次初始页呈现期间使用的隐藏的字段<xref:System.Web.UI.ClientScriptManager.RegisterHiddenField%2A>方法<xref:System.Web.UI.ClientScriptManager>类。 你可以获取对引用<xref:System.Web.UI.ClientScriptManager>对象<xref:System.Web.UI.Page.ClientScript%2A>页属性。  
+ 如果你想要注册不属于部分页面更新，如果你想要注册隐藏的字段仅一次初始页呈现期间使用的隐藏的字段<xref:System.Web.UI.ClientScriptManager.RegisterHiddenField%2A>方法的<xref:System.Web.UI.ClientScriptManager>类。 可以获取对的引用<xref:System.Web.UI.ClientScriptManager>对象从<xref:System.Web.UI.Page.ClientScript%2A>页属性。  
   
  ]]></format>
         </remarks>
@@ -2822,6 +2881,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -2843,15 +2903,15 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Web.UI.ScriptManager.RegisterOnSubmitStatement%2A>将添加在提交表单时之前, 执行的脚本它可让你修改提交或取消它。  
+ <xref:System.Web.UI.ScriptManager.RegisterOnSubmitStatement%2A>添加脚本之前提交表单时，执行它可让你修改提交或取消它。  
   
- 你使用<xref:System.Web.UI.ScriptManager.RegisterOnSubmitStatement%2A>方法呈现`onsubmit`语句与局部页面呈现兼容并具有无 Microsoft Ajax 库依赖项。 使用此方法注册的 JavaScript 代码发送到页面中，仅当正在注册该语句的控件内时，才<xref:System.Web.UI.UpdatePanel>正在更新的控件。 若要向每个异步回发注册代码，请使用<xref:System.Web.UI.ScriptManager.RegisterOnSubmitStatement%28System.Web.UI.Page%2CSystem.Type%2CSystem.String%2CSystem.String%29>此方法的重载。  
+ 您使用<xref:System.Web.UI.ScriptManager.RegisterOnSubmitStatement%2A>方法以呈现`onsubmit`语句与局部页面呈现兼容并具有无 Microsoft Ajax 库依赖项。 仅当正在注册该语句控件内，将使用此方法注册的 JavaScript 代码发送到页面<xref:System.Web.UI.UpdatePanel>正在更新的控件。 若要向每个异步回发注册代码，请使用<xref:System.Web.UI.ScriptManager.RegisterOnSubmitStatement%28System.Web.UI.Page%2CSystem.Type%2CSystem.String%2CSystem.String%29>此方法的重载。  
   
- 如果你想要注册不属于部分页面更新，如果你想要注册该代码仅一次初始页呈现期间使用的 JavaScript 代码<xref:System.Web.UI.Page.RegisterOnSubmitStatement%2A>方法<xref:System.Web.UI.ClientScriptManager>类。 你可以获取对引用<xref:System.Web.UI.ClientScriptManager>对象<xref:System.Web.UI.Page.ClientScript%2A>页属性。  
+ 如果你想要注册不属于部分页面更新，如果你想要注册该代码仅一次初始页呈现期间使用的 JavaScript 代码<xref:System.Web.UI.Page.RegisterOnSubmitStatement%2A>方法的<xref:System.Web.UI.ClientScriptManager>类。 可以获取对的引用<xref:System.Web.UI.ClientScriptManager>对象从<xref:System.Web.UI.Page.ClientScript%2A>页属性。  
   
- *脚本*参数<xref:System.Web.UI.ScriptManager.RegisterOnSubmitStatement%2A>方法可包含使用分号 （;） 分隔的多个脚本命令。  
+ *脚本*参数的<xref:System.Web.UI.ScriptManager.RegisterOnSubmitStatement%2A>方法可以包含多个脚本命令，并使用分号 （;） 分隔。  
   
- 有关 HTML 窗体的详细信息和`onsubmit`事件，请参阅[World Wide Web Consortium (W3C) 网站](http://go.microsoft.com/fwlink/?linkid=37125)。  
+ 有关 HTML 窗体的详细信息和`onsubmit`事件，请参阅[World Wide Web 联合会 (W3C) 网站](http://go.microsoft.com/fwlink/?linkid=37125)。  
   
  ]]></format>
         </remarks>
@@ -2871,6 +2931,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -2892,14 +2953,14 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 使用此方法注册 JavaScript 代码将导致脚本要包含每次发生异步回发。  
+ 使用此方法注册的 JavaScript 代码会导致将包括每次异步回发发生时的脚本。  
   
 > [!NOTE]
->  从任何早期异步回发的代码不会删除。 新的异步回发将代码附加到任何现有代码，以`onsubmit`语句。  
+>  不删除任何先前的异步回发中的代码。 新的异步回发将代码追加到任何现有代码，以`onsubmit`语句。  
   
- 可以注册在控件内的代码<xref:System.Web.UI.UpdatePanel>控制，以便注册该代码时，才<xref:System.Web.UI.UpdatePanel>控件更新，请使用<xref:System.Web.UI.ScriptManager.RegisterOnSubmitStatement%28System.Web.UI.Control%2CSystem.Type%2CSystem.String%2CSystem.String%29>此方法的重载。  
+ 可以注册在控件内的代码<xref:System.Web.UI.UpdatePanel>控件，以便注册该代码时，才<xref:System.Web.UI.UpdatePanel>控件更新，请使用<xref:System.Web.UI.ScriptManager.RegisterOnSubmitStatement%28System.Web.UI.Control%2CSystem.Type%2CSystem.String%2CSystem.String%29>此方法的重载。  
   
- 如果你想要注册不属于部分页面更新，如果你想要注册该代码仅一次初始页呈现期间使用的 JavaScript 代码<xref:System.Web.UI.Page.RegisterOnSubmitStatement%2A>方法<xref:System.Web.UI.ClientScriptManager>类。 你可以获取对引用<xref:System.Web.UI.ClientScriptManager>对象<xref:System.Web.UI.Page.ClientScript%2A>页属性。  
+ 如果你想要注册不属于部分页面更新，如果你想要注册该代码仅一次初始页呈现期间使用的 JavaScript 代码<xref:System.Web.UI.Page.RegisterOnSubmitStatement%2A>方法的<xref:System.Web.UI.ClientScriptManager>类。 可以获取对的引用<xref:System.Web.UI.ClientScriptManager>对象从<xref:System.Web.UI.Page.ClientScript%2A>页属性。  
   
  ]]></format>
         </remarks>
@@ -2920,6 +2981,7 @@
       </Implements>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -2935,9 +2997,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 使用<xref:System.Web.UI.ScriptManager.RegisterPostBackControl%2A>方法注册内的回发控件<xref:System.Web.UI.UpdatePanel>为触发器的控件。 使用此方法注册的控件更新整个页面，而不是仅更新<xref:System.Web.UI.UpdatePanel>控件的内容。 使用外部此方法注册的回发控件<xref:System.Web.UI.UpdatePanel>控件具有没有影响，因为默认情况下这些控件不执行异步回发。  
+ 使用<xref:System.Web.UI.ScriptManager.RegisterPostBackControl%2A>方法来注册内的回发控件<xref:System.Web.UI.UpdatePanel>控件作为触发器。 使用此方法注册的控件更新整个页面，而不是仅更新<xref:System.Web.UI.UpdatePanel>控件的内容。 注册使用此方法之外的回发控件<xref:System.Web.UI.UpdatePanel>控件没有任何影响，因为默认情况下这些控件不执行异步回发。  
   
- 你可以通过将添加触发器以声明方式`Triggers`元素<xref:System.Web.UI.UpdatePanel>控件。 在 Visual Studio 中，使用设计器的**UpdatePanelTrigger 集合编辑器**对话框。  
+ 您可以通过使用以声明方式添加触发器`Triggers`元素的<xref:System.Web.UI.UpdatePanel>控件。 在 Visual Studio 中，使用设计器的**UpdatePanelTrigger 集合编辑器**对话框。  
   
  ]]></format>
         </remarks>
@@ -2957,6 +3019,7 @@
       </Implements>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -2981,9 +3044,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 此方法主要适用于由控件开发人员使用。 调用<xref:System.Web.UI.ScriptManager.RegisterScriptControl%2A>方法期间，从自定义 ASP.NET Ajax 脚本控件其`onInit`事件处理程序以注册该控件使用页。 参与局部页面呈现，必须注册 ASP.NET Ajax 脚本控件。  
+ 此方法主要适用于由控件开发人员。 调用<xref:System.Web.UI.ScriptManager.RegisterScriptControl%2A>期间，从自定义 ASP.NET Ajax 脚本控件的方法及其`onInit`要向该控件的页面注册事件处理程序。 ASP.NET Ajax 脚本控件必须注册才能参与局部页面呈现。  
   
- <xref:System.Web.UI.ScriptManager.RegisterScriptControl%2A>方法将指定的扩展程序控件添加到期间处理的脚本控件的内部列表<xref:System.Web.UI.Control.PreRender>事件。  
+ <xref:System.Web.UI.ScriptManager.RegisterScriptControl%2A>方法将指定的扩展程序控件添加到处理过程的脚本控件的内部列表<xref:System.Web.UI.Control.PreRender>事件。  
   
  ]]></format>
         </remarks>
@@ -3013,6 +3076,7 @@
       </Implements>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -3028,12 +3092,12 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Web.UI.ExtenderControl>类调用<xref:System.Web.UI.ScriptManager.RegisterScriptDescriptors%2A>方法在其<xref:System.Web.UI.Control.Render%2A>方法。  
+ <xref:System.Web.UI.ExtenderControl>类调用<xref:System.Web.UI.ScriptManager.RegisterScriptDescriptors%2A>中的方法及其<xref:System.Web.UI.Control.Render%2A>方法。  
   
  ]]></format>
         </remarks>
         <block subset="none" type="overrides">
-          <para>如果派生自<see cref="T:System.Web.UI.ExtenderControl" />类并重写<see cref="M:System.Web.UI.Control.Render(System.Web.UI.HtmlTextWriter)" />方法，但你不调用基类方法，必须调用<see cref="M:System.Web.UI.ScriptManager.RegisterScriptDescriptors(System.Web.UI.IExtenderControl)" />方法。这使<see cref="T:System.Web.UI.ScriptManager" />控件呈现支持该控件所表示的客户端对象的实例脚本。</para>
+          <para>如果从其中派生<see cref="T:System.Web.UI.ExtenderControl" />类并重写<see cref="M:System.Web.UI.Control.Render(System.Web.UI.HtmlTextWriter)" />方法，但您不调用基类方法，必须调用<see cref="M:System.Web.UI.ScriptManager.RegisterScriptDescriptors(System.Web.UI.IExtenderControl)" />方法。这使<see cref="T:System.Web.UI.ScriptManager" />控件呈现支持控件表示的客户端对象的实例脚本。</para>
         </block>
         <altmember cref="M:System.Web.UI.ScriptManager.RegisterExtenderControl``1(``0,System.Web.UI.Control)" />
         <altmember cref="T:System.Web.UI.ScriptDescriptor" />
@@ -3052,6 +3116,7 @@
       </Implements>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -3072,7 +3137,7 @@
  ]]></format>
         </remarks>
         <block subset="none" type="overrides">
-          <para>如果派生自<see cref="T:System.Web.UI.ScriptControl" />类并重写<see cref="M:System.Web.UI.Control.Render(System.Web.UI.HtmlTextWriter)" />方法，但你不调用基类方法，必须调用<see cref="M:System.Web.UI.ScriptManager.RegisterScriptDescriptors(System.Web.UI.IScriptControl)" />方法。这使<see cref="T:System.Web.UI.ScriptManager" />控件呈现支持该控件所表示的客户端对象的实例脚本。</para>
+          <para>如果从其中派生<see cref="T:System.Web.UI.ScriptControl" />类并重写<see cref="M:System.Web.UI.Control.Render(System.Web.UI.HtmlTextWriter)" />方法，但您不调用基类方法，必须调用<see cref="M:System.Web.UI.ScriptManager.RegisterScriptDescriptors(System.Web.UI.IScriptControl)" />方法。这使<see cref="T:System.Web.UI.ScriptManager" />控件呈现支持控件表示的客户端对象的实例脚本。</para>
         </block>
         <altmember cref="M:System.Web.UI.ScriptManager.RegisterScriptControl``1(``0)" />
         <altmember cref="T:System.Web.UI.ScriptDescriptor" />
@@ -3096,6 +3161,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -3119,13 +3185,13 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 你使用<xref:System.Web.UI.ScriptManager.RegisterStartupScript%2A>方法注册的页与兼容局部页面呈现，且一个启动脚本块没有任何 Microsoft Ajax 库依赖项。 使用此方法注册的启动脚本块发送到页面中，仅当正在注册块控件内<xref:System.Web.UI.UpdatePanel>正在更新的控件。 若要注册一个启动脚本块每次异步回发发生时，使用<xref:System.Web.UI.ScriptManager.RegisterStartupScript%28System.Web.UI.Page%2CSystem.Type%2CSystem.String%2CSystem.String%2CSystem.Boolean%29>此方法的重载。  
+ 您使用<xref:System.Web.UI.ScriptManager.RegisterStartupScript%2A>方法来注册一个启动脚本块用于处理在局部页面呈现，并兼容的页面没有任何 Microsoft Ajax 库依赖项。 使用此方法注册的启动脚本块发送到页面中，仅当正在注册该块控件内<xref:System.Web.UI.UpdatePanel>正在更新的控件。 若要注册一个启动脚本块每次异步回发发生时，使用<xref:System.Web.UI.ScriptManager.RegisterStartupScript%28System.Web.UI.Page%2CSystem.Type%2CSystem.String%2CSystem.String%2CSystem.Boolean%29>此方法的重载。  
   
- 如果你想要注册的启动脚本的不属于部分页面更新，如果你想要注册脚本仅一次初始页呈现期间使用<xref:System.Web.UI.ClientScriptManager.RegisterStartupScript%2A>方法<xref:System.Web.UI.ClientScriptManager>类。 你可以获取对引用<xref:System.Web.UI.ClientScriptManager>对象<xref:System.Web.UI.Page.ClientScript%2A>页属性。  
+ 如果你想要注册不属于部分页面更新，如果你想要注册的脚本只进行一次初始页呈现期间使用的启动脚本<xref:System.Web.UI.ClientScriptManager.RegisterStartupScript%2A>方法的<xref:System.Web.UI.ClientScriptManager>类。 可以获取对的引用<xref:System.Web.UI.ClientScriptManager>对象从<xref:System.Web.UI.Page.ClientScript%2A>页属性。  
   
- 由呈现的脚本块<xref:System.Web.UI.ScriptManager.RegisterStartupScript%2A>方法执行时在页面完成加载，但在该页面的客户端之前`onload`引发事件。 启动脚本块位于呈现的 ASP.NET 页的底部紧前面`</form>`标记。  
+ 呈现的脚本块<xref:System.Web.UI.ScriptManager.RegisterStartupScript%2A>方法执行时在页面完成加载，但在页面的客户端之前`onload`引发事件。 启动脚本块都只是与以前在呈现的 ASP.NET 页的底部`</form>`标记。  
   
- 通过使用已注册的启动脚本块<xref:System.Web.UI.ScriptManager.RegisterStartupScript%2A>并非一定要与它们注册的顺序相同的输出。 如果启动脚本块的顺序很重要，则使用<xref:System.Text.StringBuilder>对象，以便收集的脚本块中单个字符串中，然后将它们注册所有作为单个启动脚本。  
+ 使用注册的启动脚本块<xref:System.Web.UI.ScriptManager.RegisterStartupScript%2A>并非一定要在其中它们要注册的相同顺序输出。 如果启动脚本块的顺序很重要，使用<xref:System.Text.StringBuilder>对象收集单个字符串中的脚本块，然后将它们注册为单一的启动脚本的所有。  
   
  ]]></format>
         </remarks>
@@ -3145,6 +3211,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -3168,9 +3235,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 使用此方法以注册一个启动脚本块，它包括在每次发生异步回发。 若要注册脚本块内的控件<xref:System.Web.UI.UpdatePanel>控制，以便注册该脚本块时，才<xref:System.Web.UI.UpdatePanel>控件更新，请使用<xref:System.Web.UI.ScriptManager.RegisterStartupScript%28System.Web.UI.Control%2CSystem.Type%2CSystem.String%2CSystem.String%2CSystem.Boolean%29>此方法的重载。  
+ 使用此方法注册为包含每次异步回发发生时启动脚本块。 若要注册脚本块内的控件<xref:System.Web.UI.UpdatePanel>控件，以便注册该脚本块时，才<xref:System.Web.UI.UpdatePanel>控件更新，请使用<xref:System.Web.UI.ScriptManager.RegisterStartupScript%28System.Web.UI.Control%2CSystem.Type%2CSystem.String%2CSystem.String%2CSystem.Boolean%29>此方法的重载。  
   
- 如果你想要注册的启动脚本的不属于部分页面更新，如果你想要注册脚本仅一次初始页呈现期间使用<xref:System.Web.UI.ClientScriptManager.RegisterStartupScript%2A>方法<xref:System.Web.UI.ClientScriptManager>类。 你可以获取对引用<xref:System.Web.UI.ClientScriptManager>对象<xref:System.Web.UI.Page.ClientScript%2A>页属性。  
+ 如果你想要注册不属于部分页面更新，如果你想要注册的脚本只进行一次初始页呈现期间使用的启动脚本<xref:System.Web.UI.ClientScriptManager.RegisterStartupScript%2A>方法的<xref:System.Web.UI.ClientScriptManager>类。 可以获取对的引用<xref:System.Web.UI.ClientScriptManager>对象从<xref:System.Web.UI.Page.ClientScript%2A>页属性。  
   
  ]]></format>
         </remarks>
@@ -3187,6 +3254,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -3202,12 +3270,12 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 此方法由控件开发人员用来扩展<xref:System.Web.UI.ScriptManager>控件。  
+ 控件开发人员使用此方法来扩展<xref:System.Web.UI.ScriptManager>控件。  
   
  ]]></format>
         </remarks>
         <block subset="none" type="overrides">
-          <para>在重写此方法，调用基<see cref="M:System.Web.UI.ScriptManager.Render(System.Web.UI.HtmlTextWriter)" />方法，以便在页面上呈现定义类的客户端脚本。</para>
+          <para>当重写此方法，调用基<see cref="M:System.Web.UI.ScriptManager.Render(System.Web.UI.HtmlTextWriter)" />方法，以便在页面上呈现定义类的客户端脚本。</para>
         </block>
         <altmember cref="M:System.Web.UI.Control.Render(System.Web.UI.HtmlTextWriter)" />
       </Docs>
@@ -3222,6 +3290,7 @@
       <MemberType>Event</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -3247,6 +3316,7 @@
       <MemberType>Event</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -3263,7 +3333,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 引发此事件是一次的每个成员<xref:System.Web.UI.ScriptManager.Scripts%2A>在页面的集合<xref:System.Web.UI.Control.PreRender>事件。 使用此事件脚本呈现到页之前执行的任何更新。  
+ 将引发此事件一次的每个成员<xref:System.Web.UI.ScriptManager.Scripts%2A>期间，页面的<xref:System.Web.UI.Control.PreRender>事件。 使用此事件脚本呈现到页之前执行任何更新。  
   
  ]]></format>
         </remarks>
@@ -3279,6 +3349,7 @@
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -3308,7 +3379,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Web.UI.RoleServiceManager>此属性返回的对象表示向该页面注册角色服务。 可以在中定义的角色服务<xref:System.Web.UI.ScriptManager>控件或关联<xref:System.Web.UI.ScriptManagerProxy>控件。 你可以使用 ASP.NET 角色服务或使用自定义的角色服务。 你可以在标记中添加自定义的服务，通过包括`RoleService`内的元素`asp:ScriptManager`元素在页面上，如下面的示例中所示：  
+ <xref:System.Web.UI.RoleServiceManager>此属性返回的对象表示向该页面注册角色服务。 可以在中定义的角色服务<xref:System.Web.UI.ScriptManager>控件或关联<xref:System.Web.UI.ScriptManagerProxy>控件。 可以使用 ASP.NET 角色服务，也可以使用自定义的角色服务。 可以在标记中添加自定义服务，通过包括`RoleService`元素内的`asp:ScriptManager`元素在页面上，如下面的示例中所示：  
   
 ```  
 <asp:ScriptManager ID="SM1" runat="server">  
@@ -3332,6 +3403,7 @@
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -3352,19 +3424,19 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Web.UI.ScriptManager.ScriptMode%2A>属性指定是否<xref:System.Web.UI.ScriptManager>控件应呈现调试或发布的客户端脚本库的版本。 此值可以通过在配置文件中并在页面指令中设置的值被取代。  
+ <xref:System.Web.UI.ScriptManager.ScriptMode%2A>属性指定是否<xref:System.Web.UI.ScriptManager>控件应呈现调试版本还是发行版本的客户端脚本库。 此值可以通过在配置文件和页面指令中设置的值所取代。  
   
  下表列出了此属性的有效值。  
   
 |“值”|定义|  
 |-----------|----------------|  
-|<xref:System.Web.UI.ScriptMode.Auto>|客户端脚本库用于在网页上的调试版本时`retail`配置元素的属性设置为`false`。 否则，使用客户端脚本库的发行版本。|  
-|<xref:System.Web.UI.ScriptMode.Inherit>|当应用于<xref:System.Web.UI.ScriptManager.ScriptMode%2A>属性<xref:System.Web.UI.ScriptManager>对象，此值等同于<xref:System.Web.UI.ScriptMode.Auto>。|  
-|<xref:System.Web.UI.ScriptMode.Debug>|调试版本的客户端脚本库使用网页中，除非`retail`配置元素的属性设置为`true`。|  
-|<xref:System.Web.UI.ScriptMode.Release>|客户端脚本库的发行版本使用网页中，除非`retail`配置元素的属性设置为`false`。|  
+|<xref:System.Web.UI.ScriptMode.Auto>|在网页中使用库的客户端脚本的调试版本时`retail`配置元素的属性设置为`false`。 否则，使用客户端脚本库的发行版本。|  
+|<xref:System.Web.UI.ScriptMode.Inherit>|当应用于<xref:System.Web.UI.ScriptManager.ScriptMode%2A>的属性<xref:System.Web.UI.ScriptManager>对象，此值等同于<xref:System.Web.UI.ScriptMode.Auto>。|  
+|<xref:System.Web.UI.ScriptMode.Debug>|除非在网页中使用库的客户端脚本的调试版本`retail`配置元素的属性设置为`true`。|  
+|<xref:System.Web.UI.ScriptMode.Release>|客户端脚本库的发布版本使用在网页中，除非`retail`配置元素的属性设置为`false`。|  
   
 > [!NOTE]
->  `debug`指令的特性不会影响支持 Ajax 的 ASP.NET 应用程序。 <xref:System.Web.UI.ScriptManager>控件使用的设置仅在 Web.config 文件中并在其<xref:System.Web.UI.ScriptManager.IsDebuggingEnabled%2A>和<xref:System.Web.UI.ScriptManager.ScriptMode%2A>属性来确定是否呈现调试脚本。  
+>  `debug`指令的特性不会影响已启用 Ajax 的 ASP.NET 应用程序。 <xref:System.Web.UI.ScriptManager>控件使用的设置仅在 Web.config 文件，并在其<xref:System.Web.UI.ScriptManager.IsDebuggingEnabled%2A>和<xref:System.Web.UI.ScriptManager.ScriptMode%2A>属性以确定是否呈现调试脚本。  
   
  有关详细信息，请参阅[调试和跟踪 Ajax 应用程序概述](http://msdn.microsoft.com/library/92684ea0-7bb4-4a34-9203-3aa6394ce375)。  
   
@@ -3385,6 +3457,7 @@
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -3408,11 +3481,11 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Web.UI.ScriptManager.ScriptPath%2A>属性使您能够指定绝对、 相对的或在页面上阻止所有脚本的相对于应用程序 URL。 这包括与当前注册的自定义和第三方脚本块<xref:System.Web.UI.ScriptManager>实例。 <xref:System.Web.UI.ScriptManager.ScriptPath%2A>属性通常以声明方式的属性设置`ScriptManager`元素上的页中，但它可以还在代码中设置。  
+ <xref:System.Web.UI.ScriptManager.ScriptPath%2A>属性，可指定相对的是绝对或相对于应用程序的 URL 的所有脚本块的页上。 这包括与当前注册的自定义和第三方脚本块<xref:System.Web.UI.ScriptManager>实例。 <xref:System.Web.UI.ScriptManager.ScriptPath%2A>属性通常设置为的属性以声明方式`ScriptManager`元素上的页，但它可以也在代码中设置。  
   
- 如果`path`属性或<xref:System.Web.UI.ScriptReferenceBase.Path%2A>属性设置为<xref:System.Web.UI.ScriptReference>对象在<xref:System.Web.UI.ScriptManager.Scripts%2A>集合，则路径值将覆盖<xref:System.Web.UI.ScriptManager.ScriptPath%2A>值的<xref:System.Web.UI.ScriptReference>实例。  
+ 如果`path`属性或<xref:System.Web.UI.ScriptReferenceBase.Path%2A>属性设置为<xref:System.Web.UI.ScriptReference>对象中<xref:System.Web.UI.ScriptManager.Scripts%2A>集合中，路径值将覆盖<xref:System.Web.UI.ScriptManager.ScriptPath%2A>的值<xref:System.Web.UI.ScriptReference>实例。  
   
- 如果没有<xref:System.Web.UI.ScriptReferenceBase.Path%2A>指定值，<xref:System.Web.UI.ScriptManager>控件搜索由定义的目录<xref:System.Web.UI.ScriptManager.ScriptPath%2A>属性并解析脚本引用其<xref:System.Web.UI.ScriptReference.Name%2A>或<xref:System.Web.UI.ScriptReference.Assembly%2A>属性。  
+ 如果没有<xref:System.Web.UI.ScriptReferenceBase.Path%2A>指定值，则<xref:System.Web.UI.ScriptManager>控制搜索由定义的目录<xref:System.Web.UI.ScriptManager.ScriptPath%2A>属性，而解析脚本引用由其<xref:System.Web.UI.ScriptReference.Name%2A>或<xref:System.Web.UI.ScriptReference.Assembly%2A>属性。  
   
  ]]></format>
         </remarks>
@@ -3441,12 +3514,12 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 静态<xref:System.Web.UI.ScriptManager.ScriptResourceMapping%2A>属性返回<xref:System.Web.UI.ScriptResourceMapping>可以包含表示脚本资源 （脚本重定向） 的位置的映射的集合对象。 可以根据名称或名称/程序集对映射的映射此集合，它可以指向<xref:System.Web.UI.ScriptResourceDefinition>对象。  
+ 静态<xref:System.Web.UI.ScriptManager.ScriptResourceMapping%2A>属性返回<xref:System.Web.UI.ScriptResourceMapping>可以包含代表的脚本资源 （脚本重定向） 的位置的映射的集合对象。 可以根据名称或名称/程序集对映射的映射此集合，它可以指向<xref:System.Web.UI.ScriptResourceDefinition>对象。  
   
    
   
 ## Examples  
- 下面的示例演示如何添加<xref:System.Web.UI.ScriptResourceDefinition>可供引用的对象<xref:System.Web.UI.ScriptManager>对象。 将以下代码添加到 Global.asax 文件`Application_Start`事件。  
+ 下面的示例演示如何将添加<xref:System.Web.UI.ScriptResourceDefinition>，可以引用的对象<xref:System.Web.UI.ScriptManager>对象。 将以下代码添加到 Global.asax 文件`Application_Start`事件。  
   
 ```csharp  
 ScriptResourceDefinition myScriptResDef = new ScriptResourceDefinition();  
@@ -3466,7 +3539,7 @@ myScriptResDef.CdnDebugPath = "http://ajax.microsoft.com/ajax/jQuery/jquery-1.4.
 ScriptManager.ScriptResourceMapping.AddDefinition("jquery", Nothing, myScriptResDef)  
 ```  
   
- 在 ASP.NET Web 窗体页面 （.aspx 文件） 的标记，添加以下标记内的`form`元素并且在任何元素或使用 jQuery 脚本的代码之前。  
+ 在 ASP.NET Web 窗体页 （.aspx 文件） 的标记，添加以下标记内的`form`元素之前的任何元素或使用 jQuery 脚本的代码。  
   
 ```  
 <asp:ScriptManager ID="sm1" runat="server">  
@@ -3490,6 +3563,7 @@ ScriptManager.ScriptResourceMapping.AddDefinition("jquery", Nothing, myScriptRes
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -3520,9 +3594,9 @@ ScriptManager.ScriptResourceMapping.AddDefinition("jquery", Nothing, myScriptRes
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Web.UI.ScriptReferenceCollection>此属性返回的对象是一个集合的<xref:System.Web.UI.ScriptReference>对象，其中每个表示一个脚本文件。 集合包含针对 Ajax 功能，则 ASP.NET 需要的所有脚本文件和自定义脚本文件的引用。 可以在定义自定义脚本文件来呈现<xref:System.Web.UI.ScriptManager>控件或关联<xref:System.Web.UI.ScriptManagerProxy>控件。  
+ <xref:System.Web.UI.ScriptReferenceCollection>此属性返回的对象是一系列<xref:System.Web.UI.ScriptReference>对象，其中每个表示脚本文件。 该集合包括对 ASP.NET Ajax 功能所需的所有脚本文件和自定义脚本文件的引用。 可以在中定义自定义脚本文件来呈现<xref:System.Web.UI.ScriptManager>控件或关联<xref:System.Web.UI.ScriptManagerProxy>控件。  
   
- 您可以通过添加脚本文件添加到标记中的集合`asp:ScriptReference`元素与`Scripts`节点`asp:ScriptManager`元素在页面上，如下面的示例中所示。  
+ 您可以通过添加脚本文件添加到标记中的集合`asp:ScriptReference`元素与`Scripts`节点内的`asp:ScriptManager`元素在页面上，如下面的示例中所示。  
   
 ```  
 <asp:ScriptManager ID="SM1" runat="server">  
@@ -3532,11 +3606,11 @@ ScriptManager.ScriptResourceMapping.AddDefinition("jquery", Nothing, myScriptRes
 </asp:ScriptManager>  
 ```  
   
- 你还可以添加<xref:System.Web.UI.ScriptReference>对象传递给<xref:System.Web.UI.ScriptManager.Scripts%2A>以编程方式通过使用集合<xref:System.Collections.ObjectModel.Collection%601.Add%2A>方法<xref:System.Web.UI.ScriptReferenceCollection>类。  
+ 您还可以添加<xref:System.Web.UI.ScriptReference>对象传递给<xref:System.Web.UI.ScriptManager.Scripts%2A>以编程方式使用集合<xref:System.Collections.ObjectModel.Collection%601.Add%2A>方法的<xref:System.Web.UI.ScriptReferenceCollection>类。  
   
  <xref:System.Web.UI.ScriptManager>控件在控件的过程注册脚本文件<xref:System.Web.UI.Control.PreRender>事件。  
   
- <xref:System.Web.UI.ScriptManager.Scripts%2A>集合不包含的核心 Microsoft Ajax Library 脚本。 核心库中的脚本可以呈现自动保存功能。它们无需向注册<xref:System.Web.UI.ScriptManager>控件。 但是，如果你想要重写核心脚本或任何控制脚本并替换该脚本的不同版本，则可以添加到你的版本<xref:System.Web.UI.ScriptManager.Scripts%2A>集合。  
+ <xref:System.Web.UI.ScriptManager.Scripts%2A>集合不包含核心 Microsoft Ajax Library 脚本。 核心库中的脚本可以自动呈现它们不需要使用注册<xref:System.Web.UI.ScriptManager>控件。 但是，如果你想要重写 core 脚本或任何控制脚本并将不同版本的脚本，则可以添加到你的版本<xref:System.Web.UI.ScriptManager.Scripts%2A>集合。  
   
  ]]></format>
         </remarks>
@@ -3552,6 +3626,7 @@ ScriptManager.ScriptResourceMapping.AddDefinition("jquery", Nothing, myScriptRes
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -3581,9 +3656,9 @@ ScriptManager.ScriptResourceMapping.AddDefinition("jquery", Nothing, myScriptRes
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Web.UI.ServiceReferenceCollection>此属性返回的对象是一个集合的<xref:System.Web.UI.ServiceReference>对象，其中每个表示 Web 服务向注册<xref:System.Web.UI.ScriptManager>控件。 你可以定义中的服务<xref:System.Web.UI.ScriptManager>控件或关联<xref:System.Web.UI.ScriptManagerProxy>控件。  
+ <xref:System.Web.UI.ServiceReferenceCollection>此属性返回的对象是一系列<xref:System.Web.UI.ServiceReference>对象，其中每个表示注册的 Web 服务<xref:System.Web.UI.ScriptManager>控件。 您可以定义中的服务<xref:System.Web.UI.ScriptManager>控件或关联<xref:System.Web.UI.ScriptManagerProxy>控件。  
   
- 可以通过添加到标记中的集合中添加服务`asp:ServiceReference`元素`Services`内的元素`asp:ScriptManager`实例在页上，如以下示例所示。  
+ 您可以通过添加服务添加到标记中的集合`asp:ServiceReference`元素`Services`元素内的`asp:ScriptManager`实例在页上，如下面的示例中所示。  
   
 ```  
 <asp:ScriptManager ID="SM1" runat="server">  
@@ -3593,7 +3668,7 @@ ScriptManager.ScriptResourceMapping.AddDefinition("jquery", Nothing, myScriptRes
 </asp:ScriptManager>  
 ```  
   
- 你可以以编程方式添加<xref:System.Web.UI.ServiceReference>对象传递给<xref:System.Web.UI.ScriptManager.Services%2A>使用进行收集<xref:System.Collections.ObjectModel.Collection%601.Add%2A>方法<xref:System.Web.UI.ServiceReferenceCollection>类。  
+ 您可以以编程方式添加<xref:System.Web.UI.ServiceReference>对象传递给<xref:System.Web.UI.ScriptManager.Services%2A>通过使用集合<xref:System.Collections.ObjectModel.Collection%601.Add%2A>方法的<xref:System.Web.UI.ServiceReferenceCollection>类。  
   
  注册服务<xref:System.Web.UI.ScriptManager>在页面的<xref:System.Web.UI.Control.PreRender>生命周期阶段。  
   
@@ -3620,6 +3695,7 @@ ScriptManager.ScriptResourceMapping.AddDefinition("jquery", Nothing, myScriptRes
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -3635,7 +3711,7 @@ ScriptManager.ScriptResourceMapping.AddDefinition("jquery", Nothing, myScriptRes
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Web.UI.ScriptManager.SetFocus%2A>方法的工作原理类似<xref:System.Web.UI.Page.SetFocus%2A>方法<xref:System.Web.UI.Page>类。 这两种方法使具有指定 ID 控件在网页上的活动控件。 <xref:System.Web.UI.ScriptManager.SetFocus%2A>方法<xref:System.Web.UI.ScriptManager>类用于将焦点设置异步回发期间。 在回发和首次呈现页时，期间<xref:System.Web.UI.ScriptManager.SetFocus%2A>方法调用<xref:System.Web.UI.Page.SetFocus%2A>方法<xref:System.Web.UI.Page>类。  
+ <xref:System.Web.UI.ScriptManager.SetFocus%2A>方法的工作方式类似于<xref:System.Web.UI.Page.SetFocus%2A>方法<xref:System.Web.UI.Page>类。 这两种方法使具有指定 ID 的控件在网页上的活动控件。 <xref:System.Web.UI.ScriptManager.SetFocus%2A>方法的<xref:System.Web.UI.ScriptManager>类用于在异步回发过程中设置焦点。 在回发和首次呈现页面时，过程<xref:System.Web.UI.ScriptManager.SetFocus%2A>方法调用<xref:System.Web.UI.Page.SetFocus%2A>方法的<xref:System.Web.UI.Page>类。  
   
  如果有多个调用<xref:System.Web.UI.ScriptManager.SetFocus%2A>方法，最后一次调用中的控件接收焦点。  
   
@@ -3654,6 +3730,7 @@ ScriptManager.ScriptResourceMapping.AddDefinition("jquery", Nothing, myScriptRes
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -3669,9 +3746,9 @@ ScriptManager.ScriptResourceMapping.AddDefinition("jquery", Nothing, myScriptRes
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Web.UI.ScriptManager.SetFocus%2A>方法的工作原理类似<xref:System.Web.UI.Page.SetFocus%2A>方法<xref:System.Web.UI.Page>类。 这两种方法使指定的控件在网页上的活动控件。 <xref:System.Web.UI.ScriptManager.SetFocus%2A>方法<xref:System.Web.UI.ScriptManager>类用于将焦点设置异步回发期间。 在回发和首次呈现页时，期间<xref:System.Web.UI.ScriptManager.SetFocus%2A>方法调用<xref:System.Web.UI.Page.SetFocus%2A>方法<xref:System.Web.UI.Page>类。  
+ <xref:System.Web.UI.ScriptManager.SetFocus%2A>方法的工作方式类似于<xref:System.Web.UI.Page.SetFocus%2A>方法<xref:System.Web.UI.Page>类。 这两种方法使指定的控件在网页上的活动控件。 <xref:System.Web.UI.ScriptManager.SetFocus%2A>方法的<xref:System.Web.UI.ScriptManager>类用于在异步回发过程中设置焦点。 在回发和首次呈现页面时，过程<xref:System.Web.UI.ScriptManager.SetFocus%2A>方法调用<xref:System.Web.UI.Page.SetFocus%2A>方法的<xref:System.Web.UI.Page>类。  
   
- 如果有多个调用<xref:System.Web.UI.ScriptManager.SetFocus%2A>方法，在最后一次调用中指定的控件接收焦点。  
+ 如果有多个调用<xref:System.Web.UI.ScriptManager.SetFocus%2A>方法，最后一次调用中指定的控件接收焦点。  
   
  ]]></format>
         </remarks>
@@ -3689,6 +3766,7 @@ ScriptManager.ScriptResourceMapping.AddDefinition("jquery", Nothing, myScriptRes
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -3709,9 +3787,9 @@ ScriptManager.ScriptResourceMapping.AddDefinition("jquery", Nothing, myScriptRes
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 如果<xref:System.Web.UI.ScriptManager.EnablePartialRendering%2A>属性设置为`false`、<xref:System.Web.UI.ScriptManager.SupportsPartialRendering%2A>属性返回`false`。  
+ 如果<xref:System.Web.UI.ScriptManager.EnablePartialRendering%2A>属性设置为`false`，则<xref:System.Web.UI.ScriptManager.SupportsPartialRendering%2A>属性返回`false`。  
   
- 若要确定是否支持局部页面呈现的默认检查返回`true`当以下条件都为真：  
+ 若要确定是否支持局部页面呈现的默认检查返回`true`满足以下条件时：  
   
 -   <xref:System.Web.Configuration.HttpCapabilitiesBase.W3CDomVersion%2A>属性值必须大于或等于 1.0。  
   
@@ -3721,7 +3799,7 @@ ScriptManager.ScriptResourceMapping.AddDefinition("jquery", Nothing, myScriptRes
   
  当<xref:System.Web.UI.ScriptManager.SupportsPartialRendering%2A>属性显式设置，则不使用这些检查。  
   
- 控件开发人员应使用<xref:System.Web.UI.ScriptManager.SupportsPartialRendering%2A>属性来确定他们是否应支持局部页面呈现。  
+ 控件开发人员应使用<xref:System.Web.UI.ScriptManager.SupportsPartialRendering%2A>属性来确定其是否应支持局部页面呈现。  
   
  ]]></format>
         </remarks>
@@ -3740,6 +3818,7 @@ ScriptManager.ScriptResourceMapping.AddDefinition("jquery", Nothing, myScriptRes
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -3775,6 +3854,7 @@ ScriptManager.ScriptResourceMapping.AddDefinition("jquery", Nothing, myScriptRes
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -3804,6 +3884,7 @@ ScriptManager.ScriptResourceMapping.AddDefinition("jquery", Nothing, myScriptRes
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -3847,6 +3928,7 @@ ScriptManager.ScriptResourceMapping.AddDefinition("jquery", Nothing, myScriptRes
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -3873,6 +3955,7 @@ ScriptManager.ScriptResourceMapping.AddDefinition("jquery", Nothing, myScriptRes
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -3903,6 +3986,7 @@ ScriptManager.ScriptResourceMapping.AddDefinition("jquery", Nothing, myScriptRes
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -3931,6 +4015,7 @@ ScriptManager.ScriptResourceMapping.AddDefinition("jquery", Nothing, myScriptRes
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -3957,6 +4042,7 @@ ScriptManager.ScriptResourceMapping.AddDefinition("jquery", Nothing, myScriptRes
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -3981,6 +4067,7 @@ ScriptManager.ScriptResourceMapping.AddDefinition("jquery", Nothing, myScriptRes
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -4011,6 +4098,7 @@ ScriptManager.ScriptResourceMapping.AddDefinition("jquery", Nothing, myScriptRes
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -4037,6 +4125,7 @@ ScriptManager.ScriptResourceMapping.AddDefinition("jquery", Nothing, myScriptRes
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -4068,6 +4157,7 @@ ScriptManager.ScriptResourceMapping.AddDefinition("jquery", Nothing, myScriptRes
       </Implements>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -4090,6 +4180,7 @@ ScriptManager.ScriptResourceMapping.AddDefinition("jquery", Nothing, myScriptRes
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -4121,6 +4212,7 @@ ScriptManager.ScriptResourceMapping.AddDefinition("jquery", Nothing, myScriptRes
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -4145,6 +4237,7 @@ ScriptManager.ScriptResourceMapping.AddDefinition("jquery", Nothing, myScriptRes
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -4155,7 +4248,7 @@ ScriptManager.ScriptResourceMapping.AddDefinition("jquery", Nothing, myScriptRes
           <AttributeName>System.ComponentModel.DesignerSerializationVisibility</AttributeName>
         </Attribute>
         <Attribute>
-          <AttributeName>System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)</AttributeName>
+          <AttributeName>System.ComponentModel.EditorBrowsable</AttributeName>
         </Attribute>
       </Attributes>
       <ReturnValue>
@@ -4168,7 +4261,7 @@ ScriptManager.ScriptResourceMapping.AddDefinition("jquery", Nothing, myScriptRes
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Web.UI.Control.Visible%2A>属性被重写，<xref:System.Web.UI.ScriptManager>类以防止设置此值。 A<xref:System.NotImplementedException>如果一个值分配给此属性，则会发生错误。  
+ <xref:System.Web.UI.Control.Visible%2A>中重写属性<xref:System.Web.UI.ScriptManager>类可以禁止设置此值。 一个<xref:System.NotImplementedException>如果一个值分配给此属性会发生错误。  
   
  ]]></format>
         </remarks>

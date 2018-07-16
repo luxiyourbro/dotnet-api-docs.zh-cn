@@ -1,17 +1,18 @@
 <Type Name="Mutex" FullName="System.Threading.Mutex">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="6bce0feaf14f66f8608164cfa777620d7f3b329f" />
-    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
+    <Meta Name="ms.openlocfilehash" Value="cd4c660e875cb947efe1e1b0158a6ea434c2734a" />
+    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="zh-CN" />
-    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
-    <Meta Name="ms.locfileid" Value="30530991" />
+    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
+    <Meta Name="ms.locfileid" Value="37609142" />
   </Metadata>
   <TypeSignature Language="C#" Value="public sealed class Mutex : System.Threading.WaitHandle" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed beforefieldinit Mutex extends System.Threading.WaitHandle" />
   <TypeSignature Language="DocId" Value="T:System.Threading.Mutex" />
   <TypeSignature Language="VB.NET" Value="Public NotInheritable Class Mutex&#xA;Inherits WaitHandle" />
   <TypeSignature Language="C++ CLI" Value="public ref class Mutex sealed : System::Threading::WaitHandle" />
+  <TypeSignature Language="F#" Value="type Mutex = class&#xA;    inherit WaitHandle" />
   <AssemblyInfo>
     <AssemblyName>System.Threading</AssemblyName>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
@@ -21,6 +22,8 @@
   </AssemblyInfo>
   <AssemblyInfo>
     <AssemblyName>mscorlib</AssemblyName>
+    <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
     <AssemblyVersion>2.0.5.0</AssemblyVersion>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
   </AssemblyInfo>
@@ -38,52 +41,52 @@
     </Attribute>
   </Attributes>
   <Docs>
-    <summary>一个同步基元，也可用于进程间同步。</summary>
+    <summary>A synchronization primitive that can also be used for interprocess synchronization.</summary>
     <remarks>
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 当两个或多个线程需要进行在同一时间访问共享的资源时，系统将需要使用同步机制来确保一次只有一个线程使用的资源。 <xref:System.Threading.Mutex> 是一个同步基元，授予对共享资源只有一个线程的独占访问权。 如果线程获取互斥体，想要获取该互斥体的第二个线程则挂起，直到第一个线程释放互斥体。  
+ 当两个或多个线程需要在同一时间访问共享的资源时，系统将需要有同步机制来确保一次只有一个线程使用的资源。 <xref:System.Threading.Mutex> 是一个同步基元，授予对共享资源为只有一个线程独占访问权限。 如果某一线程获取互斥体，想要获取该互斥体的第二个线程会挂起，直到第一个线程释放互斥体。  
   
 > [!IMPORTANT]
->  此类型实现<xref:System.IDisposable>接口。 在使用完类型后，您应直接或间接释放类型。 若要直接释放类型，调用其<xref:System.IDisposable.Dispose%2A>中的方法`try` / `catch`块。 若要间接释放类型，请使用 `using`（在 C# 中）或 `Using`（在 Visual Basic 中）等语言构造。 有关详细信息，请参阅中的"使用实现 IDisposable 的对象"部分<xref:System.IDisposable>接口主题。  
+>  此类型实现<xref:System.IDisposable>接口。 在使用完类型后，您应直接或间接释放类型。 若要直接释放类型，调用其<xref:System.IDisposable.Dispose%2A>中的方法`try` / `catch`块。 若要间接释放类型，请使用 `using`（在 C# 中）或 `Using`（在 Visual Basic 中）等语言构造。 有关详细信息，请参阅中的"使用对象实现 IDisposable"一节<xref:System.IDisposable>接口主题。  
   
- 你可以使用<xref:System.Threading.WaitHandle.WaitOne%2A?displayProperty=nameWithType>请求所有权的互斥体的方法。 调用线程受到阻止，直到出现以下之一：  
+ 可以使用<xref:System.Threading.WaitHandle.WaitOne%2A?displayProperty=nameWithType>来请求所有权的互斥体的方法。 调用线程受到阻止，直到发生下列情况之一：  
   
--   互斥体处于有信号状态，以指示它不拥有。 在此情况下，<xref:System.Threading.WaitHandle.WaitOne%2A>方法返回`true`，调用线程互斥体的所有权，并访问受互斥体的资源。 线程完成后访问资源，必须调用<xref:System.Threading.Mutex.ReleaseMutex%2A>方法来释放互斥体的所有权。 示例部分中的第一个示例说明了此模式。  
+-   互斥体是发出信号，以指示它不属于。 在此情况下，<xref:System.Threading.WaitHandle.WaitOne%2A>方法将返回`true`，调用线程是互斥体的所有权，并访问受该互斥体的资源。 完成后访问资源，必须调用线程<xref:System.Threading.Mutex.ReleaseMutex%2A>方法来释放 mutex 的所有权。 示例部分中的第一个示例说明了此模式。  
   
--   对的调用中指定的超时间隔<xref:System.Threading.WaitHandle.WaitOne%2A>方法具有`millisecondsTimeout`或`timeout`参数已过。 在此情况下，<xref:System.Threading.WaitHandle.WaitOne%2A>方法返回`false`，并调用线程进行任何进一步尝试获取互斥体的所有权。 在这种情况下，应构建代码，以便对调用线程由 mutex 保护的资源的访问被拒绝。 线程永远不会获取互斥体的所有权，因为它不能调用<xref:System.Threading.Mutex.ReleaseMutex%2A>方法。 示例部分中的第二个示例说明了此模式。  
+-   对的调用中指定的超时间隔<xref:System.Threading.WaitHandle.WaitOne%2A>具有方法`millisecondsTimeout`或`timeout`参数已过。 在此情况下，<xref:System.Threading.WaitHandle.WaitOne%2A>方法将返回`false`，并调用线程不会进一步尝试获取 mutex 的所有权。 在这种情况下，您应构建你的代码，以便由 mutex 保护资源的访问权限被拒绝对调用线程。 线程永远不会获取 mutex 的所有权，因为它不能调用<xref:System.Threading.Mutex.ReleaseMutex%2A>方法。 示例部分中的第二个示例说明了此模式。  
   
- <xref:System.Threading.Mutex>类强制线程标识，因此只能由获得它的线程可以释放互斥体。 与此相反，<xref:System.Threading.Semaphore>类不会强制线程标识。 此外可以跨应用程序域边界传递互斥体。  
+ <xref:System.Threading.Mutex>类强制线程标识，因此只能由获得它的线程可以释放互斥体。 与此相反，<xref:System.Threading.Semaphore>类不会强制线程标识。 此外可以跨应用程序域边界传递了互斥体。  
   
- 拥有互斥体的线程可以请求中重复调用相同的互斥体<xref:System.Threading.WaitHandle.WaitOne%2A>而不会阻止其执行。 但是，调用线程必须<xref:System.Threading.Mutex.ReleaseMutex%2A>方法相同数量的次数以释放互斥体的所有权。  
+ 拥有 mutex 的线程可以请求中重复调用相同的互斥体<xref:System.Threading.WaitHandle.WaitOne%2A>而不会阻止其执行。 但是，调用线程必须<xref:System.Threading.Mutex.ReleaseMutex%2A>方法相同数量的次数与释放 mutex 的所有权。  
   
- 因为<xref:System.Threading.Mutex>类继承自<xref:System.Threading.WaitHandle>，你还可以调用静态<xref:System.Threading.WaitHandle.WaitAll%2A?displayProperty=nameWithType>和<xref:System.Threading.WaitHandle.WaitAny%2A?displayProperty=nameWithType>方法对受保护资源的访问进行同步。  
+ 因为<xref:System.Threading.Mutex>类继承自<xref:System.Threading.WaitHandle>，你还可以调用静态<xref:System.Threading.WaitHandle.WaitAll%2A?displayProperty=nameWithType>和<xref:System.Threading.WaitHandle.WaitAny%2A?displayProperty=nameWithType>方法来同步受保护资源的访问权限。  
   
- 如果某个线程终止时拥有互斥体，则认为该 mutex 来放弃。 互斥体的状态设置为终止状态，并且下一步正在等待的线程获取所有权。 从 2.0 版.NET Framework 中，开始<xref:System.Threading.AbandonedMutexException>获取放弃的 mutex 的下一个线程中引发。 在.NET Framework 2.0 版中之前, 没有引发异常。  
+ 如果线程终止时拥有互斥体，则认为该 mutex 已放弃。 互斥体的状态设置为终止状态，并且下一个等待线程获取所有权。 从.NET Framework 的版本 2.0<xref:System.Threading.AbandonedMutexException>获取已放弃的互斥体的下一个线程中引发。 在.NET Framework 2.0 版中之前, 未不引发任何异常。  
   
 > [!CAUTION]
->  放弃的 mutex 通常表明代码中的存在严重错误。 如果一个线程退出时不释放互斥体，由 mutex 保护的数据结构可能不处于一致状态。 下一个请求 mutex 所有权的线程可以处理此异常并继续操作，如果可以验证这些数据结构的完整性。  
+>  放弃的 mutex 通常表明代码中的存在严重错误。 线程退出时不释放互斥体，由 mutex 保护的数据结构不可能处于一致状态。 为请求 mutex 所有权的下一个线程可以处理此异常并继续操作，如果可以验证数据结构的完整性。  
   
  对于系统范围的 mutex，放弃的 mutex 可能指示应用程序已突然终止（例如，通过使用 Windows 任务管理器终止）。  
   
- 互斥体，有两种类型： 局部互斥，是未命名的且名为系统互斥体。 本地 mutex 仅存在于进程中。 它可供你具有对引用的过程中的任何线程<xref:System.Threading.Mutex>表示互斥体的对象。 每个未命名<xref:System.Threading.Mutex>对象表示单独的局部互斥体。  
+ Mutex 有两种类型： 本地 mutex，未命名，并命名系统 mutex。 本地 mutex 仅存在于进程中。 可由您具有对引用的过程中的任何线程<xref:System.Threading.Mutex>表示该互斥体的对象。 每个未命名<xref:System.Threading.Mutex>对象表示单独的本地 mutex。  
   
- 已命名的系统互斥体，可以看到在整个操作系统，也可用于同步进程的活动。 你可以创建<xref:System.Threading.Mutex>表示已命名的系统互斥体通过接受的名称的构造函数的对象。 可以在同一时间，创建该操作系统对象，或它可以在创建之前存在<xref:System.Threading.Mutex>对象。 可以创建多个表示同一命名系统 mutex 的 <xref:System.Threading.Mutex> 对象，还能使用 <xref:System.Threading.Mutex.OpenExisting%2A> 方法打开现有的命名系统 mutex。  
+ 已命名的系统互斥体，显示整个操作系统，可用于同步进程的活动。 您可以创建<xref:System.Threading.Mutex>使用接受名称的构造函数表示命名的系统互斥体对象。 可以在同一时间创建操作系统对象也可以在创建之前存在<xref:System.Threading.Mutex>对象。 可以创建多个表示同一命名系统 mutex 的 <xref:System.Threading.Mutex> 对象，还能使用 <xref:System.Threading.Mutex.OpenExisting%2A> 方法打开现有的命名系统 mutex。  
   
 > [!NOTE]
->  运行终端服务的服务器，请在已命名的系统互斥体可以包含两个级别的可见性。 如果其名称以前缀"全局\\"，互斥体是在所有终端服务器会话中可见。 如果其名称以前缀"本地\\"，互斥体是仅在终端服务器会话中可见则创建它。 在这种情况下，具有相同名称的单独 mutex 可以存在于每个服务器上的其他终端服务器会话。 如果你创建命名互斥体时，你不会指定前缀，它将前缀"本地\\"。 终端服务器会话中，其名称只是其前缀不同的两个互斥体是单独的互斥体，且都是可见的所有进程在终端服务器会话中。 也就是说，前缀名称"全局\\"和"本地\\"描述相对于终端服务器会话、 不相对于进程的互斥体名称的作用域。  
+>  在运行终端服务的服务器，命名的系统互斥体可以包含两个级别的可见性。 如果其名称以前缀开头"Global\\"，互斥体是在所有终端服务器会话中可见。 如果其名称以前缀开头"本地\\"，互斥体是仅在终端服务器会话中可见的创建位置。 在这种情况下，具有相同名称单独的互斥锁可以存在于每个服务器上的其他终端服务器会话。 如果您不指定前缀创建已命名的互斥体时，它将前缀"本地\\"。 终端服务器会话中，只能由其前缀的名称不同的两个 mutex 有单独的互斥体，且都在终端服务器会话中对所有进程可见。 也就是说，前缀名称"Global\\"和"本地\\"描述相对于终端服务器会话、 不相对于进程的互斥体名称的作用域。  
   
 [!INCLUDE[backslash-mutex-note](~/includes/backslash-mutex.md)]
 
   
 ## Examples  
- 此示例演示如何本地<xref:System.Threading.Mutex>对象用于对受保护资源的访问进行同步。 因为每个调用线程已被阻止，直到它将获取互斥体的所有权，则必须调用<xref:System.Threading.Mutex.ReleaseMutex%2A>方法来释放线程的所有权。  
+ 此示例演示如何本地<xref:System.Threading.Mutex>对象用于同步对受保护资源的访问。 因为每个调用线程被阻止，直到它获取 mutex 的所有权，因此它必须调用<xref:System.Threading.Mutex.ReleaseMutex%2A>方法来释放所有权的线程。  
   
  [!code-csharp[System.Threading.Mutex.Class#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.threading.mutex.class/cs/example1.cs#1)]
  [!code-vb[System.Threading.Mutex.Class#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.threading.mutex.class/vb/example1.vb#1)]  
   
- 在以下示例中，每个线程调用<xref:System.Threading.WaitHandle.WaitOne%28System.Int32%29>方法以获取互斥体。 如果达到超时间隔，该方法返回`false`，和线程既不获取互斥体也不获取互斥锁保护的资源的访问权限。 <xref:System.Threading.Mutex.ReleaseMutex%2A>只能由获取互斥体的线程调用方法。  
+ 在以下示例中，每个线程调用<xref:System.Threading.WaitHandle.WaitOne%28System.Int32%29>方法以获取互斥体。 如果达到超时间隔，该方法返回`false`，并在线程获取 mutex 既不获得互斥锁保护的资源访问权。 <xref:System.Threading.Mutex.ReleaseMutex%2A>只能由获得该互斥体的线程调用方法。  
   
  [!code-csharp[System.Threading.Mutex.Class#2](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.threading.mutex.class/cs/example2.cs#2)]
  [!code-vb[System.Threading.Mutex.Class#2](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.threading.mutex.class/vb/example2.vb#2)]  
@@ -103,7 +106,7 @@
         <AssemblyVersion>4.1.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Docs>
-        <summary>初始化 <see cref="T:System.Threading.Mutex" /> 类的新实例。</summary>
+        <summary>Initializes a new instance of the <see cref="T:System.Threading.Mutex" /> class.</summary>
       </Docs>
     </MemberGroup>
     <Member MemberName=".ctor">
@@ -122,6 +125,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -136,17 +141,17 @@
       </Attributes>
       <Parameters />
       <Docs>
-        <summary>使用默认属性初始化 <see cref="T:System.Threading.Mutex" /> 类的新实例。</summary>
+        <summary>Initializes a new instance of the <see cref="T:System.Threading.Mutex" /> class with default properties.</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 调用此构造函数重载是调用相同<xref:System.Threading.Mutex.%23ctor%28System.Boolean%29>构造函数重载并指定`false`的互斥体的初始所有权。 也就是说，调用线程不拥有互斥体。  
+ 调用此构造函数重载等同于调用<xref:System.Threading.Mutex.%23ctor%28System.Boolean%29>构造函数重载并指定`false`互斥体的初始所有权。 也就是说，调用线程不拥有该互斥体。  
   
    
   
 ## Examples  
- 下面的代码示例演示如何本地<xref:System.Threading.Mutex>对象用于对受保护资源的访问进行同步。 创建互斥体的线程不最初拥有其信息。  
+ 下面的代码示例演示如何本地<xref:System.Threading.Mutex>对象用于同步对受保护资源的访问。 创建互斥体的线程不最初拥有其信息。  
   
  [!code-cpp[System.Threading.Mutex Default Ctor Example#1](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Threading.Mutex Default Ctor Example/CPP/class1.cpp#1)]
  [!code-csharp[System.Threading.Mutex Default Ctor Example#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.Mutex Default Ctor Example/CS/class1.cs#1)]
@@ -162,6 +167,7 @@
       <MemberSignature Language="DocId" Value="M:System.Threading.Mutex.#ctor(System.Boolean)" />
       <MemberSignature Language="VB.NET" Value="Public Sub New (initiallyOwned As Boolean)" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; Mutex(bool initiallyOwned);" />
+      <MemberSignature Language="F#" Value="new System.Threading.Mutex : bool -&gt; System.Threading.Mutex" Usage="new System.Threading.Mutex initiallyOwned" />
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Threading</AssemblyName>
@@ -172,6 +178,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -189,13 +197,13 @@
       </Parameters>
       <Docs>
         <param name="initiallyOwned">
-          如果给调用线程赋予互斥体的初始所属权，则为 <see langword="true" />；否则为 <see langword="false" />。</param>
-        <summary>使用 Boolean 值（指示调用线程是否应具有互斥体的初始所有权）初始化 <see cref="T:System.Threading.Mutex" /> 类的新实例。</summary>
+          <see langword="true" /> to give the calling thread initial ownership of the mutex; otherwise, <see langword="false" />.</param>
+        <summary>Initializes a new instance of the <see cref="T:System.Threading.Mutex" /> class with a Boolean value that indicates whether the calling thread should have initial ownership of the mutex.</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Examples  
- 下面的代码示例演示如何本地<xref:System.Threading.Mutex>对象用于对受保护资源的访问进行同步。 创建的线程<xref:System.Threading.Mutex>最初拥有它。  
+ 下面的代码示例演示如何本地<xref:System.Threading.Mutex>对象用于同步对受保护资源的访问。 创建的线程<xref:System.Threading.Mutex>最初拥有它。  
   
  [!code-cpp[System.Threading.Mutex 1Arg Ctor Example#1](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Threading.Mutex 1Arg Ctor Example/CPP/class1.cpp#1)]
  [!code-csharp[System.Threading.Mutex 1Arg Ctor Example#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.Mutex 1Arg Ctor Example/CS/class1.cs#1)]
@@ -211,6 +219,7 @@
       <MemberSignature Language="DocId" Value="M:System.Threading.Mutex.#ctor(System.Boolean,System.String)" />
       <MemberSignature Language="VB.NET" Value="Public Sub New (initiallyOwned As Boolean, name As String)" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; Mutex(bool initiallyOwned, System::String ^ name);" />
+      <MemberSignature Language="F#" Value="new System.Threading.Mutex : bool * string -&gt; System.Threading.Mutex" Usage="new System.Threading.Mutex (initiallyOwned, name)" />
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Threading</AssemblyName>
@@ -221,6 +230,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -239,35 +250,34 @@
       </Parameters>
       <Docs>
         <param name="initiallyOwned">
-          如果为 <see langword="true" />，则给予调用线程已命名的系统互斥体的初始所属权（如果已命名的系统互斥体是通过此调用创建的）；否则为 <see langword="false" />。</param>
-        <param name="name">
-          <see cref="T:System.Threading.Mutex" /> 的名称。 如果值为 <see langword="null" />，则 <see cref="T:System.Threading.Mutex" /> 是未命名的。</param>
-        <summary>使用 Boolean 值（指示调用线程是否应具有互斥体的初始所有权以及字符串是否为互斥体的名称）初始化 <see cref="T:System.Threading.Mutex" /> 类的新实例。</summary>
+          <see langword="true" /> to give the calling thread initial ownership of the named system mutex if the named system mutex is created as a result of this call; otherwise, <see langword="false" />.</param>
+        <param name="name">The name of the <see cref="T:System.Threading.Mutex" />. If the value is <see langword="null" />, the <see cref="T:System.Threading.Mutex" /> is unnamed.</param>
+        <summary>Initializes a new instance of the <see cref="T:System.Threading.Mutex" /> class with a Boolean value that indicates whether the calling thread should have initial ownership of the mutex, and a string that is the name of the mutex.</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 如果`name`不`null`和`initiallyOwned`是`true`，调用线程拥有互斥体，仅当已命名的系统互斥体通过此调用创建。 由于没有任何机制可确定是否已创建的已命名的系统互斥体，它是更好的做法指定`false`为`initiallyOwned`时调用此构造函数重载。 你可以使用<xref:System.Threading.Mutex.%23ctor%28System.Boolean%2CSystem.String%2CSystem.Boolean%40%29>构造函数，如果你需要确定初始所属权。  
+ 如果`name`不是`null`并`initiallyOwned`是`true`，调用线程拥有 mutex，仅当通过此调用创建的命名的系统互斥体。 由于没有任何机制，用于确定是否已创建的命名的系统互斥体，最好是指定`false`为`initiallyOwned`时调用此构造函数重载。 可以使用<xref:System.Threading.Mutex.%23ctor%28System.Boolean%2CSystem.String%2CSystem.Boolean%40%29>构造函数，如果您需要确定初始所属权。  
   
- 此构造函数初始化<xref:System.Threading.Mutex>对象，表示已命名的系统互斥体。 你可以创建多个<xref:System.Threading.Mutex>对象来表示同一个已命名系统互斥体。  
+ 此构造函数初始化<xref:System.Threading.Mutex>表示命名的系统互斥体对象。 你可以创建多个<xref:System.Threading.Mutex>对象表示同一命名系统互斥体。  
   
- 如果命名互斥体已创建具有访问控制安全性，并且调用方没有<xref:System.Security.AccessControl.MutexRights.FullControl?displayProperty=nameWithType>，将引发异常。 若要打开现有的已命名互斥体，具有所需的同步线程活动，这些权限，请参阅<xref:System.Threading.Mutex.OpenExisting%2A>方法。  
+ 如果命名互斥体已创建与访问控制安全性，并且调用方不具有<xref:System.Security.AccessControl.MutexRights.FullControl?displayProperty=nameWithType>，将引发异常。 若要打开现有的已命名互斥体，使用所需的同步线程活动，这些权限，请参阅<xref:System.Threading.Mutex.OpenExisting%2A>方法。  
   
- 如果指定`null`或为空字符串`name`，创建了局部互斥体，就像已调用<xref:System.Threading.Mutex.%23ctor%28System.Boolean%29>构造函数。 在这种情况下，`createdNew`始终`true`。  
+ 如果指定`null`或为空字符串`name`，创建了局部互斥体，就像已调用<xref:System.Threading.Mutex.%23ctor%28System.Boolean%29>构造函数。 在这种情况下，`createdNew`始终是`true`。  
   
- 因为它们是系统范围内，则可以使用已命名的互斥来协调跨进程边界资源使用。  
+ 由于它们是系统范围内，命名的 mutex 可用于协调跨进程边界的资源使用。  
   
 > [!NOTE]
->  运行终端服务的服务器，请在已命名的系统互斥体可以包含两个级别的可见性。 如果其名称以前缀"全局\\"，互斥体是在所有终端服务器会话中可见。 如果其名称以前缀"本地\\"，互斥体是仅在终端服务器会话中可见则创建它。 在这种情况下，具有相同名称的单独 mutex 可以存在于每个服务器上的其他终端服务器会话。 如果你创建命名互斥体时，你不会指定前缀，它将前缀"本地\\"。 终端服务器会话中，其名称只是其前缀不同的两个互斥体是单独的互斥体，且都是可见的所有进程在终端服务器会话中。 也就是说，前缀名称"全局\\"和"本地\\"描述相对于终端服务器会话、 不相对于进程的互斥体名称的作用域。  
+>  在运行终端服务的服务器，命名的系统互斥体可以包含两个级别的可见性。 如果其名称以前缀开头"Global\\"，互斥体是在所有终端服务器会话中可见。 如果其名称以前缀开头"本地\\"，互斥体是仅在终端服务器会话中可见的创建位置。 在这种情况下，具有相同名称单独的互斥锁可以存在于每个服务器上的其他终端服务器会话。 如果您不指定前缀创建已命名的互斥体时，它将前缀"本地\\"。 终端服务器会话中，只能由其前缀的名称不同的两个 mutex 有单独的互斥体，且都在终端服务器会话中对所有进程可见。 也就是说，前缀名称"Global\\"和"本地\\"描述相对于终端服务器会话、 不相对于进程的互斥体名称的作用域。  
   
 [!INCLUDE[backslash-mutex-note](~/includes/backslash-mutex.md)]
 
 ## Examples  
- 下面的示例演示如何使用命名的互斥体之间在两个单独的进程中运行的线程发出信号。  
+ 下面的示例演示如何使用已命名的互斥体之间在两个单独进程中运行的线程发出信号。  
   
- 从两个或多个命令窗口中运行此程序。 每个进程创建<xref:System.Threading.Mutex>对象，表示已命名的互斥体`MyMutex`。 命名的互斥体是系统对象的生存期受限制其生存期<xref:System.Threading.Mutex>其表示的对象。 第一个过程将创建时创建命名互斥体其<xref:System.Threading.Mutex>对象; 在此示例中，命名的互斥体拥有的第一个运行该程序的进程。 销毁命名互斥体时所有<xref:System.Threading.Mutex>已发布其表示的对象。  
+ 从两个或多个命令窗口中运行此程序。 每个进程创建<xref:System.Threading.Mutex>对象，表示已命名的 mutex `MyMutex`。 已命名的互斥体是系统对象的生存期的生存期由<xref:System.Threading.Mutex>代表它的对象。 已命名的互斥体时创建的第一个过程将创建其<xref:System.Threading.Mutex>对象; 在此示例中，已命名的互斥体拥有的运行程序的第一个进程。 已命名的互斥体被销毁时所有<xref:System.Threading.Mutex>表示它已发布。  
   
- 此示例中使用的构造函数重载无法告知调用线程已命名的互斥体的初始所属权是否已授予。 不应使用此构造函数来请求初始所属权，除非可以确保线程将创建命名互斥体。  
+ 此示例中使用的构造函数重载不能告诉调用线程已命名的互斥体的初始所属权是否已授予。 不应使用此构造函数请求的初始所有权，除非您可以确定线程将创建命名互斥体。  
   
  [!code-cpp[System.Threading.Mutex 2Arg Ctor Example#1](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Threading.Mutex 2Arg Ctor Example/CPP/class1.cpp#1)]
  [!code-csharp[System.Threading.Mutex 2Arg Ctor Example#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.Mutex 2Arg Ctor Example/CS/class1.cs#1)]
@@ -275,12 +285,12 @@
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.UnauthorizedAccessException">命名互斥体存在且具有访问控制安全性，但用户不具备 <see cref="F:System.Security.AccessControl.MutexRights.FullControl" />。</exception>
-        <exception cref="T:System.IO.IOException">出现 Win32 错误。</exception>
-        <exception cref="T:System.Threading.WaitHandleCannotBeOpenedException">无法创建命名互斥体，可能是由于其他类型的等待句柄具有相同名称。</exception>
+        <exception cref="T:System.UnauthorizedAccessException">The named mutex exists and has access control security, but the user does not have <see cref="F:System.Security.AccessControl.MutexRights.FullControl" />.</exception>
+        <exception cref="T:System.IO.IOException">A Win32 error occurred.</exception>
+        <exception cref="T:System.Threading.WaitHandleCannotBeOpenedException">The named mutex cannot be created, perhaps because a wait handle of a different type has the same name.</exception>
         <exception cref="T:System.ArgumentException">
-          <paramref name="name" /> 超过 260 个字符。</exception>
-        <permission cref="T:System.Security.SecurityCriticalAttribute">需要完全信任直接调用方。 此成员不能由部分受信任或不透明的代码。</permission>
+          <paramref name="name" /> is longer than 260 characters.</exception>
+        <permission cref="T:System.Security.SecurityCriticalAttribute">直接调用方需要完全信任。 不能由部分受信任的或透明的代码使用此成员。</permission>
       </Docs>
     </Member>
     <Member MemberName=".ctor">
@@ -289,6 +299,7 @@
       <MemberSignature Language="DocId" Value="M:System.Threading.Mutex.#ctor(System.Boolean,System.String,System.Boolean@)" />
       <MemberSignature Language="VB.NET" Value="Public Sub New (initiallyOwned As Boolean, name As String, ByRef createdNew As Boolean)" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; Mutex(bool initiallyOwned, System::String ^ name, [Runtime::InteropServices::Out] bool % createdNew);" />
+      <MemberSignature Language="F#" Value="new System.Threading.Mutex : bool * string *  -&gt; System.Threading.Mutex" Usage="new System.Threading.Mutex (initiallyOwned, name, createdNew)" />
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Threading</AssemblyName>
@@ -299,6 +310,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -318,32 +331,31 @@
       </Parameters>
       <Docs>
         <param name="initiallyOwned">
-          如果为 <see langword="true" />，则给予调用线程已命名的系统互斥体的初始所属权（如果已命名的系统互斥体是通过此调用创建的）；否则为 <see langword="false" />。</param>
-        <param name="name">
-          <see cref="T:System.Threading.Mutex" /> 的名称。 如果值为 <see langword="null" />，则 <see cref="T:System.Threading.Mutex" /> 是未命名的。</param>
-        <param name="createdNew">在此方法返回时，如果创建了本地互斥体（即，如果 <c>name</c> 为 <see langword="null" /> 或空字符串）或指定的已命名系统互斥体，则包含布尔值 <see langword="true" />；如果指定的已命名系统互斥体已存在，则为 <see langword="false" />。 此参数未经初始化即被传递。</param>
-        <summary>使用可指示调用线程是否应具有互斥体的初始所有权以及字符串是否为互斥体的名称的 Boolean 值和当线程返回时可指示调用线程是否已赋予互斥体的初始所有权的 Boolean 值初始化 <see cref="T:System.Threading.Mutex" /> 类的新实例。</summary>
+          <see langword="true" /> to give the calling thread initial ownership of the named system mutex if the named system mutex is created as a result of this call; otherwise, <see langword="false" />.</param>
+        <param name="name">The name of the <see cref="T:System.Threading.Mutex" />. If the value is <see langword="null" />, the <see cref="T:System.Threading.Mutex" /> is unnamed.</param>
+        <param name="createdNew">When this method returns, contains a Boolean that is <see langword="true" /> if a local mutex was created (that is, if <c>name</c> is <see langword="null" /> or an empty string) or if the specified named system mutex was created; <see langword="false" /> if the specified named system mutex already existed. This parameter is passed uninitialized.</param>
+        <summary>Initializes a new instance of the <see cref="T:System.Threading.Mutex" /> class with a Boolean value that indicates whether the calling thread should have initial ownership of the mutex, a string that is the name of the mutex, and a Boolean value that, when the method returns, indicates whether the calling thread was granted initial ownership of the mutex.</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 如果`name`不`null`和`initiallyOwned`是`true`，调用线程拥有命名互斥体才`createdNew`是`true`后调用。 否则，线程可以通过调用请求互斥体<xref:System.Threading.WaitHandle.WaitOne%2A>方法。  
+ 如果`name`不是`null`并`initiallyOwned`是`true`，调用线程拥有命名互斥体才`createdNew`是`true`后调用。 否则，线程可以通过调用请求该互斥体<xref:System.Threading.WaitHandle.WaitOne%2A>方法。  
   
- 此构造函数初始化<xref:System.Threading.Mutex>对象，表示已命名的系统互斥体。 你可以创建多个<xref:System.Threading.Mutex>对象来表示同一个已命名系统互斥体。  
+ 此构造函数初始化<xref:System.Threading.Mutex>表示命名的系统互斥体对象。 你可以创建多个<xref:System.Threading.Mutex>对象表示同一命名系统互斥体。  
   
- 如果命名互斥体已创建具有访问控制安全性，并且调用方没有<xref:System.Security.AccessControl.MutexRights.FullControl?displayProperty=nameWithType>权限，将引发异常。 若要打开现有的已命名互斥体，具有所需的同步线程活动，这些权限，请参阅<xref:System.Threading.Mutex.OpenExisting%2A>方法。  
+ 如果命名互斥体已创建与访问控制安全性，并且调用方不具有<xref:System.Security.AccessControl.MutexRights.FullControl?displayProperty=nameWithType>权限，将引发异常。 若要打开现有的已命名互斥体，使用所需的同步线程活动，这些权限，请参阅<xref:System.Threading.Mutex.OpenExisting%2A>方法。  
   
- 如果指定`null`或为空字符串`name`，创建了局部互斥体，就像已调用<xref:System.Threading.Mutex.%23ctor%28System.Boolean%29>构造函数。 在这种情况下，`createdNew`始终`true`。  
+ 如果指定`null`或为空字符串`name`，创建了局部互斥体，就像已调用<xref:System.Threading.Mutex.%23ctor%28System.Boolean%29>构造函数。 在这种情况下，`createdNew`始终是`true`。  
   
- 因为它们是系统范围内，则可以使用已命名的互斥来协调跨进程边界资源使用。  
+ 由于它们是系统范围内，命名的 mutex 可用于协调跨进程边界的资源使用。  
   
 > [!NOTE]
->  运行终端服务的服务器，请在已命名的系统互斥体可以包含两个级别的可见性。 如果其名称以前缀"全局\\"，互斥体是在所有终端服务器会话中可见。 如果其名称以前缀"本地\\"，互斥体是仅在终端服务器会话中可见则创建它。 在这种情况下，具有相同名称的单独 mutex 可以存在于每个服务器上的其他终端服务器会话。 如果你创建命名互斥体时，你不会指定前缀，它将前缀"本地\\"。 终端服务器会话中，其名称只是其前缀不同的两个互斥体是单独的互斥体，且都是可见的所有进程在终端服务器会话中。 也就是说，前缀名称"全局\\"和"本地\\"描述相对于终端服务器会话、 不相对于进程的互斥体名称的作用域。  
+>  在运行终端服务的服务器，命名的系统互斥体可以包含两个级别的可见性。 如果其名称以前缀开头"Global\\"，互斥体是在所有终端服务器会话中可见。 如果其名称以前缀开头"本地\\"，互斥体是仅在终端服务器会话中可见的创建位置。 在这种情况下，具有相同名称单独的互斥锁可以存在于每个服务器上的其他终端服务器会话。 如果您不指定前缀创建已命名的互斥体时，它将前缀"本地\\"。 终端服务器会话中，只能由其前缀的名称不同的两个 mutex 有单独的互斥体，且都在终端服务器会话中对所有进程可见。 也就是说，前缀名称"Global\\"和"本地\\"描述相对于终端服务器会话、 不相对于进程的互斥体名称的作用域。  
 
 [!INCLUDE[backslash-mutex-note](~/includes/backslash-mutex.md)]   
   
 ## Examples  
- 下面的代码示例演示如何使用命名的互斥体之间进程或线程发出信号。 从两个或多个命令窗口中运行此程序。 每个进程创建<xref:System.Threading.Mutex>表示命名互斥体"MyMutex"的对象。 命名的互斥体是系统对象。 在此示例中，其生存期由的生存期<xref:System.Threading.Mutex>其表示的对象。 第一个过程将创建其局部变量时创建命名互斥体<xref:System.Threading.Mutex>对象，并销毁时所有<xref:System.Threading.Mutex>已发布其表示的对象。 命名的互斥体最初属于第一个过程。 第二个过程和任何后续进程等待前面的进程释放命名的互斥体。  
+ 以下代码示例演示如何使用已命名的互斥体之间的进程或线程发出信号。 从两个或多个命令窗口中运行此程序。 每个进程创建<xref:System.Threading.Mutex>对象，表示已命名的互斥体"MyMutex"。 已命名的互斥体是系统对象。 在此示例中，其生存期由的生存期<xref:System.Threading.Mutex>代表它的对象。 第一个过程将创建其局部变量时，创建已命名的 mutex<xref:System.Threading.Mutex>对象，并销毁时所有<xref:System.Threading.Mutex>表示它已发布。 已命名的 mutex 最初拥有的第一个进程。 第二个进程和任何后续的进程等待前一进程释放命名的互斥体。  
   
  [!code-cpp[System.Threading.Mutex 3Arg Ctor Example#1](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Threading.Mutex 3Arg Ctor Example/CPP/class1.cpp#1)]
  [!code-csharp[System.Threading.Mutex 3Arg Ctor Example#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.Mutex 3Arg Ctor Example/CS/class1.cs#1)]
@@ -351,12 +363,12 @@
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.UnauthorizedAccessException">命名互斥体存在且具有访问控制安全性，但用户不具备 <see cref="F:System.Security.AccessControl.MutexRights.FullControl" />。</exception>
-        <exception cref="T:System.IO.IOException">出现 Win32 错误。</exception>
-        <exception cref="T:System.Threading.WaitHandleCannotBeOpenedException">无法创建命名互斥体，可能是由于其他类型的等待句柄具有相同名称。</exception>
+        <exception cref="T:System.UnauthorizedAccessException">The named mutex exists and has access control security, but the user does not have <see cref="F:System.Security.AccessControl.MutexRights.FullControl" />.</exception>
+        <exception cref="T:System.IO.IOException">A Win32 error occurred.</exception>
+        <exception cref="T:System.Threading.WaitHandleCannotBeOpenedException">The named mutex cannot be created, perhaps because a wait handle of a different type has the same name.</exception>
         <exception cref="T:System.ArgumentException">
-          <paramref name="name" /> 超过 260 个字符。</exception>
-        <permission cref="T:System.Security.SecurityCriticalAttribute">需要完全信任直接调用方。 此成员不能由部分受信任或不透明的代码。</permission>
+          <paramref name="name" /> is longer than 260 characters.</exception>
+        <permission cref="T:System.Security.SecurityCriticalAttribute">直接调用方需要完全信任。 不能由部分受信任的或透明的代码使用此成员。</permission>
       </Docs>
     </Member>
     <Member MemberName=".ctor">
@@ -364,9 +376,11 @@
       <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(bool initiallyOwned, string name, [out] bool&amp; createdNew, class System.Security.AccessControl.MutexSecurity mutexSecurity) cil managed" />
       <MemberSignature Language="DocId" Value="M:System.Threading.Mutex.#ctor(System.Boolean,System.String,System.Boolean@,System.Security.AccessControl.MutexSecurity)" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; Mutex(bool initiallyOwned, System::String ^ name, [Runtime::InteropServices::Out] bool % createdNew, System::Security::AccessControl::MutexSecurity ^ mutexSecurity);" />
+      <MemberSignature Language="F#" Value="new System.Threading.Mutex : bool * string *  * System.Security.AccessControl.MutexSecurity -&gt; System.Threading.Mutex" Usage="new System.Threading.Mutex (initiallyOwned, name, createdNew, mutexSecurity)" />
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -383,46 +397,46 @@
       </Parameters>
       <Docs>
         <param name="initiallyOwned">
-          如果为 <see langword="true" />，则给予调用线程已命名的系统互斥体的初始所属权（如果已命名的系统互斥体是通过此调用创建的）；否则为 <see langword="false" />。</param>
-        <param name="name">系统互斥体的名称。 如果值为 <see langword="null" />，则 <see cref="T:System.Threading.Mutex" /> 是未命名的。</param>
-        <param name="createdNew">在此方法返回时，如果创建了本地互斥体（即，如果 <c>name</c> 为 <see langword="null" /> 或空字符串）或指定的已命名系统互斥体，则包含布尔值 <see langword="true" />；如果指定的已命名系统互斥体已存在，则为 <see langword="false" />。 此参数未经初始化即被传递。</param>
-        <param name="mutexSecurity">一个 <see cref="T:System.Security.AccessControl.MutexSecurity" /> 对象，表示应用于已命名的系统互斥体的访问控制安全性。</param>
-        <summary>使用可指示调用线程是否应具有互斥体的初始所有权以及字符串是否为互斥体的名称的 Boolean 值和当线程返回时可指示调用线程是否已赋予互斥体的初始所有权以及访问控制安全是否已应用到命名互斥体的 Boolean 变量初始化 <see cref="T:System.Threading.Mutex" /> 类的新实例。</summary>
+          <see langword="true" /> to give the calling thread initial ownership of the named system mutex if the named system mutex is created as a result of this call; otherwise, <see langword="false" />.</param>
+        <param name="name">The name of the system mutex. If the value is <see langword="null" />, the <see cref="T:System.Threading.Mutex" /> is unnamed.</param>
+        <param name="createdNew">When this method returns, contains a Boolean that is <see langword="true" /> if a local mutex was created (that is, if <c>name</c> is <see langword="null" /> or an empty string) or if the specified named system mutex was created; <see langword="false" /> if the specified named system mutex already existed. This parameter is passed uninitialized.</param>
+        <param name="mutexSecurity">A <see cref="T:System.Security.AccessControl.MutexSecurity" /> object that represents the access control security to be applied to the named system mutex.</param>
+        <summary>Initializes a new instance of the <see cref="T:System.Threading.Mutex" /> class with a Boolean value that indicates whether the calling thread should have initial ownership of the mutex, a string that is the name of the mutex, a Boolean variable that, when the method returns, indicates whether the calling thread was granted initial ownership of the mutex, and the access control security to be applied to the named mutex.</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 如果`name`不`null`和`initiallyOwned`是`true`，调用线程拥有命名互斥体才`createdNew`是`true`后调用。 否则，线程可以通过调用请求互斥体<xref:System.Threading.WaitHandle.WaitOne%2A>方法。  
+ 如果`name`不是`null`并`initiallyOwned`是`true`，调用线程拥有命名互斥体才`createdNew`是`true`后调用。 否则，线程可以通过调用请求该互斥体<xref:System.Threading.WaitHandle.WaitOne%2A>方法。  
   
- 使用此构造函数要应用于已命名的系统互斥体的访问控制安全性，创建时，阻止其他代码的互斥体的控制。  
+ 使用此构造函数要应用于已命名的系统互斥体的访问控制安全性，在创建时，阻止其他代码互斥体的控制。  
   
- 此构造函数初始化<xref:System.Threading.Mutex>对象，表示已命名的系统互斥体。 你可以创建多个<xref:System.Threading.Mutex>对象来表示同一个已命名系统互斥体。  
+ 此构造函数初始化<xref:System.Threading.Mutex>表示命名的系统互斥体对象。 你可以创建多个<xref:System.Threading.Mutex>对象表示同一命名系统互斥体。  
   
- 如果已命名的系统互斥体不存在，它被创建具有指定的访问控制安全性。 如果命名互斥体存在，则忽略指定的访问控制安全性。  
-  
-> [!NOTE]
->  调用方具有对新创建的完全控制<xref:System.Threading.Mutex>对象即使`mutexSecurity`拒绝或无法授予当前用户某些访问权限。 但是，如果当前的用户尝试获取另一个<xref:System.Threading.Mutex>对象以表示同一个已命名互斥体，使用构造函数或<xref:System.Threading.Mutex.OpenExisting%2A>方法，Windows 应用访问控制安全性。  
-  
- 如果命名互斥体已创建具有访问控制安全性，并且调用方没有<xref:System.Security.AccessControl.MutexRights.FullControl?displayProperty=nameWithType>，将引发异常。 若要打开现有的已命名互斥体，具有所需的同步线程活动，这些权限，请参阅<xref:System.Threading.Mutex.OpenExisting%2A>方法。  
-  
- 如果指定`null`或为空字符串`name`，创建了局部互斥体，就像已调用<xref:System.Threading.Mutex.%23ctor%28System.Boolean%29>构造函数。 在这种情况下，`createdNew`始终`true`。  
-  
- 因为它们是系统范围内，则可以使用已命名的互斥来协调跨进程边界资源使用。  
+ 如果不存在已命名的系统互斥体，它被创建使用指定的访问控制安全性。 如果命名互斥体存在，则忽略指定的访问控制安全性。  
   
 > [!NOTE]
->  运行终端服务的服务器，请在已命名的系统互斥体可以包含两个级别的可见性。 如果其名称以前缀"全局\\"，互斥体是在所有终端服务器会话中可见。 如果其名称以前缀"本地\\"，互斥体是仅在终端服务器会话中可见则创建它。 在这种情况下，具有相同名称的单独 mutex 可以存在于每个服务器上的其他终端服务器会话。 如果你创建命名互斥体时，你不会指定前缀，它将前缀"本地\\"。 终端服务器会话中，其名称只是其前缀不同的两个互斥体是单独的互斥体，且都是可见的所有进程在终端服务器会话中。 也就是说，前缀名称"全局\\"和"本地\\"描述相对于终端服务器会话、 不相对于进程的互斥体名称的作用域。  
+>  调用方具有对新创建的完全控制<xref:System.Threading.Mutex>对象，即使`mutexSecurity`拒绝或无法授予当前用户对某些访问权限。 但是，如果当前用户尝试获取另一个<xref:System.Threading.Mutex>对象表示同一命名互斥体，使用构造函数或<xref:System.Threading.Mutex.OpenExisting%2A>方法中，Windows 应用访问控制安全性。  
+  
+ 如果命名互斥体已创建与访问控制安全性，并且调用方不具有<xref:System.Security.AccessControl.MutexRights.FullControl?displayProperty=nameWithType>，将引发异常。 若要打开现有的已命名互斥体，使用所需的同步线程活动，这些权限，请参阅<xref:System.Threading.Mutex.OpenExisting%2A>方法。  
+  
+ 如果指定`null`或为空字符串`name`，创建了局部互斥体，就像已调用<xref:System.Threading.Mutex.%23ctor%28System.Boolean%29>构造函数。 在这种情况下，`createdNew`始终是`true`。  
+  
+ 由于它们是系统范围内，命名的 mutex 可用于协调跨进程边界的资源使用。  
+  
+> [!NOTE]
+>  在运行终端服务的服务器，命名的系统互斥体可以包含两个级别的可见性。 如果其名称以前缀开头"Global\\"，互斥体是在所有终端服务器会话中可见。 如果其名称以前缀开头"本地\\"，互斥体是仅在终端服务器会话中可见的创建位置。 在这种情况下，具有相同名称单独的互斥锁可以存在于每个服务器上的其他终端服务器会话。 如果您不指定前缀创建已命名的互斥体时，它将前缀"本地\\"。 终端服务器会话中，只能由其前缀的名称不同的两个 mutex 有单独的互斥体，且都在终端服务器会话中对所有进程可见。 也就是说，前缀名称"Global\\"和"本地\\"描述相对于终端服务器会话、 不相对于进程的互斥体名称的作用域。  
 
 [!INCLUDE[backslash-mutex-note](~/includes/backslash-mutex.md)]  
    
   
 ## Examples  
- 下面的代码示例演示通过访问控制安全性的已命名的互斥体的跨进程行为。 该示例使用<xref:System.Threading.Mutex.OpenExisting%28System.String%29>方法重载来测试是否存在的已命名的互斥体。  
+ 下面的代码示例演示使用访问控制安全性的已命名的互斥体的跨进程行为。 该示例使用<xref:System.Threading.Mutex.OpenExisting%28System.String%29>方法重载来测试是否存在已命名的互斥体。  
   
- 如果互斥体不存在，它是初始所属权和创建将拒绝使用互斥体的权限的当前用户，但授予的权限读取和更改权限互斥体的访问控制安全性。  
+ 如果不存在该互斥体，创建使用初始所有权以及访问控制安全性，将拒绝使用互斥体的权限的当前用户，但授予的权限读取和更改该互斥体的权限。  
   
- 如果从两个命令窗口中运行已编译的示例，第二个副本将在调用引发访问冲突异常<xref:System.Threading.Mutex.OpenExisting%28System.String%29>。 捕获了异常，并且该示例使用<xref:System.Threading.Mutex.OpenExisting%28System.String%2CSystem.Security.AccessControl.MutexRights%29>方法重载，以读取和更改的权限所需的权限打开互斥体。  
+ 如果从两个命令窗口运行已编译的示例，第二个副本将在调用引发访问冲突异常<xref:System.Threading.Mutex.OpenExisting%28System.String%29>。 捕获的异常，并且该示例使用<xref:System.Threading.Mutex.OpenExisting%28System.String%2CSystem.Security.AccessControl.MutexRights%29>方法重载来读取和更改的权限所需的权限打开该互斥体。  
   
- 更改权限后，输入并释放它所需的权限打开互斥体。 如果从第三个命令窗口中运行已编译的示例，它将运行使用新的权限。  
+ 更改权限后，输入，并将其释放所需的权限打开该互斥体。 如果从第三个命令窗口运行已编译的示例，它运行使用新的权限。  
   
  [!code-cpp[System.Threading.Mutex.ctor named 4#1](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Threading.Mutex.ctor named 4/CPP/source.cpp#1)]
  [!code-csharp[System.Threading.Mutex.ctor named 4#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.Mutex.ctor named 4/CS/source.cs#1)]
@@ -430,12 +444,12 @@
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.IO.IOException">出现 Win32 错误。</exception>
-        <exception cref="T:System.UnauthorizedAccessException">命名互斥体存在且具有访问控制安全性，但用户不具备 <see cref="F:System.Security.AccessControl.MutexRights.FullControl" />。</exception>
-        <exception cref="T:System.Threading.WaitHandleCannotBeOpenedException">无法创建命名互斥体，可能是由于其他类型的等待句柄具有相同名称。</exception>
+        <exception cref="T:System.IO.IOException">A Win32 error occurred.</exception>
+        <exception cref="T:System.UnauthorizedAccessException">The named mutex exists and has access control security, but the user does not have <see cref="F:System.Security.AccessControl.MutexRights.FullControl" />.</exception>
+        <exception cref="T:System.Threading.WaitHandleCannotBeOpenedException">The named mutex cannot be created, perhaps because a wait handle of a different type has the same name.</exception>
         <exception cref="T:System.ArgumentException">
-          <paramref name="name" /> 超过 260 个字符。</exception>
-        <permission cref="T:System.Security.SecurityCriticalAttribute">需要完全信任直接调用方。 此成员不能由部分受信任或不透明的代码。</permission>
+          <paramref name="name" /> is longer than 260 characters.</exception>
+        <permission cref="T:System.Security.SecurityCriticalAttribute">直接调用方需要完全信任。 不能由部分受信任的或透明的代码使用此成员。</permission>
       </Docs>
     </Member>
     <Member MemberName="GetAccessControl">
@@ -444,9 +458,11 @@
       <MemberSignature Language="DocId" Value="M:System.Threading.Mutex.GetAccessControl" />
       <MemberSignature Language="VB.NET" Value="Public Function GetAccessControl () As MutexSecurity" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; System::Security::AccessControl::MutexSecurity ^ GetAccessControl();" />
+      <MemberSignature Language="F#" Value="member this.GetAccessControl : unit -&gt; System.Security.AccessControl.MutexSecurity" Usage="mutex.GetAccessControl " />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -454,26 +470,26 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>获取表示已命名的互斥体的访问控制安全性的 <see cref="T:System.Security.AccessControl.MutexSecurity" /> 对象。</summary>
-        <returns>表示已命名的互斥体的访问控制安全性的 <see cref="T:System.Security.AccessControl.MutexSecurity" /> 对象。</returns>
+        <summary>Gets a <see cref="T:System.Security.AccessControl.MutexSecurity" /> object that represents the access control security for the named mutex.</summary>
+        <returns>A <see cref="T:System.Security.AccessControl.MutexSecurity" /> object that represents the access control security for the named mutex.</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Threading.Mutex.GetAccessControl%2A>方法使用以下标志 （使用按位或运算组合） 的组合来搜索权限： <xref:System.Security.AccessControl.AccessControlSections.Access?displayProperty=nameWithType>， <xref:System.Security.AccessControl.AccessControlSections.Owner?displayProperty=nameWithType>，和<xref:System.Security.AccessControl.AccessControlSections.Group?displayProperty=nameWithType>。  
+ <xref:System.Threading.Mutex.GetAccessControl%2A>方法使用以下标志 （使用按位 OR 运算组合） 的组合来搜索权限： <xref:System.Security.AccessControl.AccessControlSections.Access?displayProperty=nameWithType>， <xref:System.Security.AccessControl.AccessControlSections.Owner?displayProperty=nameWithType>，和<xref:System.Security.AccessControl.AccessControlSections.Group?displayProperty=nameWithType>。  
   
- 用户必须具有<xref:System.Security.AccessControl.MutexRights.ReadPermissions?displayProperty=nameWithType>才能调用此方法，而且互斥体必须打开与<xref:System.Security.AccessControl.MutexRights.ReadPermissions?displayProperty=nameWithType>。  
+ 用户必须具有<xref:System.Security.AccessControl.MutexRights.ReadPermissions?displayProperty=nameWithType>要调用此方法，而且该互斥体，必须具有已打开与<xref:System.Security.AccessControl.MutexRights.ReadPermissions?displayProperty=nameWithType>。  
   
    
   
 ## Examples  
- 下面的代码示例演示通过访问控制安全性的已命名的互斥体的跨进程行为。 该示例使用<xref:System.Threading.Mutex.OpenExisting%28System.String%29>方法重载来测试是否存在的已命名的互斥体。  
+ 下面的代码示例演示使用访问控制安全性的已命名的互斥体的跨进程行为。 该示例使用<xref:System.Threading.Mutex.OpenExisting%28System.String%29>方法重载来测试是否存在已命名的互斥体。  
   
- 如果互斥体不存在，它是初始所属权和创建将拒绝使用互斥体的权限的当前用户，但授予的权限读取和更改权限互斥体的访问控制安全性。  
+ 如果不存在该互斥体，创建使用初始所有权以及访问控制安全性，将拒绝使用互斥体的权限的当前用户，但授予的权限读取和更改该互斥体的权限。  
   
- 如果从两个命令窗口中运行已编译的示例，第二个副本将在调用引发访问冲突异常<xref:System.Threading.Mutex.OpenExisting%28System.String%29>。 捕获了异常，并且该示例使用<xref:System.Threading.Mutex.OpenExisting%28System.String%2CSystem.Security.AccessControl.MutexRights%29>方法重载，以读取和更改权限，使用所需的权限打开互斥体<xref:System.Threading.Mutex.GetAccessControl%2A>和<xref:System.Threading.Mutex.SetAccessControl%2A>方法。  
+ 如果从两个命令窗口运行已编译的示例，第二个副本将在调用引发访问冲突异常<xref:System.Threading.Mutex.OpenExisting%28System.String%29>。 捕获的异常，并且该示例使用<xref:System.Threading.Mutex.OpenExisting%28System.String%2CSystem.Security.AccessControl.MutexRights%29>方法重载来读取和更改权限，使用所需的权限打开 mutex<xref:System.Threading.Mutex.GetAccessControl%2A>和<xref:System.Threading.Mutex.SetAccessControl%2A>方法。  
   
- 更改权限后，输入并释放它所需的权限打开互斥体。 如果从第三个命令窗口中运行已编译的示例，它将运行使用新的权限。  
+ 更改权限后，输入，并将其释放所需的权限打开该互斥体。 如果从第三个命令窗口运行已编译的示例，它运行使用新的权限。  
   
  [!code-cpp[System.Threading.Mutex.ctor named 4#1](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Threading.Mutex.ctor named 4/CPP/source.cpp#1)]
  [!code-csharp[System.Threading.Mutex.ctor named 4#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.Mutex.ctor named 4/CS/source.cs#1)]
@@ -481,12 +497,8 @@
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.UnauthorizedAccessException">当前 <see cref="T:System.Threading.Mutex" /> 对象表示一个已命名的系统互斥体，但用户不具备 <see cref="F:System.Security.AccessControl.MutexRights.ReadPermissions" />。  
-  
- 或  
-  
- 当前 <see cref="T:System.Threading.Mutex" /> 对象表示一个已命名的系统互斥体，但它未用 <see cref="F:System.Security.AccessControl.MutexRights.ReadPermissions" /> 打开。</exception>
-        <exception cref="T:System.NotSupportedException">不支持 Windows 98 或 Windows Millennium Edition。</exception>
+        <exception cref="T:System.UnauthorizedAccessException">The current <see cref="T:System.Threading.Mutex" /> object represents a named system mutex, but the user does not have <see cref="F:System.Security.AccessControl.MutexRights.ReadPermissions" />.  -or-  The current <see cref="T:System.Threading.Mutex" /> object represents a named system mutex, and was not opened with <see cref="F:System.Security.AccessControl.MutexRights.ReadPermissions" />.</exception>
+        <exception cref="T:System.NotSupportedException">Not supported for Windows 98 or Windows Millennium Edition.</exception>
       </Docs>
     </Member>
     <MemberGroup MemberName="OpenExisting">
@@ -497,7 +509,7 @@
         <AssemblyVersion>4.1.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Docs>
-        <summary>打开指定的已命名的互斥体（如果已经存在）。</summary>
+        <summary>Opens a specified named mutex, if it already exists.</summary>
       </Docs>
     </MemberGroup>
     <Member MemberName="OpenExisting">
@@ -506,6 +518,7 @@
       <MemberSignature Language="DocId" Value="M:System.Threading.Mutex.OpenExisting(System.String)" />
       <MemberSignature Language="VB.NET" Value="Public Shared Function OpenExisting (name As String) As Mutex" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; static System::Threading::Mutex ^ OpenExisting(System::String ^ name);" />
+      <MemberSignature Language="F#" Value="static member OpenExisting : string -&gt; System.Threading.Mutex" Usage="System.Threading.Mutex.OpenExisting name" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Threading</AssemblyName>
@@ -516,6 +529,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -530,33 +544,33 @@
         <Parameter Name="name" Type="System.String" />
       </Parameters>
       <Docs>
-        <param name="name">要打开的系统互斥体的名称。</param>
-        <summary>打开指定的已命名的互斥体（如果已经存在）。</summary>
-        <returns>表示已命名的系统互斥体的对象。</returns>
+        <param name="name">The name of the system mutex to open.</param>
+        <summary>Opens the specified named mutex, if it already exists.</summary>
+        <returns>An object that represents the named system mutex.</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Threading.Mutex.OpenExisting%2A>方法尝试打开指定已命名系统互斥体。 如果不存在的系统互斥体，则此方法将引发异常而不是创建系统对象。 若要创建的系统互斥体时不存在，请使用之一<xref:System.Threading.Mutex.%23ctor%2A>构造函数具有`name`参数。  
+ <xref:System.Threading.Mutex.OpenExisting%2A>方法尝试打开指定的命名系统互斥体。 如果不存在的系统互斥体，此方法将引发异常而不是创建系统对象。 若要创建的系统互斥体已存在时，请使用之一<xref:System.Threading.Mutex.%23ctor%2A>构造函数具有`name`参数。  
   
- 多次调用此方法使用相同的值的`name`不一定返回相同<xref:System.Threading.Mutex>对象，即使返回这些对象表示相同的已命名的系统互斥体。  
+ 多个调用此方法使用的相同值的`name`不一定返回相同<xref:System.Threading.Mutex>对象，即使返回这些对象表示同一命名的系统互斥体。  
   
- 此方法重载是等效于调用<xref:System.Threading.Mutex.OpenExisting%28System.String%2CSystem.Security.AccessControl.MutexRights%29>方法重载并指定<xref:System.Security.AccessControl.MutexRights.Synchronize?displayProperty=nameWithType>和<xref:System.Security.AccessControl.MutexRights.Modify?displayProperty=nameWithType>权限，使用按位或运算组合在一起。  
+ 此方法的重载是等效于调用<xref:System.Threading.Mutex.OpenExisting%28System.String%2CSystem.Security.AccessControl.MutexRights%29>方法重载并指定<xref:System.Security.AccessControl.MutexRights.Synchronize?displayProperty=nameWithType>和<xref:System.Security.AccessControl.MutexRights.Modify?displayProperty=nameWithType>权限，使用按位 OR 运算组合在一起。  
   
  指定<xref:System.Security.AccessControl.MutexRights.Synchronize?displayProperty=nameWithType>标志将允许线程等待互斥体，并指定<xref:System.Security.AccessControl.MutexRights.Modify?displayProperty=nameWithType>标志将允许线程调用<xref:System.Threading.Mutex.ReleaseMutex%2A>方法。  
   
- 此方法不会请求 mutex 所有权。  
+ 此方法不会请求 mutex 的所有权。  
   
    
   
 ## Examples  
- 下面的代码示例演示通过访问控制安全性的已命名的互斥体的跨进程行为。 该示例使用<xref:System.Threading.Mutex.OpenExisting%28System.String%29>方法重载来测试是否存在的已命名的互斥体。  
+ 下面的代码示例演示使用访问控制安全性的已命名的互斥体的跨进程行为。 该示例使用<xref:System.Threading.Mutex.OpenExisting%28System.String%29>方法重载来测试是否存在已命名的互斥体。  
   
- 如果互斥体不存在，它是初始所属权和创建将拒绝使用互斥体的权限的当前用户，但授予的权限读取和更改权限互斥体的访问控制安全性。  
+ 如果不存在该互斥体，创建使用初始所有权以及访问控制安全性，将拒绝使用互斥体的权限的当前用户，但授予的权限读取和更改该互斥体的权限。  
   
- 如果从两个命令窗口中运行已编译的示例，第二个副本将在调用引发访问冲突异常<xref:System.Threading.Mutex.OpenExisting%28System.String%29>。 捕获了异常，并且该示例使用<xref:System.Threading.Mutex.OpenExisting%28System.String%2CSystem.Security.AccessControl.MutexRights%29>方法重载，以读取和更改的权限所需的权限打开互斥体。  
+ 如果从两个命令窗口运行已编译的示例，第二个副本将在调用引发访问冲突异常<xref:System.Threading.Mutex.OpenExisting%28System.String%29>。 捕获的异常，并且该示例使用<xref:System.Threading.Mutex.OpenExisting%28System.String%2CSystem.Security.AccessControl.MutexRights%29>方法重载来读取和更改的权限所需的权限打开该互斥体。  
   
- 更改权限后，输入并释放它所需的权限打开互斥体。 如果从第三个命令窗口中运行已编译的示例，它将运行使用新的权限。  
+ 更改权限后，输入，并将其释放所需的权限打开该互斥体。 如果从第三个命令窗口运行已编译的示例，它运行使用新的权限。  
   
  [!code-cpp[System.Threading.Mutex.ctor named 4#1](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Threading.Mutex.ctor named 4/CPP/source.cpp#1)]
  [!code-csharp[System.Threading.Mutex.ctor named 4#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.Mutex.ctor named 4/CS/source.cs#1)]
@@ -565,17 +579,13 @@
  ]]></format>
         </remarks>
         <exception cref="T:System.ArgumentException">
-          <paramref name="name" /> 是一个空字符串。  
-  
- 或  
-  
- <paramref name="name" /> 超过 260 个字符。</exception>
+          <paramref name="name" /> is an empty string.  -or-  <paramref name="name" /> is longer than 260 characters.</exception>
         <exception cref="T:System.ArgumentNullException">
-          <paramref name="name" /> 为 <see langword="null" />。</exception>
-        <exception cref="T:System.Threading.WaitHandleCannotBeOpenedException">命名的 mutex 不存在。</exception>
-        <exception cref="T:System.IO.IOException">出现 Win32 错误。</exception>
-        <exception cref="T:System.UnauthorizedAccessException">存在命名的互斥，但用户没有使用它时所需的安全访问权限。</exception>
-        <permission cref="T:System.Security.SecurityCriticalAttribute">需要完全信任直接调用方。 此成员不能由部分受信任或不透明的代码。</permission>
+          <paramref name="name" /> is <see langword="null" />.</exception>
+        <exception cref="T:System.Threading.WaitHandleCannotBeOpenedException">The named mutex does not exist.</exception>
+        <exception cref="T:System.IO.IOException">A Win32 error occurred.</exception>
+        <exception cref="T:System.UnauthorizedAccessException">The named mutex exists, but the user does not have the security access required to use it.</exception>
+        <permission cref="T:System.Security.SecurityCriticalAttribute">直接调用方需要完全信任。 不能由部分受信任的或透明的代码使用此成员。</permission>
       </Docs>
     </Member>
     <Member MemberName="OpenExisting">
@@ -584,9 +594,11 @@
       <MemberSignature Language="DocId" Value="M:System.Threading.Mutex.OpenExisting(System.String,System.Security.AccessControl.MutexRights)" />
       <MemberSignature Language="VB.NET" Value="Public Shared Function OpenExisting (name As String, rights As MutexRights) As Mutex" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; static System::Threading::Mutex ^ OpenExisting(System::String ^ name, System::Security::AccessControl::MutexRights rights);" />
+      <MemberSignature Language="F#" Value="static member OpenExisting : string * System.Security.AccessControl.MutexRights -&gt; System.Threading.Mutex" Usage="System.Threading.Mutex.OpenExisting (name, rights)" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -598,32 +610,32 @@
         <Parameter Name="rights" Type="System.Security.AccessControl.MutexRights" />
       </Parameters>
       <Docs>
-        <param name="name">要打开的系统互斥体的名称。</param>
-        <param name="rights">表示所需的安全访问权限的枚举值的按位组合。</param>
-        <summary>利用所需的安全访问权限，打开指定的已命名的互斥体（如果已经存在）。</summary>
-        <returns>表示已命名的系统互斥体的对象。</returns>
+        <param name="name">The name of the system mutex to open.</param>
+        <param name="rights">A bitwise combination of the enumeration values that represent the desired security access.</param>
+        <summary>Opens the specified named mutex, if it already exists, with the desired security access.</summary>
+        <returns>An object that represents the named system mutex.</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- `rights`参数必须包含<xref:System.Security.AccessControl.MutexRights.Synchronize?displayProperty=nameWithType>标志以允许线程等待互斥体和<xref:System.Security.AccessControl.MutexRights.Modify?displayProperty=nameWithType>标志以允许线程调用<xref:System.Threading.Mutex.ReleaseMutex%2A>方法。  
+ `rights`参数必须包含<xref:System.Security.AccessControl.MutexRights.Synchronize?displayProperty=nameWithType>标志，以便允许线程等待互斥体，并<xref:System.Security.AccessControl.MutexRights.Modify?displayProperty=nameWithType>标志，以使线程能够调用<xref:System.Threading.Mutex.ReleaseMutex%2A>方法。  
   
- <xref:System.Threading.Mutex.OpenExisting%2A>方法尝试打开现有的已命名互斥体。 如果不存在的系统互斥体，则此方法将引发异常而不是创建系统对象。 若要创建的系统互斥体时不存在，请使用之一<xref:System.Threading.Mutex.%23ctor%2A>构造函数具有`name`参数。  
+ <xref:System.Threading.Mutex.OpenExisting%2A>方法尝试打开现有的已命名的互斥体。 如果不存在的系统互斥体，此方法将引发异常而不是创建系统对象。 若要创建的系统互斥体已存在时，请使用之一<xref:System.Threading.Mutex.%23ctor%2A>构造函数具有`name`参数。  
   
- 多次调用此方法使用相同的值的`name`不一定返回相同<xref:System.Threading.Mutex>对象，即使返回这些对象表示相同的已命名的系统互斥体。  
+ 多个调用此方法使用的相同值的`name`不一定返回相同<xref:System.Threading.Mutex>对象，即使返回这些对象表示同一命名的系统互斥体。  
   
- 此方法不会请求 mutex 所有权。  
+ 此方法不会请求 mutex 的所有权。  
   
    
   
 ## Examples  
- 下面的代码示例演示通过访问控制安全性的已命名的互斥体的跨进程行为。 该示例使用<xref:System.Threading.Mutex.OpenExisting%28System.String%29>方法重载来测试是否存在的已命名的互斥体。  
+ 下面的代码示例演示使用访问控制安全性的已命名的互斥体的跨进程行为。 该示例使用<xref:System.Threading.Mutex.OpenExisting%28System.String%29>方法重载来测试是否存在已命名的互斥体。  
   
- 如果互斥体不存在，它是初始所属权和创建将拒绝使用互斥体的权限的当前用户，但授予的权限读取和更改权限互斥体的访问控制安全性。  
+ 如果不存在该互斥体，创建使用初始所有权以及访问控制安全性，将拒绝使用互斥体的权限的当前用户，但授予的权限读取和更改该互斥体的权限。  
   
- 如果从两个命令窗口中运行已编译的示例，第二个副本将在调用引发访问冲突异常<xref:System.Threading.Mutex.OpenExisting%28System.String%29>。 捕获了异常，并且该示例使用<xref:System.Threading.Mutex.OpenExisting%28System.String%2CSystem.Security.AccessControl.MutexRights%29>方法重载，以读取和更改的权限所需的权限打开互斥体。  
+ 如果从两个命令窗口运行已编译的示例，第二个副本将在调用引发访问冲突异常<xref:System.Threading.Mutex.OpenExisting%28System.String%29>。 捕获的异常，并且该示例使用<xref:System.Threading.Mutex.OpenExisting%28System.String%2CSystem.Security.AccessControl.MutexRights%29>方法重载来读取和更改的权限所需的权限打开该互斥体。  
   
- 更改权限后，输入并释放它所需的权限打开互斥体。 如果从第三个命令窗口中运行已编译的示例，它将运行使用新的权限。  
+ 更改权限后，输入，并将其释放所需的权限打开该互斥体。 如果从第三个命令窗口运行已编译的示例，它运行使用新的权限。  
   
  [!code-cpp[System.Threading.Mutex.ctor named 4#1](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Threading.Mutex.ctor named 4/CPP/source.cpp#1)]
  [!code-csharp[System.Threading.Mutex.ctor named 4#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.Mutex.ctor named 4/CS/source.cs#1)]
@@ -632,17 +644,13 @@
  ]]></format>
         </remarks>
         <exception cref="T:System.ArgumentException">
-          <paramref name="name" /> 是一个空字符串。  
-  
- 或  
-  
- <paramref name="name" /> 超过 260 个字符。</exception>
+          <paramref name="name" /> is an empty string.  -or-  <paramref name="name" /> is longer than 260 characters.</exception>
         <exception cref="T:System.ArgumentNullException">
-          <paramref name="name" /> 为 <see langword="null" />。</exception>
-        <exception cref="T:System.Threading.WaitHandleCannotBeOpenedException">命名的 mutex 不存在。</exception>
-        <exception cref="T:System.IO.IOException">出现 Win32 错误。</exception>
-        <exception cref="T:System.UnauthorizedAccessException">已命名的 mutex 存在，但是用户不具备所需的安全访问权。</exception>
-        <permission cref="T:System.Security.SecurityCriticalAttribute">需要完全信任直接调用方。 此成员不能由部分受信任或不透明的代码。</permission>
+          <paramref name="name" /> is <see langword="null" />.</exception>
+        <exception cref="T:System.Threading.WaitHandleCannotBeOpenedException">The named mutex does not exist.</exception>
+        <exception cref="T:System.IO.IOException">A Win32 error occurred.</exception>
+        <exception cref="T:System.UnauthorizedAccessException">The named mutex exists, but the user does not have the desired security access.</exception>
+        <permission cref="T:System.Security.SecurityCriticalAttribute">直接调用方需要完全信任。 不能由部分受信任的或透明的代码使用此成员。</permission>
       </Docs>
     </Member>
     <Member MemberName="ReleaseMutex">
@@ -651,6 +659,7 @@
       <MemberSignature Language="DocId" Value="M:System.Threading.Mutex.ReleaseMutex" />
       <MemberSignature Language="VB.NET" Value="Public Sub ReleaseMutex ()" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; void ReleaseMutex();" />
+      <MemberSignature Language="F#" Value="member this.ReleaseMutex : unit -&gt; unit" Usage="mutex.ReleaseMutex " />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Threading</AssemblyName>
@@ -661,6 +670,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -678,29 +689,29 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>释放 <see cref="T:System.Threading.Mutex" /> 一次。</summary>
+        <summary>Releases the <see cref="T:System.Threading.Mutex" /> once.</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 每当线程获取互斥体 (例如，通过调用其<xref:System.Threading.WaitHandle.WaitOne%2A>方法)，它随后必须调用<xref:System.Threading.Mutex.ReleaseMutex%2A>为放弃互斥体的所有权并解除阻止尝试获得所有权的互斥体的其他线程。 如果尝试获取互斥体的所有权会失败 (例如，当调用<xref:System.Threading.WaitHandle.WaitOne%2A>方法替换`millisecondsTimeout`或`timeout`参数返回`false`因为在请求超时时)，不应在调用线程<xref:System.Threading.Mutex.ReleaseMutex%2A>，在此情况下，线程应也不允许访问受互斥体，如以下示例所示的资源。  
+ 每当某一线程获取互斥体 (例如，通过调用其<xref:System.Threading.WaitHandle.WaitOne%2A>方法)，它必须随后调用<xref:System.Threading.Mutex.ReleaseMutex%2A>放弃 mutex 的所有权和取消阻止其他线程尝试获取 mutex 的所有权。 如果尝试获取 mutex 的所有权将失败 (例如，在调用<xref:System.Threading.WaitHandle.WaitOne%2A>方法替换`millisecondsTimeout`或`timeout`参数将返回`false`因为请求超时)，线程不应调用<xref:System.Threading.Mutex.ReleaseMutex%2A>，在此情况下，线程应该也不能访问受互斥体，如以下示例所示的资源。  
   
  [!code-csharp[System.Threading.Mutex.Class#2](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.threading.mutex.class/cs/example2.cs#2)]
  [!code-vb[System.Threading.Mutex.Class#2](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.threading.mutex.class/vb/example2.vb#2)]  
   
- 拥有互斥体的线程可以在函数调用中重复的等待指定相同的互斥体，而不会阻止其执行。 由公共语言运行时保留的调用数。 必须在调用线程<xref:System.Threading.Mutex.ReleaseMutex%2A>相同数量的次数以释放互斥体的所有权。  
+ 拥有互斥体的线程可以重复的等待函数调用中指定相同的互斥体，而不会阻止其执行。 公共语言运行时保留调用数。 该线程必须调用<xref:System.Threading.Mutex.ReleaseMutex%2A>相同数量的次数与释放 mutex 的所有权。  
   
- 如果某个线程终止时拥有互斥体，则认为该 mutex 来放弃。 互斥体的状态设置为终止，并在下一个等待线程获取所有权。 如果没有人拥有互斥体，互斥体的状态处于有信号状态。 从 2.0 版.NET Framework 中，开始<xref:System.Threading.AbandonedMutexException>获取互斥体的下一个线程中引发。 在.NET Framework 2.0 版中之前, 没有引发异常。  
+ 如果线程终止时拥有互斥体，则认为该 mutex 已放弃。 互斥体的状态设置为终止和下一个等待线程获取所有权。 如果没有人拥有该互斥体，互斥体的状态是终止状态。 从.NET Framework 的版本 2.0<xref:System.Threading.AbandonedMutexException>获得该互斥体的下一个线程中引发。 在.NET Framework 2.0 版中之前, 未不引发任何异常。  
   
 > [!CAUTION]
->  放弃的 mutex 通常表明代码中的存在严重错误。 如果一个线程退出时不释放互斥体，由 mutex 保护的数据结构可能不处于一致状态。 下一个请求 mutex 所有权的线程可以处理此异常并继续操作，如果可以验证这些数据结构的完整性。  
+>  放弃的 mutex 通常表明代码中的存在严重错误。 线程退出时不释放互斥体，由 mutex 保护的数据结构不可能处于一致状态。 为请求 mutex 所有权的下一个线程可以处理此异常并继续操作，如果可以验证数据结构的完整性。  
   
  对于系统范围的 mutex，放弃的 mutex 可能指示应用程序已突然终止（例如，通过使用 Windows 任务管理器终止）。  
   
    
   
 ## Examples  
- 下面的示例显示如何本地<xref:System.Threading.Mutex>对象用于对受保护资源的访问进行同步。 创建互斥体的线程不最初拥有其信息。 <xref:System.Threading.Mutex.ReleaseMutex%2A>方法用于当不再需要时，释放互斥体。  
+ 下面的示例演示如何本地<xref:System.Threading.Mutex>对象用于同步对受保护资源的访问。 创建互斥体的线程不最初拥有其信息。 <xref:System.Threading.Mutex.ReleaseMutex%2A>方法用于在不再需要时释放该互斥。  
   
  [!code-cpp[System.Threading.Mutex Default Ctor Example#1](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Threading.Mutex Default Ctor Example/CPP/class1.cpp#1)]
  [!code-csharp[System.Threading.Mutex Default Ctor Example#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.Mutex Default Ctor Example/CS/class1.cs#1)]
@@ -708,8 +719,8 @@
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.ApplicationException">调用线程不拥有互斥体。</exception>
-        <exception cref="T:System.ObjectDisposedException">已释放当前实例。</exception>
+        <exception cref="T:System.ApplicationException">The calling thread does not own the mutex.</exception>
+        <exception cref="T:System.ObjectDisposedException">The current instance has already been disposed.</exception>
       </Docs>
     </Member>
     <Member MemberName="SetAccessControl">
@@ -717,9 +728,11 @@
       <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void SetAccessControl(class System.Security.AccessControl.MutexSecurity mutexSecurity) cil managed" />
       <MemberSignature Language="DocId" Value="M:System.Threading.Mutex.SetAccessControl(System.Security.AccessControl.MutexSecurity)" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; void SetAccessControl(System::Security::AccessControl::MutexSecurity ^ mutexSecurity);" />
+      <MemberSignature Language="F#" Value="member this.SetAccessControl : System.Security.AccessControl.MutexSecurity -&gt; unit" Usage="mutex.SetAccessControl mutexSecurity" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -729,24 +742,24 @@
         <Parameter Name="mutexSecurity" Type="System.Security.AccessControl.MutexSecurity" />
       </Parameters>
       <Docs>
-        <param name="mutexSecurity">一个 <see cref="T:System.Security.AccessControl.MutexSecurity" /> 对象，表示应用于已命名的系统互斥体的访问控制安全性。</param>
-        <summary>设置已命名的系统互斥体的访问控制安全性。</summary>
+        <param name="mutexSecurity">A <see cref="T:System.Security.AccessControl.MutexSecurity" /> object that represents the access control security to be applied to the named system mutex.</param>
+        <summary>Sets the access control security for a named system mutex.</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 用户必须具有<xref:System.Security.AccessControl.MutexRights.ChangePermissions?displayProperty=nameWithType>权限才能调用此方法，而且互斥体必须使用打开<xref:System.Security.AccessControl.MutexRights.ChangePermissions?displayProperty=nameWithType>。  
+ 用户必须具有<xref:System.Security.AccessControl.MutexRights.ChangePermissions?displayProperty=nameWithType>权限才能调用此方法，而且该互斥体必须使用打开<xref:System.Security.AccessControl.MutexRights.ChangePermissions?displayProperty=nameWithType>。  
   
    
   
 ## Examples  
- 下面的代码示例演示通过访问控制安全性的已命名的互斥体的跨进程行为。 该示例使用<xref:System.Threading.Mutex.OpenExisting%28System.String%29>方法重载来测试是否存在的已命名的互斥体。  
+ 下面的代码示例演示使用访问控制安全性的已命名的互斥体的跨进程行为。 该示例使用<xref:System.Threading.Mutex.OpenExisting%28System.String%29>方法重载来测试是否存在已命名的互斥体。  
   
- 如果互斥体不存在，它是初始所属权和创建将拒绝使用互斥体的权限的当前用户，但授予的权限读取和更改权限互斥体的访问控制安全性。  
+ 如果不存在该互斥体，创建使用初始所有权以及访问控制安全性，将拒绝使用互斥体的权限的当前用户，但授予的权限读取和更改该互斥体的权限。  
   
- 如果从两个命令窗口中运行已编译的示例，第二个副本将在调用引发访问冲突异常<xref:System.Threading.Mutex.OpenExisting%28System.String%29>。 捕获了异常，并且该示例使用<xref:System.Threading.Mutex.OpenExisting%28System.String%2CSystem.Security.AccessControl.MutexRights%29>方法重载，以读取和更改权限，使用所需的权限打开互斥体<xref:System.Threading.Mutex.GetAccessControl%2A>和<xref:System.Threading.Mutex.SetAccessControl%2A>方法。  
+ 如果从两个命令窗口运行已编译的示例，第二个副本将在调用引发访问冲突异常<xref:System.Threading.Mutex.OpenExisting%28System.String%29>。 捕获的异常，并且该示例使用<xref:System.Threading.Mutex.OpenExisting%28System.String%2CSystem.Security.AccessControl.MutexRights%29>方法重载来读取和更改权限，使用所需的权限打开 mutex<xref:System.Threading.Mutex.GetAccessControl%2A>和<xref:System.Threading.Mutex.SetAccessControl%2A>方法。  
   
- 更改权限后，输入并释放它所需的权限打开互斥体。 如果从第三个命令窗口中运行已编译的示例，它将运行使用新的权限。  
+ 更改权限后，输入，并将其释放所需的权限打开该互斥体。 如果从第三个命令窗口运行已编译的示例，它运行使用新的权限。  
   
  [!code-cpp[System.Threading.Mutex.ctor named 4#1](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Threading.Mutex.ctor named 4/CPP/source.cpp#1)]
  [!code-csharp[System.Threading.Mutex.ctor named 4#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.Mutex.ctor named 4/CS/source.cs#1)]
@@ -755,13 +768,9 @@
  ]]></format>
         </remarks>
         <exception cref="T:System.ArgumentNullException">
-          <paramref name="mutexSecurity" /> 为 <see langword="null" />。</exception>
-        <exception cref="T:System.UnauthorizedAccessException">用户不具备 <see cref="F:System.Security.AccessControl.MutexRights.ChangePermissions" />。  
-  
- 或  
-  
- 互斥体未用 <see cref="F:System.Security.AccessControl.MutexRights.ChangePermissions" /> 打开。</exception>
-        <exception cref="T:System.SystemException">当前 <see cref="T:System.Threading.Mutex" /> 对象不表示已命名的系统互斥体。</exception>
+          <paramref name="mutexSecurity" /> is <see langword="null" />.</exception>
+        <exception cref="T:System.UnauthorizedAccessException">The user does not have <see cref="F:System.Security.AccessControl.MutexRights.ChangePermissions" />.  -or-  The mutex was not opened with <see cref="F:System.Security.AccessControl.MutexRights.ChangePermissions" />.</exception>
+        <exception cref="T:System.SystemException">The current <see cref="T:System.Threading.Mutex" /> object does not represent a named system mutex.</exception>
       </Docs>
     </Member>
     <MemberGroup MemberName="TryOpenExisting">
@@ -772,7 +781,7 @@
         <AssemblyVersion>4.1.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Docs>
-        <summary>打开指定的已命名的互斥体（如果已经存在），并返回指示操作是否成功的值。</summary>
+        <summary>Opens a specified named mutex, if it already exists, and returns a value that indicates whether the operation succeeded.</summary>
       </Docs>
     </MemberGroup>
     <Member MemberName="TryOpenExisting">
@@ -781,6 +790,7 @@
       <MemberSignature Language="DocId" Value="M:System.Threading.Mutex.TryOpenExisting(System.String,System.Threading.Mutex@)" />
       <MemberSignature Language="VB.NET" Value="Public Shared Function TryOpenExisting (name As String, ByRef result As Mutex) As Boolean" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; static bool TryOpenExisting(System::String ^ name, [Runtime::InteropServices::Out] System::Threading::Mutex ^ % result);" />
+      <MemberSignature Language="F#" Value="static member TryOpenExisting : string *  -&gt; bool" Usage="System.Threading.Mutex.TryOpenExisting (name, result)" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Threading</AssemblyName>
@@ -806,38 +816,34 @@
         <Parameter Name="result" Type="System.Threading.Mutex&amp;" RefType="out" />
       </Parameters>
       <Docs>
-        <param name="name">要打开的系统互斥体的名称。</param>
-        <param name="result">当此方法返回时，如果调用成功，则包含表示命名互斥体的 <see cref="T:System.Threading.Mutex" /> 对象；否则为 <see langword="null" />。 该参数未经初始化即被处理。</param>
-        <summary>打开指定的已命名的互斥体（如果已经存在），并返回指示操作是否成功的值。</summary>
+        <param name="name">The name of the system mutex to open.</param>
+        <param name="result">When this method returns, contains a <see cref="T:System.Threading.Mutex" /> object that represents the named mutex if the call succeeded, or <see langword="null" /> if the call failed. This parameter is treated as uninitialized.</param>
+        <summary>Opens the specified named mutex, if it already exists, and returns a value that indicates whether the operation succeeded.</summary>
         <returns>
-          如果命名互斥体成功打开，则为 <see langword="true" />；否则为 <see langword="false" />。</returns>
+          <see langword="true" /> if the named mutex was opened successfully; otherwise, <see langword="false" />.</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 如果命名互斥体不存在，则此方法不创建它。 若要创建的系统互斥体时不存在，请使用之一<xref:System.Threading.Mutex.%23ctor%2A>构造函数具有`name`参数。  
+ 如果已命名的 mutex 不存在，此方法不会创建它。 若要创建的系统互斥体已存在时，请使用之一<xref:System.Threading.Mutex.%23ctor%2A>构造函数具有`name`参数。  
   
- 如果你不确定是否已命名的互斥体存在，请使用而不是此方法重载<xref:System.Threading.Mutex.OpenExisting%28System.String%29>互斥体不存在时引发异常的方法重载。  
+ 如果您不确定是否存在已命名的互斥体，使用此方法重载，而不是<xref:System.Threading.Mutex.OpenExisting%28System.String%29>方法重载，它的 mutex 不存在时引发异常。  
   
- 多次调用此方法使用相同的值的`name`不一定返回相同<xref:System.Threading.Mutex>对象，即使返回这些对象表示相同的已命名的系统互斥体。  
+ 多个调用此方法使用的相同值的`name`不一定返回相同<xref:System.Threading.Mutex>对象，即使返回这些对象表示同一命名的系统互斥体。  
   
- 此方法重载是等效于调用<xref:System.Threading.Mutex.TryOpenExisting%28System.String%2CSystem.Security.AccessControl.MutexRights%2CSystem.Threading.Mutex%40%29>方法重载并指定<xref:System.Security.AccessControl.MutexRights.Synchronize?displayProperty=nameWithType>和<xref:System.Security.AccessControl.MutexRights.Modify?displayProperty=nameWithType>权限，使用按位或运算组合在一起。 指定<xref:System.Security.AccessControl.MutexRights.Synchronize?displayProperty=nameWithType>标志将允许线程等待互斥体，并指定<xref:System.Security.AccessControl.MutexRights.Modify?displayProperty=nameWithType>标志将允许线程调用<xref:System.Threading.Mutex.ReleaseMutex%2A>方法。  
+ 此方法的重载是等效于调用<xref:System.Threading.Mutex.TryOpenExisting%28System.String%2CSystem.Security.AccessControl.MutexRights%2CSystem.Threading.Mutex%40%29>方法重载并指定<xref:System.Security.AccessControl.MutexRights.Synchronize?displayProperty=nameWithType>和<xref:System.Security.AccessControl.MutexRights.Modify?displayProperty=nameWithType>权限，使用按位 OR 运算组合在一起。 指定<xref:System.Security.AccessControl.MutexRights.Synchronize?displayProperty=nameWithType>标志将允许线程等待互斥体，并指定<xref:System.Security.AccessControl.MutexRights.Modify?displayProperty=nameWithType>标志将允许线程调用<xref:System.Threading.Mutex.ReleaseMutex%2A>方法。  
   
- 此方法不会请求 mutex 所有权。  
+ 此方法不会请求 mutex 的所有权。  
   
  ]]></format>
         </remarks>
         <exception cref="T:System.ArgumentException">
-          <paramref name="name" /> 是一个空字符串。  
-  
- 或  
-  
- <paramref name="name" /> 超过 260 个字符。</exception>
+          <paramref name="name" /> is an empty string.  -or-  <paramref name="name" /> is longer than 260 characters.</exception>
         <exception cref="T:System.ArgumentNullException">
-          <paramref name="name" /> 为 <see langword="null" />。</exception>
-        <exception cref="T:System.IO.IOException">出现 Win32 错误。</exception>
-        <exception cref="T:System.UnauthorizedAccessException">存在命名的互斥，但用户没有使用它时所需的安全访问权限。</exception>
-        <permission cref="T:System.Security.SecurityCriticalAttribute">需要完全信任直接调用方。 此成员不能由部分受信任或不透明的代码。</permission>
+          <paramref name="name" /> is <see langword="null" />.</exception>
+        <exception cref="T:System.IO.IOException">A Win32 error occurred.</exception>
+        <exception cref="T:System.UnauthorizedAccessException">The named mutex exists, but the user does not have the security access required to use it.</exception>
+        <permission cref="T:System.Security.SecurityCriticalAttribute">直接调用方需要完全信任。 不能由部分受信任的或透明的代码使用此成员。</permission>
       </Docs>
     </Member>
     <Member MemberName="TryOpenExisting">
@@ -846,6 +852,7 @@
       <MemberSignature Language="DocId" Value="M:System.Threading.Mutex.TryOpenExisting(System.String,System.Security.AccessControl.MutexRights,System.Threading.Mutex@)" />
       <MemberSignature Language="VB.NET" Value="Public Shared Function TryOpenExisting (name As String, rights As MutexRights, ByRef result As Mutex) As Boolean" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; static bool TryOpenExisting(System::String ^ name, System::Security::AccessControl::MutexRights rights, [Runtime::InteropServices::Out] System::Threading::Mutex ^ % result);" />
+      <MemberSignature Language="F#" Value="static member TryOpenExisting : string * System.Security.AccessControl.MutexRights *  -&gt; bool" Usage="System.Threading.Mutex.TryOpenExisting (name, rights, result)" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
@@ -861,39 +868,35 @@
         <Parameter Name="result" Type="System.Threading.Mutex&amp;" RefType="out" />
       </Parameters>
       <Docs>
-        <param name="name">要打开的系统互斥体的名称。</param>
-        <param name="rights">表示所需的安全访问权限的枚举值的按位组合。</param>
-        <param name="result">当此方法返回时，如果调用成功，则包含表示命名互斥体的 <see cref="T:System.Threading.Mutex" /> 对象；否则为 <see langword="null" />。 该参数未经初始化即被处理。</param>
-        <summary>利用所需的安全访问权限，打开指定的已命名的互斥体（如果已经存在），并返回指示操作是否成功的值。</summary>
+        <param name="name">The name of the system mutex to open.</param>
+        <param name="rights">A bitwise combination of the enumeration values that represent the desired security access.</param>
+        <param name="result">When this method returns, contains a <see cref="T:System.Threading.Mutex" /> object that represents the named mutex if the call succeeded, or <see langword="null" /> if the call failed. This parameter is treated as uninitialized.</param>
+        <summary>Opens the specified named mutex, if it already exists, with the desired security access, and returns a value that indicates whether the operation succeeded.</summary>
         <returns>
-          如果命名互斥体成功打开，则为 <see langword="true" />；否则为 <see langword="false" />。</returns>
+          <see langword="true" /> if the named mutex was opened successfully; otherwise, <see langword="false" />.</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 如果命名互斥体不存在，则此方法不创建它。 若要创建的系统互斥体时不存在，请使用之一<xref:System.Threading.Mutex.%23ctor%2A>构造函数具有`name`参数。  
+ 如果已命名的 mutex 不存在，此方法不会创建它。 若要创建的系统互斥体已存在时，请使用之一<xref:System.Threading.Mutex.%23ctor%2A>构造函数具有`name`参数。  
   
- 如果你不确定是否已命名的互斥体存在，请使用而不是此方法重载<xref:System.Threading.Mutex.OpenExisting%28System.String%2CSystem.Security.AccessControl.MutexRights%29>互斥体不存在时引发异常的方法重载。  
+ 如果您不确定是否存在已命名的互斥体，使用此方法重载，而不是<xref:System.Threading.Mutex.OpenExisting%28System.String%2CSystem.Security.AccessControl.MutexRights%29>方法重载，它的 mutex 不存在时引发异常。  
   
- `rights`参数必须包含<xref:System.Security.AccessControl.MutexRights.Synchronize?displayProperty=nameWithType>标志以允许线程等待互斥体和<xref:System.Security.AccessControl.MutexRights.Modify?displayProperty=nameWithType>标志以允许线程调用<xref:System.Threading.Mutex.ReleaseMutex%2A>方法。  
+ `rights`参数必须包含<xref:System.Security.AccessControl.MutexRights.Synchronize?displayProperty=nameWithType>标志，以便允许线程等待互斥体，并<xref:System.Security.AccessControl.MutexRights.Modify?displayProperty=nameWithType>标志，以使线程能够调用<xref:System.Threading.Mutex.ReleaseMutex%2A>方法。  
   
- 多次调用此方法使用相同的值的`name`不一定返回相同<xref:System.Threading.Mutex>对象，即使返回这些对象表示相同的已命名的系统互斥体。  
+ 多个调用此方法使用的相同值的`name`不一定返回相同<xref:System.Threading.Mutex>对象，即使返回这些对象表示同一命名的系统互斥体。  
   
- 此方法不会请求 mutex 所有权。  
+ 此方法不会请求 mutex 的所有权。  
   
  ]]></format>
         </remarks>
         <exception cref="T:System.ArgumentException">
-          <paramref name="name" /> 是一个空字符串。  
-  
- 或  
-  
- <paramref name="name" /> 超过 260 个字符。</exception>
+          <paramref name="name" /> is an empty string.  -or-  <paramref name="name" /> is longer than 260 characters.</exception>
         <exception cref="T:System.ArgumentNullException">
-          <paramref name="name" /> 为 <see langword="null" />。</exception>
-        <exception cref="T:System.IO.IOException">出现 Win32 错误。</exception>
-        <exception cref="T:System.UnauthorizedAccessException">存在命名的互斥，但用户没有使用它时所需的安全访问权限。</exception>
-        <permission cref="T:System.Security.SecurityCriticalAttribute">需要完全信任直接调用方。 此成员不能由部分受信任或不透明的代码。</permission>
+          <paramref name="name" /> is <see langword="null" />.</exception>
+        <exception cref="T:System.IO.IOException">A Win32 error occurred.</exception>
+        <exception cref="T:System.UnauthorizedAccessException">The named mutex exists, but the user does not have the security access required to use it.</exception>
+        <permission cref="T:System.Security.SecurityCriticalAttribute">直接调用方需要完全信任。 不能由部分受信任的或透明的代码使用此成员。</permission>
       </Docs>
     </Member>
   </Members>

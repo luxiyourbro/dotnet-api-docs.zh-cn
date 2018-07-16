@@ -1,11 +1,11 @@
 <Type Name="StringBuilder" FullName="System.Text.StringBuilder">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="e3c91724ff6dad5916829d444df2a9e5fff19850" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="29e851adfc42ab7a599e5f18e1799ded1499426e" />
+    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="zh-CN" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36409194" />
+    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
+    <Meta Name="ms.locfileid" Value="37610829" />
   </Metadata>
   <TypeSignature Language="C#" Value="public sealed class StringBuilder : System.Runtime.Serialization.ISerializable" />
   <TypeSignature Language="ILAsm" Value=".class public sequential ansi serializable sealed beforefieldinit StringBuilder extends System.Object implements class System.Runtime.Serialization.ISerializable" />
@@ -24,6 +24,8 @@
   </AssemblyInfo>
   <AssemblyInfo>
     <AssemblyName>mscorlib</AssemblyName>
+    <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
     <AssemblyVersion>2.0.5.0</AssemblyVersion>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
   </AssemblyInfo>
@@ -66,7 +68,7 @@
   
 -   [执行 StringBuilder 操作](#Operations)  
   
-    -   [循环 StringBuilder 字符](#Iterating)  
+    -   [循环访问 StringBuilder 字符](#Iterating)  
   
     -   [将文本添加到 StringBuilder 对象](#Adding)  
   
@@ -80,105 +82,105 @@
   
 <a name="StringAndSB"></a>   
 ## <a name="the-string-and-stringbuilder-types"></a>字符串和 StringBuilder 类型  
- 尽管<xref:System.Text.StringBuilder>和<xref:System.String>二者都表示序列的字符，它们实现方式有所不同。 <xref:System.String> 是不可变的类型。 也就是说，看起来可以修改每个操作<xref:System.String>对象实际创建一个新字符串。  
+ 尽管<xref:System.Text.StringBuilder>和<xref:System.String>二者都表示序列的字符，它们的实现方式有所不同。 <xref:System.String> 是不可变类型。 也就是说，每个操作，它可修改<xref:System.String>对象实际上会创建一个新的字符串。  
   
- 例如，调用<xref:System.String.Concat%2A?displayProperty=nameWithType>方法在下面的 C# 示例显示一个名为的字符串变量的值更改`value`。 事实上，<xref:System.String.Concat%2A>方法返回`value`具有不同的值和从地址对象`value`传递给方法的对象。 请注意，必须使用编译该示例`/unsafe`编译器选项。  
+ 例如，在调用<xref:System.String.Concat%2A?displayProperty=nameWithType>方法在下面的 C# 示例显示名为的字符串变量的值更改`value`。 事实上，<xref:System.String.Concat%2A>方法将返回`value`对象具有不同的值和从地址`value`传递给方法的对象。 请注意，必须使用编译该示例`/unsafe`编译器选项。  
   
  [!code-csharp[System.Text.StringBuilder.Class#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.text.stringbuilder.class/cs/immutability2.cs#1)]  
   
- 对于执行广泛的字符串操作 （如修改在循环中多次字符串的应用） 的例程，反复修改字符串可以准确显著的性能损失。 替代方法是使用<xref:System.Text.StringBuilder>，它是一个可变字符串类。 可变性意味着，一旦创建类的实例后，它可以修改通过追加、 删除、 替换或插入字符。 A<xref:System.Text.StringBuilder>对象维护一个缓冲区以适应扩展到字符串。 如果没有可用; 空间，新数据追加到缓冲区否则为在分配新的、 更大的缓冲区、 原始缓冲区中的数据复制到新的缓冲区，和新的数据随后会追加到新的缓冲区。  
+ 对于执行广泛的字符串操作 （例如修改在循环中多次的字符串的应用） 的例程，重复修改字符串可以精确对显著的性能产生负面影响。 替代方法是使用<xref:System.Text.StringBuilder>，它是一个可变字符串类。 可变性意味着，一旦创建类的实例后，它可以修改通过追加、 删除、 替换或插入字符。 一个<xref:System.Text.StringBuilder>对象维护一个缓冲区以容纳扩展到字符串。 新数据追加到缓冲区，如果空间不可用;否则为分配新的、 更大的缓冲区、 原始缓冲区中的数据复制到新的缓冲区，并随后会将新数据追加到新的缓冲区。  
   
 > [!IMPORTANT]
->  尽管<xref:System.Text.StringBuilder>类通常提供更好的性能比<xref:System.String>类，则应不会自动将<xref:System.String>与<xref:System.Text.StringBuilder>每当你想要操作的字符串。 性能取决于字符串，并将其分配的新字符串，其执行你的应用程序，系统和操作的类型的内存量的大小。 你应该准备好测试您的应用程序，以确定是否<xref:System.Text.StringBuilder>实际带来了显著的性能改进。  
+>  尽管<xref:System.Text.StringBuilder>类通常提供更好的性能比<xref:System.String>类，您应该不会自动替换<xref:System.String>与<xref:System.Text.StringBuilder>每当你想要操作的字符串。 性能取决于字符串，并将其分配新字符串、 执行您的应用程序的系统和操作的类型的内存量的大小。 您应该准备好测试应用程序以确定是否<xref:System.Text.StringBuilder>实际上提供了显著改善性能。  
   
- 请考虑使用<xref:System.String>在这些情况下的类：  
+ 请考虑使用<xref:System.String>类在这些情况下：  
   
--   当你的应用程序将对字符串进行的更改的数量很小。 在这些情况下，<xref:System.Text.StringBuilder>可能不会改善性能转移或产品可以忽略不计<xref:System.String>。  
+-   当您的应用程序将对字符串进行的更改数很小。 在这些情况下，<xref:System.Text.StringBuilder>可能可以忽略不计的产品/服务或对任何性能改进<xref:System.String>。  
   
--   当您正在执行固定的数量的串联运算，特别是对于字符串文本。 在这种情况下，编译器可能将合并到单个操作串联运算。  
+-   当正在执行固定的数量的串联操作中，尤其是对于字符串文本。 在这种情况下，编译器可能将合并到单个操作的串联操作。  
   
--   当需要时要生成你的字符串，执行广泛的搜索操作。 <xref:System.Text.StringBuilder>类缺少搜索方法，如`IndexOf`或`StartsWith`。 你将需要转换<xref:System.Text.StringBuilder>对象传递给<xref:System.String>为这些操作，这可以 negate 从使用的性能优势<xref:System.Text.StringBuilder>。 有关详细信息，请参阅[StringBuilder 对象中搜索的文本](#Searching)部分。  
+-   当必须执行广泛的搜索操作时要构建您的字符串。 <xref:System.Text.StringBuilder>类缺少搜索方法，如`IndexOf`或`StartsWith`。 您必须将转换<xref:System.Text.StringBuilder>对象传递给<xref:System.String>为这些操作，这可以抵消性能受益于使用<xref:System.Text.StringBuilder>。 有关详细信息，请参阅[StringBuilder 对象中搜索的文本](#Searching)部分。  
   
- 请考虑使用<xref:System.Text.StringBuilder>在这些情况下的类：  
+ 请考虑使用<xref:System.Text.StringBuilder>类在这些情况下：  
   
--   当您希望您的应用程序 （例如，在使用循环来连接包含用户输入的字符串的一个随机数时） 的设计时对字符串进行的更改数未知。  
+-   如果期望您的应用程序在设计时 （例如，在使用一个循环来连接包含用户输入的字符串的随机数字时） 对字符串进行的更改数未知。  
   
--   当您希望您的应用程序对字符串进行大量更改。  
+-   当您希望对字符串进行大量更改您的应用程序。  
   
 <a name="HowWorks"></a>   
 ## <a name="how-stringbuilder-works"></a>StringBuilder 的工作原理  
- <xref:System.Text.StringBuilder.Length%2A?displayProperty=nameWithType>属性指示的字符数<xref:System.Text.StringBuilder>当前包含的对象。 如果您添加到字符<xref:System.Text.StringBuilder>对象，它等于的大小之前，其长度增加<xref:System.Text.StringBuilder.Capacity%2A?displayProperty=nameWithType>属性，定义的对象可以包含的字符数。 如果添加的字符数导致的长度<xref:System.Text.StringBuilder>对象超过其当前容量，新的内存分配的值<xref:System.Text.StringBuilder.Capacity%2A>属性增加了一倍，新字符添加到<xref:System.Text.StringBuilder>对象，并且其<xref:System.Text.StringBuilder.Length%2A>调整属性。 其他内存以进行<xref:System.Text.StringBuilder>对象动态分配的直到它达到由定义值<xref:System.Text.StringBuilder.MaxCapacity%2A?displayProperty=nameWithType>属性。 当达到最大容量时，可为没有更多的内存分配的<xref:System.Text.StringBuilder>对象，并尝试添加字符或将其展开超出其最大容量引发或者<xref:System.ArgumentOutOfRangeException>或<xref:System.OutOfMemoryException>异常。  
+ <xref:System.Text.StringBuilder.Length%2A?displayProperty=nameWithType>属性指示的字符数<xref:System.Text.StringBuilder>当前包含的对象。 如果您添加到字符<xref:System.Text.StringBuilder>对象，直至等于的大小，其长度增加<xref:System.Text.StringBuilder.Capacity%2A?displayProperty=nameWithType>属性，定义的对象可包含的字符数。 如果添加了字符数导致的长度<xref:System.Text.StringBuilder>对象超过其当前容量、 新的内存分配，值<xref:System.Text.StringBuilder.Capacity%2A>加倍属性时，新的字符添加到<xref:System.Text.StringBuilder>对象，并且其<xref:System.Text.StringBuilder.Length%2A>调整属性。 额外的内存<xref:System.Text.StringBuilder>直到它达到定义的值动态分配对象<xref:System.Text.StringBuilder.MaxCapacity%2A?displayProperty=nameWithType>属性。 当达到最大容量时，可以为分配任何进一步的内存<xref:System.Text.StringBuilder>对象，并尝试添加字符或扩展到超过其最大容量引发任一<xref:System.ArgumentOutOfRangeException>或<xref:System.OutOfMemoryException>异常。  
   
- 下面的示例演示如何<xref:System.Text.StringBuilder>对象分配新内存，并会动态增加其容量为分配给对象的字符串展开时展开。 该代码创建<xref:System.Text.StringBuilder>通过调用其默认 （无参数） 构造函数的对象。 此对象的默认容量是 16 个字符，其最大容量为多个 20 亿个字符。 追加字符串"This is 句子"。 导致新的内存分配，因为字符串长度 （19 个字符） 超过了默认容量<xref:System.Text.StringBuilder>对象。 该对象的容量增加一倍到 32 个字符，添加的新字符串，并且对象的长度现在等于 19 个字符。 代码然后追加的字符串"This is 其他句子"。 值<xref:System.Text.StringBuilder>对象 11 次。 每当追加操作导致的长度<xref:System.Text.StringBuilder>翻倍对象超过其容量，其现有的容量和<xref:System.Text.StringBuilder.Append%2A>操作成功。  
+ 下面的示例演示如何<xref:System.Text.StringBuilder>对象分配新内存，并动态地增加其容量，随着分配给该对象的字符串的扩展。 该代码会创建<xref:System.Text.StringBuilder>对象通过调用其默认 （无参数） 构造函数。 此对象的默认容量为 16 个字符，其最大容量为超过 20 亿个字符。 将字符串追加"这一个句子"。 导致新的内存分配，因为字符串长度 （19 个字符） 超过默认容量<xref:System.Text.StringBuilder>对象。 对象的容量加倍为 32 个字符、 添加新字符串，并且对象的长度现在等于 19 个字符。 代码然后将字符串追加"这是其他句子"。 值<xref:System.Text.StringBuilder>对象 11 次。 每当追加操作导致的长度<xref:System.Text.StringBuilder>对象超出其容量，其现有的容量增加一倍和<xref:System.Text.StringBuilder.Append%2A>操作成功。  
   
  [!code-csharp[System.Text.StringBuilder.Class#3](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.text.stringbuilder.class/cs/default1.cs#3)]
  [!code-vb[System.Text.StringBuilder.Class#3](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.text.stringbuilder.class/vb/default1.vb#3)]  
   
 <a name="Memory"></a>   
 ## <a name="memory-allocation"></a>内存分配  
- 默认容量<xref:System.Text.StringBuilder>对象是 16 个字符，且其默认最大容量<xref:System.Int32.MaxValue?displayProperty=nameWithType>。 如果调用，则使用这些默认值<xref:System.Text.StringBuilder.%23ctor>和<xref:System.Text.StringBuilder.%23ctor%28System.String%29>构造函数。  
+ 默认容量<xref:System.Text.StringBuilder>对象是 16 个字符，其默认最大容量是<xref:System.Int32.MaxValue?displayProperty=nameWithType>。 如果调用使用这些默认值<xref:System.Text.StringBuilder.%23ctor>和<xref:System.Text.StringBuilder.%23ctor%28System.String%29>构造函数。  
   
- 你可以显式定义的初始容量<xref:System.Text.StringBuilder>对象通过以下方式：  
+ 您可以显式定义的初始容量<xref:System.Text.StringBuilder>对象中的以下方法：  
   
--   通过调用的任何<xref:System.Text.StringBuilder>构造函数包含`capacity`参数创建对象时。  
+-   通过调用任一<xref:System.Text.StringBuilder>构造函数包含`capacity`参数创建对象时。  
   
--   通过显式分配新值赋给<xref:System.Text.StringBuilder.Capacity%2A?displayProperty=nameWithType>要扩展的现有属性<xref:System.Text.StringBuilder>对象。 请注意，该属性将引发异常的新容量是否小于现有容量或更高<xref:System.Text.StringBuilder>对象的最大容量。  
+-   通过显式分配到一个新值<xref:System.Text.StringBuilder.Capacity%2A?displayProperty=nameWithType>要扩展的现有属性<xref:System.Text.StringBuilder>对象。 请注意，该属性将引发异常的新容量是否小于现有容量或大于<xref:System.Text.StringBuilder>对象的最大容量。  
   
--   通过调用<xref:System.Text.StringBuilder.EnsureCapacity%2A?displayProperty=nameWithType>具有新容量的方法。 新容量必须不能大于<xref:System.Text.StringBuilder>对象的最大容量。 但是，与分配给不同<xref:System.Text.StringBuilder.Capacity%2A>属性，<xref:System.Text.StringBuilder.EnsureCapacity%2A>不会引发异常，如果所需的新容量小于现有容量; 在这种情况下，方法调用不起作用。  
+-   通过调用<xref:System.Text.StringBuilder.EnsureCapacity%2A?displayProperty=nameWithType>方法为新容量。 新的容量不能大于<xref:System.Text.StringBuilder>对象的最大容量。 但是，与分配到不同<xref:System.Text.StringBuilder.Capacity%2A>属性，<xref:System.Text.StringBuilder.EnsureCapacity%2A>不会引发异常，如果所需的新容量小于现有容量; 在这种情况下，该方法调用不起作用。  
   
- 如果字符串的长度分配给<xref:System.Text.StringBuilder>构造函数调用中的对象超过默认容量或指定的容量，<xref:System.Text.StringBuilder.Capacity%2A>属性设置为与指定的字符串的长度`value`参数。  
+ 如果字符串的长度分配给<xref:System.Text.StringBuilder>构造函数调用中的对象超过默认的容量或指定的容量<xref:System.Text.StringBuilder.Capacity%2A>属性设置为与指定的字符串的长度`value`参数。  
   
- 你可以显式定义的最大容量<xref:System.Text.StringBuilder>对象通过调用<xref:System.Text.StringBuilder.%23ctor%28System.Int32%2CSystem.Int32%29>构造函数。 无法分配到一个新值来更改的最大容量<xref:System.Text.StringBuilder.MaxCapacity%2A>属性，因为它是只读的。  
+ 您可以显式定义的最大容量<xref:System.Text.StringBuilder>对象通过调用<xref:System.Text.StringBuilder.%23ctor%28System.Int32%2CSystem.Int32%29>构造函数。 不能通过将分配到一个新值更改的最大容量<xref:System.Text.StringBuilder.MaxCapacity%2A>属性，因为它是只读的。  
   
- 如上一节所分配所示，只要现有容量不足、 附加内存的容量和<xref:System.Text.StringBuilder>对象定义的值的双精度型值<xref:System.Text.StringBuilder.MaxCapacity%2A>属性。  
+ 如上一节所示，只要现有容量是不足、 其他内存分配的和容量<xref:System.Text.StringBuilder>对象定义的值为双精度型值<xref:System.Text.StringBuilder.MaxCapacity%2A>属性。  
   
- 一般情况下，默认的容量和最大容量是足够对于大多数应用程序。 你可以考虑设置以下情况下的这些值：  
+ 一般情况下，默认的容量和最大容量就足够了对于大多数应用程序。 您可以考虑设置在以下情况下的这些值：  
   
--   如果最终大小<xref:System.Text.StringBuilder>对象很可能变得极其庞大，通常超过几兆字节。 在这种情况下，可能有一些性能受益于设置初始<xref:System.Text.StringBuilder.Capacity%2A>为很高的值，以消除了太多内存重新分配而需要的属性。  
+-   如果最终大小的<xref:System.Text.StringBuilder>对象很可能变得非常大，通常超过几兆字节。 在这种情况下，可能有一些性能受益于设置初始<xref:System.Text.StringBuilder.Capacity%2A>为非常高的值，以消除了过多内存重新分配需要的属性。  
   
--   如果你的应用具有有限的内存的系统上运行。 在这种情况下，你可能想要考虑设置<xref:System.Text.StringBuilder.MaxCapacity%2A>属性设置为小于<xref:System.Int32.MaxValue?displayProperty=nameWithType>如果你的应用程序正在处理可能导致其在内存约束的环境中执行的大的字符串。  
+-   如果您的应用程序具有有限的内存的系统上运行。 在这种情况下，可能想要设置，请考虑<xref:System.Text.StringBuilder.MaxCapacity%2A>属性设置为小于<xref:System.Int32.MaxValue?displayProperty=nameWithType>如果您的应用程序处理可能导致其在内存受限的环境中执行的大型字符串。  
   
 <a name="Instantiating"></a>   
 ## <a name="instantiating-a-stringbuilder-object"></a>实例化 StringBuilder 对象  
- 实例化<xref:System.Text.StringBuilder>通过调用其六个的重载的类构造下, 表中列出了这些函数之一的对象。 三个构造函数实例化<xref:System.Text.StringBuilder>对象，其值为空字符串，但设置其<xref:System.Text.StringBuilder.Capacity%2A>和<xref:System.Text.StringBuilder.MaxCapacity%2A>值以不同的方式。 剩余的三个构造函数定义<xref:System.Text.StringBuilder>具有特定的字符串值和容量的对象。 两个三个构造函数使用的默认最大容量<xref:System.Int32.MaxValue?displayProperty=nameWithType>，而第三个允许你设置的最大容量。  
+ 实例化<xref:System.Text.StringBuilder>对象通过调用其六个的重载的类构造下, 表列出了这些函数之一。 三个构造函数实例化<xref:System.Text.StringBuilder>对象，其值为空字符串，但设置其<xref:System.Text.StringBuilder.Capacity%2A>和<xref:System.Text.StringBuilder.MaxCapacity%2A>值以不同的方式。 剩余的三个构造函数定义<xref:System.Text.StringBuilder>具有特定的字符串值和容量的对象。 两个三个构造函数使用的默认最大容量<xref:System.Int32.MaxValue?displayProperty=nameWithType>，而第三个可用于设置最大容量。  
   
 |构造函数|字符串值|容量|最大容量|  
 |-----------------|------------------|--------------|----------------------|  
 |<xref:System.Text.StringBuilder.%23ctor>|<xref:System.String.Empty?displayProperty=nameWithType>|16|<xref:System.Int32.MaxValue?displayProperty=nameWithType>|  
 |<xref:System.Text.StringBuilder.%23ctor%28System.Int32%29>|<xref:System.String.Empty?displayProperty=nameWithType>|通过定义`capacity`参数|<xref:System.Int32.MaxValue?displayProperty=nameWithType>|  
 |<xref:System.Text.StringBuilder.%23ctor%28System.Int32%2CSystem.Int32%29>|<xref:System.String.Empty?displayProperty=nameWithType>|通过定义`capacity`参数|通过定义`maxCapacity`参数|  
-|<xref:System.Text.StringBuilder.%23ctor%28System.String%29>|通过定义`value`参数|16 或`value`。 <xref:System.String.Length%2A>两者中较大|<xref:System.Int32.MaxValue?displayProperty=nameWithType>|  
-|<xref:System.Text.StringBuilder.%23ctor%28System.String%2CSystem.Int32%29>|通过定义`value`参数|通过定义`capacity`参数或`value`。 <xref:System.String.Length%2A>两者中较大。|<xref:System.Int32.MaxValue?displayProperty=nameWithType>|  
-|<xref:System.Text.StringBuilder.%23ctor%28System.String%2CSystem.Int32%2CSystem.Int32%2CSystem.Int32%29>|通过定义`value`。 <xref:System.String.Substring%2A>(`startIndex`, `length`)|通过定义`capacity`参数或`value`。 <xref:System.String.Length%2A>两者中较大。|通过定义`maxCapacity`参数|  
+|<xref:System.Text.StringBuilder.%23ctor%28System.String%29>|通过定义`value`参数|16 或`value`。 <xref:System.String.Length%2A>更多|<xref:System.Int32.MaxValue?displayProperty=nameWithType>|  
+|<xref:System.Text.StringBuilder.%23ctor%28System.String%2CSystem.Int32%29>|通过定义`value`参数|定义由`capacity`参数或`value`。 <xref:System.String.Length%2A>两者中较大。|<xref:System.Int32.MaxValue?displayProperty=nameWithType>|  
+|<xref:System.Text.StringBuilder.%23ctor%28System.String%2CSystem.Int32%2CSystem.Int32%2CSystem.Int32%29>|通过定义`value`。 <xref:System.String.Substring%2A>(`startIndex`, `length`)|定义由`capacity`参数或`value`。 <xref:System.String.Length%2A>两者中较大。|通过定义`maxCapacity`参数|  
   
- 下面的示例使用三个这些构造函数重载来实例化<xref:System.Text.StringBuilder>对象。  
+ 下面的示例使用三个构造函数重载来实例化<xref:System.Text.StringBuilder>对象。  
   
  [!code-csharp[System.Text.StringBuilder.Class#6](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.text.stringbuilder.class/cs/instantiate1.cs#6)]
  [!code-vb[System.Text.StringBuilder.Class#6](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.text.stringbuilder.class/vb/instantiate1.vb#6)]  
   
 <a name="Calling"></a>   
 ## <a name="calling-stringbuilder-methods"></a>调用 StringBuilder 方法  
- 修改中的字符串的方法的大多数<xref:System.Text.StringBuilder>实例返回到该同一实例的引用。 这使您可以调用<xref:System.Text.StringBuilder>两种方式的方法：  
+ 在修改字符串的方法的大多数<xref:System.Text.StringBuilder>实例返回到该同一实例的引用。 这使您可以调用<xref:System.Text.StringBuilder>两种方法中的方法：  
   
--   可以进行单个方法调用，并忽略返回值，如以下示例执行。  
+-   可以进行单个方法调用，并忽略返回值，如以下示例所示。  
   
      [!code-csharp[System.Text.StringBuilder.Class#4](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.text.stringbuilder.class/cs/call1.cs#4)]
      [!code-vb[System.Text.StringBuilder.Class#4](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.text.stringbuilder.class/vb/call1.vb#4)]  
   
--   你可以一系列方法调用在单个语句中。 这会很方便，如果你想要编写链接连续的操作的单个语句。 下面的示例将上一示例中的三个方法调用整合到单个行的代码。  
+-   单个语句中，可以进行一系列方法调用。 这会非常方便，如果你想要编写用于链接在连续的操作的单个语句。 下面的示例将上一示例中的三个方法调用合并到一行代码。  
   
      [!code-csharp[System.Text.StringBuilder.Class#5](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.text.stringbuilder.class/cs/call2.cs#5)]
      [!code-vb[System.Text.StringBuilder.Class#5](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.text.stringbuilder.class/vb/call2.vb#5)]  
   
 <a name="Operations"></a>   
 ## <a name="performing-stringbuilder-operations"></a>执行 StringBuilder 操作  
- 你可以使用的方法<xref:System.Text.StringBuilder>类循环、 添加、 删除或修改中的字符<xref:System.Text.StringBuilder>对象。  
+ 可以使用的方法<xref:System.Text.StringBuilder>类来循环访问、 添加、 删除或修改中的字符<xref:System.Text.StringBuilder>对象。  
   
 <a name="Iterating"></a>   
-### <a name="iterating-stringbuilder-characters"></a>循环 StringBuilder 字符  
- 你可以访问中的字符<xref:System.Text.StringBuilder>对象使用<xref:System.Text.StringBuilder.Chars%2A?displayProperty=nameWithType>属性。 在 C# 中，<xref:System.Text.StringBuilder.Chars%2A>是一个索引器; 在 Visual Basic 中，它是默认属性<xref:System.Text.StringBuilder>类。 这使您可以设置或通过其索引仅，无需显式引用检索各个字符<xref:System.Text.StringBuilder.Chars%2A>属性。 中的字符<xref:System.Text.StringBuilder>对象开始索引 0 （零），并继续进行索引<xref:System.Text.StringBuilder.Length%2A>-1。  
+### <a name="iterating-stringbuilder-characters"></a>循环访问 StringBuilder 字符  
+ 您可以访问中的字符<xref:System.Text.StringBuilder>对象使用<xref:System.Text.StringBuilder.Chars%2A?displayProperty=nameWithType>属性。 在 C# 中，<xref:System.Text.StringBuilder.Chars%2A>是一个索引器; 在 Visual Basic 中，它是默认属性的<xref:System.Text.StringBuilder>类。 这使您可以设置或检索个别字符使用它们的索引，而无需显式引用<xref:System.Text.StringBuilder.Chars%2A>属性。 中的字符<xref:System.Text.StringBuilder>对象从索引 0 （零） 开始，继续索引<xref:System.Text.StringBuilder.Length%2A>-1。  
   
- 下面的示例演示<xref:System.Text.StringBuilder.Chars%2A>属性。 追加到 10 个随机数字<xref:System.Text.StringBuilder>对象，，然后循环的每个字符。 如果该字符的 Unicode 类别是<xref:System.Globalization.UnicodeCategory.DecimalDigitNumber?displayProperty=nameWithType>，它减少了 1 的数 （或数更改为 9，如果其值为 0）。 该示例显示的内容<xref:System.Text.StringBuilder>对象同时之前和之后的每个字符的值已更改。  
+ 下面的示例演示<xref:System.Text.StringBuilder.Chars%2A>属性。 将追加到 10 个随机数字<xref:System.Text.StringBuilder>对象，然后循环访问每个字符。 如果该字符的 Unicode 类别是<xref:System.Globalization.UnicodeCategory.DecimalDigitNumber?displayProperty=nameWithType>，它按 1 递减数 （或如果其值为 0 的数字更改为 9）。 该示例显示的内容<xref:System.Text.StringBuilder>对象同时之前和之后的单个字符的值已更改。  
   
  [!code-csharp[System.Text.StringBuilder.Class#7](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.text.stringbuilder.class/cs/chars1.cs#7)]
  [!code-vb[System.Text.StringBuilder.Class#7](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.text.stringbuilder.class/vb/chars1.vb#7)]  
@@ -187,87 +189,87 @@
   
 <a name="Adding"></a>   
 ### <a name="adding-text-to-a-stringbuilder-object"></a>将文本添加到 StringBuilder 对象  
- <xref:System.Text.StringBuilder>类包括以下方法以扩展的内容<xref:System.Text.StringBuilder>对象：  
+ <xref:System.Text.StringBuilder>类包括以下方法来扩展的内容<xref:System.Text.StringBuilder>对象：  
   
--   <xref:System.Text.StringBuilder.Append%2A>方法追加字符串、 一个子字符串，字符数组、 一部分的字符数组，单个字符重复多次，或的字符串表示形式基元数据类型更改为<xref:System.Text.StringBuilder>对象。  
+-   <xref:System.Text.StringBuilder.Append%2A>方法将追加字符串、 一个子字符串、 字符数组、 字符数组的一部分的单个字符重复多次，或的字符串表示形式的基元数据类型更改为<xref:System.Text.StringBuilder>对象。  
   
--   <xref:System.Text.StringBuilder.AppendLine%2A>方法将行终止符或行终止符写入沿的字符串追加<xref:System.Text.StringBuilder>对象。  
+-   <xref:System.Text.StringBuilder.AppendLine%2A>方法将行终止符或行终止符字符串追加<xref:System.Text.StringBuilder>对象。  
   
--   <xref:System.Text.StringBuilder.AppendFormat%2A>方法将追加到<xref:System.Text.StringBuilder>对象。 在结果字符串中包含的对象的字符串表示可以反映当前系统区域性或指定的区域性的格式设置约定。  
+-   <xref:System.Text.StringBuilder.AppendFormat%2A>方法将追加到<xref:System.Text.StringBuilder>对象。 字符串表示形式的结果字符串中包含的对象可以反映当前系统区域性或指定的区域性的格式设置约定。  
   
--   <xref:System.Text.StringBuilder.Insert%2A>方法插入一个字符串，一个子字符串，字符串中的多个重复的字符数组、 一部分的字符数组或的字符串表示形式基元数据类型中指定位置处<xref:System.Text.StringBuilder>对象。 从零开始的索引定义位置。  
+-   <xref:System.Text.StringBuilder.Insert%2A>方法插入一个字符串，子字符串，字符串的多个重复的字符数组、 字符数组的部分或基元数据的字符串表示形式中指定位置处键入<xref:System.Text.StringBuilder>对象。 按从零开始的索引定义位置。  
   
- 下面的示例使用<xref:System.Text.StringBuilder.Append%2A>， <xref:System.Text.StringBuilder.AppendLine%2A>， <xref:System.Text.StringBuilder.AppendFormat%2A>，和<xref:System.Text.StringBuilder.Insert%2A>方法，以展开的文本<xref:System.Text.StringBuilder>对象。  
+ 下面的示例使用<xref:System.Text.StringBuilder.Append%2A>， <xref:System.Text.StringBuilder.AppendLine%2A>， <xref:System.Text.StringBuilder.AppendFormat%2A>，和<xref:System.Text.StringBuilder.Insert%2A>方法以展开的文本<xref:System.Text.StringBuilder>对象。  
   
  [!code-csharp[System.Text.StringBuilder.Class#9](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.text.stringbuilder.class/cs/expand1.cs#9)]
  [!code-vb[System.Text.StringBuilder.Class#9](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.text.stringbuilder.class/vb/expand1.vb#9)]  
   
 <a name="Deleting"></a>   
 ### <a name="deleting-text-from-a-stringbuilder-object"></a>从 StringBuilder 对象中删除文本  
- <xref:System.Text.StringBuilder>类包括可以减小的当前大小的方法<xref:System.Text.StringBuilder>实例。 <xref:System.Text.StringBuilder.Clear%2A>方法中删除所有字符并将设置<xref:System.Text.StringBuilder.Length%2A>为零的属性。 <xref:System.Text.StringBuilder.Remove%2A>方法删除了指定的数量的字符从特定索引位置开始。 此外，从末尾删除字符<xref:System.Text.StringBuilder>对象通过设置其<xref:System.Text.StringBuilder.Length%2A>属性小于当前实例的长度的值。  
+ <xref:System.Text.StringBuilder>类包括可以减少的当前大小的方法<xref:System.Text.StringBuilder>实例。 <xref:System.Text.StringBuilder.Clear%2A>方法中删除所有字符，并设置<xref:System.Text.StringBuilder.Length%2A>属性设置为零。 <xref:System.Text.StringBuilder.Remove%2A>方法中删除指定的数量的特定索引位置开始的字符。 此外，从末尾删除字符<xref:System.Text.StringBuilder>对象通过设置其<xref:System.Text.StringBuilder.Length%2A>属性的值小于当前实例的长度。  
   
- 下面的示例删除某些中的文本<xref:System.Text.StringBuilder>对象，显示其生成容量、 最大容量和长度属性值，然后调用<xref:System.Text.StringBuilder.Clear%2A>方法移除所有字符<xref:System.Text.StringBuilder>对象。  
+ 以下示例将删除的某些从文本<xref:System.Text.StringBuilder>对象，显示其生成的容量、 最大容量和长度属性值，然后调用<xref:System.Text.StringBuilder.Clear%2A>方法来删除中的所有字符<xref:System.Text.StringBuilder>对象。  
   
  [!code-csharp[System.Text.StringBuilder.Class#10](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.text.stringbuilder.class/cs/delete1.cs#10)]
  [!code-vb[System.Text.StringBuilder.Class#10](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.text.stringbuilder.class/vb/delete1.vb#10)]  
   
 <a name="Modifying"></a>   
 ### <a name="modifying-the-text-in-a-stringbuilder-object"></a>修改 StringBuilder 对象中的文本  
- <xref:System.Text.StringBuilder.Replace%2A?displayProperty=nameWithType>方法替换所有匹配项的字符或字符串中整个<xref:System.Text.StringBuilder>对象或特定的字符范围中。 下面的示例使用<xref:System.Text.StringBuilder.Replace%2A>方法将替换为问号 （？） 中的所有感叹号 （！）<xref:System.Text.StringBuilder>对象。  
+ <xref:System.Text.StringBuilder.Replace%2A?displayProperty=nameWithType>方法替换所有出现的字符或字符串中整个<xref:System.Text.StringBuilder>对象或在特定的字符范围内。 下面的示例使用<xref:System.Text.StringBuilder.Replace%2A>方法中使用问号 （？） 替换所有感叹号 （！）<xref:System.Text.StringBuilder>对象。  
   
  [!code-csharp[System.Text.StringBuilder.Class#11](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.text.stringbuilder.class/cs/replace1.cs#11)]
  [!code-vb[System.Text.StringBuilder.Class#11](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.text.stringbuilder.class/vb/replace1.vb#11)]  
   
 <a name="Searching"></a>   
 ## <a name="searching-the-text-in-a-stringbuilder-object"></a>StringBuilder 对象中搜索的文本  
- <xref:System.Text.StringBuilder>类不包括方法类似于<xref:System.String.Contains%2A?displayProperty=nameWithType>， <xref:System.String.IndexOf%2A?displayProperty=nameWithType>，和<xref:System.String.StartsWith%2A?displayProperty=nameWithType>提供方法<xref:System.String>类，该类允许您搜索特定字符或子字符串的对象。 确定是否存在或起始字符位置的子字符串需要你搜索<xref:System.String>使用字符串搜索方法或正则表达式方法的值。 有四种方式来实现此类搜索，以下表所示。  
+ <xref:System.Text.StringBuilder>类不包括方法类似于<xref:System.String.Contains%2A?displayProperty=nameWithType>， <xref:System.String.IndexOf%2A?displayProperty=nameWithType>，和<xref:System.String.StartsWith%2A?displayProperty=nameWithType>提供的方法<xref:System.String>类，该类，您可以搜索特定字符或子字符串的对象。 确定是否存在或启动的子字符串的字符位置需要您搜索<xref:System.String>使用字符串搜索方法或正则表达式方法的值。 有四种方法来实现此类搜索，如下表所示。  
   
-|技术|专业人员|Cons|  
+|技术|专业人员|缺点|  
 |---------------|----------|----------|  
-|将它们添加到之前搜索的字符串值<xref:System.Text.StringBuilder>对象。|可用于确定是否存在某个子字符串。|不能重要的子字符串的索引位置时。|  
-|调用<xref:System.Text.StringBuilder.ToString%2A>和搜索返回<xref:System.String>对象。|易于使用如果分配到的所有文本<xref:System.Text.StringBuilder>对象，，然后开始对其进行修改。|轻松地重复调用<xref:System.Text.StringBuilder.ToString%2A>如果所有文本都添加到之前，必须进行修改<xref:System.Text.StringBuilder>对象。<br /><br /> 你必须记得工作结尾处<xref:System.Text.StringBuilder>对象的文本，如果您正在进行更改。|  
-|使用<xref:System.Text.StringBuilder.Chars%2A>属性以按顺序搜索的字符范围。|如果你担心与单个字符或小写的子字符串很有用。|要搜索的字符的数量很大或复杂的搜索逻辑是否繁琐。<br /><br />已增加通过反复进行方法调用非常大的对象的性能很差的结果。  |  
-|将转换<xref:System.Text.StringBuilder>对象传递给<xref:System.String>对象，并在执行修改<xref:System.String>对象。|如果修改的数量较少时很有用。|求反的性能优势<xref:System.Text.StringBuilder>类如果修改的数量很大。|  
+|将它们添加到之前搜索的字符串值<xref:System.Text.StringBuilder>对象。|可用于确定是否存在某个子字符串。|不能使用子字符串的索引位置很重要。|  
+|调用<xref:System.Text.StringBuilder.ToString%2A>并搜索返回<xref:System.String>对象。|易于使用如果分配到的所有文本<xref:System.Text.StringBuilder>对象，并开始对其进行修改。|重复调用不便于<xref:System.Text.StringBuilder.ToString%2A>如果您必须进行修改的所有文本都添加到之前<xref:System.Text.StringBuilder>对象。<br /><br /> 您必须记得从末尾<xref:System.Text.StringBuilder>对象的文本，如果您要做的更改。|  
+|使用<xref:System.Text.StringBuilder.Chars%2A>属性按顺序搜索的字符范围。|如果您关心的单个字符或小的子字符串，这很有用。|如果要搜索的字符数较大，或者搜索逻辑很复杂繁琐。<br /><br />已变得非常大而通过重复进行方法调用的对象的性能非常不佳的结果。  |  
+|将转换<xref:System.Text.StringBuilder>对象传递给<xref:System.String>对象，并在执行修改<xref:System.String>对象。|如果修改的数量较少时很有用。|求反的性能优势<xref:System.Text.StringBuilder>类如果的修改量很大。|  
   
- 我们来查看更详细介绍这些技术。  
+ 让我们看一下中更详细地介绍这些技术。  
   
--   如果搜索的目标是确定是否存在某个特定的子字符串的 （即，如果你不感兴趣的子字符串的位置），你可以将它们存储在之前搜索字符串<xref:System.Text.StringBuilder>对象。 下面的示例提供了一种可能实现。 它定义`StringBuilderFinder`类其构造函数已传递到了引用<xref:System.Text.StringBuilder>对象和要在字符串中查找的子字符串。 在这种情况下，此示例尝试确定记录的温度华氏或摄氏，是否将相应的介绍性文本添加到的开头<xref:System.Text.StringBuilder>对象。 随机数生成器用于选择包含摄氏度或华氏度中的数据的数组。  
+-   如果搜索的目标是确定是否存在某个特定的子字符串的 （即，如果您不感兴趣子字符串的位置），可以搜索字符串之前将它们存储在<xref:System.Text.StringBuilder>对象。 下面的示例提供了一种可能实现。 它定义`StringBuilderFinder`类的构造函数传递的引用<xref:System.Text.StringBuilder>对象和要在字符串中找到的子字符串。 在这种情况下，此示例尝试确定是否记录的温度华氏或摄氏温度，并将相应的介绍性文本添加到的开头<xref:System.Text.StringBuilder>对象。 随机数生成器用于选择包含摄氏度或华氏度中的数据的数组。  
   
      [!code-csharp[System.Text.StringBuilder.Class#12](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.text.stringbuilder.class/cs/pattern1.cs#12)]
      [!code-vb[System.Text.StringBuilder.Class#12](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.text.stringbuilder.class/vb/pattern1.vb#12)]  
   
--   调用<xref:System.Text.StringBuilder.ToString%2A?displayProperty=nameWithType>方法将转换<xref:System.Text.StringBuilder>对象传递给<xref:System.String>对象。 您可以通过使用以下方法搜索字符串<xref:System.String.LastIndexOf%2A?displayProperty=nameWithType>或<xref:System.String.StartsWith%2A?displayProperty=nameWithType>，或者可以使用正则表达式和<xref:System.Text.RegularExpressions.Regex>类搜索模式。 因为同时<xref:System.Text.StringBuilder>和<xref:System.String>对象使用 utf-16 编码存储字符，子字符串，索引位置的字符和正则表达式匹配项是在这两个对象相同。 这使你可以使用<xref:System.Text.StringBuilder>方法，以便可以在同一位置中找到该文本的更改<xref:System.String>对象。  
+-   调用<xref:System.Text.StringBuilder.ToString%2A?displayProperty=nameWithType>方法将转换<xref:System.Text.StringBuilder>对象传递给<xref:System.String>对象。 可以使用类似于方法搜索字符串<xref:System.String.LastIndexOf%2A?displayProperty=nameWithType>或<xref:System.String.StartsWith%2A?displayProperty=nameWithType>，也可以使用正则表达式和<xref:System.Text.RegularExpressions.Regex>类来搜索的模式。 因为这两<xref:System.Text.StringBuilder>和<xref:System.String>对象使用 utf-16 编码用于存储字符，子字符串的索引位置的字符和正则表达式匹配项是在这两个对象相同。 这使您可以使用<xref:System.Text.StringBuilder>方法，以便可以在同一位置中找到该文本的更改<xref:System.String>对象。  
   
     > [!NOTE]
-    >  如果采用这种方法，你应从结尾处中工作<xref:System.Text.StringBuilder>对象对其开始，以便无需重复转换<xref:System.Text.StringBuilder>为 string 的对象。  
+    >  如果采用这种方法，你应从结尾处起作用<xref:System.Text.StringBuilder>对象到其开始，因此无需重复转换<xref:System.Text.StringBuilder>为字符串的对象。  
   
-     下面的示例阐释了这种方法。 它存储在英语字母表中的每个字母的四个匹配项<xref:System.Text.StringBuilder>对象。 然后将转换为文本<xref:System.String>对象，并使用正则表达式来标识每个四个字符序列的起始位置。 最后，它添加下划线之前除第一个序列，每个四个字符序列，并将转换为大写的序列的第一个字符。  
+     下面的示例阐释了这种方法。 它将存储在英语字母表中的每个字母的四个匹配项<xref:System.Text.StringBuilder>对象。 然后将转换为文本<xref:System.String>对象，并使用正则表达式来标识每个四个字符序列的起始位置。 最后，它将添加下划线前除第一个序列，每个四个字符序列，并将转换为大写的序列的第一个字符。  
   
      [!code-csharp[System.Text.StringBuilder.Class#13](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.text.stringbuilder.class/cs/pattern2.cs#13)]
      [!code-vb[System.Text.StringBuilder.Class#13](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.text.stringbuilder.class/vb/pattern2.vb#13)]  
   
--   使用<xref:System.Text.StringBuilder.Chars%2A?displayProperty=nameWithType>属性以按顺序搜索中的字符范围<xref:System.Text.StringBuilder>对象。 如果要搜索的字符的数量很大或搜索逻辑是特别复杂，这种方法可能不可行。 对性能产生影响的逐字符基于索引的访问非常大，chunked<xref:System.Text.StringBuilder>对象，请参阅的文档<xref:System.Text.StringBuilder.Chars%2A?displayProperty=nameWithType>属性。 
+-   使用<xref:System.Text.StringBuilder.Chars%2A?displayProperty=nameWithType>属性按顺序搜索中的字符范围<xref:System.Text.StringBuilder>对象。 如果要在其中搜索的字符数很大或搜索逻辑是特别复杂，这种方法可能不可行。 逐字符基于索引的访问对性能产生影响非常大，chunked<xref:System.Text.StringBuilder>对象，请参阅的文档<xref:System.Text.StringBuilder.Chars%2A?displayProperty=nameWithType>属性。 
   
-     下面的示例在功能与前面的示例相同，但在实现中不同。 它使用<xref:System.Text.StringBuilder.Chars%2A>属性来检测何时字符值已更改，在该位置中，插入下划线，并将新序列中的第一个字符转换为大写。  
+     下面的示例在功能上与前面的示例相同，但在实现中不同。 它使用<xref:System.Text.StringBuilder.Chars%2A>属性来检测何时更改字符值，将在该位置处插入下划线，并将新序列中的第一个字符转换为大写。  
   
      [!code-csharp[System.Text.StringBuilder.Class#14](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.text.stringbuilder.class/cs/pattern3.cs#14)]
      [!code-vb[System.Text.StringBuilder.Class#14](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.text.stringbuilder.class/vb/pattern3.vb#14)]  
   
--   存储中的所有未修改的文本<xref:System.Text.StringBuilder>对象，请调用<xref:System.Text.StringBuilder.ToString%2A?displayProperty=nameWithType>方法将转换<xref:System.Text.StringBuilder>对象传递给<xref:System.String>对象，并在执行修改<xref:System.String>对象。 你可以使用此方法，如果你有仅几修改;否则，使用不可变的字符串的成本，因此可能不使用的性能优势<xref:System.Text.StringBuilder>对象。  
+-   存储中的所有未修改的文本<xref:System.Text.StringBuilder>对象，请调用<xref:System.Text.StringBuilder.ToString%2A?displayProperty=nameWithType>方法将转换<xref:System.Text.StringBuilder>对象传递给<xref:System.String>对象，并执行上所做的修改<xref:System.String>对象。 如果您有仅几个修改; 可以使用此方法否则，使用不可变的字符串的成本可能会抵消使用的性能好处<xref:System.Text.StringBuilder>对象。  
   
-     下面的示例在功能与前面的两个示例相同，但在实现中不同。 它将创建<xref:System.Text.StringBuilder>对象，请将其转换为<xref:System.String>对象，，然后使用正则表达式来对字符串执行剩余的所有修改。 <xref:System.Text.RegularExpressions.Regex.Replace%28System.String%2CSystem.String%2CSystem.Text.RegularExpressions.MatchEvaluator%29?displayProperty=nameWithType>方法使用 lambda 表达式来对每个匹配项执行替换。  
+     下面的示例是在功能上与前两个示例相同，但在实现中不同。 它会创建<xref:System.Text.StringBuilder>对象，将其转换为<xref:System.String>对象，然后再使用正则表达式对字符串执行剩余的所有修改。 <xref:System.Text.RegularExpressions.Regex.Replace%28System.String%2CSystem.String%2CSystem.Text.RegularExpressions.MatchEvaluator%29?displayProperty=nameWithType>方法使用 lambda 表达式，对每个匹配项执行替换。  
   
      [!code-csharp[System.Text.StringBuilder.Class#15](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.text.stringbuilder.class/cs/pattern4.cs#15)]
      [!code-vb[System.Text.StringBuilder.Class#15](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.text.stringbuilder.class/vb/pattern4.vb#15)]  
   
 <a name="Converting"></a>   
 ## <a name="converting-the-stringbuilder-object-to-a-string"></a>将 StringBuilder 对象转换为字符串  
- 必须先将 <xref:System.Text.StringBuilder> 对象转换为 <xref:System.String> 对象，然后才能将 <xref:System.Text.StringBuilder> 对象表示的字符串传递给包含 <xref:System.String> 参数的方法，或在用户界面中显示它。 通过调用来执行此转换<xref:System.Text.StringBuilder.ToString%2A?displayProperty=nameWithType>方法。 有关说明，请参阅前面的示例，其中调用<xref:System.Text.StringBuilder.ToString%2A>方法将转换<xref:System.Text.StringBuilder>对象为一个字符串，以便它可以传递给正则表达式方法。  
+ 必须先将 <xref:System.Text.StringBuilder> 对象转换为 <xref:System.String> 对象，然后才能将 <xref:System.Text.StringBuilder> 对象表示的字符串传递给包含 <xref:System.String> 参数的方法，或在用户界面中显示它。 通过调用来执行此转换<xref:System.Text.StringBuilder.ToString%2A?displayProperty=nameWithType>方法。 有关说明，请参阅上述示例中，后者调用<xref:System.Text.StringBuilder.ToString%2A>方法将<xref:System.Text.StringBuilder>对象为字符串，以便它可以传递到正则表达式方法。  
   
    
   
 ## Examples  
- 下面的示例演示如何调用许多由定义的方法<xref:System.Text.StringBuilder>类。  
+ 下面的示例演示如何调用定义的方法的许多<xref:System.Text.StringBuilder>类。  
   
  [!code-cpp[StringBuilder#1](~/samples/snippets/cpp/VS_Snippets_CLR/StringBuilder/cpp/StringBuilder.cpp#1)]
  [!code-csharp[StringBuilder#1](~/samples/snippets/csharp/VS_Snippets_CLR/StringBuilder/CS/StringBuilder.cs#1)]
@@ -276,7 +278,7 @@
  ]]></format>
     </remarks>
     <block subset="none" type="usage">
-      <para>在 [！INCLUDE[net_v40_short](~/includes/net-v40-short-md.md)] 和 [！INCLUDE[net_v45](~/includes/net-v45-md.md)]，当实例化时<see cref="T:System.Text.StringBuilder" />对象通过调用<see cref="M:System.Text.StringBuilder.#ctor(System.Int32,System.Int32)" />构造函数，长度和的容量<see cref="T:System.Text.StringBuilder" />实例可以增长到的值超过其<see cref="P:System.Text.StringBuilder.MaxCapacity" />属性.实现这一点尤其是当调用<see cref="M:System.Text.StringBuilder.Append(System.String)" />和<see cref="M:System.Text.StringBuilder.AppendFormat(System.String,System.Object)" />方法将小字符串追加。</para>
+      <para>在 [！INCLUDE[net_v40_short](~/includes/net-v40-short-md.md)] 和 [！INCLUDE[net_v45](~/includes/net-v45-md.md)]，实例化时<see cref="T:System.Text.StringBuilder" />对象通过调用<see cref="M:System.Text.StringBuilder.#ctor(System.Int32,System.Int32)" />构造函数的长度和的容量<see cref="T:System.Text.StringBuilder" />实例可以增长到的值超过其<see cref="P:System.Text.StringBuilder.MaxCapacity" />属性.发生这种情况尤其是当您调用<see cref="M:System.Text.StringBuilder.Append(System.String)" />和<see cref="M:System.Text.StringBuilder.AppendFormat(System.String,System.Object)" />追加小型字符串的方法。</para>
     </block>
     <altmember cref="T:System.String" />
   </Docs>
@@ -312,6 +314,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -360,6 +364,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -377,14 +383,14 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- `capacity`参数定义的最大可以存储在内存中当前实例所分配的字符数。 其值分配给<xref:System.Text.StringBuilder.Capacity%2A>属性。 如果要存储的当前实例中的字符数超过了此`capacity`值，<xref:System.Text.StringBuilder>对象分配额外的内存来将其存储。  
+ `capacity`参数定义的最大可以存储在当前实例所分配的内存中的字符数。 其值分配给<xref:System.Text.StringBuilder.Capacity%2A>属性。 如果要存储在当前实例中的字符数超过了此`capacity`值，<xref:System.Text.StringBuilder>对象分配额外的内存来存储它们。  
   
- 此实例的字符串值设置为<xref:System.String.Empty?displayProperty=nameWithType>。 如果`capacity`为零，则使用特定于实现的默认容量。  
+ 此实例的字符串值设置为<xref:System.String.Empty?displayProperty=nameWithType>。 如果`capacity`为零，使用特定于实现的默认容量。  
   
    
   
 ## Examples  
- 下面的示例演示如何调用<xref:System.Text.StringBuilder.%23ctor%2A>具有指定容量的构造函数。  
+ 下面的示例演示如何调用<xref:System.Text.StringBuilder.%23ctor%2A>构造函数使用指定的容量。  
   
  [!code-cpp[System.Text.StringBuilder.Constructors#3](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Text.StringBuilder.Constructors/CPP/constructors.cpp#3)]
  [!code-csharp[System.Text.StringBuilder.Constructors#3](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Text.StringBuilder.Constructors/CS/constructors.cs#3)]
@@ -416,6 +422,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -467,6 +475,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -486,16 +496,16 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- `capacity`参数定义的最大可以存储在内存中当前实例所分配的字符数。 其值分配给<xref:System.Text.StringBuilder.Capacity%2A>属性。 如果要存储的当前实例中的字符数超过了此`capacity`值，<xref:System.Text.StringBuilder>对象分配额外的内存来将其存储。  
+ `capacity`参数定义的最大可以存储在当前实例所分配的内存中的字符数。 其值分配给<xref:System.Text.StringBuilder.Capacity%2A>属性。 如果要存储在当前实例中的字符数超过了此`capacity`值，<xref:System.Text.StringBuilder>对象分配额外的内存来存储它们。  
   
- 如果`capacity`为零，则使用特定于实现的默认容量。  
+ 如果`capacity`为零，使用特定于实现的默认容量。  
   
- `maxCapacity`属性定义最大的当前实例可容纳的字符数。 其值分配给<xref:System.Text.StringBuilder.MaxCapacity%2A>属性。 如果要存储的当前实例中的字符数超过了此`maxCapacity`值，<xref:System.Text.StringBuilder>对象不会分配更多内存，但改为引发异常。  
+ `maxCapacity`属性定义最大的当前实例可容纳的字符数。 其值分配给<xref:System.Text.StringBuilder.MaxCapacity%2A>属性。 如果要存储在当前实例中的字符数超过了此`maxCapacity`值，<xref:System.Text.StringBuilder>对象不会分配更多内存，但会引发异常。  
   
    
   
 ## Examples  
- 下面的示例演示如何调用<xref:System.Text.StringBuilder.%23ctor%2A>具有指定的容量和最大容量构造函数。  
+ 下面的示例演示如何调用<xref:System.Text.StringBuilder.%23ctor%2A>构造函数使用指定的容量和最大容量。  
   
  [!code-cpp[System.Text.StringBuilder.Constructors#5](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Text.StringBuilder.Constructors/CPP/constructors.cpp#5)]
  [!code-csharp[System.Text.StringBuilder.Constructors#5](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Text.StringBuilder.Constructors/CS/constructors.cs#5)]
@@ -506,7 +516,7 @@
         <exception cref="T:System.ArgumentOutOfRangeException">
           <paramref name="maxCapacity" /> is less than one, <paramref name="capacity" /> is less than zero, or <paramref name="capacity" /> is greater than <paramref name="maxCapacity" />.</exception>
         <block subset="none" type="usage">
-          <para>在 [！INCLUDE[net_v40_short](~/includes/net-v40-short-md.md)] 和 [！INCLUDE[net_v45](~/includes/net-v45-md.md)]，当实例化时<see cref="T:System.Text.StringBuilder" />对象通过调用<see cref="M:System.Text.StringBuilder.#ctor(System.Int32,System.Int32)" />构造函数，长度和的容量<see cref="T:System.Text.StringBuilder" />实例可以增长到的值超过其<see cref="P:System.Text.StringBuilder.MaxCapacity" />属性.实现这一点尤其是当调用<see cref="M:System.Text.StringBuilder.Append(System.String)" />和<see cref="M:System.Text.StringBuilder.AppendFormat(System.String,System.Object)" />方法将小字符串追加。</para>
+          <para>在 [！INCLUDE[net_v40_short](~/includes/net-v40-short-md.md)] 和 [！INCLUDE[net_v45](~/includes/net-v45-md.md)]，实例化时<see cref="T:System.Text.StringBuilder" />对象通过调用<see cref="M:System.Text.StringBuilder.#ctor(System.Int32,System.Int32)" />构造函数的长度和的容量<see cref="T:System.Text.StringBuilder" />实例可以增长到的值超过其<see cref="P:System.Text.StringBuilder.MaxCapacity" />属性.发生这种情况尤其是当您调用<see cref="M:System.Text.StringBuilder.Append(System.String)" />和<see cref="M:System.Text.StringBuilder.AppendFormat(System.String,System.Object)" />追加小型字符串的方法。</para>
         </block>
         <altmember cref="P:System.Text.StringBuilder.Capacity" />
         <altmember cref="P:System.Text.StringBuilder.MaxCapacity" />
@@ -531,6 +541,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -550,14 +562,14 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- `capacity`参数定义的最大可以存储在内存中当前实例所分配的字符数。 其值分配给<xref:System.Text.StringBuilder.Capacity%2A>属性。 如果要存储的当前实例中的字符数超过了此`capacity`值，<xref:System.Text.StringBuilder>对象分配额外的内存来将其存储。  
+ `capacity`参数定义的最大可以存储在当前实例所分配的内存中的字符数。 其值分配给<xref:System.Text.StringBuilder.Capacity%2A>属性。 如果要存储在当前实例中的字符数超过了此`capacity`值，<xref:System.Text.StringBuilder>对象分配额外的内存来存储它们。  
   
- 如果`capacity`为零，则使用特定于实现的默认容量。  
+ 如果`capacity`为零，使用特定于实现的默认容量。  
   
    
   
 ## Examples  
- 下面的示例演示如何调用<xref:System.Text.StringBuilder.%23ctor%2A>用初始字符串和指定的容量的构造函数。  
+ 下面的示例演示如何调用<xref:System.Text.StringBuilder.%23ctor%2A>构造函数使用的初始字符串和指定的容量。  
   
  [!code-cpp[System.Text.StringBuilder.Constructors#7](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Text.StringBuilder.Constructors/CPP/constructors.cpp#7)]
  [!code-csharp[System.Text.StringBuilder.Constructors#7](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Text.StringBuilder.Constructors/CS/constructors.cs#7)]
@@ -589,6 +601,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -617,9 +631,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- `capacity`参数定义的最大可以存储在内存中当前实例所分配的字符数。 其值分配给<xref:System.Text.StringBuilder.Capacity%2A>属性。 如果要存储的当前实例中的字符数超过了此`capacity`值，<xref:System.Text.StringBuilder>对象分配额外的内存来将其存储。  
+ `capacity`参数定义的最大可以存储在当前实例所分配的内存中的字符数。 其值分配给<xref:System.Text.StringBuilder.Capacity%2A>属性。 如果要存储在当前实例中的字符数超过了此`capacity`值，<xref:System.Text.StringBuilder>对象分配额外的内存来存储它们。  
   
- 如果`capacity`为零，则使用特定于实现的默认容量。  
+ 如果`capacity`为零，使用特定于实现的默认容量。  
   
    
   
@@ -669,6 +683,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -690,18 +706,18 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Text.StringBuilder.Append%28System.Boolean%29>方法修改此类的现有实例; 它不返回新的类实例。 因此，可以调用的方法或属性上的现有的引用，不需要分配返回值以<xref:System.Text.StringBuilder>对象，如下面的示例所示。  
+ <xref:System.Text.StringBuilder.Append%28System.Boolean%29>方法修改此类的现有实例; 它不返回新的类实例。 因此，您可以调用方法或属性上现有的引用并不需要将返回值赋给<xref:System.Text.StringBuilder>对象，如以下示例所示。  
   
  [!code-csharp[System.Text.StringBuilder.Append#2](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Text.StringBuilder.Append/cs/append2.cs#2)]
  [!code-vb[System.Text.StringBuilder.Append#2](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Text.StringBuilder.Append/vb/append2.vb#2)]  
   
- <xref:System.Text.StringBuilder.Append%28System.Boolean%29>方法调用<xref:System.Boolean.ToString?displayProperty=nameWithType>方法以获取的字符串表示形式`value`。 根据需要调整此实例的容量。  
+ <xref:System.Text.StringBuilder.Append%28System.Boolean%29>方法调用<xref:System.Boolean.ToString?displayProperty=nameWithType>方法获取的字符串表示形式`value`。 根据需要调整此实例的容量。  
   
  ]]></format>
         </remarks>
         <exception cref="T:System.ArgumentOutOfRangeException">Enlarging the value of this instance would exceed <see cref="P:System.Text.StringBuilder.MaxCapacity" />.</exception>
         <block subset="none" type="usage">
-          <para>在 [！INCLUDE[net_v40_short](~/includes/net-v40-short-md.md)] 和 [！INCLUDE[net_v45](~/includes/net-v45-md.md)]，当实例化时<see cref="T:System.Text.StringBuilder" />对象通过调用<see cref="M:System.Text.StringBuilder.#ctor(System.Int32,System.Int32)" />构造函数，长度和的容量<see cref="T:System.Text.StringBuilder" />实例可以增长到的值超过其<see cref="P:System.Text.StringBuilder.MaxCapacity" />属性.实现这一点尤其是当调用<see cref="M:System.Text.StringBuilder.Append(System.String)" />和<see cref="M:System.Text.StringBuilder.AppendFormat(System.String,System.Object)" />方法将小字符串追加。</para>
+          <para>在 [！INCLUDE[net_v40_short](~/includes/net-v40-short-md.md)] 和 [！INCLUDE[net_v45](~/includes/net-v45-md.md)]，实例化时<see cref="T:System.Text.StringBuilder" />对象通过调用<see cref="M:System.Text.StringBuilder.#ctor(System.Int32,System.Int32)" />构造函数的长度和的容量<see cref="T:System.Text.StringBuilder" />实例可以增长到的值超过其<see cref="P:System.Text.StringBuilder.MaxCapacity" />属性.发生这种情况尤其是当您调用<see cref="M:System.Text.StringBuilder.Append(System.String)" />和<see cref="M:System.Text.StringBuilder.AppendFormat(System.String,System.Object)" />追加小型字符串的方法。</para>
         </block>
         <altmember cref="T:System.Boolean" />
       </Docs>
@@ -725,6 +741,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -746,12 +764,12 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Text.StringBuilder.Append%28System.Byte%29>方法修改此类的现有实例; 它不返回新的类实例。 因此，可以调用的方法或属性上的现有的引用，不需要分配返回值以<xref:System.Text.StringBuilder>对象，如下面的示例所示。  
+ <xref:System.Text.StringBuilder.Append%28System.Byte%29>方法修改此类的现有实例; 它不返回新的类实例。 因此，您可以调用方法或属性上现有的引用并不需要将返回值赋给<xref:System.Text.StringBuilder>对象，如以下示例所示。  
   
  [!code-csharp[System.Text.StringBuilder.Append#3](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Text.StringBuilder.Append/cs/append2.cs#3)]
  [!code-vb[System.Text.StringBuilder.Append#3](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Text.StringBuilder.Append/vb/append2.vb#3)]  
   
- <xref:System.Text.StringBuilder.Append%28System.Byte%29>方法调用<xref:System.Byte.ToString%28System.IFormatProvider%29>方法以获取的字符串表示形式`value`为当前区域性。 若要控制的格式`value`，调用<xref:System.Text.StringBuilder.AppendFormat%2A>方法。  
+ <xref:System.Text.StringBuilder.Append%28System.Byte%29>方法调用<xref:System.Byte.ToString%28System.IFormatProvider%29>方法获取的字符串表示形式`value`为当前区域性。 若要控制的格式`value`，调用<xref:System.Text.StringBuilder.AppendFormat%2A>方法。  
   
  根据需要调整此实例的容量。  
   
@@ -759,7 +777,7 @@
         </remarks>
         <exception cref="T:System.ArgumentOutOfRangeException">Enlarging the value of this instance would exceed <see cref="P:System.Text.StringBuilder.MaxCapacity" />.</exception>
         <block subset="none" type="usage">
-          <para>在 [！INCLUDE[net_v40_short](~/includes/net-v40-short-md.md)] 和 [！INCLUDE[net_v45](~/includes/net-v45-md.md)]，当实例化时<see cref="T:System.Text.StringBuilder" />对象通过调用<see cref="M:System.Text.StringBuilder.#ctor(System.Int32,System.Int32)" />构造函数，长度和的容量<see cref="T:System.Text.StringBuilder" />实例可以增长到的值超过其<see cref="P:System.Text.StringBuilder.MaxCapacity" />属性.实现这一点尤其是当调用<see cref="M:System.Text.StringBuilder.Append(System.String)" />和<see cref="M:System.Text.StringBuilder.AppendFormat(System.String,System.Object)" />方法将小字符串追加。</para>
+          <para>在 [！INCLUDE[net_v40_short](~/includes/net-v40-short-md.md)] 和 [！INCLUDE[net_v45](~/includes/net-v45-md.md)]，实例化时<see cref="T:System.Text.StringBuilder" />对象通过调用<see cref="M:System.Text.StringBuilder.#ctor(System.Int32,System.Int32)" />构造函数的长度和的容量<see cref="T:System.Text.StringBuilder" />实例可以增长到的值超过其<see cref="P:System.Text.StringBuilder.MaxCapacity" />属性.发生这种情况尤其是当您调用<see cref="M:System.Text.StringBuilder.Append(System.String)" />和<see cref="M:System.Text.StringBuilder.AppendFormat(System.String,System.Object)" />追加小型字符串的方法。</para>
         </block>
         <altmember cref="T:System.Byte" />
       </Docs>
@@ -783,6 +801,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -804,7 +824,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Text.StringBuilder.Append%28System.Char%29>方法修改此类的现有实例; 它不返回新的类实例。 因此，可以调用的方法或属性上的现有的引用，不需要分配返回值以<xref:System.Text.StringBuilder>对象，如下面的示例所示。  
+ <xref:System.Text.StringBuilder.Append%28System.Char%29>方法修改此类的现有实例; 它不返回新的类实例。 因此，您可以调用方法或属性上现有的引用并不需要将返回值赋给<xref:System.Text.StringBuilder>对象，如以下示例所示。  
   
  [!code-csharp[System.Text.StringBuilder.Append#4](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Text.StringBuilder.Append/cs/append2.cs#4)]
  [!code-vb[System.Text.StringBuilder.Append#4](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Text.StringBuilder.Append/vb/append2.vb#4)]  
@@ -815,7 +835,7 @@
         </remarks>
         <exception cref="T:System.ArgumentOutOfRangeException">Enlarging the value of this instance would exceed <see cref="P:System.Text.StringBuilder.MaxCapacity" />.</exception>
         <block subset="none" type="usage">
-          <para>在 [！INCLUDE[net_v40_short](~/includes/net-v40-short-md.md)] 和 [！INCLUDE[net_v45](~/includes/net-v45-md.md)]，当实例化时<see cref="T:System.Text.StringBuilder" />对象通过调用<see cref="M:System.Text.StringBuilder.#ctor(System.Int32,System.Int32)" />构造函数，长度和的容量<see cref="T:System.Text.StringBuilder" />实例可以增长到的值超过其<see cref="P:System.Text.StringBuilder.MaxCapacity" />属性.实现这一点尤其是当调用<see cref="M:System.Text.StringBuilder.Append(System.String)" />和<see cref="M:System.Text.StringBuilder.AppendFormat(System.String,System.Object)" />方法将小字符串追加。</para>
+          <para>在 [！INCLUDE[net_v40_short](~/includes/net-v40-short-md.md)] 和 [！INCLUDE[net_v45](~/includes/net-v45-md.md)]，实例化时<see cref="T:System.Text.StringBuilder" />对象通过调用<see cref="M:System.Text.StringBuilder.#ctor(System.Int32,System.Int32)" />构造函数的长度和的容量<see cref="T:System.Text.StringBuilder" />实例可以增长到的值超过其<see cref="P:System.Text.StringBuilder.MaxCapacity" />属性.发生这种情况尤其是当您调用<see cref="M:System.Text.StringBuilder.Append(System.String)" />和<see cref="M:System.Text.StringBuilder.AppendFormat(System.String,System.Object)" />追加小型字符串的方法。</para>
         </block>
         <altmember cref="T:System.Char" />
       </Docs>
@@ -839,6 +859,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -865,9 +887,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 此方法将指定数组中的所有字符都追加到当前实例相同的顺序与出现在`value`。 如果`value`是`null`，不进行任何更改。  
+ 此方法将指定数组中的所有字符都追加到当前实例的相同顺序出现在`value`。 如果`value`是`null`，不进行任何更改。  
   
- <xref:System.Text.StringBuilder.Append%28System.Char%5B%5D%29>方法修改此类的现有实例; 它不返回新的类实例。 因此，可以调用的方法或属性上的现有的引用，不需要分配返回值以<xref:System.Text.StringBuilder>对象，如下面的示例所示。  
+ <xref:System.Text.StringBuilder.Append%28System.Char%5B%5D%29>方法修改此类的现有实例; 它不返回新的类实例。 因此，您可以调用方法或属性上现有的引用并不需要将返回值赋给<xref:System.Text.StringBuilder>对象，如以下示例所示。  
   
  [!code-csharp[System.Text.StringBuilder.Append#6](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Text.StringBuilder.Append/cs/append2.cs#6)]
  [!code-vb[System.Text.StringBuilder.Append#6](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Text.StringBuilder.Append/vb/append2.vb#6)]  
@@ -878,7 +900,7 @@
         </remarks>
         <exception cref="T:System.ArgumentOutOfRangeException">Enlarging the value of this instance would exceed <see cref="P:System.Text.StringBuilder.MaxCapacity" />.</exception>
         <block subset="none" type="usage">
-          <para>在 [！INCLUDE[net_v40_short](~/includes/net-v40-short-md.md)] 和 [！INCLUDE[net_v45](~/includes/net-v45-md.md)]，当实例化时<see cref="T:System.Text.StringBuilder" />对象通过调用<see cref="M:System.Text.StringBuilder.#ctor(System.Int32,System.Int32)" />构造函数，长度和的容量<see cref="T:System.Text.StringBuilder" />实例可以增长到的值超过其<see cref="P:System.Text.StringBuilder.MaxCapacity" />属性.实现这一点尤其是当调用<see cref="M:System.Text.StringBuilder.Append(System.String)" />和<see cref="M:System.Text.StringBuilder.AppendFormat(System.String,System.Object)" />方法将小字符串追加。</para>
+          <para>在 [！INCLUDE[net_v40_short](~/includes/net-v40-short-md.md)] 和 [！INCLUDE[net_v45](~/includes/net-v45-md.md)]，实例化时<see cref="T:System.Text.StringBuilder" />对象通过调用<see cref="M:System.Text.StringBuilder.#ctor(System.Int32,System.Int32)" />构造函数的长度和的容量<see cref="T:System.Text.StringBuilder" />实例可以增长到的值超过其<see cref="P:System.Text.StringBuilder.MaxCapacity" />属性.发生这种情况尤其是当您调用<see cref="M:System.Text.StringBuilder.Append(System.String)" />和<see cref="M:System.Text.StringBuilder.AppendFormat(System.String,System.Object)" />追加小型字符串的方法。</para>
         </block>
       </Docs>
     </Member>
@@ -901,6 +923,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -922,12 +946,12 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Text.StringBuilder.Append%28System.Decimal%29>方法修改此类的现有实例; 它不返回新的类实例。 因此，可以调用的方法或属性上的现有的引用，不需要分配返回值以<xref:System.Text.StringBuilder>对象，如下面的示例所示。  
+ <xref:System.Text.StringBuilder.Append%28System.Decimal%29>方法修改此类的现有实例; 它不返回新的类实例。 因此，您可以调用方法或属性上现有的引用并不需要将返回值赋给<xref:System.Text.StringBuilder>对象，如以下示例所示。  
   
  [!code-csharp[System.Text.StringBuilder.Append#8](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Text.StringBuilder.Append/cs/append2.cs#8)]
  [!code-vb[System.Text.StringBuilder.Append#8](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Text.StringBuilder.Append/vb/append2.vb#8)]  
   
- <xref:System.Text.StringBuilder.Append%28System.Decimal%29>方法调用<xref:System.Decimal.ToString%28System.IFormatProvider%29?displayProperty=nameWithType>方法以获取的字符串表示形式`value`为当前区域性。 若要控制的格式`value`，调用<xref:System.Text.StringBuilder.AppendFormat%2A>方法。  
+ <xref:System.Text.StringBuilder.Append%28System.Decimal%29>方法调用<xref:System.Decimal.ToString%28System.IFormatProvider%29?displayProperty=nameWithType>方法获取的字符串表示形式`value`为当前区域性。 若要控制的格式`value`，调用<xref:System.Text.StringBuilder.AppendFormat%2A>方法。  
   
  根据需要调整此实例的容量。  
   
@@ -935,7 +959,7 @@
         </remarks>
         <exception cref="T:System.ArgumentOutOfRangeException">Enlarging the value of this instance would exceed <see cref="P:System.Text.StringBuilder.MaxCapacity" />.</exception>
         <block subset="none" type="usage">
-          <para>在 [！INCLUDE[net_v40_short](~/includes/net-v40-short-md.md)] 和 [！INCLUDE[net_v45](~/includes/net-v45-md.md)]，当实例化时<see cref="T:System.Text.StringBuilder" />对象通过调用<see cref="M:System.Text.StringBuilder.#ctor(System.Int32,System.Int32)" />构造函数，长度和的容量<see cref="T:System.Text.StringBuilder" />实例可以增长到的值超过其<see cref="P:System.Text.StringBuilder.MaxCapacity" />属性.实现这一点尤其是当调用<see cref="M:System.Text.StringBuilder.Append(System.String)" />和<see cref="M:System.Text.StringBuilder.AppendFormat(System.String,System.Object)" />方法将小字符串追加。</para>
+          <para>在 [！INCLUDE[net_v40_short](~/includes/net-v40-short-md.md)] 和 [！INCLUDE[net_v45](~/includes/net-v45-md.md)]，实例化时<see cref="T:System.Text.StringBuilder" />对象通过调用<see cref="M:System.Text.StringBuilder.#ctor(System.Int32,System.Int32)" />构造函数的长度和的容量<see cref="T:System.Text.StringBuilder" />实例可以增长到的值超过其<see cref="P:System.Text.StringBuilder.MaxCapacity" />属性.发生这种情况尤其是当您调用<see cref="M:System.Text.StringBuilder.Append(System.String)" />和<see cref="M:System.Text.StringBuilder.AppendFormat(System.String,System.Object)" />追加小型字符串的方法。</para>
         </block>
         <altmember cref="T:System.Decimal" />
       </Docs>
@@ -959,6 +983,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -980,12 +1006,12 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Text.StringBuilder.Append%28System.Double%29>方法修改此类的现有实例; 它不返回新的类实例。 因此，可以调用的方法或属性上的现有的引用，不需要分配返回值以<xref:System.Text.StringBuilder>对象，如下面的示例所示。  
+ <xref:System.Text.StringBuilder.Append%28System.Double%29>方法修改此类的现有实例; 它不返回新的类实例。 因此，您可以调用方法或属性上现有的引用并不需要将返回值赋给<xref:System.Text.StringBuilder>对象，如以下示例所示。  
   
  [!code-csharp[System.Text.StringBuilder.Append#9](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Text.StringBuilder.Append/cs/append2.cs#9)]
  [!code-vb[System.Text.StringBuilder.Append#9](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Text.StringBuilder.Append/vb/append2.vb#9)]  
   
- <xref:System.Text.StringBuilder.Append%28System.Double%29>方法调用<xref:System.Double.ToString%28System.IFormatProvider%29?displayProperty=nameWithType>方法以获取的字符串表示形式`value`为当前区域性。 若要控制的格式`value`，调用<xref:System.Text.StringBuilder.AppendFormat%2A>方法。  
+ <xref:System.Text.StringBuilder.Append%28System.Double%29>方法调用<xref:System.Double.ToString%28System.IFormatProvider%29?displayProperty=nameWithType>方法获取的字符串表示形式`value`为当前区域性。 若要控制的格式`value`，调用<xref:System.Text.StringBuilder.AppendFormat%2A>方法。  
   
  根据需要调整此实例的容量。  
   
@@ -993,7 +1019,7 @@
         </remarks>
         <exception cref="T:System.ArgumentOutOfRangeException">Enlarging the value of this instance would exceed <see cref="P:System.Text.StringBuilder.MaxCapacity" />.</exception>
         <block subset="none" type="usage">
-          <para>在 [！INCLUDE[net_v40_short](~/includes/net-v40-short-md.md)] 和 [！INCLUDE[net_v45](~/includes/net-v45-md.md)]，当实例化时<see cref="T:System.Text.StringBuilder" />对象通过调用<see cref="M:System.Text.StringBuilder.#ctor(System.Int32,System.Int32)" />构造函数，长度和的容量<see cref="T:System.Text.StringBuilder" />实例可以增长到的值超过其<see cref="P:System.Text.StringBuilder.MaxCapacity" />属性.实现这一点尤其是当调用<see cref="M:System.Text.StringBuilder.Append(System.String)" />和<see cref="M:System.Text.StringBuilder.AppendFormat(System.String,System.Object)" />方法将小字符串追加。</para>
+          <para>在 [！INCLUDE[net_v40_short](~/includes/net-v40-short-md.md)] 和 [！INCLUDE[net_v45](~/includes/net-v45-md.md)]，实例化时<see cref="T:System.Text.StringBuilder" />对象通过调用<see cref="M:System.Text.StringBuilder.#ctor(System.Int32,System.Int32)" />构造函数的长度和的容量<see cref="T:System.Text.StringBuilder" />实例可以增长到的值超过其<see cref="P:System.Text.StringBuilder.MaxCapacity" />属性.发生这种情况尤其是当您调用<see cref="M:System.Text.StringBuilder.Append(System.String)" />和<see cref="M:System.Text.StringBuilder.AppendFormat(System.String,System.Object)" />追加小型字符串的方法。</para>
         </block>
         <altmember cref="T:System.Double" />
       </Docs>
@@ -1017,6 +1043,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1038,12 +1066,12 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Text.StringBuilder.Append%28System.Int16%29>方法修改此类的现有实例; 它不返回新的类实例。 因此，可以调用的方法或属性上的现有的引用，不需要分配返回值以<xref:System.Text.StringBuilder>对象，如下面的示例所示。  
+ <xref:System.Text.StringBuilder.Append%28System.Int16%29>方法修改此类的现有实例; 它不返回新的类实例。 因此，您可以调用方法或属性上现有的引用并不需要将返回值赋给<xref:System.Text.StringBuilder>对象，如以下示例所示。  
   
  [!code-csharp[System.Text.StringBuilder.Append#10](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Text.StringBuilder.Append/cs/append3.cs#10)]
  [!code-vb[System.Text.StringBuilder.Append#10](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Text.StringBuilder.Append/vb/append3.vb#10)]  
   
- <xref:System.Text.StringBuilder.Append%28System.Int16%29>方法调用<xref:System.Int16.ToString%28System.IFormatProvider%29?displayProperty=nameWithType>方法以获取的字符串表示形式`value`为当前区域性。 若要控制的格式`value`，调用<xref:System.Text.StringBuilder.AppendFormat%2A>方法。  
+ <xref:System.Text.StringBuilder.Append%28System.Int16%29>方法调用<xref:System.Int16.ToString%28System.IFormatProvider%29?displayProperty=nameWithType>方法获取的字符串表示形式`value`为当前区域性。 若要控制的格式`value`，调用<xref:System.Text.StringBuilder.AppendFormat%2A>方法。  
   
  根据需要调整此实例的容量。  
   
@@ -1051,7 +1079,7 @@
         </remarks>
         <exception cref="T:System.ArgumentOutOfRangeException">Enlarging the value of this instance would exceed <see cref="P:System.Text.StringBuilder.MaxCapacity" />.</exception>
         <block subset="none" type="usage">
-          <para>在 [！INCLUDE[net_v40_short](~/includes/net-v40-short-md.md)] 和 [！INCLUDE[net_v45](~/includes/net-v45-md.md)]，当实例化时<see cref="T:System.Text.StringBuilder" />对象通过调用<see cref="M:System.Text.StringBuilder.#ctor(System.Int32,System.Int32)" />构造函数，长度和的容量<see cref="T:System.Text.StringBuilder" />实例可以增长到的值超过其<see cref="P:System.Text.StringBuilder.MaxCapacity" />属性.实现这一点尤其是当调用<see cref="M:System.Text.StringBuilder.Append(System.String)" />和<see cref="M:System.Text.StringBuilder.AppendFormat(System.String,System.Object)" />方法将小字符串追加。</para>
+          <para>在 [！INCLUDE[net_v40_short](~/includes/net-v40-short-md.md)] 和 [！INCLUDE[net_v45](~/includes/net-v45-md.md)]，实例化时<see cref="T:System.Text.StringBuilder" />对象通过调用<see cref="M:System.Text.StringBuilder.#ctor(System.Int32,System.Int32)" />构造函数的长度和的容量<see cref="T:System.Text.StringBuilder" />实例可以增长到的值超过其<see cref="P:System.Text.StringBuilder.MaxCapacity" />属性.发生这种情况尤其是当您调用<see cref="M:System.Text.StringBuilder.Append(System.String)" />和<see cref="M:System.Text.StringBuilder.AppendFormat(System.String,System.Object)" />追加小型字符串的方法。</para>
         </block>
         <altmember cref="T:System.Int16" />
       </Docs>
@@ -1075,6 +1103,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1096,12 +1126,12 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Text.StringBuilder.Append%28System.Int32%29>方法修改此类的现有实例; 它不返回新的类实例。 因此，可以调用的方法或属性上的现有的引用，不需要分配返回值以<xref:System.Text.StringBuilder>对象，如下面的示例所示。  
+ <xref:System.Text.StringBuilder.Append%28System.Int32%29>方法修改此类的现有实例; 它不返回新的类实例。 因此，您可以调用方法或属性上现有的引用并不需要将返回值赋给<xref:System.Text.StringBuilder>对象，如以下示例所示。  
   
  [!code-csharp[System.Text.StringBuilder.Append#11](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Text.StringBuilder.Append/cs/append3.cs#11)]
  [!code-vb[System.Text.StringBuilder.Append#11](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Text.StringBuilder.Append/vb/append3.vb#11)]  
   
- <xref:System.Text.StringBuilder.Append%28System.Int32%29>方法调用<xref:System.Int32.ToString%28System.IFormatProvider%29?displayProperty=nameWithType>方法以获取的字符串表示形式`value`为当前区域性。 若要控制的格式`value`，调用<xref:System.Text.StringBuilder.AppendFormat%2A>方法。  
+ <xref:System.Text.StringBuilder.Append%28System.Int32%29>方法调用<xref:System.Int32.ToString%28System.IFormatProvider%29?displayProperty=nameWithType>方法获取的字符串表示形式`value`为当前区域性。 若要控制的格式`value`，调用<xref:System.Text.StringBuilder.AppendFormat%2A>方法。  
   
  根据需要调整此实例的容量。  
   
@@ -1109,7 +1139,7 @@
         </remarks>
         <exception cref="T:System.ArgumentOutOfRangeException">Enlarging the value of this instance would exceed <see cref="P:System.Text.StringBuilder.MaxCapacity" />.</exception>
         <block subset="none" type="usage">
-          <para>在 [！INCLUDE[net_v40_short](~/includes/net-v40-short-md.md)] 和 [！INCLUDE[net_v45](~/includes/net-v45-md.md)]，当实例化时<see cref="T:System.Text.StringBuilder" />对象通过调用<see cref="M:System.Text.StringBuilder.#ctor(System.Int32,System.Int32)" />构造函数，长度和的容量<see cref="T:System.Text.StringBuilder" />实例可以增长到的值超过其<see cref="P:System.Text.StringBuilder.MaxCapacity" />属性.实现这一点尤其是当调用<see cref="M:System.Text.StringBuilder.Append(System.String)" />和<see cref="M:System.Text.StringBuilder.AppendFormat(System.String,System.Object)" />方法将小字符串追加。</para>
+          <para>在 [！INCLUDE[net_v40_short](~/includes/net-v40-short-md.md)] 和 [！INCLUDE[net_v45](~/includes/net-v45-md.md)]，实例化时<see cref="T:System.Text.StringBuilder" />对象通过调用<see cref="M:System.Text.StringBuilder.#ctor(System.Int32,System.Int32)" />构造函数的长度和的容量<see cref="T:System.Text.StringBuilder" />实例可以增长到的值超过其<see cref="P:System.Text.StringBuilder.MaxCapacity" />属性.发生这种情况尤其是当您调用<see cref="M:System.Text.StringBuilder.Append(System.String)" />和<see cref="M:System.Text.StringBuilder.AppendFormat(System.String,System.Object)" />追加小型字符串的方法。</para>
         </block>
         <altmember cref="T:System.Int32" />
       </Docs>
@@ -1133,6 +1163,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1154,7 +1186,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Text.StringBuilder.Append%28System.Int64%29>方法修改此类的现有实例; 它不返回新的类实例。 因此，可以调用的方法或属性上的现有的引用，不需要分配返回值以<xref:System.Text.StringBuilder>对象，如下面的示例所示。  
+ <xref:System.Text.StringBuilder.Append%28System.Int64%29>方法修改此类的现有实例; 它不返回新的类实例。 因此，您可以调用方法或属性上现有的引用并不需要将返回值赋给<xref:System.Text.StringBuilder>对象，如以下示例所示。  
   
  [!code-csharp[System.Text.StringBuilder.Append#12](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Text.StringBuilder.Append/cs/append3.cs#12)]
  [!code-vb[System.Text.StringBuilder.Append#12](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Text.StringBuilder.Append/vb/append3.vb#12)]  
@@ -1167,7 +1199,7 @@
         </remarks>
         <exception cref="T:System.ArgumentOutOfRangeException">Enlarging the value of this instance would exceed <see cref="P:System.Text.StringBuilder.MaxCapacity" />.</exception>
         <block subset="none" type="usage">
-          <para>在 [！INCLUDE[net_v40_short](~/includes/net-v40-short-md.md)] 和 [！INCLUDE[net_v45](~/includes/net-v45-md.md)]，当实例化时<see cref="T:System.Text.StringBuilder" />对象通过调用<see cref="M:System.Text.StringBuilder.#ctor(System.Int32,System.Int32)" />构造函数，长度和的容量<see cref="T:System.Text.StringBuilder" />实例可以增长到的值超过其<see cref="P:System.Text.StringBuilder.MaxCapacity" />属性.实现这一点尤其是当调用<see cref="M:System.Text.StringBuilder.Append(System.String)" />和<see cref="M:System.Text.StringBuilder.AppendFormat(System.String,System.Object)" />方法将小字符串追加。</para>
+          <para>在 [！INCLUDE[net_v40_short](~/includes/net-v40-short-md.md)] 和 [！INCLUDE[net_v45](~/includes/net-v45-md.md)]，实例化时<see cref="T:System.Text.StringBuilder" />对象通过调用<see cref="M:System.Text.StringBuilder.#ctor(System.Int32,System.Int32)" />构造函数的长度和的容量<see cref="T:System.Text.StringBuilder" />实例可以增长到的值超过其<see cref="P:System.Text.StringBuilder.MaxCapacity" />属性.发生这种情况尤其是当您调用<see cref="M:System.Text.StringBuilder.Append(System.String)" />和<see cref="M:System.Text.StringBuilder.AppendFormat(System.String,System.Object)" />追加小型字符串的方法。</para>
         </block>
         <altmember cref="T:System.Int64" />
       </Docs>
@@ -1191,6 +1223,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1212,12 +1246,12 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Text.StringBuilder.Append%28System.Object%29>方法修改此类的现有实例; 它不返回新的类实例。 因此，可以调用的方法或属性上的现有的引用，不需要分配返回值以<xref:System.Text.StringBuilder>对象，如下面的示例所示。 它定义`Dog`类中，创建`Dog`对象，并调用三到<xref:System.Text.StringBuilder.Append%2A>方法来创建包含 dog 的名称和同类的字符串。  
+ <xref:System.Text.StringBuilder.Append%28System.Object%29>方法修改此类的现有实例; 它不返回新的类实例。 因此，您可以调用方法或属性上现有的引用并不需要将返回值赋给<xref:System.Text.StringBuilder>对象，如以下示例所示。 它定义`Dog`类中，创建`Dog`对象，并调用三<xref:System.Text.StringBuilder.Append%2A>方法来创建一个字符串，包含狗的名称和基础结构提供支持。  
   
  [!code-csharp[System.Text.Stringbuilder.Append#18](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Text.StringBuilder.Append/cs/append4.cs#18)]
  [!code-vb[System.Text.Stringbuilder.Append#18](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Text.StringBuilder.Append/vb/append4.vb#18)]  
   
- <xref:System.Text.StringBuilder.Append%28System.Object%29>方法调用<xref:System.Object.ToString%2A?displayProperty=nameWithType>方法以获取的字符串表示形式`value`。 如果`value`是`null`，对进行任何更改<xref:System.Text.StringBuilder>对象。  
+ <xref:System.Text.StringBuilder.Append%28System.Object%29>方法调用<xref:System.Object.ToString%2A?displayProperty=nameWithType>方法获取的字符串表示形式`value`。 如果`value`是`null`，对进行任何更改<xref:System.Text.StringBuilder>对象。  
   
  根据需要调整此实例的容量。  
   
@@ -1225,7 +1259,7 @@
         </remarks>
         <exception cref="T:System.ArgumentOutOfRangeException">Enlarging the value of this instance would exceed <see cref="P:System.Text.StringBuilder.MaxCapacity" />.</exception>
         <block subset="none" type="usage">
-          <para>在 [！INCLUDE[net_v40_short](~/includes/net-v40-short-md.md)] 和 [！INCLUDE[net_v45](~/includes/net-v45-md.md)]，当实例化时<see cref="T:System.Text.StringBuilder" />对象通过调用<see cref="M:System.Text.StringBuilder.#ctor(System.Int32,System.Int32)" />构造函数，长度和的容量<see cref="T:System.Text.StringBuilder" />实例可以增长到的值超过其<see cref="P:System.Text.StringBuilder.MaxCapacity" />属性.实现这一点尤其是当调用<see cref="M:System.Text.StringBuilder.Append(System.String)" />和<see cref="M:System.Text.StringBuilder.AppendFormat(System.String,System.Object)" />方法将小字符串追加。</para>
+          <para>在 [！INCLUDE[net_v40_short](~/includes/net-v40-short-md.md)] 和 [！INCLUDE[net_v45](~/includes/net-v45-md.md)]，实例化时<see cref="T:System.Text.StringBuilder" />对象通过调用<see cref="M:System.Text.StringBuilder.#ctor(System.Int32,System.Int32)" />构造函数的长度和的容量<see cref="T:System.Text.StringBuilder" />实例可以增长到的值超过其<see cref="P:System.Text.StringBuilder.MaxCapacity" />属性.发生这种情况尤其是当您调用<see cref="M:System.Text.StringBuilder.Append(System.String)" />和<see cref="M:System.Text.StringBuilder.AppendFormat(System.String,System.Object)" />追加小型字符串的方法。</para>
         </block>
         <altmember cref="T:System.Object" />
       </Docs>
@@ -1274,6 +1308,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1300,12 +1336,12 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Text.StringBuilder.Append%28System.SByte%29>方法修改此类的现有实例; 它不返回新的类实例。 因此，可以调用的方法或属性上的现有的引用，不需要分配返回值以<xref:System.Text.StringBuilder>对象，如下面的示例所示。  
+ <xref:System.Text.StringBuilder.Append%28System.SByte%29>方法修改此类的现有实例; 它不返回新的类实例。 因此，您可以调用方法或属性上现有的引用并不需要将返回值赋给<xref:System.Text.StringBuilder>对象，如以下示例所示。  
   
  [!code-csharp[System.Text.StringBuilder.Append#13](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Text.StringBuilder.Append/cs/append3.cs#13)]
  [!code-vb[System.Text.StringBuilder.Append#13](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Text.StringBuilder.Append/vb/append3.vb#13)]  
   
- <xref:System.Text.StringBuilder.Append%28System.SByte%29>方法调用<xref:System.SByte.ToString%28System.IFormatProvider%29?displayProperty=nameWithType>方法以获取的字符串表示形式`value`为当前区域性。 若要控制的格式`value`，调用<xref:System.Text.StringBuilder.AppendFormat%2A>方法。  
+ <xref:System.Text.StringBuilder.Append%28System.SByte%29>方法调用<xref:System.SByte.ToString%28System.IFormatProvider%29?displayProperty=nameWithType>方法获取的字符串表示形式`value`为当前区域性。 若要控制的格式`value`，调用<xref:System.Text.StringBuilder.AppendFormat%2A>方法。  
   
  根据需要调整此实例的容量。  
   
@@ -1313,7 +1349,7 @@
         </remarks>
         <exception cref="T:System.ArgumentOutOfRangeException">Enlarging the value of this instance would exceed <see cref="P:System.Text.StringBuilder.MaxCapacity" />.</exception>
         <block subset="none" type="usage">
-          <para>在 [！INCLUDE[net_v40_short](~/includes/net-v40-short-md.md)] 和 [！INCLUDE[net_v45](~/includes/net-v45-md.md)]，当实例化时<see cref="T:System.Text.StringBuilder" />对象通过调用<see cref="M:System.Text.StringBuilder.#ctor(System.Int32,System.Int32)" />构造函数，长度和的容量<see cref="T:System.Text.StringBuilder" />实例可以增长到的值超过其<see cref="P:System.Text.StringBuilder.MaxCapacity" />属性.实现这一点尤其是当调用<see cref="M:System.Text.StringBuilder.Append(System.String)" />和<see cref="M:System.Text.StringBuilder.AppendFormat(System.String,System.Object)" />方法将小字符串追加。</para>
+          <para>在 [！INCLUDE[net_v40_short](~/includes/net-v40-short-md.md)] 和 [！INCLUDE[net_v45](~/includes/net-v45-md.md)]，实例化时<see cref="T:System.Text.StringBuilder" />对象通过调用<see cref="M:System.Text.StringBuilder.#ctor(System.Int32,System.Int32)" />构造函数的长度和的容量<see cref="T:System.Text.StringBuilder" />实例可以增长到的值超过其<see cref="P:System.Text.StringBuilder.MaxCapacity" />属性.发生这种情况尤其是当您调用<see cref="M:System.Text.StringBuilder.Append(System.String)" />和<see cref="M:System.Text.StringBuilder.AppendFormat(System.String,System.Object)" />追加小型字符串的方法。</para>
         </block>
         <altmember cref="T:System.SByte" />
       </Docs>
@@ -1337,6 +1373,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1358,12 +1396,12 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Text.StringBuilder.Append%28System.Single%29>方法修改此类的现有实例; 它不返回新的类实例。 因此，可以调用的方法或属性上的现有的引用，不需要分配返回值以<xref:System.Text.StringBuilder>对象，如下面的示例所示。  
+ <xref:System.Text.StringBuilder.Append%28System.Single%29>方法修改此类的现有实例; 它不返回新的类实例。 因此，您可以调用方法或属性上现有的引用并不需要将返回值赋给<xref:System.Text.StringBuilder>对象，如以下示例所示。  
   
  [!code-csharp[System.Text.StringBuilder.Append#14](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Text.StringBuilder.Append/cs/append3.cs#14)]
  [!code-vb[System.Text.StringBuilder.Append#14](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Text.StringBuilder.Append/vb/append3.vb#14)]  
   
- <xref:System.Text.StringBuilder.Append%28System.Single%29>方法调用<xref:System.Single.ToString%2A?displayProperty=nameWithType>方法以获取的字符串表示形式`value`为当前区域性。 若要控制的格式`value`，调用<xref:System.Text.StringBuilder.AppendFormat%2A>方法。  
+ <xref:System.Text.StringBuilder.Append%28System.Single%29>方法调用<xref:System.Single.ToString%2A?displayProperty=nameWithType>方法获取的字符串表示形式`value`为当前区域性。 若要控制的格式`value`，调用<xref:System.Text.StringBuilder.AppendFormat%2A>方法。  
   
  根据需要调整此实例的容量。  
   
@@ -1371,7 +1409,7 @@
         </remarks>
         <exception cref="T:System.ArgumentOutOfRangeException">Enlarging the value of this instance would exceed <see cref="P:System.Text.StringBuilder.MaxCapacity" />.</exception>
         <block subset="none" type="usage">
-          <para>在 [！INCLUDE[net_v40_short](~/includes/net-v40-short-md.md)] 和 [！INCLUDE[net_v45](~/includes/net-v45-md.md)]，当实例化时<see cref="T:System.Text.StringBuilder" />对象通过调用<see cref="M:System.Text.StringBuilder.#ctor(System.Int32,System.Int32)" />构造函数，长度和的容量<see cref="T:System.Text.StringBuilder" />实例可以增长到的值超过其<see cref="P:System.Text.StringBuilder.MaxCapacity" />属性.实现这一点尤其是当调用<see cref="M:System.Text.StringBuilder.Append(System.String)" />和<see cref="M:System.Text.StringBuilder.AppendFormat(System.String,System.Object)" />方法将小字符串追加。</para>
+          <para>在 [！INCLUDE[net_v40_short](~/includes/net-v40-short-md.md)] 和 [！INCLUDE[net_v45](~/includes/net-v45-md.md)]，实例化时<see cref="T:System.Text.StringBuilder" />对象通过调用<see cref="M:System.Text.StringBuilder.#ctor(System.Int32,System.Int32)" />构造函数的长度和的容量<see cref="T:System.Text.StringBuilder" />实例可以增长到的值超过其<see cref="P:System.Text.StringBuilder.MaxCapacity" />属性.发生这种情况尤其是当您调用<see cref="M:System.Text.StringBuilder.Append(System.String)" />和<see cref="M:System.Text.StringBuilder.AppendFormat(System.String,System.Object)" />追加小型字符串的方法。</para>
         </block>
         <altmember cref="T:System.Single" />
       </Docs>
@@ -1395,6 +1433,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1421,7 +1461,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Text.StringBuilder.Append%28System.String%29>方法修改此类的现有实例; 它不返回新的类实例。 因此，可以调用的方法或属性上的现有的引用，不需要分配返回值以<xref:System.Text.StringBuilder>对象，如下面的示例所示。  
+ <xref:System.Text.StringBuilder.Append%28System.String%29>方法修改此类的现有实例; 它不返回新的类实例。 因此，您可以调用方法或属性上现有的引用并不需要将返回值赋给<xref:System.Text.StringBuilder>对象，如以下示例所示。  
   
  [!code-csharp[System.Text.StringBuilder.Append#2](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Text.StringBuilder.Append/cs/append2.cs#2)]
  [!code-vb[System.Text.StringBuilder.Append#2](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Text.StringBuilder.Append/vb/append2.vb#2)]  
@@ -1434,7 +1474,7 @@
         </remarks>
         <exception cref="T:System.ArgumentOutOfRangeException">Enlarging the value of this instance would exceed <see cref="P:System.Text.StringBuilder.MaxCapacity" />.</exception>
         <block subset="none" type="usage">
-          <para>在 [！INCLUDE[net_v40_short](~/includes/net-v40-short-md.md)] 和 [！INCLUDE[net_v45](~/includes/net-v45-md.md)]，当实例化时<see cref="T:System.Text.StringBuilder" />对象通过调用<see cref="M:System.Text.StringBuilder.#ctor(System.Int32,System.Int32)" />构造函数，长度和的容量<see cref="T:System.Text.StringBuilder" />实例可以增长到的值超过其<see cref="P:System.Text.StringBuilder.MaxCapacity" />属性.实现这一点尤其是当调用<see cref="M:System.Text.StringBuilder.Append(System.String)" />和<see cref="M:System.Text.StringBuilder.AppendFormat(System.String,System.Object)" />方法将小字符串追加。</para>
+          <para>在 [！INCLUDE[net_v40_short](~/includes/net-v40-short-md.md)] 和 [！INCLUDE[net_v45](~/includes/net-v45-md.md)]，实例化时<see cref="T:System.Text.StringBuilder" />对象通过调用<see cref="M:System.Text.StringBuilder.#ctor(System.Int32,System.Int32)" />构造函数的长度和的容量<see cref="T:System.Text.StringBuilder" />实例可以增长到的值超过其<see cref="P:System.Text.StringBuilder.MaxCapacity" />属性.发生这种情况尤其是当您调用<see cref="M:System.Text.StringBuilder.Append(System.String)" />和<see cref="M:System.Text.StringBuilder.AppendFormat(System.String,System.Object)" />追加小型字符串的方法。</para>
         </block>
         <altmember cref="T:System.String" />
       </Docs>
@@ -1483,6 +1523,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1509,12 +1551,12 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Text.StringBuilder.Append%28System.UInt16%29>方法修改此类的现有实例; 它不返回新的类实例。 因此，可以调用的方法或属性上的现有的引用，不需要分配返回值以<xref:System.Text.StringBuilder>对象，如下面的示例所示。  
+ <xref:System.Text.StringBuilder.Append%28System.UInt16%29>方法修改此类的现有实例; 它不返回新的类实例。 因此，您可以调用方法或属性上现有的引用并不需要将返回值赋给<xref:System.Text.StringBuilder>对象，如以下示例所示。  
   
  [!code-csharp[System.Text.StringBuilder.Append#15](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Text.StringBuilder.Append/cs/append3.cs#15)]
  [!code-vb[System.Text.StringBuilder.Append#15](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Text.StringBuilder.Append/vb/append3.vb#15)]  
   
- <xref:System.Text.StringBuilder.Append%28System.UInt16%29>方法调用<xref:System.UInt16.ToString%28System.IFormatProvider%29?displayProperty=nameWithType>方法以获取的字符串表示形式`value`。 若要控制的格式`value`，调用<xref:System.Text.StringBuilder.AppendFormat%2A>方法。  
+ <xref:System.Text.StringBuilder.Append%28System.UInt16%29>方法调用<xref:System.UInt16.ToString%28System.IFormatProvider%29?displayProperty=nameWithType>方法获取的字符串表示形式`value`。 若要控制的格式`value`，调用<xref:System.Text.StringBuilder.AppendFormat%2A>方法。  
   
  根据需要调整此实例的容量。  
   
@@ -1522,7 +1564,7 @@
         </remarks>
         <exception cref="T:System.ArgumentOutOfRangeException">Enlarging the value of this instance would exceed <see cref="P:System.Text.StringBuilder.MaxCapacity" />.</exception>
         <block subset="none" type="usage">
-          <para>在 [！INCLUDE[net_v40_short](~/includes/net-v40-short-md.md)] 和 [！INCLUDE[net_v45](~/includes/net-v45-md.md)]，当实例化时<see cref="T:System.Text.StringBuilder" />对象通过调用<see cref="M:System.Text.StringBuilder.#ctor(System.Int32,System.Int32)" />构造函数，长度和的容量<see cref="T:System.Text.StringBuilder" />实例可以增长到的值超过其<see cref="P:System.Text.StringBuilder.MaxCapacity" />属性.实现这一点尤其是当调用<see cref="M:System.Text.StringBuilder.Append(System.String)" />和<see cref="M:System.Text.StringBuilder.AppendFormat(System.String,System.Object)" />方法将小字符串追加。</para>
+          <para>在 [！INCLUDE[net_v40_short](~/includes/net-v40-short-md.md)] 和 [！INCLUDE[net_v45](~/includes/net-v45-md.md)]，实例化时<see cref="T:System.Text.StringBuilder" />对象通过调用<see cref="M:System.Text.StringBuilder.#ctor(System.Int32,System.Int32)" />构造函数的长度和的容量<see cref="T:System.Text.StringBuilder" />实例可以增长到的值超过其<see cref="P:System.Text.StringBuilder.MaxCapacity" />属性.发生这种情况尤其是当您调用<see cref="M:System.Text.StringBuilder.Append(System.String)" />和<see cref="M:System.Text.StringBuilder.AppendFormat(System.String,System.Object)" />追加小型字符串的方法。</para>
         </block>
         <altmember cref="T:System.UInt16" />
       </Docs>
@@ -1546,6 +1588,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1572,12 +1616,12 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Text.StringBuilder.Append%28System.UInt32%29>方法修改此类的现有实例; 它不返回新的类实例。 因此，可以调用的方法或属性上的现有的引用，不需要分配返回值以<xref:System.Text.StringBuilder>对象，如下面的示例所示。  
+ <xref:System.Text.StringBuilder.Append%28System.UInt32%29>方法修改此类的现有实例; 它不返回新的类实例。 因此，您可以调用方法或属性上现有的引用并不需要将返回值赋给<xref:System.Text.StringBuilder>对象，如以下示例所示。  
   
  [!code-csharp[System.Text.StringBuilder.Append#16](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Text.StringBuilder.Append/cs/append3.cs#16)]
  [!code-vb[System.Text.StringBuilder.Append#16](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Text.StringBuilder.Append/vb/append3.vb#16)]  
   
- <xref:System.Text.StringBuilder.Append%28System.UInt32%29>调用<xref:System.UInt32.ToString%2A?displayProperty=nameWithType>方法以获取的字符串表示形式`value`为当前区域性。 若要控制的格式`value`，调用<xref:System.Text.StringBuilder.AppendFormat%2A>方法。  
+ <xref:System.Text.StringBuilder.Append%28System.UInt32%29>调用<xref:System.UInt32.ToString%2A?displayProperty=nameWithType>方法获取的字符串表示形式`value`为当前区域性。 若要控制的格式`value`，调用<xref:System.Text.StringBuilder.AppendFormat%2A>方法。  
   
  根据需要调整此实例的容量。  
   
@@ -1585,7 +1629,7 @@
         </remarks>
         <exception cref="T:System.ArgumentOutOfRangeException">Enlarging the value of this instance would exceed <see cref="P:System.Text.StringBuilder.MaxCapacity" />.</exception>
         <block subset="none" type="usage">
-          <para>在 [！INCLUDE[net_v40_short](~/includes/net-v40-short-md.md)] 和 [！INCLUDE[net_v45](~/includes/net-v45-md.md)]，当实例化时<see cref="T:System.Text.StringBuilder" />对象通过调用<see cref="M:System.Text.StringBuilder.#ctor(System.Int32,System.Int32)" />构造函数，长度和的容量<see cref="T:System.Text.StringBuilder" />实例可以增长到的值超过其<see cref="P:System.Text.StringBuilder.MaxCapacity" />属性.实现这一点尤其是当调用<see cref="M:System.Text.StringBuilder.Append(System.String)" />和<see cref="M:System.Text.StringBuilder.AppendFormat(System.String,System.Object)" />方法将小字符串追加。</para>
+          <para>在 [！INCLUDE[net_v40_short](~/includes/net-v40-short-md.md)] 和 [！INCLUDE[net_v45](~/includes/net-v45-md.md)]，实例化时<see cref="T:System.Text.StringBuilder" />对象通过调用<see cref="M:System.Text.StringBuilder.#ctor(System.Int32,System.Int32)" />构造函数的长度和的容量<see cref="T:System.Text.StringBuilder" />实例可以增长到的值超过其<see cref="P:System.Text.StringBuilder.MaxCapacity" />属性.发生这种情况尤其是当您调用<see cref="M:System.Text.StringBuilder.Append(System.String)" />和<see cref="M:System.Text.StringBuilder.AppendFormat(System.String,System.Object)" />追加小型字符串的方法。</para>
         </block>
         <altmember cref="T:System.UInt32" />
       </Docs>
@@ -1609,6 +1653,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1635,12 +1681,12 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Text.StringBuilder.Append%28System.UInt64%29>方法修改此类的现有实例; 它不返回新的类实例。 因此，可以调用的方法或属性上的现有的引用，不需要分配返回值以<xref:System.Text.StringBuilder>对象，如下面的示例所示。  
+ <xref:System.Text.StringBuilder.Append%28System.UInt64%29>方法修改此类的现有实例; 它不返回新的类实例。 因此，您可以调用方法或属性上现有的引用并不需要将返回值赋给<xref:System.Text.StringBuilder>对象，如以下示例所示。  
   
  [!code-csharp[System.Text.StringBuilder.Append#17](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Text.StringBuilder.Append/cs/append3.cs#17)]
  [!code-vb[System.Text.StringBuilder.Append#17](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Text.StringBuilder.Append/vb/append3.vb#17)]  
   
- <xref:System.Text.StringBuilder.Append%28System.UInt64%29>方法调用<xref:System.UInt64.ToString%28System.IFormatProvider%29?displayProperty=nameWithType>方法以获取的字符串表示形式`value`为当前区域性。 若要控制的格式`value`，调用<xref:System.Text.StringBuilder.AppendFormat%2A>方法。  
+ <xref:System.Text.StringBuilder.Append%28System.UInt64%29>方法调用<xref:System.UInt64.ToString%28System.IFormatProvider%29?displayProperty=nameWithType>方法获取的字符串表示形式`value`为当前区域性。 若要控制的格式`value`，调用<xref:System.Text.StringBuilder.AppendFormat%2A>方法。  
   
  根据需要调整此实例的容量。  
   
@@ -1648,7 +1694,7 @@
         </remarks>
         <exception cref="T:System.ArgumentOutOfRangeException">Enlarging the value of this instance would exceed <see cref="P:System.Text.StringBuilder.MaxCapacity" />.</exception>
         <block subset="none" type="usage">
-          <para>在 [！INCLUDE[net_v40_short](~/includes/net-v40-short-md.md)] 和 [！INCLUDE[net_v45](~/includes/net-v45-md.md)]，当实例化时<see cref="T:System.Text.StringBuilder" />对象通过调用<see cref="M:System.Text.StringBuilder.#ctor(System.Int32,System.Int32)" />构造函数，长度和的容量<see cref="T:System.Text.StringBuilder" />实例可以增长到的值超过其<see cref="P:System.Text.StringBuilder.MaxCapacity" />属性.实现这一点尤其是当调用<see cref="M:System.Text.StringBuilder.Append(System.String)" />和<see cref="M:System.Text.StringBuilder.AppendFormat(System.String,System.Object)" />方法将小字符串追加。</para>
+          <para>在 [！INCLUDE[net_v40_short](~/includes/net-v40-short-md.md)] 和 [！INCLUDE[net_v45](~/includes/net-v45-md.md)]，实例化时<see cref="T:System.Text.StringBuilder" />对象通过调用<see cref="M:System.Text.StringBuilder.#ctor(System.Int32,System.Int32)" />构造函数的长度和的容量<see cref="T:System.Text.StringBuilder" />实例可以增长到的值超过其<see cref="P:System.Text.StringBuilder.MaxCapacity" />属性.发生这种情况尤其是当您调用<see cref="M:System.Text.StringBuilder.Append(System.String)" />和<see cref="M:System.Text.StringBuilder.AppendFormat(System.String,System.Object)" />追加小型字符串的方法。</para>
         </block>
         <altmember cref="T:System.UInt64" />
       </Docs>
@@ -1672,6 +1718,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1695,7 +1743,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Text.StringBuilder.Append%28System.Char%2CSystem.Int32%29>方法修改此类的现有实例; 它不返回新的类实例。 因此，可以调用的方法或属性上的现有的引用，不需要分配返回值以<xref:System.Text.StringBuilder>对象，如下面的示例所示。  
+ <xref:System.Text.StringBuilder.Append%28System.Char%2CSystem.Int32%29>方法修改此类的现有实例; 它不返回新的类实例。 因此，您可以调用方法或属性上现有的引用并不需要将返回值赋给<xref:System.Text.StringBuilder>对象，如以下示例所示。  
   
  [!code-csharp[System.Text.StringBuilder.Append#5](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Text.StringBuilder.Append/cs/append2.cs#5)]
  [!code-vb[System.Text.StringBuilder.Append#5](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Text.StringBuilder.Append/vb/append2.vb#5)]  
@@ -1708,7 +1756,7 @@
           <paramref name="repeatCount" /> is less than zero.  -or-  Enlarging the value of this instance would exceed <see cref="P:System.Text.StringBuilder.MaxCapacity" />.</exception>
         <exception cref="T:System.OutOfMemoryException">Out of memory.</exception>
         <block subset="none" type="usage">
-          <para>在 [！INCLUDE[net_v40_short](~/includes/net-v40-short-md.md)] 和 [！INCLUDE[net_v45](~/includes/net-v45-md.md)]，当实例化时<see cref="T:System.Text.StringBuilder" />对象通过调用<see cref="M:System.Text.StringBuilder.#ctor(System.Int32,System.Int32)" />构造函数，长度和的容量<see cref="T:System.Text.StringBuilder" />实例可以增长到的值超过其<see cref="P:System.Text.StringBuilder.MaxCapacity" />属性.实现这一点尤其是当调用<see cref="M:System.Text.StringBuilder.Append(System.String)" />和<see cref="M:System.Text.StringBuilder.AppendFormat(System.String,System.Object)" />方法将小字符串追加。</para>
+          <para>在 [！INCLUDE[net_v40_short](~/includes/net-v40-short-md.md)] 和 [！INCLUDE[net_v45](~/includes/net-v45-md.md)]，实例化时<see cref="T:System.Text.StringBuilder" />对象通过调用<see cref="M:System.Text.StringBuilder.#ctor(System.Int32,System.Int32)" />构造函数的长度和的容量<see cref="T:System.Text.StringBuilder" />实例可以增长到的值超过其<see cref="P:System.Text.StringBuilder.MaxCapacity" />属性.发生这种情况尤其是当您调用<see cref="M:System.Text.StringBuilder.Append(System.String)" />和<see cref="M:System.Text.StringBuilder.AppendFormat(System.String,System.Object)" />追加小型字符串的方法。</para>
         </block>
         <altmember cref="T:System.Char" />
       </Docs>
@@ -1760,9 +1808,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 此方法将追加`valueCount`从地址开始的字符`value`到当前实例。  
+ 此方法将追加`valueCount`地址开始的字符`value`到当前实例。  
   
- <xref:System.Text.StringBuilder.Append%28System.Char%2A%2CSystem.Int32%29>方法修改此类的现有实例; 它不返回新的类实例。 因此，可以调用的方法或属性上的现有的引用，不需要分配返回值以<xref:System.Text.StringBuilder>对象。  
+ <xref:System.Text.StringBuilder.Append%28System.Char%2A%2CSystem.Int32%29>方法修改此类的现有实例; 它不返回新的类实例。 因此，您可以调用方法或属性上现有的引用并不需要将返回值赋给<xref:System.Text.StringBuilder>对象。  
   
  根据需要调整此实例的容量。  
   
@@ -1774,7 +1822,7 @@
         <exception cref="T:System.NullReferenceException">
           <paramref name="value" /> is a null pointer.</exception>
         <block subset="none" type="usage">
-          <para>在 [！INCLUDE[net_v40_short](~/includes/net-v40-short-md.md)] 和 [！INCLUDE[net_v45](~/includes/net-v45-md.md)]，当实例化时<see cref="T:System.Text.StringBuilder" />对象通过调用<see cref="M:System.Text.StringBuilder.#ctor(System.Int32,System.Int32)" />构造函数，长度和的容量<see cref="T:System.Text.StringBuilder" />实例可以增长到的值超过其<see cref="P:System.Text.StringBuilder.MaxCapacity" />属性.实现这一点尤其是当调用<see cref="M:System.Text.StringBuilder.Append(System.String)" />和<see cref="M:System.Text.StringBuilder.AppendFormat(System.String,System.Object)" />方法将小字符串追加。</para>
+          <para>在 [！INCLUDE[net_v40_short](~/includes/net-v40-short-md.md)] 和 [！INCLUDE[net_v45](~/includes/net-v45-md.md)]，实例化时<see cref="T:System.Text.StringBuilder" />对象通过调用<see cref="M:System.Text.StringBuilder.#ctor(System.Int32,System.Int32)" />构造函数的长度和的容量<see cref="T:System.Text.StringBuilder" />实例可以增长到的值超过其<see cref="P:System.Text.StringBuilder.MaxCapacity" />属性.发生这种情况尤其是当您调用<see cref="M:System.Text.StringBuilder.Append(System.String)" />和<see cref="M:System.Text.StringBuilder.AppendFormat(System.String,System.Object)" />追加小型字符串的方法。</para>
         </block>
       </Docs>
     </Member>
@@ -1797,6 +1845,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1827,9 +1877,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 此方法将指定的范围中的字符追加`value`到当前实例。 如果`value`是`null`和`startIndex`和`count`都是零，则没有更改。  
+ 此方法将指定的范围中的字符追加`value`到当前实例。 如果`value`是`null`并`startIndex`和`count`都是零个、 没有更改。  
   
- <xref:System.Text.StringBuilder.Append%28System.Char%5B%5D%2CSystem.Int32%2CSystem.Int32%29>方法修改此类的现有实例; 它不返回新的类实例。 因此，可以调用的方法或属性上的现有的引用，不需要分配返回值以<xref:System.Text.StringBuilder>对象，如下面的示例所示。  
+ <xref:System.Text.StringBuilder.Append%28System.Char%5B%5D%2CSystem.Int32%2CSystem.Int32%29>方法修改此类的现有实例; 它不返回新的类实例。 因此，您可以调用方法或属性上现有的引用并不需要将返回值赋给<xref:System.Text.StringBuilder>对象，如以下示例所示。  
   
  [!code-csharp[System.Text.StringBuilder.Append#7](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Text.StringBuilder.Append/cs/append2.cs#7)]
  [!code-vb[System.Text.StringBuilder.Append#7](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Text.StringBuilder.Append/vb/append2.vb#7)]  
@@ -1843,7 +1893,7 @@
         <exception cref="T:System.ArgumentOutOfRangeException">
           <paramref name="charCount" /> is less than zero.  -or-  <paramref name="startIndex" /> is less than zero.  -or-  <paramref name="startIndex" /> + <paramref name="charCount" /> is greater than the length of <paramref name="value" />.  -or-  Enlarging the value of this instance would exceed <see cref="P:System.Text.StringBuilder.MaxCapacity" />.</exception>
         <block subset="none" type="usage">
-          <para>在 [！INCLUDE[net_v40_short](~/includes/net-v40-short-md.md)] 和 [！INCLUDE[net_v45](~/includes/net-v45-md.md)]，当实例化时<see cref="T:System.Text.StringBuilder" />对象通过调用<see cref="M:System.Text.StringBuilder.#ctor(System.Int32,System.Int32)" />构造函数，长度和的容量<see cref="T:System.Text.StringBuilder" />实例可以增长到的值超过其<see cref="P:System.Text.StringBuilder.MaxCapacity" />属性.实现这一点尤其是当调用<see cref="M:System.Text.StringBuilder.Append(System.String)" />和<see cref="M:System.Text.StringBuilder.AppendFormat(System.String,System.Object)" />方法将小字符串追加。</para>
+          <para>在 [！INCLUDE[net_v40_short](~/includes/net-v40-short-md.md)] 和 [！INCLUDE[net_v45](~/includes/net-v45-md.md)]，实例化时<see cref="T:System.Text.StringBuilder" />对象通过调用<see cref="M:System.Text.StringBuilder.#ctor(System.Int32,System.Int32)" />构造函数的长度和的容量<see cref="T:System.Text.StringBuilder" />实例可以增长到的值超过其<see cref="P:System.Text.StringBuilder.MaxCapacity" />属性.发生这种情况尤其是当您调用<see cref="M:System.Text.StringBuilder.Append(System.String)" />和<see cref="M:System.Text.StringBuilder.AppendFormat(System.String,System.Object)" />追加小型字符串的方法。</para>
         </block>
         <altmember cref="T:System.Char" />
       </Docs>
@@ -1867,6 +1917,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1897,9 +1949,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 此方法将指定的范围中的字符追加`value`到当前实例。 如果`value`是`null`和`startIndex`和`count`都是零，则没有更改。  
+ 此方法将指定的范围中的字符追加`value`到当前实例。 如果`value`是`null`并`startIndex`和`count`都是零个、 没有更改。  
   
- <xref:System.Text.StringBuilder.Append%28System.String%2CSystem.Int32%2CSystem.Int32%29>方法修改此类的现有实例; 它不返回新的类实例。 因此，可以调用的方法或属性上的现有的引用，不需要分配返回值以<xref:System.Text.StringBuilder>对象，如下面的示例所示。  
+ <xref:System.Text.StringBuilder.Append%28System.String%2CSystem.Int32%2CSystem.Int32%29>方法修改此类的现有实例; 它不返回新的类实例。 因此，您可以调用方法或属性上现有的引用并不需要将返回值赋给<xref:System.Text.StringBuilder>对象，如以下示例所示。  
   
  [!code-csharp[System.Text.StringBuilder.Append#19](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Text.StringBuilder.Append/cs/append3.cs#19)]
  [!code-vb[System.Text.StringBuilder.Append#19](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Text.StringBuilder.Append/vb/append3.vb#19)]  
@@ -1913,7 +1965,7 @@
         <exception cref="T:System.ArgumentOutOfRangeException">
           <paramref name="count" /> less than zero.  -or-  <paramref name="startIndex" /> less than zero.  -or-  <paramref name="startIndex" /> + <paramref name="count" /> is greater than the length of <paramref name="value" />.  -or-  Enlarging the value of this instance would exceed <see cref="P:System.Text.StringBuilder.MaxCapacity" />.</exception>
         <block subset="none" type="usage">
-          <para>在 [！INCLUDE[net_v40_short](~/includes/net-v40-short-md.md)] 和 [！INCLUDE[net_v45](~/includes/net-v45-md.md)]，当实例化时<see cref="T:System.Text.StringBuilder" />对象通过调用<see cref="M:System.Text.StringBuilder.#ctor(System.Int32,System.Int32)" />构造函数，长度和的容量<see cref="T:System.Text.StringBuilder" />实例可以增长到的值超过其<see cref="P:System.Text.StringBuilder.MaxCapacity" />属性.实现这一点尤其是当调用<see cref="M:System.Text.StringBuilder.Append(System.String)" />和<see cref="M:System.Text.StringBuilder.AppendFormat(System.String,System.Object)" />方法将小字符串追加。</para>
+          <para>在 [！INCLUDE[net_v40_short](~/includes/net-v40-short-md.md)] 和 [！INCLUDE[net_v45](~/includes/net-v45-md.md)]，实例化时<see cref="T:System.Text.StringBuilder" />对象通过调用<see cref="M:System.Text.StringBuilder.#ctor(System.Int32,System.Int32)" />构造函数的长度和的容量<see cref="T:System.Text.StringBuilder" />实例可以增长到的值超过其<see cref="P:System.Text.StringBuilder.MaxCapacity" />属性.发生这种情况尤其是当您调用<see cref="M:System.Text.StringBuilder.Append(System.String)" />和<see cref="M:System.Text.StringBuilder.AppendFormat(System.String,System.Object)" />追加小型字符串的方法。</para>
         </block>
         <altmember cref="T:System.String" />
       </Docs>
@@ -1975,6 +2027,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1998,9 +2052,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 此方法使用[复合格式设置功能](~/docs/standard/base-types/composite-formatting.md)要将对象的值转换为它的文本表示形式，并将该表示形式嵌入在当前的.NET framework<xref:System.Text.StringBuilder>对象。  
+ 此方法使用[复合格式设置功能](~/docs/standard/base-types/composite-formatting.md)的.NET Framework，才能将对象的值转换为其文本表示形式并将该表示形式嵌入在当前<xref:System.Text.StringBuilder>对象。  
   
- `format`参数由零个或多个文本与零个或多个索引占位符称为格式项混合。 格式项的索引必须为 0，以对应于`arg0`，此方法的参数列表中的单个对象。 格式化进程会将每个格式项替换的字符串表示形式`arg0`。  
+ `format`参数由零个或多个文本和零个或多个索引占位符称为格式项混和组成。 格式项的索引必须为 0，对应于`arg0`，此方法的参数列表中的单个对象。 格式设置过程将每个格式项替换的字符串表示形式`arg0`。  
   
  格式项的语法如下所示：  
   
@@ -2010,16 +2064,16 @@
   
 |元素|描述|  
 |-------------|-----------------|  
-|*index*|参数列表中要进行格式化的对象的从零开始位置。 如果指定的对象*索引*是`null`，格式项都替换为<xref:System.String.Empty?displayProperty=nameWithType>。 如果没有在参数*索引*位置，<xref:System.FormatException>引发。|  
-|*长度*|最小的字符串表示形式参数中的字符数。 如果为正数，该参数是右对齐;如果为负数，它是左对齐。|  
-|:*formatString*|由参数支持标准或自定义格式字符串。|  
+|*index*|参数列表中要进行格式化的对象的从零开始位置。 如果指定的对象*索引*是`null`，格式项都替换为<xref:System.String.Empty?displayProperty=nameWithType>。 如果在没有参数*索引*位置，<xref:System.FormatException>引发。|  
+|*长度*|最小参数的字符串表示形式中的字符数。 如果为正数，该参数为右对齐;如果为负数，它是左对齐。|  
+|:*格式字符串*|由参数支持标准或自定义格式字符串。|  
   
 > [!NOTE]
->  使用日期和时间值的标准和自定义格式字符串，请参阅[标准日期和时间格式字符串](~/docs/standard/base-types/standard-date-and-time-format-strings.md)和[自定义日期和时间格式字符串](~/docs/standard/base-types/custom-date-and-time-format-strings.md)。 有关与数值一起使用的标准和自定义格式字符串，请参阅[标准数字格式字符串](~/docs/standard/base-types/standard-numeric-format-strings.md)和[自定义数字格式字符串](~/docs/standard/base-types/custom-numeric-format-strings.md)。 用于枚举的标准格式字符串，请参阅[枚举格式字符串](~/docs/standard/base-types/enumeration-format-strings.md)。  
+>  有关使用日期和时间值的标准和自定义格式字符串，请参阅[标准日期和时间格式字符串](~/docs/standard/base-types/standard-date-and-time-format-strings.md)并[自定义日期和时间格式字符串](~/docs/standard/base-types/custom-date-and-time-format-strings.md)。 对于标准和自定义格式字符串与数值一起使用，请参阅[标准数字格式字符串](~/docs/standard/base-types/standard-numeric-format-strings.md)并[自定义数字格式字符串](~/docs/standard/base-types/custom-numeric-format-strings.md)。 用于枚举的标准格式字符串，请参阅[枚举格式字符串](~/docs/standard/base-types/enumeration-format-strings.md)。  
   
- `arg0` 表示要设置格式的对象。 在每个格式项`format`替换的字符串表示形式`arg0`。 如果格式项包含`formatString`和`arg0`实现<xref:System.IFormattable>接口，则`arg0.ToString(formatString, null)`定义格式设置。 否则为`arg0.ToString()`定义格式设置。  
+ `arg0` 表示要设置格式的对象。 在每个格式项`format`替换的字符串表示形式`arg0`。 如果格式项包括`formatString`并`arg0`实现<xref:System.IFormattable>接口，则`arg0.ToString(formatString, null)`定义格式设置。 否则为`arg0.ToString()`定义格式设置。  
   
- 如果字符串分配给`format`是"谢谢您捐赠 {0: # # #} 罐食品给我们的慈善组织。" 和`arg0`是一个整数值为 10，则返回值将是"感谢您的 10 罐食品给我们的慈善组织"。  
+ 如果字符串分配给`format`是"谢谢您捐赠 {0: # # #} 罐食品给我们的慈善组织。" 和`arg0`是一个整数值为 10，返回值将是"谢谢您捐赠 10 罐食品给我们的慈善组织。"  
   
    
   
@@ -2038,7 +2092,7 @@
           <paramref name="format" /> is invalid.  -or-  The index of a format item is less than 0 (zero), or greater than or equal to 1.</exception>
         <exception cref="T:System.ArgumentOutOfRangeException">The length of the expanded string would exceed <see cref="P:System.Text.StringBuilder.MaxCapacity" />.</exception>
         <block subset="none" type="usage">
-          <para>在 [！INCLUDE[net_v40_short](~/includes/net-v40-short-md.md)] 和 [！INCLUDE[net_v45](~/includes/net-v45-md.md)]，当实例化时<see cref="T:System.Text.StringBuilder" />对象通过调用<see cref="M:System.Text.StringBuilder.#ctor(System.Int32,System.Int32)" />构造函数，长度和的容量<see cref="T:System.Text.StringBuilder" />实例可以增长到的值超过其<see cref="P:System.Text.StringBuilder.MaxCapacity" />属性.实现这一点尤其是当调用<see cref="M:System.Text.StringBuilder.Append(System.String)" />和<see cref="M:System.Text.StringBuilder.AppendFormat(System.String,System.Object)" />方法将小字符串追加。</para>
+          <para>在 [！INCLUDE[net_v40_short](~/includes/net-v40-short-md.md)] 和 [！INCLUDE[net_v45](~/includes/net-v45-md.md)]，实例化时<see cref="T:System.Text.StringBuilder" />对象通过调用<see cref="M:System.Text.StringBuilder.#ctor(System.Int32,System.Int32)" />构造函数的长度和的容量<see cref="T:System.Text.StringBuilder" />实例可以增长到的值超过其<see cref="P:System.Text.StringBuilder.MaxCapacity" />属性.发生这种情况尤其是当您调用<see cref="M:System.Text.StringBuilder.Append(System.String)" />和<see cref="M:System.Text.StringBuilder.AppendFormat(System.String,System.Object)" />追加小型字符串的方法。</para>
         </block>
       </Docs>
     </Member>
@@ -2061,6 +2115,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -2090,9 +2146,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 此方法使用[复合格式设置功能](~/docs/standard/base-types/composite-formatting.md)要将对象的值转换为它的文本表示形式，并将该表示形式嵌入在当前的.NET framework<xref:System.Text.StringBuilder>对象。  
+ 此方法使用[复合格式设置功能](~/docs/standard/base-types/composite-formatting.md)的.NET Framework，才能将对象的值转换为其文本表示形式并将该表示形式嵌入在当前<xref:System.Text.StringBuilder>对象。  
   
- `format`参数由零个或多个文本混和组成，零个或多个索引占位符称为格式项，对应于此方法的参数列表中的对象。 格式设置的过程将每个格式项替换的字符串表示形式的相应对象。  
+ `format`参数由零个或多个文本与零个或多个索引占位符称为格式项，此方法的参数列表中的对象相对应的混合。 格式设置过程将每个格式项替换相应的对象的字符串表示形式。  
   
  格式项的语法如下所示：  
   
@@ -2102,16 +2158,16 @@
   
 |元素|描述|  
 |-------------|-----------------|  
-|*index*|参数列表中要进行格式化的对象的从零开始位置。 如果指定的对象*索引*是`null`，格式项都替换为<xref:System.String.Empty?displayProperty=nameWithType>。 如果没有在参数*索引*位置，<xref:System.FormatException>引发。|  
-|*长度*|最小的字符串表示形式参数中的字符数。 如果为正数，该参数是右对齐;如果为负数，它是左对齐。|  
-|:*formatString*|由参数支持标准或自定义格式字符串。|  
+|*index*|参数列表中要进行格式化的对象的从零开始位置。 如果指定的对象*索引*是`null`，格式项都替换为<xref:System.String.Empty?displayProperty=nameWithType>。 如果在没有参数*索引*位置，<xref:System.FormatException>引发。|  
+|*长度*|最小参数的字符串表示形式中的字符数。 如果为正数，该参数为右对齐;如果为负数，它是左对齐。|  
+|:*格式字符串*|由参数支持标准或自定义格式字符串。|  
   
 > [!NOTE]
->  使用日期和时间值的标准和自定义格式字符串，请参阅[标准日期和时间格式字符串](~/docs/standard/base-types/standard-date-and-time-format-strings.md)和[自定义日期和时间格式字符串](~/docs/standard/base-types/custom-date-and-time-format-strings.md)。 有关与数值一起使用的标准和自定义格式字符串，请参阅[标准数字格式字符串](~/docs/standard/base-types/standard-numeric-format-strings.md)和[自定义数字格式字符串](~/docs/standard/base-types/custom-numeric-format-strings.md)。 用于枚举的标准格式字符串，请参阅[枚举格式字符串](~/docs/standard/base-types/enumeration-format-strings.md)。  
+>  有关使用日期和时间值的标准和自定义格式字符串，请参阅[标准日期和时间格式字符串](~/docs/standard/base-types/standard-date-and-time-format-strings.md)并[自定义日期和时间格式字符串](~/docs/standard/base-types/custom-date-and-time-format-strings.md)。 对于标准和自定义格式字符串与数值一起使用，请参阅[标准数字格式字符串](~/docs/standard/base-types/standard-numeric-format-strings.md)并[自定义数字格式字符串](~/docs/standard/base-types/custom-numeric-format-strings.md)。 用于枚举的标准格式字符串，请参阅[枚举格式字符串](~/docs/standard/base-types/enumeration-format-strings.md)。  
   
- `args` 表示要设置格式的对象。 在每个格式项`format`替换的字符串表示形式中相应对象`args`。 如果格式项包含`formatString`和中的相应对象`args`实现<xref:System.IFormattable>接口，则`args[index].ToString(formatString, provider)`定义格式设置。 否则为`args[index].ToString()`定义格式设置。  
+ `args` 表示要设置格式的对象。 在每个格式项`format`中的相应对象的字符串表示形式替换`args`。 如果格式项包括`formatString`和中的相应对象`args`实现<xref:System.IFormattable>接口，则`args[index].ToString(formatString, provider)`定义格式设置。 否则为`args[index].ToString()`定义格式设置。  
   
- 如果字符串分配给`format`是"谢谢您捐赠 {0: # # #} 罐食品给我们的慈善组织。" 和`arg0`是一个整数值为 10，则返回值将是"感谢您的 10 罐食品给我们的慈善组织"。  
+ 如果字符串分配给`format`是"谢谢您捐赠 {0: # # #} 罐食品给我们的慈善组织。" 和`arg0`是一个整数值为 10，返回值将是"谢谢您捐赠 10 罐食品给我们的慈善组织。"  
   
    
   
@@ -2130,7 +2186,7 @@
           <paramref name="format" /> is invalid.  -or-  The index of a format item is less than 0 (zero), or greater than or equal to the length of the <paramref name="args" /> array.</exception>
         <exception cref="T:System.ArgumentOutOfRangeException">The length of the expanded string would exceed <see cref="P:System.Text.StringBuilder.MaxCapacity" />.</exception>
         <block subset="none" type="usage">
-          <para>在 [！INCLUDE[net_v40_short](~/includes/net-v40-short-md.md)] 和 [！INCLUDE[net_v45](~/includes/net-v45-md.md)]，当实例化时<see cref="T:System.Text.StringBuilder" />对象通过调用<see cref="M:System.Text.StringBuilder.#ctor(System.Int32,System.Int32)" />构造函数，长度和的容量<see cref="T:System.Text.StringBuilder" />实例可以增长到的值超过其<see cref="P:System.Text.StringBuilder.MaxCapacity" />属性.实现这一点尤其是当调用<see cref="M:System.Text.StringBuilder.Append(System.String)" />和<see cref="M:System.Text.StringBuilder.AppendFormat(System.String,System.Object)" />方法将小字符串追加。</para>
+          <para>在 [！INCLUDE[net_v40_short](~/includes/net-v40-short-md.md)] 和 [！INCLUDE[net_v45](~/includes/net-v45-md.md)]，实例化时<see cref="T:System.Text.StringBuilder" />对象通过调用<see cref="M:System.Text.StringBuilder.#ctor(System.Int32,System.Int32)" />构造函数的长度和的容量<see cref="T:System.Text.StringBuilder" />实例可以增长到的值超过其<see cref="P:System.Text.StringBuilder.MaxCapacity" />属性.发生这种情况尤其是当您调用<see cref="M:System.Text.StringBuilder.Append(System.String)" />和<see cref="M:System.Text.StringBuilder.AppendFormat(System.String,System.Object)" />追加小型字符串的方法。</para>
         </block>
       </Docs>
     </Member>
@@ -2176,9 +2232,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 此方法使用[复合格式设置功能](~/docs/standard/base-types/composite-formatting.md)要转换的值的.NET framework`arg0`为其文本表示形式，并将该表示形式嵌入在当前<xref:System.Text.StringBuilder>对象。  
+ 此方法使用[复合格式设置功能](~/docs/standard/base-types/composite-formatting.md)的值转换的.NET framework`arg0`为其文本表示形式，并将该表示形式嵌入在当前<xref:System.Text.StringBuilder>对象。  
   
- `format`参数由零个或多个文本与零个或多个索引占位符称为格式项混合。 每个格式项的索引必须为零 (0)，因为此方法包括使用单个自变量自变量列表。 格式化进程会将每个格式项替换的字符串表示形式`arg0`。  
+ `format`参数由零个或多个文本和零个或多个索引占位符称为格式项混和组成。 每个格式项的索引必须为零 (0)，因为此方法包括使用单个自变量参数列表。 格式设置过程将每个格式项替换的字符串表示形式`arg0`。  
   
  格式项的语法如下所示：  
   
@@ -2188,31 +2244,31 @@
   
 |元素|描述|  
 |-------------|-----------------|  
-|*index*|参数列表中要进行格式化的对象的从零开始位置。 如果指定的对象*索引*是`null`，格式项都替换为<xref:System.String.Empty?displayProperty=nameWithType>。 在这种情况下，由于<xref:System.Text.StringBuilder.AppendFormat%28System.IFormatProvider%2CSystem.String%2CSystem.Object%29>方法自变量列表、 的值中包含一个自变量*索引*必须始终为 0。 如果不是，<xref:System.FormatException>引发。|  
-|*长度*|最小的字符串表示形式参数中的字符数。 如果为正数，该参数是右对齐;如果为负数，它是左对齐。|  
-|:*formatString*|由参数支持标准或自定义格式字符串。|  
+|*index*|参数列表中要进行格式化的对象的从零开始位置。 如果指定的对象*索引*是`null`，格式项都替换为<xref:System.String.Empty?displayProperty=nameWithType>。 在这种情况下，由于<xref:System.Text.StringBuilder.AppendFormat%28System.IFormatProvider%2CSystem.String%2CSystem.Object%29>方法具有一个参数在参数列表中，值*索引*必须始终为 0。 如果不是，<xref:System.FormatException>引发。|  
+|*长度*|最小参数的字符串表示形式中的字符数。 如果为正数，该参数为右对齐;如果为负数，它是左对齐。|  
+|:*格式字符串*|由参数支持标准或自定义格式字符串。|  
   
 > [!NOTE]
->  使用日期和时间值的标准和自定义格式字符串，请参阅[标准日期和时间格式字符串](~/docs/standard/base-types/standard-date-and-time-format-strings.md)和[自定义日期和时间格式字符串](~/docs/standard/base-types/custom-date-and-time-format-strings.md)。 有关与数值一起使用的标准和自定义格式字符串，请参阅[标准数字格式字符串](~/docs/standard/base-types/standard-numeric-format-strings.md)和[自定义数字格式字符串](~/docs/standard/base-types/custom-numeric-format-strings.md)。 用于枚举的标准格式字符串，请参阅[枚举格式字符串](~/docs/standard/base-types/enumeration-format-strings.md)。  
+>  有关使用日期和时间值的标准和自定义格式字符串，请参阅[标准日期和时间格式字符串](~/docs/standard/base-types/standard-date-and-time-format-strings.md)并[自定义日期和时间格式字符串](~/docs/standard/base-types/custom-date-and-time-format-strings.md)。 对于标准和自定义格式字符串与数值一起使用，请参阅[标准数字格式字符串](~/docs/standard/base-types/standard-numeric-format-strings.md)并[自定义数字格式字符串](~/docs/standard/base-types/custom-numeric-format-strings.md)。 用于枚举的标准格式字符串，请参阅[枚举格式字符串](~/docs/standard/base-types/enumeration-format-strings.md)。  
   
  `provider`参数指定<xref:System.IFormatProvider>可以提供格式设置信息中的对象的实现`args`。 `provider` 可以是以下任意形式：  
   
--   A<xref:System.Globalization.CultureInfo>提供区域性特定格式设置信息的对象。  
+-   一个<xref:System.Globalization.CultureInfo>提供特定于区域性的格式设置信息的对象。  
   
--   A<xref:System.Globalization.NumberFormatInfo>提供区域性特定格式设置信息的对象`arg0`如果它是数字值。  
+-   一个<xref:System.Globalization.NumberFormatInfo>对象，它提供区域性特定格式设置信息`arg0`如果它是数字值。  
   
--   A<xref:System.Globalization.DateTimeFormatInfo>提供区域性特定格式设置信息的对象`arg0`如果它是日期和时间值。  
+-   一个<xref:System.Globalization.DateTimeFormatInfo>对象，它提供区域性特定格式设置信息`arg0`如果它是一个日期和时间值。  
   
--   自定义<xref:System.IFormatProvider>提供格式设置信息的实现`arg0`。 通常情况下，此类实现还实现<xref:System.ICustomFormatter>接口。  
+-   自定义<xref:System.IFormatProvider>实现，提供的格式设置信息`arg0`。 通常情况下，此类实现还实现<xref:System.ICustomFormatter>接口。  
   
- 如果`provider`参数是`null`、 格式设置信息的均来自当前区域性。  
+ 如果`provider`参数是`null`、 格式设置信息来自当前区域性。  
   
- `arg0` 表示要设置格式的对象。 在每个格式项`format`替换的字符串表示形式`arg0`。 如果格式项包含`formatString`和`arg0`实现<xref:System.IFormattable>接口，则`arg0.ToString(formatString, provider)`定义格式设置。 否则为`arg0.ToString()`定义格式设置。  
+ `arg0` 表示要设置格式的对象。 在每个格式项`format`替换的字符串表示形式`arg0`。 如果格式项包括`formatString`并`arg0`实现<xref:System.IFormattable>接口，则`arg0.ToString(formatString, provider)`定义格式设置。 否则为`arg0.ToString()`定义格式设置。  
   
    
   
 ## Examples  
- 以下包含两个调用<xref:System.Text.StringBuilder.AppendFormat%28System.IFormatProvider%2CSystem.String%2CSystem.Object%29>方法。 它们都使用英语出色英国 (EN-GB) 区域性的格式设置约定。 第一个插入的字符串表示形式<xref:System.Decimal>值在结果字符串中的货币。 第二个插入<xref:System.DateTime>字符串在结果中的两个位置的值，第一个包括，仅短日期字符串和第二个短时间字符串。  
+ 下面包含两个调用<xref:System.Text.StringBuilder.AppendFormat%28System.IFormatProvider%2CSystem.String%2CSystem.Object%29>方法。 同时使用英语 Great Britain (en-GB) 区域性的格式设置约定。 第一个插入的字符串表示形式<xref:System.Decimal>值在结果字符串中的货币。 第二个插入<xref:System.DateTime>字符串值在结果中的两个位置，第一个包括，仅短日期字符串和第二个短时间字符串。  
   
  [!code-csharp[System.Text.StringBuilder.AppendFormat#2](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.text.stringbuilder.appendformat/cs/appendformat1.cs#2)]
  [!code-vb[System.Text.StringBuilder.AppendFormat#2](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.text.stringbuilder.appendformat/vb/appendformat1.vb#2)]  
@@ -2225,7 +2281,7 @@
           <paramref name="format" /> is invalid.  -or-  The index of a format item is less than 0 (zero), or greater than or equal to one (1).</exception>
         <exception cref="T:System.ArgumentOutOfRangeException">The length of the expanded string would exceed <see cref="P:System.Text.StringBuilder.MaxCapacity" />.</exception>
         <block subset="none" type="usage">
-          <para>在 [！INCLUDE[net_v40_short](~/includes/net-v40-short-md.md)] 和 [！INCLUDE[net_v45](~/includes/net-v45-md.md)]，当实例化时<see cref="T:System.Text.StringBuilder" />对象通过调用<see cref="M:System.Text.StringBuilder.#ctor(System.Int32,System.Int32)" />构造函数，长度和的容量<see cref="T:System.Text.StringBuilder" />实例可以增长到的值超过其<see cref="P:System.Text.StringBuilder.MaxCapacity" />属性.实现这一点尤其是当调用<see cref="M:System.Text.StringBuilder.Append(System.String)" />和<see cref="M:System.Text.StringBuilder.AppendFormat(System.String,System.Object)" />方法将小字符串追加。</para>
+          <para>在 [！INCLUDE[net_v40_short](~/includes/net-v40-short-md.md)] 和 [！INCLUDE[net_v45](~/includes/net-v45-md.md)]，实例化时<see cref="T:System.Text.StringBuilder" />对象通过调用<see cref="M:System.Text.StringBuilder.#ctor(System.Int32,System.Int32)" />构造函数的长度和的容量<see cref="T:System.Text.StringBuilder" />实例可以增长到的值超过其<see cref="P:System.Text.StringBuilder.MaxCapacity" />属性.发生这种情况尤其是当您调用<see cref="M:System.Text.StringBuilder.Append(System.String)" />和<see cref="M:System.Text.StringBuilder.AppendFormat(System.String,System.Object)" />追加小型字符串的方法。</para>
         </block>
       </Docs>
     </Member>
@@ -2248,6 +2304,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -2279,9 +2337,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 此方法使用[复合格式设置功能](~/docs/standard/base-types/composite-formatting.md)要将对象的值转换为它的文本表示形式，并将该表示形式嵌入在当前的.NET framework<xref:System.Text.StringBuilder>对象。  
+ 此方法使用[复合格式设置功能](~/docs/standard/base-types/composite-formatting.md)的.NET Framework，才能将对象的值转换为其文本表示形式并将该表示形式嵌入在当前<xref:System.Text.StringBuilder>对象。  
   
- `format`参数由零个或多个文本混和组成，零个或多个索引占位符称为格式项，对应于此方法的参数列表中的对象。 格式设置的过程将每个格式项替换的字符串表示形式的相应对象。  
+ `format`参数由零个或多个文本与零个或多个索引占位符称为格式项，此方法的参数列表中的对象相对应的混合。 格式设置过程将每个格式项替换相应的对象的字符串表示形式。  
   
  格式项的语法如下所示：  
   
@@ -2291,26 +2349,26 @@
   
 |元素|描述|  
 |-------------|-----------------|  
-|*index*|参数列表中要进行格式化的对象的从零开始位置。 如果指定的对象*索引*是`null`，格式项都替换为<xref:System.String.Empty?displayProperty=nameWithType>。 如果没有在参数*索引*位置，<xref:System.FormatException>引发。|  
-|*长度*|最小的字符串表示形式参数中的字符数。 如果为正数，该参数是右对齐;如果为负数，它是左对齐。|  
-|:*formatString*|由参数支持标准或自定义格式字符串。|  
+|*index*|参数列表中要进行格式化的对象的从零开始位置。 如果指定的对象*索引*是`null`，格式项都替换为<xref:System.String.Empty?displayProperty=nameWithType>。 如果在没有参数*索引*位置，<xref:System.FormatException>引发。|  
+|*长度*|最小参数的字符串表示形式中的字符数。 如果为正数，该参数为右对齐;如果为负数，它是左对齐。|  
+|:*格式字符串*|由参数支持标准或自定义格式字符串。|  
   
 > [!NOTE]
->  使用日期和时间值的标准和自定义格式字符串，请参阅[标准日期和时间格式字符串](~/docs/standard/base-types/standard-date-and-time-format-strings.md)和[自定义日期和时间格式字符串](~/docs/standard/base-types/custom-date-and-time-format-strings.md)。 有关与数值一起使用的标准和自定义格式字符串，请参阅[标准数字格式字符串](~/docs/standard/base-types/standard-numeric-format-strings.md)和[自定义数字格式字符串](~/docs/standard/base-types/custom-numeric-format-strings.md)。 用于枚举的标准格式字符串，请参阅[枚举格式字符串](~/docs/standard/base-types/enumeration-format-strings.md)。  
+>  有关使用日期和时间值的标准和自定义格式字符串，请参阅[标准日期和时间格式字符串](~/docs/standard/base-types/standard-date-and-time-format-strings.md)并[自定义日期和时间格式字符串](~/docs/standard/base-types/custom-date-and-time-format-strings.md)。 对于标准和自定义格式字符串与数值一起使用，请参阅[标准数字格式字符串](~/docs/standard/base-types/standard-numeric-format-strings.md)并[自定义数字格式字符串](~/docs/standard/base-types/custom-numeric-format-strings.md)。 用于枚举的标准格式字符串，请参阅[枚举格式字符串](~/docs/standard/base-types/enumeration-format-strings.md)。  
   
  `provider`参数指定<xref:System.IFormatProvider>可以提供格式设置信息中的对象的实现`args`。 `provider` 可以是以下任意形式：  
   
--   A<xref:System.Globalization.CultureInfo>提供区域性特定格式设置信息的对象。  
+-   一个<xref:System.Globalization.CultureInfo>提供特定于区域性的格式设置信息的对象。  
   
--   A<xref:System.Globalization.NumberFormatInfo>提供区域性特定格式设置信息中的数字值的对象`args`。  
+-   一个<xref:System.Globalization.NumberFormatInfo>对象，它提供区域性特定格式设置信息中的数字值`args`。  
   
--   A<xref:System.Globalization.DateTimeFormatInfo>提供区域性特定格式设置信息中的日期和时间值的对象`args`。  
+-   一个<xref:System.Globalization.DateTimeFormatInfo>对象，它提供区域性特定格式设置信息中的日期和时间值`args`。  
   
--   自定义<xref:System.IFormatProvider>实现，提供一个或多个中的对象的格式设置信息`args`。 通常情况下，此类实现还实现<xref:System.ICustomFormatter>接口。 下一节中的第二个示例阐释了<xref:System.Text.StringBuilder.AppendFormat%28System.IFormatProvider%2CSystem.String%2CSystem.Object%5B%5D%29?displayProperty=nameWithType>具有自定义的方法调用<xref:System.IFormatProvider>实现。  
+-   自定义<xref:System.IFormatProvider>实现，提供一个或多个中的对象的格式设置信息`args`。 通常情况下，此类实现还实现<xref:System.ICustomFormatter>接口。 下一节中的第二个示例说明了<xref:System.Text.StringBuilder.AppendFormat%28System.IFormatProvider%2CSystem.String%2CSystem.Object%5B%5D%29?displayProperty=nameWithType>使用自定义方法调用<xref:System.IFormatProvider>实现。  
   
- 如果`provider`参数是`null`，来自当前区域性获取格式提供程序信息。  
+ 如果`provider`参数是`null`，从当前区域获得格式提供程序信息。  
   
- `args` 表示要设置格式的对象。 在每个格式项`format`替换的字符串表示形式中相应对象`args`。 如果格式项包含`formatString`和中的相应对象`args`实现<xref:System.IFormattable>接口，则`args[index].ToString(formatString, provider)`定义格式设置。 否则为`args[index].ToString()`定义格式设置。  
+ `args` 表示要设置格式的对象。 在每个格式项`format`中的相应对象的字符串表示形式替换`args`。 如果格式项包括`formatString`和中的相应对象`args`实现<xref:System.IFormattable>接口，则`args[index].ToString(formatString, provider)`定义格式设置。 否则为`args[index].ToString()`定义格式设置。  
   
    
   
@@ -2321,7 +2379,7 @@
  [!code-csharp[stringbuilder.appendformat#1](~/samples/snippets/csharp/VS_Snippets_CLR/stringbuilder.appendformat/CS/appfmt.cs#1)]
  [!code-vb[stringbuilder.appendformat#1](~/samples/snippets/visualbasic/VS_Snippets_CLR/stringbuilder.appendformat/VB/appfmt.vb#1)]  
   
- 下面的示例定义一个自定义<xref:System.IFormatProvider>实现名为`CustomerFormatter`后的第四个和第七个数字进行格式设置的 10 位数客户编号以连字符。 传递给<xref:System.Text.StringBuilder.AppendFormat%28System.IFormatProvider%2CSystem.String%2CSystem.Object%5B%5D%29?displayProperty=nameWithType>方法来创建包含格式化的客户编号和客户名称的字符串。  
+ 下面的示例定义一个自定义<xref:System.IFormatProvider>实现名为`CustomerFormatter`后的第四个和第七个数字进行格式设置带有连字符的 10 位客户。 传递给<xref:System.Text.StringBuilder.AppendFormat%28System.IFormatProvider%2CSystem.String%2CSystem.Object%5B%5D%29?displayProperty=nameWithType>方法来创建包含格式化的客户数和客户名称的字符串。  
   
  [!code-csharp[System.Text.StringBuilder.AppendFormat#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.text.stringbuilder.appendformat/cs/customernumberformatter1.cs#1)]
  [!code-vb[System.Text.StringBuilder.AppendFormat#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.text.stringbuilder.appendformat/vb/customernumberformatter1.vb#1)]  
@@ -2334,7 +2392,7 @@
           <paramref name="format" /> is invalid.  -or-  The index of a format item is less than 0 (zero), or greater than or equal to the length of the <paramref name="args" /> array.</exception>
         <exception cref="T:System.ArgumentOutOfRangeException">The length of the expanded string would exceed <see cref="P:System.Text.StringBuilder.MaxCapacity" />.</exception>
         <block subset="none" type="usage">
-          <para>在 [！INCLUDE[net_v40_short](~/includes/net-v40-short-md.md)] 和 [！INCLUDE[net_v45](~/includes/net-v45-md.md)]，当实例化时<see cref="T:System.Text.StringBuilder" />对象通过调用<see cref="M:System.Text.StringBuilder.#ctor(System.Int32,System.Int32)" />构造函数，长度和的容量<see cref="T:System.Text.StringBuilder" />实例可以增长到的值超过其<see cref="P:System.Text.StringBuilder.MaxCapacity" />属性.实现这一点尤其是当调用<see cref="M:System.Text.StringBuilder.Append(System.String)" />和<see cref="M:System.Text.StringBuilder.AppendFormat(System.String,System.Object)" />方法将小字符串追加。</para>
+          <para>在 [！INCLUDE[net_v40_short](~/includes/net-v40-short-md.md)] 和 [！INCLUDE[net_v45](~/includes/net-v45-md.md)]，实例化时<see cref="T:System.Text.StringBuilder" />对象通过调用<see cref="M:System.Text.StringBuilder.#ctor(System.Int32,System.Int32)" />构造函数的长度和的容量<see cref="T:System.Text.StringBuilder" />实例可以增长到的值超过其<see cref="P:System.Text.StringBuilder.MaxCapacity" />属性.发生这种情况尤其是当您调用<see cref="M:System.Text.StringBuilder.Append(System.String)" />和<see cref="M:System.Text.StringBuilder.AppendFormat(System.String,System.Object)" />追加小型字符串的方法。</para>
         </block>
       </Docs>
     </Member>
@@ -2355,6 +2413,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -2380,9 +2440,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 此方法使用[复合格式设置功能](~/docs/standard/base-types/composite-formatting.md)要将对象的值转换为它的文本表示形式，并将该表示形式嵌入在当前的.NET framework<xref:System.Text.StringBuilder>对象。  
+ 此方法使用[复合格式设置功能](~/docs/standard/base-types/composite-formatting.md)的.NET Framework，才能将对象的值转换为其文本表示形式并将该表示形式嵌入在当前<xref:System.Text.StringBuilder>对象。  
   
- `format`参数由零个或多个文本与零个或多个索引占位符称为格式项，对应于混合`arg0`和`arg1`，此方法的参数列表中的两个对象。 格式设置的过程将每个格式项替换的字符串表示形式的相应对象。  
+ `format`参数由零个或多个文本与零个或多个索引占位符称为，对应于格式项混合`arg0`和`arg1`，此方法的参数列表中的两个对象。 格式设置过程将每个格式项替换相应的对象的字符串表示形式。  
   
  格式项的语法如下所示：  
   
@@ -2392,16 +2452,16 @@
   
 |元素|描述|  
 |-------------|-----------------|  
-|*index*|参数列表中要进行格式化的对象的从零开始位置。 如果指定的对象*索引*是`null`，格式项都替换为<xref:System.String.Empty?displayProperty=nameWithType>。 如果没有在参数*索引*位置，<xref:System.FormatException>引发。|  
-|*长度*|最小的字符串表示形式参数中的字符数。 如果为正数，该参数是右对齐;如果为负数，它是左对齐。|  
-|:*formatString*|由参数支持标准或自定义格式字符串。|  
+|*index*|参数列表中要进行格式化的对象的从零开始位置。 如果指定的对象*索引*是`null`，格式项都替换为<xref:System.String.Empty?displayProperty=nameWithType>。 如果在没有参数*索引*位置，<xref:System.FormatException>引发。|  
+|*长度*|最小参数的字符串表示形式中的字符数。 如果为正数，该参数为右对齐;如果为负数，它是左对齐。|  
+|:*格式字符串*|由参数支持标准或自定义格式字符串。|  
   
 > [!NOTE]
->  使用日期和时间值的标准和自定义格式字符串，请参阅[标准日期和时间格式字符串](~/docs/standard/base-types/standard-date-and-time-format-strings.md)和[自定义日期和时间格式字符串](~/docs/standard/base-types/custom-date-and-time-format-strings.md)。 有关与数值一起使用的标准和自定义格式字符串，请参阅[标准数字格式字符串](~/docs/standard/base-types/standard-numeric-format-strings.md)和[自定义数字格式字符串](~/docs/standard/base-types/custom-numeric-format-strings.md)。 用于枚举的标准格式字符串，请参阅[枚举格式字符串](~/docs/standard/base-types/enumeration-format-strings.md)。  
+>  有关使用日期和时间值的标准和自定义格式字符串，请参阅[标准日期和时间格式字符串](~/docs/standard/base-types/standard-date-and-time-format-strings.md)并[自定义日期和时间格式字符串](~/docs/standard/base-types/custom-date-and-time-format-strings.md)。 对于标准和自定义格式字符串与数值一起使用，请参阅[标准数字格式字符串](~/docs/standard/base-types/standard-numeric-format-strings.md)并[自定义数字格式字符串](~/docs/standard/base-types/custom-numeric-format-strings.md)。 用于枚举的标准格式字符串，请参阅[枚举格式字符串](~/docs/standard/base-types/enumeration-format-strings.md)。  
   
- `arg0` 和`arg1`表示要设置格式的对象。 在每个格式项`format`替换的字符串表示形式是`arg0`或`arg1`。 如果格式项包含`formatString`和相应的对象实现<xref:System.IFormattable>接口，则`arg` *x* `.ToString(formatString, provider)`定义格式设置，其中*x*是自变量的索引。 否则为`arg` *x* `.ToString()`定义格式设置。  
+ `arg0` 和`arg1`表示要设置格式的对象。 在每个格式项`format`替换的字符串表示形式`arg0`或`arg1`。 如果格式项包括`formatString`和相应的对象实现<xref:System.IFormattable>接口，则`arg` *x* `.ToString(formatString, provider)`定义的格式设置，其中*x*是自变量的索引。 否则为`arg` *x* `.ToString()`定义格式设置。  
   
- 如果字符串分配给`format`是"谢谢您捐赠 {0: # # #} 罐食品给我们的慈善组织。" 和`arg0`是一个整数值为 10，则返回值将是"感谢您的 10 罐食品给我们的慈善组织"。  
+ 如果字符串分配给`format`是"谢谢您捐赠 {0: # # #} 罐食品给我们的慈善组织。" 和`arg0`是一个整数值为 10，返回值将是"谢谢您捐赠 10 罐食品给我们的慈善组织。"  
   
    
   
@@ -2420,7 +2480,7 @@
           <paramref name="format" /> is invalid.  -or-  The index of a format item is less than 0 (zero), or greater than or equal to 2.</exception>
         <exception cref="T:System.ArgumentOutOfRangeException">The length of the expanded string would exceed <see cref="P:System.Text.StringBuilder.MaxCapacity" />.</exception>
         <block subset="none" type="usage">
-          <para>在 [！INCLUDE[net_v40_short](~/includes/net-v40-short-md.md)] 和 [！INCLUDE[net_v45](~/includes/net-v45-md.md)]，当实例化时<see cref="T:System.Text.StringBuilder" />对象通过调用<see cref="M:System.Text.StringBuilder.#ctor(System.Int32,System.Int32)" />构造函数，长度和的容量<see cref="T:System.Text.StringBuilder" />实例可以增长到的值超过其<see cref="P:System.Text.StringBuilder.MaxCapacity" />属性.实现这一点尤其是当调用<see cref="M:System.Text.StringBuilder.Append(System.String)" />和<see cref="M:System.Text.StringBuilder.AppendFormat(System.String,System.Object)" />方法将小字符串追加。</para>
+          <para>在 [！INCLUDE[net_v40_short](~/includes/net-v40-short-md.md)] 和 [！INCLUDE[net_v45](~/includes/net-v45-md.md)]，实例化时<see cref="T:System.Text.StringBuilder" />对象通过调用<see cref="M:System.Text.StringBuilder.#ctor(System.Int32,System.Int32)" />构造函数的长度和的容量<see cref="T:System.Text.StringBuilder" />实例可以增长到的值超过其<see cref="P:System.Text.StringBuilder.MaxCapacity" />属性.发生这种情况尤其是当您调用<see cref="M:System.Text.StringBuilder.Append(System.String)" />和<see cref="M:System.Text.StringBuilder.AppendFormat(System.String,System.Object)" />追加小型字符串的方法。</para>
         </block>
       </Docs>
     </Member>
@@ -2468,9 +2528,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 此方法使用[复合格式设置功能](~/docs/standard/base-types/composite-formatting.md)要将对象的值转换为它的文本表示形式，并将该表示形式嵌入在当前的.NET framework<xref:System.Text.StringBuilder>对象。  
+ 此方法使用[复合格式设置功能](~/docs/standard/base-types/composite-formatting.md)的.NET Framework，才能将对象的值转换为其文本表示形式并将该表示形式嵌入在当前<xref:System.Text.StringBuilder>对象。  
   
- `format`参数由零个或多个文本混和组成，零个或多个索引占位符称为格式项，对应于此方法的参数列表中的对象。 格式设置的过程将每个格式项替换的字符串表示形式的相应对象。  
+ `format`参数由零个或多个文本与零个或多个索引占位符称为格式项，此方法的参数列表中的对象相对应的混合。 格式设置过程将每个格式项替换相应的对象的字符串表示形式。  
   
  格式项的语法如下所示：  
   
@@ -2480,31 +2540,31 @@
   
 |元素|描述|  
 |-------------|-----------------|  
-|*index*|参数列表中要进行格式化的对象的从零开始位置。 如果指定的对象*索引*是`null`，格式项都替换为<xref:System.String.Empty?displayProperty=nameWithType>。 如果没有在参数*索引*位置，<xref:System.FormatException>引发。|  
-|*长度*|最小的字符串表示形式参数中的字符数。 如果为正数，该参数是右对齐;如果为负数，它是左对齐。|  
-|:*formatString*|由参数支持标准或自定义格式字符串。|  
+|*index*|参数列表中要进行格式化的对象的从零开始位置。 如果指定的对象*索引*是`null`，格式项都替换为<xref:System.String.Empty?displayProperty=nameWithType>。 如果在没有参数*索引*位置，<xref:System.FormatException>引发。|  
+|*长度*|最小参数的字符串表示形式中的字符数。 如果为正数，该参数为右对齐;如果为负数，它是左对齐。|  
+|:*格式字符串*|由参数支持标准或自定义格式字符串。|  
   
 > [!NOTE]
->  使用日期和时间值的标准和自定义格式字符串，请参阅[标准日期和时间格式字符串](~/docs/standard/base-types/standard-date-and-time-format-strings.md)和[自定义日期和时间格式字符串](~/docs/standard/base-types/custom-date-and-time-format-strings.md)。 有关与数值一起使用的标准和自定义格式字符串，请参阅[标准数字格式字符串](~/docs/standard/base-types/standard-numeric-format-strings.md)和[自定义数字格式字符串](~/docs/standard/base-types/custom-numeric-format-strings.md)。 用于枚举的标准格式字符串，请参阅[枚举格式字符串](~/docs/standard/base-types/enumeration-format-strings.md)。  
+>  有关使用日期和时间值的标准和自定义格式字符串，请参阅[标准日期和时间格式字符串](~/docs/standard/base-types/standard-date-and-time-format-strings.md)并[自定义日期和时间格式字符串](~/docs/standard/base-types/custom-date-and-time-format-strings.md)。 对于标准和自定义格式字符串与数值一起使用，请参阅[标准数字格式字符串](~/docs/standard/base-types/standard-numeric-format-strings.md)并[自定义数字格式字符串](~/docs/standard/base-types/custom-numeric-format-strings.md)。 用于枚举的标准格式字符串，请参阅[枚举格式字符串](~/docs/standard/base-types/enumeration-format-strings.md)。  
   
- `provider`参数指定<xref:System.IFormatProvider>可以提供格式设置信息的实现`arg0`和`arg1`。 `provider` 可以是以下任意形式：  
+ `provider`参数指定<xref:System.IFormatProvider>实现，它可以提供格式设置信息`arg0`和`arg1`。 `provider` 可以是以下任意形式：  
   
--   A<xref:System.Globalization.CultureInfo>提供区域性特定格式设置信息的对象。  
+-   一个<xref:System.Globalization.CultureInfo>提供特定于区域性的格式设置信息的对象。  
   
--   A<xref:System.Globalization.NumberFormatInfo>提供区域性特定格式设置信息的对象`arg0`或`arg1`如果它们是数值型的值。  
+-   一个<xref:System.Globalization.NumberFormatInfo>对象，它提供区域性特定格式设置信息`arg0`或`arg1`如果它们是数字值。  
   
--   A<xref:System.Globalization.DateTimeFormatInfo>提供区域性特定格式设置信息的对象`arg0`或`arg1`如果它们是日期和时间值。  
+-   一个<xref:System.Globalization.DateTimeFormatInfo>对象，它提供区域性特定格式设置信息`arg0`或`arg1`如果它们是日期和时间值。  
   
--   自定义<xref:System.IFormatProvider>提供格式设置信息的实现`arg0`和`arg1`。 通常情况下，此类实现还实现<xref:System.ICustomFormatter>接口。  
+-   自定义<xref:System.IFormatProvider>实现，提供的格式设置信息`arg0`和`arg1`。 通常情况下，此类实现还实现<xref:System.ICustomFormatter>接口。  
   
- 如果`provider`参数是`null`，来自当前区域性获取格式提供程序信息。  
+ 如果`provider`参数是`null`，从当前区域获得格式提供程序信息。  
   
- `arg0` 和`arg1`表示要设置格式的对象。 在每个格式项`format`替换的字符串表示形式具有相应的索引的对象。 如果格式项包含`formatString`并实现相应的自变量<xref:System.IFormattable>接口，则自变量的`ToString(formatString, provider)`方法定义格式设置。 否则为自变量的`ToString()`方法定义格式设置。  
+ `arg0` 和`arg1`表示要设置格式的对象。 在每个格式项`format`将替换为具有相应的索引的对象的字符串表示形式。 如果格式项包括`formatString`并实现相应的参数<xref:System.IFormattable>接口，则参数的`ToString(formatString, provider)`方法定义的格式设置。 否则为参数的`ToString()`方法定义的格式设置。  
   
    
   
 ## Examples  
- 下面的示例使用<xref:System.Text.StringBuilder.AppendFormat%28System.IFormatProvider%2CSystem.String%2CSystem.Object%2CSystem.Object%29>方法以显示时间和温度数据存储在一个泛型<xref:System.Collections.Generic.Dictionary%602>对象。 请注意，格式字符串将有三个格式项，尽管有仅对要格式化的对象。 这是因为在列表中 （日期和时间值） 的第一个对象由两个格式项： 第一个格式项目将显示时间和第二个显示的日期。  
+ 下面的示例使用<xref:System.Text.StringBuilder.AppendFormat%28System.IFormatProvider%2CSystem.String%2CSystem.Object%2CSystem.Object%29>方法来显示时间和温度数据存储在一个泛型<xref:System.Collections.Generic.Dictionary%602>对象。 请注意格式字符串具有三个格式项，尽管仅向要格式化的对象。 这是因为在使用两个格式项列表 （日期和时间值） 中的第一个对象： 第一个格式项显示时，第二个显示的日期。  
   
  [!code-csharp[System.Text.StringBuilder.AppendFormat#3](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.text.stringbuilder.appendformat/cs/appendformat2.cs#3)]
  [!code-vb[System.Text.StringBuilder.AppendFormat#3](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.text.stringbuilder.appendformat/vb/appendformat2.vb#3)]  
@@ -2517,7 +2577,7 @@
           <paramref name="format" /> is invalid.  -or-  The index of a format item is less than 0 (zero), or greater than or equal to 2 (two).</exception>
         <exception cref="T:System.ArgumentOutOfRangeException">The length of the expanded string would exceed <see cref="P:System.Text.StringBuilder.MaxCapacity" />.</exception>
         <block subset="none" type="usage">
-          <para>在 [！INCLUDE[net_v40_short](~/includes/net-v40-short-md.md)] 和 [！INCLUDE[net_v45](~/includes/net-v45-md.md)]，当实例化时<see cref="T:System.Text.StringBuilder" />对象通过调用<see cref="M:System.Text.StringBuilder.#ctor(System.Int32,System.Int32)" />构造函数，长度和的容量<see cref="T:System.Text.StringBuilder" />实例可以增长到的值超过其<see cref="P:System.Text.StringBuilder.MaxCapacity" />属性.实现这一点尤其是当调用<see cref="M:System.Text.StringBuilder.Append(System.String)" />和<see cref="M:System.Text.StringBuilder.AppendFormat(System.String,System.Object)" />方法将小字符串追加。</para>
+          <para>在 [！INCLUDE[net_v40_short](~/includes/net-v40-short-md.md)] 和 [！INCLUDE[net_v45](~/includes/net-v45-md.md)]，实例化时<see cref="T:System.Text.StringBuilder" />对象通过调用<see cref="M:System.Text.StringBuilder.#ctor(System.Int32,System.Int32)" />构造函数的长度和的容量<see cref="T:System.Text.StringBuilder" />实例可以增长到的值超过其<see cref="P:System.Text.StringBuilder.MaxCapacity" />属性.发生这种情况尤其是当您调用<see cref="M:System.Text.StringBuilder.Append(System.String)" />和<see cref="M:System.Text.StringBuilder.AppendFormat(System.String,System.Object)" />追加小型字符串的方法。</para>
         </block>
       </Docs>
     </Member>
@@ -2538,6 +2598,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -2565,9 +2627,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 此方法使用[复合格式设置功能](~/docs/standard/base-types/composite-formatting.md)要将对象的值转换为它的文本表示形式，并将该表示形式嵌入在当前的.NET framework<xref:System.Text.StringBuilder>对象。  
+ 此方法使用[复合格式设置功能](~/docs/standard/base-types/composite-formatting.md)的.NET Framework，才能将对象的值转换为其文本表示形式并将该表示形式嵌入在当前<xref:System.Text.StringBuilder>对象。  
   
- `format`参数由零个或多个文本与零个或多个索引占位符称为格式项，对应于混合`arg0`通过`arg2`，此方法的参数列表中的对象。 格式设置的过程将每个格式项替换的字符串表示形式的相应对象。  
+ `format`参数由零个或多个文本与零个或多个索引占位符称为，对应于格式项混合`arg0`通过`arg2`，此方法的参数列表中的对象。 格式设置过程将每个格式项替换相应的对象的字符串表示形式。  
   
  格式项的语法如下所示：  
   
@@ -2577,16 +2639,16 @@
   
 |元素|描述|  
 |-------------|-----------------|  
-|*index*|参数列表中要进行格式化的对象的从零开始位置。 如果指定的对象*索引*是`null`，格式项都替换为<xref:System.String.Empty?displayProperty=nameWithType>。 如果没有在参数*索引*位置，<xref:System.FormatException>引发。|  
-|*长度*|最小的字符串表示形式参数中的字符数。 如果为正数，该参数是右对齐;如果为负数，它是左对齐。|  
-|:*formatString*|由参数支持标准或自定义格式字符串。|  
+|*index*|参数列表中要进行格式化的对象的从零开始位置。 如果指定的对象*索引*是`null`，格式项都替换为<xref:System.String.Empty?displayProperty=nameWithType>。 如果在没有参数*索引*位置，<xref:System.FormatException>引发。|  
+|*长度*|最小参数的字符串表示形式中的字符数。 如果为正数，该参数为右对齐;如果为负数，它是左对齐。|  
+|:*格式字符串*|由参数支持标准或自定义格式字符串。|  
   
 > [!NOTE]
->  使用日期和时间值的标准和自定义格式字符串，请参阅[标准日期和时间格式字符串](~/docs/standard/base-types/standard-date-and-time-format-strings.md)和[自定义日期和时间格式字符串](~/docs/standard/base-types/custom-date-and-time-format-strings.md)。 有关与数值一起使用的标准和自定义格式字符串，请参阅[标准数字格式字符串](~/docs/standard/base-types/standard-numeric-format-strings.md)和[自定义数字格式字符串](~/docs/standard/base-types/custom-numeric-format-strings.md)。 用于枚举的标准格式字符串，请参阅[枚举格式字符串](~/docs/standard/base-types/enumeration-format-strings.md)。  
+>  有关使用日期和时间值的标准和自定义格式字符串，请参阅[标准日期和时间格式字符串](~/docs/standard/base-types/standard-date-and-time-format-strings.md)并[自定义日期和时间格式字符串](~/docs/standard/base-types/custom-date-and-time-format-strings.md)。 对于标准和自定义格式字符串与数值一起使用，请参阅[标准数字格式字符串](~/docs/standard/base-types/standard-numeric-format-strings.md)并[自定义数字格式字符串](~/docs/standard/base-types/custom-numeric-format-strings.md)。 用于枚举的标准格式字符串，请参阅[枚举格式字符串](~/docs/standard/base-types/enumeration-format-strings.md)。  
   
- `arg0``arg1`，和`arg2`表示要设置格式的对象。 在每个格式项`format`替换的字符串表示形式是`arg0`， `arg1`，或`arg2`，取决于格式项的索引。 如果格式项包含`formatString`和中的相应对象`args`实现<xref:System.IFormattable>接口，则`arg` *x* `.ToString(formatString, null)`定义格式设置，其中*x*是自变量的索引。 否则为`arg` *x* `.ToString()`定义格式设置。  
+ `arg0``arg1`，和`arg2`表示要设置格式的对象。 在每个格式项`format`替换的字符串表示形式`arg0`， `arg1`，或`arg2`，取决于格式项的索引。 如果格式项包括`formatString`和中的相应对象`args`实现<xref:System.IFormattable>接口，则`arg` *x* `.ToString(formatString, null)`定义格式设置，其中*x*是自变量的索引。 否则为`arg` *x* `.ToString()`定义格式设置。  
   
- 如果字符串分配给`format`是"谢谢您捐赠 {0: # # #} 罐食品给我们的慈善组织。" 和`arg0`是一个整数值为 10，则返回值将是"感谢您的 10 罐食品给我们的慈善组织"。  
+ 如果字符串分配给`format`是"谢谢您捐赠 {0: # # #} 罐食品给我们的慈善组织。" 和`arg0`是一个整数值为 10，返回值将是"谢谢您捐赠 10 罐食品给我们的慈善组织。"  
   
    
   
@@ -2605,7 +2667,7 @@
           <paramref name="format" /> is invalid.  -or-  The index of a format item is less than 0 (zero), or greater than or equal to 3.</exception>
         <exception cref="T:System.ArgumentOutOfRangeException">The length of the expanded string would exceed <see cref="P:System.Text.StringBuilder.MaxCapacity" />.</exception>
         <block subset="none" type="usage">
-          <para>在 [！INCLUDE[net_v40_short](~/includes/net-v40-short-md.md)] 和 [！INCLUDE[net_v45](~/includes/net-v45-md.md)]，当实例化时<see cref="T:System.Text.StringBuilder" />对象通过调用<see cref="M:System.Text.StringBuilder.#ctor(System.Int32,System.Int32)" />构造函数，长度和的容量<see cref="T:System.Text.StringBuilder" />实例可以增长到的值超过其<see cref="P:System.Text.StringBuilder.MaxCapacity" />属性.实现这一点尤其是当调用<see cref="M:System.Text.StringBuilder.Append(System.String)" />和<see cref="M:System.Text.StringBuilder.AppendFormat(System.String,System.Object)" />方法将小字符串追加。</para>
+          <para>在 [！INCLUDE[net_v40_short](~/includes/net-v40-short-md.md)] 和 [！INCLUDE[net_v45](~/includes/net-v45-md.md)]，实例化时<see cref="T:System.Text.StringBuilder" />对象通过调用<see cref="M:System.Text.StringBuilder.#ctor(System.Int32,System.Int32)" />构造函数的长度和的容量<see cref="T:System.Text.StringBuilder" />实例可以增长到的值超过其<see cref="P:System.Text.StringBuilder.MaxCapacity" />属性.发生这种情况尤其是当您调用<see cref="M:System.Text.StringBuilder.Append(System.String)" />和<see cref="M:System.Text.StringBuilder.AppendFormat(System.String,System.Object)" />追加小型字符串的方法。</para>
         </block>
       </Docs>
     </Member>
@@ -2655,9 +2717,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 此方法使用[复合格式设置功能](~/docs/standard/base-types/composite-formatting.md)要将对象的值转换为它的文本表示形式，并将该表示形式嵌入在当前的.NET framework<xref:System.Text.StringBuilder>对象。  
+ 此方法使用[复合格式设置功能](~/docs/standard/base-types/composite-formatting.md)的.NET Framework，才能将对象的值转换为其文本表示形式并将该表示形式嵌入在当前<xref:System.Text.StringBuilder>对象。  
   
- `format`参数由零个或多个文本混和组成，零个或多个索引占位符称为格式项，对应于此方法的参数列表中的对象。 格式设置的过程将每个格式项替换的字符串表示形式的相应对象。  
+ `format`参数由零个或多个文本与零个或多个索引占位符称为格式项，此方法的参数列表中的对象相对应的混合。 格式设置过程将每个格式项替换相应的对象的字符串表示形式。  
   
  格式项的语法如下所示：  
   
@@ -2667,31 +2729,31 @@
   
 |元素|描述|  
 |-------------|-----------------|  
-|*index*|参数列表中要进行格式化的对象的从零开始位置。 如果指定的对象*索引*是`null`，格式项都替换为<xref:System.String.Empty?displayProperty=nameWithType>。 如果没有在参数*索引*位置，<xref:System.FormatException>引发。|  
-|*长度*|最小的字符串表示形式参数中的字符数。 如果为正数，该参数是右对齐;如果为负数，它是左对齐。|  
-|:*formatString*|由参数支持标准或自定义格式字符串。|  
+|*index*|参数列表中要进行格式化的对象的从零开始位置。 如果指定的对象*索引*是`null`，格式项都替换为<xref:System.String.Empty?displayProperty=nameWithType>。 如果在没有参数*索引*位置，<xref:System.FormatException>引发。|  
+|*长度*|最小参数的字符串表示形式中的字符数。 如果为正数，该参数为右对齐;如果为负数，它是左对齐。|  
+|:*格式字符串*|由参数支持标准或自定义格式字符串。|  
   
 > [!NOTE]
->  使用日期和时间值的标准和自定义格式字符串，请参阅[标准日期和时间格式字符串](~/docs/standard/base-types/standard-date-and-time-format-strings.md)和[自定义日期和时间格式字符串](~/docs/standard/base-types/custom-date-and-time-format-strings.md)。 有关与数值一起使用的标准和自定义格式字符串，请参阅[标准数字格式字符串](~/docs/standard/base-types/standard-numeric-format-strings.md)和[自定义数字格式字符串](~/docs/standard/base-types/custom-numeric-format-strings.md)。 用于枚举的标准格式字符串，请参阅[枚举格式字符串](~/docs/standard/base-types/enumeration-format-strings.md)。  
+>  有关使用日期和时间值的标准和自定义格式字符串，请参阅[标准日期和时间格式字符串](~/docs/standard/base-types/standard-date-and-time-format-strings.md)并[自定义日期和时间格式字符串](~/docs/standard/base-types/custom-date-and-time-format-strings.md)。 对于标准和自定义格式字符串与数值一起使用，请参阅[标准数字格式字符串](~/docs/standard/base-types/standard-numeric-format-strings.md)并[自定义数字格式字符串](~/docs/standard/base-types/custom-numeric-format-strings.md)。 用于枚举的标准格式字符串，请参阅[枚举格式字符串](~/docs/standard/base-types/enumeration-format-strings.md)。  
   
- `provider`参数指定<xref:System.IFormatProvider>可以提供格式设置信息的实现`arg0`和`arg1`。 `provider` 可以是以下任意形式：  
+ `provider`参数指定<xref:System.IFormatProvider>实现，它可以提供格式设置信息`arg0`和`arg1`。 `provider` 可以是以下任意形式：  
   
--   A<xref:System.Globalization.CultureInfo>提供区域性特定格式设置信息的对象。  
+-   一个<xref:System.Globalization.CultureInfo>提供特定于区域性的格式设置信息的对象。  
   
--   A<xref:System.Globalization.NumberFormatInfo>提供区域性特定格式设置信息的对象`arg0`或`arg1`如果它们是数值型的值。  
+-   一个<xref:System.Globalization.NumberFormatInfo>对象，它提供区域性特定格式设置信息`arg0`或`arg1`如果它们是数字值。  
   
--   A<xref:System.Globalization.DateTimeFormatInfo>提供区域性特定格式设置信息的对象`arg0`， `arg1`，或`arg2`如果它们是日期和时间值。  
+-   一个<xref:System.Globalization.DateTimeFormatInfo>对象，它提供区域性特定格式设置信息`arg0`， `arg1`，或`arg2`如果它们是日期和时间值。  
   
--   自定义<xref:System.IFormatProvider>提供格式设置信息的实现`arg0`， `arg1`，和`arg2`。 通常情况下，此类实现还实现<xref:System.ICustomFormatter>接口。  
+-   自定义<xref:System.IFormatProvider>实现，提供的格式设置信息`arg0`， `arg1`，和`arg2`。 通常情况下，此类实现还实现<xref:System.ICustomFormatter>接口。  
   
- 如果`provider`参数是`null`，来自当前区域性获取格式提供程序信息。  
+ 如果`provider`参数是`null`，从当前区域获得格式提供程序信息。  
   
- `arg0``arg1`，和`arg2`表示要设置格式的对象。 在每个格式项`format`替换的字符串表示形式具有相应的索引的对象。 如果格式项包含`formatString`并实现相应的自变量<xref:System.IFormattable>接口，则自变量的`ToString(formatString, provider)`方法定义格式设置。 否则为自变量的`ToString()`方法定义格式设置。  
+ `arg0``arg1`，和`arg2`表示要设置格式的对象。 在每个格式项`format`将替换为具有相应的索引的对象的字符串表示形式。 如果格式项包括`formatString`并实现相应的参数<xref:System.IFormattable>接口，则参数的`ToString(formatString, provider)`方法定义的格式设置。 否则为参数的`ToString()`方法定义的格式设置。  
   
    
   
 ## Examples  
- 下面的示例使用<xref:System.Text.StringBuilder.AppendFormat%28System.IFormatProvider%2CSystem.String%2CSystem.Object%2CSystem.Object%2CSystem.Object%29>方法来说明一个布尔值的结果`And`整数值操作。 请注意，格式字符串包括六个格式项，但方法具有只有三个项在其自变量列表中，因为每个项格式化两个不同的方式。  
+ 下面的示例使用<xref:System.Text.StringBuilder.AppendFormat%28System.IFormatProvider%2CSystem.String%2CSystem.Object%2CSystem.Object%2CSystem.Object%29>方法来说明这一个布尔值结果`And`的整数值的操作。 请注意，格式字符串包括六个格式项，但该方法具有在其自变量列表中，只有三个项，因为每个项格式化两个不同的方式。  
   
  [!code-csharp[System.Text.StringBuilder.AppendFormat#4](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.text.stringbuilder.appendformat/cs/appendformat3.cs#4)]
  [!code-vb[System.Text.StringBuilder.AppendFormat#4](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.text.stringbuilder.appendformat/vb/appendformat3.vb#4)]  
@@ -2704,7 +2766,7 @@
           <paramref name="format" /> is invalid.  -or-  The index of a format item is less than 0 (zero), or greater than or equal to 3 (three).</exception>
         <exception cref="T:System.ArgumentOutOfRangeException">The length of the expanded string would exceed <see cref="P:System.Text.StringBuilder.MaxCapacity" />.</exception>
         <block subset="none" type="usage">
-          <para>在 [！INCLUDE[net_v40_short](~/includes/net-v40-short-md.md)] 和 [！INCLUDE[net_v45](~/includes/net-v45-md.md)]，当实例化时<see cref="T:System.Text.StringBuilder" />对象通过调用<see cref="M:System.Text.StringBuilder.#ctor(System.Int32,System.Int32)" />构造函数，长度和的容量<see cref="T:System.Text.StringBuilder" />实例可以增长到的值超过其<see cref="P:System.Text.StringBuilder.MaxCapacity" />属性.实现这一点尤其是当调用<see cref="M:System.Text.StringBuilder.Append(System.String)" />和<see cref="M:System.Text.StringBuilder.AppendFormat(System.String,System.Object)" />方法将小字符串追加。</para>
+          <para>在 [！INCLUDE[net_v40_short](~/includes/net-v40-short-md.md)] 和 [！INCLUDE[net_v45](~/includes/net-v45-md.md)]，实例化时<see cref="T:System.Text.StringBuilder" />对象通过调用<see cref="M:System.Text.StringBuilder.#ctor(System.Int32,System.Int32)" />构造函数的长度和的容量<see cref="T:System.Text.StringBuilder" />实例可以增长到的值超过其<see cref="P:System.Text.StringBuilder.MaxCapacity" />属性.发生这种情况尤其是当您调用<see cref="M:System.Text.StringBuilder.Append(System.String)" />和<see cref="M:System.Text.StringBuilder.AppendFormat(System.String,System.Object)" />追加小型字符串的方法。</para>
         </block>
       </Docs>
     </Member>
@@ -2940,6 +3002,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -2963,7 +3026,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 默认的行终止符是当前值<xref:System.Environment.NewLine%2A?displayProperty=nameWithType>属性。  
+ 默认行终止符的当前值是否是<xref:System.Environment.NewLine%2A?displayProperty=nameWithType>属性。  
   
  根据需要调整此实例的容量。  
   
@@ -2980,7 +3043,7 @@
         </remarks>
         <exception cref="T:System.ArgumentOutOfRangeException">Enlarging the value of this instance would exceed <see cref="P:System.Text.StringBuilder.MaxCapacity" />.</exception>
         <block subset="none" type="usage">
-          <para>在 [！INCLUDE[net_v40_short](~/includes/net-v40-short-md.md)] 和 [！INCLUDE[net_v45](~/includes/net-v45-md.md)]，当实例化时<see cref="T:System.Text.StringBuilder" />对象通过调用<see cref="M:System.Text.StringBuilder.#ctor(System.Int32,System.Int32)" />构造函数，长度和的容量<see cref="T:System.Text.StringBuilder" />实例可以增长到的值超过其<see cref="P:System.Text.StringBuilder.MaxCapacity" />属性.实现这一点尤其是当调用<see cref="M:System.Text.StringBuilder.Append(System.String)" />和<see cref="M:System.Text.StringBuilder.AppendFormat(System.String,System.Object)" />方法将小字符串追加。</para>
+          <para>在 [！INCLUDE[net_v40_short](~/includes/net-v40-short-md.md)] 和 [！INCLUDE[net_v45](~/includes/net-v45-md.md)]，实例化时<see cref="T:System.Text.StringBuilder" />对象通过调用<see cref="M:System.Text.StringBuilder.#ctor(System.Int32,System.Int32)" />构造函数的长度和的容量<see cref="T:System.Text.StringBuilder" />实例可以增长到的值超过其<see cref="P:System.Text.StringBuilder.MaxCapacity" />属性.发生这种情况尤其是当您调用<see cref="M:System.Text.StringBuilder.Append(System.String)" />和<see cref="M:System.Text.StringBuilder.AppendFormat(System.String,System.Object)" />追加小型字符串的方法。</para>
         </block>
         <altmember cref="T:System.String" />
       </Docs>
@@ -3004,6 +3067,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -3030,7 +3094,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 默认的行终止符是当前值<xref:System.Environment.NewLine%2A?displayProperty=nameWithType>属性。  
+ 默认行终止符的当前值是否是<xref:System.Environment.NewLine%2A?displayProperty=nameWithType>属性。  
   
  根据需要调整此实例的容量。  
   
@@ -3038,7 +3102,7 @@
         </remarks>
         <exception cref="T:System.ArgumentOutOfRangeException">Enlarging the value of this instance would exceed <see cref="P:System.Text.StringBuilder.MaxCapacity" />.</exception>
         <block subset="none" type="usage">
-          <para>在 [！INCLUDE[net_v40_short](~/includes/net-v40-short-md.md)] 和 [！INCLUDE[net_v45](~/includes/net-v45-md.md)]，当实例化时<see cref="T:System.Text.StringBuilder" />对象通过调用<see cref="M:System.Text.StringBuilder.#ctor(System.Int32,System.Int32)" />构造函数，长度和的容量<see cref="T:System.Text.StringBuilder" />实例可以增长到的值超过其<see cref="P:System.Text.StringBuilder.MaxCapacity" />属性.实现这一点尤其是当调用<see cref="M:System.Text.StringBuilder.Append(System.String)" />和<see cref="M:System.Text.StringBuilder.AppendFormat(System.String,System.Object)" />方法将小字符串追加。</para>
+          <para>在 [！INCLUDE[net_v40_short](~/includes/net-v40-short-md.md)] 和 [！INCLUDE[net_v45](~/includes/net-v45-md.md)]，实例化时<see cref="T:System.Text.StringBuilder" />对象通过调用<see cref="M:System.Text.StringBuilder.#ctor(System.Int32,System.Int32)" />构造函数的长度和的容量<see cref="T:System.Text.StringBuilder" />实例可以增长到的值超过其<see cref="P:System.Text.StringBuilder.MaxCapacity" />属性.发生这种情况尤其是当您调用<see cref="M:System.Text.StringBuilder.Append(System.String)" />和<see cref="M:System.Text.StringBuilder.AppendFormat(System.String,System.Object)" />追加小型字符串的方法。</para>
         </block>
         <altmember cref="T:System.String" />
       </Docs>
@@ -3062,6 +3126,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -3079,9 +3145,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Text.StringBuilder.Capacity%2A> 不会影响当前实例的字符串值。 <xref:System.Text.StringBuilder.Capacity%2A> 因为它不是可以减少小于<xref:System.Text.StringBuilder.Length%2A>。  
+ <xref:System.Text.StringBuilder.Capacity%2A> 不会影响当前实例的字符串值。 <xref:System.Text.StringBuilder.Capacity%2A> 因为它不是可以缩小小于<xref:System.Text.StringBuilder.Length%2A>。  
   
- <xref:System.Text.StringBuilder>动态分配在需要时更多的空间并增加<xref:System.Text.StringBuilder.Capacity%2A>相应地。 出于性能原因，<xref:System.Text.StringBuilder>可能会分配更多的内存超过合理需求。 分配量是内存的特定于实现的。  
+ <xref:System.Text.StringBuilder>动态分配时所需的更多空间并增加<xref:System.Text.StringBuilder.Capacity%2A>相应地。 出于性能原因，<xref:System.Text.StringBuilder>可能会分配比所需的更多内存。 分配量是内存的特定于实现的。  
   
    
   
@@ -3116,6 +3182,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -3138,9 +3206,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- `index`参数是中的字符的位置<xref:System.Text.StringBuilder>。 在字符串中的第一个字符位于索引 0 处。 一个字符串的长度为它包含的字符数。 可访问的最后一个字符<xref:System.Text.StringBuilder>实例位于索引<xref:System.Text.StringBuilder.Length%2A>-1。  
+ `index`参数是字符内的字符位置<xref:System.Text.StringBuilder>。 在字符串中的第一个字符位于索引 0 处。 字符串的长度是它包含的字符数。 可访问的最后一个字符<xref:System.Text.StringBuilder>实例位于索引<xref:System.Text.StringBuilder.Length%2A>-1。  
   
- <xref:System.Text.StringBuilder.Chars%2A> 是默认属性<xref:System.Text.StringBuilder>类。 在 C# 中，它是一个索引器。 这意味着，可以从检索各个字符<xref:System.Text.StringBuilder.Chars%2A>属性，如以下示例中的数量进行计数的字母中, 所示空格和字符串中的标点字符。  
+ <xref:System.Text.StringBuilder.Chars%2A> 是默认属性<xref:System.Text.StringBuilder>类。 在 C# 中，它是一个索引器。 这意味着可以从检索单个字符<xref:System.Text.StringBuilder.Chars%2A>属性中所示下面的示例计数的字母数字、 空格，并在字符串中的标点字符。  
   
  [!code-csharp[System.Text.StringBuilder.Chars#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.text.stringbuilder.chars/cs/chars1.cs#1)]
  [!code-vb[System.Text.StringBuilder.Chars#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.text.stringbuilder.chars/vb/chars1.vb#1)]  
@@ -3197,12 +3265,12 @@
 ## Remarks  
  <xref:System.Text.StringBuilder.Clear%2A> 是一种便利方法，它等效于设置<xref:System.Text.StringBuilder.Length%2A>为 0 （零） 的当前实例的属性。  
   
- 调用<xref:System.Text.StringBuilder.Clear%2A>方法没有修改当前实例的<xref:System.Text.StringBuilder.Capacity%2A>或<xref:System.Text.StringBuilder.MaxCapacity%2A>属性。  
+ 调用<xref:System.Text.StringBuilder.Clear%2A>方法不会修改当前实例的<xref:System.Text.StringBuilder.Capacity%2A>或<xref:System.Text.StringBuilder.MaxCapacity%2A>属性。  
   
    
   
 ## Examples  
- 下面的示例实例化<xref:System.Text.StringBuilder>替换字符串，调用的对象<xref:System.Text.StringBuilder.Clear%2A>方法，然后再追加一个新字符串。  
+ 下面的示例实例化<xref:System.Text.StringBuilder>对象的字符串，调用<xref:System.Text.StringBuilder.Clear%2A>方法，，然后将追加一个新的字符串。  
   
  [!code-csharp[System.Text.StringBuilder.Clear#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.text.stringbuilder.clear/cs/clear1.cs#1)]
  [!code-vb[System.Text.StringBuilder.Clear#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.text.stringbuilder.clear/vb/clear1.vb#1)]  
@@ -3258,6 +3326,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -3292,9 +3361,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Text.StringBuilder.CopyTo%2A>方法旨在用于极少数情况下，当你需要高效地将复制的连续部分<xref:System.Text.StringBuilder>到一个数组对象。 数组应具有固定的大小，预分配、 可重复使用，且可能是全局访问。  
+ <xref:System.Text.StringBuilder.CopyTo%2A>方法旨在时您需要高效地将复制的连续部分在极少数情况下使用<xref:System.Text.StringBuilder>到一个数组对象。 数组应为固定的大小，预分配、 可重用的和可能是全局访问。  
   
- 例如，你的应用程序无法填充<xref:System.Text.StringBuilder>对象具有大量字符，然后使用<xref:System.Text.StringBuilder.CopyTo%2A>方法可将复制的小连续部分<xref:System.Text.StringBuilder>到一个数组，其中部分被处理的对象。 当中的所有数据<xref:System.Text.StringBuilder>处理对象时，大小<xref:System.Text.StringBuilder>对象设置为零，并且重复周期。  
+ 例如，你的应用程序无法填充<xref:System.Text.StringBuilder>对象具有大量字符，然后使用<xref:System.Text.StringBuilder.CopyTo%2A>方法将复制的连续的小部分<xref:System.Text.StringBuilder>到一个数组，其中处理各个部分的对象。 当中的所有数据<xref:System.Text.StringBuilder>处理对象时，大小<xref:System.Text.StringBuilder>对象设置为零，并且重复周期。  
   
    
   
@@ -3334,6 +3403,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -3355,7 +3426,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 如果当前容量小于`capacity`参数，此实例重新分配内存以容纳至少`capacity`字符数; 否则为更改任何内存。  
+ 如果当前容量为小于`capacity`参数，此实例重新分配内存以容纳至少`capacity`字符数; 否则为更改任何内存。  
   
    
   
@@ -3416,6 +3487,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -3438,7 +3511,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Examples  
- 下面的代码使用<xref:System.Text.StringBuilder.Equals%2A>方法来检查两个<xref:System.Text.StringBuilder>对象是否相等。 对每个对象，进行少量更改，并且结果显示到控制台后，将重复调用该方法。  
+ 下面的代码使用<xref:System.Text.StringBuilder.Equals%2A>方法，用于检查两个<xref:System.Text.StringBuilder>对象是否相等。 较小的更改都会对每个对象，并将结果显示到控制台后，将重复调用该方法。  
   
  [!code-cpp[stringbuilder.ensurecapacity#1](~/samples/snippets/cpp/VS_Snippets_CLR/stringbuilder.ensurecapacity/CPP/cap.cpp#1)]
  [!code-csharp[stringbuilder.ensurecapacity#1](~/samples/snippets/csharp/VS_Snippets_CLR/stringbuilder.ensurecapacity/CS/cap.cs#1)]
@@ -3480,6 +3553,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -3503,7 +3578,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Boolean.ToString%2A?displayProperty=nameWithType> 用于获取的字符串表示形式`value`。 移动现有字符以便腾出空间供新的文本。 根据需要调整容量。  
+ <xref:System.Boolean.ToString%2A?displayProperty=nameWithType> 用于获取的字符串表示形式`value`。 移动现有字符的新文本留出空间。 根据需要调整容量。  
   
    
   
@@ -3520,7 +3595,7 @@
           <paramref name="index" /> is less than zero or greater than the length of this instance.</exception>
         <exception cref="T:System.OutOfMemoryException">Enlarging the value of this instance would exceed <see cref="P:System.Text.StringBuilder.MaxCapacity" />.</exception>
         <block subset="none" type="usage">
-          <para>在 [！INCLUDE[net_v35SP1_long](~/includes/net-v35sp1-long-md.md)] 和早期版本中，对此方法的调用引发<see cref="T:System.ArgumentOutOfRangeException" />如果插入<paramref name="value" />会导致对象的总长度超过<see cref="P:System.Text.StringBuilder.MaxCapacity" />。从 [！INCLUDE[net_v40_long](~/includes/net-v40-long-md.md)]，该方法将引发<see cref="T:System.OutOfMemoryException" />。</para>
+          <para>在 [！INCLUDE[net_v35SP1_long](~/includes/net-v35sp1-long-md.md)] 和早期版本中，调用此方法引发<see cref="T:System.ArgumentOutOfRangeException" />如果将插入<paramref name="value" />会导致对象的总长度超过<see cref="P:System.Text.StringBuilder.MaxCapacity" />。从 [！INCLUDE[net_v40_long](~/includes/net-v40-long-md.md)]，该方法将引发<see cref="T:System.OutOfMemoryException" />。</para>
         </block>
         <altmember cref="T:System.Boolean" />
       </Docs>
@@ -3544,6 +3619,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -3567,7 +3644,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Byte.ToString%2A?displayProperty=nameWithType> 用于获取的字符串表示形式`value`。 移动现有字符以便腾出空间供新的文本。 根据需要调整此实例的容量。  
+ <xref:System.Byte.ToString%2A?displayProperty=nameWithType> 用于获取的字符串表示形式`value`。 移动现有字符的新文本留出空间。 根据需要调整此实例的容量。  
   
    
   
@@ -3584,7 +3661,7 @@
           <paramref name="index" /> is less than zero or greater than the length of this instance.</exception>
         <exception cref="T:System.OutOfMemoryException">Enlarging the value of this instance would exceed <see cref="P:System.Text.StringBuilder.MaxCapacity" />.</exception>
         <block subset="none" type="usage">
-          <para>在 [！INCLUDE[net_v35SP1_long](~/includes/net-v35sp1-long-md.md)] 和早期版本中，对此方法的调用引发<see cref="T:System.ArgumentOutOfRangeException" />如果插入<paramref name="value" />会导致对象的总长度超过<see cref="P:System.Text.StringBuilder.MaxCapacity" />。从 [！INCLUDE[net_v40_long](~/includes/net-v40-long-md.md)]，该方法将引发<see cref="T:System.OutOfMemoryException" />。</para>
+          <para>在 [！INCLUDE[net_v35SP1_long](~/includes/net-v35sp1-long-md.md)] 和早期版本中，调用此方法引发<see cref="T:System.ArgumentOutOfRangeException" />如果将插入<paramref name="value" />会导致对象的总长度超过<see cref="P:System.Text.StringBuilder.MaxCapacity" />。从 [！INCLUDE[net_v40_long](~/includes/net-v40-long-md.md)]，该方法将引发<see cref="T:System.OutOfMemoryException" />。</para>
         </block>
         <altmember cref="T:System.Byte" />
       </Docs>
@@ -3608,6 +3685,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -3636,7 +3715,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Char.ToString%2A?displayProperty=nameWithType> 用于获取的字符串表示形式`value`。 移动现有字符以便腾出空间供新的文本。 根据需要调整此实例的容量。  
+ <xref:System.Char.ToString%2A?displayProperty=nameWithType> 用于获取的字符串表示形式`value`。 移动现有字符的新文本留出空间。 根据需要调整此实例的容量。  
   
    
   
@@ -3673,6 +3752,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -3696,9 +3777,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 移动现有字符以便腾出空间供新的文本。 根据需要调整此实例的容量。  
+ 移动现有字符的新文本留出空间。 根据需要调整此实例的容量。  
   
- 如果`value`是`null`、<xref:System.Text.StringBuilder>不会更改。  
+ 如果`value`是`null`，则<xref:System.Text.StringBuilder>不会更改。  
   
    
   
@@ -3734,6 +3815,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -3757,7 +3840,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Decimal.ToString%2A?displayProperty=nameWithType> 用于获取的字符串表示形式`value`。 移动现有字符以便腾出空间供新的文本。 根据需要调整此实例的容量。  
+ <xref:System.Decimal.ToString%2A?displayProperty=nameWithType> 用于获取的字符串表示形式`value`。 移动现有字符的新文本留出空间。 根据需要调整此实例的容量。  
   
    
   
@@ -3774,7 +3857,7 @@
           <paramref name="index" /> is less than zero or greater than the length of this instance.</exception>
         <exception cref="T:System.OutOfMemoryException">Enlarging the value of this instance would exceed <see cref="P:System.Text.StringBuilder.MaxCapacity" />.</exception>
         <block subset="none" type="usage">
-          <para>在 [！INCLUDE[net_v35SP1_long](~/includes/net-v35sp1-long-md.md)] 和早期版本中，对此方法的调用引发<see cref="T:System.ArgumentOutOfRangeException" />如果插入<paramref name="value" />会导致对象的总长度超过<see cref="P:System.Text.StringBuilder.MaxCapacity" />。从 [！INCLUDE[net_v40_long](~/includes/net-v40-long-md.md)]，该方法将引发<see cref="T:System.OutOfMemoryException" />。</para>
+          <para>在 [！INCLUDE[net_v35SP1_long](~/includes/net-v35sp1-long-md.md)] 和早期版本中，调用此方法引发<see cref="T:System.ArgumentOutOfRangeException" />如果将插入<paramref name="value" />会导致对象的总长度超过<see cref="P:System.Text.StringBuilder.MaxCapacity" />。从 [！INCLUDE[net_v40_long](~/includes/net-v40-long-md.md)]，该方法将引发<see cref="T:System.OutOfMemoryException" />。</para>
         </block>
         <altmember cref="T:System.Decimal" />
       </Docs>
@@ -3798,6 +3881,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -3821,7 +3906,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Double.ToString%2A?displayProperty=nameWithType> 用于获取的字符串表示形式`value`。 移动现有字符以便腾出空间供新的文本。 根据需要调整此实例的容量。  
+ <xref:System.Double.ToString%2A?displayProperty=nameWithType> 用于获取的字符串表示形式`value`。 移动现有字符的新文本留出空间。 根据需要调整此实例的容量。  
   
    
   
@@ -3838,7 +3923,7 @@
           <paramref name="index" /> is less than zero or greater than the length of this instance.</exception>
         <exception cref="T:System.OutOfMemoryException">Enlarging the value of this instance would exceed <see cref="P:System.Text.StringBuilder.MaxCapacity" />.</exception>
         <block subset="none" type="usage">
-          <para>在 [！INCLUDE[net_v35SP1_long](~/includes/net-v35sp1-long-md.md)] 和早期版本中，对此方法的调用引发<see cref="T:System.ArgumentOutOfRangeException" />如果插入<paramref name="value" />会导致对象的总长度超过<see cref="P:System.Text.StringBuilder.MaxCapacity" />。从 [！INCLUDE[net_v40_long](~/includes/net-v40-long-md.md)]，该方法将引发<see cref="T:System.OutOfMemoryException" />。</para>
+          <para>在 [！INCLUDE[net_v35SP1_long](~/includes/net-v35sp1-long-md.md)] 和早期版本中，调用此方法引发<see cref="T:System.ArgumentOutOfRangeException" />如果将插入<paramref name="value" />会导致对象的总长度超过<see cref="P:System.Text.StringBuilder.MaxCapacity" />。从 [！INCLUDE[net_v40_long](~/includes/net-v40-long-md.md)]，该方法将引发<see cref="T:System.OutOfMemoryException" />。</para>
         </block>
         <altmember cref="T:System.Double" />
       </Docs>
@@ -3862,6 +3947,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -3885,7 +3972,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Int16.ToString%2A?displayProperty=nameWithType> 用于获取的字符串表示形式`value`。 移动现有字符以便腾出空间供新的文本。 根据需要调整此实例的容量。  
+ <xref:System.Int16.ToString%2A?displayProperty=nameWithType> 用于获取的字符串表示形式`value`。 移动现有字符的新文本留出空间。 根据需要调整此实例的容量。  
   
    
   
@@ -3902,7 +3989,7 @@
           <paramref name="index" /> is less than zero or greater than the length of this instance.</exception>
         <exception cref="T:System.OutOfMemoryException">Enlarging the value of this instance would exceed <see cref="P:System.Text.StringBuilder.MaxCapacity" />.</exception>
         <block subset="none" type="usage">
-          <para>在 [！INCLUDE[net_v35SP1_long](~/includes/net-v35sp1-long-md.md)] 和早期版本中，对此方法的调用引发<see cref="T:System.ArgumentOutOfRangeException" />如果插入<paramref name="value" />会导致对象的总长度超过<see cref="P:System.Text.StringBuilder.MaxCapacity" />。从 [！INCLUDE[net_v40_long](~/includes/net-v40-long-md.md)]，该方法将引发<see cref="T:System.OutOfMemoryException" />。</para>
+          <para>在 [！INCLUDE[net_v35SP1_long](~/includes/net-v35sp1-long-md.md)] 和早期版本中，调用此方法引发<see cref="T:System.ArgumentOutOfRangeException" />如果将插入<paramref name="value" />会导致对象的总长度超过<see cref="P:System.Text.StringBuilder.MaxCapacity" />。从 [！INCLUDE[net_v40_long](~/includes/net-v40-long-md.md)]，该方法将引发<see cref="T:System.OutOfMemoryException" />。</para>
         </block>
         <altmember cref="T:System.Int16" />
       </Docs>
@@ -3926,6 +4013,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -3949,7 +4038,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Int32.ToString%2A?displayProperty=nameWithType> 用于获取的字符串表示形式`value`。 移动现有字符以便腾出空间供新的文本。 根据需要调整此实例的容量。  
+ <xref:System.Int32.ToString%2A?displayProperty=nameWithType> 用于获取的字符串表示形式`value`。 移动现有字符的新文本留出空间。 根据需要调整此实例的容量。  
   
    
   
@@ -3966,7 +4055,7 @@
           <paramref name="index" /> is less than zero or greater than the length of this instance.</exception>
         <exception cref="T:System.OutOfMemoryException">Enlarging the value of this instance would exceed <see cref="P:System.Text.StringBuilder.MaxCapacity" />.</exception>
         <block subset="none" type="usage">
-          <para>在 [！INCLUDE[net_v35SP1_long](~/includes/net-v35sp1-long-md.md)] 和早期版本中，对此方法的调用引发<see cref="T:System.ArgumentOutOfRangeException" />如果插入<paramref name="value" />会导致对象的总长度超过<see cref="P:System.Text.StringBuilder.MaxCapacity" />。从 [！INCLUDE[net_v40_long](~/includes/net-v40-long-md.md)]，该方法将引发<see cref="T:System.OutOfMemoryException" />。</para>
+          <para>在 [！INCLUDE[net_v35SP1_long](~/includes/net-v35sp1-long-md.md)] 和早期版本中，调用此方法引发<see cref="T:System.ArgumentOutOfRangeException" />如果将插入<paramref name="value" />会导致对象的总长度超过<see cref="P:System.Text.StringBuilder.MaxCapacity" />。从 [！INCLUDE[net_v40_long](~/includes/net-v40-long-md.md)]，该方法将引发<see cref="T:System.OutOfMemoryException" />。</para>
         </block>
         <altmember cref="T:System.Int32" />
       </Docs>
@@ -3990,6 +4079,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -4013,7 +4104,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Int64.ToString%2A?displayProperty=nameWithType> 用于获取的字符串表示形式`value`。 移动现有字符以便腾出空间供新的文本。 根据需要调整此实例的容量。  
+ <xref:System.Int64.ToString%2A?displayProperty=nameWithType> 用于获取的字符串表示形式`value`。 移动现有字符的新文本留出空间。 根据需要调整此实例的容量。  
   
    
   
@@ -4030,7 +4121,7 @@
           <paramref name="index" /> is less than zero or greater than the length of this instance.</exception>
         <exception cref="T:System.OutOfMemoryException">Enlarging the value of this instance would exceed <see cref="P:System.Text.StringBuilder.MaxCapacity" />.</exception>
         <block subset="none" type="usage">
-          <para>在 [！INCLUDE[net_v35SP1_long](~/includes/net-v35sp1-long-md.md)] 和早期版本中，对此方法的调用引发<see cref="T:System.ArgumentOutOfRangeException" />如果插入<paramref name="value" />会导致对象的总长度超过<see cref="P:System.Text.StringBuilder.MaxCapacity" />。从 [！INCLUDE[net_v40_long](~/includes/net-v40-long-md.md)]，该方法将引发<see cref="T:System.OutOfMemoryException" />。</para>
+          <para>在 [！INCLUDE[net_v35SP1_long](~/includes/net-v35sp1-long-md.md)] 和早期版本中，调用此方法引发<see cref="T:System.ArgumentOutOfRangeException" />如果将插入<paramref name="value" />会导致对象的总长度超过<see cref="P:System.Text.StringBuilder.MaxCapacity" />。从 [！INCLUDE[net_v40_long](~/includes/net-v40-long-md.md)]，该方法将引发<see cref="T:System.OutOfMemoryException" />。</para>
         </block>
         <altmember cref="T:System.Int64" />
       </Docs>
@@ -4054,6 +4145,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -4077,7 +4170,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Object.ToString%2A?displayProperty=nameWithType> 用于获取的字符串表示形式`value`。 移动现有字符以便腾出空间供新的文本。 根据需要调整此实例的容量。  
+ <xref:System.Object.ToString%2A?displayProperty=nameWithType> 用于获取的字符串表示形式`value`。 移动现有字符的新文本留出空间。 根据需要调整此实例的容量。  
   
  如果`value`是`null`，此实例的值保持不变。  
   
@@ -4096,7 +4189,7 @@
           <paramref name="index" /> is less than zero or greater than the length of this instance.</exception>
         <exception cref="T:System.OutOfMemoryException">Enlarging the value of this instance would exceed <see cref="P:System.Text.StringBuilder.MaxCapacity" />.</exception>
         <block subset="none" type="usage">
-          <para>在 [！INCLUDE[net_v35SP1_long](~/includes/net-v35sp1-long-md.md)] 和早期版本中，对此方法的调用引发<see cref="T:System.ArgumentOutOfRangeException" />如果插入<paramref name="value" />会导致对象的总长度超过<see cref="P:System.Text.StringBuilder.MaxCapacity" />。从 [！INCLUDE[net_v40_long](~/includes/net-v40-long-md.md)]，该方法将引发<see cref="T:System.OutOfMemoryException" />。</para>
+          <para>在 [！INCLUDE[net_v35SP1_long](~/includes/net-v35sp1-long-md.md)] 和早期版本中，调用此方法引发<see cref="T:System.ArgumentOutOfRangeException" />如果将插入<paramref name="value" />会导致对象的总长度超过<see cref="P:System.Text.StringBuilder.MaxCapacity" />。从 [！INCLUDE[net_v40_long](~/includes/net-v40-long-md.md)]，该方法将引发<see cref="T:System.OutOfMemoryException" />。</para>
         </block>
         <altmember cref="T:System.Object" />
       </Docs>
@@ -4147,6 +4240,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -4175,7 +4270,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.SByte.ToString%2A?displayProperty=nameWithType> 用于获取的字符串表示形式`value`。 移动现有字符以便腾出空间供新的文本。 根据需要调整容量。  
+ <xref:System.SByte.ToString%2A?displayProperty=nameWithType> 用于获取的字符串表示形式`value`。 移动现有字符的新文本留出空间。 根据需要调整容量。  
   
    
   
@@ -4192,7 +4287,7 @@
           <paramref name="index" /> is less than zero or greater than the length of this instance.</exception>
         <exception cref="T:System.OutOfMemoryException">Enlarging the value of this instance would exceed <see cref="P:System.Text.StringBuilder.MaxCapacity" />.</exception>
         <block subset="none" type="usage">
-          <para>在 [！INCLUDE[net_v35SP1_long](~/includes/net-v35sp1-long-md.md)] 和早期版本中，对此方法的调用引发<see cref="T:System.ArgumentOutOfRangeException" />如果插入<paramref name="value" />会导致对象的总长度超过<see cref="P:System.Text.StringBuilder.MaxCapacity" />。从 [！INCLUDE[net_v40_long](~/includes/net-v40-long-md.md)]，该方法将引发<see cref="T:System.OutOfMemoryException" />。</para>
+          <para>在 [！INCLUDE[net_v35SP1_long](~/includes/net-v35sp1-long-md.md)] 和早期版本中，调用此方法引发<see cref="T:System.ArgumentOutOfRangeException" />如果将插入<paramref name="value" />会导致对象的总长度超过<see cref="P:System.Text.StringBuilder.MaxCapacity" />。从 [！INCLUDE[net_v40_long](~/includes/net-v40-long-md.md)]，该方法将引发<see cref="T:System.OutOfMemoryException" />。</para>
         </block>
         <altmember cref="T:System.SByte" />
       </Docs>
@@ -4216,6 +4311,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -4239,7 +4336,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Single.ToString%2A?displayProperty=nameWithType> 用于获取的字符串表示形式`value`。 移动现有字符以便腾出空间供新的文本。 根据需要调整此实例的容量。  
+ <xref:System.Single.ToString%2A?displayProperty=nameWithType> 用于获取的字符串表示形式`value`。 移动现有字符的新文本留出空间。 根据需要调整此实例的容量。  
   
    
   
@@ -4256,7 +4353,7 @@
           <paramref name="index" /> is less than zero or greater than the length of this instance.</exception>
         <exception cref="T:System.OutOfMemoryException">Enlarging the value of this instance would exceed <see cref="P:System.Text.StringBuilder.MaxCapacity" />.</exception>
         <block subset="none" type="usage">
-          <para>在 [！INCLUDE[net_v35SP1_long](~/includes/net-v35sp1-long-md.md)] 和早期版本中，对此方法的调用引发<see cref="T:System.ArgumentOutOfRangeException" />如果插入<paramref name="value" />会导致对象的总长度超过<see cref="P:System.Text.StringBuilder.MaxCapacity" />。从 [！INCLUDE[net_v40_long](~/includes/net-v40-long-md.md)]，该方法将引发<see cref="T:System.OutOfMemoryException" />。</para>
+          <para>在 [！INCLUDE[net_v35SP1_long](~/includes/net-v35sp1-long-md.md)] 和早期版本中，调用此方法引发<see cref="T:System.ArgumentOutOfRangeException" />如果将插入<paramref name="value" />会导致对象的总长度超过<see cref="P:System.Text.StringBuilder.MaxCapacity" />。从 [！INCLUDE[net_v40_long](~/includes/net-v40-long-md.md)]，该方法将引发<see cref="T:System.OutOfMemoryException" />。</para>
         </block>
         <altmember cref="T:System.Single" />
       </Docs>
@@ -4280,6 +4377,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -4308,9 +4407,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 移动现有字符以便腾出空间供新的文本。 根据需要调整容量。  
+ 移动现有字符的新文本留出空间。 根据需要调整容量。  
   
- 此实例<xref:System.Text.StringBuilder>未发生更改时如果`value`是`null`，或`value`不`null`但其长度为零。  
+ 此实例的<xref:System.Text.StringBuilder>不会更改它，如果`value`是`null`，或`value`不是`null`但其长度为零。  
   
    
   
@@ -4347,6 +4446,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -4375,7 +4476,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.UInt16.ToString%2A?displayProperty=nameWithType> 用于获取的字符串表示形式`value`。 移动现有字符以便腾出空间供新的文本。 根据需要调整此实例的容量。  
+ <xref:System.UInt16.ToString%2A?displayProperty=nameWithType> 用于获取的字符串表示形式`value`。 移动现有字符的新文本留出空间。 根据需要调整此实例的容量。  
   
    
   
@@ -4392,7 +4493,7 @@
           <paramref name="index" /> is less than zero or greater than the length of this instance.</exception>
         <exception cref="T:System.OutOfMemoryException">Enlarging the value of this instance would exceed <see cref="P:System.Text.StringBuilder.MaxCapacity" />.</exception>
         <block subset="none" type="usage">
-          <para>在 [！INCLUDE[net_v35SP1_long](~/includes/net-v35sp1-long-md.md)] 和早期版本中，对此方法的调用引发<see cref="T:System.ArgumentOutOfRangeException" />如果插入<paramref name="value" />会导致对象的总长度超过<see cref="P:System.Text.StringBuilder.MaxCapacity" />。从 [！INCLUDE[net_v40_long](~/includes/net-v40-long-md.md)]，该方法将引发<see cref="T:System.OutOfMemoryException" />。</para>
+          <para>在 [！INCLUDE[net_v35SP1_long](~/includes/net-v35sp1-long-md.md)] 和早期版本中，调用此方法引发<see cref="T:System.ArgumentOutOfRangeException" />如果将插入<paramref name="value" />会导致对象的总长度超过<see cref="P:System.Text.StringBuilder.MaxCapacity" />。从 [！INCLUDE[net_v40_long](~/includes/net-v40-long-md.md)]，该方法将引发<see cref="T:System.OutOfMemoryException" />。</para>
         </block>
         <altmember cref="T:System.UInt16" />
       </Docs>
@@ -4416,6 +4517,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -4444,7 +4547,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.UInt32.ToString%2A?displayProperty=nameWithType> 用于获取的字符串表示形式`value`。 移动现有字符以便腾出空间供新的文本。 根据需要调整此实例的容量。  
+ <xref:System.UInt32.ToString%2A?displayProperty=nameWithType> 用于获取的字符串表示形式`value`。 移动现有字符的新文本留出空间。 根据需要调整此实例的容量。  
   
    
   
@@ -4461,7 +4564,7 @@
           <paramref name="index" /> is less than zero or greater than the length of this instance.</exception>
         <exception cref="T:System.OutOfMemoryException">Enlarging the value of this instance would exceed <see cref="P:System.Text.StringBuilder.MaxCapacity" />.</exception>
         <block subset="none" type="usage">
-          <para>在 [！INCLUDE[net_v35SP1_long](~/includes/net-v35sp1-long-md.md)] 和早期版本中，对此方法的调用引发<see cref="T:System.ArgumentOutOfRangeException" />如果插入<paramref name="value" />会导致对象的总长度超过<see cref="P:System.Text.StringBuilder.MaxCapacity" />。从 [！INCLUDE[net_v40_long](~/includes/net-v40-long-md.md)]，该方法将引发<see cref="T:System.OutOfMemoryException" />。</para>
+          <para>在 [！INCLUDE[net_v35SP1_long](~/includes/net-v35sp1-long-md.md)] 和早期版本中，调用此方法引发<see cref="T:System.ArgumentOutOfRangeException" />如果将插入<paramref name="value" />会导致对象的总长度超过<see cref="P:System.Text.StringBuilder.MaxCapacity" />。从 [！INCLUDE[net_v40_long](~/includes/net-v40-long-md.md)]，该方法将引发<see cref="T:System.OutOfMemoryException" />。</para>
         </block>
         <altmember cref="T:System.UInt32" />
       </Docs>
@@ -4485,6 +4588,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -4513,7 +4618,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.UInt64.ToString%2A?displayProperty=nameWithType> 用于获取的字符串表示形式`value`。 移动现有字符以便腾出空间供新的文本。 根据需要调整此实例的容量。  
+ <xref:System.UInt64.ToString%2A?displayProperty=nameWithType> 用于获取的字符串表示形式`value`。 移动现有字符的新文本留出空间。 根据需要调整此实例的容量。  
   
    
   
@@ -4530,7 +4635,7 @@
           <paramref name="index" /> is less than zero or greater than the length of this instance.</exception>
         <exception cref="T:System.OutOfMemoryException">Enlarging the value of this instance would exceed <see cref="P:System.Text.StringBuilder.MaxCapacity" />.</exception>
         <block subset="none" type="usage">
-          <para>在 [！INCLUDE[net_v35SP1_long](~/includes/net-v35sp1-long-md.md)] 和早期版本中，对此方法的调用引发<see cref="T:System.ArgumentOutOfRangeException" />如果插入<paramref name="value" />会导致对象的总长度超过<see cref="P:System.Text.StringBuilder.MaxCapacity" />。从 [！INCLUDE[net_v40_long](~/includes/net-v40-long-md.md)]，该方法将引发<see cref="T:System.OutOfMemoryException" />。</para>
+          <para>在 [！INCLUDE[net_v35SP1_long](~/includes/net-v35sp1-long-md.md)] 和早期版本中，调用此方法引发<see cref="T:System.ArgumentOutOfRangeException" />如果将插入<paramref name="value" />会导致对象的总长度超过<see cref="P:System.Text.StringBuilder.MaxCapacity" />。从 [！INCLUDE[net_v40_long](~/includes/net-v40-long-md.md)]，该方法将引发<see cref="T:System.OutOfMemoryException" />。</para>
         </block>
         <altmember cref="T:System.UInt64" />
       </Docs>
@@ -4554,6 +4659,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -4584,9 +4691,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 移动现有字符以便腾出空间供新的文本。 根据需要调整此实例的容量。  
+ 移动现有字符的新文本留出空间。 根据需要调整此实例的容量。  
   
- 这<xref:System.Text.StringBuilder>如果对象不会更改`value`是`null`，`value`不`null`但其长度为零，或`count`为零。  
+ 这<xref:System.Text.StringBuilder>如果对象不会更改`value`是`null`，`value`不是`null`但其长度为零，或`count`为零。  
   
    
   
@@ -4624,6 +4731,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -4656,7 +4765,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 移动现有字符以便腾出空间供新的文本。 根据需要调整此实例的容量。  
+ 移动现有字符的新文本留出空间。 根据需要调整此实例的容量。  
   
    
   
@@ -4694,6 +4803,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -4711,13 +4822,13 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 长度<xref:System.Text.StringBuilder>对象由其数定义<xref:System.Char>对象。  
+ 长度<xref:System.Text.StringBuilder>对象由其数量定义<xref:System.Char>对象。  
   
- 如<xref:System.String.Length%2A?displayProperty=nameWithType>属性，<xref:System.Text.StringBuilder.Length%2A>属性指示当前字符串对象的长度。 与不同<xref:System.String.Length%2A?displayProperty=nameWithType>属性，它是只读的<xref:System.Text.StringBuilder.Length%2A>属性允许你修改存储到的字符串的长度<xref:System.Text.StringBuilder>对象。  
+ 像<xref:System.String.Length%2A?displayProperty=nameWithType>属性，<xref:System.Text.StringBuilder.Length%2A>属性指示当前字符串对象的长度。 与不同<xref:System.String.Length%2A?displayProperty=nameWithType>属性，它是只读的<xref:System.Text.StringBuilder.Length%2A>属性允许您修改存储到字符串的长度<xref:System.Text.StringBuilder>对象。  
   
- 如果指定的长度小于当前的长度，当前<xref:System.Text.StringBuilder>对象将被截断到指定的长度。 如果指定的长度大于当前的长度，当前的字符串值的末尾<xref:System.Text.StringBuilder>对象填充以 Unicode NULL 字符 (U + 0000)。  
+ 如果指定的长度小于当前长度，当前<xref:System.Text.StringBuilder>对象将被截断为指定的长度。 如果指定的长度大于当前长度的字符串值的当前末尾<xref:System.Text.StringBuilder>对象则用 Unicode NULL 字符填充 (U + 0000)。  
   
- 如果指定的长度大于当前的容量，<xref:System.Text.StringBuilder.Capacity%2A>增加，以便它大于或等于指定的长度。  
+ 如果指定的长度大于当前容量<xref:System.Text.StringBuilder.Capacity%2A>会增加，这样就大于或等于指定长度。  
   
    
   
@@ -4752,6 +4863,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -4769,9 +4882,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 对于此实现的最大容量<xref:System.Int32.MaxValue?displayProperty=nameWithType>。 但是，此值特定于实现，并且可能在其他或更高版本实现不同。 你可以显式设置的最大容量<xref:System.Text.StringBuilder>对象通过调用<xref:System.Text.StringBuilder.%23ctor%28System.Int32%2CSystem.Int32%29>构造函数。  
+ 此实现的最大容量<xref:System.Int32.MaxValue?displayProperty=nameWithType>。 但是，此值是特定于实现的可能会在其他或更高版本的实现有所不同。 您可以显式设置的最大容量<xref:System.Text.StringBuilder>对象通过调用<xref:System.Text.StringBuilder.%23ctor%28System.Int32%2CSystem.Int32%29>构造函数。  
   
- 在[!INCLUDE[net_v40_short](~/includes/net-v40-short-md.md)]和[!INCLUDE[net_v45](~/includes/net-v45-md.md)]，当实例化时<xref:System.Text.StringBuilder>对象通过调用<xref:System.Text.StringBuilder.%23ctor%28System.Int32%2CSystem.Int32%29>构造函数，长度和的容量<xref:System.Text.StringBuilder>实例可以增长到的值超过其<xref:System.Text.StringBuilder.MaxCapacity%2A>属性。 实现这一点尤其是当调用<xref:System.Text.StringBuilder.Append%2A>和<xref:System.Text.StringBuilder.AppendFormat%2A>方法将小字符串追加。  
+ 中[!INCLUDE[net_v40_short](~/includes/net-v40-short-md.md)]和[!INCLUDE[net_v45](~/includes/net-v45-md.md)]，当您实例化<xref:System.Text.StringBuilder>对象通过调用<xref:System.Text.StringBuilder.%23ctor%28System.Int32%2CSystem.Int32%29>构造函数，长度和容量<xref:System.Text.StringBuilder>实例可以增长到的值超过其<xref:System.Text.StringBuilder.MaxCapacity%2A>属性。 发生这种情况尤其是当您调用<xref:System.Text.StringBuilder.Append%2A>和<xref:System.Text.StringBuilder.AppendFormat%2A>追加小型字符串的方法。  
   
  ]]></format>
         </remarks>
@@ -4796,6 +4909,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -4819,7 +4934,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 当前方法从当前实例中移除指定的范围的字符。 在字符 (`startIndex` + `length`) 移动到`startIndex`，并且当前实例的字符串值缩短通过`length`。 当前实例的容量不受影响。  
+ 当前方法从当前实例中删除指定的范围的字符。 上的字符 (`startIndex` + `length`) 移动到`startIndex`，并且当前实例的字符串值缩短通过`length`。 当前实例的容量的不受影响。  
   
 > [!NOTE]
 >  <xref:System.Text.StringBuilder.Remove%2A>方法修改的当前值<xref:System.Text.StringBuilder>实例，并返回该实例。 它不创建和返回一个新<xref:System.Text.StringBuilder>对象。  
@@ -4871,6 +4986,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -4894,7 +5011,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 此方法执行序号、 区分大小写比较来标识的匹配项`oldChar`当前实例中。 当前的大小<xref:System.Text.StringBuilder>实例在更换后保持不变。  
+ 此方法执行顺序、 区分大小写比较来标识出现的`oldChar`当前实例中。 当前大小<xref:System.Text.StringBuilder>实例更换后保持不变。  
   
    
   
@@ -4928,6 +5045,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -4951,7 +5070,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 此方法执行序号、 区分大小写比较来标识的匹配项`oldValue`当前实例中。 如果`newValue`是`null`或<xref:System.String.Empty?displayProperty=nameWithType>，出现的所有`oldValue`会删除。  
+ 此方法执行顺序、 区分大小写比较来标识出现的`oldValue`当前实例中。 如果`newValue`是`null`或<xref:System.String.Empty?displayProperty=nameWithType>，出现的所有`oldValue`删除。  
   
    
   
@@ -4990,6 +5109,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -5017,7 +5138,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 此方法执行序号、 区分大小写比较来标识的匹配项`oldChar`当前实例中。 当前的大小<xref:System.Text.StringBuilder>对象在更换后保持不变。  
+ 此方法执行顺序、 区分大小写比较来标识出现的`oldChar`当前实例中。 当前大小<xref:System.Text.StringBuilder>对象后替换不会更改。  
   
    
   
@@ -5053,6 +5174,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -5080,7 +5203,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 此方法执行序号、 区分大小写比较来标识的匹配项`oldValue`中指定的子字符串。 如果`newValue`是`null`或<xref:System.String.Empty?displayProperty=nameWithType>，出现的所有`oldValue`会删除。  
+ 此方法执行顺序、 区分大小写比较来标识出现的`oldValue`中指定的子字符串。 如果`newValue`是`null`或<xref:System.String.Empty?displayProperty=nameWithType>，出现的所有`oldValue`删除。  
   
    
   
@@ -5113,6 +5236,7 @@
       </Implements>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -5145,7 +5269,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- `context`参数是保留供将来使用，不参与此操作。  
+ `context`参数保留供将来使用，并不参与此操作。  
   
  有关更多信息，请参见 <xref:System.Runtime.Serialization.SerializationInfo.AddValue%28System.String%2CSystem.Object%2CSystem.Type%29?displayProperty=nameWithType> 方法。  
   
@@ -5153,7 +5277,7 @@
         </remarks>
         <exception cref="T:System.ArgumentNullException">
           <paramref name="info" /> is <see langword="null" />.</exception>
-        <permission cref="T:System.Security.SecurityCriticalAttribute">需要完全信任直接调用方。 此成员不能由部分受信任或不透明的代码。</permission>
+        <permission cref="T:System.Security.SecurityCriticalAttribute">直接调用方需要完全信任。 不能由部分受信任的或透明的代码使用此成员。</permission>
       </Docs>
     </Member>
     <MemberGroup MemberName="ToString">
@@ -5188,6 +5312,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -5211,12 +5337,12 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 必须调用<xref:System.Text.StringBuilder.ToString%2A>方法将转换<xref:System.Text.StringBuilder>对象传递给<xref:System.String>对象，然后可以将传递所表示的字符串<xref:System.Text.StringBuilder>对象的方法的具有<xref:System.String>参数或在用户界面中显示它。  
+ 必须调用<xref:System.Text.StringBuilder.ToString%2A>方法将转换<xref:System.Text.StringBuilder>对象传递给<xref:System.String>对象所表示的字符串的传递之前<xref:System.Text.StringBuilder>对象具有方法<xref:System.String>参数或在用户界面中显示它。  
   
    
   
 ## Examples  
- 下面的示例演示如何调用 <xref:System.Text.StringBuilder.ToString%2A> 方法。 此示例摘自更大的示例为提供<xref:System.Text.StringBuilder>类。  
+ 下面的示例演示如何调用 <xref:System.Text.StringBuilder.ToString%2A> 方法。 此示例摘自一个更大的示例为提供<xref:System.Text.StringBuilder>类。  
   
  [!code-cpp[StringBuilder#5](~/samples/snippets/cpp/VS_Snippets_CLR/StringBuilder/cpp/StringBuilder.cpp#5)]
  [!code-csharp[StringBuilder#5](~/samples/snippets/csharp/VS_Snippets_CLR/StringBuilder/CS/StringBuilder.cs#5)]
@@ -5245,6 +5371,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -5273,7 +5401,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 必须调用<xref:System.Text.StringBuilder.ToString%2A>方法将转换<xref:System.Text.StringBuilder>对象传递给<xref:System.String>对象，然后可以将传递所表示的字符串<xref:System.Text.StringBuilder>对象的方法的具有<xref:System.String>参数或在用户界面中显示它。  
+ 必须调用<xref:System.Text.StringBuilder.ToString%2A>方法将转换<xref:System.Text.StringBuilder>对象传递给<xref:System.String>对象所表示的字符串的传递之前<xref:System.Text.StringBuilder>对象具有方法<xref:System.String>参数或在用户界面中显示它。  
   
  ]]></format>
         </remarks>

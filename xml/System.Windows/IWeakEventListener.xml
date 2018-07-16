@@ -1,11 +1,11 @@
 <Type Name="IWeakEventListener" FullName="System.Windows.IWeakEventListener">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="7c3b1a2e5ca5345941bf0defae6b6b61e709598f" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="3ebfdb9ce19336f783b2dfdfa69984aebd3d731d" />
+    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="zh-CN" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36459037" />
+    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
+    <Meta Name="ms.locfileid" Value="37492166" />
   </Metadata>
   <TypeSignature Language="C#" Value="public interface IWeakEventListener" />
   <TypeSignature Language="ILAsm" Value=".class public interface auto ansi abstract IWeakEventListener" />
@@ -15,6 +15,7 @@
   <TypeSignature Language="F#" Value="type IWeakEventListener = interface" />
   <AssemblyInfo>
     <AssemblyName>WindowsBase</AssemblyName>
+    <AssemblyVersion>3.0.0.0</AssemblyVersion>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
   </AssemblyInfo>
   <Interfaces />
@@ -26,11 +27,11 @@
 ## Remarks  
  <xref:System.Windows.WeakEventManager> （调度程序） 将事件转发通过调用<xref:System.Windows.IWeakEventListener.ReceiveWeakEvent%2A>类来实现此接口，并且，通过调用添加为侦听器方法<xref:System.Windows.WeakEventManager>事先方法。  
   
- 事件源具有可能独立于事件侦听器对象生存期时遵循 WeakEvent 模式的主要原因。 使用的中央事件调度<xref:System.Windows.WeakEventManager>可使的处理程序侦听器进行垃圾收集 （或手动清除） 即使源对象生存期超过了侦听器。 与此相反，常规事件挂钩使用`+=`或等效的特定于语言的事件语法会导致可能仍然连接的源保存到的处理程序的强引用。 这将保持侦听器引用进行垃圾回收及时。  
+ WeakEvent 模式的主要原因是当事件源包含的事件侦听器可能独立对象生存期。 使用的中央事件调度<xref:System.Windows.WeakEventManager>启用的处理程序侦听器进行垃圾收集 （或手动清除） 即使源对象生存期超过了侦听器。 与此相反，普通事件挂钩使用`+=`或等效的特定于语言的事件语法会导致可能仍连接的源来保存对处理程序的强引用。 这会使侦听器引用进行垃圾回收中及时。  
   
- 源和侦听器之间的关系中建议此模式的使用的一种常见情况是来自源的数据绑定的更新事件的处理。  
+ 源和侦听器之间的关系建议使用此模式的一种常见情况是来自源的数据绑定的更新事件的处理。  
   
- WeakEvent 模式可用于侦听外部的应用程序的事件。 只需定义<xref:System.Windows.WeakEventManager>，侦听在提供的行为<xref:System.Windows.IWeakEventListener.ReceiveWeakEvent%2A>，并使用<xref:System.Windows.WeakEventManager>将处理程序附加引用而非`+=`。  
+ WeakEvent 模式可用于侦听的外部的应用程序的事件。 只需定义<xref:System.Windows.WeakEventManager>，提供在侦听行为<xref:System.Windows.IWeakEventListener.ReceiveWeakEvent%2A>，并使用<xref:System.Windows.WeakEventManager>附加处理程序引用而非`+=`。  
   
  ]]></format>
     </remarks>
@@ -47,6 +48,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>WindowsBase</AssemblyName>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -68,7 +70,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Examples  
- 下面的示例实现<xref:System.Windows.IWeakEventListener.ReceiveWeakEvent%2A>以提供针对两个假设事件 WeakEvent 模式支持`ClockwiseSpin`和`CounterclockwiseSpin`，每个包含专用<xref:System.Windows.WeakEventManager>（未显示）。 此实现中调用类处理程序存根 （stub） 为每个受支持的事件，将事件数据转换 (在这种情况下两个事件具有事件的数据类型`SpinEventArgs`)。 实现返回`false`如果收到该事件不是一个预期。  
+ 下面的示例实现<xref:System.Windows.IWeakEventListener.ReceiveWeakEvent%2A>以便为两个假设事件提供 WeakEvent 模式支持`ClockwiseSpin`并`CounterclockwiseSpin`，每个包含专用<xref:System.Windows.WeakEventManager>（未显示）。 此实现会调用类处理程序存根 （stub） 为每个受支持的事件，将事件数据转换 (在这种情况下两个事件共享事件数据类型`SpinEventArgs`)。 实现返回`false`如果所接收的事件不是一个预期。  
   
  [!code-csharp[CorePseudocode#IWeakEventListener](~/samples/snippets/csharp/VS_Snippets_Wpf/CorePseudocode/CSharp/corepseudocode.cs#iweakeventlistener)]
  [!code-vb[CorePseudocode#IWeakEventListener](~/samples/snippets/visualbasic/VS_Snippets_Wpf/CorePseudocode/visualbasic/corepseudocode.vb#iweakeventlistener)]  
@@ -76,7 +78,7 @@
  ]]></format>
         </remarks>
         <block subset="none" type="overrides">
-          <para>此方法旨在接收所有可能的事件接收方所在侦听器列表中。尤其是在实现侦听多个事件的类，必须检查传入的类型<paramref name="managerType" />才能知道哪个事件调用的参数对应于。这就是为什么要模式的一部分的每个事件必须有一个专用<see cref="T:System.Windows.WeakEventManager" />。此外，<paramref name="e" />参数被类型化为常规<see cref="T:System.EventArgs" />。因此，按顺序将获得事件数据外的任何特定属性，您的实现需要强制转换为特定事件数据类型。通常情况下，基于事件的标识检查后<see cref="T:System.Windows.WeakEventManager" />类型，您的实现应调用私有类处理程序。你的类处理程序可能是完全相同的类处理程序用于处理该事件的通过添加的常规事件模式通过添加的侦听器<see langword="+=" />到发件人上的事件。下面的示例部分提供了一个大致的实现模板。</para>
+          <para>此方法旨在接收所有可能的事件接收方的侦听器列表中。尤其是在实现正在侦听的多个事件的类，您必须检查传入的类型<paramref name="managerType" />这样才能知道哪个事件调用的参数对应于。这就是原因要模式的一部分的每个事件必须有一个专用<see cref="T:System.Windows.WeakEventManager" />。此外，<paramref name="e" />参数的类型为常规<see cref="T:System.EventArgs" />。因此，按顺序获取事件数据从任何特定属性，您的实现需要强制转换为特定事件的数据类型。通常情况下，在基于事件的标识检查后<see cref="T:System.Windows.WeakEventManager" />类型，您的实现应调用私有类处理程序。类处理程序可能是完全相同的类处理程序用于处理该事件侦听器，通过添加的常规事件模式添加<see langword="+=" />到发送方上的事件。下面的示例部分提供了一个大致的实现模板。</para>
         </block>
         <altmember cref="T:System.Windows.WeakEventManager" />
       </Docs>

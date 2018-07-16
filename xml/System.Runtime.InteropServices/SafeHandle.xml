@@ -1,11 +1,11 @@
 <Type Name="SafeHandle" FullName="System.Runtime.InteropServices.SafeHandle">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="a48931738181122e75f0ec0a410b8d3e63a6436d" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="23dd24cec3f1ab2757c42a1cc0db5f70fb253604" />
+    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="zh-CN" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36537778" />
+    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
+    <Meta Name="ms.locfileid" Value="37469673" />
   </Metadata>
   <TypeSignature Language="C#" Value="public abstract class SafeHandle : System.Runtime.ConstrainedExecution.CriticalFinalizerObject, IDisposable" />
   <TypeSignature Language="ILAsm" Value=".class public sequential ansi abstract beforefieldinit SafeHandle extends System.Runtime.ConstrainedExecution.CriticalFinalizerObject implements class System.IDisposable" />
@@ -19,6 +19,7 @@
   </AssemblyInfo>
   <AssemblyInfo>
     <AssemblyName>mscorlib</AssemblyName>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
     <AssemblyVersion>2.0.5.0</AssemblyVersion>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
   </AssemblyInfo>
@@ -56,35 +57,35 @@
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Runtime.InteropServices.SafeHandle>类提供句柄资源，阻止从正在过早地通过垃圾回收回收和回收了 Windows，以引用非预期的非托管的对象的句柄的临界终止。  
+ <xref:System.Runtime.InteropServices.SafeHandle>类提供了关键终结句柄资源，防止句柄从被过早地通过垃圾回收回收和 Windows 以引用非预期的非托管的对象进行更新。  
   
  本主题包括以下部分：  
   
  [为什么 SafeHandle？](#Why)   
- [SafeHandle 能做什么](#Does)   
- [派生自 SafeHandle 类](#Derived)  
+ [SafeHandle 的用途](#Does)   
+ [从 SafeHandle 派生的类](#Derived)  
   
 <a name="Why"></a>   
 ## <a name="why-safehandle"></a>为什么 SafeHandle？  
- 在.NET Framework 2.0 版中，所有操作系统句柄无法仅封装在之前<xref:System.IntPtr>托管包装器对象。 虽然这是一种简便的方式与本机代码进行互操作，无法使用异步异常，如线程意外中止或堆栈溢出将句柄已泄漏。 清理操作系统资源障碍，这些异步的例外是，它们可以在你的应用程序几乎任意位置发生。  
+ .NET Framework 版本 2.0 中，所有操作系统句柄可能仅封装在之前<xref:System.IntPtr>托管包装器对象。 虽然这样可以方便地与本机代码进行互操作，可以使用异步异常，如线程意外中止或堆栈溢出将句柄会泄漏。 这些异步异常会阻碍清理操作系统资源，它们可以在应用中几乎任何地方发生。  
   
- 尽管重写到<xref:System.Object.Finalize%2A?displayProperty=nameWithType>方法允许清理非托管资源时是对象的垃圾回收，在某些情况下，可以通过执行平台中的方法时的垃圾回收回收可终结对象调用调用。 如果终结器释放句柄传递给该平台 invoke 调用，它可能会导致处理损坏。 当你的方法在平台期间被阻止时，可能还会回收句柄调用，如时读取文件。  
+ 尽管替代应用于<xref:System.Object.Finalize%2A?displayProperty=nameWithType>方法允许的非托管资源清理时对象正在进行垃圾回收，在某些情况下，可以通过执行在平台中的方法时的垃圾回收回收可终结对象调用调用。 如果终结器释放句柄传递到该平台 invoke 调用，它可能会导致处理损坏。 此外会回收句柄，而您的方法在一个平台，期间将无法调用，如读取文件时。  
   
- 更严重的是，因为 Windows 积极回收句柄，句柄无法被回收，并指向可能包含敏感数据的另一个资源。 这被称为回收攻击和可以会损坏数据，并会安全威胁。  
+ 更严重的是，因为 Windows 积极回收句柄，句柄无法被回收并指向可能包含敏感数据的另一个资源。 这被称为回收攻击可以会损坏数据和安全威胁。  
   
 <a name="Does"></a>   
-## <a name="what-safehandle-does"></a>SafeHandle 能做什么  
- <xref:System.Runtime.InteropServices.SafeHandle>类简化了一些这些对象的生存期问题，并与平台集成调用，以便操作系统资源不会泄漏。 <xref:System.Runtime.InteropServices.SafeHandle>类通过分配和释放而不会中断句柄来解析对象生存期问题。 它包含的重要终结器，以确保句柄已关闭，并且保证能运行，在意外期间<xref:System.AppDomain>卸载，即使在平台 invoke 调用的情况下假定处于损坏状态。  
+## <a name="what-safehandle-does"></a>SafeHandle 的用途  
+ <xref:System.Runtime.InteropServices.SafeHandle>类简化了多个这些对象生存期问题，并与平台集成调用，以便避免泄露操作系统资源。 <xref:System.Runtime.InteropServices.SafeHandle>类通过分配和释放句柄而不发生中断来解析对象生存期问题。 它包含的重要终结器，以确保句柄已关闭，并且保证在运行期间意外<xref:System.AppDomain>卸载，即使在平台 invoke 调用的情况下被假定为处于损坏状态。  
   
- 因为<xref:System.Runtime.InteropServices.SafeHandle>继承自<xref:System.Runtime.ConstrainedExecution.CriticalFinalizerObject>，先于任何关键终结器被调用的非关键终结器。 在相同的垃圾回收传递期间将不再实时的对象调用终结器。 例如，<xref:System.IO.FileStream>对象可以运行正常的终结器，以刷新现有的缓冲数据，而没有被泄漏或回收的句柄的风险。 一般用途，不应之间关键和非关键终结器此非常弱排序。 它存在主要是为了帮助中的现有库迁移通过允许这些库使用<xref:System.Runtime.InteropServices.SafeHandle>而无需更改它们的语义。 此外，重要终结器及任何它调用，如<xref:System.Runtime.InteropServices.SafeHandle.ReleaseHandle?displayProperty=nameWithType>方法，必须在受约束的执行区域。 这会施加哪些代码可以编写在终结器的调用关系图上的约束。  
+ 因为<xref:System.Runtime.InteropServices.SafeHandle>继承<xref:System.Runtime.ConstrainedExecution.CriticalFinalizerObject>，先于任何关键终结器被调用的非关键终结器。 在相同的垃圾回收传递期间不再是实时的对象调用终结器。 例如，<xref:System.IO.FileStream>对象可以运行正常的终结器，若要刷新现有缓冲数据没有被泄漏或回收的句柄的风险。 关键和非关键终结器之间这一弱顺序不适用于常规使用。 存在主要是为了帮助中的现有库迁移这些库，从而使用<xref:System.Runtime.InteropServices.SafeHandle>而无需更改它们的语义。 此外，关键终结器以及任何调用，如<xref:System.Runtime.InteropServices.SafeHandle.ReleaseHandle?displayProperty=nameWithType>方法，必须在受约束的执行区域。 这对实施约束的终结器调用关系图中可以编写什么代码。  
   
- 平台调用操作自动递增引用计数的句柄包装<xref:System.Runtime.InteropServices.SafeHandle>和递减它们完成后。 这可确保，不会回收或意外关闭句柄。  
+ 平台调用操作自动递增引用计数的句柄由封装<xref:System.Runtime.InteropServices.SafeHandle>和完成后对其进行增减。 这可确保，不会回收或意外关闭句柄。  
   
- 在构造时，可以指定基础句柄的所有权<xref:System.Runtime.InteropServices.SafeHandle>通过提供到值的对象`ownsHandle`中的参数<xref:System.Runtime.InteropServices.SafeHandle>类构造函数。 此参数控制是否<xref:System.Runtime.InteropServices.SafeHandle>对象后释放此对象将释放句柄。  这可用于具有特殊生存期要求的句柄或使用其生存期由其他人控制的句柄。  
+ 构造时，可以指定基础句柄的所有权<xref:System.Runtime.InteropServices.SafeHandle>按值提供给对象`ownsHandle`中的参数<xref:System.Runtime.InteropServices.SafeHandle>类构造函数。 此设置控制是否<xref:System.Runtime.InteropServices.SafeHandle>对象已释放对象后将释放该句柄。  这是对于具有特殊生存期要求的句柄，或者使用由其他人控制其生存期的句柄。  
   
 <a name="Derived"></a>   
-## <a name="classes-derived-from-safehandle"></a>派生自 SafeHandle 类  
- <xref:System.Runtime.InteropServices.SafeHandle> 是一个抽象的包装类操作系统句柄。 从此类派生比较困难。 但可以使用 <xref:Microsoft.Win32.SafeHandles> 命名空间中可提供以下项的安全句柄的派生类。  
+## <a name="classes-derived-from-safehandle"></a>从 SafeHandle 派生的类  
+ <xref:System.Runtime.InteropServices.SafeHandle> 是操作系统句柄的抽象的包装器类。 从此类派生比较困难。 但可以使用 <xref:Microsoft.Win32.SafeHandles> 命名空间中可提供以下项的安全句柄的派生类。  
   
 -   文件 (<xref:Microsoft.Win32.SafeHandles.SafeFileHandle>类)。  
   
@@ -94,7 +95,7 @@
   
 -   内存视图 (<xref:Microsoft.Win32.SafeHandles.SafeMemoryMappedViewHandle>类)。  
   
--   加密构造 ( <xref:Microsoft.Win32.SafeHandles.SafeNCryptHandle>， <xref:Microsoft.Win32.SafeHandles.SafeNCryptKeyHandle>， <xref:Microsoft.Win32.SafeHandles.SafeNCryptProviderHandle>，和<xref:Microsoft.Win32.SafeHandles.SafeNCryptSecretHandle>类)。  
+-   加密结构 ( <xref:Microsoft.Win32.SafeHandles.SafeNCryptHandle>， <xref:Microsoft.Win32.SafeHandles.SafeNCryptKeyHandle>， <xref:Microsoft.Win32.SafeHandles.SafeNCryptProviderHandle>，和<xref:Microsoft.Win32.SafeHandles.SafeNCryptSecretHandle>类)。  
   
 -   进程 (<xref:Microsoft.Win32.SafeHandles.SafeProcessHandle>类)。  
   
@@ -105,22 +106,22 @@
    
   
 ## Examples  
- 下面的代码示例创建一个操作系统文件句柄，派生自的自定义安全句柄<xref:Microsoft.Win32.SafeHandles.SafeHandleZeroOrMinusOneIsInvalid>。 它从文件中读取字节，并显示其十六进制值。 它还包含一个错误测试工具，从而导致线程中止，但释放句柄值。  使用时<xref:System.IntPtr>表示句柄，句柄偶尔泄漏由于异步线程中止。  
+ 下面的代码示例创建一个自定义安全句柄的操作系统文件句柄，派生自<xref:Microsoft.Win32.SafeHandles.SafeHandleZeroOrMinusOneIsInvalid>。 它从文件读取的字节，并显示其十六进制值。 它还包含一个错误测试工具，使线程中止，但释放句柄值。  当使用<xref:System.IntPtr>表示句柄，句柄有时泄漏由于异步线程中止。  
   
- 你将需要的文本文件中编译的应用程序所在的文件夹。 假定你将应用程序"HexViewer"，是命令行用法：  
+ 你将需要与编译的应用程序相同的文件夹中的文本文件。 假设您将该应用程序"HexViewer"，命令行用法是：  
   
  `HexViewer <filename> -Fault`  
   
- （可选） 指定`-Fault`有意尝试泄漏通过中止某个窗口中的线程句柄。 使用 Windows Perform.exe 工具来监视时将故障注入的句柄计数。  
+ （可选） 指定`-Fault`有意尝试通过中止某个窗口中的线程泄漏句柄。 使用 Windows Perform.exe 工具来监视时将故障注入的句柄计数。  
   
  [!code-csharp[SafeHandle#1](~/samples/snippets/csharp/VS_Snippets_CLR/SafeHandle/CS/program.cs#1)]  
   
  ]]></format>
     </remarks>
-    <permission cref="F:System.Security.Permissions.SecurityAction.InheritanceDemand">对继承者的完全信任。 此成员不能由部分受信任的代码继承。</permission>
-    <permission cref="T:System.Security.SecurityCriticalAttribute">需要完全信任直接调用方。 此成员不能由部分受信任或不透明的代码。</permission>
+    <permission cref="F:System.Security.Permissions.SecurityAction.InheritanceDemand">继承者完全信任。 此成员不能由部分受信任代码继承。</permission>
+    <permission cref="T:System.Security.SecurityCriticalAttribute">直接调用方需要完全信任。 不能由部分受信任的或透明的代码使用此成员。</permission>
     <block subset="none" type="overrides">
-      <para>创建派生自类<see cref="T:System.Runtime.InteropServices.SafeHandle" />，你必须知道如何创建和释放操作系统句柄。此过程是不同的不同的句柄类型，因为一些使用 [CloseHandle] (https://msdn.microsoft.com/library/windows/desktop/ms724211.aspx)函数，而其他使用更具体的函数，如 [UnmapViewOfFile] (https://msdn.microsoft.com/library/windows/desktop/aa366882.aspx)或 [FindClose] (https://msdn.microsoft.com/library/windows/desktop/aa364413.aspx)。为此，你必须创建的派生的类<see cref="T:System.Runtime.InteropServices.SafeHandle" />你想要在安全句柄中包装每个操作系统句柄类型。当从 <see cref="T:System.Runtime.InteropServices.SafeHandle" /> 继承时，必须重写下面的成员：<see cref="P:System.Runtime.InteropServices.SafeHandle.IsInvalid" /> 和 <see cref="M:System.Runtime.InteropServices.SafeHandle.ReleaseHandle" />。你还应提供默认构造函数调用基构造函数具有一个值，表示一个无效句柄的值，和一个<see cref="T:System.Boolean" />值，该值指示是否通过拥有的本机句柄<see cref="T:System.Runtime.InteropServices.SafeHandle" />并因此应释放时<see cref="T:System.Runtime.InteropServices.SafeHandle" />已释放。</para>
+      <para>若要创建派生自的类<see cref="T:System.Runtime.InteropServices.SafeHandle" />，您必须知道如何创建和释放操作系统句柄。此过程是不同的类型不同的句柄，因为某些使用 [CloseHandle] (https://msdn.microsoft.com/library/windows/desktop/ms724211.aspx)函数，而有些则以更具体的函数，如 [UnmapViewOfFile] (https://msdn.microsoft.com/library/windows/desktop/aa366882.aspx)或 [FindClose] (https://msdn.microsoft.com/library/windows/desktop/aa364413.aspx)。出于此原因，必须创建的派生的类<see cref="T:System.Runtime.InteropServices.SafeHandle" />你想要在安全句柄中包装每个操作系统句柄类型。当从 <see cref="T:System.Runtime.InteropServices.SafeHandle" /> 继承时，必须重写下面的成员：<see cref="P:System.Runtime.InteropServices.SafeHandle.IsInvalid" /> 和 <see cref="M:System.Runtime.InteropServices.SafeHandle.ReleaseHandle" />。您还应提供调用基构造函数提供一个值，表示无效句柄的值，该值的默认构造函数和一个<see cref="T:System.Boolean" />值，该值指示是否由拥有的本机句柄<see cref="T:System.Runtime.InteropServices.SafeHandle" />，因此应释放时<see cref="T:System.Runtime.InteropServices.SafeHandle" />已被释放。</para>
     </block>
     <altmember cref="N:Microsoft.Win32.SafeHandles" />
     <altmember cref="T:System.Runtime.InteropServices.CriticalHandle" />
@@ -158,6 +159,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -193,13 +195,13 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 如果`ownsHandle`参数是`false`，<xref:System.Runtime.InteropServices.SafeHandle.ReleaseHandle%2A>在于： 绝不调用; 因此，不建议使用此参数的值作为你的代码可能会泄漏资源。  
+ 如果`ownsHandle`参数是`false`，<xref:System.Runtime.InteropServices.SafeHandle.ReleaseHandle%2A>永远不会调用; 因此，不建议使用此参数值，因为你的代码可能会泄漏资源。  
   
  ]]></format>
         </remarks>
         <exception cref="T:System.TypeLoadException">The derived class resides in an assembly without unmanaged code access permission.</exception>
-        <permission cref="F:System.Security.Permissions.SecurityAction.InheritanceDemand">对继承者的完全信任。 此成员不能由部分受信任的代码继承。</permission>
-        <permission cref="T:System.Security.SecurityCriticalAttribute">需要完全信任直接调用方。 此成员不能由部分受信任或不透明的代码。</permission>
+        <permission cref="F:System.Security.Permissions.SecurityAction.InheritanceDemand">继承者完全信任。 此成员不能由部分受信任代码继承。</permission>
+        <permission cref="T:System.Security.SecurityCriticalAttribute">直接调用方需要完全信任。 不能由部分受信任的或透明的代码使用此成员。</permission>
       </Docs>
     </Member>
     <Member MemberName="Close">
@@ -212,6 +214,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -242,16 +245,16 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 调用<xref:System.Runtime.InteropServices.SafeHandle.Close%2A>或<xref:System.Runtime.InteropServices.SafeHandle.Dispose%2A>方法允许资源被释放。 这如果其他线程正在使用的相同的安全句柄对象时可能不会立即发生，但不再具备这种情况时，就会立即将发生这种情况。 尽管大多数类使用<xref:System.Runtime.InteropServices.SafeHandle>类不需要提供了终结器，有时这是必要 （例如，清空文件缓冲区，或编写一些数据回发到内存）。 在这种情况下，类可以提供保证之前运行了终结器<xref:System.Runtime.InteropServices.SafeHandle>重要终结器运行。  
+ 调用<xref:System.Runtime.InteropServices.SafeHandle.Close%2A>或<xref:System.Runtime.InteropServices.SafeHandle.Dispose%2A>方法允许要释放的资源。 这如果其他线程正在使用的相同的安全句柄对象时可能不会立即发生，但不再是这种情况时，就立即将发生这种情况。 尽管大多数类使用<xref:System.Runtime.InteropServices.SafeHandle>类不需要提供一个终结器，这有时很有必要 （例如，清空文件缓冲区或编写某些数据回发到内存中）。 在这种情况下，类可以提供了终结器，保证在运行之前<xref:System.Runtime.InteropServices.SafeHandle>关键终结器运行。  
   
  调用<xref:System.Runtime.InteropServices.SafeHandle.Close%2A>或<xref:System.Runtime.InteropServices.SafeHandle.Dispose%2A>方法完成后使用<xref:System.Runtime.InteropServices.SafeHandle>对象。  
   
 > [!NOTE]
->  始终调用<xref:System.Runtime.InteropServices.SafeHandle.Close%2A>或<xref:System.Runtime.InteropServices.SafeHandle.Dispose%2A>在发布到最后一个引用之前<xref:System.Runtime.InteropServices.SafeHandle>对象。 否则，在垃圾回收器调用 <xref:System.Runtime.InteropServices.SafeHandle> 对象的 <xref:System.Runtime.InteropServices.SafeHandle.Finalize%2A> 方法之前，该对象正在使用的资源不会被释放。  
+>  始终调用<xref:System.Runtime.InteropServices.SafeHandle.Close%2A>或<xref:System.Runtime.InteropServices.SafeHandle.Dispose%2A>发布到最后一个引用之前<xref:System.Runtime.InteropServices.SafeHandle>对象。 否则，在垃圾回收器调用 <xref:System.Runtime.InteropServices.SafeHandle> 对象的 <xref:System.Runtime.InteropServices.SafeHandle.Finalize%2A> 方法之前，该对象正在使用的资源不会被释放。  
   
  ]]></format>
         </remarks>
-        <permission cref="T:System.Security.Permissions.SecurityPermission">表示调用非托管的代码的权限。 安全操作： <see cref="F:System.Security.Permissions.SecurityAction.LinkDemand" />。 关联的枚举： <see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /></permission>
+        <permission cref="T:System.Security.Permissions.SecurityPermission">若要调用非托管的代码的权限。 安全操作： <see cref="F:System.Security.Permissions.SecurityAction.LinkDemand" />。 关联的枚举： <see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /></permission>
       </Docs>
     </Member>
     <Member MemberName="DangerousAddRef">
@@ -268,6 +271,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -304,14 +308,14 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Runtime.InteropServices.SafeHandle.DangerousAddRef%2A>方法会阻止公共语言运行时回收使用一个句柄的内存 (当运行时调用时会出现此情况<xref:System.Runtime.InteropServices.SafeHandle.ReleaseHandle%2A>方法)。 你可以使用此方法手动递增上的引用计数<xref:System.Runtime.InteropServices.SafeHandle>实例。 <xref:System.Runtime.InteropServices.SafeHandle.DangerousAddRef%2A> 返回布尔值使用`ref`参数 (`success`)，该值指示是否已成功递增引用计数。 这允许程序逻辑发生故障时回退。 应设置`success`到`false`之前调用<xref:System.Runtime.InteropServices.SafeHandle.DangerousAddRef%2A>。 如果`success`是`true`，匹配对的调用来避免资源泄漏<xref:System.Runtime.InteropServices.SafeHandle.DangerousAddRef%2A>与相应地调用<xref:System.Runtime.InteropServices.SafeHandle.DangerousRelease%2A>。  
+ <xref:System.Runtime.InteropServices.SafeHandle.DangerousAddRef%2A>方法会阻止公共语言运行时回收使用一个句柄的内存 (当运行时调用<xref:System.Runtime.InteropServices.SafeHandle.ReleaseHandle%2A>方法)。 可以使用此方法手动递增的引用计数<xref:System.Runtime.InteropServices.SafeHandle>实例。 <xref:System.Runtime.InteropServices.SafeHandle.DangerousAddRef%2A> 返回布尔值使用`ref`参数 (`success`)，该值指示是否已成功递增引用计数。 这允许回退发生故障时应用程序逻辑。 应设置`success`到`false`然后才能调用<xref:System.Runtime.InteropServices.SafeHandle.DangerousAddRef%2A>。 如果`success`是`true`，通过匹配对的调用来避免资源泄漏<xref:System.Runtime.InteropServices.SafeHandle.DangerousAddRef%2A>与相应地调用<xref:System.Runtime.InteropServices.SafeHandle.DangerousRelease%2A>。  
   
 > [!CAUTION]
->  此方法适用于高级用户，始终必须谨慎使用。 若要避免泄露句柄资源，始终内线程中止不会中断处理受约束的执行区域 (CER)，调用此方法。  
+>  此方法适用于高级用户，并始终必须谨慎使用。 若要避免泄露句柄资源，始终内线程中止不会中断处理受约束的执行区域 (CER) 调用此方法。  
   
  ]]></format>
         </remarks>
-        <permission cref="T:System.Security.Permissions.SecurityPermission">表示调用非托管的代码的权限。 安全操作： <see cref="F:System.Security.Permissions.SecurityAction.LinkDemand" />。 关联的枚举： <see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /></permission>
+        <permission cref="T:System.Security.Permissions.SecurityPermission">若要调用非托管的代码的权限。 安全操作： <see cref="F:System.Security.Permissions.SecurityAction.LinkDemand" />。 关联的枚举： <see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /></permission>
         <altmember cref="M:System.Runtime.InteropServices.SafeHandle.DangerousRelease" />
       </Docs>
     </Member>
@@ -329,6 +333,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -362,14 +367,14 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 你可以使用此方法从实例中检索实际句柄值<xref:System.Runtime.InteropServices.SafeHandle>派生类。 此方法所需的向后兼容性因为.NET Framework 中的许多属性返回`IntPtr`处理类型。 `IntPtr` 句柄类型是特定于平台的类型用于表示指针或句柄。  
+ 可以使用此方法检索的实例的实际句柄值<xref:System.Runtime.InteropServices.SafeHandle>派生的类。 此方法是所需的向后兼容性因为.NET Framework 中的许多属性返回`IntPtr`处理类型。 `IntPtr` 句柄类型是用来表示指针或句柄的特定于平台的类型。  
   
 > [!CAUTION]
->  使用<xref:System.Runtime.InteropServices.SafeHandle.DangerousGetHandle%2A>方法会造成安全风险，因为，如果句柄已标记为无效与<xref:System.Runtime.InteropServices.SafeHandle.SetHandleAsInvalid%2A>，<xref:System.Runtime.InteropServices.SafeHandle.DangerousGetHandle%2A>仍返回原始的、 可能失效的句柄值。 返回的句柄也可以是任何时候回收。 在最好的情况，这意味着该句柄可能会突然停止工作。 在坏的情况下，如果句柄或句柄表示的资源公开到不受信任的代码，这可能导致重新使用或返回句柄上的回收安全攻击。 例如，不受信任的调用方可以查询返回的只是句柄上的数据，并接收完全不相关的资源信息。 请参阅<xref:System.Runtime.InteropServices.SafeHandle.DangerousAddRef%2A>和<xref:System.Runtime.InteropServices.SafeHandle.DangerousRelease%2A>有关使用的详细信息的方法<xref:System.Runtime.InteropServices.SafeHandle.DangerousGetHandle%2A>方法。  
+>  使用<xref:System.Runtime.InteropServices.SafeHandle.DangerousGetHandle%2A>方法会造成安全风险，因为，如果该句柄已被标记为无效与<xref:System.Runtime.InteropServices.SafeHandle.SetHandleAsInvalid%2A>，<xref:System.Runtime.InteropServices.SafeHandle.DangerousGetHandle%2A>仍然会返回原始的、 可能失效的句柄值。 返回的句柄也可以是任何时候回收。 充其量，这意味着该句柄可能突然停止工作。 最坏的情形，如果向不受信任代码公开句柄或句柄表示的资源，这可能导致重复使用或返回句柄回收安全攻击。 例如，不受信任调用方可以查询返回的只是句柄上的数据并接收为完全不相关的资源的信息。 请参阅<xref:System.Runtime.InteropServices.SafeHandle.DangerousAddRef%2A>并<xref:System.Runtime.InteropServices.SafeHandle.DangerousRelease%2A>详细了解使用方法<xref:System.Runtime.InteropServices.SafeHandle.DangerousGetHandle%2A>方法。  
   
  ]]></format>
         </remarks>
-        <permission cref="T:System.Security.Permissions.SecurityPermission">表示调用非托管的代码的权限。 安全操作： <see cref="F:System.Security.Permissions.SecurityAction.LinkDemand" />。 关联的枚举： <see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /></permission>
+        <permission cref="T:System.Security.Permissions.SecurityPermission">若要调用非托管的代码的权限。 安全操作： <see cref="F:System.Security.Permissions.SecurityAction.LinkDemand" />。 关联的枚举： <see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /></permission>
       </Docs>
     </Member>
     <Member MemberName="DangerousRelease">
@@ -386,6 +391,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -418,14 +424,14 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Runtime.InteropServices.SafeHandle.DangerousRelease%2A>方法是对应于<xref:System.Runtime.InteropServices.SafeHandle.DangerousAddRef%2A>。 你应始终匹配调用<xref:System.Runtime.InteropServices.SafeHandle.DangerousRelease%2A>通过成功调用的方法<xref:System.Runtime.InteropServices.SafeHandle.DangerousAddRef%2A>。  
+ <xref:System.Runtime.InteropServices.SafeHandle.DangerousRelease%2A>方法是对的对应<xref:System.Runtime.InteropServices.SafeHandle.DangerousAddRef%2A>。 应始终与调用<xref:System.Runtime.InteropServices.SafeHandle.DangerousRelease%2A>方法通过成功调用<xref:System.Runtime.InteropServices.SafeHandle.DangerousAddRef%2A>。  
   
 > [!CAUTION]
->  此方法适用于高级用户，始终必须谨慎使用。 若要避免泄露句柄资源，始终内线程中止不会中断处理受约束的执行区域 (CER)，调用此方法。 同样，仅在<xref:System.Runtime.InteropServices.SafeHandle.DangerousAddRef%2A>调用都会导致资源泄漏，<xref:System.Runtime.InteropServices.SafeHandle.DangerousRelease%2A>调用都会导致无效句柄状态变得可见到其他线程。 不会公开<xref:System.Runtime.InteropServices.SafeHandle.DangerousAddRef%2A>或<xref:System.Runtime.InteropServices.SafeHandle.DangerousRelease%2A>对不受信任的代码的调用。  
+>  此方法适用于高级用户，并始终必须谨慎使用。 若要避免泄露句柄资源，始终内线程中止不会中断处理受约束的执行区域 (CER) 调用此方法。 同样，仅在<xref:System.Runtime.InteropServices.SafeHandle.DangerousAddRef%2A>调用可能会导致资源泄漏，<xref:System.Runtime.InteropServices.SafeHandle.DangerousRelease%2A>调用可能会导致无效的句柄状态变得可见的其他线程。 不会公开<xref:System.Runtime.InteropServices.SafeHandle.DangerousAddRef%2A>或<xref:System.Runtime.InteropServices.SafeHandle.DangerousRelease%2A>对不受信任代码的调用。  
   
  ]]></format>
         </remarks>
-        <permission cref="T:System.Security.Permissions.SecurityPermission">表示调用非托管的代码的权限。 安全操作： <see cref="F:System.Security.Permissions.SecurityAction.LinkDemand" />。 关联的枚举： <see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /></permission>
+        <permission cref="T:System.Security.Permissions.SecurityPermission">若要调用非托管的代码的权限。 安全操作： <see cref="F:System.Security.Permissions.SecurityAction.LinkDemand" />。 关联的枚举： <see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /></permission>
         <altmember cref="M:System.Runtime.InteropServices.SafeHandle.DangerousAddRef(System.Boolean@)" />
       </Docs>
     </Member>
@@ -455,6 +461,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -490,16 +497,16 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 调用<xref:System.Runtime.InteropServices.SafeHandle.Close%2A>或<xref:System.Runtime.InteropServices.SafeHandle.Dispose%2A>方法允许资源被释放。 这如果其他线程正在使用安全句柄的同一个实例时可能不会立即发生，但不再具备这种情况时，就会立即将发生这种情况。 虽然大多数类使用<xref:System.Runtime.InteropServices.SafeHandle>不需要提供了终结器，有时这是必要 （例如，来清空文件缓冲区或某些数据写回内存）。 在这种情况下，它们可以提供一个保证之前运行的终结器<xref:System.Runtime.InteropServices.SafeHandle>重要终结器运行。  
+ 调用<xref:System.Runtime.InteropServices.SafeHandle.Close%2A>或<xref:System.Runtime.InteropServices.SafeHandle.Dispose%2A>方法允许要释放的资源。 这如果其他线程正在使用安全句柄，在同一个实例时可能不会立即发生，但不再是这种情况时，就立即将发生这种情况。 尽管大多数类使用<xref:System.Runtime.InteropServices.SafeHandle>不需要提供终结器，这有时很有必要 （例如，若要清空文件缓冲区，或若要将一些数据写回到内存）。 在这种情况下，它们可以提供了终结器，保证在运行之前<xref:System.Runtime.InteropServices.SafeHandle>关键终结器运行。  
   
  调用<xref:System.Runtime.InteropServices.SafeHandle.Close%2A>或<xref:System.Runtime.InteropServices.SafeHandle.Dispose%2A>方法完成后使用<xref:System.Runtime.InteropServices.SafeHandle>对象。 <xref:System.Runtime.InteropServices.SafeHandle.Close%2A>方法使<xref:System.Runtime.InteropServices.SafeHandle>中不可用状态的对象。  
   
 > [!NOTE]
->  始终调用<xref:System.Runtime.InteropServices.SafeHandle.Close%2A>或<xref:System.Runtime.InteropServices.SafeHandle.Dispose%2A>方法在发布到最后一个引用之前<xref:System.Runtime.InteropServices.SafeHandle>对象。 否则，在垃圾回收器调用 <xref:System.Runtime.InteropServices.SafeHandle> 对象的 <xref:System.Runtime.InteropServices.SafeHandle.Finalize%2A> 方法之前，该对象正在使用的资源不会被释放。  
+>  始终调用<xref:System.Runtime.InteropServices.SafeHandle.Close%2A>或<xref:System.Runtime.InteropServices.SafeHandle.Dispose%2A>方法在发布到最后一个引用前<xref:System.Runtime.InteropServices.SafeHandle>对象。 否则，在垃圾回收器调用 <xref:System.Runtime.InteropServices.SafeHandle> 对象的 <xref:System.Runtime.InteropServices.SafeHandle.Finalize%2A> 方法之前，该对象正在使用的资源不会被释放。  
   
  ]]></format>
         </remarks>
-        <permission cref="T:System.Security.Permissions.SecurityPermission">表示调用非托管的代码的权限。 安全操作： <see cref="F:System.Security.Permissions.SecurityAction.LinkDemand" />。 关联的枚举： <see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /></permission>
+        <permission cref="T:System.Security.Permissions.SecurityPermission">若要调用非托管的代码的权限。 安全操作： <see cref="F:System.Security.Permissions.SecurityAction.LinkDemand" />。 关联的枚举： <see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /></permission>
       </Docs>
     </Member>
     <Member MemberName="Dispose">
@@ -516,6 +523,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -555,11 +563,11 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 你应永远不会显式调用<xref:System.Runtime.InteropServices.SafeHandle.Dispose%2A>方法替换`disposing`参数设置为`false`。  
+ 应永远不会显式调用<xref:System.Runtime.InteropServices.SafeHandle.Dispose%2A>方法替换`disposing`参数设置为`false`。  
   
  ]]></format>
         </remarks>
-        <permission cref="T:System.Security.Permissions.SecurityPermission">表示调用非托管的代码的权限。 安全操作： <see cref="F:System.Security.Permissions.SecurityAction.LinkDemand" />。 关联的枚举： <see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /></permission>
+        <permission cref="T:System.Security.Permissions.SecurityPermission">若要调用非托管的代码的权限。 安全操作： <see cref="F:System.Security.Permissions.SecurityAction.LinkDemand" />。 关联的枚举： <see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /></permission>
       </Docs>
     </Member>
     <Member MemberName="Finalize">
@@ -576,6 +584,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -608,11 +617,11 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Runtime.InteropServices.SafeHandle.Finalize%2A>方法是的析构函数<xref:System.Runtime.InteropServices.SafeHandle>类。 应用程序代码不应直接调用此方法。  
+ <xref:System.Runtime.InteropServices.SafeHandle.Finalize%2A>方法是为析构函数<xref:System.Runtime.InteropServices.SafeHandle>类。 应用程序代码不应直接调用此方法。  
   
  ]]></format>
         </remarks>
-        <permission cref="T:System.Security.Permissions.SecurityPermission">表示调用非托管的代码的权限。 安全操作： <see cref="F:System.Security.Permissions.SecurityAction.LinkDemand" />。 关联的枚举： <see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /></permission>
+        <permission cref="T:System.Security.Permissions.SecurityPermission">若要调用非托管的代码的权限。 安全操作： <see cref="F:System.Security.Permissions.SecurityAction.LinkDemand" />。 关联的枚举： <see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /></permission>
         <altmember cref="M:System.Runtime.InteropServices.SafeHandle.Dispose" />
       </Docs>
     </Member>
@@ -630,6 +639,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -676,6 +686,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -708,15 +719,15 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Runtime.InteropServices.SafeHandle.IsClosed%2A>方法返回一个值，该值指示是否<xref:System.Runtime.InteropServices.SafeHandle>对象的句柄不再与本机资源相关联。 这不同于的定义<xref:System.Runtime.InteropServices.SafeHandle.IsInvalid%2A>属性，用于计算是否给定句柄是否始终被视为无效。 <xref:System.Runtime.InteropServices.SafeHandle.IsClosed%2A>方法返回`true`在以下情况下的值：  
+ <xref:System.Runtime.InteropServices.SafeHandle.IsClosed%2A>方法返回一个值，该值指示是否<xref:System.Runtime.InteropServices.SafeHandle>对象的句柄将不再与本机资源关联。 这不同于定义<xref:System.Runtime.InteropServices.SafeHandle.IsInvalid%2A>属性，用于计算是否给定句柄将始终被视为无效。 <xref:System.Runtime.InteropServices.SafeHandle.IsClosed%2A>方法将返回`true`在以下情况下的值：  
   
--   <xref:System.Runtime.InteropServices.SafeHandle.SetHandleAsInvalid%2A>调用了方法。  
+-   <xref:System.Runtime.InteropServices.SafeHandle.SetHandleAsInvalid%2A>调用方法。  
   
--   <xref:System.Runtime.InteropServices.SafeHandle.Dispose%2A>方法或<xref:System.Runtime.InteropServices.SafeHandle.Close%2A>调用了方法，并且有没有对引用<xref:System.Runtime.InteropServices.SafeHandle>其他线程上的对象。  
+-   <xref:System.Runtime.InteropServices.SafeHandle.Dispose%2A>方法或<xref:System.Runtime.InteropServices.SafeHandle.Close%2A>调用方法并不没有为任何引用<xref:System.Runtime.InteropServices.SafeHandle>其他线程上的对象。  
   
  ]]></format>
         </remarks>
-        <permission cref="T:System.Security.Permissions.SecurityPermission">表示调用非托管的代码的权限。 安全操作： <see cref="F:System.Security.Permissions.SecurityAction.LinkDemand" />。 关联的枚举： <see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /></permission>
+        <permission cref="T:System.Security.Permissions.SecurityPermission">若要调用非托管的代码的权限。 安全操作： <see cref="F:System.Security.Permissions.SecurityAction.LinkDemand" />。 关联的枚举： <see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /></permission>
       </Docs>
     </Member>
     <Member MemberName="IsInvalid">
@@ -733,6 +744,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -765,20 +777,20 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 派生的类必须实现<xref:System.Runtime.InteropServices.SafeHandle.IsInvalid%2A>属性，以便公共语言运行时能够确定是否需要关键完成。 派生的类必须提供一个适合它们支持的句柄的常规类型的实现 （0 或-1 是无效的）。 这些类可以然后进一步派生为特定的安全句柄类型。  
+ 派生的类必须实现<xref:System.Runtime.InteropServices.SafeHandle.IsInvalid%2A>属性，以便公共语言运行时能够确定是否需要关键完成。 派生的类必须提供适合它们支持的句柄的常规类型的实现 （0 或-1 是无效的）。 这些类可以再进一步派生特定的安全句柄类型。  
   
- 与不同<xref:System.Runtime.InteropServices.SafeHandle.IsClosed%2A>属性，用于报告是否<xref:System.Runtime.InteropServices.SafeHandle>对象已完成使用基础句柄，<xref:System.Runtime.InteropServices.SafeHandle.IsInvalid%2A>属性前者是否给定句柄值是否始终被视为无效。 因此，<xref:System.Runtime.InteropServices.SafeHandle.IsInvalid%2A>属性始终返回相同的值的任何一个的句柄值。  
+ 与不同<xref:System.Runtime.InteropServices.SafeHandle.IsClosed%2A>属性，用于报告是否<xref:System.Runtime.InteropServices.SafeHandle>对象已完成使用基础句柄，<xref:System.Runtime.InteropServices.SafeHandle.IsInvalid%2A>属性计算是否给定句柄值将始终被视为无效。 因此，<xref:System.Runtime.InteropServices.SafeHandle.IsInvalid%2A>属性始终返回相同的值的任何一个句柄值。  
   
    
   
 ## Examples  
- 下面的示例检查已成功打开一个文件。 此代码示例摘自更大的示例为提供<xref:System.Runtime.InteropServices.SafeHandle>类。  
+ 以下示例检查已成功打开一个文件。 此代码示例是为提供一个更大示例的一部分<xref:System.Runtime.InteropServices.SafeHandle>类。  
   
  [!code-csharp[SafeHandle#2](~/samples/snippets/csharp/VS_Snippets_CLR/SafeHandle/CS/program.cs#2)]  
   
  ]]></format>
         </remarks>
-        <permission cref="T:System.Security.Permissions.SecurityPermission">表示调用非托管的代码的权限。 安全操作： <see cref="F:System.Security.Permissions.SecurityAction.LinkDemand" />。 关联的枚举： <see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /></permission>
+        <permission cref="T:System.Security.Permissions.SecurityPermission">若要调用非托管的代码的权限。 安全操作： <see cref="F:System.Security.Permissions.SecurityAction.LinkDemand" />。 关联的枚举： <see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /></permission>
       </Docs>
     </Member>
     <Member MemberName="ReleaseHandle">
@@ -795,6 +807,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -829,24 +842,24 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Runtime.InteropServices.SafeHandle.ReleaseHandle%2A>方法保证仅一次，并且仅当该句柄定义为有效时通过调用<xref:System.Runtime.InteropServices.SafeHandle.IsInvalid%2A>属性。 实现此方法在你<xref:System.Runtime.InteropServices.SafeHandle>派生类，以执行释放句柄所需的任何代码。 因为函数之一<xref:System.Runtime.InteropServices.SafeHandle>要保证防止资源泄漏中的实现的代码<xref:System.Runtime.InteropServices.SafeHandle.ReleaseHandle%2A>必须永远不会失败。 垃圾回收器调用<xref:System.Runtime.InteropServices.SafeHandle.ReleaseHandle%2A>常规终结器已运行了垃圾回收在同一时间的对象之后。 垃圾回收器可保证的资源来调用此方法并方法将不中断时正在进行。 此方法将准备作为受约束的执行区域 (CER) 中，在实例构造时 （以及其静态确定的调用关系图中的所有方法） 中。 尽管这会使线程中止中断，但是你仍必须注意不要引入在重写任何错误路径<xref:System.Runtime.InteropServices.SafeHandle.ReleaseHandle%2A>方法。 具体而言，适用<xref:System.Runtime.ConstrainedExecution.ReliabilityContractAttribute>属性设为从调用任何方法<xref:System.Runtime.InteropServices.SafeHandle.ReleaseHandle%2A>。 在大多数情况下应为此代码：  
+ <xref:System.Runtime.InteropServices.SafeHandle.ReleaseHandle%2A>方法保证将仅一次且仅当该句柄已定义的有效调用<xref:System.Runtime.InteropServices.SafeHandle.IsInvalid%2A>属性。 实现此方法在你<xref:System.Runtime.InteropServices.SafeHandle>派生类，以执行释放句柄所需的任何代码。 因为的函数之一<xref:System.Runtime.InteropServices.SafeHandle>是要保证防止资源泄漏中的实现代码<xref:System.Runtime.InteropServices.SafeHandle.ReleaseHandle%2A>必须永远不会失败。 垃圾回收器调用<xref:System.Runtime.InteropServices.SafeHandle.ReleaseHandle%2A>正常的终结器已运行了垃圾回收在同一时间的对象之后。 垃圾回收器保证调用此方法的资源，并且，该方法不会中断时它正在进行。 此方法将准备作为受约束的执行区域 (CER) 中，在实例构造时 （以及其静态确定的调用关系图中的所有方法） 中。 尽管这可防止线程中止中断，你仍必须小心以免引入中被重写任何错误路径<xref:System.Runtime.InteropServices.SafeHandle.ReleaseHandle%2A>方法。 具体而言，适用<xref:System.Runtime.ConstrainedExecution.ReliabilityContractAttribute>属性从调用任何方法为<xref:System.Runtime.InteropServices.SafeHandle.ReleaseHandle%2A>。 在大多数情况下应为此代码：  
   
  `ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)`  
   
- 此外，对于简单清理 (例如，调用 Win32 API`CloseHandle`上的文件句柄) 你可以检查单个平台 invoke 调用的返回值。 对于复杂清理，可能有大量程序逻辑和许多方法调用，其中一些可能会失败。 你必须确保程序逻辑的这种情况下每个具有回退的代码。  
+ 此外，对于简单的清理 (例如，调用 Win32 API`CloseHandle`上的文件句柄) 的单一平台调用中，可以检查返回值。 对于复杂清理，可能有大量程序逻辑和很多方法调用，其中一些可能会失败。 您必须确保应用程序逻辑的这种情况下每个具有回退的代码。  
   
- 如果<xref:System.Runtime.InteropServices.SafeHandle.ReleaseHandle%2A>返回`false`出于任何原因，它会生成[releaseHandleFailed](~/docs/framework/debug-trace-profile/releasehandlefailed-mda.md)托管调试助手。  这有助于检测你尝试释放资源无法正常工作的情况。  
+ 如果<xref:System.Runtime.InteropServices.SafeHandle.ReleaseHandle%2A>将返回`false`出于任何原因，它将生成[releaseHandleFailed](~/docs/framework/debug-trace-profile/releasehandlefailed-mda.md)托管调试助手。  这可帮助你检测尝试释放资源无法正常工作的情况。  
   
    
   
 ## Examples  
- 下面的代码示例释放句柄，并且是更大的示例为提供的一部分<xref:System.Runtime.InteropServices.SafeHandle>类。  
+ 下面的代码示例释放句柄，并且是为提供一个更大示例的一部分<xref:System.Runtime.InteropServices.SafeHandle>类。  
   
  [!code-csharp[SafeHandle#3](~/samples/snippets/csharp/VS_Snippets_CLR/SafeHandle/CS/program.cs#3)]  
   
  ]]></format>
         </remarks>
-        <permission cref="T:System.Security.Permissions.SecurityPermission">表示调用非托管的代码的权限。 安全操作： <see cref="F:System.Security.Permissions.SecurityAction.LinkDemand" />。 关联的枚举： <see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /></permission>
+        <permission cref="T:System.Security.Permissions.SecurityPermission">若要调用非托管的代码的权限。 安全操作： <see cref="F:System.Security.Permissions.SecurityAction.LinkDemand" />。 关联的枚举： <see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /></permission>
       </Docs>
     </Member>
     <Member MemberName="SetHandle">
@@ -863,6 +876,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -898,11 +912,11 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 使用<xref:System.Runtime.InteropServices.SafeHandle.SetHandle%2A>方法只有在需要支持预先存在的句柄 （例如，如果结构中返回的句柄），因为.NET Framework COM 互操作的基础结构不支持封送处理输出的结构中的句柄。  
+ 使用<xref:System.Runtime.InteropServices.SafeHandle.SetHandle%2A>方法仅在需要以支持预先存在的句柄 （例如，如果在结构中返回的句柄），因为.NET Framework COM 互操作基础结构不支持封送处理输出的结构中的句柄。  
   
  ]]></format>
         </remarks>
-        <permission cref="T:System.Security.Permissions.SecurityPermission">表示调用非托管的代码的权限。 安全操作： <see cref="F:System.Security.Permissions.SecurityAction.LinkDemand" />。 关联的枚举： <see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /></permission>
+        <permission cref="T:System.Security.Permissions.SecurityPermission">若要调用非托管的代码的权限。 安全操作： <see cref="F:System.Security.Permissions.SecurityAction.LinkDemand" />。 关联的枚举： <see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /></permission>
       </Docs>
     </Member>
     <Member MemberName="SetHandleAsInvalid">
@@ -919,6 +933,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -951,13 +966,13 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 调用<xref:System.Runtime.InteropServices.SafeHandle.SetHandleAsInvalid%2A>方法仅当你知道你句柄不再引用的资源时。 执行此操作不会更改的值<xref:System.Runtime.InteropServices.SafeHandle.handle>字段; 它仅标记句柄为已关闭。 然后，句柄可能包含一个潜在的陈旧的值。 此调用的效果是，不会释放资源。  
+ 调用<xref:System.Runtime.InteropServices.SafeHandle.SetHandleAsInvalid%2A>方法仅当您知道您的网名不再引用的资源时。 执行此操作不会更改的值<xref:System.Runtime.InteropServices.SafeHandle.handle>字段; 它仅标记句柄为已关闭。 然后，句柄可能包含可能已失效。 此调用的效果是不进行任何尝试释放资源。  
   
- 与<xref:System.Runtime.InteropServices.SafeHandle.SetHandle%2A>方法，请使用<xref:System.Runtime.InteropServices.SafeHandle.SetHandleAsInvalid%2A>仅当你需要支持预先存在的句柄。  
+ 如同<xref:System.Runtime.InteropServices.SafeHandle.SetHandle%2A>方法，请使用<xref:System.Runtime.InteropServices.SafeHandle.SetHandleAsInvalid%2A>仅当你需要支持预先存在的句柄。  
   
  ]]></format>
         </remarks>
-        <permission cref="T:System.Security.Permissions.SecurityPermission">表示调用非托管的代码的权限。 安全操作： <see cref="F:System.Security.Permissions.SecurityAction.LinkDemand" />。 关联的枚举： <see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /></permission>
+        <permission cref="T:System.Security.Permissions.SecurityPermission">若要调用非托管的代码的权限。 安全操作： <see cref="F:System.Security.Permissions.SecurityAction.LinkDemand" />。 关联的枚举： <see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /></permission>
       </Docs>
     </Member>
   </Members>

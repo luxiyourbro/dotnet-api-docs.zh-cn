@@ -1,11 +1,11 @@
 <Type Name="XmlTextWriter" FullName="System.Xml.XmlTextWriter">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="49897c0e8187ec4202e01dd0a5133ff531a85fe3" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="b72f839e15d51b96494ea6a16244fab95d106ec4" />
+    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="zh-CN" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36434129" />
+    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
+    <Meta Name="ms.locfileid" Value="37483310" />
   </Metadata>
   <TypeSignature Language="C#" Value="public class XmlTextWriter : System.Xml.XmlWriter" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit XmlTextWriter extends System.Xml.XmlWriter" />
@@ -15,6 +15,8 @@
   <TypeSignature Language="F#" Value="type XmlTextWriter = class&#xA;    inherit XmlWriter" />
   <AssemblyInfo>
     <AssemblyName>System.Xml</AssemblyName>
+    <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
     <AssemblyVersion>2.0.5.0</AssemblyVersion>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
   </AssemblyInfo>
@@ -33,7 +35,7 @@
   <Interfaces />
   <Attributes>
     <Attribute>
-      <AttributeName>System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)</AttributeName>
+      <AttributeName>System.ComponentModel.EditorBrowsable</AttributeName>
     </Attribute>
   </Attributes>
   <Docs>
@@ -45,9 +47,9 @@
  此类实现<xref:System.Xml.XmlWriter>类。  
   
 > [!NOTE]
->  从.NET Framework 2.0 开始，我们建议你创建<xref:System.Xml.XmlWriter>实例使用<xref:System.Xml.XmlWriter.Create%2A?displayProperty=nameWithType>方法和<xref:System.Xml.XmlWriterSettings>类以利用新功能。  
+>  从.NET Framework 2.0 开始，我们建议您创建<xref:System.Xml.XmlWriter>使用的实例<xref:System.Xml.XmlWriter.Create%2A?displayProperty=nameWithType>方法和<xref:System.Xml.XmlWriterSettings>类，以充分利用新功能。  
   
- `XmlTextWriter` 维护对应的当前元素堆栈中定义的所有命名空间的命名空间堆栈。 使用`XmlTextWriter`可以手动声明命名空间。  
+ `XmlTextWriter` 维护与当前元素堆栈中定义的所有命名空间对应的命名空间堆栈。 使用`XmlTextWriter`可以手动声明命名空间。  
   
 ```csharp  
 w.WriteStartElement("root");  
@@ -59,7 +61,7 @@ w.WriteAttributeString("xmlns", "x", null, "urn:1");
 w.WriteEndElement();  
 ```  
   
- 上面的 C# 代码生成以下输出。 `XmlTextWriter` 提升到要避免使其重复上两个子元素的根元素的命名空间声明。 子元素选取从命名空间声明的前缀。  
+ 上面的 C# 代码生成以下输出。 `XmlTextWriter` 将升级到根元素，以避免使其重复上两个子元素的命名空间声明。 子元素中选取从命名空间声明的前缀。  
   
 ```xml  
 <root xmlns:x="urn:1">  
@@ -68,14 +70,14 @@ w.WriteEndElement();
 </x:root>  
 ```  
   
- `XmlTextWriter` 此外允许你重写当前命名空间声明。 在下面的示例中，命名空间 URI"123"已由"abc"要生成的 XML 元素`<x:node xmlns:x="abc"/>`。  
+ `XmlTextWriter` 此外允许你重写当前命名空间声明。 在以下示例中，命名空间 URI"123""abc"要生成的 XML 元素通过重写`<x:node xmlns:x="abc"/>`。  
   
 ```csharp  
 w.WriteStartElement("x","node","123");  
 w.WriteAttributeString("xmlns","x",null,"abc");  
 ```  
   
- 通过使用需要作为自变量的前缀的写入方法还可以指定的前缀，以使用。 在下面的示例中，两个不同的前缀映射到相同的命名空间 URI 以产生的 XML 文本`<x:root xmlns:x="urn:1"><y:item xmlns:y="urn:1"/></x:root>`。  
+ 通过使用采用作为自变量的前缀的写入方法还可以指定要使用的前缀。 在以下示例中，两个不同的前缀映射到相同的命名空间 URI 生成的 XML 文本`<x:root xmlns:x="urn:1"><y:item xmlns:y="urn:1"/></x:root>`。  
   
 ```csharp  
 XmlTextWriter w = new XmlTextWriter(Console.Out);  
@@ -86,7 +88,7 @@ w.WriteEndElement();
 w.Close();  
 ```  
   
- 如果有多个命名空间声明将不同的前缀映射到相同的命名空间 URI，`XmlTextWriter`向后遍历的命名空间声明堆栈并选取最近一个命名空间。  
+ 如果有多个不同的前缀映射到同一个命名空间 URI 的命名空间声明`XmlTextWriter`向后遍历的命名空间声明堆栈并选取最近的一个。  
   
 ```csharp  
 XmlTextWriter w = new XmlTextWriter(Console.Out);  
@@ -99,7 +101,7 @@ w.WriteEndElement();
 w.Close();  
 ```  
   
- 在上面的 C# 示例，因为`WriteAttributeString`调用未指定前缀，编写器使用推送到命名空间堆栈上的最后一个前缀，并生成下面的 XML:  
+ 在上面的 C# 示例，因为`WriteAttributeString`调用未指定前缀，编写器使用推入命名空间堆栈的最后一个前缀，并将生成以下 XML:  
   
 ```xml  
 <x:root xmlns:x="urn:1">  
@@ -107,15 +109,15 @@ w.Close();
 </x:root>  
 ```  
   
- 如果发生命名空间冲突，`XmlTextWriter`解析它们通过生成的备用前缀。 例如，如果属性和元素具有相同前缀但不同的命名空间，`XmlWriter`生成的属性的备用前缀。 生成的前缀命名`n{i}`其中`i`是从 1 开始的数字。 编号重置为 1。 对于每个元素。  
+ 如果出现命名空间冲突，`XmlTextWriter`通过生成替换前缀来解决它们。 例如，如果某属性和元素具有相同前缀但不同的命名空间，`XmlWriter`生成替换前缀的属性。 生成的前缀命名`n{i}`其中`i`是从 1 开始的数字。 编号为 1。 对于每个元素重置。  
   
- 命名空间 URI 与关联的属性必须具有的前缀 （默认值特性不适用于命名空间）。 这符合 XML 建议中的 W3C 命名空间的第 5.2 节。 如果属性引用的命名空间 URI，但未指定前缀，则编写器将生成该属性的前缀。  
+ 与命名空间 URI 相关联的属性必须具有前缀 （默认值特性不适用于命名空间）。 这符合 XML 建议中的 W3C 命名空间的 5.2 部分。 如果属性引用命名空间 URI，但不是指定前缀，则编写器将生成属性的前缀。  
   
- 当编写空元素，额外的空间之间添加标记名称和结束标记，例如`<item />`。 这提供了与较旧的浏览器兼容性。  
+ 在编写时的空元素，一个额外的空格之间添加标记名称和结束标记，例如`<item />`。 这提供了与旧版浏览器兼容性。  
   
- 当`String`作为方法参数，使用`null`和`String.Empty`是等效的。 `String.Empty` 遵循 W3C 规则。  
+ 当`String`用作方法参数`null`和`String.Empty`是等效的。 `String.Empty` 遵循 W3C 规则。  
   
- 若要编写强类型化的数据，使用<xref:System.Xml.XmlConvert>类将数据类型转换为字符串。 例如，下面的 C# 代码将转换中的数据`Double`到`String`编写元素和`<price>19.95</price>`。  
+ 若要编写强类型化的数据，使用<xref:System.Xml.XmlConvert>类，以将数据类型转换为字符串。 例如，下面的 C# 代码将转换中的数据`Double`到`String`编写元素和`<price>19.95</price>`。  
   
 ```csharp  
 Double price = 19.95;  
@@ -126,24 +128,24 @@ writer.WriteElementString("price", XmlConvert.ToString(price));
   
 -   属性和元素名称中的无效字符。  
   
--   不符合指定的编码的 Unicode 字符。 如果指定的编码，不能容纳的 Unicode 字符`XmlTextWriter`未转义的 Unicode 字符到字符实体。  
+-   不符合指定的编码的 Unicode 字符。 如果 Unicode 字符不符合指定的编码，`XmlTextWriter`未转义的字符实体到 Unicode 字符。  
   
 -   重复的属性。  
   
--   DOCTYPE 公共标识符或系统标识符中的字符。  
+-   中的 DOCTYPE 公共标识符或系统标识符的字符。  
   
 ## <a name="security-considerations"></a>安全注意事项  
- 以下各项是需要时使用，请考虑事项<xref:System.Xml.XmlTextWriter>类。  
+ 以下各项是使用时应考虑的事项<xref:System.Xml.XmlTextWriter>类。  
   
--   引发的异常<xref:System.Xml.XmlTextWriter>可能会泄漏你不希望的路径信息冒泡由应用程序。 应用程序必须捕获异常并进行相应的处理。  
+-   引发的异常<xref:System.Xml.XmlTextWriter>可能会泄露冒泡到应用程序不希望的路径信息。 应用程序必须捕获异常并进行相应的处理。  
   
 -   在将 <xref:System.Xml.XmlTextWriter> 传递给另一个应用程序时，基础流会公开给该应用程序。 如果需要将 <xref:System.Xml.XmlTextWriter> 传递给不完全可信的应用程序，应使用通过 <xref:System.Xml.XmlWriter> 方法创建的 <xref:System.Xml.XmlWriter.Create%2A> 对象。  
   
--   <xref:System.Xml.XmlTextWriter>不会验证传递给任何数据<xref:System.Xml.XmlTextWriter.WriteDocType%2A>或<xref:System.Xml.XmlTextWriter.WriteRaw%2A>方法。 你不应将任意数据传递给这些方法。  
+-   <xref:System.Xml.XmlTextWriter>不会验证传递到任何数据<xref:System.Xml.XmlTextWriter.WriteDocType%2A>或<xref:System.Xml.XmlTextWriter.WriteRaw%2A>方法。 不应将任意数据传递给这些方法。  
   
--   如果更改默认设置，则不能保证生成的输出是格式良好的 XML 数据。  
+-   如果更改默认设置，则无法保证生成的输出是格式正确的 XML 数据。  
   
--   不接受支持组件，如<xref:System.Text.Encoding>中不受信任的源对象。  
+-   如不接受支持组件，<xref:System.Text.Encoding>来自受信任的源对象。  
   
  ]]></format>
     </remarks>
@@ -163,7 +165,7 @@ writer.WriteElementString("price", XmlConvert.ToString(price));
 ## Remarks  
   
 > [!NOTE]
->  从.NET Framework 2.0 开始，我们建议你创建<xref:System.Xml.XmlWriter>实例使用<xref:System.Xml.XmlWriter.Create%2A?displayProperty=nameWithType>方法和<xref:System.Xml.XmlWriterSettings>类以利用新功能。  
+>  从.NET Framework 2.0 开始，我们建议您创建<xref:System.Xml.XmlWriter>使用的实例<xref:System.Xml.XmlWriter.Create%2A?displayProperty=nameWithType>方法和<xref:System.Xml.XmlWriterSettings>类，以充分利用新功能。  
   
  ]]></format>
         </remarks>
@@ -179,6 +181,8 @@ writer.WriteElementString("price", XmlConvert.ToString(price));
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Xml</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -203,7 +207,7 @@ writer.WriteElementString("price", XmlConvert.ToString(price));
 ## Remarks  
   
 > [!NOTE]
->  从.NET Framework 2.0 开始，我们建议你创建<xref:System.Xml.XmlWriter>实例使用<xref:System.Xml.XmlWriter.Create%2A?displayProperty=nameWithType>方法和<xref:System.Xml.XmlWriterSettings>类以利用新功能。  
+>  从.NET Framework 2.0 开始，我们建议您创建<xref:System.Xml.XmlWriter>使用的实例<xref:System.Xml.XmlWriter.Create%2A?displayProperty=nameWithType>方法和<xref:System.Xml.XmlWriterSettings>类，以充分利用新功能。  
   
  ]]></format>
         </remarks>
@@ -218,6 +222,8 @@ writer.WriteElementString("price", XmlConvert.ToString(price));
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Xml</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -244,7 +250,7 @@ writer.WriteElementString("price", XmlConvert.ToString(price));
 ## Remarks  
   
 > [!NOTE]
->  从.NET Framework 2.0 开始，我们建议你创建<xref:System.Xml.XmlWriter>实例使用<xref:System.Xml.XmlWriter.Create%2A?displayProperty=nameWithType>方法和<xref:System.Xml.XmlWriterSettings>类以利用新功能。  
+>  从.NET Framework 2.0 开始，我们建议您创建<xref:System.Xml.XmlWriter>使用的实例<xref:System.Xml.XmlWriter.Create%2A?displayProperty=nameWithType>方法和<xref:System.Xml.XmlWriterSettings>类，以充分利用新功能。  
   
  ]]></format>
         </remarks>
@@ -262,6 +268,8 @@ writer.WriteElementString("price", XmlConvert.ToString(price));
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Xml</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -288,7 +296,7 @@ writer.WriteElementString("price", XmlConvert.ToString(price));
 ## Remarks  
   
 > [!NOTE]
->  从.NET Framework 2.0 开始，我们建议你创建<xref:System.Xml.XmlWriter>实例使用<xref:System.Xml.XmlWriter.Create%2A?displayProperty=nameWithType>方法和<xref:System.Xml.XmlWriterSettings>类以利用新功能。  
+>  从.NET Framework 2.0 开始，我们建议您创建<xref:System.Xml.XmlWriter>使用的实例<xref:System.Xml.XmlWriter.Create%2A?displayProperty=nameWithType>方法和<xref:System.Xml.XmlWriterSettings>类，以充分利用新功能。  
   
  ]]></format>
         </remarks>
@@ -310,6 +318,8 @@ writer.WriteElementString("price", XmlConvert.ToString(price));
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Xml</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -327,16 +337,16 @@ writer.WriteElementString("price", XmlConvert.ToString(price));
       </ReturnValue>
       <Docs>
         <summary>Gets the underlying stream object.</summary>
-        <value>向其流<see langword="XmlTextWriter" />是编写或<see langword="null" />如果<see langword="XmlTextWriter" />构造使用<see cref="T:System.IO.TextWriter" />不是继承自<see cref="T:System.IO.StreamWriter" />类。</value>
+        <value>到的流<see langword="XmlTextWriter" />是编写或<see langword="null" />如果<see langword="XmlTextWriter" />使用构造<see cref="T:System.IO.TextWriter" />不会继承从<see cref="T:System.IO.StreamWriter" />类。</value>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
   
 > [!NOTE]
->  从.NET Framework 2.0 开始，我们建议你创建<xref:System.Xml.XmlWriter>实例使用<xref:System.Xml.XmlWriter.Create%2A?displayProperty=nameWithType>方法和<xref:System.Xml.XmlWriterSettings>类以利用新功能。  
+>  从.NET Framework 2.0 开始，我们建议您创建<xref:System.Xml.XmlWriter>使用的实例<xref:System.Xml.XmlWriter.Create%2A?displayProperty=nameWithType>方法和<xref:System.Xml.XmlWriterSettings>类，以充分利用新功能。  
   
- 如果编写器已构造的使用`TextWriter`、 派生自`StreamWriter`类，此属性等效于<xref:System.IO.StreamWriter.BaseStream%2A?displayProperty=nameWithType>属性。 如果编写器已构造的使用<xref:System.IO.Stream>，此属性返回`Stream`传递到构造函数。 如果已使用的文件名称构造编写器，此属性返回`Stream`表示该文件。  
+ 如果编写器用来构造`TextWriter`派生自`StreamWriter`类，此属性等效于<xref:System.IO.StreamWriter.BaseStream%2A?displayProperty=nameWithType>属性。 如果编写器用来构造<xref:System.IO.Stream>，此属性返回`Stream`传递给构造函数。 如果编写器已构造的使用文件名，此属性返回`Stream`表示的文件。  
   
  ]]></format>
         </remarks>
@@ -352,6 +362,8 @@ writer.WriteElementString("price", XmlConvert.ToString(price));
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Xml</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -376,16 +388,16 @@ writer.WriteElementString("price", XmlConvert.ToString(price));
 ## Remarks  
   
 > [!NOTE]
->  从.NET Framework 2.0 开始，我们建议你创建<xref:System.Xml.XmlWriter>实例使用<xref:System.Xml.XmlWriter.Create%2A?displayProperty=nameWithType>方法和<xref:System.Xml.XmlWriterSettings>类以利用新功能。  
+>  从.NET Framework 2.0 开始，我们建议您创建<xref:System.Xml.XmlWriter>使用的实例<xref:System.Xml.XmlWriter.Create%2A?displayProperty=nameWithType>方法和<xref:System.Xml.XmlWriterSettings>类，以充分利用新功能。  
   
- 自动关闭任何元素或属性保持打开状态。  
+ 自动关闭的任何元素或属性保持打开状态。  
   
- 此方法不引发任何异常。  
+ 此方法不会引发任何异常。  
   
    
   
 ## Examples  
- 下面的示例将 XML 片段。  
+ 下面的示例写出 XML 片段。  
   
  [!code-cpp[Classic WebData XmlTextWriter.Formatting Example#1](~/samples/snippets/cpp/VS_Snippets_Data/Classic WebData XmlTextWriter.Formatting Example/CPP/source.cpp#1)]
  [!code-csharp[Classic WebData XmlTextWriter.Formatting Example#1](~/samples/snippets/csharp/VS_Snippets_Data/Classic WebData XmlTextWriter.Formatting Example/CS/source.cs#1)]
@@ -405,6 +417,8 @@ writer.WriteElementString("price", XmlConvert.ToString(price));
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Xml</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -429,14 +443,14 @@ writer.WriteElementString("price", XmlConvert.ToString(price));
 ## Remarks  
   
 > [!NOTE]
->  从.NET Framework 2.0 开始，我们建议你创建<xref:System.Xml.XmlWriter>实例使用<xref:System.Xml.XmlWriter.Create%2A?displayProperty=nameWithType>方法和<xref:System.Xml.XmlWriterSettings>类以利用新功能。  
+>  从.NET Framework 2.0 开始，我们建议您创建<xref:System.Xml.XmlWriter>使用的实例<xref:System.Xml.XmlWriter.Create%2A?displayProperty=nameWithType>方法和<xref:System.Xml.XmlWriterSettings>类，以充分利用新功能。  
   
- 这称为而不是<xref:System.Xml.XmlTextWriter.Close%2A>如果想要写入基础流但不丢失仍在缓冲区中。  
+ 这称为而不是<xref:System.Xml.XmlTextWriter.Close%2A>当你想要写入到基础流的详细信息而不会丢失仍在缓冲区中。  
   
    
   
 ## Examples  
- 下面的示例将写出两个 XML 片段。  
+ 下面的示例写出两个 XML 片段。  
   
  [!code-cpp[XmlTextWriter.Flush#1](~/samples/snippets/cpp/VS_Snippets_Data/XmlTextWriter.Flush/CPP/write2docs.cpp#1)]
  [!code-csharp[XmlTextWriter.Flush#1](~/samples/snippets/csharp/VS_Snippets_Data/XmlTextWriter.Flush/CS/write2docs.cs#1)]
@@ -456,6 +470,8 @@ writer.WriteElementString("price", XmlConvert.ToString(price));
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Xml</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -474,16 +490,16 @@ writer.WriteElementString("price", XmlConvert.ToString(price));
       <Docs>
         <summary>Indicates how the output is formatted.</summary>
         <value>
-          <see cref="T:System.Xml.Formatting" /> 值之一。 默认值是<see langword="Formatting.None" />（尚无特殊格式设置）。</value>
+          <see cref="T:System.Xml.Formatting" /> 值之一。 默认值是<see langword="Formatting.None" />（无特殊格式）。</value>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
   
 > [!NOTE]
->  从.NET Framework 2.0 开始，我们建议你创建<xref:System.Xml.XmlWriter>实例使用<xref:System.Xml.XmlWriter.Create%2A?displayProperty=nameWithType>方法和<xref:System.Xml.XmlWriterSettings>类以利用新功能。  
+>  从.NET Framework 2.0 开始，我们建议您创建<xref:System.Xml.XmlWriter>使用的实例<xref:System.Xml.XmlWriter.Create%2A?displayProperty=nameWithType>方法和<xref:System.Xml.XmlWriterSettings>类，以充分利用新功能。  
   
- 如果`Indented`选项设置、 子元素缩进使用<xref:System.Xml.XmlTextWriter.Indentation%2A>和<xref:System.Xml.XmlTextWriter.IndentChar%2A>属性。 仅元素内容将缩进。 下面的 C# 代码写出包括混合的内容的 HTML 元素：  
+ 如果`Indented`设置选项，则子元素将使用缩进<xref:System.Xml.XmlTextWriter.Indentation%2A>和<xref:System.Xml.XmlTextWriter.IndentChar%2A>属性。 缩进仅元素内容。 下面的 C# 代码写出 HTML 元素，包括混合的内容：  
   
 ```csharp  
 XmlTextWriter w = new XmlTextWriter(Console.Out);   
@@ -506,15 +522,15 @@ XmlTextWriter w = new XmlTextWriter(Console.Out);
 </ol>  
 ```  
   
- 这在 HTML 中查看时不出现空白粗体和斜体元素之间。 事实上，在此示例中，如果这些元素之间添加缩进"象"一词将是不正确地断开。  
+ 这在 HTML 中查看时不出现空白粗体和斜体元素之间。 事实上，在此示例中，如果这些元素之间添加缩进"大象"一词可能会错误地遭到破坏。  
   
 > [!NOTE]
->  写入内容，不包括任何文本`String.Empty`将该元素放入混合内容的模式。 子元素不会继承此"混合"模式状态。 "混合"元素的子元素进行缩进，除非它是还包含"混合"的内容。 元素内容 (http://www.w3.org/TR/1998/REC-xml-19980210#sec-element-content)和混合内容 (http://www.w3.org/TR/1998/REC-xml-19980210#sec-mixed-content)根据这些术语的 XML 1.0 定义定义。  
+>  编写内容，不包括任何文本`String.Empty`将该元素放入混合内容模式。 子元素不会继承此"混合"模式状态。 "混合"元素的子元素进行缩进，除非它是也包含"混合"的内容。 元素内容 (http://www.w3.org/TR/1998/REC-xml-19980210#sec-element-content)和混合内容 (http://www.w3.org/TR/1998/REC-xml-19980210#sec-mixed-content)根据 XML 1.0 定义这些术语的定义。  
   
    
   
 ## Examples  
- 下面的示例将 XML 片段。  
+ 下面的示例写出 XML 片段。  
   
  [!code-cpp[Classic WebData XmlTextWriter.Formatting Example#1](~/samples/snippets/cpp/VS_Snippets_Data/Classic WebData XmlTextWriter.Formatting Example/CPP/source.cpp#1)]
  [!code-csharp[Classic WebData XmlTextWriter.Formatting Example#1](~/samples/snippets/csharp/VS_Snippets_Data/Classic WebData XmlTextWriter.Formatting Example/CS/source.cs#1)]
@@ -535,6 +551,8 @@ XmlTextWriter w = new XmlTextWriter(Console.Out);
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Xml</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -559,9 +577,9 @@ XmlTextWriter w = new XmlTextWriter(Console.Out);
 ## Remarks  
   
 > [!NOTE]
->  从.NET Framework 2.0 开始，我们建议你创建<xref:System.Xml.XmlWriter>实例使用<xref:System.Xml.XmlWriter.Create%2A?displayProperty=nameWithType>方法和<xref:System.Xml.XmlWriterSettings>类以利用新功能。  
+>  从.NET Framework 2.0 开始，我们建议您创建<xref:System.Xml.XmlWriter>使用的实例<xref:System.Xml.XmlWriter.Create%2A?displayProperty=nameWithType>方法和<xref:System.Xml.XmlWriterSettings>类，以充分利用新功能。  
   
- 缩进执行对以下节点类型： `DocumentType`， `Element`， `Comment`， `ProcessingInstruction`，和`CDATASection`。 所有其他节点类型不受影响。 `XmlTextWriter`不缩进内部的 DTD 子集。 但是，无法执行以下操作来将格式应用于内部的 DTD 子集。  
+ 缩进对以下节点类型： `DocumentType`， `Element`， `Comment`， `ProcessingInstruction`，和`CDATASection`。 所有其他节点类型不受影响。 `XmlTextWriter`不缩进内部 DTD 子集。 但是，可以执行以下操作来将格式应用于内部 DTD 子集。  
   
 ```csharp  
 String name = "Employees";  
@@ -589,6 +607,8 @@ String subset =
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Xml</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -608,14 +628,14 @@ String subset =
         <summary>Gets or sets which character to use for indenting when <see cref="P:System.Xml.XmlTextWriter.Formatting" /> is set to <see langword="Formatting.Indented" />.</summary>
         <value>用于缩进的字符。 默认为空格。  
   
- <block subset="none" type="note"><para><see langword="XmlTextWriter" /> ，可将此属性设置为任何字符。若要确保 XML 有效，必须指定有效的空格字符 0x9、 0x10、 0x13 或 0x20。  </para></block></value>
+ <block subset="none" type="note"><para><see langword="XmlTextWriter" /> ，可将此属性设置为任何字符。若要确保 XML 有效，必须指定有效的空格字符，0x9 0x9、0x10、0x13 或 0x20。  </para></block></value>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
   
 > [!NOTE]
->  从.NET Framework 2.0 开始，我们建议你创建<xref:System.Xml.XmlWriter>实例使用<xref:System.Xml.XmlWriter.Create%2A?displayProperty=nameWithType>方法和<xref:System.Xml.XmlWriterSettings>类以利用新功能。  
+>  从.NET Framework 2.0 开始，我们建议您创建<xref:System.Xml.XmlWriter>使用的实例<xref:System.Xml.XmlWriter.Create%2A?displayProperty=nameWithType>方法和<xref:System.Xml.XmlWriterSettings>类，以充分利用新功能。  
   
  ]]></format>
         </remarks>
@@ -633,6 +653,8 @@ String subset =
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Xml</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -661,12 +683,12 @@ String subset =
 ## Remarks  
   
 > [!NOTE]
->  从.NET Framework 2.0 开始，我们建议你创建<xref:System.Xml.XmlWriter>实例使用<xref:System.Xml.XmlWriter.Create%2A?displayProperty=nameWithType>方法和<xref:System.Xml.XmlWriterSettings>类以利用新功能。  
+>  从.NET Framework 2.0 开始，我们建议您创建<xref:System.Xml.XmlWriter>使用的实例<xref:System.Xml.XmlWriter.Create%2A?displayProperty=nameWithType>方法和<xref:System.Xml.XmlWriterSettings>类，以充分利用新功能。  
   
    
   
 ## Examples  
- 下面的示例将写出一本书。  
+ 下面的示例写出一本书。  
   
  [!code-cpp[Classic WebData XmlTextWriter.WriteStartElement Example#1](~/samples/snippets/cpp/VS_Snippets_Data/Classic WebData XmlTextWriter.WriteStartElement Example/CPP/source.cpp#1)]
  [!code-csharp[Classic WebData XmlTextWriter.WriteStartElement Example#1](~/samples/snippets/csharp/VS_Snippets_Data/Classic WebData XmlTextWriter.WriteStartElement Example/CS/source.cs#1)]
@@ -688,6 +710,8 @@ String subset =
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Xml</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -713,7 +737,7 @@ String subset =
 ## Remarks  
   
 > [!NOTE]
->  从.NET Framework 2.0 开始，我们建议你创建<xref:System.Xml.XmlWriter>实例使用<xref:System.Xml.XmlWriter.Create%2A?displayProperty=nameWithType>方法和<xref:System.Xml.XmlWriterSettings>类以利用新功能。  
+>  从.NET Framework 2.0 开始，我们建议您创建<xref:System.Xml.XmlWriter>使用的实例<xref:System.Xml.XmlWriter.Create%2A?displayProperty=nameWithType>方法和<xref:System.Xml.XmlWriterSettings>类，以充分利用新功能。  
   
  此属性确定编写器是否支持位于 www.w3.org/TR/REC-xml-names XML 建议中的 W3C 命名空间。  
   
@@ -732,6 +756,8 @@ String subset =
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Xml</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -756,7 +782,7 @@ String subset =
 ## Remarks  
   
 > [!NOTE]
->  从.NET Framework 2.0 开始，我们建议你创建<xref:System.Xml.XmlWriter>实例使用<xref:System.Xml.XmlWriter.Create%2A?displayProperty=nameWithType>方法和<xref:System.Xml.XmlWriterSettings>类以利用新功能。  
+>  从.NET Framework 2.0 开始，我们建议您创建<xref:System.Xml.XmlWriter>使用的实例<xref:System.Xml.XmlWriter.Create%2A?displayProperty=nameWithType>方法和<xref:System.Xml.XmlWriterSettings>类，以充分利用新功能。  
   
  ]]></format>
         </remarks>
@@ -773,6 +799,8 @@ String subset =
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Xml</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -804,12 +832,12 @@ String subset =
 ## Remarks  
   
 > [!NOTE]
->  从.NET Framework 2.0 开始，我们建议你创建<xref:System.Xml.XmlWriter>实例使用<xref:System.Xml.XmlWriter.Create%2A?displayProperty=nameWithType>方法和<xref:System.Xml.XmlWriterSettings>类以利用新功能。  
+>  从.NET Framework 2.0 开始，我们建议您创建<xref:System.Xml.XmlWriter>使用的实例<xref:System.Xml.XmlWriter.Create%2A?displayProperty=nameWithType>方法和<xref:System.Xml.XmlWriterSettings>类，以充分利用新功能。  
   
    
   
 ## Examples  
- 下面的示例将编码输入的文件使用`WriteBase64`并生成一个临时 XML 文件。 临时 XML 文件进行解码使用<xref:System.Xml.XmlTextReader.ReadBase64%2A>方法和与原始文件进行比较。  
+ 下面的示例将编码输入的文件使用`WriteBase64`并生成临时 XML 文件。 临时 XML 文件进行解码使用<xref:System.Xml.XmlTextReader.ReadBase64%2A>方法并向原始文件进行比较。  
   
  [!code-cpp[XmlWriter.WriteBase64#1](~/samples/snippets/cpp/VS_Snippets_Data/XmlWriter.WriteBase64/CPP/writebase64.cpp#1)]
  [!code-csharp[XmlWriter.WriteBase64#1](~/samples/snippets/csharp/VS_Snippets_Data/XmlWriter.WriteBase64/CS/writebase64.cs#1)]
@@ -835,6 +863,8 @@ String subset =
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Xml</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -866,7 +896,7 @@ String subset =
 ## Remarks  
   
 > [!NOTE]
->  从.NET Framework 2.0 开始，我们建议你创建<xref:System.Xml.XmlWriter>实例使用<xref:System.Xml.XmlWriter.Create%2A?displayProperty=nameWithType>方法和<xref:System.Xml.XmlWriterSettings>类以利用新功能。  
+>  从.NET Framework 2.0 开始，我们建议您创建<xref:System.Xml.XmlWriter>使用的实例<xref:System.Xml.XmlWriter.Create%2A?displayProperty=nameWithType>方法和<xref:System.Xml.XmlWriterSettings>类，以充分利用新功能。  
   
  ]]></format>
         </remarks>
@@ -888,6 +918,8 @@ String subset =
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Xml</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -915,9 +947,9 @@ String subset =
 ## Remarks  
   
 > [!NOTE]
->  从.NET Framework 2.0 开始，我们建议你创建<xref:System.Xml.XmlWriter>实例使用<xref:System.Xml.XmlWriter.Create%2A?displayProperty=nameWithType>方法和<xref:System.Xml.XmlWriterSettings>类以利用新功能。  
+>  从.NET Framework 2.0 开始，我们建议您创建<xref:System.Xml.XmlWriter>使用的实例<xref:System.Xml.XmlWriter.Create%2A?displayProperty=nameWithType>方法和<xref:System.Xml.XmlWriterSettings>类，以充分利用新功能。  
   
- 如果`text`是`null`或`String.Empty`，此方法将写入到空 CDATA 块中，例如\<！ [CDATA]]]></format>
+ 如果`text`可以是`null`或`String.Empty`，此方法会写入一个空的 CDATA 块，例如\<！ [CDATA]]]></format>
         </remarks>
         <exception cref="T:System.ArgumentException">The text would result in a non-well formed XML document.</exception>
         <exception cref="T:System.InvalidOperationException">The <see cref="P:System.Xml.XmlTextWriter.WriteState" /> is <see langword="Closed" />.</exception>
@@ -933,6 +965,8 @@ String subset =
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Xml</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -960,14 +994,14 @@ String subset =
 ## Remarks  
   
 > [!NOTE]
->  从.NET Framework 2.0 开始，我们建议你创建<xref:System.Xml.XmlWriter>实例使用<xref:System.Xml.XmlWriter.Create%2A?displayProperty=nameWithType>方法和<xref:System.Xml.XmlWriterSettings>类以利用新功能。  
+>  从.NET Framework 2.0 开始，我们建议您创建<xref:System.Xml.XmlWriter>使用的实例<xref:System.Xml.XmlWriter.Create%2A?displayProperty=nameWithType>方法和<xref:System.Xml.XmlWriterSettings>类，以充分利用新功能。  
   
- 此方法以十六进制字符实体引用格式写入的 Unicode 字符。  
+ 此方法中的十六进制字符实体引用格式写入 Unicode 字符。  
   
    
   
 ## Examples  
- 下面的示例使用`WriteCharEntity`方法写入电子邮件地址。  
+ 下面的示例使用`WriteCharEntity`方法编写电子邮件地址。  
   
  [!code-cpp[Classic WebData XmlTextWriter.WriteTimeSpan Example#1](~/samples/snippets/cpp/VS_Snippets_Data/Classic WebData XmlTextWriter.WriteTimeSpan Example/CPP/source.cpp#1)]
  [!code-csharp[Classic WebData XmlTextWriter.WriteTimeSpan Example#1](~/samples/snippets/csharp/VS_Snippets_Data/Classic WebData XmlTextWriter.WriteTimeSpan Example/CS/source.cs#1)]
@@ -989,6 +1023,8 @@ String subset =
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Xml</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1020,13 +1056,13 @@ String subset =
 ## Remarks  
   
 > [!NOTE]
->  从.NET Framework 2.0 开始，我们建议你创建<xref:System.Xml.XmlWriter>实例使用<xref:System.Xml.XmlWriter.Create%2A?displayProperty=nameWithType>方法和<xref:System.Xml.XmlWriterSettings>类以利用新功能。  
+>  从.NET Framework 2.0 开始，我们建议您创建<xref:System.Xml.XmlWriter>使用的实例<xref:System.Xml.XmlWriter.Create%2A?displayProperty=nameWithType>方法和<xref:System.Xml.XmlWriterSettings>类，以充分利用新功能。  
   
- 此方法可以用于一次写入大量的文本一个缓冲区。  
+ 此方法可用于一次写入大量的文本一个缓冲区。  
   
- 必须进行特殊处理以确保`WriteChars`方法没有将代理项对字符拆分跨多个缓冲区写入。 XML 规范定义的有效范围为代理项对。  
+ 必须进行特殊处理以确保`WriteChars`方法不会跨多个缓冲区写入不拆分代理项对字符。 XML 规范定义的有效范围为代理项对。  
   
- 如果这将导致代理项对字符进行 split 缓冲区中写入代理项对字符，将引发异常。  
+ 如果这会导致代理项对字符被拆分缓冲区中写入代理项对字符，将引发异常。  
   
    
   
@@ -1052,6 +1088,8 @@ String subset =
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Xml</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1079,14 +1117,14 @@ String subset =
 ## Remarks  
   
 > [!NOTE]
->  从.NET Framework 2.0 开始，我们建议你创建<xref:System.Xml.XmlWriter>实例使用<xref:System.Xml.XmlWriter.Create%2A?displayProperty=nameWithType>方法和<xref:System.Xml.XmlWriterSettings>类以利用新功能。  
+>  从.NET Framework 2.0 开始，我们建议您创建<xref:System.Xml.XmlWriter>使用的实例<xref:System.Xml.XmlWriter.Create%2A?displayProperty=nameWithType>方法和<xref:System.Xml.XmlWriterSettings>类，以充分利用新功能。  
   
- 如果`text`是`null`或`String.Empty`，此方法将写入`Comment`没有数据内容，例如\<！--->。  
+ 如果`text`可以是`null`或`String.Empty`，此方法写入`Comment`不包含数据内容，例如\<！--->。  
   
    
   
 ## Examples  
- 下面的示例编写一个表示书的 XML 文件。  
+ 以下示例将编写一个表示一书的 XML 文件。  
   
  [!code-cpp[Classic WebData XmlTextWriter.WriteStartDocument Example#1](~/samples/snippets/cpp/VS_Snippets_Data/Classic WebData XmlTextWriter.WriteStartDocument Example/CPP/source.cpp#1)]
  [!code-csharp[Classic WebData XmlTextWriter.WriteStartDocument Example#1](~/samples/snippets/csharp/VS_Snippets_Data/Classic WebData XmlTextWriter.WriteStartDocument Example/CS/source.cs#1)]
@@ -1108,6 +1146,8 @@ String subset =
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Xml</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1141,17 +1181,17 @@ String subset =
 ## Remarks  
   
 > [!NOTE]
->  从.NET Framework 2.0 开始，我们建议你创建<xref:System.Xml.XmlWriter>实例使用<xref:System.Xml.XmlWriter.Create%2A?displayProperty=nameWithType>方法和<xref:System.Xml.XmlWriterSettings>类以利用新功能。  
+>  从.NET Framework 2.0 开始，我们建议您创建<xref:System.Xml.XmlWriter>使用的实例<xref:System.Xml.XmlWriter.Create%2A?displayProperty=nameWithType>方法和<xref:System.Xml.XmlWriterSettings>类，以充分利用新功能。  
   
  此方法不会检查中的无效字符`pubid`，`sysid`或`subset`。 它也不会检查内部子集的格式正确。  
   
 > [!IMPORTANT]
->  <xref:System.Xml.XmlTextWriter>不会验证传递给任何数据<xref:System.Xml.XmlTextWriter.WriteDocType%2A>方法。 你不应将任意数据传递给此方法。  
+>  <xref:System.Xml.XmlTextWriter>不会验证传递到任何数据<xref:System.Xml.XmlTextWriter.WriteDocType%2A>方法。 不应将任意数据传递给此方法。  
   
    
   
 ## Examples  
- 下面的示例编写一个表示书的 XML 文件。  
+ 以下示例将编写一个表示一书的 XML 文件。  
   
  [!code-cpp[Classic WebData XmlTextWriter.WriteStartDocument Example#1](~/samples/snippets/cpp/VS_Snippets_Data/Classic WebData XmlTextWriter.WriteStartDocument Example/CPP/source.cpp#1)]
  [!code-csharp[Classic WebData XmlTextWriter.WriteStartDocument Example#1](~/samples/snippets/csharp/VS_Snippets_Data/Classic WebData XmlTextWriter.WriteStartDocument Example/CS/source.cs#1)]
@@ -1174,6 +1214,8 @@ String subset =
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Xml</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1198,16 +1240,16 @@ String subset =
 ## Remarks  
   
 > [!NOTE]
->  从.NET Framework 2.0 开始，我们建议你创建<xref:System.Xml.XmlWriter>实例使用<xref:System.Xml.XmlWriter.Create%2A?displayProperty=nameWithType>方法和<xref:System.Xml.XmlWriterSettings>类以利用新功能。  
+>  从.NET Framework 2.0 开始，我们建议您创建<xref:System.Xml.XmlWriter>使用的实例<xref:System.Xml.XmlWriter.Create%2A?displayProperty=nameWithType>方法和<xref:System.Xml.XmlWriterSettings>类，以充分利用新功能。  
   
- 如果调用`WriteStartAttribute`，你可以使用此方法关闭该属性。  
+ 如果调用`WriteStartAttribute`，可以使用此方法关闭该属性。  
   
- 你还可以通过调用关闭属性`WriteStartAttribute`同样，调用<xref:System.Xml.XmlWriter.WriteAttributeString%2A>，或调用<xref:System.Xml.XmlTextWriter.WriteEndElement%2A>。  
+ 此外可以通过调用来关闭该属性`WriteStartAttribute`同样，调用<xref:System.Xml.XmlWriter.WriteAttributeString%2A>，或调用<xref:System.Xml.XmlTextWriter.WriteEndElement%2A>。  
   
    
   
 ## Examples  
- 下面的示例将写出一本书。  
+ 下面的示例写出一本书。  
   
  [!code-cpp[Classic WebData XmlTextWriter.WriteStartElement Example#1](~/samples/snippets/cpp/VS_Snippets_Data/Classic WebData XmlTextWriter.WriteStartElement Example/CPP/source.cpp#1)]
  [!code-csharp[Classic WebData XmlTextWriter.WriteStartElement Example#1](~/samples/snippets/csharp/VS_Snippets_Data/Classic WebData XmlTextWriter.WriteStartElement Example/CS/source.cs#1)]
@@ -1227,6 +1269,8 @@ String subset =
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Xml</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1251,12 +1295,12 @@ String subset =
 ## Remarks  
   
 > [!NOTE]
->  从.NET Framework 2.0 开始，我们建议你创建<xref:System.Xml.XmlWriter>实例使用<xref:System.Xml.XmlWriter.Create%2A?displayProperty=nameWithType>方法和<xref:System.Xml.XmlWriterSettings>类以利用新功能。  
+>  从.NET Framework 2.0 开始，我们建议您创建<xref:System.Xml.XmlWriter>使用的实例<xref:System.Xml.XmlWriter.Create%2A?displayProperty=nameWithType>方法和<xref:System.Xml.XmlWriterSettings>类，以充分利用新功能。  
   
    
   
 ## Examples  
- 下面的示例编写一个表示书的 XML 文件。  
+ 以下示例将编写一个表示一书的 XML 文件。  
   
  [!code-cpp[Classic WebData XmlTextWriter.WriteStartDocument Example#1](~/samples/snippets/cpp/VS_Snippets_Data/Classic WebData XmlTextWriter.WriteStartDocument Example/CPP/source.cpp#1)]
  [!code-csharp[Classic WebData XmlTextWriter.WriteStartDocument Example#1](~/samples/snippets/csharp/VS_Snippets_Data/Classic WebData XmlTextWriter.WriteStartDocument Example/CS/source.cs#1)]
@@ -1277,6 +1321,8 @@ String subset =
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Xml</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1301,14 +1347,14 @@ String subset =
 ## Remarks  
   
 > [!NOTE]
->  从.NET Framework 2.0 开始，我们建议你创建<xref:System.Xml.XmlWriter>实例使用<xref:System.Xml.XmlWriter.Create%2A?displayProperty=nameWithType>方法和<xref:System.Xml.XmlWriterSettings>类以利用新功能。  
+>  从.NET Framework 2.0 开始，我们建议您创建<xref:System.Xml.XmlWriter>使用的实例<xref:System.Xml.XmlWriter.Create%2A?displayProperty=nameWithType>方法和<xref:System.Xml.XmlWriterSettings>类，以充分利用新功能。  
   
- 如果元素不包含内容短结束标记"/ >"写入;否则写入完整的结束标记。  
+ 如果该元素不包含任何内容较短结束标记"/ >"编写;否则编写完整的结束标记。  
   
    
   
 ## Examples  
- 下面的示例编写一个表示书的 XML 文件。  
+ 以下示例将编写一个表示一书的 XML 文件。  
   
  [!code-cpp[Classic WebData XmlTextWriter.WriteEndElement Example#1](~/samples/snippets/cpp/VS_Snippets_Data/Classic WebData XmlTextWriter.WriteEndElement Example/CPP/source.cpp#1)]
  [!code-csharp[Classic WebData XmlTextWriter.WriteEndElement Example#1](~/samples/snippets/csharp/VS_Snippets_Data/Classic WebData XmlTextWriter.WriteEndElement Example/CS/source.cs#1)]
@@ -1328,6 +1374,8 @@ String subset =
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Xml</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1355,12 +1403,12 @@ String subset =
 ## Remarks  
   
 > [!NOTE]
->  从.NET Framework 2.0 开始，我们建议你创建<xref:System.Xml.XmlWriter>实例使用<xref:System.Xml.XmlWriter.Create%2A?displayProperty=nameWithType>方法和<xref:System.Xml.XmlWriterSettings>类以利用新功能。  
+>  从.NET Framework 2.0 开始，我们建议您创建<xref:System.Xml.XmlWriter>使用的实例<xref:System.Xml.XmlWriter.Create%2A?displayProperty=nameWithType>方法和<xref:System.Xml.XmlWriterSettings>类，以充分利用新功能。  
   
    
   
 ## Examples  
- 下面的示例编写一个表示书的 XML 文件。  
+ 以下示例将编写一个表示一书的 XML 文件。  
   
  [!code-cpp[Classic WebData XmlTextWriter.WriteStartDocument Example#1](~/samples/snippets/cpp/VS_Snippets_Data/Classic WebData XmlTextWriter.WriteStartDocument Example/CPP/source.cpp#1)]
  [!code-csharp[Classic WebData XmlTextWriter.WriteStartDocument Example#1](~/samples/snippets/csharp/VS_Snippets_Data/Classic WebData XmlTextWriter.WriteStartDocument Example/CS/source.cs#1)]
@@ -1381,6 +1429,8 @@ String subset =
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Xml</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1405,14 +1455,14 @@ String subset =
 ## Remarks  
   
 > [!NOTE]
->  从.NET Framework 2.0 开始，我们建议你创建<xref:System.Xml.XmlWriter>实例使用<xref:System.Xml.XmlWriter.Create%2A?displayProperty=nameWithType>方法和<xref:System.Xml.XmlWriterSettings>类以利用新功能。  
+>  从.NET Framework 2.0 开始，我们建议您创建<xref:System.Xml.XmlWriter>使用的实例<xref:System.Xml.XmlWriter.Create%2A?displayProperty=nameWithType>方法和<xref:System.Xml.XmlWriterSettings>类，以充分利用新功能。  
   
- 此方法始终写入完整的结束标记。 必须包括完整的结束标记的元素在处理时，这非常有用。 例如，浏览器要求 HTML 脚本块与要关闭" \< />"。  
+ 此方法始终写入完整的结束标记。 处理元素必须包括完整的结束标记时，这很有用。 例如，浏览器要求 HTML 脚本块与要关闭" \< /脚本 >"。  
   
    
   
 ## Examples  
- 下面的示例将写出具有任何内容的元素。 它使用 WriteFullEndElement 写入完整的结束元素标记。  
+ 下面的示例写出包含任何内容的元素。 它使用 WriteFullEndElement 编写完整的结束元素标记。  
   
  [!code-cpp[Classic WebData XmlTextWriter.WriteFullEndElement Example#1](~/samples/snippets/cpp/VS_Snippets_Data/Classic WebData XmlTextWriter.WriteFullEndElement Example/CPP/source.cpp#1)]
  [!code-csharp[Classic WebData XmlTextWriter.WriteFullEndElement Example#1](~/samples/snippets/csharp/VS_Snippets_Data/Classic WebData XmlTextWriter.WriteFullEndElement Example/CS/source.cs#1)]
@@ -1432,6 +1482,8 @@ String subset =
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Xml</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1459,9 +1511,9 @@ String subset =
 ## Remarks  
   
 > [!NOTE]
->  从.NET Framework 2.0 开始，我们建议你创建<xref:System.Xml.XmlWriter>实例使用<xref:System.Xml.XmlWriter.Create%2A?displayProperty=nameWithType>方法和<xref:System.Xml.XmlWriterSettings>类以利用新功能。  
+>  从.NET Framework 2.0 开始，我们建议您创建<xref:System.Xml.XmlWriter>使用的实例<xref:System.Xml.XmlWriter.Create%2A?displayProperty=nameWithType>方法和<xref:System.Xml.XmlWriterSettings>类，以充分利用新功能。  
   
- 如果<xref:System.Xml.XmlTextWriter.Namespaces%2A>设置为`true`，`WriteName`还会检查的名称也是根据 XML 建议中的 W3C 命名空间有效。  
+ 如果<xref:System.Xml.XmlTextWriter.Namespaces%2A>设置为`true`，`WriteName`还会检查该名称也是根据 XML 建议中的 W3C 命名空间有效。  
   
  ]]></format>
         </remarks>
@@ -1479,6 +1531,8 @@ String subset =
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Xml</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1506,7 +1560,7 @@ String subset =
 ## Remarks  
   
 > [!NOTE]
->  从.NET Framework 2.0 开始，我们建议你创建<xref:System.Xml.XmlWriter>实例使用<xref:System.Xml.XmlWriter.Create%2A?displayProperty=nameWithType>方法和<xref:System.Xml.XmlWriterSettings>类以利用新功能。  
+>  从.NET Framework 2.0 开始，我们建议您创建<xref:System.Xml.XmlWriter>使用的实例<xref:System.Xml.XmlWriter.Create%2A?displayProperty=nameWithType>方法和<xref:System.Xml.XmlWriterSettings>类，以充分利用新功能。  
   
  ]]></format>
         </remarks>
@@ -1524,6 +1578,8 @@ String subset =
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Xml</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1553,14 +1609,14 @@ String subset =
 ## Remarks  
   
 > [!NOTE]
->  从.NET Framework 2.0 开始，我们建议你创建<xref:System.Xml.XmlWriter>实例使用<xref:System.Xml.XmlWriter.Create%2A?displayProperty=nameWithType>方法和<xref:System.Xml.XmlWriterSettings>类以利用新功能。  
+>  从.NET Framework 2.0 开始，我们建议您创建<xref:System.Xml.XmlWriter>使用的实例<xref:System.Xml.XmlWriter.Create%2A?displayProperty=nameWithType>方法和<xref:System.Xml.XmlWriterSettings>类，以充分利用新功能。  
   
- 如果`text`是`null`或`String.Empty`，此方法将写入`ProcessingInstruction`没有数据内容，例如\<？ 名称？ >。  
+ 如果`text`可以是`null`或`String.Empty`，此方法写入`ProcessingInstruction`不包含数据内容，例如\<？ 名称？ >。  
   
    
   
 ## Examples  
- 下面的示例编写一个表示书的 XML 文件。  
+ 以下示例将编写一个表示一书的 XML 文件。  
   
  [!code-cpp[Classic WebData XmlTextWriter.WriteStartDocument Example#1](~/samples/snippets/cpp/VS_Snippets_Data/Classic WebData XmlTextWriter.WriteStartDocument Example/CPP/source.cpp#1)]
  [!code-csharp[Classic WebData XmlTextWriter.WriteStartDocument Example#1](~/samples/snippets/csharp/VS_Snippets_Data/Classic WebData XmlTextWriter.WriteStartDocument Example/CS/source.cs#1)]
@@ -1583,6 +1639,8 @@ String subset =
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Xml</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1612,7 +1670,7 @@ String subset =
 ## Remarks  
   
 > [!NOTE]
->  从.NET Framework 2.0 开始，我们建议你创建<xref:System.Xml.XmlWriter>实例使用<xref:System.Xml.XmlWriter.Create%2A?displayProperty=nameWithType>方法和<xref:System.Xml.XmlWriterSettings>类以利用新功能。  
+>  从.NET Framework 2.0 开始，我们建议您创建<xref:System.Xml.XmlWriter>使用的实例<xref:System.Xml.XmlWriter.Create%2A?displayProperty=nameWithType>方法和<xref:System.Xml.XmlWriterSettings>类，以充分利用新功能。  
   
  例如，下面的 Microsoft Visual C# 代码：  
   
@@ -1640,14 +1698,14 @@ writer.WriteStartElement("root");
   
  如果`ns`生成映射到当前默认命名空间，没有前缀。  
   
- 如果在编写属性值时，此方法将生成前缀`ns`找不到。 在编写元素内容时，如果引发了异常`ns`找不到。  
+ 如果在编写属性值时，此方法将生成一个前缀`ns`找不到。 在编写元素内容时，会引发异常，如果`ns`找不到。  
   
- 如果此编写器支持命名空间 (<xref:System.Xml.XmlTextWriter.Namespaces%2A>设置为`true`)，此方法还检查该名称是否有效根据 XML 建议中的 W3C 命名空间 (http://www.w3.org/TR/REC-xml-names)。  
+ 如果此编写器支持的命名空间 (<xref:System.Xml.XmlTextWriter.Namespaces%2A>设置为`true`)，此方法还会检查该名称是否有效根据 XML 建议中的 W3C 命名空间 (http://www.w3.org/TR/REC-xml-names)。  
   
    
   
 ## Examples  
- 下面的示例将写出 XSD 架构的一部分。  
+ 下面的示例写出 XSD 架构的一部分。  
   
  [!code-cpp[Classic WebData XmlTextWriter.WriteQualifiedName Example#1](~/samples/snippets/cpp/VS_Snippets_Data/Classic WebData XmlTextWriter.WriteQualifiedName Example/CPP/source.cpp#1)]
  [!code-csharp[Classic WebData XmlTextWriter.WriteQualifiedName Example#1](~/samples/snippets/csharp/VS_Snippets_Data/Classic WebData XmlTextWriter.WriteQualifiedName Example/CS/source.cs#1)]
@@ -1675,7 +1733,7 @@ writer.WriteStartElement("root");
 ## Remarks  
   
 > [!NOTE]
->  从.NET Framework 2.0 开始，我们建议你创建<xref:System.Xml.XmlWriter>实例使用<xref:System.Xml.XmlWriter.Create%2A?displayProperty=nameWithType>方法和<xref:System.Xml.XmlWriterSettings>类以利用新功能。  
+>  从.NET Framework 2.0 开始，我们建议您创建<xref:System.Xml.XmlWriter>使用的实例<xref:System.Xml.XmlWriter.Create%2A?displayProperty=nameWithType>方法和<xref:System.Xml.XmlWriterSettings>类，以充分利用新功能。  
   
  ]]></format>
         </remarks>
@@ -1691,6 +1749,8 @@ writer.WriteStartElement("root");
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Xml</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1718,12 +1778,12 @@ writer.WriteStartElement("root");
 ## Remarks  
   
 > [!NOTE]
->  从.NET Framework 2.0 开始，我们建议你创建<xref:System.Xml.XmlWriter>实例使用<xref:System.Xml.XmlWriter.Create%2A?displayProperty=nameWithType>方法和<xref:System.Xml.XmlWriterSettings>类以利用新功能。  
+>  从.NET Framework 2.0 开始，我们建议您创建<xref:System.Xml.XmlWriter>使用的实例<xref:System.Xml.XmlWriter.Create%2A?displayProperty=nameWithType>方法和<xref:System.Xml.XmlWriterSettings>类，以充分利用新功能。  
   
- 此方法未转义特殊字符。  
+ 此方法不转义特殊字符。  
   
 > [!IMPORTANT]
->  <xref:System.Xml.XmlTextWriter>不会验证传递给任何数据<xref:System.Xml.XmlTextWriter.WriteRaw%2A>方法。 你不应将任意数据传递给此方法。  
+>  <xref:System.Xml.XmlTextWriter>不会验证传递到任何数据<xref:System.Xml.XmlTextWriter.WriteRaw%2A>方法。 不应将任意数据传递给此方法。  
   
    
   
@@ -1748,6 +1808,8 @@ writer.WriteStartElement("root");
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Xml</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1779,12 +1841,12 @@ writer.WriteStartElement("root");
 ## Remarks  
   
 > [!NOTE]
->  从.NET Framework 2.0 开始，我们建议你创建<xref:System.Xml.XmlWriter>实例使用<xref:System.Xml.XmlWriter.Create%2A?displayProperty=nameWithType>方法和<xref:System.Xml.XmlWriterSettings>类以利用新功能。  
+>  从.NET Framework 2.0 开始，我们建议您创建<xref:System.Xml.XmlWriter>使用的实例<xref:System.Xml.XmlWriter.Create%2A?displayProperty=nameWithType>方法和<xref:System.Xml.XmlWriterSettings>类，以充分利用新功能。  
   
- 此方法未转义特殊字符。  
+ 此方法不转义特殊字符。  
   
 > [!IMPORTANT]
->  <xref:System.Xml.XmlTextWriter>不会验证传递给任何数据<xref:System.Xml.XmlTextWriter.WriteRaw%2A>方法。 你不应将任意数据传递给此方法。  
+>  <xref:System.Xml.XmlTextWriter>不会验证传递到任何数据<xref:System.Xml.XmlTextWriter.WriteRaw%2A>方法。 不应将任意数据传递给此方法。  
   
  ]]></format>
         </remarks>
@@ -1804,6 +1866,8 @@ writer.WriteStartElement("root");
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Xml</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1838,14 +1902,14 @@ writer.WriteStartElement("root");
 ## Remarks  
   
 > [!NOTE]
->  从.NET Framework 2.0 开始，我们建议你创建<xref:System.Xml.XmlWriter>实例使用<xref:System.Xml.XmlWriter.Create%2A?displayProperty=nameWithType>方法和<xref:System.Xml.XmlWriterSettings>类以利用新功能。  
+>  从.NET Framework 2.0 开始，我们建议您创建<xref:System.Xml.XmlWriter>使用的实例<xref:System.Xml.XmlWriter.Create%2A?displayProperty=nameWithType>方法和<xref:System.Xml.XmlWriterSettings>类，以充分利用新功能。  
   
- 这是更高级的版本<xref:System.Xml.XmlWriter.WriteAttributeString%2A>，允许您写入属性值使用多个写方法，如<xref:System.Xml.XmlTextWriter.WriteString%2A>。  
+ 这是更高级的版本<xref:System.Xml.XmlWriter.WriteAttributeString%2A>，可用于写入属性值使用多个写入方法，如<xref:System.Xml.XmlTextWriter.WriteString%2A>。  
   
    
   
 ## Examples  
- 下面的示例将写出一本书。  
+ 下面的示例写出一本书。  
   
  [!code-cpp[Classic WebData XmlTextWriter.WriteStartElement Example#1](~/samples/snippets/cpp/VS_Snippets_Data/Classic WebData XmlTextWriter.WriteStartElement Example/CPP/source.cpp#1)]
  [!code-csharp[Classic WebData XmlTextWriter.WriteStartElement Example#1](~/samples/snippets/csharp/VS_Snippets_Data/Classic WebData XmlTextWriter.WriteStartElement Example/CS/source.cs#1)]
@@ -1872,7 +1936,7 @@ writer.WriteStartElement("root");
 ## Remarks  
   
 > [!NOTE]
->  从.NET Framework 2.0 开始，我们建议你创建<xref:System.Xml.XmlWriter>实例使用<xref:System.Xml.XmlWriter.Create%2A?displayProperty=nameWithType>方法和<xref:System.Xml.XmlWriterSettings>类以利用新功能。  
+>  从.NET Framework 2.0 开始，我们建议您创建<xref:System.Xml.XmlWriter>使用的实例<xref:System.Xml.XmlWriter.Create%2A?displayProperty=nameWithType>方法和<xref:System.Xml.XmlWriterSettings>类，以充分利用新功能。  
   
  ]]></format>
         </remarks>
@@ -1888,6 +1952,8 @@ writer.WriteStartElement("root");
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Xml</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1912,18 +1978,18 @@ writer.WriteStartElement("root");
 ## Remarks  
   
 > [!NOTE]
->  从.NET Framework 2.0 开始，我们建议你创建<xref:System.Xml.XmlWriter>实例使用<xref:System.Xml.XmlWriter.Create%2A?displayProperty=nameWithType>方法和<xref:System.Xml.XmlWriterSettings>类以利用新功能。  
+>  从.NET Framework 2.0 开始，我们建议您创建<xref:System.Xml.XmlWriter>使用的实例<xref:System.Xml.XmlWriter.Create%2A?displayProperty=nameWithType>方法和<xref:System.Xml.XmlWriterSettings>类，以充分利用新功能。  
   
- 由编写器的实现方式确定文档的编码级别。 例如，如果<xref:System.Text.Encoding>中指定的对象`XmlTextWriter`构造函数，这将确定编码属性的值。 此方法不创建出独立特性。  
+ 由编写器的实现方式确定文档的编码级别。 例如，如果<xref:System.Text.Encoding>中指定对象`XmlTextWriter`构造函数中，这决定了编码属性的值。 此方法不创建独立属性。  
   
- 当`WriteStartDocument`称为编写器验证你正在编写是否格式良好的 XML 文档。 例如，它会检查 XML 声明是第一个节点，其中一个，并仅有一个根级元素存在，依此类推。 如果未调用此方法，该编写器将假定 XML 片段写入，则并且不应用任何根级别规则。  
+ 当`WriteStartDocument`调用编写器验证你正在编写是格式正确的 XML 文档。 例如，它会检查 XML 声明是第一个节点，一个并只有一个根级别元素存在，等等。 如果未调用此方法，编写器将假定 XML 片段写入，并且不应用任何根级别规则。  
   
  如果`WriteStartDocument`已调用，然后<xref:System.Xml.XmlTextWriter.WriteProcessingInstruction%2A>方法用于创建另一个 XML 声明，则会引发异常。  
   
    
   
 ## Examples  
- 下面的示例编写一个表示书的 XML 文件。  
+ 以下示例将编写一个表示一书的 XML 文件。  
   
  [!code-cpp[Classic WebData XmlTextWriter.WriteStartDocument Example#1](~/samples/snippets/cpp/VS_Snippets_Data/Classic WebData XmlTextWriter.WriteStartDocument Example/CPP/source.cpp#1)]
  [!code-csharp[Classic WebData XmlTextWriter.WriteStartDocument Example#1](~/samples/snippets/csharp/VS_Snippets_Data/Classic WebData XmlTextWriter.WriteStartDocument Example/CS/source.cs#1)]
@@ -1944,6 +2010,8 @@ writer.WriteStartElement("root");
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Xml</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1971,11 +2039,11 @@ writer.WriteStartElement("root");
 ## Remarks  
   
 > [!NOTE]
->  从.NET Framework 2.0 开始，我们建议你创建<xref:System.Xml.XmlWriter>实例使用<xref:System.Xml.XmlWriter.Create%2A?displayProperty=nameWithType>方法和<xref:System.Xml.XmlWriterSettings>类以利用新功能。  
+>  从.NET Framework 2.0 开始，我们建议您创建<xref:System.Xml.XmlWriter>使用的实例<xref:System.Xml.XmlWriter.Create%2A?displayProperty=nameWithType>方法和<xref:System.Xml.XmlWriterSettings>类，以充分利用新功能。  
   
- 由编写器的实现方式确定文档的编码级别。 例如，如果<xref:System.Text.Encoding>中指定的对象`XmlTextWriter`构造函数，这将确定编码属性的值。  
+ 由编写器的实现方式确定文档的编码级别。 例如，如果<xref:System.Text.Encoding>中指定对象`XmlTextWriter`构造函数中，这决定了编码属性的值。  
   
- 当`WriteStartDocument`称为编写器验证你正在编写是否格式良好的 XML 文档。 例如，它会检查 XML 声明是第一个节点，其中一个，并仅有一个根级元素存在，依此类推。 如果未调用此方法，该编写器将假定 XML 片段写入，则并且不应用任何根级别规则。  
+ 当`WriteStartDocument`调用编写器验证你正在编写是格式正确的 XML 文档。 例如，它会检查 XML 声明是第一个节点，一个并只有一个根级别元素存在，等等。 如果未调用此方法，编写器将假定 XML 片段写入，并且不应用任何根级别规则。  
   
  如果`WriteStartDocument`已调用，然后<xref:System.Xml.XmlTextWriter.WriteProcessingInstruction%2A>方法用于创建另一个 XML 声明，则会引发异常。  
   
@@ -1994,6 +2062,8 @@ writer.WriteStartElement("root");
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Xml</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -2025,14 +2095,14 @@ writer.WriteStartElement("root");
 ## Remarks  
   
 > [!NOTE]
->  从.NET Framework 2.0 开始，我们建议你创建<xref:System.Xml.XmlWriter>实例使用<xref:System.Xml.XmlWriter.Create%2A?displayProperty=nameWithType>方法和<xref:System.Xml.XmlWriterSettings>类以利用新功能。  
+>  从.NET Framework 2.0 开始，我们建议您创建<xref:System.Xml.XmlWriter>使用的实例<xref:System.Xml.XmlWriter.Create%2A?displayProperty=nameWithType>方法和<xref:System.Xml.XmlWriterSettings>类，以充分利用新功能。  
   
- 调用此方法您可以编写属性或创建之后内容使用<xref:System.Xml.XmlTextWriter.WriteComment%2A>， <xref:System.Xml.XmlTextWriter.WriteString%2A>，或<xref:System.Xml.XmlTextWriter.WriteStartElement%2A>子元素。 你可以关闭具有元素<xref:System.Xml.XmlTextWriter.WriteEndElement%2A>哪些时间结束标记写出。  
+ 调用此方法可以写入属性也可以创建后使用的内容<xref:System.Xml.XmlTextWriter.WriteComment%2A>， <xref:System.Xml.XmlTextWriter.WriteString%2A>，或<xref:System.Xml.XmlTextWriter.WriteStartElement%2A>的子元素。 你可以关闭具有元素<xref:System.Xml.XmlTextWriter.WriteEndElement%2A>中哪些时间结束标记写出。  
   
    
   
 ## Examples  
- 下面的示例将写出一本书。  
+ 下面的示例写出一本书。  
   
  [!code-cpp[Classic WebData XmlTextWriter.WriteStartElement Example#1](~/samples/snippets/cpp/VS_Snippets_Data/Classic WebData XmlTextWriter.WriteStartElement Example/CPP/source.cpp#1)]
  [!code-csharp[Classic WebData XmlTextWriter.WriteStartElement Example#1](~/samples/snippets/csharp/VS_Snippets_Data/Classic WebData XmlTextWriter.WriteStartElement Example/CS/source.cs#1)]
@@ -2053,6 +2123,8 @@ writer.WriteStartElement("root");
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Xml</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -2078,7 +2150,7 @@ writer.WriteStartElement("root");
 ## Remarks  
   
 > [!NOTE]
->  从.NET Framework 2.0 开始，我们建议你创建<xref:System.Xml.XmlWriter>实例使用<xref:System.Xml.XmlWriter.Create%2A?displayProperty=nameWithType>方法和<xref:System.Xml.XmlWriterSettings>类以利用新功能。  
+>  从.NET Framework 2.0 开始，我们建议您创建<xref:System.Xml.XmlWriter>使用的实例<xref:System.Xml.XmlWriter.Create%2A?displayProperty=nameWithType>方法和<xref:System.Xml.XmlWriterSettings>类，以充分利用新功能。  
   
  ]]></format>
         </remarks>
@@ -2094,6 +2166,8 @@ writer.WriteStartElement("root");
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Xml</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -2121,28 +2195,28 @@ writer.WriteStartElement("root");
 ## Remarks  
   
 > [!NOTE]
->  从.NET Framework 2.0 开始，我们建议你创建<xref:System.Xml.XmlWriter>实例使用<xref:System.Xml.XmlWriter.Create%2A?displayProperty=nameWithType>方法和<xref:System.Xml.XmlWriterSettings>类以利用新功能。  
+>  从.NET Framework 2.0 开始，我们建议您创建<xref:System.Xml.XmlWriter>使用的实例<xref:System.Xml.XmlWriter.Create%2A?displayProperty=nameWithType>方法和<xref:System.Xml.XmlWriterSettings>类，以充分利用新功能。  
   
- `WriteString` 执行以下  
+ `WriteString` 执行以下任务  
   
--   字符`&`， `<`，和`>`使用替换`&amp;`， `&lt;`，和`&gt;`分别。  
+-   字符`&`， `<`，并`>`替换为`&amp;`， `&lt;`，并`&gt;`分别。  
   
--   在范围 0 x-0x1F （不包括空白字符 0x9、 0xA 和 0xD） 中的字符值替换为数字字符实体 (`&#0;`通过`&#0x1F`)。  
+-   在范围 0-0x1f （不包括空白字符 0x9、 0xA 和 0xD） 中的字符值替换为数字字符实体 (`&#0;`通过`&#0x1F`)。  
   
--   如果`WriteString`调用在属性值的上下文中，双引号和单引号会用替换`&quot;`和`&apos;`分别。  
+-   如果`WriteString`调用中的属性值的上下文中，双引号和单引号将替换`&quot;`和`&apos;`分别。  
   
- 例如，输入字符串`test<item>test`编写为  
+ 例如，此输入字符串`test<item>test`编写为  
   
 ```  
 test&lt;item&gt;test  
 ```  
   
- 如果`text`是`null`或`String.Empty`，此方法将写入任何数据内容的文本节点。  
+ 如果`text`可以是`null`或`String.Empty`，此方法会写入任何数据内容的文本节点。  
   
    
   
 ## Examples  
- 下面的示例将 XML 片段。  
+ 下面的示例写出 XML 片段。  
   
  [!code-cpp[Classic WebData XmlTextWriter.Formatting Example#1](~/samples/snippets/cpp/VS_Snippets_Data/Classic WebData XmlTextWriter.Formatting Example/CPP/source.cpp#1)]
  [!code-csharp[Classic WebData XmlTextWriter.Formatting Example#1](~/samples/snippets/csharp/VS_Snippets_Data/Classic WebData XmlTextWriter.Formatting Example/CS/source.cs#1)]
@@ -2163,6 +2237,8 @@ test&lt;item&gt;test
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Xml</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -2192,15 +2268,15 @@ test&lt;item&gt;test
 ## Remarks  
   
 > [!NOTE]
->  从.NET Framework 2.0 开始，我们建议你创建<xref:System.Xml.XmlWriter>实例使用<xref:System.Xml.XmlWriter.Create%2A?displayProperty=nameWithType>方法和<xref:System.Xml.XmlWriterSettings>类以利用新功能。  
+>  从.NET Framework 2.0 开始，我们建议您创建<xref:System.Xml.XmlWriter>使用的实例<xref:System.Xml.XmlWriter.Create%2A?displayProperty=nameWithType>方法和<xref:System.Xml.XmlWriterSettings>类，以充分利用新功能。  
   
  此方法仅适用于使用 utf-16 编码的系统。  
   
- 以十六进制格式写入代理项字符实体。 代理项字符的范围是`#x10000`到`#x10FFFF`。 以下公式用于生成代理项字符实体: (`highChar` - `0xD800`) * `0x400` + (`lowChar` - `0xDC00`) + `0x10000`。  
+ 代理项字符实体以十六进制格式编写。 代理项字符的范围是`#x10000`到`#x10FFFF`。 下面的公式用于生成代理项字符实体: (`highChar` - `0xD800`) * `0x400` + (`lowChar` - `0xDC00`) + `0x10000`。  
   
- 对于 HTML 和 XML，文档的字符集 （和数字字符引用的表示法） 基于 UCS [ISO 10646]。 源文档中的单个数字字符引用可能会因此在某些情况下对应于字符串 （一个高代理项和低代理项） 中的两个 16 位单位。 这些 16 位单位称为代理项对。  
+ 对于 HTML 和 XML，文档字符集 （和数字字符引用表示法） 基于 UCS [ISO 10646]。 源文档中的单个数字字符引用可能会因此在某些情况下对应于字符串 （一个高代理项和低代理项） 中的两个 16 位单位。 这些 16 位单元称为代理项对。  
   
- 有关代理项或多个字符的详细信息，请参阅的部分 3.7 的 Unicode 标准 3.0/Unicode 2.0 位于http://www.unicode.org，或 W3C XML 1.0 建议的第 2.2 节位于http://www.w3.org/TR/REC-xml#charsets。  
+ 有关代理项或多个字符的详细信息，请参阅的部分 3.7 的 Unicode 标准 3.0/Unicode 2.0 位于http://www.unicode.org，或在位于 W3C XML 1.0 建议的第 2.2 节http://www.w3.org/TR/REC-xml#charsets。  
   
  ]]></format>
         </remarks>
@@ -2217,6 +2293,8 @@ test&lt;item&gt;test
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Xml</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -2244,14 +2322,14 @@ test&lt;item&gt;test
 ## Remarks  
   
 > [!NOTE]
->  从.NET Framework 2.0 开始，我们建议你创建<xref:System.Xml.XmlWriter>实例使用<xref:System.Xml.XmlWriter.Create%2A?displayProperty=nameWithType>方法和<xref:System.Xml.XmlWriterSettings>类以利用新功能。  
+>  从.NET Framework 2.0 开始，我们建议您创建<xref:System.Xml.XmlWriter>使用的实例<xref:System.Xml.XmlWriter.Create%2A?displayProperty=nameWithType>方法和<xref:System.Xml.XmlWriterSettings>类，以充分利用新功能。  
   
- 此方法用于手动格式化文档。 使用<xref:System.Xml.XmlTextWriter.Formatting%2A>属性自动设置输出格式编写。  
+ 此方法用于手动格式化文档。 使用<xref:System.Xml.XmlTextWriter.Formatting%2A>属性能够自动格式化输出的编写器。  
   
    
   
 ## Examples  
- 下面的示例使用`WriteWhitespace`方法可控制该文件的格式。  
+ 下面的示例使用`WriteWhitespace`方法可控制如何设置该文件的格式。  
   
  [!code-cpp[Classic WebData XmlTextWriter.XmlSpace Example#1](~/samples/snippets/cpp/VS_Snippets_Data/Classic WebData XmlTextWriter.XmlSpace Example/CPP/source.cpp#1)]
  [!code-csharp[Classic WebData XmlTextWriter.XmlSpace Example#1](~/samples/snippets/csharp/VS_Snippets_Data/Classic WebData XmlTextWriter.XmlSpace Example/CS/source.cs#1)]
@@ -2273,6 +2351,8 @@ test&lt;item&gt;test
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Xml</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -2290,16 +2370,16 @@ test&lt;item&gt;test
       </ReturnValue>
       <Docs>
         <summary>Gets the current <see langword="xml:lang" /> scope.</summary>
-        <value>当前<see langword="xml:lang" />或<see langword="null" />如果没有任何<see langword="xml:lang" />当前作用域中。</value>
+        <value>当前<see langword="xml:lang" />或<see langword="null" />是否存在任何<see langword="xml:lang" />当前作用域中。</value>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
   
 > [!NOTE]
->  从.NET Framework 2.0 开始，我们建议你创建<xref:System.Xml.XmlWriter>实例使用<xref:System.Xml.XmlWriter.Create%2A?displayProperty=nameWithType>方法和<xref:System.Xml.XmlWriterSettings>类以利用新功能。  
+>  从.NET Framework 2.0 开始，我们建议您创建<xref:System.Xml.XmlWriter>使用的实例<xref:System.Xml.XmlWriter.Create%2A?displayProperty=nameWithType>方法和<xref:System.Xml.XmlWriterSettings>类，以充分利用新功能。  
   
- 此属性允许要找出哪些状态另一个组件已离开的编写器中的一个组件。 例如，可能是一个组件想要告诉另一个要生成的语言帮助文本。 通过编写通信的语言信息`xml:lang`属性。  
+ 此属性允许要找出所处的状态的另一个组件已离开的编写器中的一个组件。 例如，可能是一个组件希望告知另一要生成哪些语言的帮助文本。 语言信息传递通过编写`xml:lang`属性。  
   
  ]]></format>
         </remarks>
@@ -2315,6 +2395,8 @@ test&lt;item&gt;test
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Xml</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -2335,21 +2417,21 @@ test&lt;item&gt;test
         <value>
           <see langword="XmlSpace" />表示当前<see langword="xml:space" />作用域。  
   
- <list type="table"><listheader><term> 值</term><description>含义</description></listheader><item><term>无</term><description>这是默认值，如果没有<see langword="xml:space" />存在的作用域。</description></item><item><term> 默认</term><description>当前作用域是<see langword="xml:space" />="default"。</description></item><item><term> 保留</term><description>当前作用域是<see langword="xml:space" />="preserve"。  </description></item></list></value>
+ <list type="table"><listheader><term> 值</term><description>含义</description></listheader><item><term> None </term><description>这是默认值，如果没有<see langword="xml:space" />存在的作用域。</description></item><item><term> 默认值</term><description>当前作用域是<see langword="xml:space" />="default"。</description></item><item><term> 保留</term><description>当前作用域是<see langword="xml:space" />="preserve"。  </description></item></list></value>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
   
 > [!NOTE]
->  从.NET Framework 2.0 开始，我们建议你创建<xref:System.Xml.XmlWriter>实例使用<xref:System.Xml.XmlWriter.Create%2A?displayProperty=nameWithType>方法和<xref:System.Xml.XmlWriterSettings>类以利用新功能。  
+>  从.NET Framework 2.0 开始，我们建议您创建<xref:System.Xml.XmlWriter>使用的实例<xref:System.Xml.XmlWriter.Create%2A?displayProperty=nameWithType>方法和<xref:System.Xml.XmlWriterSettings>类，以充分利用新功能。  
   
- 此属性允许一个组件，若要了解在什么状态另一个组件已离开编写器。  
+ 此属性允许一个要找出在什么状态另一个组件已离开编写器的组件。  
   
    
   
 ## Examples  
- 下面的示例使用`WriteWhitespace`方法可控制该文件的格式。  
+ 下面的示例使用`WriteWhitespace`方法可控制如何设置该文件的格式。  
   
  [!code-cpp[Classic WebData XmlTextWriter.XmlSpace Example#1](~/samples/snippets/cpp/VS_Snippets_Data/Classic WebData XmlTextWriter.XmlSpace Example/CPP/source.cpp#1)]
  [!code-csharp[Classic WebData XmlTextWriter.XmlSpace Example#1](~/samples/snippets/csharp/VS_Snippets_Data/Classic WebData XmlTextWriter.XmlSpace Example/CS/source.cs#1)]

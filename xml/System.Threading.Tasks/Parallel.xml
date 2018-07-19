@@ -1,11 +1,11 @@
 <Type Name="Parallel" FullName="System.Threading.Tasks.Parallel">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="0ccd8e8796d91623d453ef299472d90582525e77" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="5cecfa2ccfb0c078816afadda63313ffb6ac73cf" />
+    <Meta Name="ms.sourcegitcommit" Value="01f28caab7b3f23878dd07b402a8dd48b9478c8c" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="zh-CN" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36407706" />
+    <Meta Name="ms.lasthandoff" Value="07/19/2018" />
+    <Meta Name="ms.locfileid" Value="39140714" />
   </Metadata>
   <TypeSignature Language="C#" Value="public static class Parallel" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract sealed beforefieldinit Parallel extends System.Object" />
@@ -37,19 +37,19 @@
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Threading.Tasks.Parallel>类提供了基于库的数据并行替换常见操作，如 for 循环、 每个循环，和执行的一组语句。  
+ <xref:System.Threading.Tasks.Parallel>类提供了用于常见操作这样的循环，为每个循环和执行的一组语句基于库的数据并行替换。  
   
    
   
 ## Examples  
- 此示例演示几种方法实现并行循环使用多个语言构造。  
+ 此示例演示如何实现使用多个语言构造一个并行循环的几种方法。  
   
  [!code-csharp[System.Threading.Tasks.Parallel#07](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.threading.tasks.parallel/cs/parallelintro.cs#07)]
  [!code-vb[System.Threading.Tasks.Parallel#07](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.threading.tasks.parallel/vb/parallelintro.vb#07)]  
   
  ]]></format>
     </remarks>
-    <threadsafe>所有公共和受保护成员<see cref="T:System.Threading.Tasks.Parallel" />是线程安全的可从多个线程同时使用。</threadsafe>
+    <threadsafe>所有公共和受保护成员<see cref="T:System.Threading.Tasks.Parallel" />是线程安全的可能从多个线程同时使用。</threadsafe>
   </Docs>
   <Members>
     <MemberGroup MemberName="For">
@@ -102,31 +102,31 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- `body`委托会调用一次迭代范围中每个值 (`fromInclusive`， `toExclusive`)。 它提供两个自变量：  
+ `body`委托会调用一次迭代范围中每个值 (`fromInclusive`， `toExclusive`)。 它提供两个参数：  
   
--   <xref:System.Int32>表示迭代次数的值。  
+-   <xref:System.Int32>值，该值表示迭代次数。  
   
--   A<xref:System.Threading.Tasks.ParallelLoopState>可以用于过早地中断循环的实例。 <xref:System.Threading.Tasks.ParallelLoopState>由编译器创建对象; 它不能在用户代码中实例化。  
+-   一个<xref:System.Threading.Tasks.ParallelLoopState>可用于中断循环过早的实例。 <xref:System.Threading.Tasks.ParallelLoopState>由编译器创建对象; 它不能在用户代码中实例化。  
   
- 调用<xref:System.Threading.Tasks.ParallelLoopState.Break%2A>方法将通知`for`后当前的迭代无需执行的操作。 但是，早于当前的所有迭代一个仍都将需要如果它们尚未执行。  
+ 调用<xref:System.Threading.Tasks.ParallelLoopState.Break%2A>方法将通知`for`迭代后当前无需执行的操作。 但是，早于当前的所有迭代一个仍都将需要如果它们尚未准备好执行。  
   
- 因此，调用<xref:System.Threading.Tasks.ParallelLoopState.Break%2A>类似于使用中的传统的中断操作`for`中一种语言循环像 C# 中，但它不是理想的替代： 例如，是没有保证的迭代后当前的迭代将明确不执行。  
+ 因此，调用<xref:System.Threading.Tasks.ParallelLoopState.Break%2A>类似于使用中断操作的传统`for`循环中一种语言如 C# 中，但并不是理想的替代： 例如，则之后当前迭代肯定将不会不能保证执行。  
   
- 执行之前当前不是必需的所有迭代，如果使用<xref:System.Threading.Tasks.ParallelLoopState.Stop%2A>方法而不是使用<xref:System.Threading.Tasks.ParallelLoopState.Break%2A>。 调用<xref:System.Threading.Tasks.ParallelLoopState.Stop%2A>通知`for`循环，它可能会放弃所有剩余迭代，而不考虑是否它们之前或之后当前迭代中，因为所有必需的工作将已完成。 但是，如与<xref:System.Threading.Tasks.ParallelLoopState.Break%2A>，不没有有关哪个其他迭代将不执行任何保证。  
+ 如果当前没有必要之前执行所有迭代，使用<xref:System.Threading.Tasks.ParallelLoopState.Stop%2A>方法而不是使用<xref:System.Threading.Tasks.ParallelLoopState.Break%2A>。 调用<xref:System.Threading.Tasks.ParallelLoopState.Stop%2A>通知`for`循环，它可能会放弃所有剩余迭代，而不考虑是否它们之前或之后的当前迭代，因为所有所需的工作将已完成。 但是，作为与<xref:System.Threading.Tasks.ParallelLoopState.Break%2A>，不有哪些其他迭代不会执行任何保证。  
   
- 如果循环已提前结束<xref:System.Threading.Tasks.ParallelLoopResult>返回结构将包含有关循环的完成的相关信息。  
+ 如果循环已提前结束<xref:System.Threading.Tasks.ParallelLoopResult>返回结构将包含循环的完成的相关信息。  
   
- 如果`fromInclusive`大于或等于`toExclusive`，该方法将立即返回而不执行任何迭代。  
+ 如果`fromInclusive`大于或等于`toExclusive`，方法将立即返回而不执行任何迭代。  
   
    
   
 ## Examples  
- 下面的示例以并行方式执行最多 100 个循环迭代。 为从 1 到 1000 毫秒的随机间隔暂停每次迭代。 随机生成的值确定的循环的迭代上<xref:System.Threading.Tasks.ParallelLoopState.Break%2A?displayProperty=nameWithType>调用方法。 如示例所示，其索引大于任何迭代输出<xref:System.Threading.Tasks.ParallelLoopState.LowestBreakIteration%2A?displayProperty=nameWithType>在调用后的属性值 start<xref:System.Threading.Tasks.ParallelLoopState.Break%2A?displayProperty=nameWithType>方法。  
+ 下面的示例以并行方式执行最多 100 个循环迭代。 从 1 到 1000 毫秒的随机间隔暂停每次迭代。 随机生成的值确定哪次循环迭代上<xref:System.Threading.Tasks.ParallelLoopState.Break%2A?displayProperty=nameWithType>调用方法。 如示例所示，前者的索引大于任何迭代中的输出<xref:System.Threading.Tasks.ParallelLoopState.LowestBreakIteration%2A?displayProperty=nameWithType>属性值开始后调用<xref:System.Threading.Tasks.ParallelLoopState.Break%2A?displayProperty=nameWithType>方法。  
   
  [!code-csharp[System.Threading.Tasks.ParallelLoopState#2](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.threading.tasks.parallelloopstate/cs/break1.cs#2)]
  [!code-vb[System.Threading.Tasks.ParallelLoopState#2](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.threading.tasks.parallelloopstate/vb/break1.vb#2)]  
   
- 因为的循环迭代仍可能会执行时<xref:System.Threading.Tasks.ParallelLoopState.Break%2A?displayProperty=nameWithType>方法被调用时，每个迭代调用<xref:System.Threading.Tasks.ParallelLoopState.ShouldExitCurrentIteration%2A?displayProperty=nameWithType>属性检查是否已调用另一个迭代<xref:System.Threading.Tasks.ParallelLoopState.Break%2A?displayProperty=nameWithType>方法。 如果属性值是`true`，迭代检查的值<xref:System.Threading.Tasks.ParallelLoopState.LowestBreakIteration%2A?displayProperty=nameWithType>属性，如果它大于当前迭代索引值，将立即返回。  
+ 因为迭代循环的执行时仍可能<xref:System.Threading.Tasks.ParallelLoopState.Break%2A?displayProperty=nameWithType>方法调用时，每次迭代都会调用<xref:System.Threading.Tasks.ParallelLoopState.ShouldExitCurrentIteration%2A?displayProperty=nameWithType>属性来检查是否已调用另一个迭代<xref:System.Threading.Tasks.ParallelLoopState.Break%2A?displayProperty=nameWithType>方法。 如果属性值为`true`，在迭代检查的值<xref:System.Threading.Tasks.ParallelLoopState.LowestBreakIteration%2A?displayProperty=nameWithType>属性以及它是否大于当前迭代索引值，将立即返回。  
   
  ]]></format>
         </remarks>
@@ -176,14 +176,14 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- `body`委托会调用一次迭代范围中每个值 (`fromInclusive`， `toExclusive`)。 它提供的迭代计数 (<xref:System.Int32>) 作为参数。  
+ `body`委托会调用一次迭代范围中每个值 (`fromInclusive`， `toExclusive`)。 提供使用迭代计数 (<xref:System.Int32>) 作为参数。  
   
- 如果`fromInclusive`大于或等于`toExclusive`，该方法将立即返回而不执行任何迭代。  
+ 如果`fromInclusive`大于或等于`toExclusive`，方法将立即返回而不执行任何迭代。  
   
    
   
 ## Examples  
- 下面的示例使用<xref:System.Threading.Tasks.Parallel.For%2A>方法 100 调用的委托的生成随机字节值，并计算其结果相加值。  
+ 下面的示例使用<xref:System.Threading.Tasks.Parallel.For%2A>方法 100 调用的委托的生成随机字节值，并计算其总和。  
   
  [!code-csharp[System.Threading.Tasks.Parallel.For#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.threading.tasks.parallel.for/cs/for1.cs#1)]
  [!code-vb[System.Threading.Tasks.Parallel.For#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.threading.tasks.parallel.for/vb/for1.vb#1)]  
@@ -235,15 +235,15 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- `body`委托会调用一次迭代范围中每个值 (`fromInclusive`， `toExclusive`)。 它提供以下参数： 迭代次数 (<xref:System.Int64>)，和一个<xref:System.Threading.Tasks.ParallelLoopState>可能用于过早地中断循环的实例。  
+ `body`委托会调用一次迭代范围中每个值 (`fromInclusive`， `toExclusive`)。 提供使用以下参数： 迭代次数 (<xref:System.Int64>)，和一个<xref:System.Threading.Tasks.ParallelLoopState>可能用于过早中断该循环的实例。  
   
- 调用<xref:System.Threading.Tasks.ParallelLoopState.Break%2A>方法将通知`for`后当前的迭代无需执行，但在当前数据表之前的所有迭代都执行的操作。  
+ 调用<xref:System.Threading.Tasks.ParallelLoopState.Break%2A>方法将通知`for`迭代后当前无需执行，但在当前数据表之前的所有迭代都执行的操作。  
   
- 因此，调用中断是类似于使用中的传统的中断操作`for`中一种语言循环像 C# 中，但它不是理想的替代： 例如，就不能保证该迭代后当前都不会执行。  
+ 因此，调用中断是类似于使用中断操作的传统`for`循环中一种语言如 C# 中，但并不是理想的替代： 例如，则不能保证该迭代后当前都不会执行。  
   
- 执行之前当前不是必需的所有迭代，如果使用<xref:System.Threading.Tasks.ParallelLoopState.Stop%2A>方法而不是使用<xref:System.Threading.Tasks.ParallelLoopState.Break%2A>。 调用<xref:System.Threading.Tasks.ParallelLoopState.Stop%2A>通知`for`循环，它可能会放弃所有剩余迭代，而不考虑是否它们之前或之后当前迭代中，因为所有必需的工作将已完成。 但是，如与<xref:System.Threading.Tasks.ParallelLoopState.Break%2A>，不没有有关哪个其他迭代将不执行任何保证。  
+ 如果当前没有必要之前执行所有迭代，使用<xref:System.Threading.Tasks.ParallelLoopState.Stop%2A>方法而不是使用<xref:System.Threading.Tasks.ParallelLoopState.Break%2A>。 调用<xref:System.Threading.Tasks.ParallelLoopState.Stop%2A>通知`for`循环，它可能会放弃所有剩余迭代，而不考虑是否它们之前或之后的当前迭代，因为所有所需的工作将已完成。 但是，作为与<xref:System.Threading.Tasks.ParallelLoopState.Break%2A>，不有哪些其他迭代不会执行任何保证。  
   
- 如果循环已提前结束<xref:System.Threading.Tasks.ParallelLoopResult>返回结构将包含有关循环的完成的相关信息。  
+ 如果循环已提前结束<xref:System.Threading.Tasks.ParallelLoopResult>返回结构将包含循环的完成的相关信息。  
   
  如果`fromInclusive`大于或等于`toExclusive`，则该方法立即返回而不执行任何迭代。  
   
@@ -294,9 +294,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- `body`委托会调用一次迭代范围中每个值 (`fromInclusive`， `toExclusive`)。 它提供的迭代计数 (<xref:System.Int64>) 作为参数。  
+ `body`委托会调用一次迭代范围中每个值 (`fromInclusive`， `toExclusive`)。 提供使用迭代计数 (<xref:System.Int64>) 作为参数。  
   
- 如果`fromInclusive`大于或等于`toExclusive`，该方法将立即返回而不执行任何迭代。  
+ 如果`fromInclusive`大于或等于`toExclusive`，方法将立即返回而不执行任何迭代。  
   
  ]]></format>
         </remarks>
@@ -346,9 +346,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- `body`委托会调用一次迭代范围中每个值 (`fromInclusive`， `toExclusive`)。 它提供以下参数： 迭代次数 (<xref:System.Int32>)，和一个<xref:System.Threading.Tasks.ParallelLoopState>可能用于过早地中断循环的实例。  
+ `body`委托会调用一次迭代范围中每个值 (`fromInclusive`， `toExclusive`)。 提供使用以下参数： 迭代次数 (<xref:System.Int32>)，和一个<xref:System.Threading.Tasks.ParallelLoopState>可能用于过早中断该循环的实例。  
   
- 如果`fromInclusive`大于或等于`toExclusive`，该方法将立即返回而不执行任何迭代。  
+ 如果`fromInclusive`大于或等于`toExclusive`，方法将立即返回而不执行任何迭代。  
   
  ]]></format>
         </remarks>
@@ -400,7 +400,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- `body`委托会调用一次迭代范围中每个值 (`fromInclusive`， `toExclusive`)。 它提供的迭代计数 (<xref:System.Int32>) 作为参数。  
+ `body`委托会调用一次迭代范围中每个值 (`fromInclusive`， `toExclusive`)。 提供使用迭代计数 (<xref:System.Int32>) 作为参数。  
   
  如果`fromInclusive`大于或等于`toExclusive`，则该方法立即返回而不执行任何迭代。  
   
@@ -462,9 +462,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- `body`委托会调用一次迭代范围中每个值 (`fromInclusive`， `toExclusive`)。 它提供以下参数： 迭代次数 (<xref:System.Int64>)，和一个<xref:System.Threading.Tasks.ParallelLoopState>可能用于过早地中断循环的实例。  
+ `body`委托会调用一次迭代范围中每个值 (`fromInclusive`， `toExclusive`)。 提供使用以下参数： 迭代次数 (<xref:System.Int64>)，和一个<xref:System.Threading.Tasks.ParallelLoopState>可能用于过早中断该循环的实例。  
   
- 如果`fromInclusive`大于或等于`toExclusive`，该方法将立即返回而不执行任何迭代。  
+ 如果`fromInclusive`大于或等于`toExclusive`，方法将立即返回而不执行任何迭代。  
   
    
   
@@ -524,7 +524,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 支持 64 位索引。 `body`委托会调用一次迭代范围中每个值 (`fromInclusive`， `toExclusive`)。 它提供的迭代计数 (<xref:System.Int64>) 作为参数。  
+ 支持 64 位索引。 `body`委托会调用一次迭代范围中每个值 (`fromInclusive`， `toExclusive`)。 提供使用迭代计数 (<xref:System.Int64>) 作为参数。  
   
  如果`fromInclusive`大于或等于`toExclusive`，则该方法立即返回而不执行任何迭代。  
   
@@ -593,11 +593,11 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- `body`委托会调用一次迭代范围中每个值 (`fromInclusive`， `toExclusive`)。 它提供以下参数： 迭代次数 (<xref:System.Int32>)、 一个<xref:System.Threading.Tasks.ParallelLoopState>可能用于提前，中断循环的实例，并可能在同一线程执行的迭代之间共享的某些本地状态。  
+ `body`委托会调用一次迭代范围中每个值 (`fromInclusive`， `toExclusive`)。 提供使用以下参数： 迭代次数 (<xref:System.Int32>)、 一个<xref:System.Threading.Tasks.ParallelLoopState>实例可用于中断循环过早，并可能在同一线程执行的迭代之间共享某些本地状态。  
   
- `localInit`参与循环的执行，并为每个这些任务中返回的初始本地状态的每个任务一次调用委托。 这些初始状态传递到第一个`body`上每个任务的调用。 然后，每个后续的正文调用返回传递到下一步的正文调用一个可能已修改值。 最后，在每个任务的最后一个正文调用返回传递到的州值`localFinally`委托。 `localFinally`委托会调用一次每个任务以对每个任务的本地状态执行一个最终操作。 此委托可能会并行调用多个任务;因此，你必须同步对任何共享的变量的访问。  
+ `localInit`参与循环的执行，这些任务的每个返回初始本地状态的每个任务一次调用委托。 这些初始状态传递给第一个`body`上每个任务的调用。 然后，每个后续正文调用返回传递给下一个正文调用一个可能已修改的状态值。 最后，每个任务上的最后一个正文调用返回传递给的州值`localFinally`委托。 `localFinally`每个任务，每个任务的本地状态执行一个最终操作一次调用委托。 在多个任务; 可能会同时调用此委托因此，必须同步对共享的任何变量的访问。  
   
- <xref:System.Threading.Tasks.Parallel.For%2A?displayProperty=nameWithType>方法可以作为现有任务完成其执行生存期内使用多于线程数更多的任务，并替换为新的任务。 这样，基础<xref:System.Threading.Tasks.TaskScheduler>对象有机会添加、 更改或删除服务循环的线程。  
+ <xref:System.Threading.Tasks.Parallel.For%2A?displayProperty=nameWithType>方法可能的现有任务完成其执行生存期内使用多于线程数的更多任务，并替换为新的任务。 这样，基础<xref:System.Threading.Tasks.TaskScheduler>对象机会添加，请更改或删除服务循环的线程。  
   
  如果`fromInclusive`大于或等于`toExclusive`，则该方法立即返回而不执行任何迭代。  
   
@@ -658,11 +658,11 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- `body`委托会调用一次迭代范围中每个值 (`fromInclusive`， `toExclusive`)。 它提供以下参数： 迭代次数 (<xref:System.Int64>)、 一个<xref:System.Threading.Tasks.ParallelLoopState>可能用于提前，中断循环的实例，并可能需要在相同的任务执行的迭代之间共享的某些本地状态。  
+ `body`委托会调用一次迭代范围中每个值 (`fromInclusive`， `toExclusive`)。 提供使用以下参数： 迭代次数 (<xref:System.Int64>)、 一个<xref:System.Threading.Tasks.ParallelLoopState>实例可用于中断循环过早，并可能在相同的任务执行的迭代之间共享某些本地状态。  
   
- `localInit`参与循环的执行，并为每个这些任务中返回的初始本地状态的每个任务一次调用委托。 这些初始状态传递到第一个`body`上每个任务的调用。 然后，每个后续的正文调用返回传递到下一步的正文调用一个可能已修改值。 最后，在每个任务的最后一个正文调用返回传递到的州值`localFinally`委托。 `localFinally`委托会调用一次每个任务以对每个任务的本地状态执行一个最终操作。 此委托可能会并行调用多个任务;因此，你必须同步对任何共享的变量的访问。  
+ `localInit`参与循环的执行，这些任务的每个返回初始本地状态的每个任务一次调用委托。 这些初始状态传递给第一个`body`上每个任务的调用。 然后，每个后续正文调用返回传递给下一个正文调用一个可能已修改的状态值。 最后，每个任务上的最后一个正文调用返回传递给的州值`localFinally`委托。 `localFinally`每个任务，每个任务的本地状态执行一个最终操作一次调用委托。 在多个任务; 可能会同时调用此委托因此，必须同步对共享的任何变量的访问。  
   
- <xref:System.Threading.Tasks.Parallel.For%2A?displayProperty=nameWithType>方法可以作为现有任务完成其执行生存期内使用多于线程数更多的任务，并替换为新的任务。 这样，基础<xref:System.Threading.Tasks.TaskScheduler>对象有机会添加、 更改或删除服务循环的线程。  
+ <xref:System.Threading.Tasks.Parallel.For%2A?displayProperty=nameWithType>方法可能的现有任务完成其执行生存期内使用多于线程数的更多任务，并替换为新的任务。 这样，基础<xref:System.Threading.Tasks.TaskScheduler>对象机会添加，请更改或删除服务循环的线程。  
   
  如果`fromInclusive`大于或等于`toExclusive`，则该方法立即返回而不执行任何迭代。  
   
@@ -724,18 +724,18 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- `body`委托会调用一次迭代范围中每个值 (`fromInclusive`， `toExclusive`)。 它提供以下参数： 迭代次数 (<xref:System.Int32>)、 一个<xref:System.Threading.Tasks.ParallelLoopState>可能用于提前，中断循环的实例，并可能需要在相同的任务执行的迭代之间共享的某些本地状态。  
+ `body`委托会调用一次迭代范围中每个值 (`fromInclusive`， `toExclusive`)。 提供使用以下参数： 迭代次数 (<xref:System.Int32>)、 一个<xref:System.Threading.Tasks.ParallelLoopState>实例可用于中断循环过早，并可能在相同的任务执行的迭代之间共享某些本地状态。  
   
- `localInit`参与循环的执行，并为每个这些任务中返回的初始本地状态的每个任务一次调用委托。 这些初始状态传递到第一个`body`上每个任务的调用。 然后，每个后续的正文调用返回传递到下一步的正文调用一个可能已修改值。 最后，在每个任务的最后一个正文调用返回传递到的州值`localFinally`委托。 `localFinally`委托会调用一次每个任务以对每个任务的本地状态执行一个最终操作。 此委托可能会在多个线程; 上并行调用因此，你必须同步对任何共享的变量的访问。  
+ `localInit`参与循环的执行，这些任务的每个返回初始本地状态的每个任务一次调用委托。 这些初始状态传递给第一个`body`上每个任务的调用。 然后，每个后续正文调用返回传递给下一个正文调用一个可能已修改的状态值。 最后，每个任务上的最后一个正文调用返回传递给的州值`localFinally`委托。 `localFinally`每个任务，每个任务的本地状态执行一个最终操作一次调用委托。 可能在多个线程; 同时调用此委托因此，必须同步对共享的任何变量的访问。  
   
- <xref:System.Threading.Tasks.Parallel.For%2A?displayProperty=nameWithType>方法可以作为现有任务完成其执行生存期内使用多于线程数更多的任务，并替换为新的任务。 这样，基础<xref:System.Threading.Tasks.TaskScheduler>对象有机会添加、 更改或删除服务循环的线程。  
+ <xref:System.Threading.Tasks.Parallel.For%2A?displayProperty=nameWithType>方法可能的现有任务完成其执行生存期内使用多于线程数的更多任务，并替换为新的任务。 这样，基础<xref:System.Threading.Tasks.TaskScheduler>对象机会添加，请更改或删除服务循环的线程。  
   
  如果`fromInclusive`大于或等于`toExclusive`，则该方法立即返回而不执行任何迭代。  
   
    
   
 ## Examples  
- 下面的示例使用线程本地变量来计算的很多长时间的操作的结果的总和。 此示例将限制为 4 的并行度。  
+ 以下示例使用线程本地变量来计算的很多长时间的操作的结果的总和。 此示例将限制的并行度为 4。  
   
  [!code-csharp[System.Threading.Tasks.Parallel#04](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.threading.tasks.parallel/cs/threadlocalforwithoptions.cs#04)]
  [!code-vb[System.Threading.Tasks.Parallel#04](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.threading.tasks.parallel/vb/threadlocalforwithoptions.vb#04)]  
@@ -798,11 +798,11 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- `body`委托会调用一次迭代范围中每个值 (`fromInclusive`， `toExclusive`)。 它提供以下参数： 迭代次数 (<xref:System.Int64>)、 一个<xref:System.Threading.Tasks.ParallelLoopState>可能用于提前，中断循环的实例，并可能在同一线程执行的迭代之间共享的某些本地状态。  
+ `body`委托会调用一次迭代范围中每个值 (`fromInclusive`， `toExclusive`)。 提供使用以下参数： 迭代次数 (<xref:System.Int64>)、 一个<xref:System.Threading.Tasks.ParallelLoopState>实例可用于中断循环过早，并可能在同一线程执行的迭代之间共享某些本地状态。  
   
- `localInit`参与循环的执行，并为每个这些线程返回初始本地状态的每个线程一次调用委托。 这些初始状态传递到第一个`body`上每个线程的调用。 然后，每个后续的正文调用返回传递到下一步的正文调用一个可能已修改值。 最后，在每个线程上的最后一个正文调用返回传递到的州值`localFinally`委托。 `localFinally`每线程来对每个线程本地状态执行一个最终操作一次调用委托。 此委托可能会在多个线程; 上并行调用因此，你必须同步对任何共享的变量的访问。  
+ `localInit`委托会调用一次为每个线程都参与循环的执行，并为每个这些线程返回初始本地状态。 这些初始状态传递给第一个`body`上每个线程的调用。 然后，每个后续正文调用返回传递给下一个正文调用一个可能已修改的状态值。 最后，每个线程上的最后一个正文调用返回传递给的州值`localFinally`委托。 `localFinally`每个线程上每个线程本地状态执行一个最终操作一次调用委托。 可能在多个线程; 同时调用此委托因此，必须同步对共享的任何变量的访问。  
   
- <xref:System.Threading.Tasks.Parallel.For%2A?displayProperty=nameWithType>方法可以作为现有任务完成其执行生存期内使用多于线程数更多的任务，并替换为新的任务。 这样，基础<xref:System.Threading.Tasks.TaskScheduler>对象有机会添加、 更改或删除服务循环的线程。  
+ <xref:System.Threading.Tasks.Parallel.For%2A?displayProperty=nameWithType>方法可能的现有任务完成其执行生存期内使用多于线程数的更多任务，并替换为新的任务。 这样，基础<xref:System.Threading.Tasks.TaskScheduler>对象机会添加，请更改或删除服务循环的线程。  
   
  如果`fromInclusive`大于或等于`toExclusive`，则该方法立即返回而不执行任何迭代。  
   
@@ -867,7 +867,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 对于你想要重写默认分区方案的方案提供了此重载。 例如，小型循环体可能受益于分区范围。 <xref:System.Threading.Tasks.Parallel.ForEach%2A?displayProperty=nameWithType>方法需要自定义分区程序来支持动态分区。 有关详细信息，请参阅[PLINQ 和 TPL 的自定义分区程序](~/docs/standard/parallel-programming/custom-partitioners-for-plinq-and-tpl.md)和[如何： 实现动态分区](~/docs/standard/parallel-programming/how-to-implement-dynamic-partitions.md)。  
+ 对于想要重写默认分区方案的方案提供了此重载。 例如，小型循环体可能受益于分区范围。 <xref:System.Threading.Tasks.Parallel.ForEach%2A?displayProperty=nameWithType>方法需要自定义分区程序来支持动态分区。 有关详细信息，请参阅[PLINQ 和 TPL 的自定义分区程序](~/docs/standard/parallel-programming/custom-partitioners-for-plinq-and-tpl.md)并[如何： 实现动态分区](~/docs/standard/parallel-programming/how-to-implement-dynamic-partitions.md)。  
   
  ]]></format>
         </remarks>
@@ -918,7 +918,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 对于你想要重写默认分区方案的方案提供了此重载。 例如，小型循环体可能受益于分区范围。 <xref:System.Threading.Tasks.Parallel.ForEach%2A?displayProperty=nameWithType>方法需要自定义分区程序来支持动态分区。 有关详细信息，请参阅[PLINQ 和 TPL 的自定义分区程序](~/docs/standard/parallel-programming/custom-partitioners-for-plinq-and-tpl.md)和[如何： 实现动态分区](~/docs/standard/parallel-programming/how-to-implement-dynamic-partitions.md)。  
+ 对于想要重写默认分区方案的方案提供了此重载。 例如，小型循环体可能受益于分区范围。 <xref:System.Threading.Tasks.Parallel.ForEach%2A?displayProperty=nameWithType>方法需要自定义分区程序来支持动态分区。 有关详细信息，请参阅[PLINQ 和 TPL 的自定义分区程序](~/docs/standard/parallel-programming/custom-partitioners-for-plinq-and-tpl.md)并[如何： 实现动态分区](~/docs/standard/parallel-programming/how-to-implement-dynamic-partitions.md)。  
   
  ]]></format>
         </remarks>
@@ -969,7 +969,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 对于你想要重写默认分区方案的方案提供了此重载。 例如，小型循环体可能受益于分区范围。 <xref:System.Threading.Tasks.Parallel.ForEach%2A?displayProperty=nameWithType>方法需要自定义分区程序来支持动态分区。 有关详细信息，请参阅[PLINQ 和 TPL 的自定义分区程序](~/docs/standard/parallel-programming/custom-partitioners-for-plinq-and-tpl.md)和[如何： 实现动态分区](~/docs/standard/parallel-programming/how-to-implement-dynamic-partitions.md)。  
+ 对于想要重写默认分区方案的方案提供了此重载。 例如，小型循环体可能受益于分区范围。 <xref:System.Threading.Tasks.Parallel.ForEach%2A?displayProperty=nameWithType>方法需要自定义分区程序来支持动态分区。 有关详细信息，请参阅[PLINQ 和 TPL 的自定义分区程序](~/docs/standard/parallel-programming/custom-partitioners-for-plinq-and-tpl.md)并[如何： 实现动态分区](~/docs/standard/parallel-programming/how-to-implement-dynamic-partitions.md)。  
   
    
   
@@ -1028,7 +1028,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- `body`委托中每个元素调用一次`source`可枚举。 它提供以下参数： 当前元素，<xref:System.Threading.Tasks.ParallelLoopState>可能用于提前，中断循环的实例和当前元素的索引 (<xref:System.Int64>)。  
+ `body`委托中每个元素调用一次`source`可枚举。 提供使用以下参数： 当前元素，<xref:System.Threading.Tasks.ParallelLoopState>可用于中断循环过早，实例和当前元素的索引 (<xref:System.Int64>)。  
   
  ]]></format>
         </remarks>
@@ -1079,7 +1079,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- `body`委托中每个元素调用一次`source`可枚举。 它提供以下参数： 当前元素中，和一个<xref:System.Threading.Tasks.ParallelLoopState>可能用于过早地中断循环的实例。  
+ `body`委托中每个元素调用一次`source`可枚举。 提供使用以下参数： 当前元素和一个<xref:System.Threading.Tasks.ParallelLoopState>可能用于过早中断该循环的实例。  
   
  ]]></format>
         </remarks>
@@ -1135,7 +1135,7 @@
    
   
 ## Examples  
- 下面的示例使用<xref:System.Threading.Tasks.Parallel.ForEach%60%601%28System.Collections.Generic.IEnumerable%7B%60%600%7D%2CSystem.Action%7B%60%600%7D%29>方法来计算元音和在文本文件中的非空白字符的数量。 在这种情况下，<xref:System.Threading.Tasks.ParallelLoopResult>由方法返回的值将被忽略。 请注意，，因为操作可以并行运行，则也必须确保递增的计数器变量是原子操作，且多个线程未尝试同时访问的计数器变量。 为此目的，此示例使用`lock`语句 （在 C# 中) 和`SyncLock`（在 Visual Basic) 语句。  
+ 下面的示例使用<xref:System.Threading.Tasks.Parallel.ForEach%60%601%28System.Collections.Generic.IEnumerable%7B%60%600%7D%2CSystem.Action%7B%60%600%7D%29>方法以计算元音和在文本文件中的非空白字符的数目。 在这种情况下，<xref:System.Threading.Tasks.ParallelLoopResult>方法返回的值将被忽略。 请注意，因为操作可以并行运行，必须确保，递增的计数器变量是原子操作，并且多个线程未尝试同时访问计数器变量。 为此，该示例使用`lock`（在 C#) 语句和`SyncLock`（在 Visual Basic) 语句。  
   
  [!code-csharp[System.Threading.Tasks.Parallel.ForEach#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.threading.tasks.parallel.foreach/cs/foreach1.cs#1)]
  [!code-vb[System.Threading.Tasks.Parallel.ForEach#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.threading.tasks.parallel.foreach/vb/foreach1.vb#1)]  
@@ -1190,7 +1190,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 对于你想要重写默认分区方案的方案提供了此重载。 例如，小型循环体可能受益于分区范围。 <xref:System.Threading.Tasks.Parallel.ForEach%2A?displayProperty=nameWithType>方法需要自定义分区程序来支持动态分区。 有关详细信息，请参阅[PLINQ 和 TPL 的自定义分区程序](~/docs/standard/parallel-programming/custom-partitioners-for-plinq-and-tpl.md)和[如何： 实现动态分区](~/docs/standard/parallel-programming/how-to-implement-dynamic-partitions.md)。  
+ 对于想要重写默认分区方案的方案提供了此重载。 例如，小型循环体可能受益于分区范围。 <xref:System.Threading.Tasks.Parallel.ForEach%2A?displayProperty=nameWithType>方法需要自定义分区程序来支持动态分区。 有关详细信息，请参阅[PLINQ 和 TPL 的自定义分区程序](~/docs/standard/parallel-programming/custom-partitioners-for-plinq-and-tpl.md)并[如何： 实现动态分区](~/docs/standard/parallel-programming/how-to-implement-dynamic-partitions.md)。  
   
  ]]></format>
         </remarks>
@@ -1244,7 +1244,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 对于你想要重写默认分区方案的方案提供了此重载。 例如，小型循环体可能受益于分区范围。 <xref:System.Threading.Tasks.Parallel.ForEach%2A?displayProperty=nameWithType>方法需要自定义分区程序来支持动态分区。 有关详细信息，请参阅[PLINQ 和 TPL 的自定义分区程序](~/docs/standard/parallel-programming/custom-partitioners-for-plinq-and-tpl.md)和[如何： 实现动态分区](~/docs/standard/parallel-programming/how-to-implement-dynamic-partitions.md)。  
+ 对于想要重写默认分区方案的方案提供了此重载。 例如，小型循环体可能受益于分区范围。 <xref:System.Threading.Tasks.Parallel.ForEach%2A?displayProperty=nameWithType>方法需要自定义分区程序来支持动态分区。 有关详细信息，请参阅[PLINQ 和 TPL 的自定义分区程序](~/docs/standard/parallel-programming/custom-partitioners-for-plinq-and-tpl.md)并[如何： 实现动态分区](~/docs/standard/parallel-programming/how-to-implement-dynamic-partitions.md)。  
   
  ]]></format>
         </remarks>
@@ -1298,7 +1298,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 对于你想要重写默认分区方案的方案提供了此重载。 例如，小型循环体可能受益于分区范围。 <xref:System.Threading.Tasks.Parallel.ForEach%2A?displayProperty=nameWithType>方法需要自定义分区程序来支持动态分区。 有关详细信息，请参阅[PLINQ 和 TPL 的自定义分区程序](~/docs/standard/parallel-programming/custom-partitioners-for-plinq-and-tpl.md)和[如何： 实现动态分区](~/docs/standard/parallel-programming/how-to-implement-dynamic-partitions.md)。  
+ 对于想要重写默认分区方案的方案提供了此重载。 例如，小型循环体可能受益于分区范围。 <xref:System.Threading.Tasks.Parallel.ForEach%2A?displayProperty=nameWithType>方法需要自定义分区程序来支持动态分区。 有关详细信息，请参阅[PLINQ 和 TPL 的自定义分区程序](~/docs/standard/parallel-programming/custom-partitioners-for-plinq-and-tpl.md)并[如何： 实现动态分区](~/docs/standard/parallel-programming/how-to-implement-dynamic-partitions.md)。  
   
  ]]></format>
         </remarks>
@@ -1352,7 +1352,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- `body`委托中每个元素调用一次`source`可枚举。 它提供以下参数： 当前元素，<xref:System.Threading.Tasks.ParallelLoopState>可能用于提前，中断循环的实例和当前元素的索引 (<xref:System.Int64>)。  
+ `body`委托中每个元素调用一次`source`可枚举。 提供使用以下参数： 当前元素，<xref:System.Threading.Tasks.ParallelLoopState>可用于中断循环过早，实例和当前元素的索引 (<xref:System.Int64>)。  
   
  ]]></format>
         </remarks>
@@ -1406,7 +1406,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- `body`委托中每个元素调用一次`source`可枚举。 它提供以下参数： 当前元素中，和一个<xref:System.Threading.Tasks.ParallelLoopState>可能用于过早地中断循环的实例。  
+ `body`委托中每个元素调用一次`source`可枚举。 提供使用以下参数： 当前元素和一个<xref:System.Threading.Tasks.ParallelLoopState>可能用于过早中断该循环的实例。  
   
  ]]></format>
         </remarks>
@@ -1519,11 +1519,11 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 对于你想要重写默认分区方案的方案提供了此重载。 例如，小型循环体可能受益于分区范围。 <xref:System.Threading.Tasks.Parallel.ForEach%2A>方法需要自定义分区程序来支持动态分区。 有关详细信息，请参阅[PLINQ 和 TPL 的自定义分区程序](~/docs/standard/parallel-programming/custom-partitioners-for-plinq-and-tpl.md)和[如何： 实现动态分区](~/docs/standard/parallel-programming/how-to-implement-dynamic-partitions.md)。  
+ 对于想要重写默认分区方案的方案提供了此重载。 例如，小型循环体可能受益于分区范围。 <xref:System.Threading.Tasks.Parallel.ForEach%2A>方法需要自定义分区程序来支持动态分区。 有关详细信息，请参阅[PLINQ 和 TPL 的自定义分区程序](~/docs/standard/parallel-programming/custom-partitioners-for-plinq-and-tpl.md)并[如何： 实现动态分区](~/docs/standard/parallel-programming/how-to-implement-dynamic-partitions.md)。  
   
- `localInit`参与循环的执行，并为每个这些任务中返回的初始本地状态的每个任务一次调用委托。 这些初始状态传递到第一个`body`上每个任务的调用。 然后，每个后续的正文调用返回传递到下一步的正文调用一个可能已修改值。 最后，在每个任务的最后一个正文调用返回传递到的州值`localFinally`委托。 `localFinally`委托会调用一次每个任务以对每个任务的本地状态执行一个最终操作。 此委托可能会并行调用多个任务;因此，你必须同步对任何共享的变量的访问。  
+ `localInit`参与循环的执行，这些任务的每个返回初始本地状态的每个任务一次调用委托。 这些初始状态传递给第一个`body`上每个任务的调用。 然后，每个后续正文调用返回传递给下一个正文调用一个可能已修改的状态值。 最后，每个任务上的最后一个正文调用返回传递给的州值`localFinally`委托。 `localFinally`每个任务，每个任务的本地状态执行一个最终操作一次调用委托。 在多个任务; 可能会同时调用此委托因此，必须同步对共享的任何变量的访问。  
   
- <xref:System.Threading.Tasks.Parallel.ForEach%2A?displayProperty=nameWithType>方法可以作为现有任务完成其执行生存期内使用多于线程数更多的任务，并替换为新的任务。 这样，基础<xref:System.Threading.Tasks.TaskScheduler>对象有机会添加、 更改或删除服务循环的线程。  
+ <xref:System.Threading.Tasks.Parallel.ForEach%2A?displayProperty=nameWithType>方法可能的现有任务完成其执行生存期内使用多于线程数的更多任务，并替换为新的任务。 这样，基础<xref:System.Threading.Tasks.TaskScheduler>对象机会添加，请更改或删除服务循环的线程。  
   
  ]]></format>
         </remarks>
@@ -1583,11 +1583,11 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 对于你想要重写默认分区方案的方案提供了此重载。 例如，小型循环体可能受益于分区范围。 <xref:System.Threading.Tasks.Parallel.ForEach%2A>方法需要自定义分区程序来支持动态分区。 有关详细信息，请参阅[PLINQ 和 TPL 的自定义分区程序](~/docs/standard/parallel-programming/custom-partitioners-for-plinq-and-tpl.md)和[如何： 实现动态分区](~/docs/standard/parallel-programming/how-to-implement-dynamic-partitions.md)。  
+ 对于想要重写默认分区方案的方案提供了此重载。 例如，小型循环体可能受益于分区范围。 <xref:System.Threading.Tasks.Parallel.ForEach%2A>方法需要自定义分区程序来支持动态分区。 有关详细信息，请参阅[PLINQ 和 TPL 的自定义分区程序](~/docs/standard/parallel-programming/custom-partitioners-for-plinq-and-tpl.md)并[如何： 实现动态分区](~/docs/standard/parallel-programming/how-to-implement-dynamic-partitions.md)。  
   
- `localInit`参与循环的执行，并为每个这些任务中返回的初始本地状态的每个线程一次调用委托。 这些初始状态传递到第一个`body`上每个任务的调用。 然后，每个后续的正文调用返回传递到下一步的正文调用一个可能已修改值。 最后，在每个任务的最后一个正文调用返回传递到的州值`localFinally`委托。 `localFinally`委托会调用一次每个任务以对每个任务的本地状态执行一个最终操作。 此委托可能会并行调用多个任务;因此，你必须同步对任何共享的变量的访问。  
+ `localInit`委托会调用一次为每个线程都参与循环的执行，这些任务的每个返回初始本地状态。 这些初始状态传递给第一个`body`上每个任务的调用。 然后，每个后续正文调用返回传递给下一个正文调用一个可能已修改的状态值。 最后，每个任务上的最后一个正文调用返回传递给的州值`localFinally`委托。 `localFinally`每个任务，每个任务的本地状态执行一个最终操作一次调用委托。 在多个任务; 可能会同时调用此委托因此，必须同步对共享的任何变量的访问。  
   
- <xref:System.Threading.Tasks.Parallel.ForEach%2A?displayProperty=nameWithType>方法可以作为现有任务完成其执行生存期内使用多于线程数更多的任务，并替换为新的任务。 这样，基础<xref:System.Threading.Tasks.TaskScheduler>对象有机会添加、 更改或删除服务循环的线程。  
+ <xref:System.Threading.Tasks.Parallel.ForEach%2A?displayProperty=nameWithType>方法可能的现有任务完成其执行生存期内使用多于线程数的更多任务，并替换为新的任务。 这样，基础<xref:System.Threading.Tasks.TaskScheduler>对象机会添加，请更改或删除服务循环的线程。  
   
  ]]></format>
         </remarks>
@@ -1647,11 +1647,11 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- `body`委托中每个元素调用一次`source`可枚举。 它提供以下参数： 当前元素，<xref:System.Threading.Tasks.ParallelLoopState>实例可能用于过早地中断循环、 当前元素的索引 (<xref:System.Int64>)，可能需要执行的迭代之间共享某些本地状态在同一线程。  
+ `body`委托中每个元素调用一次`source`可枚举。 提供使用以下参数： 当前元素，<xref:System.Threading.Tasks.ParallelLoopState>可用于中断循环过早的实例、 当前元素的索引 (<xref:System.Int64>)，以及可能执行的迭代之间共享某些本地状态在同一线程中。  
   
- `localInit`参与循环的执行，并为每个这些任务中返回的初始本地状态的每个任务一次调用委托。 这些初始状态传递到第一个`body`上每个任务的调用。 然后，每个后续的正文调用返回传递到下一步的正文调用一个可能已修改值。 最后，在每个任务的最后一个正文调用返回传递到的州值`localFinally`委托。 `localFinally`委托会调用一次每个任务以对每个任务的本地状态执行一个最终操作。 此委托可能会并行调用多个任务;因此，你必须同步对任何共享的变量的访问。  
+ `localInit`参与循环的执行，这些任务的每个返回初始本地状态的每个任务一次调用委托。 这些初始状态传递给第一个`body`上每个任务的调用。 然后，每个后续正文调用返回传递给下一个正文调用一个可能已修改的状态值。 最后，每个任务上的最后一个正文调用返回传递给的州值`localFinally`委托。 `localFinally`每个任务，每个任务的本地状态执行一个最终操作一次调用委托。 在多个任务; 可能会同时调用此委托因此，必须同步对共享的任何变量的访问。  
   
- <xref:System.Threading.Tasks.Parallel.ForEach%2A?displayProperty=nameWithType>方法可以作为现有任务完成其执行生存期内使用多于线程数更多的任务，并替换为新的任务。 这样，基础<xref:System.Threading.Tasks.TaskScheduler>对象有机会添加、 更改或删除服务循环的线程。  
+ <xref:System.Threading.Tasks.Parallel.ForEach%2A?displayProperty=nameWithType>方法可能的现有任务完成其执行生存期内使用多于线程数的更多任务，并替换为新的任务。 这样，基础<xref:System.Threading.Tasks.TaskScheduler>对象机会添加，请更改或删除服务循环的线程。  
   
  ]]></format>
         </remarks>
@@ -1708,11 +1708,11 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- `body`委托中每个元素调用一次`source`可枚举。 它提供以下参数： 当前元素，<xref:System.Threading.Tasks.ParallelLoopState>可能用于提前，中断循环的实例，并可能在同一线程执行的迭代之间共享的某些本地状态。  
+ `body`委托中每个元素调用一次`source`可枚举。 提供使用以下参数： 当前元素，<xref:System.Threading.Tasks.ParallelLoopState>实例可用于中断循环过早，并可能在同一线程执行的迭代之间共享某些本地状态。  
   
- `localInit`参与循环的执行，并为每个这些任务中返回的初始本地状态的每个任务一次调用委托。 这些初始状态传递到第一个`body`上每个任务的调用。 然后，每个后续的正文调用返回传递到下一步的正文调用一个可能已修改值。 最后，在每个任务的最后一个正文调用返回传递到的州值`localFinally`委托。 `localFinally`每线程来对每个任务的本地状态执行一个最终操作一次调用委托。 此委托可能会并行调用多个任务;因此，你必须同步对任何共享的变量的访问。  
+ `localInit`参与循环的执行，这些任务的每个返回初始本地状态的每个任务一次调用委托。 这些初始状态传递给第一个`body`上每个任务的调用。 然后，每个后续正文调用返回传递给下一个正文调用一个可能已修改的状态值。 最后，每个任务上的最后一个正文调用返回传递给的州值`localFinally`委托。 `localFinally`每个线程上每个任务的本地状态执行一个最终操作一次调用委托。 在多个任务; 可能会同时调用此委托因此，必须同步对共享的任何变量的访问。  
   
- <xref:System.Threading.Tasks.Parallel.ForEach%2A?displayProperty=nameWithType>方法可以作为现有任务完成其执行生存期内使用多于线程数更多的任务，并替换为新的任务。 这样，基础<xref:System.Threading.Tasks.TaskScheduler>对象有机会添加、 更改或删除服务循环的线程。  
+ <xref:System.Threading.Tasks.Parallel.ForEach%2A?displayProperty=nameWithType>方法可能的现有任务完成其执行生存期内使用多于线程数的更多任务，并替换为新的任务。 这样，基础<xref:System.Threading.Tasks.TaskScheduler>对象机会添加，请更改或删除服务循环的线程。  
   
    
   
@@ -1778,11 +1778,11 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 对于你想要重写默认分区方案的方案提供了此重载。 例如，小型循环体可能受益于分区范围。 <xref:System.Threading.Tasks.Parallel.ForEach%2A>方法需要自定义分区程序来支持动态分区。 有关详细信息，请参阅[PLINQ 和 TPL 的自定义分区程序](~/docs/standard/parallel-programming/custom-partitioners-for-plinq-and-tpl.md)和[如何： 实现动态分区](~/docs/standard/parallel-programming/how-to-implement-dynamic-partitions.md)。  
+ 对于想要重写默认分区方案的方案提供了此重载。 例如，小型循环体可能受益于分区范围。 <xref:System.Threading.Tasks.Parallel.ForEach%2A>方法需要自定义分区程序来支持动态分区。 有关详细信息，请参阅[PLINQ 和 TPL 的自定义分区程序](~/docs/standard/parallel-programming/custom-partitioners-for-plinq-and-tpl.md)并[如何： 实现动态分区](~/docs/standard/parallel-programming/how-to-implement-dynamic-partitions.md)。  
   
- `localInit`参与循环的执行，并为每个这些任务中返回的初始本地状态的每个任务一次调用委托。 这些初始状态传递到第一个`body`上每个任务的调用。 然后，每个后续的正文调用返回传递到下一步的正文调用一个可能已修改值。 最后，在每个线程上的最后一个正文调用返回传递到的州值`localFinally`委托。 `localFinally`委托会调用一次每个任务以对每个任务的本地状态执行一个最终操作。 此委托可能会并行调用多个任务;因此，你必须同步对任何共享的变量的访问。  
+ `localInit`参与循环的执行，这些任务的每个返回初始本地状态的每个任务一次调用委托。 这些初始状态传递给第一个`body`上每个任务的调用。 然后，每个后续正文调用返回传递给下一个正文调用一个可能已修改的状态值。 最后，每个线程上的最后一个正文调用返回传递给的州值`localFinally`委托。 `localFinally`每个任务，每个任务的本地状态执行一个最终操作一次调用委托。 在多个任务; 可能会同时调用此委托因此，必须同步对共享的任何变量的访问。  
   
- <xref:System.Threading.Tasks.Parallel.ForEach%2A?displayProperty=nameWithType>方法可以作为现有任务完成其执行生存期内使用多于线程数更多的任务，并替换为新的任务。 这样，基础<xref:System.Threading.Tasks.TaskScheduler>对象有机会添加、 更改或删除服务循环的线程。  
+ <xref:System.Threading.Tasks.Parallel.ForEach%2A?displayProperty=nameWithType>方法可能的现有任务完成其执行生存期内使用多于线程数的更多任务，并替换为新的任务。 这样，基础<xref:System.Threading.Tasks.TaskScheduler>对象机会添加，请更改或删除服务循环的线程。  
   
  ]]></format>
         </remarks>
@@ -1845,11 +1845,11 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 对于你想要重写默认分区方案的方案提供了此重载。 例如，小型循环体可能受益于分区范围。 <xref:System.Threading.Tasks.Parallel.ForEach%2A>方法需要自定义分区程序来支持动态分区。 对于小型循环体可能受益于静态范围分区方案提供了此重载。 分区程序必须支持动态分区。  有关详细信息，请参阅[PLINQ 和 TPL 的自定义分区程序](~/docs/standard/parallel-programming/custom-partitioners-for-plinq-and-tpl.md)和[如何： 实现动态分区](~/docs/standard/parallel-programming/how-to-implement-dynamic-partitions.md)。  
+ 对于想要重写默认分区方案的方案提供了此重载。 例如，小型循环体可能受益于分区范围。 <xref:System.Threading.Tasks.Parallel.ForEach%2A>方法需要自定义分区程序来支持动态分区。 对于使用小型循环体可能会受益于静态范围分区方案提供了此重载。 分区程序必须支持动态分区。  有关详细信息，请参阅[PLINQ 和 TPL 的自定义分区程序](~/docs/standard/parallel-programming/custom-partitioners-for-plinq-and-tpl.md)并[如何： 实现动态分区](~/docs/standard/parallel-programming/how-to-implement-dynamic-partitions.md)。  
   
- `localInit`参与循环的执行，并为每个这些任务中返回的初始本地状态的每个任务一次调用委托。 这些初始状态传递到第一个`body`上每个任务的调用。 然后，每个后续的正文调用返回传递到下一步的正文调用一个可能已修改值。 最后，在每个任务的最后一个正文调用返回传递到的州值`localFinally`委托。 `localFinally`委托会调用一次每个任务以对每个任务的本地状态执行一个最终操作。 此委托可能会并行调用多个任务;因此，你必须同步对任何共享的变量的访问。  
+ `localInit`参与循环的执行，这些任务的每个返回初始本地状态的每个任务一次调用委托。 这些初始状态传递给第一个`body`上每个任务的调用。 然后，每个后续正文调用返回传递给下一个正文调用一个可能已修改的状态值。 最后，每个任务上的最后一个正文调用返回传递给的州值`localFinally`委托。 `localFinally`每个任务，每个任务的本地状态执行一个最终操作一次调用委托。 在多个任务; 可能会同时调用此委托因此，必须同步对共享的任何变量的访问。  
   
- <xref:System.Threading.Tasks.Parallel.ForEach%2A?displayProperty=nameWithType>方法可以作为现有任务完成其执行生存期内使用多于线程数更多的任务，并替换为新的任务。 这样，基础<xref:System.Threading.Tasks.TaskScheduler>对象有机会添加、 更改或删除服务循环的线程。  
+ <xref:System.Threading.Tasks.Parallel.ForEach%2A?displayProperty=nameWithType>方法可能的现有任务完成其执行生存期内使用多于线程数的更多任务，并替换为新的任务。 这样，基础<xref:System.Threading.Tasks.TaskScheduler>对象机会添加，请更改或删除服务循环的线程。  
   
  ]]></format>
         </remarks>
@@ -1912,11 +1912,11 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- `body`委托中每个元素调用一次`source`可枚举。 它提供以下参数： 当前元素，<xref:System.Threading.Tasks.ParallelLoopState>实例可能用于过早地中断循环、 当前元素的索引 (<xref:System.Int64>)，可能需要执行的迭代之间共享某些本地状态在同一线程。  
+ `body`委托中每个元素调用一次`source`可枚举。 提供使用以下参数： 当前元素，<xref:System.Threading.Tasks.ParallelLoopState>可用于中断循环过早的实例、 当前元素的索引 (<xref:System.Int64>)，以及可能执行的迭代之间共享某些本地状态在同一线程中。  
   
- `localInit`参与循环的执行，并为每个这些任务中返回的初始本地状态的每个任务一次调用委托。 这些初始状态传递到第一个`body`上每个任务的调用。 然后，每个后续的正文调用返回传递到下一步的正文调用一个可能已修改值。 最后，在每个任务的最后一个正文调用返回传递到的州值`localFinally`委托。 `localFinally`每线程来对每个任务的本地状态执行一个最终操作一次调用委托。 此委托可能会并行调用多个任务;因此，你必须同步对任何共享的变量的访问。  
+ `localInit`参与循环的执行，这些任务的每个返回初始本地状态的每个任务一次调用委托。 这些初始状态传递给第一个`body`上每个任务的调用。 然后，每个后续正文调用返回传递给下一个正文调用一个可能已修改的状态值。 最后，每个任务上的最后一个正文调用返回传递给的州值`localFinally`委托。 `localFinally`每个线程上每个任务的本地状态执行一个最终操作一次调用委托。 在多个任务; 可能会同时调用此委托因此，必须同步对共享的任何变量的访问。  
   
- <xref:System.Threading.Tasks.Parallel.ForEach%2A?displayProperty=nameWithType>方法可以作为现有任务完成其执行生存期内使用多于线程数更多的任务，并替换为新的任务。 这样，基础<xref:System.Threading.Tasks.TaskScheduler>对象有机会添加、 更改或删除服务循环的线程。  
+ <xref:System.Threading.Tasks.Parallel.ForEach%2A?displayProperty=nameWithType>方法可能的现有任务完成其执行生存期内使用多于线程数的更多任务，并替换为新的任务。 这样，基础<xref:System.Threading.Tasks.TaskScheduler>对象机会添加，请更改或删除服务循环的线程。  
   
  ]]></format>
         </remarks>
@@ -1976,11 +1976,11 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- `body`委托中每个元素调用一次`source`可枚举。 它提供以下参数： 当前元素，<xref:System.Threading.Tasks.ParallelLoopState>可能用于提前，中断循环的实例，并可能在同一线程执行的迭代之间共享的某些本地状态。  
+ `body`委托中每个元素调用一次`source`可枚举。 提供使用以下参数： 当前元素，<xref:System.Threading.Tasks.ParallelLoopState>实例可用于中断循环过早，并可能在同一线程执行的迭代之间共享某些本地状态。  
   
- `localInit`参与循环的执行，并为每个这些任务中返回的初始本地状态的每个任务一次调用委托。 这些初始状态传递到第一个`body`上每个任务的调用。 然后，每个后续的正文调用返回传递到下一步的正文调用一个可能已修改值。 最后，在每个任务的最后一个正文调用返回传递到的州值`localFinally`委托。 `localFinally`每线程来对每个任务的本地状态执行一个最终操作一次调用委托。 此委托可能会并行调用多个任务;因此，你必须同步对任何共享的变量的访问。  
+ `localInit`参与循环的执行，这些任务的每个返回初始本地状态的每个任务一次调用委托。 这些初始状态传递给第一个`body`上每个任务的调用。 然后，每个后续正文调用返回传递给下一个正文调用一个可能已修改的状态值。 最后，每个任务上的最后一个正文调用返回传递给的州值`localFinally`委托。 `localFinally`每个线程上每个任务的本地状态执行一个最终操作一次调用委托。 在多个任务; 可能会同时调用此委托因此，必须同步对共享的任何变量的访问。  
   
- <xref:System.Threading.Tasks.Parallel.ForEach%2A?displayProperty=nameWithType>方法可以作为现有任务完成其执行生存期内使用多于线程数更多的任务，并替换为新的任务。 这样，基础<xref:System.Threading.Tasks.TaskScheduler>对象有机会添加、 更改或删除服务循环的线程。  
+ <xref:System.Threading.Tasks.Parallel.ForEach%2A?displayProperty=nameWithType>方法可能的现有任务完成其执行生存期内使用多于线程数的更多任务，并替换为新的任务。 这样，基础<xref:System.Threading.Tasks.TaskScheduler>对象机会添加，请更改或删除服务循环的线程。  
   
  ]]></format>
         </remarks>
@@ -2042,9 +2042,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 此方法可以用于并行可能执行的操作，一组。  
+ 此方法可以用于执行的一组操作，可能会并行。  
   
- 有关在操作执行或它们是否并行执行的顺序不作任何保证。 此方法不返回之前的每个提供的操作已完成，无论是否完成由于正常或异常终止。  
+ 有关在操作执行或它们是否并行执行的顺序不作任何保证。 此方法不返回每个提供操作完成之前，而不考虑是否在完成出现正常或异常终止。  
   
  有关详细信息，请参阅[如何：使用 Parallel.Invoke 执行并行操作](~/docs/standard/parallel-programming/how-to-use-parallel-invoke-to-execute-parallel-operations.md)。  
   
@@ -2107,9 +2107,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 此方法可以用于并行可能执行的操作，一组。 使用取消标记传递<xref:System.Threading.Tasks.ParallelOptions>结构允许调用方取消整个操作。 有关详细信息，请参阅[托管线程中的取消](~/docs/standard/threading/cancellation-in-managed-threads.md)。  
+ 此方法可以用于执行的一组操作，可能会并行。 中的取消标记传递<xref:System.Threading.Tasks.ParallelOptions>结构使调用方取消整个操作。 有关详细信息，请参阅[托管线程中的取消](~/docs/standard/threading/cancellation-in-managed-threads.md)。  
   
- 有关在操作执行或它们是否并行执行的顺序不作任何保证。 此方法不返回之前的每个提供的操作已完成，无论是否完成由于正常或异常终止。  
+ 有关在操作执行或它们是否并行执行的顺序不作任何保证。 此方法不返回每个提供操作完成之前，而不考虑是否在完成出现正常或异常终止。  
   
  有关详细信息，请参阅[如何：使用 Parallel.Invoke 执行并行操作](~/docs/standard/parallel-programming/how-to-use-parallel-invoke-to-execute-parallel-operations.md)。  
   

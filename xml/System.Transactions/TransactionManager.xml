@@ -1,11 +1,11 @@
 <Type Name="TransactionManager" FullName="System.Transactions.TransactionManager">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="94a7df2187676486db82e4651339fa18685001a3" />
-    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
+    <Meta Name="ms.openlocfilehash" Value="0ed5091b9916cf14169e9bf44326acc319defaca" />
+    <Meta Name="ms.sourcegitcommit" Value="01f28caab7b3f23878dd07b402a8dd48b9478c8c" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="zh-CN" />
-    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
-    <Meta Name="ms.locfileid" Value="37608476" />
+    <Meta Name="ms.lasthandoff" Value="07/19/2018" />
+    <Meta Name="ms.locfileid" Value="39141819" />
   </Metadata>
   <TypeSignature Language="C#" Value="public static class TransactionManager" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract sealed TransactionManager extends System.Object" />
@@ -241,8 +241,8 @@
         <Parameter Name="manager" Type="System.Guid" Index="0" FrameworkAlternate="xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0" />
       </Parameters>
       <Docs>
-        <param name="resourceManagerIdentifier">To be added.</param>
-        <param name="manager">To be added.</param>
+        <param name="resourceManagerIdentifier">唯一地标识要恢复的资源的 <see cref="T:System.Guid" />。</param>
+        <param name="manager">唯一地标识要恢复的资源的 <see cref="T:System.Guid" />。</param>
         <summary>通知事务管理器：从失败中恢复的资源管理器已在所有未解决的事务中完成了重新登记。</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
@@ -250,7 +250,7 @@
 ## Remarks  
  所有持久资源管理器应执行恢复时在首次启动通过调用<xref:System.Transactions.TransactionManager.Reenlist%2A>为每个未完成事务的方法。  仅当所有重新登记完成时，才应资源管理器调用<xref:System.Transactions.TransactionManager.RecoveryComplete%2A>。  
   
- 有关恢复的详细信息，请参阅[Performing Recovery](http://msdn.microsoft.com/library/d342c5c7-da64-4a4c-8e63-b52f4fbf2691)。  
+ 有关恢复的详细信息，请参阅[Performing Recovery](https://msdn.microsoft.com/library/d342c5c7-da64-4a4c-8e63-b52f4fbf2691)。  
   
  **请注意**此方法使用<xref:System.Security.Permissions.SecurityAction.LinkDemand>若要阻止该调用来自不受信任的代码; 但是，只有直接调用方需要拥有`FullTrust`权限集。  
   
@@ -300,15 +300,42 @@
         <Parameter Name="notification" Type="System.Transactions.IEnlistmentNotification" Index="2" FrameworkAlternate="xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0" />
       </Parameters>
       <Docs>
-        <param name="resourceManagerIdentifier">To be added.</param>
-        <param name="manager">To be added.</param>
-        <param name="recoveryInformation">To be added.</param>
-        <param name="recoveryInfo">To be added.</param>
-        <param name="enlistmentNotification">To be added.</param>
-        <param name="notification">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="resourceManagerIdentifier">唯一地标识资源管理器的 <see cref="T:System.Guid" />。</param>
+        <param name="manager">唯一地标识资源管理器的 <see cref="T:System.Guid" />。</param>
+        <param name="recoveryInformation">包含恢复信息的附加信息。</param>
+        <param name="recoveryInfo">包含恢复信息的附加信息。</param>
+        <param name="enlistmentNotification">实现 <see cref="T:System.Transactions.IEnlistmentNotification" /> 以接收通知的资源对象。</param>
+        <param name="notification">实现 <see cref="T:System.Transactions.IEnlistmentNotification" /> 以接收通知的资源对象。</param>
+        <summary>在事务中重新登记持久参与者。</summary>
+        <returns>描述登记的 <see cref="T:System.Transactions.Enlistment" />。</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+
+## Remarks
+
+资源管理器通过在资源失败之后重新登记事务参与者来促进事务中的持久登记的解决。
+
+`resourceManagerIdentifier`参数用于统一标记事务在资源失败时的参与者。 调用时<xref:System.Transactions.TransactionManager.Reenlist%2A>方法中，资源管理器必须提供相同`resourceManagerIdentifier`因为它最初调用时，使用<xref:System.Transactions.Transaction.EnlistDurable%2A>期间登记，方法或<xref:System.Transactions.TransactionException>引发。
+
+当使用此方法重新登记参与者时，将相应地调用对应于事务结果的 <xref:System.Transactions.IEnlistmentNotification> 的第 2 阶段方法（即 <xref:System.Transactions.IEnlistmentNotification.Commit%2A>、<xref:System.Transactions.IEnlistmentNotification.Rollback%2A> 或 <xref:System.Transactions.IEnlistmentNotification.InDoubt%2A>）。
+
+参与者已成功重新登记后，应调用<xref:System.Transactions.TransactionManager.RecoveryComplete%2A>完成恢复。
+
+资源管理器重新启动失败时，应只调用此方法。 此外，应该仅重新登记在两阶段提交的初始准备阶段中由资源管理器记录的未解决事务。 在无效的时间调用此方法的任何尝试都可能产生错误的结果。
+
+如果事务管理器失败，并在资源管理器执行恢复，仅在短时间后调用<xref:System.Transactions.PreparingEnlistment.Prepared%2A>方法在第 1 阶段的两阶段提交协议的登记，资源管理器可能会收到<xref:System.Transactions.IEnlistmentNotification.InDoubt%2A>或<xref:System.Transactions.IEnlistmentNotification.Rollback%2A>回调。
+
+有关恢复的详细信息，请参阅[Performing Recovery](https://msdn.microsoft.com/library/d342c5c7-da64-4a4c-8e63-b52f4fbf2691)。
+
+**请注意**此方法使用<xref:System.Security.Permissions.SecurityAction.LinkDemand>若要阻止该调用来自不受信任的代码; 但是，只有直接调用方需要拥有`FullTrust`权限集。
+
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentException">
+          <paramref name="recoveryInformation" /> 无效。  或 <paramref name="recoveryInformation" /> 中的“事务管理器”信息与已配置的事务管理器不匹配。  或 <see cref="N:System.Transactions" /> 未能识别 <paramref name="RecoveryInformation" />。</exception>
+        <exception cref="T:System.InvalidOperationException">已经为指定的 <paramref name="resourceManagerIdentifier" /> 调用 <see cref="M:System.Transactions.TransactionManager.RecoveryComplete(System.Guid)" />。 重新登记被拒绝。</exception>
+        <exception cref="T:System.Transactions.TransactionException">
+          <paramref name="resourceManagerIdentifier" /> 与 <paramref name="recoveryInformation" /> 中的指定恢复信息的内容不匹配。</exception>
       </Docs>
     </Member>
   </Members>

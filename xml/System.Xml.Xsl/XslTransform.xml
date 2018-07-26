@@ -1,11 +1,11 @@
 <Type Name="XslTransform" FullName="System.Xml.Xsl.XslTransform">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="bde6eef3e191bd0a25d4c462afa81d1cbfd131ba" />
-    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
+    <Meta Name="ms.openlocfilehash" Value="90f9aaa4f98d650b51fb98e9ae2d19d691591587" />
+    <Meta Name="ms.sourcegitcommit" Value="102d07546033d7818b72aa66d7a26c70235baedd" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="zh-CN" />
-    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
-    <Meta Name="ms.locfileid" Value="37733110" />
+    <Meta Name="ms.lasthandoff" Value="07/23/2018" />
+    <Meta Name="ms.locfileid" Value="39202240" />
   </Metadata>
   <TypeSignature Language="C#" Value="public sealed class XslTransform" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed beforefieldinit XslTransform extends System.Object" />
@@ -740,8 +740,14 @@
   
  有不同的方式提供证据。 下表介绍常见用户方案提供证据的类型。  
   
-    
+|方案|若要提供的证据的类型|  
+|--------------|---------------------------------|  
+|XSLT 样式表是自包含，或来自您信任的代码库。|使用从您的程序集证据。<br /><br /> <pre><code class="lang-csharp">XsltTransform xslt = new XslTransform(); &#13;&#10;xslt.Load(xslReader, resolver, this.GetType().Assembly.Evidence);</code></pre>|  
+|XSLT 样式表来自外部源。 已知源的来源，并且没有可验证的 URL。|创建使用的 URL 证据。<br /><br /> <pre><code class="lang-csharp">XsltTransform xslt = new XslTransform();&#13;&#10; Evidence evidence = XmlSecureResolver.CreateEvidenceForUrl(stylesheetURL); &#13;&#10;xslt.Load(xslReader,resolver,evidence);</code></pre>|  
+|XSLT 样式表来自外部源。 源的来源未知。|将 evidence 设置为 `null`。 脚本块将不进行处理，不支持 XSLT `document()` 函数，而且不允许特权扩展对象。<br /><br /> 此外，还可以设置`resolver`参数`null`。 这可确保`xsl:import`和`xsl:include`元素不会处理。|  
+|XSLT 样式表来自外部源。 源的来源未知，但您需要脚本支持。|从调用方请求证据。 API 调用方必须提供一种方法通常提供证据，<xref:System.Security.Policy.Evidence>类。|  
   
+     
 ## Examples  
  下面的示例执行的 XSLT 转换，其中`xsltReader`是<xref:System.Xml.XmlReader>包含样式表和`secureURL`是可用于创建一个受信任的 URL <xref:System.Security.Policy.Evidence>。 <xref:System.Xml.XmlSecureResolver.CreateEvidenceForUrl%2A?displayProperty=nameWithType>方法用于创建<xref:System.Security.Policy.Evidence>其应用于样式表。  
   
@@ -804,7 +810,14 @@
   
  有不同的方式提供证据。 下表介绍常见用户方案提供证据的类型。  
   
-  ]]></format>
+|方案|若要提供的证据的类型|  
+|--------------|---------------------------------|  
+|XSLT 样式表是自包含，或来自您信任的代码库。|使用从您的程序集证据。<br /><br /> <pre><code class="lang-csharp">XsltTransform xslt = new XslTransform(); &#13;&#10;xslt.Load(style sheet, resolver, this.GetType().Assembly.Evidence);</code></pre>|  
+|XSLT 样式表来自外部源。 已知源的来源，并且没有可验证的 URL。|创建使用的 URL 证据。<br /><br /> <pre><code class="lang-csharp">XsltTransform xslt = new XslTransform(); &#13;&#10;Evidence evidence = XmlSecureResolver.CreateEvidenceForUrl(style sheetURL); &#13;&#10;xslt.Load(style sheet,resolver,evidence);</code></pre>|  
+|XSLT 样式表来自外部源。 源的来源未知。|将 evidence 设置为 `null`。 脚本块将不进行处理，不支持 XSLT `document()` 函数，而且不允许特权扩展对象。<br /><br /> 此外，还可以设置`resolver`参数`null`。 这可确保`xsl:import`和`xsl:include`元素不会处理。|  
+|XSLT 样式表来自外部源。 源的来源未知，但您需要脚本支持。|从调用方请求证据。 API 调用方必须提供一种方法通常提供证据，<xref:System.Security.Policy.Evidence>类。|  
+  
+ ]]></format>
         </remarks>
         <exception cref="T:System.Xml.Xsl.XsltCompileException">加载的资源不是有效的样式表。</exception>
         <exception cref="T:System.Security.SecurityException">引用的样式表需要的功能是所提供的证据不允许的。  调用方尝试提供证据但没有 <see langword="ControlEvidence" /> 权限。</exception>
@@ -861,11 +874,18 @@
   
  有不同的方式提供证据。 下表介绍常见用户方案提供证据的类型。  
   
-    
+|方案|若要提供的证据的类型|  
+|--------------|---------------------------------|  
+|XSLT 样式表是自包含，或来自您信任的代码库。|使用从您的程序集证据。<br /><br /> <pre><code class="lang-csharp">XsltTransform xslt = new XslTransform(); &#13;&#10;xslt.Load(xslNav, resolver, this.GetType().Assembly.Evidence);</code></pre>|  
+|XSLT 样式表来自外部源。 已知源的来源，并且没有可验证的 URL。|创建使用的 URL 证据。<br /><br /> <pre><code class="lang-csharp">XsltTransform xslt = new XslTransform(); &#13;&#10;Evidence evidence = XmlSecureResolver.CreateEvidenceForUrl(style sheetURL); &#13;&#10;xslt.Load(xslNav,resolver,evidence);</code></pre>|  
+|XSLT 样式表来自外部源。 源的来源未知。|将 evidence 设置为 `null`。 脚本块将不进行处理，不支持 XSLT `document()` 函数，而且不允许特权扩展对象。<br /><br /> 此外，还可以设置`resolver`参数`null`。 这可确保`xsl:import`和`xsl:include`元素不会处理。|  
+|XSLT 样式表来自外部源。 源的来源未知，但您需要脚本支持。|从调用方请求证据。 API 调用方必须提供一种方法通常提供证据，`Evidence`类。|  
+  
+   
   
 ## Examples  
  下面的示例执行 XSLT 转换使用来自外部源的样式表。 样式表来自受信任的源，因为`resolver`并`evidence`参数设置为`null`。  
-  
+ 
  [!code-csharp[XslTransform.Load5#1](~/samples/snippets/csharp/VS_Snippets_Data/XslTransform.Load5/CS/trans_noev.cs#1)]
  [!code-vb[XslTransform.Load5#1](~/samples/snippets/visualbasic/VS_Snippets_Data/XslTransform.Load5/VB/trans_noev.vb#1)]  
   

@@ -1,11 +1,11 @@
 <Type Name="SqlConnection" FullName="System.Data.SqlClient.SqlConnection">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="33789ec2b1cfce09a7c22b566d1fa9f23215505a" />
-    <Meta Name="ms.sourcegitcommit" Value="01f28caab7b3f23878dd07b402a8dd48b9478c8c" />
+    <Meta Name="ms.openlocfilehash" Value="c9f78a7640c685e7575e0006131b05c3bce293bc" />
+    <Meta Name="ms.sourcegitcommit" Value="102d07546033d7818b72aa66d7a26c70235baedd" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="zh-CN" />
-    <Meta Name="ms.lasthandoff" Value="07/19/2018" />
-    <Meta Name="ms.locfileid" Value="39140587" />
+    <Meta Name="ms.lasthandoff" Value="07/23/2018" />
+    <Meta Name="ms.locfileid" Value="39202253" />
   </Metadata>
   <TypeSignature Language="C#" Value="public sealed class SqlConnection : System.Data.Common.DbConnection, ICloneable, IDisposable" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed beforefieldinit SqlConnection extends System.Data.Common.DbConnection implements class System.Data.IDbConnection, class System.ICloneable, class System.IDisposable" />
@@ -86,7 +86,7 @@ using (SqlConnection connection = new SqlConnection(connectionString))
   
  如果<xref:System.Data.SqlClient.SqlException>生成的方法执行<xref:System.Data.SqlClient.SqlCommand>，则<xref:System.Data.SqlClient.SqlConnection>保持打开状态时的严重级别为 19 或更少。 20 或更高版本的严重级别时，服务器通常会关闭<xref:System.Data.SqlClient.SqlConnection>。 但是，用户可以重新打开连接并继续操作。  
   
- 创建的实例的应用程序<xref:System.Data.SqlClient.SqlConnection>对象可以要求所有直接和间接调用方拥有足够的权限的代码通过设置声明性或命令性安全要求。 <xref:System.Data.SqlClient.SqlConnection> 可以使用的安全要求<xref:System.Data.SqlClient.SqlClientPermission>对象。 用户可以验证其代码通过使用具有足够的权限<xref:System.Data.SqlClient.SqlClientPermissionAttribute>对象。 用户和管理员还可以使用[Caspol.exe （代码访问安全策略工具）](~/docs/framework/tools/caspol-exe-code-access-security-policy-tool.md)修改计算机、 用户和企业级别的安全策略。 有关详细信息，请参阅[安全性](http://msdn.microsoft.com/library/9a9621d7-8883-4a4f-a874-65e8e09e20a6)。 有关示例，演示了如何使用安全要求，请参阅[代码访问安全性和 ADO.NET](~/docs/framework/data/adonet/code-access-security.md)。  
+ 创建的实例的应用程序<xref:System.Data.SqlClient.SqlConnection>对象可以要求所有直接和间接调用方拥有足够的权限的代码通过设置声明性或命令性安全要求。 <xref:System.Data.SqlClient.SqlConnection> 可以使用的安全要求<xref:System.Data.SqlClient.SqlClientPermission>对象。 用户可以验证其代码通过使用具有足够的权限<xref:System.Data.SqlClient.SqlClientPermissionAttribute>对象。 用户和管理员还可以使用[Caspol.exe （代码访问安全策略工具）](~/docs/framework/tools/caspol-exe-code-access-security-policy-tool.md)修改计算机、 用户和企业级别的安全策略。 有关详细信息，请参阅[.NET 中的安全性](~/docs//standard/security/index.md)。 有关示例，演示了如何使用安全要求，请参阅[代码访问安全性和 ADO.NET](~/docs/framework/data/adonet/code-access-security.md)。  
   
  有关处理来自服务器的警告和信息性消息的详细信息，请参阅[连接事件](~/docs/framework/data/adonet/connection-events.md)。 SQL Server 引擎错误和错误消息记录在 SQL Server 联机丛书中。  
   
@@ -1092,7 +1092,7 @@ End Module
   
 ## Remarks  
  <xref:System.Data.SqlClient.SqlConnection.ConnectionString%2A>类似于的 OLE DB 连接字符串，但并不完全相同。 不同于 OLE DB 或 ADO，则返回的连接字符串是与用户设置相同<xref:System.Data.SqlClient.SqlConnection.ConnectionString%2A>，如果 Persist Security Info 值设置为安全信息减去`false`（默认值）。 SQL Server 的.NET Framework 数据提供程序不会持久保存或连接字符串中返回密码，除非将持久性安全信息设置为`true`。  
-  
+
  可以使用<xref:System.Data.SqlClient.SqlConnection.ConnectionString%2A>属性，以连接到数据库。 下面的示例说明了典型的连接字符串。  
   
 ```  
@@ -1117,7 +1117,49 @@ End Module
   
  下表列出了中的关键字值的有效名称<xref:System.Data.SqlClient.SqlConnection.ConnectionString%2A>。  
   
-  以下列表包含连接池内的值的有效名称<xref:System.Data.SqlClient.SqlConnection.ConnectionString%2A>。 有关详细信息，请参阅 [SQL Server 连接池 (ADO.NET)](~/docs/framework/data/adonet/sql-server-connection-pooling.md)。  
+|关键字|默认|描述|  
+|-------------|-------------|-----------------|  
+|Addr|不可用|同义词**数据源**。|  
+|Address|不可用|同义词**数据源**。|  
+|应用|不可用|同义词**应用程序名称**。|  
+|Application Name|不可用|应用程序或.NET SQLClient 数据提供程序如果未不提供任何应用程序名称的名称。<br /><br /> 应用程序名称可以是 128 个字符或更少。|  
+|`ApplicationIntent`|`ReadWrite`|连接到服务器时声明应用程序工作负荷类型。 可能的值为 `ReadOnly` 和 `ReadWrite`。 例如:<br /><br /> `ApplicationIntent=ReadOnly`<br /><br /> 有关对 Always On 可用性组的 SqlClient 支持的详细信息，请参阅[对高可用性、灾难恢复的 SqlClient 支持](~/docs/framework/data/adonet/sql/sqlclient-support-for-high-availability-disaster-recovery.md)。|  
+|Asynchronous Processing<br /><br /> 或<br /><br /> Async|false|当`true`，支持异步操作。 已识别的值为 `true`、`false`、`yes` 和 `no`。<br /><br /> 在 [!INCLUDE[net_v45](~/includes/net-v45-md.md)] 开始时，忽略此属性。 有关 SqlClient 支持异步编程的详细信息，请参阅[异步编程](~/docs/framework/data/adonet/asynchronous-programming.md)。|  
+|AttachDBFilename<br /><br /> 或<br /><br /> 扩展属性<br /><br /> 或<br /><br /> 初始文件名|不可用|包括可附加数据库的完整路径名称的主数据库文件的名称。 AttachDBFilename 只能用于扩展名为.mdf 的主数据文件。<br /><br /> 如果在连接字符串中指定 AttachDBFileName 关键字的值，则数据库连接，并成为连接的默认数据库。<br /><br /> 如果未指定此密钥，并且以前附加该数据库，将不会重新附加数据库。 在以前附加的数据库将用作该连接的默认数据库。<br /><br /> 如果 AttachDBFileName 关键字以及指定此密钥，则此项的值将用作别名。 但是，如果已在另一个附加的数据库中使用该名称，则连接将失败。<br /><br /> 路径可能是绝对或相对使用 DataDirectory 替代字符串。 如果使用 DataDirectory，则数据库文件必须存在的替换字符串指向的目录的子目录中。 **注意：** 远程服务器、 HTTP 和 UNC 路径名称中不受支持。 <br /><br /> 必须使用关键字 database （或其别名之一） 指定数据库名称，如以下所示：<br /><br /> <code>"AttachDbFileName=&#124;DataDirectory&#124;\data\YourDB.mdf;integrated security=true;database=YourDatabase"</code><br /><br /> 如果日志文件和数据文件存在于同一个目录中，并且在附加主数据文件时使用“database”关键字，则将生成错误。 在这种情况下，请移除日志文件。 附加数据库后，将基于物理路径自动生成一个新日志文件。|  
+|身份验证|不可用|用于身份验证方法[连接到 SQL 数据库使用 Azure Active Directory 身份验证](https://azure.microsoft.com/documentation/articles/sql-database-aad-authentication/#7-connect-to-your-database-by-using-azure-active-directory-identities)。<br /><br /> 有效值为：<br /><br /> Active Directory 集成、 Active Directory 密码，Sql 密码。|  
+|列加密设置|不可用|启用或禁用[Always Encrypted](/sql/relational-databases/security/encryption/always-encrypted-database-engine?view=sql-server-2017)连接的功能。|  
+|连接超时值<br /><br /> 或<br /><br /> Connection Timeout<br /><br /> 或<br /><br /> 超时|15|长度 （以秒为单位） 的时间来等待终止尝试并生成错误之前连接到服务器。<br /><br /> 有效值为大于或等于 0 且小于或等于 2147483647。<br /><br /> 打开连接到 Azure SQL 数据库时，设置连接超时为 30 秒。|  
+|连接生存期<br /><br /> 或<br /><br /> Load Balance Timeout|0|连接返回到池中后，创建时间将与当前时间进行比较，如果时间跨度（秒）超过 `Connection Lifetime` 指定的值，该连接将被破坏。 在聚集配置中可以使用它来强制在运行服务器和刚联机的服务器之间达到负载平衡。<br /><br /> 值为零 (0) 会导致池的连接具有的最大连接超时值。|  
+|ConnectRetryCount|1|控件在客户端标识空闲连接失败后尝试重新连接的次数。 有效值为 0 到 255。 默认值为 1。 0 表示不尝试重新连接 （禁用连接复原）。<br /><br /> 有关空闲连接复原的其他信息，请参阅[技术文章 – 空闲连接复原](http://go.microsoft.com/fwlink/?LinkId=393996)。|  
+|ConnectRetryInterval|10|指定每次连接重试尝试 (ConnectRetryCount) 之间的时间。 有效值为 1 到 60 秒 (默认值 = 10)，应用后第一次重新连接尝试。 检测到断开的连接时，客户端立即尝试重新连接;这是第一次重新连接尝试，仅当 ConnectRetryCount 大于 0。 如果第一次重新连接尝试失败并且 ConnectRetryCount 大于 1，客户端将等待 ConnectRetryInterval 尝试第二个和后续的重新连接尝试。<br /><br /> 有关空闲连接复原的其他信息，请参阅[技术文章 – 空闲连接复原](http://go.microsoft.com/fwlink/?LinkId=393996)。|  
+|Context Connection|false|`true` 如果应建立到 SQL Server 进程内连接。|  
+|Current Language<br /><br /> 或<br /><br /> 语言|不可用|设置数据库服务器的警告或错误消息所使用的语言。<br /><br /> 语言名称可以是 128 个字符或更少。|  
+|“数据源”<br /><br /> 或<br /><br /> 服务器<br /><br /> 或<br /><br /> Address<br /><br /> 或<br /><br /> Addr<br /><br /> 或<br /><br /> 网络地址|不可用|要连接到 SQL server 实例的名称或网络地址。 可以在服务器名之后指定的端口号：<br /><br /> `server=tcp:servername, portnumber`<br /><br /> 在指定的本地实例时，始终使用 (local)。 若要强制使用某个协议，添加以下前缀之一：<br /><br /> `np:(local),  tcp:(local), lpc:(local)`<br /><br /> 从[!INCLUDE[net_v45](~/includes/net-v45-md.md)]，您还可以连接到 LocalDB 数据库，如下所示：<br /><br /> `server=(localdb)\\myInstance`<br /><br /> 有关 LocalDB 的详细信息，请参阅[SqlClient 对 LocalDB 的支持](~/docs/framework/data/adonet/sql/sqlclient-support-for-localdb.md)。<br /><br /> **数据源**必须使用 TCP 格式或 Named Pipes 格式。<br /><br /> TCP 格式如下所示：<br /><br /> -tcp:\<主机名 >\\< 实例名称\><br />-tcp:\<主机名称 >，\<TCP/IP 端口号 ><br /><br /> 必须以前缀开头的 TCP 格式"tcp:"且后跟数据库实例中指定的主机名和实例名称。 连接到 Azure SQL 数据库时，此格式不适用。 不指定任何协议时，自动选择将 TCP 连接到 Azure SQL 数据库的连接。<br /><br /> 必须通过以下方式之一中指定的主机名：<br /><br /> -NetBIOSName<br />-IPv4Address<br />-IPv6Address<br /><br /> 实例名称用于解析为托管数据库实例的特定 TCP/IP 端口号。 或者，还允许直接指定 TCP/IP 端口号。 如果两个实例名称和端口号不存在，则使用默认数据库实例。<br /><br /> Named Pipes 格式如下所示：<br /><br /> -np:\\\\< 主机名\>\pipe\\< 管道名称\><br /><br /> 必须以前缀开头的命名管道格式"np:"且后跟一个命名的管道名称。<br /><br /> 必须通过以下方式之一中指定的主机名：<br /><br /> -NetBIOSName<br />-IPv4Address<br />-IPv6Address<br /><br /> 管道名称用于标识.NET Framework 应用程序将连接到的数据库实例。<br /><br /> 如果的值**网络**指定键，则前缀"tcp:"和"np:"不应指定。 **注意：** 可以强制使用 TCP 而不是共享内存，或者由前缀**tcp:** 到在连接字符串，或使用的服务器名称**localhost**。|  
+|Encrypt|false|当`true`，SQL Server 的服务器是否安装了证书，客户端和服务器之间发送的所有数据使用 SSL 加密。 已识别的值为 `true`、`false`、`yes` 和 `no`。 有关详细信息，请参阅[连接字符串语法](~/docs/framework/data/adonet/connection-string-syntax.md)。<br /><br /> 从开始[!INCLUDE[net_v45](~/includes/net-v45-md.md)]，当`TrustServerCertificate`为 false 和`Encrypt`为 true，连接字符串中指定的服务器名称 （或 IP 地址），SQL Server SSL 证书中的服务器名称 （或 IP 地址） 必须完全匹配。 否则，连接尝试将失败。 有关对其使用者启动带通配符 （*） 的证书的支持信息，请参阅[接受通配符服务器证书用于服务器身份验证](http://support.microsoft.com/kb/258858)。|  
+|Enlist|'true'|`true` 指示 SQL Server 连接池进程会自动登记在创建线程的当前事务上下文中的连接。|  
+|Failover Partner|不可用|数据库镜像配置故障转移合作伙伴服务器的名称。<br /><br /> 如果此密钥的值为""，然后**Initial Catalog**必须存在，且其值不能""。<br /><br /> 服务器名称可为 128 个字符或更少。<br /><br /> 如果指定故障转移合作伙伴，但故障转移伙伴服务器未配置为数据库镜像和 （使用 Server 关键字指定） 的主服务器不可用，则连接将失败。<br /><br /> 如果指定故障转移伙伴和主服务器未配置为数据库镜像，与主服务器 （使用 Server 关键字指定） 的连接会成功，如果主服务器不可用。|  
+|Initial Catalog<br /><br /> 或<br /><br /> 数据库|不可用|数据库的名称。<br /><br /> 数据库名称可以是 128 个字符或更少。|  
+|Integrated Security<br /><br /> 或<br /><br /> Trusted_Connection|false|当`false`，在连接中指定用户 ID 和密码。 当`true`，使用当前 Windows 帐户凭据进行身份验证。<br /><br /> 可识别的值为`true`， `false`， `yes`， `no`，并`sspi`（强烈推荐），这等同于`true`。<br /><br /> 如果指定并集成用户 ID 和密码安全性设置为 true，用户 ID 和密码将被忽略，将使用集成安全性。<br /><br /> <xref:System.Data.SqlClient.SqlCredential> 是更安全的方式来指定使用 SQL Server 身份验证的连接凭据 (`Integrated Security=false`)。|  
+|Max Pool Size|100|最大允许在池中的连接数。<br /><br /> 有效值为大于或等于 1。 值小于**最小池大小**生成错误。|  
+|Min Pool Size|0|最小允许在池中的连接数。<br /><br /> 有效值为大于或等于 0。 在此字段中的为零 (0) 意味着最初打开没有最小的连接。<br /><br /> 值大于**最大池大小**生成错误。|  
+|MultipleActiveResultSets|false|当`true`，应用程序可以维护多个活动结果集 (MARS)。 当`false`，应用程序必须处理或取消某一批中的所有结果集，可以在该连接上执行任何其他批次前。<br /><br /> 可识别的值为`true`和`false`。<br /><br /> 有关详细信息，请参阅[多个活动结果集 (MARS)](~/docs/framework/data/adonet/sql/multiple-active-result-sets-mars.md)。|  
+|`MultiSubnetFailover`|false|始终指定`multiSubnetFailover=True`连接到可用性组侦听器的 SQL Server 2012 （或更高版本） 可用性组或 SQL Server 2012 （或更高版本） 故障转移群集实例时。 `multiSubnetFailover=True` 配置 SqlClient 以提供更快的检测和连接到 （当前） 活动服务器。 可能的值为`Yes`并`No`，`True`并`False`或`1`和`0`。 例如:<br /><br /> `MultiSubnetFailover=True`<br /><br /> 默认值为 `False`。 始终在 Ag 的 SqlClient 的支持的详细信息，请参阅[SqlClient 对高可用性和灾难恢复的支持](~/docs/framework/data/adonet/sql/sqlclient-support-for-high-availability-disaster-recovery.md)。|  
+|Network Library<br /><br /> 或<br /><br /> 网络<br /><br /> 或<br /><br /> Net|不可用|用于建立与 SQL Server 实例的连接的网络库。 支持的值包括：<br /><br /> dbnmpntw （命名管道）<br /><br /> dbmsrpcn （多协议、 Windows RPC）<br /><br /> dbmsadsn （Apple 介绍）<br /><br /> dbmsgnet (VIA)<br /><br /> dbmslpcn （共享内存）<br /><br /> dbmsspxn (IPX/SPX)<br /><br /> dbmssocn (TCP/IP)<br /><br /> Dbmsvinn (Banyan Vines)<br /><br /> 必须在系统上安装您要连接到的相应网络 DLL。 如果未指定网络，并且使用本地服务器 (例如，"。"或"(local)")，使用共享的内存。 在此示例中，网络库是 Win32 Winsock TCP/IP (dbmssocn)，1433 是使用的端口。<br /><br /> `Network Library=dbmssocn;Data Source=000.000.000.000,1433;`|  
+|Packet Size|8000|以字节为单位的用于与 SQL Server 的实例进行通信的网络数据包大小。<br /><br /> 数据包大小可能会大于或等于 512 且小于或等于 32768。|  
+|Password<br /><br /> 或<br /><br /> PWD|不可用|记录的 SQL Server 帐户的密码。 不建议这样做。 若要维护高级别的安全性，我们强烈建议你使用`Integrated Security`或`Trusted_Connection`关键字相反。 <xref:System.Data.SqlClient.SqlCredential> 是更安全的方式来指定使用 SQL Server 身份验证的连接凭据。<br /><br /> 密码必须是 128 个字符或更少。|  
+|Persist Security Info<br /><br /> 或<br /><br /> PersistSecurityInfo|false|如果设置为`false`或`no`（强烈推荐），如果连接处于打开状态，或者一直处于打开状态，安全敏感信息，如密码，则不返回作为连接的一部分。 重置连接字符串将重置所有连接字符串的值包括密码。 已识别的值为 `true`、`false`、`yes` 和 `no`。|  
+|PoolBlockingPeriod|自动|设置连接池暂停时段行为。 请参阅<xref:System.Data.SqlClient.SqlConnectionStringBuilder.PoolBlockingPeriod>属性的详细信息。|  
+|Pooling|'true'|当此项的值设置为 true 时，任何新创建的连接将添加到池时关闭应用程序中。 若要打开同一个连接的下一步尝试，该连接将从池中取出。<br /><br /> 如果它们具有相同的连接字符串，连接被视为相同。 不同的连接具有不同的连接字符串。<br /><br /> 此密钥的值可以是"true"、"false"、"yes"否"。|  
+|Replication|false|`true` 如果使用的连接支持复制。|  
+|事务绑定|Implicit Unbind|控制与登记的连接关联`System.Transactions`事务。<br /><br /> 可能的值有：<br /><br /> `Transaction Binding=Implicit Unbind;`<br /><br /> `Transaction Binding=Explicit Unbind;`<br /><br /> 隐式取消绑定可使连接与事务结束时分离。 分离后，在自动模式下对连接执行其他请求。 在事务处于活动状态的情况下，执行请求时不会检查 `System.Transactions.Transaction.Current` 属性。 事务结束后，会在自动提交模式下执行其他请求。<br /><br /> 如果系统结束事务 (使用的范围内的块) 的最后一个命令完成之前，它会引发<xref:System.InvalidOperationException>。<br /><br /> 显式取消绑定会导致连接一直附加到之前连接关闭的事务或显式`SqlConnection.TransactionEnlist(null)`调用。 从[!INCLUDE[net_v40_long](~/includes/net-v40-long-md.md)]，更改到隐式取消绑定使显式取消绑定已过时。 如果 `InvalidOperationException` 不是登记事务或者登记事务未处于活动状态，则将引发 `Transaction.Current`。|  
+|TransparentNetworkIPResolution|请参阅说明。|将该键的值设置为 `true` 时，需要应用程序检索特定 DNS 条目的所有 IP 地址并尝试连接到列表中的第一个地址。 如果未在 0.5 秒内建立连接，应用程序将尝试并行连接到所有其他地址。 第一个地址响应后，应用程序将与响应的 IP 地址建立连接。<br /><br /> 如果`MultiSubnetFailover`键设置为`true`，`TransparentNetworkIPResolution`将被忽略。<br /><br /> 如果`Failover Partner`项设置，`TransparentNetworkIPResolution`将被忽略。<br /><br /> 此键的值必须是`true`， `false`， `yes`，或`no`。<br /><br /> 值为`yes`是处理相同的值作为`true`。<br /><br /> 值为`no`是处理相同的值作为`false`。<br /><br /> 默认值如下所示：<br /><br /> <ul><li>`false` 时间：<br /><br /> <ul><li>连接到 Azure SQL 数据库数据源的结尾：<br /><br /> <ul><li>.database.chinacloudapi.cn</li><li>.database.usgovcloudapi.net</li><li>.database.cloudapi.de</li><li>.database.windows.net</li></ul></li><li>`Authentication` Active Directory 密码或 Active Directory 集成</li></ul></li><li>在所有其他情况下，它表示 `true`。</li></ul>|  
+|TrustServerCertificate|false|如果设置为`true`，使用 SSL 来加密的通道时绕过证书链以验证信任。 如果将 TrustServerCertificate 设置为`true`和加密设置为`false`，未加密通道。 已识别的值为 `true`、`false`、`yes` 和 `no`。 有关详细信息，请参阅[连接字符串语法](~/docs/framework/data/adonet/connection-string-syntax.md)。|  
+|类型系统版本|不可用|一个字符串值，指示类型系统应用程序需要。 可用于客户端应用程序的功能取决于 SQL Server 版本和数据库的兼容性级别。 如果使用的是 SQL Server 的其他版本，则显式设置编写的客户端应用程序所针对的类型系统版本可避免导致应用程序中断的潜在问题。 **注意：** 不能用于在 SQL Server 中在进程内执行的公共语言运行时 (CLR) 代码设置类型系统版本。 有关详细信息，请参阅[SQL Server 公共语言运行时集成](~/docs/framework/data/adonet/sql/sql-server-common-language-runtime-integration.md)。 <br /><br /> 可能的值有：<br /><br /> `Type System Version=SQL Server 2012;`<br /><br /> `Type System Version=SQL Server 2008;`<br /><br /> `Type System Version=SQL Server 2005;`<br /><br /> `Type System Version=Latest;`<br /><br /> `Type System Version=SQL Server 2012;` 指定应用程序将需要版本 11.0.0.0 的 Microsoft.SqlServer.Types.dll。 其他`Type System Version`设置将需要版本 10.0.0.0 的 Microsoft.SqlServer.Types.dll。<br /><br /> `Latest` 已过时，不应使用。 `Latest` 与 `Type System Version=SQL Server 2008;` 相等。|  
+|User ID<br /><br /> 或<br /><br /> UID<br /><br /> 或|不可用|SQL Server 登录帐户。 不建议这样做。 若要维护高级别的安全性，我们强烈建议你使用`Integrated Security`或`Trusted_Connection`关键字相反。 <xref:System.Data.SqlClient.SqlCredential> 是更安全的方式来指定使用 SQL Server 身份验证的连接凭据。<br /><br /> 用户 ID 必须为 128 个字符或更少。|  
+|User Instance|false|一个值，该值指示是否将重定向到调用方的帐户下运行的运行时启动实例中的默认 SQL Server Express 实例的连接。|  
+|Workstation ID<br /><br /> 或<br /><br /> WSID|本地计算机名称|连接到 SQL Server 的工作站的名称。<br /><br /> ID 必须为 128 个字符或更少。|  
+  
+ 以下列表包含连接池内的值的有效名称<xref:System.Data.SqlClient.SqlConnection.ConnectionString%2A>。 有关详细信息，请参阅 [SQL Server 连接池 (ADO.NET)](~/docs/framework/data/adonet/sql-server-connection-pooling.md)。  
   
 -   连接生存期 （或负载平衡超时）  
   
@@ -1130,7 +1172,7 @@ End Module
 -   Pooling  
   
  当您在设置关键字或连接池需要一个布尔值的值时，可以是使用而不是 'true'，和否而不是 'false'。 整数值表示为字符串。  
-  
+
 > [!NOTE]
 >  SQL Server 的.NET Framework 数据提供程序使用其自己的协议来与 SQL Server 通信。 因此，它不支持使用 ODBC 数据源名称 (DSN) 的连接到 SQL Server，因为它不会添加一个 ODBC 层时。  
   
@@ -1151,6 +1193,10 @@ End Module
  ]]></format>
         </remarks>
         <exception cref="T:System.ArgumentException">提供了一个无效的连接字符串参数，或者未提供所需的连接字符串参数。</exception>
+        <related type="Article" href="~/docs/framework/data/adonet/connection-strings.md">在 ADO.NET 中的连接字符串</related>
+        <related type="Article" href="~/docs/framework/data/adonet/sql-server-connection-pooling.md">SQL Server 连接池 (ADO.NET)</related>
+        <related type="Article" href="~/docs/framework/data/adonet/connecting-to-a-data-source.md">连接到 ADO.NET 中的数据源</related>
+        <related type="Article" href="~/docs/framework/data/adonet/ado-net-overview.md">ADO.NET 托管提供程序和 DataSet 开发人员中心</related>
       </Docs>
     </Member>
     <Member MemberName="ConnectionTimeout">
@@ -1680,7 +1726,7 @@ End Module
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>返回此 <see cref="T:System.Data.SqlClient.SqlConnection" /> 的数据源的架构信息。 有关架构的详细信息，请参阅 [SQL Server 架构集合](http://msdn.microsoft.com/library/ms254969.aspx)。</summary>
+        <summary>返回此 <see cref="T:System.Data.SqlClient.SqlConnection" /> 的数据源的架构信息。 有关架构的详细信息，请参阅 [SQL Server 架构集合](~/docs/framework/data/adonet/sql-server-schema-collections.md)。</summary>
         <returns>包含架构信息的 <see cref="T:System.Data.DataTable" />。</returns>
         <remarks>To be added.</remarks>
       </Docs>

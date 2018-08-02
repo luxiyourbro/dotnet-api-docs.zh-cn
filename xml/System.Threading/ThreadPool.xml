@@ -1,11 +1,11 @@
 <Type Name="ThreadPool" FullName="System.Threading.ThreadPool">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="7542193821586bc0241b3b3025f0ccf05510af2f" />
-    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
+    <Meta Name="ms.openlocfilehash" Value="3affe4872ffccc66fbf65bb8eeb4555921416133" />
+    <Meta Name="ms.sourcegitcommit" Value="4303c81814c0b4fd5963444073ed25c176c5ddad" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="zh-CN" />
-    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
-    <Meta Name="ms.locfileid" Value="37609230" />
+    <Meta Name="ms.lasthandoff" Value="07/31/2018" />
+    <Meta Name="ms.locfileid" Value="39361188" />
   </Metadata>
   <TypeSignature Language="C#" Value="public static class ThreadPool" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract sealed beforefieldinit ThreadPool extends System.Object" />
@@ -544,7 +544,9 @@
    
   
 ## Examples  
- 下面的示例演示如何创建包含任务信息的对象。 它还演示了如何按线程池将该对象传递给已排队等待执行的任务。  
+ 下面的示例使用.NET 线程池来计算`Fibonacci`介于 20 和 40 之间的五个数字的结果。 每个 `Fibonacci` 结果都由 `Fibonacci` 类表示，该类提供一个名为 `ThreadPoolCallback` 的方法，用于执行计算。 创建表示每个 `Fibonacci` 值的对象，并将 `ThreadPoolCallback` 方法传递给 <xref:System.Threading.ThreadPool.QueueUserWorkItem%2A>，它分配池中的一个可用线程来执行此方法。  
+  
+ 因为每个`Fibonacci`对象指定一个半随机值来计算，和每个线程都将争用处理器时间，因为无法知道如何预先花费的时间计算的所有五个结果。 这就是在构造期间为每个 `Fibonacci` 对象传递 <xref:System.Threading.ManualResetEvent> 类的一个实例的原因。 每个对象都通知提供的事件对象其计算过程何时完成，它允许使用的块执行主线程<xref:System.Threading.WaitHandle.WaitAll%2A>直到所有五个`Fibonacci`对象全部计算出结果。 然后 `Main` 方法会显示每个 `Fibonacci` 结果。
   
  [!code-cpp[System.Threading.ThreadPool QueueUserWorkItem1#1](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Threading.ThreadPool QueueUserWorkItem1/CPP/source.cpp#1)]
  [!code-csharp[System.Threading.ThreadPool QueueUserWorkItem1#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ThreadPool QueueUserWorkItem1/CS/source.cs#1)]

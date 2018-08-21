@@ -1,10 +1,10 @@
 <Type Name="ArrayPool&lt;T&gt;" FullName="System.Buffers.ArrayPool&lt;T&gt;">
   <Metadata>
     <Meta Name="ms.openlocfilehash" Value="c365ab2f2412036b41ba89388ab6a1187f6696d2" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.sourcegitcommit" Value="d0bb31ec8354fa58c62c2a646057eec11d3e2150" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="zh-CN" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
+    <Meta Name="ms.lasthandoff" Value="08/17/2018" />
     <Meta Name="ms.locfileid" Value="36647244" />
   </Metadata>
   <TypeSignature Language="C#" Value="public abstract class ArrayPool&lt;T&gt;" />
@@ -35,11 +35,11 @@
   
 ## Remarks  
   
- 使用<xref:System.Buffers.ArrayPool%601>类出租并返回缓冲区 (使用<xref:System.Buffers.ArrayPool%601.Rent%2A>和<xref:System.Buffers.ArrayPool%601.Return%2A>方法) 在其中创建和销毁经常数组的情况下可以改善性能，从而在很大内存压力，在垃圾回收收集器。
+ 使用<xref:System.Buffers.ArrayPool%601>租用，并返回缓冲区的类 (使用<xref:System.Buffers.ArrayPool%601.Rent%2A>和<xref:System.Buffers.ArrayPool%601.Return%2A>方法) 可以提高性能，在其中创建和销毁经常阵列的情况下，从而导致垃圾回收的大量内存压力收集器。
   
  ]]></format>
     </remarks>
-    <threadsafe>此类是线程安全的。 所有成员可同时都使用多个线程。</threadsafe>
+    <threadsafe>此类是线程安全的。 所有成员可由多个线程同时都使用。</threadsafe>
   </Docs>
   <Members>
     <Member MemberName=".ctor">
@@ -64,7 +64,7 @@
   
 ## Remarks  
   
-请注意，此构造函数都受到保护;仅可以由派生自的类调用<xref:System.Buffers.ArrayPool%601>类。 
+请注意，此构造函数受保护时仅可由派生的类调用<xref:System.Buffers.ArrayPool%601>类。 
  ]]></format>
         </remarks>
       </Docs>
@@ -127,7 +127,7 @@
   
 ## Remarks  
   
-实例<xref:System.Buffers.ArrayPool%601>由该方法创建的类将为不同存储桶，没有分组数组超过`maxArraysPerBucket`在每个存储桶，并与这些阵列不超过`maxArrayLength`的长度。
+实例<xref:System.Buffers.ArrayPool%601>类创建的此方法将分组到存储桶中，不带数组超过`maxArraysPerBucket`在每个存储桶，并与这些阵列不超过`maxArrayLength`的长度。
  ]]></format>
         </remarks>
       </Docs>
@@ -163,7 +163,7 @@
   
 ## Remarks  
 
-此缓冲区借给调用方，不应返回到相同的池使用<xref:System.Buffers.ArrayPool%601.Return%2A>方法，因此可以在后续调用中重用它<xref:System.Buffers.ArrayPool%601.Rent%2A>方法。 返回租赁的缓冲区失败不是一个致命错误。 但是，它可能导致降低应用程序性能，因为该池可能需要创建一个新的缓冲区，以替换丢失。
+此缓冲区借给调用方，不应返回到相同的池使用<xref:System.Buffers.ArrayPool%601.Return%2A>方法，因此它可以在后续调用中重复使用<xref:System.Buffers.ArrayPool%601.Rent%2A>方法。 未能返回租赁的缓冲区不是严重错误。 但是，它可能会导致降低应用程序性能，因为池可能需要创建新的缓冲区来替换丢失。
  ]]></format>
         </remarks>
       </Docs>
@@ -198,7 +198,7 @@
   
 ## Remarks  
 
-一旦缓冲区返回到池后，调用方将放弃所有所有权的缓冲区，并且不能将它。 从给定调用返回的引用<xref:System.Buffers.ArrayPool%601.Rent%2A>才必须使用返回方法<xref:System.Buffers.ArrayPool%601.Return%2A>方法一次。 默认值<xref:System.Buffers.ArrayPool%601>可能保留在返回的缓冲区以出租再次，或它可能会发布返回的缓冲区，如果它确定该池已经有存储足够缓冲区。
+后一个缓冲区返回到池后，调用方放弃所有缓冲区的所有权，并且不能使用它。 从给定调用返回的引用<xref:System.Buffers.ArrayPool%601.Rent%2A>才必须使用返回方法<xref:System.Buffers.ArrayPool%601.Return%2A>方法一次。 默认值<xref:System.Buffers.ArrayPool%601>可能存放到返回的缓冲区上以租用试，或它可能会发布返回的缓冲区，如果确定该池已经有足够的缓冲区存储。
  ]]></format>
         </remarks>
       </Docs>
@@ -223,13 +223,13 @@
       </ReturnValue>
       <Docs>
         <summary>获取共享 <see cref="T:System.Buffers.ArrayPool`1" /> 实例。</summary>
-        <value>共享<see cref="T:System.Buffers.ArrayPool`1" />实例。</value>
+        <value>在不共享<see cref="T:System.Buffers.ArrayPool`1" />实例。</value>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
 
-共享的池提供的默认实现<xref:System.Buffers.ArrayPool%601>适用于常规的适用性的类。 共享的类维护多个大小的数组，并可能退回更大的阵列不是已实际请求，但它将永远不会退回较小的阵列不是请求。 租用从共享的类使用的缓冲区<xref:System.Buffers.ArrayPool%601.Rent%2A>方法将导致在现有缓冲区正在执行池中的线程中，如果适当的缓冲区为可用或在新的缓冲区分配如果一个不可用。
+共享的池提供的默认实现<xref:System.Buffers.ArrayPool%601>适用于常规的适用性的类。 共享的类维护多个大小的数组，并可能会退回更大的数组不是实际请求，但它将永远不会退回少于请求的较小数组。 租用从共享的类使用的缓冲区<xref:System.Buffers.ArrayPool%601.Rent%2A>方法将导致正在从相应池中获取，如果可用的适当的缓冲区，或在新的缓冲区进行分配，如果一个不可用的现有缓冲区。
  ]]></format>
         </remarks>
       </Docs>

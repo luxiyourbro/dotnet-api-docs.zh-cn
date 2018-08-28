@@ -1,10 +1,10 @@
 <Type Name="MuxLogger" FullName="Microsoft.Build.Utilities.MuxLogger">
   <Metadata>
     <Meta Name="ms.openlocfilehash" Value="a7f638e1c6b08a849c703c09d7ece293bb979d2a" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.sourcegitcommit" Value="434f60616a9793fa8436744549fc856e94f7a648" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="zh-CN" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
+    <Meta Name="ms.lasthandoff" Value="08/24/2018" />
     <Meta Name="ms.locfileid" Value="36732739" />
   </Metadata>
   <TypeSignature Language="C#" Value="public class MuxLogger : Microsoft.Build.Framework.INodeLogger" />
@@ -26,44 +26,46 @@
     </Interface>
   </Interfaces>
   <Docs>
-    <summary>表示多路复用记录器。 在生成过程中，该记录器的用途是注册和注销多个记录器。 支持 Visual Studio 集成开发环境方案，其中为每个项目系统的生成请求注册和注销记录器。 一个物理生成能拥有多个逻辑生成，每个都带有它自己的记录器集。  <see langword="MuxLogger" /> 作为一般中心/l 样式记录器向生成管理器注册自身。 根据消息来自的逻辑生成，它从生成管理器中接收消息并将它们发送到正确的记录器上。</summary>
+    <summary>表示多路复用记录器。 在生成过程中，该记录器的用途是注册和注销多个记录器。 支持 Visual Studio 集成开发环境方案，其中为每个项目系统的生成请求注册和注销记录器。 一个物理生成能拥有多个逻辑生成，每个都带有它自己的记录器集。  
+  
+<see langword="MuxLogger" /> 作为一般中心/l 样式记录器向生成管理器注册自身。 根据消息来自的逻辑生成，它从生成管理器中接收消息并将它们发送到正确的记录器上。</summary>
     <remarks>
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
  `MuxLogger`通常函数，如下所示：  
   
--   `MuxLogger`注册生成管理器的开始生成开头。  
+-   `MuxLogger`注册生成管理器开始生成的开始处。  
   
-     注册，然后生成管理器启动生成任何记录器获取生成开始事件在同一时间`MuxLogger`。  
+     注册，然后生成管理器中启动该构建任何记录器获取生成开始事件在同一时间作为`MuxLogger`。  
   
-     注册后生成管理器启动生成任何记录器会获得合成的生成开始事件。 无法缓存事件，因为生成开始事件的时间戳在创建的事件，并缓存该事件将在注册到的记录器中为不正确的生成时间时确定`MuxLogger`。  
+     生成管理器中启动该构建后注册任何记录器获取合成的生成开始的事件。 不能缓存该事件，因为生成开始事件时间戳在创建事件时，并缓存该事件会在注册到记录器中为错误的生成时间时确定`MuxLogger`。  
   
 -   `MuxLogger`初始化生成管理器  
   
-     `MuxLogger`侦听从生成管理器上的事件源的所有事件，并将事件正确路由到已注册的记录器。  
+     `MuxLogger`从生成管理器侦听事件源上的所有事件，并且正确地将事件路由到已注册的记录器。  
   
--   `MuxLogger`完成生成后端生成中已关闭。 在此期间，它将注销附加到它的任何记录器。  
+-   `MuxLogger`完成生成后在最终版本中已关闭。 在此期间，它将注销附加到它的任何记录器。  
   
--   `MuxLogger`记录生成完成事件时每个记录器观察到的第一个项目启动事件的项目完成事件。  
+-   `MuxLogger`记录生成完成事件时为每个记录器看到第一个项目启动事件的项目完成事件。  
   
- `MuxLogger`注册记录器方式如下：  
+ `MuxLogger`按以下方式注册的记录器：  
   
-1.  记录器传递给`MuxLogger.RegisterLogger`提交 id 用于将消息路由到该记录器的方法。  
+1.  记录器传递给`MuxLogger.RegisterLogger`方法用于将消息路由到该记录器的提交 ID。  
   
-2.  `MuxLogger`注册的记录器`MuxLogger`事件源。  
+2.  `MuxLogger`注册到记录器`MuxLogger`事件源。  
   
-3.  如果已记录生成开始事件、`MuxLogger`创建一个新的生成开始事件并将其发送到记录器的事件源。  
+3.  如果已记录生成开始的事件、`MuxLogger`创建新的生成开始的事件，并将其发送到记录器的事件源。  
   
- `MuxLogger`注销记录器方式如下：  
+ `MuxLogger`注销记录器，如下所示：  
   
-1.  完成生成提交后，`MuxLogger.UnregisterLogger`调用方法时，提交 ID 为记录器。  
+1.  完成生成提交后，`MuxLogger.UnregisterLogger`记录器方法调用使用提交 ID。  
   
-2.  `MuxLogger`提交 id 查找项目完成事件的成功状态并将生成完成的事件记录到记录器。  
+2.  `MuxLogger`提交 id 查找项目完成事件的成功状态并记录到的记录器生成完成事件。  
   
 3.  `MuxLogger`清理事件源。  
   
-     请注意，注销来自日志记录线程外的线程，并且如果注销称为将记录事件时，可能出现同步问题。  
+     请注意，取消注册来自日志记录线程以外的线程是否记录事件时，会调用取消注册，可能出现同步问题。  
   
  ]]></format>
     </remarks>

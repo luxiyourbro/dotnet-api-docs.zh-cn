@@ -1,10 +1,10 @@
 <Type Name="IObservable&lt;T&gt;" FullName="System.IObservable&lt;T&gt;">
   <Metadata>
     <Meta Name="ms.openlocfilehash" Value="273ff4990891b6ccd268f3e0d66f89a6f1fa9839" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.sourcegitcommit" Value="434f60616a9793fa8436744549fc856e94f7a648" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="zh-CN" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
+    <Meta Name="ms.lasthandoff" Value="08/24/2018" />
     <Meta Name="ms.locfileid" Value="36430246" />
   </Metadata>
   <TypeSignature Language="C#" Value="public interface IObservable&lt;out T&gt;" />
@@ -46,41 +46,41 @@
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.IObserver%601>和<xref:System.IObservable%601>接口提供通用的机制，以基于推送的通知，也称为观察程序设计模式。 <xref:System.IObservable%601>接口表示发送通知 （提供程序）; 类<xref:System.IObserver%601>接口表示接收它们 （观察者） 的类。 `T` 表示提供通知信息的类。 在某些基于推送的通知中，<xref:System.IObserver%601>实现和`T`可表示相同的类型。  
+ <xref:System.IObserver%601>和<xref:System.IObservable%601>接口提供一种基于推送的通知，也称为观察者设计模式的通用的机制。 <xref:System.IObservable%601>接口表示发送通知 （该提供程序;） 的类<xref:System.IObserver%601>接口表示接收它们 （观察者） 的类。 `T` 表示提供通知信息的类。 在某些基于推送的通知中，<xref:System.IObserver%601>实现和`T`可以表示同一类型。  
   
- 提供程序必须实现单个方法<xref:System.IObservable%601.Subscribe%2A>，指示观察者想要接收基于推送的通知。 对方法的调用方传递观察程序的实例。 该方法返回<xref:System.IDisposable>使观察程序提供程序已停止发送它们之前随时取消通知的实现。  
+ 提供程序必须实现单个方法<xref:System.IObservable%601.Subscribe%2A>，指示观察者想要接收基于推送的通知。 该方法的调用方传递观察程序的实例。 该方法将返回<xref:System.IDisposable>实现，它使观察者的任意时间之前提供程序已停止向他们发送取消通知。  
   
- 在任何给定时间，给定的提供程序可能有零行、 一行或多个观察程序。 提供程序负责存储对观察者的引用，并确保它们有效之前它将通知发送。 <xref:System.IObservable%601>接口不进行任何假设数观察者或发送通知的顺序。  
+ 在任何给定时间，给定的提供程序可能具有零行、 一行或多个观察程序。 提供程序负责存储对观察程序的引用，并确保它们有效发送通知之前。 <xref:System.IObservable%601>接口不会不做出任何假设的数量的观察者或发送通知的顺序。  
   
- 提供程序通过调用将以下三种通知发送给观察者<xref:System.IObserver%601>方法：  
+ 提供程序通过调用向观察者发送通知的以下三种<xref:System.IObserver%601>方法：  
   
--   当前数据。 提供程序可以调用<xref:System.IObserver%601.OnNext%2A?displayProperty=nameWithType>方法通过观察者`T`具有当前数据、 更改的数据，还是保持数据的对象。  
+-   当前数据。 提供程序可以调用<xref:System.IObserver%601.OnNext%2A?displayProperty=nameWithType>方法将传递观察者`T`对象具有当前数据、 已更改的数据或新数据。  
   
--   错误条件。 提供程序可以调用<xref:System.IObserver%601.OnError%2A?displayProperty=nameWithType>方法通知观察者已发生某个错误条件。  
+-   错误条件。 提供程序可以调用<xref:System.IObserver%601.OnError%2A?displayProperty=nameWithType>方法以通知的观察程序的某些错误条件。  
   
--   没有更多的数据。 提供程序可以调用<xref:System.IObserver%601.OnCompleted%2A?displayProperty=nameWithType>方法通知观察者，它已完成发送通知。  
+-   没有更多的数据。 提供程序可以调用<xref:System.IObserver%601.OnCompleted%2A?displayProperty=nameWithType>方法以通知观察者它已完成发送通知。  
   
    
   
 ## Examples  
- 下面的示例演示观察程序设计模式。 它定义`Location`包含纬度和经度信息的类。  
+ 下面的示例说明了观察者设计模式。 它定义`Location`类，该类包含纬度和经度信息。  
   
  [!code-csharp[System.IObserver.Class#5](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.iobserver.class/cs/provider.cs#5)]
  [!code-vb[System.IObserver.Class#5](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.iobserver.class/vb/provider.vb#5)]  
   
- `LocationTracker`类提供<xref:System.IObservable%601>实现。 其`TrackLocation`方法传递一个可以为 null`Location`包含纬度和经度数据的对象。 如果`Location`值不是`null`、`TrackLocation`方法调用<xref:System.IObserver%601.OnNext%2A>的每个观察程序的方法。  
+ `LocationTracker`类提供了<xref:System.IObservable%601>实现。 其`TrackLocation`方法传递一个可以为 null`Location`对象，其中包含纬度和经度数据。 如果`Location`的值不是`null`，则`TrackLocation`方法调用<xref:System.IObserver%601.OnNext%2A>的每个观察程序的方法。  
   
  [!code-csharp[System.IObserver.Class#6](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.iobserver.class/cs/provider.cs#6)]
  [!code-vb[System.IObserver.Class#6](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.iobserver.class/vb/provider.vb#6)]  
   
- 如果`Location`值是`null`、`TrackLocation`方法实例化`LocationUnknownException`对象，在下面的示例所示。 然后，它调用每个观察程序<xref:System.IObserver%601.OnError%2A>方法并将其传递`LocationUnknownException`对象。 请注意，`LocationUnknownException`派生自<xref:System.Exception>，但未添加任何新的成员。  
+ 如果`Location`值是`null`，则`TrackLocation`方法实例化`LocationUnknownException`对象，在下面的示例所示。 然后，它调用每个观察程序<xref:System.IObserver%601.OnError%2A>方法并将其传递`LocationUnknownException`对象。 请注意，`LocationUnknownException`派生自<xref:System.Exception>，但不会添加任何新成员。  
   
  [!code-csharp[System.IObserver.Class#7](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.iobserver.class/cs/provider.cs#7)]
  [!code-vb[System.IObserver.Class#7](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.iobserver.class/vb/provider.vb#7)]  
   
- 观察者注册以接收通知从`TrackLocation`对象通过调用其<xref:System.IObservable%601.Subscribe%2A?displayProperty=nameWithType>方法，将对观察程序对象的引用分配给私有泛型<xref:System.Collections.Generic.List%601>对象。 该方法返回`Unsubscriber`对象，它是<xref:System.IDisposable>使观察程序停止接收通知的实现。 `LocationTracker`类还进行了`EndTransmission`方法。 当没有更多位置数据可用时，该方法调用每个观察程序<xref:System.IObserver%601.OnCompleted%2A>方法，然后再清除观察者的内部列表。  
+ 观察程序注册以接收来自通知`TrackLocation`对象通过调用其<xref:System.IObservable%601.Subscribe%2A?displayProperty=nameWithType>方法，将观察者对象的引用分配给私有泛型<xref:System.Collections.Generic.List%601>对象。 该方法返回`Unsubscriber`对象，它是<xref:System.IDisposable>实现，它使观察者来停止接收通知。 `LocationTracker`类还包括`EndTransmission`方法。 当没有更多位置数据可用时，该方法会调用每个观察程序<xref:System.IObserver%601.OnCompleted%2A>方法，然后再清除观察者的内部列表。  
   
- 在此示例中，`LocationReporter`类提供<xref:System.IObserver%601>实现。 它向控制台显示有关当前的位置的信息。 其构造函数包括`name`参数，它使`LocationReporter`实例在其字符串输出中标识自身。 它还包括`Subscribe`方法，该包装到提供程序的调用方法<xref:System.IObservable%601.Subscribe%2A>方法。 这允许方法将返回<xref:System.IDisposable>到私有变量的引用。 `LocationReporter`类还进行了`Unsubscribe`方法，后者将调用<xref:System.IDisposable.Dispose%2A?displayProperty=nameWithType>方法返回的对象<xref:System.IObservable%601.Subscribe%2A?displayProperty=nameWithType>方法。 下面的代码定义`LocationReporter`类。  
+ 在此示例中，`LocationReporter`类提供了<xref:System.IObserver%601>实现。 它向控制台显示有关当前的位置的信息。 其构造函数包括`name`参数，以使`LocationReporter`实例在其字符串输出中标识自身。 它还包括`Subscribe`方法，它包装到提供程序的调用<xref:System.IObservable%601.Subscribe%2A>方法。 这允许方法将返回的分配<xref:System.IDisposable>私有变量的引用。 `LocationReporter`类还包括`Unsubscribe`方法，调用<xref:System.IDisposable.Dispose%2A?displayProperty=nameWithType>返回的对象方法<xref:System.IObservable%601.Subscribe%2A?displayProperty=nameWithType>方法。 下面的代码定义`LocationReporter`类。  
   
  [!code-csharp[System.IObserver.Class#8](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.iobserver.class/cs/observer.cs#8)]
  [!code-vb[System.IObserver.Class#8](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.iobserver.class/vb/observer.vb#8)]  
@@ -135,18 +135,18 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.IObservable%601.Subscribe%2A>必须调用方法来注册基于推送的通知的观察者。 典型实现<xref:System.IObservable%601.Subscribe%2A>方法执行以下：  
+ <xref:System.IObservable%601.Subscribe%2A>必须调用方法来注册基于推送的通知的观察者。 典型实现<xref:System.IObservable%601.Subscribe%2A>方法执行以下操作：  
   
--   将对观察者的引用存储在集合对象，如<xref:System.Collections.Generic.List%601>对象。  
+-   将对观察程序的引用存储在集合对象，如<xref:System.Collections.Generic.List%601>对象。  
   
--   它返回到引用<xref:System.IDisposable>接口。 这使观察者取消订阅 (即，停止接收通知) 之前的提供程序已完成发送和调用订阅服务器的<xref:System.IObserver%601.OnCompleted%2A>方法。  
+-   它返回到引用<xref:System.IDisposable>接口。 这使观察者取消订阅 (即，停止接收通知) 之前的提供程序已完成发送通知和名为订阅服务器的<xref:System.IObserver%601.OnCompleted%2A>方法。  
   
- 在任意给定时间的特定实例<xref:System.IObservable%601>实现都负责处理所有订阅和通知所有订阅服务器。 除非特定的文档<xref:System.IObservable%601>实现指示，否则观察者应做任何假设<xref:System.IObservable%601>实现，如多个观察程序将接收的通知的顺序。  
+ 在任何给定时间的特定实例<xref:System.IObservable%601>实现都负责处理所有订阅和通知所有订阅服务器。 除非特定的文档<xref:System.IObservable%601>实现指示，否则，观察者应做任何假设<xref:System.IObservable%601>实现，如多个观察程序将接收通知的顺序。  
   
    
   
 ## Examples  
- 下面的示例演示<xref:System.IObservable%601.Subscribe%2A>报告纬度和经度信息的应用程序的方法。 它定义<xref:System.Collections.Generic.IList%601>存储对所有观察程序引用的集合对象。 它还返回一个名为的专用类`Unsubscriber`实现<xref:System.IDisposable>接口，并且允许订阅服务器停止接收事件通知。  请参阅示例部分<xref:System.IObservable%601>有关完整示例的主题。  
+ 下面的示例演示<xref:System.IObservable%601.Subscribe%2A>报告纬度和经度信息的应用程序的方法。 它定义<xref:System.Collections.Generic.IList%601>存储所有观察程序的引用的集合对象。 它还会返回一个名为的私有类`Unsubscriber`实现<xref:System.IDisposable>接口，并可使订阅服务器停止接收事件通知。  请参阅示例部分<xref:System.IObservable%601>有关完整示例的主题。  
   
  [!code-csharp[System.IObserver.Class#13](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.iobserver.class/cs/provider.cs#13)]
  [!code-vb[System.IObserver.Class#13](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.iobserver.class/vb/provider.vb#13)]  

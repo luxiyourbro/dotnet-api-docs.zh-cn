@@ -1,10 +1,10 @@
 <Type Name="MachineKeySessionSecurityTokenHandler" FullName="System.IdentityModel.Services.Tokens.MachineKeySessionSecurityTokenHandler">
   <Metadata>
     <Meta Name="ms.openlocfilehash" Value="2e1500621297c35468613c40c867ef1dbf001263" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.sourcegitcommit" Value="434f60616a9793fa8436744549fc856e94f7a648" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="zh-CN" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
+    <Meta Name="ms.lasthandoff" Value="08/24/2018" />
     <Meta Name="ms.locfileid" Value="36482346" />
   </Metadata>
   <TypeSignature Language="C#" Value="public class MachineKeySessionSecurityTokenHandler : System.IdentityModel.Tokens.SessionSecurityTokenHandler" />
@@ -27,22 +27,22 @@
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 默认情况下，<xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler>类使用<xref:System.IdentityModel.ProtectedDataCookieTransform>类，该类使用数据保护 API (DPAPI) 来保护会话令牌。 DPAPI 使用用户或计算机凭据提供保护并将关键数据存储在用户配置文件中。 这意味着，会话令牌签名和加密的一台计算机上无法验证或其他计算机上解密。  
+ 默认情况下<xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler>类使用<xref:System.IdentityModel.ProtectedDataCookieTransform>类，该类使用数据保护 API (DPAPI) 来保护会话令牌。 DPAPI 使用用户或计算机凭据提供保护并将关键数据存储在用户配置文件中。 这意味着，会话令牌签名和加密的一台计算机上不能验证或在另一台计算机上解密。  
   
- 与此相反，<xref:System.IdentityModel.Services.Tokens.MachineKeySessionSecurityTokenHandler>类使用<xref:System.IdentityModel.Services.MachineKeyTransform>类，使用来保护会话 cookie 数据中指定的加密材料`<machineKey>`配置文件中的元素。 这意味着，可以跨多台计算机使用相同的密钥 （和会话令牌）。 当 web 场中部署应用程序时，这一点特别重要。 有关如何使用 Windows Identity Foundation 来保护 web 场中部署的应用程序的详细信息，请参阅[WIF 和 Web 场](~/docs/framework/security/wif-and-web-farms.md)。  
+ 与此相反，<xref:System.IdentityModel.Services.Tokens.MachineKeySessionSecurityTokenHandler>类使用<xref:System.IdentityModel.Services.MachineKeyTransform>类，该类使用指定的加密材料保护会话 cookie 数据`<machineKey>`配置文件中的元素。 这意味着，可以跨多台计算机使用相同的密钥 （和会话令牌）。 在 web 场中部署应用程序时，这一点尤其重要。 有关如何使用 Windows Identity Foundation 来保护 web 场中部署的应用程序的详细信息，请参阅[WIF 和 Web 场](~/docs/framework/security/wif-and-web-farms.md)。  
   
- 配置应用程序使用 <xref:System.IdentityModel.Services.Tokens.MachineKeySessionSecurityTokenHandler>，方法是将它添加到令牌处理程序集合。 如果此类处理程序存在，必须先从令牌处理程序集合中删除 <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler>（或者任何派生自 <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler> 类的处理程序）。 这是因为<xref:System.IdentityModel.Services.Tokens.MachineKeySessionSecurityTokenHandler>派生自<xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler>和令牌处理程序集合不能包含任何给定的类型的多个处理程序。  
+ 配置应用程序使用 <xref:System.IdentityModel.Services.Tokens.MachineKeySessionSecurityTokenHandler>，方法是将它添加到令牌处理程序集合。 如果此类处理程序存在，必须先从令牌处理程序集合中删除 <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler>（或者任何派生自 <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler> 类的处理程序）。 这是因为<xref:System.IdentityModel.Services.Tokens.MachineKeySessionSecurityTokenHandler>派生自<xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler>和标记处理程序集合不能包含任何给定类型的多个处理程序。  
   
    
   
 ## Examples  
- 下面的 XML 演示如何使用 ASP.NET`<machineKey>`显式指定签名和加密密钥的配置中的元素。 `<machineKey>`元素下指定`<system.web>`配置文件中的元素。  
+ 下面的 XML 演示如何使用 ASP.NET`<machineKey>`中显式指定的签名和加密密钥的配置元素。 `<machineKey>`元素下指定`<system.web>`配置文件中的元素。  
   
 ```xml  
 <machineKey compatibilityMode="Framework45" decryptionKey="CC510D … 8925E6" validationKey="BEAC8 … 6A4B1DE" />  
 ```  
   
- 以下 XML 显示如何添加 <xref:System.IdentityModel.Services.Tokens.MachineKeySessionSecurityTokenHandler> 到令牌处理程序集合。 默认值<xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler>首先从集合中移除。 令牌处理程序配置下[ &lt;securityTokenHandlers&gt; ](~/docs/framework/configure-apps/file-schema/windows-identity-foundation/securitytokenhandlers.md)元素。  
+ 以下 XML 显示如何添加 <xref:System.IdentityModel.Services.Tokens.MachineKeySessionSecurityTokenHandler> 到令牌处理程序集合。 默认值<xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler>首次从集合中移除。 令牌处理程序配置下[ &lt;securityTokenHandlers&gt; ](~/docs/framework/configure-apps/file-schema/windows-identity-foundation/securitytokenhandlers.md)元素。  
   
 ```xml  
 <securityTokenHandlers>  

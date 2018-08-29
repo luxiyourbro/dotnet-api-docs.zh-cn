@@ -1,10 +1,10 @@
 <Namespace Name="System.Diagnostics.PerformanceData">
   <Metadata>
     <Meta Name="ms.openlocfilehash" Value="8813c8ce03149b4c97305ad0ee10d1cdd88ce604" />
-    <Meta Name="ms.sourcegitcommit" Value="3907f9a5780957d9c85af2e54c0a5bc2a5bf19ab" />
+    <Meta Name="ms.sourcegitcommit" Value="434f60616a9793fa8436744549fc856e94f7a648" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="zh-CN" />
-    <Meta Name="ms.lasthandoff" Value="06/14/2018" />
+    <Meta Name="ms.lasthandoff" Value="08/24/2018" />
     <Meta Name="ms.locfileid" Value="34173732" />
   </Metadata>
   <Docs>
@@ -13,52 +13,52 @@
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 此命名空间中的类支持在 Windows Vista 中引入的性能计数器的新体系结构 （2.0 版）。 在新的体系结构，该提供程序不再直接响应客户请求，但只是维护的计数器数据。 系统将线程注入到提供程序的进程在提供商创建计数器集; 的实例线程负责处理使用者的请求。  
+ 此命名空间中的类支持性能计数器，Windows Vista 中引入了新的体系结构 （2.0 版）。 在新的体系结构，提供程序不再直接响应的使用者请求，但只是维护的计数器数据。 系统将线程注入到提供程序的进程时提供程序创建计数器集; 的实例该线程是负责处理使用者请求。  
   
- 下面的步骤演示了编写计数器提供程序的过程。  
+ 以下步骤说明编写计数器提供程序的过程。  
   
-1.  提供程序提供的计数器是基于 XML 的清单中定义的。 计数器进行逻辑分组为计数器集。 在计数器集内唯一的数值标识符由标识一个计数器集内的计数器。 一个提供程序可以定义一个或多个计数器集。 计数器集由唯一的提供程序的 Guid 标识。 请注意，如果你使用这些类编写你的提供程序：  
+1.  基于 XML 的清单中定义的提供程序的计数器。 计数器以逻辑方式分组为计数器集。 计数器集内的计数器的计数器集内唯一的数字标识符进行标识。 一个提供程序可以定义一个或多个计数器集。 计数器集标识是唯一的提供程序的 guid。 请注意，如果您使用这些类来编写您的提供程序：  
   
     -   忽略提供程序元素的回调属性。  
   
-    -   将忽略 counterAttribute 元素的名称属性引用值。  
+    -   忽略 counterAttribute 元素的 name 属性的引用值。  
   
      有关编写清单的详细信息，请参阅[性能计数器架构](https://msdn.microsoft.com/library/windows/desktop/aa373092\(v=vs.85\).aspx)。  
   
-2.  在编写你的清单之后, 使用[CTRPP](https://msdn.microsoft.com/library/windows/desktop/aa372128\(v=vs.85\).aspx)工具编译清单 (ctrpp provider.man)。 该工具将生成四个文件：.h、.c、.rc，和 * _r.h。 你可以忽略.h 和.c 文件。 .Rc 文件包含在清单中定义的本地化的字符串。 .Rc 和 *_r.h 文件用于创建在你项目中包含的已编译的资源文件 (.res)。 以下调用演示了如何编译资源文件：  
+2.  在编写你的清单之后, 使用[CTRPP](https://msdn.microsoft.com/library/windows/desktop/aa372128\(v=vs.85\).aspx)工具编译清单 (ctrpp provider.man)。 该工具将生成四个文件：.h、.c、.rc，和 * _r.h。 你可以忽略.h 和.c 文件。 .Rc 文件包含在清单中定义的本地化的字符串。 .Rc 和 *_r.h 文件用于创建在项目中包括的已编译的资源文件 (.res)。 以下调用演示了如何编译资源文件：  
   
     ```console  
     rc /r /i "c:\Program Files\Microsoft SDKs\Windows\v6.0\Include" provider.rc  
     ```  
   
-     如果你收到的错误消息引用 sal.h，Microsoft Visual Studio 中的 sal.h 文件复制，Visual C 包含到你为 /i 开关指定的目录的目录。  
+     如果您引用 sal.h 遇到错误，将 sal.h 文件从您的 Microsoft Visual Studio，Visual C 包括目录更改为/i 开关指定的目录。  
   
-     将已编译的资源文件 (.res) 的路径添加到你的项目的应用程序属性页。  
+     将已编译的资源文件 (.res) 的路径添加到项目的应用程序属性页。  
   
-3.  编写你的提供程序。 以下步骤演示进行的调用提供程序：  
+3.  编写您的提供程序。 以下步骤演示由提供程序进行的调用：  
   
-    1.  调用<xref:System.Diagnostics.PerformanceData.CounterSet.%23ctor%2A?displayProperty=nameWithType>构造函数定义计数器集。 为每个计数器集定义在清单中调用此方法。  
+    1.  调用<xref:System.Diagnostics.PerformanceData.CounterSet.%23ctor%2A?displayProperty=nameWithType>构造函数来定义计数器集。 为每个计数器集在清单中定义调用此方法。  
   
-    2.  对于每个计数器集，调用之一<xref:System.Diagnostics.PerformanceData.CounterSet.AddCounter%2A?displayProperty=nameWithType>方法来向集添加计数器。 为每个计数器定义计数器集在调用此方法。  
+    2.  对于每个计数器集，调用的其中一个<xref:System.Diagnostics.PerformanceData.CounterSet.AddCounter%2A?displayProperty=nameWithType>将计数器添加到集的方法。 调用此方法在该计数器集中定义的每个计数器。  
   
-    3.  调用<xref:System.Diagnostics.PerformanceData.CounterSet.CreateCounterSetInstance%2A?displayProperty=nameWithType>方法来创建计数器集 （实例包含的计数器数据） 的实例。 对于单个实例计数器集，调用此方法一次。 对于多个实例的计数器集，调用此方法对于你需要为其提供 （使用每个实例的唯一名称） 的计数器数据的每个实例。  
+    3.  调用<xref:System.Diagnostics.PerformanceData.CounterSet.CreateCounterSetInstance%2A?displayProperty=nameWithType>方法来创建计数器集 （实例包含的计数器数据） 的实例。 对于单实例计数器集，调用此方法一次。 对于多个实例的计数器集，调用此方法对于每个实例需要提供 （使用每个实例的唯一名称） 的计数器数据。  
   
-    4.  使用<xref:System.Diagnostics.PerformanceData.CounterSetInstance.Counters%2A?displayProperty=nameWithType>属性来访问和为计数器设置的计数器数据。  
+    4.  使用<xref:System.Diagnostics.PerformanceData.CounterSetInstance.Counters%2A?displayProperty=nameWithType>属性访问和设置计数器的计数器数据。  
   
-4.  在完成你的提供商后，使用 LodCtr 工具注册的计算机上的计数器。 例如，应用于对象的  
+4.  完成您的提供程序后，使用 LodCtr 工具注册的计算机上的计数器。 例如，应用于对象的  
   
     ```console  
     lodctr /m:provider.man  
     ```  
   
-     该示例假定清单，并且可执行文件位于当前目录中。 使用 LodCtr 的完整详细信息，请参阅[Microsoft Technet](Http://Go.Microsoft.Com/FWLink/?LinkId=84000)。  
+     该示例假定清单和可执行文件位于当前目录中。 使用 LodCtr 的完整详细信息，请参阅[Microsoft Technet](Http://Go.Microsoft.Com/FWLink/?LinkId=84000)。  
   
- 在运行 Windows Vista 和更高版本操作系统的计算机上此命名空间，可以使用类。  
+ 可以在运行 Windows Vista 和更高版本操作系统的计算机上此命名空间中使用类。  
   
    
   
 ## Examples  
- 下面演示一个简单的清单：  
+ 下面显示了一个简单的清单：  
   
 ```xml  
 <!-- <?xml version="1.0" encoding="UTF-16"?> -->  
@@ -160,7 +160,7 @@
 </instrumentationManifest>  
 ```  
   
- 下面演示的清单的简单的提供程序实现：  
+ 下面显示了在清单的简单的提供程序实现：  
   
 ```cs  
 using System.Diagnostics.PerformanceData;  

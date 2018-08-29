@@ -1,11 +1,11 @@
 <Type Name="ThreadPoolBoundHandle" FullName="System.Threading.ThreadPoolBoundHandle">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="961a8fb7abc8eaeeddeeea04c397e2f12cf020dd" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="65ff656956141c60abfbc4761eb75463e9356eba" />
+    <Meta Name="ms.sourcegitcommit" Value="434f60616a9793fa8436744549fc856e94f7a648" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="zh-CN" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36605410" />
+    <Meta Name="ms.lasthandoff" Value="08/25/2018" />
+    <Meta Name="ms.locfileid" Value="39778435" />
   </Metadata>
   <TypeSignature Language="C#" Value="public sealed class ThreadPoolBoundHandle : IDisposable" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed beforefieldinit ThreadPoolBoundHandle extends System.Object implements class System.IDisposable" />
@@ -36,7 +36,7 @@
     </Interface>
   </Interfaces>
   <Attributes>
-    <Attribute>
+    <Attribute FrameworkAlternate="netstandard-2.0">
       <AttributeName>System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)</AttributeName>
     </Attribute>
   </Attributes>
@@ -77,8 +77,11 @@
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute>
+        <Attribute FrameworkAlternate="netcore-1.0;netcore-1.1;netcore-2.0;netcore-2.1;netframework-4.7.1;netframework-4.7.2;netstandard-2.0">
           <AttributeName>System.CLSCompliant(false)</AttributeName>
+        </Attribute>
+        <Attribute FrameworkAlternate="netframework-4.7.1;netframework-4.7.2">
+          <AttributeName>System.Security.SecurityCritical</AttributeName>
         </Attribute>
       </Attributes>
       <ReturnValue>
@@ -95,14 +98,17 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 此方法返回的非托管的指针可以传递到重叠的 I/O 操作中的操作系统。 <xref:System.Threading.NativeOverlapped>结构固定的物理内存中，直到<xref:System.Threading.ThreadPoolBoundHandle.FreeNativeOverlapped%2A>调用方法。  
+ 此方法返回的非托管的指针可以传递给重叠 I/O 操作中的操作系统。 <xref:System.Threading.NativeOverlapped>结构固定的物理内存中，直到<xref:System.Threading.ThreadPoolBoundHandle.FreeNativeOverlapped%2A>调用方法。  
   
  ]]></format>
         </remarks>
         <exception cref="T:System.ArgumentNullException">
           <paramref name="preAllocated" /> 为 <see langword="null" />。</exception>
         <exception cref="T:System.ArgumentException">另一 I/O 操作当前正在使用 <paramref name="preAllocated" />。</exception>
-        <exception cref="T:System.ObjectDisposedException">此释放 <see cref="T:System.Threading.ThreadPoolBoundHandle" /> 后调用此方法。  - 或 -  在释放 <paramref name="preAllocated" /> 后调用了此方法。</exception>
+        <exception cref="T:System.ObjectDisposedException">此释放 <see cref="T:System.Threading.ThreadPoolBoundHandle" /> 后调用此方法。  
+  
+或 
+在释放 <paramref name="preAllocated" /> 后调用此方法。</exception>
         <altmember cref="T:System.Threading.PreAllocatedOverlapped" />
       </Docs>
     </Member>
@@ -128,8 +134,11 @@
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute>
+        <Attribute FrameworkAlternate="netcore-1.0;netcore-1.1;netcore-2.0;netcore-2.1;netframework-4.7.1;netframework-4.7.2;netstandard-2.0">
           <AttributeName>System.CLSCompliant(false)</AttributeName>
+        </Attribute>
+        <Attribute FrameworkAlternate="netframework-4.7.1;netframework-4.7.2">
+          <AttributeName>System.Security.SecurityCritical</AttributeName>
         </Attribute>
       </Attributes>
       <ReturnValue>
@@ -174,6 +183,11 @@
         <AssemblyName>mscorlib</AssemblyName>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.7.1;netframework-4.7.2">
+          <AttributeName>System.Security.SecurityCritical</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.Threading.ThreadPoolBoundHandle</ReturnType>
       </ReturnValue>
@@ -191,13 +205,22 @@
 ## Remarks  
  此方法应调用一次每句柄。  
   
- <xref:System.Threading.ThreadPoolBoundHandle>对象不采用的所有权`handle`; 它将一直调用方调用的责任<xref:System.Runtime.InteropServices.SafeHandle.Dispose%2A>。  
+ <xref:System.Threading.ThreadPoolBoundHandle>对象不采用的所有权`handle`; 它将保持的调用方调用责任<xref:System.Runtime.InteropServices.SafeHandle.Dispose%2A>。  
   
  ]]></format>
         </remarks>
         <exception cref="T:System.ArgumentNullException">
           <paramref name="handle" /> 为 <see langword="null" />。</exception>
-        <exception cref="T:System.ArgumentException">已释放 <paramref name="handle" />。  - 或 -  <paramref name="handle" /> 未引用有效的 I/O 句柄。  - 或 -  <paramref name="handle" /> 引用的句柄没有为重叠 I/O 打开。  - 或 -  <paramref name="handle" /> 引用了已绑定的句柄。</exception>
+        <exception cref="T:System.ArgumentException">已释放 <paramref name="handle" />。  
+  
+或 
+ <paramref name="handle" /> 未引用有效的 I/O 句柄。  
+  
+或 
+ <paramref name="handle" /> 引用的句柄没有为重叠 I/O 打开。  
+  
+或 
+ <paramref name="handle" /> 引用了已绑定的句柄。</exception>
       </Docs>
     </Member>
     <Member MemberName="Dispose">
@@ -256,8 +279,11 @@
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute>
+        <Attribute FrameworkAlternate="netcore-1.0;netcore-1.1;netcore-2.0;netcore-2.1;netframework-4.7.1;netframework-4.7.2;netstandard-2.0">
           <AttributeName>System.CLSCompliant(false)</AttributeName>
+        </Attribute>
+        <Attribute FrameworkAlternate="netframework-4.7.1;netframework-4.7.2">
+          <AttributeName>System.Security.SecurityCritical</AttributeName>
         </Attribute>
       </Attributes>
       <ReturnValue>
@@ -275,7 +301,7 @@
 ## Remarks  
   
 > [!CAUTION]
->  必须调用<xref:System.Threading.ThreadPoolBoundHandle.FreeNativeOverlapped%2A>方法一次每个<xref:System.Threading.NativeOverlapped>使用分配的非托管的指针<xref:System.Threading.ThreadPoolBoundHandle.AllocateNativeOverlapped%2A>方法。 如果不调用<xref:System.Threading.ThreadPoolBoundHandle.FreeNativeOverlapped%2A>方法，你将会泄漏内存。 如果调用<xref:System.Threading.ThreadPoolBoundHandle.FreeNativeOverlapped%2A>方法方法上相同多次<xref:System.Threading.NativeOverlapped>非托管的指针，将损坏内存。  
+>  必须调用<xref:System.Threading.ThreadPoolBoundHandle.FreeNativeOverlapped%2A>上的方法一次每个<xref:System.Threading.NativeOverlapped>通过使用分配的非托管的指针<xref:System.Threading.ThreadPoolBoundHandle.AllocateNativeOverlapped%2A>方法。 如果不调用<xref:System.Threading.ThreadPoolBoundHandle.FreeNativeOverlapped%2A>方法中，会发生内存泄漏。 如果您调用<xref:System.Threading.ThreadPoolBoundHandle.FreeNativeOverlapped%2A>方法的方法不止一次在同一个<xref:System.Threading.NativeOverlapped>非托管的指针，将损坏内存。  
   
  ]]></format>
         </remarks>
@@ -306,8 +332,11 @@
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute>
+        <Attribute FrameworkAlternate="netcore-1.0;netcore-1.1;netcore-2.0;netcore-2.1;netframework-4.7.1;netframework-4.7.2;netstandard-2.0">
           <AttributeName>System.CLSCompliant(false)</AttributeName>
+        </Attribute>
+        <Attribute FrameworkAlternate="netframework-4.7.1;netframework-4.7.2">
+          <AttributeName>System.Security.SecurityCritical</AttributeName>
         </Attribute>
       </Attributes>
       <ReturnValue>
@@ -347,6 +376,11 @@
         <AssemblyName>mscorlib</AssemblyName>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.7.1;netframework-4.7.2">
+          <AttributeName>get: System.Security.SecurityCritical</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.Runtime.InteropServices.SafeHandle</ReturnType>
       </ReturnValue>

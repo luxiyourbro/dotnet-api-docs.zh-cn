@@ -1,11 +1,11 @@
 <Type Name="BatchedJoinBlock&lt;T1,T2&gt;" FullName="System.Threading.Tasks.Dataflow.BatchedJoinBlock&lt;T1,T2&gt;">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="04c5866dab75dad15ebcd1c52ac654ad348f25f3" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="4dcdf8eb33b98e54952920d9c3eecf544d8286c6" />
+    <Meta Name="ms.sourcegitcommit" Value="434f60616a9793fa8436744549fc856e94f7a648" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="zh-CN" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36606785" />
+    <Meta Name="ms.lasthandoff" Value="08/25/2018" />
+    <Meta Name="ms.locfileid" Value="39872795" />
   </Metadata>
   <TypeSignature Language="C#" Value="public sealed class BatchedJoinBlock&lt;T1,T2&gt; : System.Threading.Tasks.Dataflow.IReceivableSourceBlock&lt;Tuple&lt;System.Collections.Generic.IList&lt;T1&gt;,System.Collections.Generic.IList&lt;T2&gt;&gt;&gt;, System.Threading.Tasks.Dataflow.ISourceBlock&lt;Tuple&lt;System.Collections.Generic.IList&lt;T1&gt;,System.Collections.Generic.IList&lt;T2&gt;&gt;&gt;" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed beforefieldinit BatchedJoinBlock`2&lt;T1, T2&gt; extends System.Object implements class System.Threading.Tasks.Dataflow.IDataflowBlock, class System.Threading.Tasks.Dataflow.IReceivableSourceBlock`1&lt;class System.Tuple`2&lt;class System.Collections.Generic.IList`1&lt;!T1&gt;, class System.Collections.Generic.IList`1&lt;!T2&gt;&gt;&gt;, class System.Threading.Tasks.Dataflow.ISourceBlock`1&lt;class System.Tuple`2&lt;class System.Collections.Generic.IList`1&lt;!T1&gt;, class System.Collections.Generic.IList`1&lt;!T2&gt;&gt;&gt;" />
@@ -35,6 +35,14 @@
       <InterfaceName>System.Threading.Tasks.Dataflow.ISourceBlock&lt;System.Tuple&lt;System.Collections.Generic.IList&lt;T1&gt;,System.Collections.Generic.IList&lt;T2&gt;&gt;&gt;</InterfaceName>
     </Interface>
   </Interfaces>
+  <Attributes>
+    <Attribute FrameworkAlternate="netcore-1.0;netcore-1.1">
+      <AttributeName>System.Diagnostics.DebuggerDisplay("{DebuggerDisplayContent,nq}")</AttributeName>
+    </Attribute>
+    <Attribute FrameworkAlternate="netcore-1.0;netcore-1.1">
+      <AttributeName>System.Diagnostics.DebuggerTypeProxy(typeof(System.Threading.Tasks.Dataflow.BatchedJoinBlock`2/DebugView))</AttributeName>
+    </Attribute>
+  </Attributes>
   <Docs>
     <typeparam name="T1">指定由块的第一个目标接受的数据类型。</typeparam>
     <typeparam name="T2">指定由块的第二个目标接受的数据类型。</typeparam>
@@ -156,7 +164,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 后<xref:System.Threading.Tasks.Dataflow.BatchedJoinBlock%602.Complete%2A>已在数据流块上调用，将完成该块，并将其<xref:System.Threading.Tasks.Dataflow.BatchedJoinBlock%602.Completion%2A>任务将进入最终状态之后它已处理所有以前可用的数据。 <xref:System.Threading.Tasks.Dataflow.BatchedJoinBlock%602.Complete%2A> 将不会阻止等待完成发生，而是将发起的请求; 但要等待的时间完成，发生，<xref:System.Threading.Tasks.Dataflow.BatchedJoinBlock%602.Completion%2A>可能使用任务。  
+ 后<xref:System.Threading.Tasks.Dataflow.BatchedJoinBlock%602.Complete%2A>已在数据流块上调用，将完成的块，并将其<xref:System.Threading.Tasks.Dataflow.BatchedJoinBlock%602.Completion%2A>处理以前提供的所有数据后，任务将进入最终状态。 <xref:System.Threading.Tasks.Dataflow.BatchedJoinBlock%602.Complete%2A> 将不会阻止等待完成发生，而是将发起请求; 但若要等待完成发生，<xref:System.Threading.Tasks.Dataflow.BatchedJoinBlock%602.Completion%2A>可能使用任务。  
   
  ]]></format>
         </remarks>
@@ -190,7 +198,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 数据流块视为已完成时它当前不在处理一条消息，当它具有保证不会处理更多消息。 返回<xref:System.Threading.Tasks.Task>关联的块完成时将转换为已完成状态。 它将转换为<xref:System.Threading.Tasks.TaskStatus><xref:System.Threading.Tasks.TaskStatus.RanToCompletion>状态在阻塞完成其处理成功根据数据流块时定义的语义。 它将转换为<xref:System.Threading.Tasks.TaskStatus><xref:System.Threading.Tasks.TaskStatus.Faulted>状态在数据流块已完成处理过早地由于未经处理的异常，并且它将转换为<xref:System.Threading.Tasks.TaskStatus><xref:System.Threading.Tasks.TaskStatus.Canceled>时数据流块已完成的状态由于正在接收取消请求过早地处理。 如果任务在完成时处于<xref:System.Threading.Tasks.TaskStatus.Faulted>状态，其`Exception`属性将返回<xref:System.AggregateException>包含导致失败的块的一个或多个异常。  
+ 数据流块被视为已完成，它当前不在处理一条消息，当保证它不会处理更多消息。 返回<xref:System.Threading.Tasks.Task>相关联的块已完成时，将转换为已完成状态。 它将转换为<xref:System.Threading.Tasks.TaskStatus><xref:System.Threading.Tasks.TaskStatus.RanToCompletion>状态时阻止完成其处理成功根据数据流块定义的语义。 它将转换为<xref:System.Threading.Tasks.TaskStatus><xref:System.Threading.Tasks.TaskStatus.Faulted>时数据流块已完成处理过早地由于未经处理的异常，并将转换到状态<xref:System.Threading.Tasks.TaskStatus><xref:System.Threading.Tasks.TaskStatus.Canceled>时数据流块已完成的状态由于接收取消请求而导致过早地处理。 如果任务完成时处于<xref:System.Threading.Tasks.TaskStatus.Faulted>状态，其`Exception`属性将返回<xref:System.AggregateException>其中包含导致失败的块的一个或多个异常。  
   
  ]]></format>
         </remarks>
@@ -294,7 +302,7 @@
       <MemberSignature Language="C++ CLI" Value=" virtual Tuple&lt;System::Collections::Generic::IList&lt;T1&gt; ^, System::Collections::Generic::IList&lt;T2&gt; ^&gt; ^ System.Threading.Tasks.Dataflow.ISourceBlock&lt;System.Tuple&lt;System.Collections.Generic.IList&lt;T1&gt;,System.Collections.Generic.IList&lt;T2&gt;&gt;&gt;.ConsumeMessage(System::Threading::Tasks::Dataflow::DataflowMessageHeader messageHeader, System::Threading::Tasks::Dataflow::ITargetBlock&lt;Tuple&lt;System::Collections::Generic::IList&lt;T1&gt; ^, System::Collections::Generic::IList&lt;T2&gt; ^&gt; ^&gt; ^ target, [Runtime::InteropServices::Out] bool % messageConsumed) = System::Threading::Tasks::Dataflow::ISourceBlock&lt;Tuple&lt;System::Collections::Generic::IList&lt;T1&gt; ^, System::Collections::Generic::IList&lt;T2&gt; ^&gt; ^&gt;::ConsumeMessage;" />
       <MemberType>Method</MemberType>
       <Implements>
-        <InterfaceMember>M:System.Threading.Tasks.Dataflow.ISourceBlock`1.ConsumeMessage(System.Threading.Tasks.Dataflow.DataflowMessageHeader,System.Threading.Tasks.Dataflow.ITargetBlock{`0},System.Boolean@)</InterfaceMember>
+        <InterfaceMember>M:System.Threading.Tasks.Dataflow.ISourceBlock`1.ConsumeMessage(System.Threading.Tasks.Dataflow.DataflowMessageHeader,System.Threading.Tasks.Dataflow.ITargetBlock{`0},System.Boolean)</InterfaceMember>
       </Implements>
       <AssemblyInfo>
         <AssemblyName>System.Threading.Tasks.Dataflow</AssemblyName>
@@ -309,7 +317,7 @@
       <Parameters>
         <Parameter Name="messageHeader" Type="System.Threading.Tasks.Dataflow.DataflowMessageHeader" />
         <Parameter Name="target" Type="System.Threading.Tasks.Dataflow.ITargetBlock&lt;System.Tuple&lt;System.Collections.Generic.IList&lt;T1&gt;,System.Collections.Generic.IList&lt;T2&gt;&gt;&gt;" />
-        <Parameter Name="messageConsumed" Type="System.Boolean&amp;" RefType="out" />
+        <Parameter Name="messageConsumed" Type="System.Boolean" RefType="out" />
       </Parameters>
       <Docs>
         <param name="messageHeader">To be added.</param>
@@ -483,7 +491,7 @@
       </ReturnValue>
       <Parameters>
         <Parameter Name="filter" Type="System.Predicate&lt;System.Tuple&lt;System.Collections.Generic.IList&lt;T1&gt;,System.Collections.Generic.IList&lt;T2&gt;&gt;&gt;" />
-        <Parameter Name="item" Type="System.Tuple&lt;System.Collections.Generic.IList&lt;T1&gt;,System.Collections.Generic.IList&lt;T2&gt;&gt;&amp;" RefType="out" />
+        <Parameter Name="item" Type="System.Tuple&lt;System.Collections.Generic.IList&lt;T1&gt;,System.Collections.Generic.IList&lt;T2&gt;&gt;" RefType="out" />
       </Parameters>
       <Docs>
         <param name="filter">为使值得到检索，必须成功传递值的谓词。  <c>filter</c> 可能是 <see langword="null" />，在此情况下，所有项均会通过。</param>
@@ -496,7 +504,7 @@
 ## Remarks  
  此方法不会阻止等待要提供项的源。  
   
- 它将元素可用，在检查的元素之后返回。  
+ 它将元素可用，一个元素，检查完后返回。  
   
  ]]></format>
         </remarks>
@@ -521,7 +529,7 @@
         <ReturnType>System.Boolean</ReturnType>
       </ReturnValue>
       <Parameters>
-        <Parameter Name="items" Type="System.Collections.Generic.IList&lt;System.Tuple&lt;System.Collections.Generic.IList&lt;T1&gt;,System.Collections.Generic.IList&lt;T2&gt;&gt;&gt;&amp;" RefType="out" />
+        <Parameter Name="items" Type="System.Collections.Generic.IList&lt;System.Tuple&lt;System.Collections.Generic.IList&lt;T1&gt;,System.Collections.Generic.IList&lt;T2&gt;&gt;&gt;" RefType="out" />
       </Parameters>
       <Docs>
         <param name="items">从源中接收的项。</param>

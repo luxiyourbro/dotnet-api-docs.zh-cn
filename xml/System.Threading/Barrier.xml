@@ -1,11 +1,11 @@
 <Type Name="Barrier" FullName="System.Threading.Barrier">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="d271267ac0284159a3b1b51c2d7ecb5e4260d584" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="719976617af141ff2c2b5fa4cf1717f2e6def395" />
+    <Meta Name="ms.sourcegitcommit" Value="434f60616a9793fa8436744549fc856e94f7a648" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="zh-CN" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36606327" />
+    <Meta Name="ms.lasthandoff" Value="08/25/2018" />
+    <Meta Name="ms.locfileid" Value="39998728" />
   </Metadata>
   <TypeSignature Language="C#" Value="public class Barrier : IDisposable" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit Barrier extends System.Object implements class System.IDisposable" />
@@ -38,10 +38,10 @@
     </Interface>
   </Interfaces>
   <Attributes>
-    <Attribute>
+    <Attribute FrameworkAlternate="netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0">
       <AttributeName>System.Diagnostics.DebuggerDisplay("Participant Count={ParticipantCount},Participants Remaining={ParticipantsRemaining}")</AttributeName>
     </Attribute>
-    <Attribute>
+    <Attribute FrameworkAlternate="netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0">
       <AttributeName>System.Runtime.InteropServices.ComVisible(false)</AttributeName>
     </Attribute>
   </Attributes>
@@ -51,19 +51,19 @@
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 一组任务间移动通过一系列阶段，其中每个组中发出信号，它已经到达来协作<xref:System.Threading.Barrier>在给定的阶段和隐式等待所有其他到达。 相同<xref:System.Threading.Barrier>可用于多个阶段。  
+ 一组任务间移动通过一系列的阶段，组中的每个表示它已经到达来协作<xref:System.Threading.Barrier>中给定的阶段和隐式地等待所有其他到达。 相同<xref:System.Threading.Barrier>可用于多个阶段。  
   
    
   
 ## Examples  
- 下面的示例演示如何使用一个屏障：  
+ 下面的示例演示如何使用一个障碍：  
   
  [!code-csharp[System.Threading.Barrier#01](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.threading.barrier/cs/barrier.cs#01)]
  [!code-vb[System.Threading.Barrier#01](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.threading.barrier/vb/barrier.vb#01)]  
   
  ]]></format>
     </remarks>
-    <threadsafe>所有公共和受保护成员<see cref="T:System.Threading.Barrier" />是线程安全的可同时从多个线程，Dispose 除外，它必须仅使用时使用上的所有其他操作<see cref="T:System.Threading.Barrier" />已完成。</threadsafe>
+    <threadsafe>所有公共和受保护成员<see cref="T:System.Threading.Barrier" />都是线程安全的同时从多个线程，Dispose 除外，它必须仅能时使用所有其他操作<see cref="T:System.Threading.Barrier" />已完成。</threadsafe>
   </Docs>
   <Members>
     <MemberGroup MemberName=".ctor">
@@ -101,6 +101,11 @@
         <AssemblyName>netstandard</AssemblyName>
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0">
+          <AttributeName>System.Runtime.TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")</AttributeName>
+        </Attribute>
+      </Attributes>
       <Parameters>
         <Parameter Name="participantCount" Type="System.Int32" />
       </Parameters>
@@ -148,7 +153,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- `postPhaseAction`将在一个阶段中所有参与者都到达屏障后执行委托。 参与者不会释放直到 postPhaseAction 委托而已完成执行的下一个阶段。  
+ `postPhaseAction`在一个阶段，所有参与者都到达屏障后，将执行委托。 参与者将不被发布到下一阶段之前 postPhaseAction 委托已完成执行。  
   
  ]]></format>
         </remarks>
@@ -191,12 +196,15 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 如果屏障当前正在执行后阶段操作，此调用阻止，直到后阶段操作完成且屏障已移到下一阶段。  
+ 如果屏障当前正在执行后阶段操作，此调用将被阻止，直到的后期阶段操作完成并屏障移动到下一阶段。  
   
  ]]></format>
         </remarks>
         <exception cref="T:System.ObjectDisposedException">已释放当前实例。</exception>
-        <exception cref="T:System.InvalidOperationException">添加参与者将导致屏障的参与者计数超过 32,767。  - 或 -  该方法是从阶段后操作中调用的。</exception>
+        <exception cref="T:System.InvalidOperationException">添加参与者将导致屏障的参与者计数超过 32,767。  
+  
+或 
+该方法从阶段后操作中调用。</exception>
       </Docs>
     </Member>
     <Member MemberName="AddParticipants">
@@ -237,13 +245,16 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 如果屏障当前正在执行后阶段操作，此调用阻止，直到后阶段操作完成且屏障已移到下一阶段。  
+ 如果屏障当前正在执行后阶段操作，此调用将被阻止，直到的后期阶段操作完成并屏障移动到下一阶段。  
   
  ]]></format>
         </remarks>
         <exception cref="T:System.ObjectDisposedException">已释放当前实例。</exception>
         <exception cref="T:System.ArgumentOutOfRangeException">
-          <paramref name="participantCount" /> 小于 0。  - 或 -  添加 <paramref name="participantCount" /> 名参与者将导致屏障的参与者计数超过 32,767。</exception>
+          <paramref name="participantCount" /> 小于 0。  
+  
+或 
+添加 <paramref name="participantCount" /> 参与者将导致屏障的参与者计数超过 32,767。</exception>
         <exception cref="T:System.InvalidOperationException">该方法从阶段后操作中调用。</exception>
       </Docs>
     </Member>
@@ -271,6 +282,11 @@
         <AssemblyName>netstandard</AssemblyName>
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0">
+          <AttributeName>get: System.Runtime.TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.Int64</ReturnType>
       </ReturnValue>
@@ -328,9 +344,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 在完成使用 `Dispose` 后，应调用 <xref:System.Threading.Barrier>。 `Dispose` 方法使 <xref:System.Threading.Barrier> 处于不可用状态。 在调用`Dispose`，必须释放对所有引用<xref:System.Threading.Barrier>以便垃圾回收器才能回收的内存，<xref:System.Threading.Barrier>占用。  
+ 在完成使用 `Dispose` 后，应调用 <xref:System.Threading.Barrier>。 `Dispose` 方法使 <xref:System.Threading.Barrier> 处于不可用状态。 在调用`Dispose`，必须释放对所有引用<xref:System.Threading.Barrier>这样垃圾回收器才能收回内存的<xref:System.Threading.Barrier>占用。  
   
- 有关详细信息，请参阅[清洗向上非托管资源](~/docs/standard/garbage-collection/unmanaged.md)和[实现 Dispose 方法](~/docs/standard/garbage-collection/implementing-dispose.md)。  
+ 有关详细信息，请参阅[清理了非托管资源](~/docs/standard/garbage-collection/unmanaged.md)并[实现 Dispose 方法](~/docs/standard/garbage-collection/implementing-dispose.md)。  
   
 > [!NOTE]
 >  每次释放对 `Dispose` 的最后一个引用前，均应调用 <xref:System.Threading.Barrier>。 否则，在垃圾回收器调用 <xref:System.Threading.Barrier> 对象的 `Finalize` 方法之前，该对象正在使用的资源不会被释放。  
@@ -377,7 +393,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 与大多数的成员不同<xref:System.Threading.Barrier>，释放不是线程安全，不可能与此实例的其他成员同时使用。  
+ 与大多数的成员的不同<xref:System.Threading.Barrier>，Dispose 不是线程安全的和不能与此实例的其他成员同时使用。  
   
  ]]></format>
         </remarks>
@@ -450,7 +466,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 这可能在阶段后操作委托执行期间为 0，或如果 ParticipantCount 为 0。  
+ 这可能在阶段后操作委托执行过程中为 0 或如果 ParticipantCount 为 0。  
   
  ]]></format>
         </remarks>
@@ -480,6 +496,11 @@
         <AssemblyName>netstandard</AssemblyName>
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0">
+          <AttributeName>System.Runtime.TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.Void</ReturnType>
       </ReturnValue>
@@ -488,7 +509,10 @@
         <summary>通知 <see cref="T:System.Threading.Barrier" />，告知其将会减少一个参与者。</summary>
         <remarks>To be added.</remarks>
         <exception cref="T:System.ObjectDisposedException">已释放当前实例。</exception>
-        <exception cref="T:System.InvalidOperationException">屏障已经有 0 个参与者。  - 或 -  该方法是从阶段后操作中调用的。</exception>
+        <exception cref="T:System.InvalidOperationException">屏障已经有 0 个参与者。  
+  
+或 
+该方法从阶段后操作中调用。</exception>
       </Docs>
     </Member>
     <Member MemberName="RemoveParticipants">
@@ -528,13 +552,19 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 如果`participantCount`参与者在已等待屏障、 此删除满足屏障、 执行后阶段操作和所有参与者都被唤醒，就像正在删除此参与者已成功到达屏障。  
+ 如果`participantCount`屏障已经等待参与者、 此移除满足关卡、 执行后阶段操作和所有参与者都被唤醒，因为如果要删除此参与者已成功到达屏障。  
   
  ]]></format>
         </remarks>
         <exception cref="T:System.ObjectDisposedException">已释放当前实例。</exception>
         <exception cref="T:System.ArgumentOutOfRangeException">参与者总数小于指定 <paramref name="participantCount" /></exception>
-        <exception cref="T:System.InvalidOperationException">屏障已经有 0 个参与者。  - 或 -  该方法是从阶段后操作中调用的。  - 或 -  当前的参与者计数小于指定 participantCount</exception>
+        <exception cref="T:System.InvalidOperationException">屏障已经有 0 个参与者。  
+  
+或 
+该方法从阶段后操作中调用。  
+  
+或 
+当前的参与者计数小于指定 participantCount</exception>
       </Docs>
     </Member>
     <MemberGroup MemberName="SignalAndWait">
@@ -745,7 +775,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 如果`cancellationToken`已取消之前在信号生效，则<xref:System.OperationCanceledException>引发与<xref:System.Threading.Barrier.ParticipantsRemaining%2A>值将不会减少。 如果`cancellationToken`不会被取消或已取消信号然后生效后<xref:System.Threading.Barrier.ParticipantsRemaining%2A>减少并且不<xref:System.OperationCanceledException>引发。  
+ 如果`cancellationToken`已被取消之前该信号发生作用，则<xref:System.OperationCanceledException>引发和<xref:System.Threading.Barrier.ParticipantsRemaining%2A>值不能降低。 如果`cancellationToken`未被取消或已取消信号然后生效后<xref:System.Threading.Barrier.ParticipantsRemaining%2A>减少和 no<xref:System.OperationCanceledException>引发。  
   
  ]]></format>
         </remarks>

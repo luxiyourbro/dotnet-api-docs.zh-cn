@@ -1,11 +1,11 @@
 <Type Name="BatchBlock&lt;T&gt;" FullName="System.Threading.Tasks.Dataflow.BatchBlock&lt;T&gt;">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="3ae58e03ddc949bebd4a7a41bf94eda6bab05e1f" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="284b86c4db159e6c80efa1729ec11d074f9fcb1b" />
+    <Meta Name="ms.sourcegitcommit" Value="434f60616a9793fa8436744549fc856e94f7a648" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="zh-CN" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36407501" />
+    <Meta Name="ms.lasthandoff" Value="08/25/2018" />
+    <Meta Name="ms.locfileid" Value="39961257" />
   </Metadata>
   <TypeSignature Language="C#" Value="public sealed class BatchBlock&lt;T&gt; : System.Threading.Tasks.Dataflow.IPropagatorBlock&lt;T,T[]&gt;, System.Threading.Tasks.Dataflow.IReceivableSourceBlock&lt;T[]&gt;, System.Threading.Tasks.Dataflow.ISourceBlock&lt;T[]&gt;, System.Threading.Tasks.Dataflow.ITargetBlock&lt;T&gt;" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed beforefieldinit BatchBlock`1&lt;T&gt; extends System.Object implements class System.Threading.Tasks.Dataflow.IDataflowBlock, class System.Threading.Tasks.Dataflow.IPropagatorBlock`2&lt;!T, !T[]&gt;, class System.Threading.Tasks.Dataflow.IReceivableSourceBlock`1&lt;!T[]&gt;, class System.Threading.Tasks.Dataflow.ISourceBlock`1&lt;!T[]&gt;, class System.Threading.Tasks.Dataflow.ITargetBlock`1&lt;!T&gt;" />
@@ -40,9 +40,17 @@
       <InterfaceName>System.Threading.Tasks.Dataflow.ITargetBlock&lt;T&gt;</InterfaceName>
     </Interface>
   </Interfaces>
+  <Attributes>
+    <Attribute FrameworkAlternate="netcore-1.0;netcore-1.1">
+      <AttributeName>System.Diagnostics.DebuggerDisplay("{DebuggerDisplayContent,nq}")</AttributeName>
+    </Attribute>
+    <Attribute FrameworkAlternate="netcore-1.0;netcore-1.1">
+      <AttributeName>System.Diagnostics.DebuggerTypeProxy(typeof(System.Threading.Tasks.Dataflow.BatchBlock`1/DebugView))</AttributeName>
+    </Attribute>
+  </Attributes>
   <Docs>
     <typeparam name="T">指定数据的类型将放置于多个批。</typeparam>
-    <summary>提供将输入批处理到数组中的数据流块。</summary>
+    <summary>提供将输入批处理到数组中的数据流。</summary>
     <remarks>
       <format type="text/markdown"><![CDATA[  
   
@@ -105,7 +113,10 @@
         <summary>用指定的批大小、定义选项和块选项初始化新的 <see cref="T:System.Threading.Tasks.Dataflow.BatchBlock`1" />。</summary>
         <remarks>To be added.</remarks>
         <exception cref="T:System.ArgumentOutOfRangeException">
-          <paramref name="batchSize" /> 必须是正数。  - 或 -  如果已设置非默认值，则 <paramref name="batchSize" /> 必定小于 <see cref="P:System.Threading.Tasks.Dataflow.DataflowBlockOptions.BoundedCapacity" /> 选项的值。</exception>
+          <paramref name="batchSize" /> 必须是正数。  
+  
+- 或 - 
+如果已设置非默认值，则 <paramref name="batchSize" /> 必定小于 <see cref="P:System.Threading.Tasks.Dataflow.DataflowBlockOptions.BoundedCapacity" /> 选项的值。</exception>
         <exception cref="T:System.ArgumentNullException">
           <paramref name="dataflowBlockOptions" /> 为 <see langword="null" />。</exception>
       </Docs>
@@ -135,7 +146,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 如果为块提供的项的数目不是整除批次大小为块的构造函数提供的可能包含块的最终批请求数目的项少于。  
+ 如果向块提供的项目数不被提供到块的构造函数中的批大小整除，块的最后一个批次可能包含项的请求数目少于。  
   
  ]]></format>
         </remarks>
@@ -169,7 +180,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 后<xref:System.Threading.Tasks.Dataflow.BatchBlock%601.Complete%2A>已在数据流块上调用，将完成该块，并将其<xref:System.Threading.Tasks.Dataflow.BatchBlock%601.Completion%2A>任务将进入最终状态之后它已处理所有以前可用的数据。 <xref:System.Threading.Tasks.Dataflow.BatchBlock%601.Complete%2A> 将不会阻止等待完成发生，而是将发起的请求; 但要等待的时间完成，发生，<xref:System.Threading.Tasks.Dataflow.BatchBlock%601.Completion%2A>可能使用任务。  
+ 后<xref:System.Threading.Tasks.Dataflow.BatchBlock%601.Complete%2A>已在数据流块上调用，将完成的块，并将其<xref:System.Threading.Tasks.Dataflow.BatchBlock%601.Completion%2A>处理以前提供的所有数据后，任务将进入最终状态。 <xref:System.Threading.Tasks.Dataflow.BatchBlock%601.Complete%2A> 将不会阻止等待完成发生，而是将发起请求; 但若要等待完成发生，<xref:System.Threading.Tasks.Dataflow.BatchBlock%601.Completion%2A>可能使用任务。  
   
  ]]></format>
         </remarks>
@@ -203,7 +214,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 数据流块视为已完成时它当前不在处理一条消息，当它具有保证不会处理更多消息。 返回<xref:System.Threading.Tasks.Task>关联的块完成时将转换为已完成状态。 它将转换为<xref:System.Threading.Tasks.TaskStatus><xref:System.Threading.Tasks.TaskStatus.RanToCompletion>状态在阻塞完成其处理成功根据数据流块时定义的语义。 它将转换为<xref:System.Threading.Tasks.TaskStatus><xref:System.Threading.Tasks.TaskStatus.Faulted>状态在数据流块已完成处理过早地由于未经处理的异常，并且它将转换为<xref:System.Threading.Tasks.TaskStatus><xref:System.Threading.Tasks.TaskStatus.Canceled>时数据流块已完成的状态由于正在接收取消请求过早地处理。 如果任务在完成时处于<xref:System.Threading.Tasks.TaskStatus.Faulted>状态，其`Exception`属性将返回<xref:System.AggregateException>包含导致失败的块的一个或多个异常。  
+ 数据流块被视为已完成，它当前不在处理一条消息，当保证它不会处理更多消息。 返回<xref:System.Threading.Tasks.Task>相关联的块已完成时，将转换为已完成状态。 它将转换为<xref:System.Threading.Tasks.TaskStatus><xref:System.Threading.Tasks.TaskStatus.RanToCompletion>状态时阻止完成其处理成功根据数据流块定义的语义。 它将转换为<xref:System.Threading.Tasks.TaskStatus><xref:System.Threading.Tasks.TaskStatus.Faulted>时数据流块已完成处理过早地由于未经处理的异常，并将转换到状态<xref:System.Threading.Tasks.TaskStatus><xref:System.Threading.Tasks.TaskStatus.Canceled>时数据流块已完成的状态由于接收取消请求而导致过早地处理。 如果任务完成时处于<xref:System.Threading.Tasks.TaskStatus.Faulted>状态，其`Exception`属性将返回<xref:System.AggregateException>其中包含导致失败的块的一个或多个异常。  
   
  ]]></format>
         </remarks>
@@ -298,7 +309,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 后<xref:System.Threading.Tasks.Dataflow.IDataflowBlock.Fault%2A>已在数据流块上调用，将完成该块，并将其<xref:System.Threading.Tasks.Dataflow.BatchBlock%601.Completion%2A>任务将进入最终状态。 出错块，作为与取消块，导致缓冲的消息 （未处理的输入的消息，以及 unoffered 的输出消息） 会丢失。  
+ 之后<xref:System.Threading.Tasks.Dataflow.IDataflowBlock.Fault%2A>已在数据流块上调用，将完成的块，并将其<xref:System.Threading.Tasks.Dataflow.BatchBlock%601.Completion%2A>任务将进入最终状态。 在出错块，作为与取消块，缓冲将导致消息 （未处理的输入的消息，以及 unoffered 的输出消息） 会丢失。  
   
  ]]></format>
         </remarks>
@@ -314,7 +325,7 @@
       <MemberSignature Language="C++ CLI" Value=" virtual cli::array &lt;T&gt; ^ System.Threading.Tasks.Dataflow.ISourceBlock&lt;T[]&gt;.ConsumeMessage(System::Threading::Tasks::Dataflow::DataflowMessageHeader messageHeader, System::Threading::Tasks::Dataflow::ITargetBlock&lt;cli::array &lt;T&gt; ^&gt; ^ target, [Runtime::InteropServices::Out] bool % messageConsumed) = System::Threading::Tasks::Dataflow::ISourceBlock&lt;cli::array &lt;T&gt; ^&gt;::ConsumeMessage;" />
       <MemberType>Method</MemberType>
       <Implements>
-        <InterfaceMember>M:System.Threading.Tasks.Dataflow.ISourceBlock`1.ConsumeMessage(System.Threading.Tasks.Dataflow.DataflowMessageHeader,System.Threading.Tasks.Dataflow.ITargetBlock{`0},System.Boolean@)</InterfaceMember>
+        <InterfaceMember>M:System.Threading.Tasks.Dataflow.ISourceBlock`1.ConsumeMessage(System.Threading.Tasks.Dataflow.DataflowMessageHeader,System.Threading.Tasks.Dataflow.ITargetBlock{`0},System.Boolean)</InterfaceMember>
       </Implements>
       <AssemblyInfo>
         <AssemblyName>System.Threading.Tasks.Dataflow</AssemblyName>
@@ -329,19 +340,21 @@
       <Parameters>
         <Parameter Name="messageHeader" Type="System.Threading.Tasks.Dataflow.DataflowMessageHeader" />
         <Parameter Name="target" Type="System.Threading.Tasks.Dataflow.ITargetBlock&lt;T[]&gt;" />
-        <Parameter Name="messageConsumed" Type="System.Boolean&amp;" RefType="out" />
+        <Parameter Name="messageConsumed" Type="System.Boolean" RefType="out" />
       </Parameters>
       <Docs>
         <param name="messageHeader">要使用的消息的 <see cref="T:System.Threading.Tasks.Dataflow.DataflowMessageHeader" />。</param>
         <param name="target">占用消息的 <see cref="T:System.Threading.Tasks.Dataflow.ITargetBlock`1" />。</param>
         <param name="messageConsumed">如果已成功使用该消息，则为 <see langword="true" />；否则，为 <see langword="false" />。</param>
         <summary>由链接的 <see cref="T:System.Threading.Tasks.Dataflow.ITargetBlock`1" /> 调用，以接受并使用以前由此 <see cref="T:System.Threading.Tasks.Dataflow.DataflowMessageHeader" /> 提供的 <see cref="T:System.Threading.Tasks.Dataflow.ISourceBlock`1" />。</summary>
-        <returns>所使用的消息的值。 这可能对应于一个 <see cref="T:System.Threading.Tasks.Dataflow.DataflowMessageHeader" /> 实例，该实例不同于之前保留并作为 <paramref name="messageHeader" /> 传递到 <see cref="M:System.Threading.Tasks.Dataflow.ISourceBlock`1.ConsumeMessage(System.Threading.Tasks.Dataflow.DataflowMessageHeader,System.Threading.Tasks.Dataflow.ITargetBlock{`0},System.Boolean@)" /> 的实例。 使用的 <see cref="T:System.Threading.Tasks.Dataflow.ITargetBlock`1" /> 必须使用返回值而不是通过 <see cref="M:System.Threading.Tasks.Dataflow.ITargetBlock`1.OfferMessage(System.Threading.Tasks.Dataflow.DataflowMessageHeader,`0,System.Threading.Tasks.Dataflow.ISourceBlock{`0},System.Boolean)" /> 传递为 messageValue 的值。  如果所需消息不可的，则返回值将是 <see langword="null" />。</returns>
+        <returns>所使用的消息的值。 这可能对应于一个 <see cref="T:System.Threading.Tasks.Dataflow.DataflowMessageHeader" /> 实例，该实例不同于之前保留并作为 <paramref name="messageHeader" /> 传递到 <see cref="M:System.Threading.Tasks.Dataflow.ISourceBlock`1.ConsumeMessage(System.Threading.Tasks.Dataflow.DataflowMessageHeader,System.Threading.Tasks.Dataflow.ITargetBlock{`0},System.Boolean@)" /> 的实例。 使用的 <see cref="T:System.Threading.Tasks.Dataflow.ITargetBlock`1" /> 必须使用返回值而不是通过 <see cref="M:System.Threading.Tasks.Dataflow.ITargetBlock`1.OfferMessage(System.Threading.Tasks.Dataflow.DataflowMessageHeader,`0,System.Threading.Tasks.Dataflow.ISourceBlock{`0},System.Boolean)" /> 传递为 messageValue 的值。  
+  
+如果所需消息不可的，则返回值将是 <see langword="null" />。</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 仅 [ISourceBlock (T\<xref:System.Threading.Tasks.Dataflow.ITargetBlock%601 > 实例链接到此 [ISourceBlock (T\<xref:System.Threading.Tasks.Dataflow.ISourceBlock%601 > 实例可能会使用 [ISourceBlock （T\<xref:System.Threading.Tasks.Dataflow.ISourceBlock%601.ConsumeMessage%2A >，并且它必须仅用于使用 [ISourceBlock (T\<xref:System.Threading.Tasks.Dataflow.DataflowMessageHeader > 实例以前提供的此源到目标。  
+ 仅 [ISourceBlock (T\<xref:System.Threading.Tasks.Dataflow.ITargetBlock%601 > 实例链接到此 [ISourceBlock (T\<xref:System.Threading.Tasks.Dataflow.ISourceBlock%601 > 实例可能会使用 [ISourceBlock （T\<xref:System.Threading.Tasks.Dataflow.ISourceBlock%601.ConsumeMessage%2A >，并仅必须用于使用 [ISourceBlock (T\<xref:System.Threading.Tasks.Dataflow.DataflowMessageHeader > 实例以前提供的此源到目标。  
   
  ]]></format>
         </remarks>
@@ -383,7 +396,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 仅 [ISourceBlock (T\<xref:System.Threading.Tasks.Dataflow.ITargetBlock%601 > 实例链接到此 [ISourceBlock (T\<xref:System.Threading.Tasks.Dataflow.ISourceBlock%601 > 实例可能使用`ReleaseReservation`它必须仅用于发布和 [ISourceBlock (T\<xref:System.Threading.Tasks.Dataflow.DataflowMessageHeader > 之前并成功由目标保留的实例。  
+ 仅 [ISourceBlock (T\<xref:System.Threading.Tasks.Dataflow.ITargetBlock%601 > 实例链接到此 [ISourceBlock (T\<xref:System.Threading.Tasks.Dataflow.ISourceBlock%601 > 实例可能会使用`ReleaseReservation`它必须仅用于发布和 [ISourceBlock (T\<xref:System.Threading.Tasks.Dataflow.DataflowMessageHeader > 以前并成功由目标保留的实例。  
   
  ]]></format>
         </remarks>
@@ -428,11 +441,11 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 仅 [ISourceBlock (T\<xref:System.Threading.Tasks.Dataflow.ITargetBlock%601 > 实例链接到此 [ISourceBlock (T\<xref:System.Threading.Tasks.Dataflow.ISourceBlock%601 > 实例可能会使用 [ISourceBlock （T\<xref:System.Threading.Tasks.Dataflow.ISourceBlock%601.ReserveMessage%2A >，并且仅必须用于保留 [ISourceBlock (T\<xref:System.Threading.Tasks.Dataflow.DataflowMessageHeader > 实例以前提供的此源到目标。  
+ 仅 [ISourceBlock (T\<xref:System.Threading.Tasks.Dataflow.ITargetBlock%601 > 实例链接到此 [ISourceBlock (T\<xref:System.Threading.Tasks.Dataflow.ISourceBlock%601 > 实例可能会使用 [ISourceBlock （T\<xref:System.Threading.Tasks.Dataflow.ISourceBlock%601.ReserveMessage%2A >，并仅必须用于保留 [ISourceBlock (T\<xref:System.Threading.Tasks.Dataflow.DataflowMessageHeader > 实例以前提供的此源到目标。  
   
- 如果`true`返回，[ISourceBlock (T\<xref:System.Threading.Tasks.Dataflow.ITargetBlock%601 > 必须随后调用 [ISourceBlock (T\<xref:System.Threading.Tasks.Dataflow.ISourceBlock%601。ConsumeMessage %2a > 或 [ISourceBlock (T\<xref:System.Threading.Tasks.Dataflow.ISourceBlock%601.ReleaseReservation%2A > 为此消息。 如果不这样做可能会导致无法进行任何进一步将消息传播到此或其他目标的源。  
+ 如果`true`返回，则 [ISourceBlock (T\<xref:System.Threading.Tasks.Dataflow.ITargetBlock%601 > 必须随后调用 [ISourceBlock (T\<xref:System.Threading.Tasks.Dataflow.ISourceBlock%601。ConsumeMessage %2a > 或 [ISourceBlock (T\<xref:System.Threading.Tasks.Dataflow.ISourceBlock%601.ReleaseReservation%2A > 此消息。 如果不这样做可能会导致无法传播到这个或其他目标的其他任何消息的源。  
   
- [ISourceBlock (T\<xref:System.Threading.Tasks.Dataflow.ISourceBlock%601.ReserveMessage%2A > 不得调用，而目标还保持任何内部锁。 这样将违反锁层次结构需要避免数据流网络中的死锁。  
+ [ISourceBlock (T\<xref:System.Threading.Tasks.Dataflow.ISourceBlock%601.ReserveMessage%2A > 不得调用，而目标保持任何内部锁。 执行此操作将违反需要避免数据流网络中的死锁在锁层次结构。  
   
  ]]></format>
         </remarks>
@@ -474,10 +487,18 @@
         <param name="source">提供消息的 <see cref="T:System.Threading.Tasks.Dataflow.ISourceBlock`1" />。 这可能为 null。</param>
         <param name="consumeToAccept">为使用此消息，设置为 <see langword="true" />，以指示目标于返回 <see cref="M:System.Threading.Tasks.Dataflow.ISourceBlock`1.ConsumeMessage(System.Threading.Tasks.Dataflow.DataflowMessageHeader,System.Threading.Tasks.Dataflow.ITargetBlock{`0},System.Boolean@)" /> 前在进行对 <see cref="M:System.Threading.Tasks.Dataflow.ITargetBlock`1.OfferMessage(System.Threading.Tasks.Dataflow.DataflowMessageHeader,`0,System.Threading.Tasks.Dataflow.ISourceBlock{`0},System.Boolean)" /> 调用间同步调用 <see cref="F:System.Threading.Tasks.Dataflow.DataflowMessageStatus.Accepted" />。</param>
         <summary>向 <see cref="T:System.Threading.Tasks.Dataflow.ITargetBlock`1" /> 提供消息，向目标提供使用和延迟消息的机会。</summary>
-        <returns>所提供消息的状态。 如果消息为该目标接受，则将返回 <see cref="F:System.Threading.Tasks.Dataflow.DataflowMessageStatus.Accepted" />，将返回，并且源不应再使用提供的消息，因为其现在归目标所有。 如果消息因该目标延迟，则将以通知的形式返回 <see cref="F:System.Threading.Tasks.Dataflow.DataflowMessageStatus.Postponed" />，该通知是目标稍后可能会尝试使用或保留消息的通知；同时，源仍拥有消息并将其提供给其他块。  如果目标应已推迟消息，但是 <paramref name="source" /> 是 <see langword="null" />，则将返回 <see cref="F:System.Threading.Tasks.Dataflow.DataflowMessageStatus.Declined" /> 替换。  如果尝试了接受此则消息但由于将消息交付给另一目标或放弃该消息的源而错过该消息，则将返回 <see cref="F:System.Threading.Tasks.Dataflow.DataflowMessageStatus.NotAvailable" />。  如果目标选择不接受消息，则将返回 <see cref="F:System.Threading.Tasks.Dataflow.DataflowMessageStatus.Declined" />。 如果源选择不接受该消息并将从不从此源接受另一则消息，则将返回 <see cref="F:System.Threading.Tasks.Dataflow.DataflowMessageStatus.DecliningPermanently" />。</returns>
+        <returns>所提供消息的状态。 如果消息为该目标接受，则将返回 <see cref="F:System.Threading.Tasks.Dataflow.DataflowMessageStatus.Accepted" />，将返回，并且源不应再使用提供的消息，因为其现在归目标所有。 如果消息因该目标延迟，则将以通知的形式返回 <see cref="F:System.Threading.Tasks.Dataflow.DataflowMessageStatus.Postponed" />，该通知是目标稍后可能会尝试使用或保留消息的通知；同时，源仍拥有消息并将其提供给其他块。  
+  
+如果目标应已推迟消息，但是 <paramref name="source" /> 是 <see langword="null" />，则将返回 <see cref="F:System.Threading.Tasks.Dataflow.DataflowMessageStatus.Declined" /> 替换。  
+  
+如果尝试了接受此则消息但由于将消息交付给另一目标或放弃该消息的源而错过该消息，则将返回 <see cref="F:System.Threading.Tasks.Dataflow.DataflowMessageStatus.NotAvailable" />。  
+  
+如果目标选择不接受消息，则将返回 <see cref="F:System.Threading.Tasks.Dataflow.DataflowMessageStatus.Declined" />。 如果源选择不接受该消息并将从不从此源接受另一则消息，则将返回 <see cref="F:System.Threading.Tasks.Dataflow.DataflowMessageStatus.DecliningPermanently" />。</returns>
         <remarks>To be added.</remarks>
         <exception cref="T:System.ArgumentException">
-          <paramref name="messageHeader" /> 无效。  或者，如果被提供了非 null <paramref name="consumeToAccept" />，则 <paramref name="source" /> 只能为 true。</exception>
+          <paramref name="messageHeader" /> 无效。  
+  
+或者，如果被提供了非 null <paramref name="consumeToAccept" />，则 <paramref name="source" /> 只能为 true。</exception>
       </Docs>
     </Member>
     <Member MemberName="ToString">
@@ -537,9 +558,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 在贪婪模式下，批处理将从生成排队项即使更少存在比批次大小。  
+ 在贪婪模式下，批处理将从生成排队项，即使超过了批大小更少存在。  
   
- 在非贪婪模式下，批处理将生成以异步方式从推迟项即使可以使用更少项超过指定的批次大小。  
+ 在非贪婪模式下，批处理将生成以异步方式从已推迟项即使可以使用更少的项的数目指定的批大小。  
   
  ]]></format>
         </remarks>
@@ -565,7 +586,7 @@
       </ReturnValue>
       <Parameters>
         <Parameter Name="filter" Type="System.Predicate&lt;T[]&gt;" />
-        <Parameter Name="item" Type="T[]&amp;" RefType="out" />
+        <Parameter Name="item" Type="T[]" RefType="out" />
       </Parameters>
       <Docs>
         <param name="filter">为使值得到检索，必须成功传递值的谓词。  <c>filter</c> 可能是 <see langword="null" />，在此情况下，所有项均会通过。</param>
@@ -578,7 +599,7 @@
 ## Remarks  
  此方法不会阻止等待要提供项的源。  
   
- 它将元素可用，在检查的元素之后返回。  
+ 它将元素可用，一个元素，检查完后返回。  
   
  ]]></format>
         </remarks>
@@ -603,7 +624,7 @@
         <ReturnType>System.Boolean</ReturnType>
       </ReturnValue>
       <Parameters>
-        <Parameter Name="items" Type="System.Collections.Generic.IList&lt;T[]&gt;&amp;" RefType="out" />
+        <Parameter Name="items" Type="System.Collections.Generic.IList&lt;T[]&gt;" RefType="out" />
       </Parameters>
       <Docs>
         <param name="items">从源中接收的项。</param>

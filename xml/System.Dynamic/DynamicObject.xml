@@ -1,11 +1,11 @@
 <Type Name="DynamicObject" FullName="System.Dynamic.DynamicObject">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="6ae5ac708ed9c03e90259aa11dc3fd96557d5c21" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="ae5e3a18963a736fecad7f4d2af02a45c0c1090c" />
+    <Meta Name="ms.sourcegitcommit" Value="434f60616a9793fa8436744549fc856e94f7a648" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="zh-CN" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36488963" />
+    <Meta Name="ms.lasthandoff" Value="08/25/2018" />
+    <Meta Name="ms.locfileid" Value="39957578" />
   </Metadata>
   <TypeSignature Language="C#" Value="public class DynamicObject : System.Dynamic.IDynamicMetaObjectProvider" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi serializable beforefieldinit DynamicObject extends System.Object implements class System.Dynamic.IDynamicMetaObjectProvider" />
@@ -40,20 +40,20 @@
     </Interface>
   </Interfaces>
   <Docs>
-    <summary>提供用于在运行时指定动态行为的基类。 必须继承此类；不能直接对其进行实例化。</summary>
+    <summary>提供用于在运行时指定动态行为的基类。 必须继承此类；不能直接实例化此类。</summary>
     <remarks>
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- `DynamicObject`类使你能够定义可以对动态对象执行哪些操作以及如何执行这些操作。 例如，你可以定义当你尝试获取或设置对象属性、 调用方法，或执行如加法和乘法的标准数学运算时，会发生什么情况。  
+ `DynamicObject`类可以定义可动态对象上执行哪些操作以及如何执行这些操作。 例如，可以定义当尝试获取或设置对象属性、 调用方法，或执行标准的数学运算，例如加法和乘法时，会发生什么情况。  
   
- 此类可以是你想要创建用于库的更方便协议的情况下很有用。 例如，如果你的库的用户必须使用类似的语法`Scriptobj.SetProperty("Count", 1)`，你可以提供的功能，使用更简单的语法，如`scriptobj.Count = 1`。  
+ 此类可以是你想要创建的库更方便的协议的情况下很有用。 例如，如果你的库的用户必须使用类似的语法`Scriptobj.SetProperty("Count", 1)`，可以提供能够使用更简单的语法，如`scriptobj.Count = 1`。  
   
- 你无法直接创建的实例`DynamicObject`类。 若要实现的动态行为，你可能想要从其继承`DynamicObject`类并重写所需的方法。 例如，如果你需要的设置和获取属性的唯一操作，您可以只覆盖<xref:System.Dynamic.DynamicObject.TrySetMember%2A>和<xref:System.Dynamic.DynamicObject.TryGetMember%2A>方法。  
+ 您不能直接创建的实例`DynamicObject`类。 若要实现动态行为，您可能想要从继承`DynamicObject`类并重写必需的方法。 例如，如果您需要用于设置和获取属性的唯一操作，您可以只覆盖<xref:System.Dynamic.DynamicObject.TrySetMember%2A>和<xref:System.Dynamic.DynamicObject.TryGetMember%2A>方法。  
   
- 在 C# 中，若要启用动态行为的类的实例派生自`DynamicObject`类，你必须使用`dynamic`关键字。 有关更多信息，请参见[使用类型 dynamic](~/docs/csharp/programming-guide/types/using-type-dynamic.md)。  
+ 在 C# 中，若要启用动态行为的类的实例派生自`DynamicObject`类，必须使用`dynamic`关键字。 有关更多信息，请参见[使用类型 dynamic](~/docs/csharp/programming-guide/types/using-type-dynamic.md)。  
   
- 在 Visual Basic，后期绑定支持动态操作。 有关详细信息，请参阅[早期绑定和后期绑定](http://msdn.microsoft.com/library/d6ff7f1e-b94f-4205-ab8d-5cfa91758724)。  
+ 在 Visual Basic 中，支持通过后期绑定动态操作。 有关详细信息，请参阅[早期绑定和后期绑定](http://msdn.microsoft.com/library/d6ff7f1e-b94f-4205-ab8d-5cfa91758724)。  
   
  下面的代码示例演示如何创建派生自的类的实例`DynamicObject`类。  
   
@@ -70,26 +70,26 @@ Public Class SampleDynamicObject
 Dim sampleObject As Object = New SampleDynamicObject()  
 ```  
   
- 此外可以向派生自的类添加你自己的成员`DynamicObject`类。 如果您的类定义属性，而且还将重写<xref:System.Dynamic.DynamicObject.TrySetMember%2A>方法，动态语言运行时 (DLR) 第一次使用语言联编程序来查找有关静态的类中的属性定义。 如果没有这样的属性，DLR 调用<xref:System.Dynamic.DynamicObject.TrySetMember%2A>方法。  
+ 此外可以向派生自的类添加您自己的成员`DynamicObject`类。 如果您的类定义属性，并且还将重写<xref:System.Dynamic.DynamicObject.TrySetMember%2A>方法中，动态语言运行时 (DLR) 首先使用语言联编程序来查找类中的属性的静态定义。 如果不存在此类属性，DLR 调用<xref:System.Dynamic.DynamicObject.TrySetMember%2A>方法。  
   
- `DynamicObject`类可实现 DLR 接口<xref:System.Dynamic.IDynamicMetaObjectProvider>，从而使你可以共享的实例`DynamicObject`支持 DLR 互操作性模型的语言之间的类。 例如，可以创建的实例`DynamicObject`类在 C# 中，并将其传递给 IronPython 函数。 有关详细信息，请参阅[动态语言运行时概述](~/docs/framework/reflection-and-codedom/dynamic-language-runtime-overview.md)。  
+ `DynamicObject`类实现了 DLR 接口<xref:System.Dynamic.IDynamicMetaObjectProvider>，这样您就可以共享的实例`DynamicObject`支持 DLR 互操作性模型的语言之间的类。 例如，可以创建的实例`DynamicObject`类在 C# 中，并将其传递给 IronPython 函数。 有关详细信息，请参阅[动态语言运行时概述](~/docs/framework/reflection-and-codedom/dynamic-language-runtime-overview.md)。  
   
 > [!NOTE]
->  如果你有一个简单的方案中，您需要的对象，但仅可以添加和删除成员在运行时，不需要定义特定操作和不具有静态成员，可使用<xref:System.Dynamic.ExpandoObject>类。  
+>  如果您有一个简单的方案中，您需要的对象，但是，只能添加和删除成员在运行时，不需要定义特定操作和不包含静态成员，则使用<xref:System.Dynamic.ExpandoObject>类。  
 >   
->  如果你有更高级的方案，你需要在其中定义动态参与互操作性协议，或者你需要管理 DLR 快速动态调度缓存的对象，创建您自己的实现<xref:System.Dynamic.IDynamicMetaObjectProvider>接口。  
+>  如果你有更高级的方案需要在其中定义动态参与互操作性协议，或管理 DLR 快速动态调度缓存所需的对象，创建您自己的实现的<xref:System.Dynamic.IDynamicMetaObjectProvider>接口。  
   
    
   
 ## Examples  
- 假设你想要提供替代语法访问值在字典中，编写的因此`sampleDictionary["Text"] = "Sample text"`(`sampleDictionary("Text") = "Sample text"`在 Visual Basic 中)，你可以编写`sampleDictionary.Text = "Sample text"`。 此外，你想要不区分大小写，此语法，以便`sampleDictionary.Text`等效于`sampleDictionary.text`。  
+ 假设您想要用于访问在字典中，以代替的书写的值提供替代语法`sampleDictionary["Text"] = "Sample text"`(`sampleDictionary("Text") = "Sample text"`在 Visual Basic 中)，您可以编写`sampleDictionary.Text = "Sample text"`。 另外，您希望此语法以不区分大小写，以便`sampleDictionary.Text`等效于`sampleDictionary.text`。  
   
- 下面的代码示例演示`DynamicDictionary`类，该类派生自`DynamicObject`类。 `DynamicDictionary`类包含的对象`Dictionary<string, object>`类型 (`Dictionary(Of String, Object)`在 Visual Basic 中) 来存储键 / 值对，并重写<xref:System.Dynamic.DynamicObject.TrySetMember%2A>和<xref:System.Dynamic.DynamicObject.TryGetMember%2A>方法，以支持新的语法。 它还提供了`Count`属性，用于显示多少动态属性字典包含。  
+ 下面的代码示例演示`DynamicDictionary`类，该类派生自`DynamicObject`类。 `DynamicDictionary`类包含的对象`Dictionary<string, object>`类型 (`Dictionary(Of String, Object)`在 Visual Basic 中) 来存储键 / 值对，并重写<xref:System.Dynamic.DynamicObject.TrySetMember%2A>和<xref:System.Dynamic.DynamicObject.TryGetMember%2A>方法，以支持新的语法。 它还提供了`Count`属性，其中显示了多少动态属性字典包含。  
   
  [!code-csharp[System.Dynamic.DynamicObject#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.dynamic.dynamicobject/cs/program.cs#1)]
  [!code-vb[System.Dynamic.DynamicObject#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.dynamic.dynamicobject/vb/module1.vb#1)]  
   
- 有关更多示例，请参阅[DynamicObject 与创建包装](http://go.microsoft.com/fwlink/?LinkId=169008)C# 常见问题博客上。  
+ 有关更多示例，请参阅[使用 DynamicObject 创建包装器](http://go.microsoft.com/fwlink/?LinkId=169008)C# 常见问题博客上。  
   
  ]]></format>
     </remarks>
@@ -120,6 +120,11 @@ Dim sampleObject As Object = New SampleDynamicObject()
         <AssemblyVersion>4.2.0.0</AssemblyVersion>
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0">
+          <AttributeName>System.Runtime.TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")</AttributeName>
+        </Attribute>
+      </Attributes>
       <Parameters />
       <Docs>
         <summary>使派生的类型可以初始化 <see cref="T:System.Dynamic.DynamicObject" /> 类型的新实例。</summary>
@@ -127,11 +132,11 @@ Dim sampleObject As Object = New SampleDynamicObject()
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 你无法直接创建的实例<xref:System.Dynamic.DynamicObject>类。 若要实现动态行为，你必须从继承<xref:System.Dynamic.DynamicObject>类并重写所需的方法。  
+ 您不能直接创建的实例<xref:System.Dynamic.DynamicObject>类。 若要实现动态行为，您必须从继承<xref:System.Dynamic.DynamicObject>类并重写必需的方法。  
   
- 在 C# 中，若要启用动态行为的类的实例派生自<xref:System.Dynamic.DynamicObject>类，你必须使用`dynamic`关键字。 有关更多信息，请参见[使用类型 dynamic](~/docs/csharp/programming-guide/types/using-type-dynamic.md)。  
+ 在 C# 中，若要启用动态行为的类的实例派生自<xref:System.Dynamic.DynamicObject>类，必须使用`dynamic`关键字。 有关更多信息，请参见[使用类型 dynamic](~/docs/csharp/programming-guide/types/using-type-dynamic.md)。  
   
- 在 Visual Basic，后期绑定支持动态操作。 有关详细信息，请参阅[早期绑定和后期绑定](http://msdn.microsoft.com/library/d6ff7f1e-b94f-4205-ab8d-5cfa91758724)。  
+ 在 Visual Basic 中，支持通过后期绑定动态操作。 有关详细信息，请参阅[早期绑定和后期绑定](http://msdn.microsoft.com/library/d6ff7f1e-b94f-4205-ab8d-5cfa91758724)。  
   
    
   
@@ -273,70 +278,70 @@ Dim sampleObject As Object = New SampleDynamicObject()
       <Parameters>
         <Parameter Name="binder" Type="System.Dynamic.BinaryOperationBinder" />
         <Parameter Name="arg" Type="System.Object" />
-        <Parameter Name="result" Type="System.Object&amp;" RefType="out" />
+        <Parameter Name="result" Type="System.Object" RefType="out" />
       </Parameters>
       <Docs>
         <param name="binder">提供有关二元运算的信息。 <c>binder.Operation</c> 属性返回 <see cref="T:System.Linq.Expressions.ExpressionType" /> 对象。 例如，对于 <c>sum = first + second</c> 语句（其中，<c>first</c> 和 <c>second</c> 派生自 <see langword="DynamicObject" /> 类），<c>binder.Operation</c> 返回 <c>ExpressionType.Add</c>。</param>
         <param name="arg">二元运算的右操作数。 例如，对于 <c>sum = first + second</c> 语句（其中，<c>first</c> 和 <c>second</c> 派生自 <see langword="DynamicObject" /> 类），<c>arg</c> 等于 <c>second</c>。</param>
         <param name="result">二元运算的结果。</param>
         <summary>提供二元运算的实现。 从 <see cref="T:System.Dynamic.DynamicObject" /> 类派生的类可以重写此方法，以便为诸如加法和乘法这样的运算指定动态行为。</summary>
-        <returns>如果操作成功，则为 <see langword="true" />；否则为 <see langword="false" />。 如果此方法返回 <see langword="false" />，则该语言的运行时联编程序将决定行为。 （大多数情况下，将引发语言特定的运行时异常。）</returns>
+        <returns>如果此运算成功，则为 <see langword="true" />；否则为 <see langword="false" />。 如果此方法返回 <see langword="false" />，则该语言的运行时联编程序将决定行为。 （大多数情况下，将引发语言特定的运行时异常。）</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 类派生自<xref:System.Dynamic.DynamicObject>类可以重写此方法以指定应如何对动态对象执行二元运算。 如果该方法没有覆盖，语言运行时联编程序确定的行为。 （大多数情况下，将引发语言特定的运行时异常。）  
+ 类派生自<xref:System.Dynamic.DynamicObject>类可以重写此方法，以指定如何为动态对象执行二进制操作。 如果方法没有覆盖，语言运行时联编程序确定的行为。 （大多数情况下，将引发语言特定的运行时异常。）  
   
- 当您使用例如加法或乘法的二元运算时，调用此方法。 例如，如果<xref:System.Dynamic.DynamicObject.TryBinaryOperation%2A>方法被重写，它将自动调用语句等`sum = first + second`或`multiply = first*second`，其中`first`派生自`DynamicObject`类。  
+ 当您使用二元运算，例如加法或乘法，调用此方法。 例如，如果<xref:System.Dynamic.DynamicObject.TryBinaryOperation%2A>重写方法，它将自动调用语句，例如`sum = first + second`或`multiply = first*second`，其中`first`派生自`DynamicObject`类。  
   
- 可以使用来获取有关类型的二元运算信息`Operation`属性`binder`参数。  
+ 可以通过获取有关二元运算类型的信息`Operation`属性的`binder`参数。  
   
- 如果仅在 C# 和 Visual Basic 中使用动态对象`binder.Operation`属性可以具有中的以下值之一<xref:System.Linq.Expressions.ExpressionType>枚举。 但是，在 IronPython 或 IronRuby 等其他语言，可以有其他值。
+ 如果仅在 C# 和 Visual Basic 中使用动态对象`binder.Operation`属性可以从以下值之一<xref:System.Linq.Expressions.ExpressionType>枚举。 但是，在 IronPython 或 IronRuby 等其他语言，可以具有其他值。
   
-|“值”|描述|C#|Visual Basic|  
+|值|描述|C#|Visual Basic|  
 |-----------|-----------------|---------|------------------|  
-|`Add`|不针对数值操作数溢出检查的加法运算。|`a + b`|`a + b`|  
-|`AddAssign`|不进行溢出检查，针对数值操作数加法复合赋值运算。|`a += b`|不支持。|  
+|`Add`|加法运算不进行溢出检查，针对数值操作数。|`a + b`|`a + b`|  
+|`AddAssign`|加法复合赋值运算不进行溢出检查，针对数值操作数。|`a += b`|不支持。|  
 |`And`|按位`AND`操作。|`a & b`|`a And b`|  
 |`AndAssign`|按位`AND`复合赋值运算。|`a &= b`|不支持。|  
 |`Divide`|算术除法运算。|`a / b`|`a / b`|  
-|`DivideAssign`|除的算术复合赋值运算。|`a /= b`|不支持。|  
+|`DivideAssign`|算术除法复合赋值运算。|`a /= b`|不支持。|  
 |`ExclusiveOr`|按位`XOR`操作。|`a ^ b`|`a Xor b`|  
 |`ExclusiveOrAssign`|按位`XOR`复合赋值运算。|`a ^= b`|不支持。|  
-|`GreaterThan`|"大于"的比较。|`a > b`|`a > b`|  
+|`GreaterThan`|"大于"比较。|`a > b`|`a > b`|  
 |`GreaterThanOrEqual`|"大于或等于"比较。|`a >= b`|不支持。|  
 |`LeftShift`|按位左移运算。|`a << b`|`a << b`|  
-|`LeftShiftAssign`|按位左移复合赋值操作。|`a <<= b`|不支持。|  
+|`LeftShiftAssign`|一个按位左移复合赋值操作。|`a <<= b`|不支持。|  
 |`LessThan`|"小于"比较。|`a < b`|`a < b`|  
 |`LessThanOrEqual`|"小于或等于"比较。|`a <= b`|不支持。|  
 |`Modulo`|算术余数运算。|`a % b`|`a Mod b`|  
 |`ModuloAssign`|算术余数复合赋值运算。|`a %= b`|不支持。|  
 |`Multiply`|不进行溢出检查，针对数值操作数乘法运算。|`a * b`|`a * b`|  
-|`MultiplyAssign`|不进行溢出检查，针对数值操作数的乘法复合赋值运算。|`a *= b`|不支持。|  
+|`MultiplyAssign`|乘法复合赋值运算不进行溢出检查，针对数值操作数。|`a *= b`|不支持。|  
 |`NotEqual`|不是相等比较。|`a != b`|`a <> b`|  
 |`Or`|按位或逻辑`OR`操作。|`a &#124; b`|`a Or b`|  
 |`OrAssign`|按位或逻辑`OR`复合赋值。|`a &#124;= b`|不支持。|  
-|`Power`|对数进行幂运算的数学运算。|不支持。|`a ^ b`|  
+|`Power`|引发数字进行幂运算的数学运算。|不支持。|`a ^ b`|  
 |`RightShift`|按位右移运算。|`a >> b`|`a >> b`|  
-|`RightShiftAssign`|按位右移复合赋值操作。|`a >>= b`|不支持。|  
-|`Subtract`|不进行溢出检查，针对数值操作数的减法运算。|`a - b`|`a - b`|  
-|`SubtractAssign`|不进行溢出检查，针对数值操作数的减法复合赋值运算。|`a -= b`|不支持。|  
+|`RightShiftAssign`|一个按位右移复合赋值操作。|`a >>= b`|不支持。|  
+|`Subtract`|减法运算不进行溢出检查，针对数值操作数。|`a - b`|`a - b`|  
+|`SubtractAssign`|减法复合赋值运算不进行溢出检查，针对数值操作数。|`a -= b`|不支持。|  
   
 > [!NOTE]
->  若要实现`OrElse`(`a || b`) 和`AndAlso`(`a && b`) 的 C# 中的动态对象操作来说，你可能想要实现<xref:System.Dynamic.DynamicObject.TryUnaryOperation%2A>方法和<xref:System.Dynamic.DynamicObject.TryBinaryOperation%2A>方法。  
+>  若要实现`OrElse`(`a || b`) 和`AndAlso`(`a && b`) 的 C# 中的动态对象的操作，你可能想要实现这两<xref:System.Dynamic.DynamicObject.TryUnaryOperation%2A>方法和<xref:System.Dynamic.DynamicObject.TryBinaryOperation%2A>方法。  
 >   
->  `OrElse`操作包含一元`IsTrue`操作和二进制`Or`操作。 `Or`仅当执行操作的结果`IsTrue`操作`false`。  
+>  `OrElse`操作包含一元`IsTrue`操作和二进制`Or`操作。 `Or`仅当执行操作的结果`IsTrue`操作是`false`。  
 >   
->  `AndAlso`操作包含一元`IsFalse`操作和二进制`And`操作。 `And`仅当执行操作的结果`IsFalse`操作`false`。  
+>  `AndAlso`操作包含一元`IsFalse`操作和二进制`And`操作。 `And`仅当执行操作的结果`IsFalse`操作是`false`。  
   
    
   
 ## Examples  
- 假定您需要数据结构，用于存储文本和数值表示形式的数字，并且你想要定义基本的数学运算，如加法和减法为此类数据。  
+ 假设您需要的数据结构来存储文本和数值表达式的数字，并且你想要定义基本的数学运算，如加法和减法的此类数据。  
   
- 下面的代码示例演示`DynamicNumber`类，该类派生自<xref:System.Dynamic.DynamicObject>类。 `DynamicNumber` 重写<xref:System.Dynamic.DynamicObject.TryBinaryOperation%2A>方法，以使数学运算。 它还将重写<xref:System.Dynamic.DynamicObject.TrySetMember%2A>和<xref:System.Dynamic.DynamicObject.TryGetMember%2A>使对元素的访问的方法。  
+ 下面的代码示例演示`DynamicNumber`类，该类派生自<xref:System.Dynamic.DynamicObject>类。 `DynamicNumber` 重写<xref:System.Dynamic.DynamicObject.TryBinaryOperation%2A>方法，以使数学运算。 它还重写<xref:System.Dynamic.DynamicObject.TrySetMember%2A>和<xref:System.Dynamic.DynamicObject.TryGetMember%2A>方法以允许对元素的访问。  
   
- 在此示例中，支持仅加法和减法运算。 如果尝试编写类似的语句`resultNumber = firstNumber*secondNumber`，会引发一个运行时异常。  
+ 在此示例中，支持仅加法和减法操作。 如果您尝试编写如下所示语句`resultNumber = firstNumber*secondNumber`，运行时异常。  
   
  [!code-csharp[System.Dynamic.DynamicObject#2](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.dynamic.dynamicobject/cs/program.cs#2)]
  [!code-vb[System.Dynamic.DynamicObject#2](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.dynamic.dynamicobject/vb/module1.vb#2)]  
@@ -376,22 +381,22 @@ Dim sampleObject As Object = New SampleDynamicObject()
       </ReturnValue>
       <Parameters>
         <Parameter Name="binder" Type="System.Dynamic.ConvertBinder" />
-        <Parameter Name="result" Type="System.Object&amp;" RefType="out" />
+        <Parameter Name="result" Type="System.Object" RefType="out" />
       </Parameters>
       <Docs>
         <param name="binder">提供有关转换运算的信息。 <c>binder.Type</c> 属性提供必须将对象转换为的类型。 例如，对于 C# 中的 <c>(String)sampleObject</c> 语句（在 Visual Basic 中为 <c>CType(sampleObject, Type)</c>，其中 <c>sampleObject</c> 是派生自 <see cref="T:System.Dynamic.DynamicObject" /> 类的类的实例），<c>binder.Type</c> 返回 <see cref="T:System.String" /> 类型。 <c>binder.Explicit</c> 属性提供有关所发生转换的类型的信息。 对于显式转换，它返回 <see langword="true" />；对于隐式转换，它返回 <see langword="false" />。</param>
         <param name="result">类型转换运算的结果。</param>
         <summary>提供类型转换运算的实现。 从 <see cref="T:System.Dynamic.DynamicObject" /> 类派生的类可以重写此方法，以便为将某个对象从一种类型转换为另一种类型的运算指定动态行为。</summary>
-        <returns>如果操作成功，则为 <see langword="true" />；否则为 <see langword="false" />。 如果此方法返回 <see langword="false" />，则该语言的运行时联编程序将决定行为。 （大多数情况下，将引发语言特定的运行时异常。）</returns>
+        <returns>如果此运算成功，则为 <see langword="true" />；否则为 <see langword="false" />。 如果此方法返回 <see langword="false" />，则该语言的运行时联编程序将决定行为。 （大多数情况下，将引发语言特定的运行时异常。）</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 类派生自<xref:System.Dynamic.DynamicObject>类可以重写此方法以指定应如何执行类型转换为动态对象。 如果该方法没有覆盖，语言运行时联编程序确定的行为。 （大多数情况下，将引发语言特定的运行时异常。）  
+ 类派生自<xref:System.Dynamic.DynamicObject>类可以重写此方法，以指定应如何执行类型转换为动态对象。 如果方法没有覆盖，语言运行时联编程序确定的行为。 （大多数情况下，将引发语言特定的运行时异常。）  
   
- 在 C# 中，如果重写此方法，它被自动调用时必须显式或隐式转换，如下面的代码示例中所示。  
+ 在 C# 中，如果重写此方法，它是自动调用时具有的显式或隐式转换，如下面的代码示例中所示。  
   
- 在 Visual Basic 中，支持仅显式转换。 如果你重写此方法，则调用它通过使用<xref:Microsoft.VisualBasic.Conversion.CTypeDynamic%2A>或<xref:Microsoft.VisualBasic.Conversion.CTypeDynamic%2A>函数。  
+ 在 Visual Basic 中，则支持仅显式转换。 如果重写此方法，则调用它通过使用<xref:Microsoft.VisualBasic.Conversion.CTypeDynamic%2A>或<xref:Microsoft.VisualBasic.Conversion.CTypeDynamic%2A>函数。  
   
 ```csharp  
 // Explicit conversion.  
@@ -410,11 +415,11 @@ Dim testExplicit2 = CTypeDynamic(sampleObject, GetType(String))
    
   
 ## Examples  
- 假定您需要数据结构，用于存储文本和数值表示形式的数字，并且你想要定义的此数据结构转换的字符串和整数。  
+ 假设您需要的数据结构来存储文本和数值表达式的数字，并且你想要定义的此数据结构转换为字符串和整数。  
   
- 下面的代码示例演示`DynamicNumber`类，该类派生自<xref:System.Dynamic.DynamicObject>类。 `DynamicNumber` 重写<xref:System.Dynamic.DynamicObject.TryConvert%2A>方法，以使类型转换。 它还将重写<xref:System.Dynamic.DynamicObject.TrySetMember%2A>和<xref:System.Dynamic.DynamicObject.TryGetMember%2A>方法以允许对数据元素的访问。  
+ 下面的代码示例演示`DynamicNumber`类，该类派生自<xref:System.Dynamic.DynamicObject>类。 `DynamicNumber` 重写<xref:System.Dynamic.DynamicObject.TryConvert%2A>方法以启用类型转换。 它还重写<xref:System.Dynamic.DynamicObject.TrySetMember%2A>和<xref:System.Dynamic.DynamicObject.TryGetMember%2A>方法以允许访问的数据元素。  
   
- 在此示例中，支持仅转换为字符串和整数。 如果你尝试将对象转换为任何其他类型，则会引发一个运行时异常。  
+ 在此示例中，支持仅转换为字符串和整数。 如果你尝试将对象转换为任何其他类型，则会运行时异常。  
   
  [!code-csharp[System.Dynamic.DynamicObject#3](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.dynamic.dynamicobject/cs/program.cs#3)]
  [!code-vb[System.Dynamic.DynamicObject#3](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.dynamic.dynamicobject/vb/module1.vb#3)]  
@@ -455,21 +460,21 @@ Dim testExplicit2 = CTypeDynamic(sampleObject, GetType(String))
       <Parameters>
         <Parameter Name="binder" Type="System.Dynamic.CreateInstanceBinder" />
         <Parameter Name="args" Type="System.Object[]" />
-        <Parameter Name="result" Type="System.Object&amp;" RefType="out" />
+        <Parameter Name="result" Type="System.Object" RefType="out" />
       </Parameters>
       <Docs>
         <param name="binder">提供有关初始化操作的信息。</param>
         <param name="args">初始化期间传递给对象的参数。 例如，对于 <c>new SampleType(100)</c>（其中 <c>SampleType</c> 是派生自 <see cref="T:System.Dynamic.DynamicObject" /> 类的类型），<c>args[0]</c> 等于 100。</param>
         <param name="result">初始化的结果。</param>
         <summary>为初始化动态对象的新实例的操作提供实现。 不应将此方法用于 C# 或 Visual Basic。</summary>
-        <returns>如果操作成功，则为 <see langword="true" />；否则为 <see langword="false" />。 如果此方法返回 <see langword="false" />，则该语言的运行时联编程序将决定行为。 （大多数情况下，将引发语言特定的运行时异常。）</returns>
+        <returns>如果此运算成功，则为 <see langword="true" />；否则为 <see langword="false" />。 如果此方法返回 <see langword="false" />，则该语言的运行时联编程序将决定行为。 （大多数情况下，将引发语言特定的运行时异常。）</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 类派生自<xref:System.Dynamic.DynamicObject>类可以重写此方法以指定应如何初始化动态对象的新实例。 如果该方法没有覆盖，语言运行时联编程序确定的行为。 （大多数情况下，将引发语言特定的运行时异常。）  
+ 类派生自<xref:System.Dynamic.DynamicObject>类可以重写此方法以指定应如何初始化动态对象的新实例。 如果方法没有覆盖，语言运行时联编程序确定的行为。 （大多数情况下，将引发语言特定的运行时异常。）  
   
- C# 和 Visual Basic 编译器永远不会发出代码以使用此方法，因为它们不支持第一类的类型。 此方法适用于支持通过使用类似的语法的动态对象的初始化的语言`dynamic new`。  
+ C# 和 Visual Basic 编译器永远不会发出代码以使用此方法，因为它们不支持第一类的类型。 此方法适用于通过使用类似的语法支持动态对象的初始化的语言`dynamic new`。  
   
  ]]></format>
         </remarks>
@@ -512,14 +517,14 @@ Dim testExplicit2 = CTypeDynamic(sampleObject, GetType(String))
         <param name="binder">提供有关删除的信息。</param>
         <param name="indexes">要删除的索引。</param>
         <summary>为按索引删除对象的操作提供实现。 不应将此方法用于 C# 或 Visual Basic。</summary>
-        <returns>如果操作成功，则为 <see langword="true" />；否则为 <see langword="false" />。 如果此方法返回 <see langword="false" />，则该语言的运行时联编程序将决定行为。 （大多数情况下，将引发语言特定的运行时异常。）</returns>
+        <returns>如果此运算成功，则为 <see langword="true" />；否则为 <see langword="false" />。 如果此方法返回 <see langword="false" />，则该语言的运行时联编程序将决定行为。 （大多数情况下，将引发语言特定的运行时异常。）</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 类派生自<xref:System.Dynamic.DynamicObject>类可以重写此方法以指定应如何删除具有指定的索引的值。 如果该方法没有覆盖，语言运行时联编程序确定的行为。 （大多数情况下，将引发语言特定的运行时异常。）  
+ 类派生自<xref:System.Dynamic.DynamicObject>类可以重写此方法以指定应如何删除具有指定的索引的值。 如果方法没有覆盖，语言运行时联编程序确定的行为。 （大多数情况下，将引发语言特定的运行时异常。）  
   
- C# 和 Visual Basic 编译器永远不会发出代码以使用此方法，因为它们不支持这种类型的操作。 此方法适用于支持语法，如按索引删除对象的语言`del sampleObject[1,2]`Python 中。  
+ C# 和 Visual Basic 编译器永远不会发出代码以使用此方法，因为它们不支持这种操作。 此方法适用于支持按索引，如删除对象的语法的语言`del sampleObject[1,2]`Python 中。  
   
  ]]></format>
         </remarks>
@@ -560,14 +565,14 @@ Dim testExplicit2 = CTypeDynamic(sampleObject, GetType(String))
       <Docs>
         <param name="binder">提供有关删除的信息。</param>
         <summary>为删除对象成员的操作提供实现。 不应将此方法用于 C# 或 Visual Basic。</summary>
-        <returns>如果操作成功，则为 <see langword="true" />；否则为 <see langword="false" />。 如果此方法返回 <see langword="false" />，则该语言的运行时联编程序将决定行为。 （大多数情况下，将引发语言特定的运行时异常。）</returns>
+        <returns>如果此运算成功，则为 <see langword="true" />；否则为 <see langword="false" />。 如果此方法返回 <see langword="false" />，则该语言的运行时联编程序将决定行为。 （大多数情况下，将引发语言特定的运行时异常。）</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 类派生自<xref:System.Dynamic.DynamicObject>类可以重写此方法以指定应如何删除对象成员。 如果此方法没有覆盖，语言运行时联编程序确定的行为。 （大多数情况下，将引发语言特定的运行时异常。）  
+ 类派生自<xref:System.Dynamic.DynamicObject>类可以重写此方法以指定应如何删除对象成员。 时未重写此方法，该语言的运行时联编程序确定的行为。 （大多数情况下，将引发语言特定的运行时异常。）  
   
- C# 和 Visual Basic 编译器永远不会发出代码以使用此方法，因为它们不支持这种类型的操作。 此方法适用于支持用于删除成员，如语法的语言`del sampleObject.SampleMember`Python 中。  
+ C# 和 Visual Basic 编译器永远不会发出代码以使用此方法，因为它们不支持这种操作。 此方法适用于语言的支持用于删除成员，如语法`del sampleObject.SampleMember`Python 中。  
   
  ]]></format>
         </remarks>
@@ -605,28 +610,28 @@ Dim testExplicit2 = CTypeDynamic(sampleObject, GetType(String))
       <Parameters>
         <Parameter Name="binder" Type="System.Dynamic.GetIndexBinder" />
         <Parameter Name="indexes" Type="System.Object[]" />
-        <Parameter Name="result" Type="System.Object&amp;" RefType="out" />
+        <Parameter Name="result" Type="System.Object" RefType="out" />
       </Parameters>
       <Docs>
         <param name="binder">提供有关该操作的信息。</param>
         <param name="indexes">该操作中使用的索引。 例如，对于 C# 中的 <c>sampleObject[3]</c> 操作（在 Visual Basic 中为 <c>sampleObject(3)</c>，其中 <c>sampleObject</c> 派生自 <see langword="DynamicObject" /> 类），<c>indexes[0]</c> 等于 3。</param>
         <param name="result">索引操作的结果。</param>
         <summary>为按索引获取值的操作提供实现。 从 <see cref="T:System.Dynamic.DynamicObject" /> 类派生的类可以重写此方法，以便为索引操作指定动态行为。</summary>
-        <returns>如果操作成功，则为 <see langword="true" />；否则为 <see langword="false" />。 如果此方法返回 <see langword="false" />，则该语言的运行时联编程序将决定行为。 （大多数情况下，将引发运行时异常。）</returns>
+        <returns>如果此运算成功，则为 <see langword="true" />；否则为 <see langword="false" />。 如果此方法返回 <see langword="false" />，则该语言的运行时联编程序将决定行为。 （大多数情况下，将引发运行时异常。）</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 类派生自<xref:System.Dynamic.DynamicObject>类可以重写此方法以指定如何按索引获取的值应为执行的动态对象。 如果该方法没有覆盖，语言运行时联编程序确定的行为。 （大多数情况下，将引发运行时异常。）  
+ 类派生自<xref:System.Dynamic.DynamicObject>类可以重写此方法以指定如何按索引获取值应执行的动态对象。 如果方法没有覆盖，语言运行时联编程序确定的行为。 （大多数情况下，将引发运行时异常。）  
   
- 如果重写此方法，它将自动调用时具有类似的操作`sampleObject[3]`在 C# 或`sampleObject(3)`Visual Basic、 where`sampleObject`派生自<xref:System.Dynamic.DynamicObject>类。  
+ 如果重写此方法，它则会自动调用具有等操作`sampleObject[3]`C# 中或`sampleObject(3)`在 Visual Basic 何处`sampleObject`派生自<xref:System.Dynamic.DynamicObject>类。  
   
    
   
 ## Examples  
- 假设你想要创建的对象属性可以访问通过名称如`Property0`， `Property1`，依此类推，或索引，以便，例如，`sampleObject.Property0`等效于`sampleObject[0]`在 C# 或`sampleObject(0)`在 Visual Basic 中。  
+ 假设你想要创建的对象属性可以访问通过名称如`Property0`， `Property1`，依此类推，或按索引，以便，例如，`sampleObject.Property0`等效于`sampleObject[0]`C# 中或`sampleObject(0)`在 Visual Basic 中。  
   
- 下面的代码示例演示`SampleDynamicObject`类，该类派生自<xref:System.Dynamic.DynamicObject>类。 `SampleDynamicObject`类包含的对象`Dictionary<string, object>`类型 (`Dictionary(Of String, Object)`在 Visual Basic 中) 来存储键 / 值对。 `SampleDynamicObject` 重写<xref:System.Dynamic.DynamicObject.TrySetIndex%2A>和<xref:System.Dynamic.DynamicObject.TryGetIndex%2A>方法以按索引允许访问。 它将重写<xref:System.Dynamic.DynamicObject.TrySetMember%2A>和<xref:System.Dynamic.DynamicObject.TryGetMember%2A>方法以按属性名称中允许访问。  
+ 下面的代码示例演示`SampleDynamicObject`类，该类派生自<xref:System.Dynamic.DynamicObject>类。 `SampleDynamicObject`类包含的对象`Dictionary<string, object>`类型 (`Dictionary(Of String, Object)`在 Visual Basic 中) 来存储键 / 值对。 `SampleDynamicObject` 重写<xref:System.Dynamic.DynamicObject.TrySetIndex%2A>和<xref:System.Dynamic.DynamicObject.TryGetIndex%2A>方法以允许按索引访问。 它将替代<xref:System.Dynamic.DynamicObject.TrySetMember%2A>和<xref:System.Dynamic.DynamicObject.TryGetMember%2A>方法以允许访问按属性名称。  
   
  [!code-csharp[System.Dynamic.DynamicObject#4](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.dynamic.dynamicobject/cs/program.cs#4)]
  [!code-vb[System.Dynamic.DynamicObject#4](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.dynamic.dynamicobject/vb/module1.vb#4)]  
@@ -666,29 +671,29 @@ Dim testExplicit2 = CTypeDynamic(sampleObject, GetType(String))
       </ReturnValue>
       <Parameters>
         <Parameter Name="binder" Type="System.Dynamic.GetMemberBinder" />
-        <Parameter Name="result" Type="System.Object&amp;" RefType="out" />
+        <Parameter Name="result" Type="System.Object" RefType="out" />
       </Parameters>
       <Docs>
         <param name="binder">提供有关调用了动态操作的对象的信息。 <c>binder.Name</c> 属性提供针对其执行动态操作的成员的名称。 例如，对于<c> Console.WriteLine(sampleObject.SampleProperty)</c> 语句（其中 <c>sampleObject</c> 是派生自 <see cref="T:System.Dynamic.DynamicObject" /> 类的类的实例），<c>binder.Name</c> 返回“SampleProperty”。 <c>binder.IgnoreCase</c> 属性指定成员名称是否区分大小写。</param>
         <param name="result">获取操作的结果。 例如，如果为某个属性调用该方法，则可以将该属性值赋给 <c>result</c>。</param>
         <summary>为获取成员值的操作提供实现。 从 <see cref="T:System.Dynamic.DynamicObject" /> 类派生的类可以重写此方法，以便为诸如获取属性值这样的操作指定动态行为。</summary>
-        <returns>如果操作成功，则为 <see langword="true" />；否则为 <see langword="false" />。 如果此方法返回 <see langword="false" />，则该语言的运行时联编程序将决定行为。 （大多数情况下，将引发运行时异常。）</returns>
+        <returns>如果此运算成功，则为 <see langword="true" />；否则为 <see langword="false" />。 如果此方法返回 <see langword="false" />，则该语言的运行时联编程序将决定行为。 （大多数情况下，将引发运行时异常。）</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 类派生自<xref:System.Dynamic.DynamicObject>类可以重写此方法以指定应如何对动态对象执行操作用于获取的成员值。 如果该方法没有覆盖，语言运行时联编程序确定的行为。 （大多数情况下，将引发运行时异常。）  
+ 类派生自<xref:System.Dynamic.DynamicObject>类可以重写此方法，以指定应如何为动态对象执行操作用于获取成员值。 如果方法没有覆盖，语言运行时联编程序确定的行为。 （大多数情况下，将引发运行时异常。）  
   
- 当你有这样的语句时调用此方法`Console.WriteLine(sampleObject.SampleProperty)`，其中`sampleObject`是派生自的类的实例<xref:System.Dynamic.DynamicObject>类。  
+ 当有这样的语句时调用此方法`Console.WriteLine(sampleObject.SampleProperty)`，其中`sampleObject`是派生自的类的实例<xref:System.Dynamic.DynamicObject>类。  
   
- 此外可以向派生自的类添加你自己的成员`DynamicObject`类。 如果您的类定义属性，而且还将重写<xref:System.Dynamic.DynamicObject.TrySetMember%2A>方法，动态语言运行时 (DLR) 第一次使用语言联编程序来查找有关静态的类中的属性定义。 如果没有这样的属性，DLR 调用<xref:System.Dynamic.DynamicObject.TrySetMember%2A>方法。  
+ 此外可以向派生自的类添加您自己的成员`DynamicObject`类。 如果您的类定义属性，并且还将重写<xref:System.Dynamic.DynamicObject.TrySetMember%2A>方法中，动态语言运行时 (DLR) 首先使用语言联编程序来查找类中的属性的静态定义。 如果不存在此类属性，DLR 调用<xref:System.Dynamic.DynamicObject.TrySetMember%2A>方法。  
   
    
   
 ## Examples  
- 假设你想要提供替代语法访问值在字典中，编写的因此`sampleDictionary["Text"] = "Sample text"`(`sampleDictionary("Text") = "Sample text"`在 Visual Basic 中)，你可以编写`sampleDictionary.Text = "Sample text"`。 此外，此语法必须不区分大小写，以便`sampleDictionary.Text`等效于`sampleDictionary.text`。  
+ 假设您想要用于访问在字典中，以代替的书写的值提供替代语法`sampleDictionary["Text"] = "Sample text"`(`sampleDictionary("Text") = "Sample text"`在 Visual Basic 中)，您可以编写`sampleDictionary.Text = "Sample text"`。 此外，此语法必须不区分大小写，以便`sampleDictionary.Text`等效于`sampleDictionary.text`。  
   
- 下面的代码示例演示`DynamicDictionary`类，该类派生自<xref:System.Dynamic.DynamicObject>类。 `DynamicDictionary`类包含的对象`Dictionary<string, object>`类型 (`Dictionary(Of String, Object)`在 Visual Basic 中) 来存储键 / 值对，并重写<xref:System.Dynamic.DynamicObject.TrySetMember%2A>和<xref:System.Dynamic.DynamicObject.TryGetMember%2A>方法，以支持新的语法。 它还提供了`Count`属性，用于显示多少动态属性字典包含。  
+ 下面的代码示例演示`DynamicDictionary`类，该类派生自<xref:System.Dynamic.DynamicObject>类。 `DynamicDictionary`类包含的对象`Dictionary<string, object>`类型 (`Dictionary(Of String, Object)`在 Visual Basic 中) 来存储键 / 值对，并重写<xref:System.Dynamic.DynamicObject.TrySetMember%2A>和<xref:System.Dynamic.DynamicObject.TryGetMember%2A>方法，以支持新的语法。 它还提供了`Count`属性，其中显示了多少动态属性字典包含。  
   
  [!code-csharp[System.Dynamic.DynamicObject#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.dynamic.dynamicobject/cs/program.cs#1)]
  [!code-vb[System.Dynamic.DynamicObject#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.dynamic.dynamicobject/vb/module1.vb#1)]  
@@ -729,30 +734,30 @@ Dim testExplicit2 = CTypeDynamic(sampleObject, GetType(String))
       <Parameters>
         <Parameter Name="binder" Type="System.Dynamic.InvokeBinder" />
         <Parameter Name="args" Type="System.Object[]" />
-        <Parameter Name="result" Type="System.Object&amp;" RefType="out" />
+        <Parameter Name="result" Type="System.Object" RefType="out" />
       </Parameters>
       <Docs>
         <param name="binder">提供有关调用操作的信息。</param>
         <param name="args">调用操作期间传递给对象的参数。 例如，对于 <c>sampleObject(100)</c> 操作（其中 <c>sampleObject</c> 派生自 <see cref="T:System.Dynamic.DynamicObject" /> 类），<c>args[0]</c> 等于 100。</param>
         <param name="result">对象调用的结果。</param>
         <summary>为调用对象的操作提供实现。 从 <see cref="T:System.Dynamic.DynamicObject" /> 类派生的类可以重写此方法，以便为诸如调用对象或委托这样的操作指定动态行为。</summary>
-        <returns>如果操作成功，则为 <see langword="true" />；否则为 <see langword="false" />。 如果此方法返回 <see langword="false" />，则该语言的运行时联编程序将决定行为。 （大多数情况下，将引发语言特定的运行时异常。）</returns>
+        <returns>如果此运算成功，则为 <see langword="true" />；否则为 <see langword="false" />。 如果此方法返回 <see langword="false" />，则该语言的运行时联编程序将决定行为。 （大多数情况下，将引发语言特定的运行时异常。）</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 类派生自<xref:System.Dynamic.DynamicObject>类可以重写此方法以指定应如何对动态对象执行调用对象的操作。 如果该方法没有覆盖，语言运行时联编程序确定的行为。 （大多数情况下，将引发运行时异常。）  
+ 类派生自<xref:System.Dynamic.DynamicObject>类可以重写此方法，以指定应如何为动态对象执行调用的对象的操作。 如果方法没有覆盖，语言运行时联编程序确定的行为。 （大多数情况下，将引发运行时异常。）  
   
- 如果重写此方法，它将自动调用时具有类似的操作`sampleObject(100)`，其中`sampleObject`派生自<xref:System.Dynamic.DynamicObject>类。  
+ 如果重写此方法，它则会自动调用具有等操作`sampleObject(100)`，其中`sampleObject`派生自<xref:System.Dynamic.DynamicObject>类。  
   
- 在 C#，但在 Visual Basic 中不支持调用对象的操作。 Visual Basic 编译器永远不会发出代码来使用此方法，而 Visual Basic 语言不支持类似的语法`sampleObject(100)`。  
+ 在 C# 中，但在 Visual Basic 中不支持调用对象的操作。 Visual Basic 编译器永远不会发出代码以使用此方法和 Visual Basic 语言不支持类似的语法`sampleObject(100)`。  
   
    
   
 ## Examples  
- 假定您需要数据结构，用于存储数字的文本和数值表达式。 你想要能够单独指定每个属性的值，并还能够初始化单个语句中的所有属性。  
+ 假设您需要一种数据结构来存储数字的文本和数值表达式。 你想要能够单独指定每个属性的值，并还能够初始化单个语句中的所有属性。  
   
- 下面的代码示例演示`DynamicNumber`类，该类派生自<xref:System.Dynamic.DynamicObject>类。 `DynamicNumber` 重写<xref:System.Dynamic.DynamicObject.TryInvoke%2A>方法，以使所有属性的初始化一次。 它还将重写<xref:System.Dynamic.DynamicObject.TrySetMember%2A>和<xref:System.Dynamic.DynamicObject.TryGetMember%2A>使可访问单独的对象属性的方法。  
+ 下面的代码示例演示`DynamicNumber`类，该类派生自<xref:System.Dynamic.DynamicObject>类。 `DynamicNumber` 重写<xref:System.Dynamic.DynamicObject.TryInvoke%2A>方法，以使所有属性的初始化一次。 它还重写<xref:System.Dynamic.DynamicObject.TrySetMember%2A>和<xref:System.Dynamic.DynamicObject.TryGetMember%2A>方法以允许访问单个对象属性。  
   
  [!code-csharp[System.Dynamic.DynamicObject#5](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.dynamic.dynamicobject/cs/program.cs#5)]  
   
@@ -792,32 +797,32 @@ Dim testExplicit2 = CTypeDynamic(sampleObject, GetType(String))
       <Parameters>
         <Parameter Name="binder" Type="System.Dynamic.InvokeMemberBinder" />
         <Parameter Name="args" Type="System.Object[]" />
-        <Parameter Name="result" Type="System.Object&amp;" RefType="out" />
+        <Parameter Name="result" Type="System.Object" RefType="out" />
       </Parameters>
       <Docs>
         <param name="binder">提供有关动态操作的信息。 <c>binder.Name</c> 属性提供针对其执行动态操作的成员的名称。 例如，对于 <c>sampleObject.SampleMethod(100)</c>语句（其中 <c>sampleObject</c> 是派生自 <see cref="T:System.Dynamic.DynamicObject" /> 类的类的实例），<c>binder.Name</c> 返回“SampleMethod”。 <c>binder.IgnoreCase</c> 属性指定成员名称是否区分大小写。</param>
         <param name="args">调用操作期间传递给对象成员的参数。 例如，对于 <c>sampleObject.SampleMethod(100)</c>语句（其中 <c>sampleObject</c> 派生自 <see cref="T:System.Dynamic.DynamicObject" /> 类），<c>args[0]</c> 等于 100。</param>
         <param name="result">成员调用的结果。</param>
         <summary>为调用成员的操作提供实现。 从 <see cref="T:System.Dynamic.DynamicObject" /> 类派生的类可以重写此方法，以便为诸如调用方法这样的操作指定动态行为。</summary>
-        <returns>如果操作成功，则为 <see langword="true" />；否则为 <see langword="false" />。 如果此方法返回 <see langword="false" />，则该语言的运行时联编程序将决定行为。 （大多数情况下，将引发语言特定的运行时异常。）</returns>
+        <returns>如果此运算成功，则为 <see langword="true" />；否则为 <see langword="false" />。 如果此方法返回 <see langword="false" />，则该语言的运行时联编程序将决定行为。 （大多数情况下，将引发语言特定的运行时异常。）</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 类派生自<xref:System.Dynamic.DynamicObject>类可以重写此方法以指定应如何对动态对象执行操作，以调用对象成员。 如果该方法没有覆盖，语言运行时联编程序确定的行为。 （大多数情况下，将引发语言特定的运行时异常。）  
+ 类派生自<xref:System.Dynamic.DynamicObject>类可以重写此方法，以指定应如何为动态对象执行调用对象成员的操作。 如果方法没有覆盖，语言运行时联编程序确定的行为。 （大多数情况下，将引发语言特定的运行时异常。）  
   
- 如果重写此方法，它将自动调用时执行类似操作`sampleObject.SampleMethod(100)`，其中`sampleObject`派生自`DynamicObject`类。  
+ 如果重写此方法，它会自动被调用时执行等操作`sampleObject.SampleMethod(100)`，其中`sampleObject`派生自`DynamicObject`类。  
   
- 此外可以向派生自的类添加你自己的方法<xref:System.Dynamic.DynamicObject>类。 例如，如果你重写<xref:System.Dynamic.DynamicObject.TryInvokeMember%2A>方法，动态调度系统首先会尝试确定类中是否存在指定的方法。 如果找不到该方法，它将使用<xref:System.Dynamic.DynamicObject.TryInvokeMember%2A>实现。  
+ 此外可以向派生自的类来添加你自己的方法<xref:System.Dynamic.DynamicObject>类。 例如，如果您重写<xref:System.Dynamic.DynamicObject.TryInvokeMember%2A>方法中，动态调度系统首先会尝试确定在类中是否存在指定的方法。 如果找不到该方法，它将使用<xref:System.Dynamic.DynamicObject.TryInvokeMember%2A>实现。  
   
- 此方法不支持`ref`和`out`参数。 中的所有参数`args`数组通过值传递。  
+ 此方法不支持`ref`和`out`参数。 中的所有参数`args`数组按值传递。  
   
    
   
 ## Examples  
- 假设你想要提供替代语法访问值在字典中，编写的因此`sampleDictionary["Text"] = "Sample text"`(`sampleDictionary("Text") = "Sample text"`在 Visual Basic 中)，你可以编写`sampleDictionary.Text = "Sample text"`。 此外，你想要能够对此字典调用所有标准字典方法。  
+ 假设您想要用于访问在字典中，以代替的书写的值提供替代语法`sampleDictionary["Text"] = "Sample text"`(`sampleDictionary("Text") = "Sample text"`在 Visual Basic 中)，您可以编写`sampleDictionary.Text = "Sample text"`。 此外，你想要将无法在此字典上调用所有标准字典方法。  
   
- 下面的代码示例演示`DynamicDictionary`类，该类派生自<xref:System.Dynamic.DynamicObject>类。 `DynamicDictionary`类包含的对象`Dictionary<string, object>`类型 (`Dictionary(Of String, Object)`在 Visual Basic 中) 来存储键 / 值对。 它将重写<xref:System.Dynamic.DynamicObject.TryInvokeMember%2A>方法，以支持的方法<xref:System.Collections.Generic.Dictionary%602>类，并重写<xref:System.Dynamic.DynamicObject.TrySetMember%2A>和<xref:System.Dynamic.DynamicObject.TryGetMember%2A>方法，以支持新的语法。 它还提供了`Print`方法，打印出所有字典键和值。  
+ 下面的代码示例演示`DynamicDictionary`类，该类派生自<xref:System.Dynamic.DynamicObject>类。 `DynamicDictionary`类包含的对象`Dictionary<string, object>`类型 (`Dictionary(Of String, Object)`在 Visual Basic 中) 来存储键 / 值对。 它将替代<xref:System.Dynamic.DynamicObject.TryInvokeMember%2A>方法，以支持的方法<xref:System.Collections.Generic.Dictionary%602>类，并重写<xref:System.Dynamic.DynamicObject.TrySetMember%2A>和<xref:System.Dynamic.DynamicObject.TryGetMember%2A>方法，以支持新的语法。 它还提供了`Print`方法，打印出所有字典键和值。  
   
  [!code-csharp[System.Dynamic.DynamicObject#6](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.dynamic.dynamicobject/cs/program.cs#6)]
  [!code-vb[System.Dynamic.DynamicObject#6](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.dynamic.dynamicobject/vb/module1.vb#6)]  
@@ -865,21 +870,21 @@ Dim testExplicit2 = CTypeDynamic(sampleObject, GetType(String))
         <param name="indexes">该操作中使用的索引。 例如，对于 C# 中的 <c>sampleObject[3] = 10</c>操作（Visual Basic 中为 <c>sampleObject(3) = 10</c>，其中 <c>sampleObject</c> 派生自 <see cref="T:System.Dynamic.DynamicObject" /> 类），<c>indexes[0]</c> 等于 3。</param>
         <param name="value">要为具有指定索引的对象设置的值。 例如，对于 C# 中的 <c>sampleObject[3] = 10</c> 操作（Visual Basic 中为 <c>sampleObject(3) = 10</c>，其中 <c>sampleObject</c> 派生自 <see cref="T:System.Dynamic.DynamicObject" /> 类），<c>value</c> 等于 10。</param>
         <summary>为按索引设置值的操作提供实现。 从 <see cref="T:System.Dynamic.DynamicObject" /> 类派生的类可以重写此方法，以便为按指定索引访问对象的操作指定动态行为。</summary>
-        <returns>如果操作成功，则为 <see langword="true" />；否则为 <see langword="false" />。 如果此方法返回 <see langword="false" />，则该语言的运行时联编程序将决定行为。 （大多数情况下，将引发语言特定的运行时异常。）</returns>
+        <returns>如果此运算成功，则为 <see langword="true" />；否则为 <see langword="false" />。 如果此方法返回 <see langword="false" />，则该语言的运行时联编程序将决定行为。 （大多数情况下，将引发语言特定的运行时异常。）</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 类派生自<xref:System.Dynamic.DynamicObject>类可以重写此方法以指定应如何对动态对象执行按索引访问的对象的操作。 如果该方法没有覆盖，语言运行时联编程序确定的行为。 （大多数情况下，将引发语言特定的运行时异常。）  
+ 类派生自<xref:System.Dynamic.DynamicObject>类可以重写此方法，以指定应如何为动态对象执行按索引访问的对象的操作。 如果方法没有覆盖，语言运行时联编程序确定的行为。 （大多数情况下，将引发语言特定的运行时异常。）  
   
- 如果重写此方法，它将自动调用时具有类似的操作`sampleObject[3] = 10`在 C# 或`sampleObject(3) = 10`Visual Basic、 where`sampleObject`派生自<xref:System.Dynamic.DynamicObject>类。  
+ 如果重写此方法，它则会自动调用具有等操作`sampleObject[3] = 10`C# 中或`sampleObject(3) = 10`在 Visual Basic 何处`sampleObject`派生自<xref:System.Dynamic.DynamicObject>类。  
   
    
   
 ## Examples  
- 假设你想要创建的对象属性可以访问通过名称如`Property0`， `Property1`，依此类推，或索引，以便，例如，`sampleObject.Property0`等效于`sampleObject[0]`在 C# 或`sampleObject(0)`在 Visual Basic 中。  
+ 假设你想要创建的对象属性可以访问通过名称如`Property0`， `Property1`，依此类推，或按索引，以便，例如，`sampleObject.Property0`等效于`sampleObject[0]`C# 中或`sampleObject(0)`在 Visual Basic 中。  
   
- 下面的代码示例演示`SampleDynamicObject`类，该类派生自<xref:System.Dynamic.DynamicObject>类。 `SampleDynamicObject`类包含的对象`Dictionary<string, object>`类型 (`Dictionary(Of String, Object)`在 Visual Basic 中) 来存储键 / 值对。 `SampleDynamicObject` 重写<xref:System.Dynamic.DynamicObject.TrySetIndex%2A>和<xref:System.Dynamic.DynamicObject.TryGetIndex%2A>方法以按索引允许访问。 它将重写<xref:System.Dynamic.DynamicObject.TrySetMember%2A>和<xref:System.Dynamic.DynamicObject.TryGetMember%2A>方法以按属性名称中允许访问。  
+ 下面的代码示例演示`SampleDynamicObject`类，该类派生自<xref:System.Dynamic.DynamicObject>类。 `SampleDynamicObject`类包含的对象`Dictionary<string, object>`类型 (`Dictionary(Of String, Object)`在 Visual Basic 中) 来存储键 / 值对。 `SampleDynamicObject` 重写<xref:System.Dynamic.DynamicObject.TrySetIndex%2A>和<xref:System.Dynamic.DynamicObject.TryGetIndex%2A>方法以允许按索引访问。 它将替代<xref:System.Dynamic.DynamicObject.TrySetMember%2A>和<xref:System.Dynamic.DynamicObject.TryGetMember%2A>方法以允许访问按属性名称。  
   
  [!code-csharp[System.Dynamic.DynamicObject#4](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.dynamic.dynamicobject/cs/program.cs#4)]
  [!code-vb[System.Dynamic.DynamicObject#4](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.dynamic.dynamicobject/vb/module1.vb#4)]  
@@ -925,23 +930,23 @@ Dim testExplicit2 = CTypeDynamic(sampleObject, GetType(String))
         <param name="binder">提供有关调用了动态操作的对象的信息。 <c>binder.Name</c> 属性提供将该值分配到的成员的名称。 例如，对于 <c>sampleObject.SampleProperty = "Test"</c> 语句（其中 <c>sampleObject</c> 是派生自 <see cref="T:System.Dynamic.DynamicObject" /> 类的类的实例），<c>binder.Name</c> 返回“SampleProperty”。 <c>binder.IgnoreCase</c> 属性指定成员名称是否区分大小写。</param>
         <param name="value">要为成员设置的值。 例如，对于 <c>sampleObject.SampleProperty = "Test"</c> 语句（其中 <c>sampleObject</c> 是派生自 <see cref="T:System.Dynamic.DynamicObject" /> 类的类的实例），<c>value</c> 为“Test”。</param>
         <summary>为设置成员值的操作提供实现。 从 <see cref="T:System.Dynamic.DynamicObject" /> 类派生的类可以重写此方法，以便为诸如设置属性值这样的操作指定动态行为。</summary>
-        <returns>如果操作成功，则为 <see langword="true" />；否则为 <see langword="false" />。 如果此方法返回 <see langword="false" />，则该语言的运行时联编程序将决定行为。 （大多数情况下，将引发语言特定的运行时异常。）</returns>
+        <returns>如果此运算成功，则为 <see langword="true" />；否则为 <see langword="false" />。 如果此方法返回 <see langword="false" />，则该语言的运行时联编程序将决定行为。 （大多数情况下，将引发语言特定的运行时异常。）</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 类派生自<xref:System.Dynamic.DynamicObject>类可以重写此方法以指定应如何对动态对象执行将值设置为成员的操作。 如果该方法没有覆盖，语言运行时联编程序确定的行为。 （大多数情况下，将引发语言特定的运行时异常。）  
+ 类派生自<xref:System.Dynamic.DynamicObject>类可以重写此方法，以指定应如何为动态对象执行操作，将值设置为成员。 如果方法没有覆盖，语言运行时联编程序确定的行为。 （大多数情况下，将引发语言特定的运行时异常。）  
   
- 当你有这样的语句时调用此方法`sampleObject.SampleProperty = "Test"`，其中`sampleObject`是派生自的类的实例<xref:System.Dynamic.DynamicObject>类。  
+ 当有这样的语句时调用此方法`sampleObject.SampleProperty = "Test"`，其中`sampleObject`是派生自的类的实例<xref:System.Dynamic.DynamicObject>类。  
   
- 此外可以向派生自的类添加你自己的成员`DynamicObject`类。 如果您的类定义属性，而且还将重写<xref:System.Dynamic.DynamicObject.TrySetMember%2A>方法，动态语言运行时 (DLR) 第一次使用语言联编程序来查找有关静态的类中的属性定义。 如果没有这样的属性，DLR 调用<xref:System.Dynamic.DynamicObject.TrySetMember%2A>方法。  
+ 此外可以向派生自的类添加您自己的成员`DynamicObject`类。 如果您的类定义属性，并且还将重写<xref:System.Dynamic.DynamicObject.TrySetMember%2A>方法中，动态语言运行时 (DLR) 首先使用语言联编程序来查找类中的属性的静态定义。 如果不存在此类属性，DLR 调用<xref:System.Dynamic.DynamicObject.TrySetMember%2A>方法。  
   
    
   
 ## Examples  
- 假设你想要提供替代语法访问值在字典中，编写的因此`sampleDictionary["Text"] = "Sample text"`(`sampleDictionary("Text") = "Sample text"`在 Visual Basic 中)，你可以编写`sampleDictionary.Text = "Sample text"`。 此外，此语法必须不区分大小写，以便`sampleDictionary.Text`等效于`sampleDictionary.text`。  
+ 假设您想要用于访问在字典中，以代替的书写的值提供替代语法`sampleDictionary["Text"] = "Sample text"`(`sampleDictionary("Text") = "Sample text"`在 Visual Basic 中)，您可以编写`sampleDictionary.Text = "Sample text"`。 此外，此语法必须不区分大小写，以便`sampleDictionary.Text`等效于`sampleDictionary.text`。  
   
- 下面的代码示例演示`DynamicDictionary`类，该类派生自<xref:System.Dynamic.DynamicObject>类。 `DynamicDictionary`类包含的对象`Dictionary<string, object>`类型 (`Dictionary(Of String, Object)`在 Visual Basic 中) 来存储键 / 值对，并重写<xref:System.Dynamic.DynamicObject.TrySetMember%2A>和<xref:System.Dynamic.DynamicObject.TryGetMember%2A>方法，以支持新的语法。 它还提供了`Count`属性，用于显示多少动态属性字典包含。  
+ 下面的代码示例演示`DynamicDictionary`类，该类派生自<xref:System.Dynamic.DynamicObject>类。 `DynamicDictionary`类包含的对象`Dictionary<string, object>`类型 (`Dictionary(Of String, Object)`在 Visual Basic 中) 来存储键 / 值对，并重写<xref:System.Dynamic.DynamicObject.TrySetMember%2A>和<xref:System.Dynamic.DynamicObject.TryGetMember%2A>方法，以支持新的语法。 它还提供了`Count`属性，其中显示了多少动态属性字典包含。  
   
  [!code-csharp[System.Dynamic.DynamicObject#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.dynamic.dynamicobject/cs/program.cs#1)]
  [!code-vb[System.Dynamic.DynamicObject#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.dynamic.dynamicobject/vb/module1.vb#1)]  
@@ -981,51 +986,51 @@ Dim testExplicit2 = CTypeDynamic(sampleObject, GetType(String))
       </ReturnValue>
       <Parameters>
         <Parameter Name="binder" Type="System.Dynamic.UnaryOperationBinder" />
-        <Parameter Name="result" Type="System.Object&amp;" RefType="out" />
+        <Parameter Name="result" Type="System.Object" RefType="out" />
       </Parameters>
       <Docs>
         <param name="binder">提供有关一元运算的信息。 <c>binder.Operation</c> 属性返回 <see cref="T:System.Linq.Expressions.ExpressionType" /> 对象。 例如，对于 <c>negativeNumber = -number</c> 语句（其中 <c>number</c> 派生自 <see langword="DynamicObject" /> 类），<c>binder.Operation</c> 返回“Negate”。</param>
         <param name="result">一元运算的结果。</param>
         <summary>提供一元运算的实现。 从 <see cref="T:System.Dynamic.DynamicObject" /> 类派生的类可以重写此方法，以便为诸如求反、递增、递减这样的运算指定动态行为。</summary>
-        <returns>如果操作成功，则为 <see langword="true" />；否则为 <see langword="false" />。 如果此方法返回 <see langword="false" />，则该语言的运行时联编程序将决定行为。 （大多数情况下，将引发语言特定的运行时异常。）</returns>
+        <returns>如果此运算成功，则为 <see langword="true" />；否则为 <see langword="false" />。 如果此方法返回 <see langword="false" />，则该语言的运行时联编程序将决定行为。 （大多数情况下，将引发语言特定的运行时异常。）</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 类派生自<xref:System.Dynamic.DynamicObject>类可以重写此方法以指定应如何对动态对象执行一元运算。 如果该方法没有覆盖，语言运行时联编程序确定的行为。 （大多数情况下，将引发语言特定的运行时异常。）  
+ 类派生自<xref:System.Dynamic.DynamicObject>类可以重写此方法以指定应如何为动态对象执行一元运算。 如果方法没有覆盖，语言运行时联编程序确定的行为。 （大多数情况下，将引发语言特定的运行时异常。）  
   
- 使用一元运算，例如求反、 递增，或递减时调用此方法。 例如，如果<xref:System.Dynamic.DynamicObject.TryUnaryOperation%2A>方法被重写，此方法将自动调用语句等`negativeNumber = -number`，其中`number`派生自<xref:System.Dynamic.DynamicObject>类。  
+ 一元求反、 递增，如操作或减少时，调用此方法。 例如，如果<xref:System.Dynamic.DynamicObject.TryUnaryOperation%2A>重写方法，语句，例如自动调用此方法`negativeNumber = -number`，其中`number`派生自<xref:System.Dynamic.DynamicObject>类。  
   
- 你可以通过使用来获取有关一元运算的类型信息`Operation`属性`binder`参数。  
+ 可以通过获取有关一元运算类型的信息`Operation`属性的`binder`参数。  
   
- 如果仅在 C# 和 Visual Basic 中使用动态对象`binder.Operation`属性可以具有中的以下值之一<xref:System.Linq.Expressions.ExpressionType>枚举。 但是，在 IronPython 或 IronRuby 等其他语言，可以有其他值。
+ 如果仅在 C# 和 Visual Basic 中使用动态对象`binder.Operation`属性可以从以下值之一<xref:System.Linq.Expressions.ExpressionType>枚举。 但是，在 IronPython 或 IronRuby 等其他语言，可以具有其他值。
   
-|“值”|描述|C#|Visual Basic|  
+|值|描述|C#|Visual Basic|  
 |-----------|-----------------|---------|------------------|  
 |`Decrement`|一元递减运算。|`a--`|不支持。|  
-|`Increment`|一元递增操作。|`a++`|不支持。|  
+|`Increment`|一元递增运算。|`a++`|不支持。|  
 |`Negate`|算术求反。|`-a`|`-a`|  
-|`Not`|逻辑求反。|`!a`|`Not a`|  
-|`OnesComplement`|的补数。|`~a`|不支持。|  
-|`IsFalse`|False 条件的值。|`a && b`|不支持。|  
+|`Not`|逻辑非运算。|`!a`|`Not a`|  
+|`OnesComplement`|的求补。|`~a`|不支持。|  
+|`IsFalse`|一个 false 的条件的值。|`a && b`|不支持。|  
 |`IsTrue`|一个条件为真值。|`a &#124;&#124; b`|不支持。|  
-|`UnaryPlus`|一元加。|`+a`|`+a`|  
+|`UnaryPlus`|一元加号。|`+a`|`+a`|  
   
 > [!NOTE]
->  若要实现`OrElse`(`a || b`) 和`AndAlso`(`a && b`) 的 C# 中的动态对象操作来说，你可能想要实现<xref:System.Dynamic.DynamicObject.TryUnaryOperation%2A>方法和<xref:System.Dynamic.DynamicObject.TryBinaryOperation%2A>方法。  
+>  若要实现`OrElse`(`a || b`) 和`AndAlso`(`a && b`) 的 C# 中的动态对象的操作，你可能想要实现这两<xref:System.Dynamic.DynamicObject.TryUnaryOperation%2A>方法和<xref:System.Dynamic.DynamicObject.TryBinaryOperation%2A>方法。  
 >   
->  `OrElse`操作包含一元`IsTrue`操作和二进制`Or`操作。 `Or`仅当执行操作的结果`IsTrue`操作`false`。  
+>  `OrElse`操作包含一元`IsTrue`操作和二进制`Or`操作。 `Or`仅当执行操作的结果`IsTrue`操作是`false`。  
 >   
->  `AndAlso`操作包含一元`IsFalse`操作和二进制`And`操作。 `And`仅当执行操作的结果`IsFalse`操作`false`。  
+>  `AndAlso`操作包含一元`IsFalse`操作和二进制`And`操作。 `And`仅当执行操作的结果`IsFalse`操作是`false`。  
   
    
   
 ## Examples  
- 假定您需要数据结构，用于存储文本和数值表示形式的数字，并且你想要定义此类数据算术求反运算。  
+ 假设您需要的数据结构来存储文本和数值表达式的数字，并且你想要定义此类数据算术求反运算。  
   
- 下面的代码示例演示`DynamicNumber`类，该类派生自<xref:System.Dynamic.DynamicObject>类。 `DynamicNumber` 重写<xref:System.Dynamic.DynamicObject.TryUnaryOperation%2A>方法，以使算术求反运算。 它还会覆盖<xref:System.Dynamic.DynamicObject.TrySetMember%2A>和<xref:System.Dynamic.DynamicObject.TryGetMember%2A>使对元素的访问的方法。  
+ 下面的代码示例演示`DynamicNumber`类，该类派生自<xref:System.Dynamic.DynamicObject>类。 `DynamicNumber` 重写<xref:System.Dynamic.DynamicObject.TryUnaryOperation%2A>方法，以使算术求反运算。 它还会覆盖<xref:System.Dynamic.DynamicObject.TrySetMember%2A>和<xref:System.Dynamic.DynamicObject.TryGetMember%2A>方法以允许对元素的访问。  
   
- 在此示例中，支持仅算术求反运算。 如果尝试编写类似的语句`negativeNumber = +number`，则会发生运行时异常。  
+ 在此示例中，支持仅算术求反运算。 如果您尝试编写如下所示语句`negativeNumber = +number`，则会发生运行时异常。  
   
  [!code-csharp[System.Dynamic.DynamicObject#7](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.dynamic.dynamicobject/cs/program.cs#7)]
  [!code-vb[System.Dynamic.DynamicObject#7](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.dynamic.dynamicobject/vb/module1.vb#7)]  

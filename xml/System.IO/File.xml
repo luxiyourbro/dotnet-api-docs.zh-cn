@@ -1,11 +1,11 @@
 <Type Name="File" FullName="System.IO.File">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="543f4dd9e168f2437fdf302f9e44eb009b9b1fcd" />
-    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
+    <Meta Name="ms.openlocfilehash" Value="ea05927fb0517677de971ac0c4f098a6be833b5c" />
+    <Meta Name="ms.sourcegitcommit" Value="434f60616a9793fa8436744549fc856e94f7a648" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="zh-CN" />
-    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
-    <Meta Name="ms.locfileid" Value="37653320" />
+    <Meta Name="ms.lasthandoff" Value="08/25/2018" />
+    <Meta Name="ms.locfileid" Value="39958605" />
   </Metadata>
   <TypeSignature Language="C#" Value="public static class File" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract sealed beforefieldinit File extends System.Object" />
@@ -35,12 +35,12 @@
   </Base>
   <Interfaces />
   <Attributes>
-    <Attribute>
+    <Attribute FrameworkAlternate="netframework-2.0;netframework-3.0;netframework-3.5;netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0">
       <AttributeName>System.Runtime.InteropServices.ComVisible(true)</AttributeName>
     </Attribute>
   </Attributes>
   <Docs>
-    <summary>提供用于创建、复制、删除、移动和打开单一文件的静态方法，并协助创建 <see cref="T:System.IO.FileStream" /> 对象。</summary>
+    <summary>提供用于创建、复制、删除、移动和打开单个文件的静态方法，并协助创建 <see cref="T:System.IO.FileStream" /> 对象。</summary>
     <remarks>
       <format type="text/markdown"><![CDATA[  
   
@@ -100,7 +100,7 @@
         <AssemblyVersion>4.1.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Docs>
-        <summary>向一个文件中追加行，然后关闭该文件。</summary>
+        <summary>在一个文件中追加文本行，然后关闭该文件。</summary>
       </Docs>
     </MemberGroup>
     <Member MemberName="AppendAllLines">
@@ -126,6 +126,11 @@
         <AssemblyName>netstandard</AssemblyName>
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0">
+          <AttributeName>System.Security.SecuritySafeCritical</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.Void</ReturnType>
       </ReturnValue>
@@ -134,9 +139,9 @@
         <Parameter Name="contents" Type="System.Collections.Generic.IEnumerable&lt;System.String&gt;" />
       </Parameters>
       <Docs>
-        <param name="path">要向其中追加行的文件。 如果文件尚不存在，则创建该文件。</param>
+        <param name="path">要向其中追加文本行的文件。 如果文件尚不存在，则创建该文件。</param>
         <param name="contents">要追加到文件中的行。</param>
-        <summary>向一个文件中追加行，然后关闭该文件。 如果指定文件不存在，此方法会创建一个文件，向其中写入指定的行，然后关闭该文件。</summary>
+        <summary>在一个文件中追加文本行，然后关闭该文件。 如果指定文件不存在，此方法会创建一个文件，向其中写入指定的行，然后关闭该文件。</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -154,20 +159,26 @@
  ]]></format>
         </remarks>
         <exception cref="T:System.ArgumentException">
-          <paramref name="path" /> 为长度为零的字符串，仅包含空格，或包含一个或多个由 <see cref="M:System.IO.Path.GetInvalidPathChars" /> 方法定义的无效字符。</exception>
+          <paramref name="path" /> 是一个零长度字符串，仅包含空白或者包含 <see cref="M:System.IO.Path.GetInvalidPathChars" /> 方法中已定义的一个或多个无效字符。</exception>
         <exception cref="T:System.ArgumentNullException">
           <paramref name="path" /> 或 <paramref name="contents" /> 为 <see langword="null" />。</exception>
         <exception cref="T:System.IO.DirectoryNotFoundException">
-          <paramref name="path" /> 无效（例如，目录不存在或在未映射的驱动器上）。</exception>
+          <paramref name="path" /> 无效（例如，目录不存在或位于未映射的驱动器上）。</exception>
         <exception cref="T:System.IO.FileNotFoundException">未找到 <paramref name="path" /> 指定的文件。</exception>
         <exception cref="T:System.IO.IOException">打开文件时发生 I/O 错误。</exception>
         <exception cref="T:System.IO.PathTooLongException">
-          <paramref name="path" /> 超出系统定义的最大长度。</exception>
+          <paramref name="path" /> 超过了系统定义的最大长度。</exception>
         <exception cref="T:System.NotSupportedException">
           <paramref name="path" /> 的格式无效。</exception>
         <exception cref="T:System.Security.SecurityException">调用方没有写入到文件中的权限。</exception>
         <exception cref="T:System.UnauthorizedAccessException">
-          <paramref name="path" /> 指定只读文件。  - 或 -  当前平台不支持此操作。  - 或 -  <paramref name="path" /> 是一个目录。</exception>
+          <paramref name="path" /> 指定了一个只读文件。  
+  
+- 或 - 
+当前平台不支持此操作。  
+  
+- 或 - 
+ <paramref name="path" /> 是一个目录。</exception>
       </Docs>
     </Member>
     <Member MemberName="AppendAllLines">
@@ -192,6 +203,11 @@
         <AssemblyName>netstandard</AssemblyName>
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0">
+          <AttributeName>System.Security.SecuritySafeCritical</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.Void</ReturnType>
       </ReturnValue>
@@ -201,10 +217,10 @@
         <Parameter Name="encoding" Type="System.Text.Encoding" />
       </Parameters>
       <Docs>
-        <param name="path">要向其中追加行的文件。 如果文件尚不存在，则创建该文件。</param>
+        <param name="path">要向其中追加文本行的文件。 如果文件尚不存在，则创建该文件。</param>
         <param name="contents">要追加到文件中的行。</param>
         <param name="encoding">要使用的字符编码。</param>
-        <summary>使用指定的编码向一个文件中追加行，然后关闭该文件。 如果指定文件不存在，此方法会创建一个文件，向其中写入指定的行，然后关闭该文件。</summary>
+        <summary>使用指定的编码向一个文件中追加文本行，然后关闭该文件。 如果指定文件不存在，此方法会创建一个文件，向其中写入指定的行，然后关闭该文件。</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -220,20 +236,29 @@
  ]]></format>
         </remarks>
         <exception cref="T:System.ArgumentException">
-          <paramref name="path" /> 为长度为零的字符串，仅包含空格，或包含一个或多个由 <see cref="M:System.IO.Path.GetInvalidPathChars" /> 方法定义的无效字符。</exception>
+          <paramref name="path" /> 是一个零长度字符串，仅包含空白或者包含 <see cref="M:System.IO.Path.GetInvalidPathChars" /> 方法中已定义的一个或多个无效字符。</exception>
         <exception cref="T:System.ArgumentNullException">
           <paramref name="path" />、<paramref name="contents" /> 或 <paramref name="encoding" /> 为 <see langword="null" />。</exception>
         <exception cref="T:System.IO.DirectoryNotFoundException">
-          <paramref name="path" /> 无效（例如，目录不存在或在未映射的驱动器上）。</exception>
+          <paramref name="path" /> 无效（例如，目录不存在或位于未映射的驱动器上）。</exception>
         <exception cref="T:System.IO.FileNotFoundException">未找到 <paramref name="path" /> 指定的文件。</exception>
         <exception cref="T:System.IO.IOException">打开文件时发生 I/O 错误。</exception>
         <exception cref="T:System.IO.PathTooLongException">
-          <paramref name="path" /> 超出系统定义的最大长度。</exception>
+          <paramref name="path" /> 超过了系统定义的最大长度。</exception>
         <exception cref="T:System.NotSupportedException">
           <paramref name="path" /> 的格式无效。</exception>
         <exception cref="T:System.Security.SecurityException">调用方没有所要求的权限。</exception>
         <exception cref="T:System.UnauthorizedAccessException">
-          <paramref name="path" /> 指定只读文件。  - 或 -  当前平台不支持此操作。  - 或 -  <paramref name="path" /> 是一个目录。  - 或 -  调用方没有所需权限。</exception>
+          <paramref name="path" /> 指定只读文件。  
+  
+- 或 - 
+当前平台不支持此操作。  
+  
+- 或 - 
+ <paramref name="path" /> 是一个目录。  
+  
+- 或 - 
+调用方没有所要求的权限。</exception>
       </Docs>
     </Member>
     <Member MemberName="AppendAllLinesAsync">
@@ -328,6 +353,11 @@
         <AssemblyName>netstandard</AssemblyName>
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0">
+          <AttributeName>System.Security.SecuritySafeCritical</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.Void</ReturnType>
       </ReturnValue>
@@ -338,7 +368,7 @@
       <Docs>
         <param name="path">要将指定的字符串追加到的文件。</param>
         <param name="contents">要追加到文件中的字符串。</param>
-        <summary>打开一个文件，向其中追加指定的字符串，然后关闭该文件。 如果文件不存在，此方法将创建一个文件，将指定的字符串写入文件，然后关闭该文件。</summary>
+        <summary>打开一个文件，向其中追加指定的字符串，然后关闭该文件。 如果文件不存在，此方法创建一个文件，将指定的字符串写入文件，然后关闭该文件。</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -358,14 +388,23 @@
  ]]></format>
         </remarks>
         <exception cref="T:System.ArgumentException">
-          <paramref name="path" /> 是一个长度为零的字符串，仅包含空格，或包含一个或多个由 <see cref="F:System.IO.Path.InvalidPathChars" /> 定义的无效字符。</exception>
+          <paramref name="path" /> 是一个零长度字符串，仅包含空白或者包含一个或多个由 <see cref="F:System.IO.Path.InvalidPathChars" /> 定义的无效字符。</exception>
         <exception cref="T:System.ArgumentNullException">
           <paramref name="path" /> 为 <see langword="null" />。</exception>
-        <exception cref="T:System.IO.PathTooLongException">指定的路径和/或文件名超过了系统定义的最大长度。</exception>
-        <exception cref="T:System.IO.DirectoryNotFoundException">指定的路径无效（例如，目录不存在或在未映射的驱动器上）。</exception>
+        <exception cref="T:System.IO.PathTooLongException">指定的路径、文件名或者两者都超出了系统定义的最大长度。</exception>
+        <exception cref="T:System.IO.DirectoryNotFoundException">指定路径无效（例如，目录不存在或位于未映射的驱动器上）。</exception>
         <exception cref="T:System.IO.IOException">打开文件时发生 I/O 错误。</exception>
         <exception cref="T:System.UnauthorizedAccessException">
-          <paramref name="path" /> 指定了一个只读文件。  - 或 -  当前平台不支持此操作。  - 或 -  <paramref name="path" /> 指定了一个目录。  - 或 -  调用方没有所需权限。</exception>
+          <paramref name="path" /> 指定了一个只读文件。  
+  
+- 或 - 
+当前平台不支持此操作。  
+  
+- 或 - 
+ <paramref name="path" /> 指定了一个目录。  
+  
+- 或 - 
+调用方没有所要求的权限。</exception>
         <exception cref="T:System.NotSupportedException">
           <paramref name="path" /> 的格式无效。</exception>
         <exception cref="T:System.Security.SecurityException">调用方没有所要求的权限。</exception>
@@ -395,6 +434,11 @@
         <AssemblyName>netstandard</AssemblyName>
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0">
+          <AttributeName>System.Security.SecuritySafeCritical</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.Void</ReturnType>
       </ReturnValue>
@@ -427,14 +471,23 @@
  ]]></format>
         </remarks>
         <exception cref="T:System.ArgumentException">
-          <paramref name="path" /> 是一个长度为零的字符串，仅包含空格，或包含一个或多个由 <see cref="F:System.IO.Path.InvalidPathChars" /> 定义的无效字符。</exception>
+          <paramref name="path" /> 是一个零长度字符串，仅包含空白或者包含一个或多个由 <see cref="F:System.IO.Path.InvalidPathChars" /> 定义的无效字符。</exception>
         <exception cref="T:System.ArgumentNullException">
           <paramref name="path" /> 为 <see langword="null" />。</exception>
-        <exception cref="T:System.IO.PathTooLongException">指定的路径和/或文件名超过了系统定义的最大长度。</exception>
-        <exception cref="T:System.IO.DirectoryNotFoundException">指定的路径无效（例如，目录不存在或在未映射的驱动器上）。</exception>
+        <exception cref="T:System.IO.PathTooLongException">指定的路径、文件名或者两者都超出了系统定义的最大长度。</exception>
+        <exception cref="T:System.IO.DirectoryNotFoundException">指定路径无效（例如，目录不存在或位于未映射的驱动器上）。</exception>
         <exception cref="T:System.IO.IOException">打开文件时发生 I/O 错误。</exception>
         <exception cref="T:System.UnauthorizedAccessException">
-          <paramref name="path" /> 指定了一个只读文件。  - 或 -  当前平台不支持此操作。  - 或 -  <paramref name="path" /> 指定了一个目录。  - 或 -  调用方没有所需权限。</exception>
+          <paramref name="path" /> 指定了一个只读文件。  
+  
+- 或 - 
+当前平台不支持此操作。  
+  
+- 或 - 
+ <paramref name="path" /> 指定了一个目录。  
+  
+- 或 - 
+调用方没有所要求的权限。</exception>
         <exception cref="T:System.NotSupportedException">
           <paramref name="path" /> 的格式无效。</exception>
         <exception cref="T:System.Security.SecurityException">调用方没有所要求的权限。</exception>
@@ -524,6 +577,11 @@
         <AssemblyName>netstandard</AssemblyName>
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0">
+          <AttributeName>System.Security.SecuritySafeCritical</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.IO.StreamWriter</ReturnType>
       </ReturnValue>
@@ -533,7 +591,7 @@
       <Docs>
         <param name="path">要向其中追加内容的文件的路径。</param>
         <summary>创建一个 <see cref="T:System.IO.StreamWriter" />，它将 UTF-8 编码文本追加到现有文件或新文件（如果指定文件不存在）。</summary>
-        <returns>一个流写入器，它将 UTF-8 编码文本追加到指定文件或新文件。</returns>
+        <returns>一个流编写器，它将 UTF-8 编码文本追加到指定文件或新文件。</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -562,8 +620,8 @@
           <paramref name="path" /> 是一个长度为零的字符串，仅包含空格，或包含一个或多个由 <see cref="F:System.IO.Path.InvalidPathChars" /> 定义的无效字符。</exception>
         <exception cref="T:System.ArgumentNullException">
           <paramref name="path" /> 为 <see langword="null" />。</exception>
-        <exception cref="T:System.IO.PathTooLongException">指定的路径和/或文件名超过了系统定义的最大长度。</exception>
-        <exception cref="T:System.IO.DirectoryNotFoundException">指定的路径无效（例如，目录不存在或在未映射的驱动器上）。</exception>
+        <exception cref="T:System.IO.PathTooLongException">指定的路径、文件名或者两者都超出了系统定义的最大长度。</exception>
+        <exception cref="T:System.IO.DirectoryNotFoundException">指定路径无效（例如，目录不存在或位于未映射的驱动器上）。</exception>
         <exception cref="T:System.NotSupportedException">
           <paramref name="path" /> 的格式无效。</exception>
         <permission cref="T:System.Security.Permissions.FileIOPermission">有关将追加到指定的文件。 关联的枚举： <see cref="F:System.Security.Permissions.FileIOPermissionAccess.Append" /></permission>
@@ -642,15 +700,21 @@
         </remarks>
         <exception cref="T:System.UnauthorizedAccessException">调用方没有所要求的权限。</exception>
         <exception cref="T:System.ArgumentException">
-          <paramref name="sourceFileName" /> 或 <paramref name="destFileName" /> 是一个长度为零的字符串，仅包含空格，或包含一个或多个由 <see cref="F:System.IO.Path.InvalidPathChars" /> 定义的无效字符。  - 或 -  <paramref name="sourceFileName" /> 或 <paramref name="destFileName" /> 会指定一个目录。</exception>
+          <paramref name="sourceFileName" /> 或 <paramref name="destFileName" /> 是一个长度为零的字符串，仅包含空格，或包含一个或多个由 <see cref="F:System.IO.Path.InvalidPathChars" /> 定义的无效字符。  
+  
+- 或 - 
+ <paramref name="sourceFileName" /> 或 <paramref name="destFileName" /> 指定目录。</exception>
         <exception cref="T:System.ArgumentNullException">
           <paramref name="sourceFileName" /> 或 <paramref name="destFileName" /> 为 <see langword="null" />。</exception>
-        <exception cref="T:System.IO.PathTooLongException">指定的路径和/或文件名超过了系统定义的最大长度。</exception>
-        <exception cref="T:System.IO.DirectoryNotFoundException">
-          <paramref name="sourceFileName" /> 或 <paramref name="destFileName" /> 中指定的路径无效（例如，它位于未映射的驱动器上）。</exception>
-        <exception cref="T:System.IO.FileNotFoundException">未找到 <paramref name="sourceFileName" />。</exception>
+        <exception cref="T:System.IO.PathTooLongException">指定的路径、文件名或者两者都超出了系统定义的最大长度。</exception>
+        <exception cref="T:System.IO.DirectoryNotFoundException">在 <paramref name="sourceFileName" /> 或 <paramref name="destFileName" /> 中指定的路径无效（例如，它位于未映射的驱动器上）。</exception>
+        <exception cref="T:System.IO.FileNotFoundException">
+          <paramref name="sourceFileName" />。</exception>
         <exception cref="T:System.IO.IOException">
-          <paramref name="destFileName" /> 已存在。  - 或 -  发生了 I/O 错误。</exception>
+          <paramref name="destFileName" /> 已存在。  
+  
+- 或 - 
+发生了 I/O 错误。</exception>
         <exception cref="T:System.NotSupportedException">
           <paramref name="sourceFileName" /> 或 <paramref name="destFileName" /> 的格式无效。</exception>
         <permission cref="T:System.Security.Permissions.FileIOPermission">用于读取<paramref name="sourceFileName" />和写入<paramref name="destFileName" />。 关联枚举： <see cref="F:System.Security.Permissions.FileIOPermissionAccess.Read" />， <see cref="F:System.Security.Permissions.FileIOPermissionAccess.Write" /></permission>
@@ -720,17 +784,26 @@
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.UnauthorizedAccessException">调用方没有所要求的权限。  - 或 -  <paramref name="destFileName" /> 为只读。</exception>
+        <exception cref="T:System.UnauthorizedAccessException">调用方没有所要求的权限。  
+  
+- 或 - 
+ <paramref name="destFileName" /> 为只读。</exception>
         <exception cref="T:System.ArgumentException">
-          <paramref name="sourceFileName" /> 或 <paramref name="destFileName" /> 是一个长度为零的字符串，仅包含空格，或包含一个或多个由 <see cref="F:System.IO.Path.InvalidPathChars" /> 定义的无效字符。  - 或 -  <paramref name="sourceFileName" /> 或 <paramref name="destFileName" /> 会指定一个目录。</exception>
+          <paramref name="sourceFileName" /> 或 <paramref name="destFileName" /> 是一个零长度字符串，仅包含空白或者包含一个或多个由 <see cref="F:System.IO.Path.InvalidPathChars" /> 定义的无效字符。  
+  
+- 或 - 
+ <paramref name="sourceFileName" /> 或 <paramref name="destFileName" /> 指定目录。</exception>
         <exception cref="T:System.ArgumentNullException">
           <paramref name="sourceFileName" /> 或 <paramref name="destFileName" /> 为 <see langword="null" />。</exception>
-        <exception cref="T:System.IO.PathTooLongException">指定的路径和/或文件名超过了系统定义的最大长度。</exception>
-        <exception cref="T:System.IO.DirectoryNotFoundException">
-          <paramref name="sourceFileName" /> 或 <paramref name="destFileName" /> 中指定的路径无效（例如，它位于未映射的驱动器上）。</exception>
-        <exception cref="T:System.IO.FileNotFoundException">未找到 <paramref name="sourceFileName" />。</exception>
+        <exception cref="T:System.IO.PathTooLongException">指定的路径、文件名或者两者都超出了系统定义的最大长度。</exception>
+        <exception cref="T:System.IO.DirectoryNotFoundException">在 <paramref name="sourceFileName" /> 或 <paramref name="destFileName" /> 中指定的路径无效（例如，它位于未映射的驱动器上）。</exception>
+        <exception cref="T:System.IO.FileNotFoundException">
+          <paramref name="sourceFileName" />。</exception>
         <exception cref="T:System.IO.IOException">
-          <paramref name="destFileName" /> 存在且 <paramref name="overwrite" /> 为 <see langword="false" />。  - 或 -  发生了 I/O 错误。</exception>
+          <paramref name="destFileName" /> 存在并且 <paramref name="overwrite" /> 为 <see langword="false" />.  
+  
+- 或 - 
+发生了 I/O 错误。</exception>
         <exception cref="T:System.NotSupportedException">
           <paramref name="sourceFileName" /> 或 <paramref name="destFileName" /> 的格式无效。</exception>
         <permission cref="T:System.Security.Permissions.FileIOPermission">用于读取<paramref name="sourceFileName" />和写入<paramref name="destFileName" />。 关联枚举： <see cref="F:System.Security.Permissions.FileIOPermissionAccess.Read" />， <see cref="F:System.Security.Permissions.FileIOPermissionAccess.Write" /></permission>
@@ -773,6 +846,11 @@
         <AssemblyName>netstandard</AssemblyName>
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0">
+          <AttributeName>System.Security.SecuritySafeCritical</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.IO.FileStream</ReturnType>
       </ReturnValue>
@@ -810,12 +888,15 @@
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.UnauthorizedAccessException">调用方没有所要求的权限。  - 或 -  <paramref name="path" /> 指定了一个只读文件。</exception>
+        <exception cref="T:System.UnauthorizedAccessException">调用方没有所要求的权限。  
+  
+- 或 - 
+ <paramref name="path" /> 指定了一个只读文件。</exception>
         <exception cref="T:System.ArgumentException">
-          <paramref name="path" /> 是一个长度为零的字符串，仅包含空格，或包含一个或多个由 <see cref="F:System.IO.Path.InvalidPathChars" /> 定义的无效字符。</exception>
+          <paramref name="path" /> 是一个零长度字符串，仅包含空白或者包含一个或多个由 <see cref="F:System.IO.Path.InvalidPathChars" /> 定义的无效字符。</exception>
         <exception cref="T:System.ArgumentNullException">
           <paramref name="path" /> 为 <see langword="null" />。</exception>
-        <exception cref="T:System.IO.PathTooLongException">指定的路径和/或文件名超过了系统定义的最大长度。</exception>
+        <exception cref="T:System.IO.PathTooLongException">指定的路径、文件名或者两者都超出了系统定义的最大长度。</exception>
         <exception cref="T:System.IO.DirectoryNotFoundException">指定的路径无效（例如，它位于未映射的驱动器上）。</exception>
         <exception cref="T:System.IO.IOException">创建文件时发生 I/O 错误。</exception>
         <exception cref="T:System.NotSupportedException">
@@ -848,6 +929,11 @@
         <AssemblyName>netstandard</AssemblyName>
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0">
+          <AttributeName>System.Security.SecuritySafeCritical</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.IO.FileStream</ReturnType>
       </ReturnValue>
@@ -857,9 +943,9 @@
       </Parameters>
       <Docs>
         <param name="path">文件的名称。</param>
-        <param name="bufferSize">用于读取和写入到文件的已放入缓冲区的字节数。</param>
+        <param name="bufferSize">用于读取和写入文件的已放入缓冲区的字节数。</param>
         <summary>创建或覆盖指定的文件。</summary>
-        <returns>一个具有指定缓冲区大小的 <see cref="T:System.IO.FileStream" />，它提供对 <paramref name="path" /> 中指定的文件的读/写访问。</returns>
+        <returns>一个具有指定缓冲大小的 <see cref="T:System.IO.FileStream" />，它提供对 <paramref name="path" /> 中指定的文件的读/写访问。</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -885,12 +971,15 @@
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.UnauthorizedAccessException">调用方没有所要求的权限。  - 或 -  <paramref name="path" /> 指定了一个只读文件。</exception>
+        <exception cref="T:System.UnauthorizedAccessException">调用方没有所要求的权限。  
+  
+- 或 - 
+ <paramref name="path" /> 指定了一个只读文件。</exception>
         <exception cref="T:System.ArgumentException">
-          <paramref name="path" /> 是一个长度为零的字符串，仅包含空格，或包含一个或多个由 <see cref="F:System.IO.Path.InvalidPathChars" /> 定义的无效字符。</exception>
+          <paramref name="path" /> 是一个零长度字符串，仅包含空白或者包含一个或多个由 <see cref="F:System.IO.Path.InvalidPathChars" /> 定义的无效字符。</exception>
         <exception cref="T:System.ArgumentNullException">
           <paramref name="path" /> 为 <see langword="null" />。</exception>
-        <exception cref="T:System.IO.PathTooLongException">指定的路径和/或文件名超过了系统定义的最大长度。</exception>
+        <exception cref="T:System.IO.PathTooLongException">指定的路径、文件名或者两者都超出了系统定义的最大长度。</exception>
         <exception cref="T:System.IO.DirectoryNotFoundException">指定的路径无效（例如，它位于未映射的驱动器上）。</exception>
         <exception cref="T:System.IO.IOException">创建文件时发生 I/O 错误。</exception>
         <exception cref="T:System.NotSupportedException">
@@ -922,6 +1011,11 @@
         <AssemblyName>netstandard</AssemblyName>
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0">
+          <AttributeName>System.Security.SecuritySafeCritical</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.IO.FileStream</ReturnType>
       </ReturnValue>
@@ -935,7 +1029,7 @@
         <param name="bufferSize">用于读取和写入到文件的已放入缓冲区的字节数。</param>
         <param name="options">
           <see cref="T:System.IO.FileOptions" /> 值之一，它描述如何创建或覆盖该文件。</param>
-        <summary>创建或覆盖指定的文件，指定缓冲区大小和一个描述如何创建或覆盖该文件的 <see cref="T:System.IO.FileOptions" /> 值。</summary>
+        <summary>创建或覆盖指定的文件，并指定缓冲区大小和一个描述如何创建或覆盖该文件的 <see cref="T:System.IO.FileOptions" /> 值。</summary>
         <returns>具有指定缓冲区大小的新文件。</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
@@ -951,13 +1045,16 @@
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.UnauthorizedAccessException">调用方没有所要求的权限。  - 或 -  <paramref name="path" /> 指定了一个只读文件。</exception>
+        <exception cref="T:System.UnauthorizedAccessException">调用方没有所要求的权限。  
+  
+- 或 - 
+ <paramref name="path" /> 指定了一个只读文件。</exception>
         <exception cref="T:System.ArgumentException">
-          <paramref name="path" /> 是一个长度为零的字符串，仅包含空格，或包含一个或多个由 <see cref="F:System.IO.Path.InvalidPathChars" /> 定义的无效字符。</exception>
+          <paramref name="path" /> 是一个零长度字符串，仅包含空白或者包含一个或多个由 <see cref="F:System.IO.Path.InvalidPathChars" /> 定义的无效字符。</exception>
         <exception cref="T:System.ArgumentNullException">
           <paramref name="path" /> 为 <see langword="null" />。</exception>
-        <exception cref="T:System.IO.PathTooLongException">指定的路径和/或文件名超过了系统定义的最大长度。</exception>
-        <exception cref="T:System.IO.DirectoryNotFoundException">指定路径无效（例如，它位于未映射的驱动器上）。</exception>
+        <exception cref="T:System.IO.PathTooLongException">指定的路径、文件名或者两者都超出了系统定义的最大长度。</exception>
+        <exception cref="T:System.IO.DirectoryNotFoundException">指定的路径无效（例如，它位于未映射的驱动器上）。</exception>
         <exception cref="T:System.IO.IOException">创建文件时发生 I/O 错误。</exception>
         <exception cref="T:System.NotSupportedException">
           <paramref name="path" /> 的格式无效。</exception>
@@ -1009,12 +1106,15 @@
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.UnauthorizedAccessException">调用方没有所要求的权限。  - 或 -  <paramref name="path" /> 指定了一个只读文件。</exception>
+        <exception cref="T:System.UnauthorizedAccessException">调用方没有所要求的权限。  
+  
+- 或 - 
+ <paramref name="path" /> 指定了一个只读文件。</exception>
         <exception cref="T:System.ArgumentException">
-          <paramref name="path" /> 是一个长度为零的字符串，仅包含空格，或包含一个或多个由 <see cref="F:System.IO.Path.InvalidPathChars" /> 定义的无效字符。</exception>
+          <paramref name="path" /> 是一个零长度字符串，仅包含空白或者包含一个或多个由 <see cref="F:System.IO.Path.InvalidPathChars" /> 定义的无效字符。</exception>
         <exception cref="T:System.ArgumentNullException">
           <paramref name="path" /> 为 <see langword="null" />。</exception>
-        <exception cref="T:System.IO.PathTooLongException">指定的路径和/或文件名超过了系统定义的最大长度。</exception>
+        <exception cref="T:System.IO.PathTooLongException">指定的路径、文件名或者两者都超出了系统定义的最大长度。</exception>
         <exception cref="T:System.IO.DirectoryNotFoundException">指定的路径无效（例如，它位于未映射的驱动器上）。</exception>
         <exception cref="T:System.IO.IOException">创建文件时发生 I/O 错误。</exception>
         <exception cref="T:System.NotSupportedException">
@@ -1047,6 +1147,11 @@
         <AssemblyName>netstandard</AssemblyName>
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0">
+          <AttributeName>System.Security.SecuritySafeCritical</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.IO.StreamWriter</ReturnType>
       </ReturnValue>
@@ -1055,8 +1160,8 @@
       </Parameters>
       <Docs>
         <param name="path">要打开以进行写入的文件。</param>
-        <summary>创建或打开用于写入 UTF-8 编码文本的文件。 如果该文件已存在，将覆盖其内容。</summary>
-        <returns>一个 <see cref="T:System.IO.StreamWriter" />，它使用 UTF-8 编码写入到指定的文件。</returns>
+        <summary>创建或打开一个文件用于写入 UTF-8 编码的文本。 如果该文件已存在，将覆盖其内容。</summary>
+        <returns>一个 <see cref="T:System.IO.StreamWriter" />，它使用 UTF-8 编码写入指定的文件。</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -1083,7 +1188,7 @@
           <paramref name="path" /> 是一个长度为零的字符串，仅包含空格，或包含一个或多个由 <see cref="F:System.IO.Path.InvalidPathChars" /> 定义的无效字符。</exception>
         <exception cref="T:System.ArgumentNullException">
           <paramref name="path" /> 为 <see langword="null" />。</exception>
-        <exception cref="T:System.IO.PathTooLongException">指定的路径和/或文件名超过了系统定义的最大长度。</exception>
+        <exception cref="T:System.IO.PathTooLongException">指定的路径、文件名或者两者都超出了系统定义的最大长度。</exception>
         <exception cref="T:System.IO.DirectoryNotFoundException">指定的路径无效（例如，它位于未映射的驱动器上）。</exception>
         <exception cref="T:System.NotSupportedException">
           <paramref name="path" /> 的格式无效。</exception>
@@ -1113,6 +1218,11 @@
         <AssemblyVersion>4.1.0.0</AssemblyVersion>
         <AssemblyVersion>4.1.1.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2">
+          <AttributeName>System.Security.SecuritySafeCritical</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.Void</ReturnType>
       </ReturnValue>
@@ -1146,17 +1256,29 @@
  ]]></format>
         </remarks>
         <exception cref="T:System.ArgumentException">
-          <paramref name="path" /> 参数为长度为零的字符串，仅包含空格，或包含一个或多个由 <see cref="F:System.IO.Path.InvalidPathChars" /> 定义的无效字符。</exception>
+          <paramref name="path" /> 参数是一个零长度字符串，仅包含空白或者包含一个或多个由 <see cref="F:System.IO.Path.InvalidPathChars" /> 定义的无效字符。</exception>
         <exception cref="T:System.ArgumentNullException">
           <paramref name="path" /> 参数为 <see langword="null" />。</exception>
         <exception cref="T:System.IO.DriveNotFoundException">指定了无效的驱动器。</exception>
         <exception cref="T:System.IO.FileNotFoundException">找不到 <paramref name="path" /> 参数描述的文件。</exception>
-        <exception cref="T:System.IO.IOException">打开文件时发生 I/O 错误。 例如，加密文件已打开。  - 或 -  当前平台不支持此操作。</exception>
-        <exception cref="T:System.IO.PathTooLongException">指定的路径和/或文件名超过了系统定义的最大长度。</exception>
+        <exception cref="T:System.IO.IOException">打开文件时发生 I/O 错误。 例如，加密文件已打开。  
+  
+- 或 - 
+当前平台不支持此操作。</exception>
+        <exception cref="T:System.IO.PathTooLongException">指定的路径、文件名或者两者都超出了系统定义的最大长度。</exception>
         <exception cref="T:System.PlatformNotSupportedException">当前操作系统不是 Windows NT 或更高版本。</exception>
         <exception cref="T:System.NotSupportedException">文件系统不是 NTFS。</exception>
         <exception cref="T:System.UnauthorizedAccessException">
-          <paramref name="path" /> 参数指定了一个只读文件。  - 或 -  当前平台不支持此操作。  - 或 -  <paramref name="path" /> 参数指定了一个目录。  - 或 -  调用方没有所需权限。</exception>
+          <paramref name="path" /> 参数指定了一个只读文件。  
+  
+- 或 - 
+当前平台不支持此操作。  
+  
+- 或 - 
+<paramref name="path" /> 参数指定了一个目录。  
+  
+- 或 - 
+调用方没有所要求的权限。</exception>
         <permission cref="T:System.Security.Permissions.FileIOPermission">用于读取和写入所描述的文件的权限<paramref name="path" />参数。 安全操作： 需求。 关联枚举： <see cref="F:System.Security.Permissions.FileIOPermissionAccess.Read" />， <see cref="F:System.Security.Permissions.FileIOPermissionAccess.Write" /></permission>
       </Docs>
     </Member>
@@ -1185,6 +1307,11 @@
         <AssemblyName>netstandard</AssemblyName>
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2">
+          <AttributeName>System.Security.SecuritySafeCritical</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.Void</ReturnType>
       </ReturnValue>
@@ -1215,15 +1342,27 @@
  ]]></format>
         </remarks>
         <exception cref="T:System.ArgumentException">
-          <paramref name="path" /> 是一个长度为零的字符串，仅包含空格，或包含一个或多个由 <see cref="F:System.IO.Path.InvalidPathChars" /> 定义的无效字符。</exception>
+          <paramref name="path" /> 是一个零长度字符串，仅包含空白或者包含一个或多个由 <see cref="F:System.IO.Path.InvalidPathChars" /> 定义的无效字符。</exception>
         <exception cref="T:System.ArgumentNullException">
           <paramref name="path" /> 为 <see langword="null" />。</exception>
         <exception cref="T:System.IO.DirectoryNotFoundException">指定的路径无效（例如，它位于未映射的驱动器上）。</exception>
-        <exception cref="T:System.IO.IOException">指定的文件正在使用。  - 或 -  在文件中存在开放句柄，并且操作系统是 Windows XP 或更早的版本。 枚举目录和文件可能会导致此开放句柄出现。 有关详细信息，请参阅 [如何：枚举目录和文件](~/docs/standard/io/how-to-enumerate-directories-and-files.md)。</exception>
+        <exception cref="T:System.IO.IOException">指定的文件正在使用。  
+  
+- 或 - 
+在文件中存在开放句柄，并且操作系统是 Windows XP 或更早的版本。 此打开句柄可能是由于枚举目录和文件导致的。 有关详细信息，请参阅[如何：枚举目录和文件](~/docs/standard/io/how-to-enumerate-directories-and-files.md)。</exception>
         <exception cref="T:System.NotSupportedException">
           <paramref name="path" /> 的格式无效。</exception>
-        <exception cref="T:System.IO.PathTooLongException">指定的路径和/或文件名超过了系统定义的最大长度。</exception>
-        <exception cref="T:System.UnauthorizedAccessException">调用方没有所要求的权限。  - 或 -  该文件是正在使用的可执行文件。  - 或 -  <paramref name="path" /> 是一个目录。  - 或 -  <paramref name="path" /> 指定了一个只读文件。</exception>
+        <exception cref="T:System.IO.PathTooLongException">指定的路径、文件名或者两者都超出了系统定义的最大长度。</exception>
+        <exception cref="T:System.UnauthorizedAccessException">调用方没有所要求的权限。  
+  
+- 或 - 
+该文件是正在使用的可执行文件。  
+  
+- 或 - 
+ <paramref name="path" /> 是一个目录。  
+  
+- 或 - 
+ <paramref name="path" /> 指定一个只读文件。</exception>
         <permission cref="T:System.Security.Permissions.FileIOPermission">用于删除指定的文件。 关联的枚举： <see cref="F:System.Security.Permissions.FileIOPermissionAccess.Write" /></permission>
       </Docs>
     </Member>
@@ -1250,6 +1389,11 @@
         <AssemblyVersion>4.1.0.0</AssemblyVersion>
         <AssemblyVersion>4.1.1.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2">
+          <AttributeName>System.Security.SecuritySafeCritical</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.Void</ReturnType>
       </ReturnValue>
@@ -1285,17 +1429,29 @@
  ]]></format>
         </remarks>
         <exception cref="T:System.ArgumentException">
-          <paramref name="path" /> 参数为长度为零的字符串，仅包含空格，或包含一个或多个由 <see cref="F:System.IO.Path.InvalidPathChars" /> 定义的无效字符。</exception>
+          <paramref name="path" /> 参数是一个零长度字符串，仅包含空白或者包含一个或多个由 <see cref="F:System.IO.Path.InvalidPathChars" /> 定义的无效字符。</exception>
         <exception cref="T:System.ArgumentNullException">
           <paramref name="path" /> 参数为 <see langword="null" />。</exception>
         <exception cref="T:System.IO.DriveNotFoundException">指定了无效的驱动器。</exception>
         <exception cref="T:System.IO.FileNotFoundException">找不到 <paramref name="path" /> 参数描述的文件。</exception>
-        <exception cref="T:System.IO.IOException">打开文件时发生 I/O 错误。  - 或 -  当前平台不支持此操作。</exception>
-        <exception cref="T:System.IO.PathTooLongException">指定的路径和/或文件名超过了系统定义的最大长度。</exception>
+        <exception cref="T:System.IO.IOException">打开文件时发生 I/O 错误。  
+  
+- 或 - 
+当前平台不支持此操作。</exception>
+        <exception cref="T:System.IO.PathTooLongException">指定的路径、文件名或者两者都超出了系统定义的最大长度。</exception>
         <exception cref="T:System.PlatformNotSupportedException">当前操作系统不是 Windows NT 或更高版本。</exception>
         <exception cref="T:System.NotSupportedException">文件系统不是 NTFS。</exception>
         <exception cref="T:System.UnauthorizedAccessException">
-          <paramref name="path" /> 参数指定了一个只读文件。  - 或 -  当前平台不支持此操作。  - 或 -  <paramref name="path" /> 参数指定了一个目录。  - 或 -  调用方没有所需权限。</exception>
+          <paramref name="path" /> 参数指定了一个只读文件。  
+  
+- 或 - 
+当前平台不支持此操作。  
+  
+- 或 - 
+<paramref name="path" /> 参数指定了一个目录。  
+  
+- 或 - 
+调用方没有所要求的权限。</exception>
         <permission cref="T:System.Security.Permissions.FileIOPermission">用于读取和写入所描述的文件的权限<paramref name="path" />参数。 安全操作： 需求。 关联枚举： <see cref="F:System.Security.Permissions.FileIOPermissionAccess.Read" />， <see cref="F:System.Security.Permissions.FileIOPermissionAccess.Write" /></permission>
       </Docs>
     </Member>
@@ -1324,6 +1480,11 @@
         <AssemblyName>netstandard</AssemblyName>
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2">
+          <AttributeName>System.Security.SecuritySafeCritical</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.Boolean</ReturnType>
       </ReturnValue>
@@ -1432,7 +1593,16 @@
           <paramref name="path" /> 参数为 <see langword="null" />。</exception>
         <exception cref="T:System.SystemException">找不到文件。</exception>
         <exception cref="T:System.UnauthorizedAccessException">
-          <paramref name="path" /> 参数指定了一个只读文件。  - 或 -  当前平台不支持此操作。  - 或 -  <paramref name="path" /> 参数指定了一个目录。  - 或 -  调用方没有所需权限。</exception>
+          <paramref name="path" /> 参数指定了一个只读文件。  
+  
+- 或 - 
+当前平台不支持此操作。  
+  
+- 或 - 
+<paramref name="path" /> 参数指定了一个目录。  
+  
+- 或 - 
+调用方没有所要求的权限。</exception>
         <permission cref="T:System.Security.Permissions.FileIOPermission">若要读取的访问控制列表的权限。 安全操作： 需求。 关联枚举： <see cref="F:System.Security.Permissions.FileIOPermissionAccess.NoAccess" />， <see cref="F:System.Security.AccessControl.AccessControlActions.View" /></permission>
       </Docs>
     </Member>
@@ -1461,7 +1631,7 @@
         <param name="path">一个文件的路径，该文件包含描述文件的访问控制列表 (ACL) 信息的 <see cref="T:System.Security.AccessControl.FileSecurity" /> 对象。</param>
         <param name="includeSections">
           <see cref="T:System.Security.AccessControl.AccessControlSections" /> 值之一，它指定要接收的访问控制列表 (ACL) 信息的类型。</param>
-        <summary>获取一个 <see cref="T:System.Security.AccessControl.FileSecurity" /> 对象，封装特定文件的指定类型的访问控制列表 (ACL) 项。</summary>
+        <summary>获取一个 <see cref="T:System.Security.AccessControl.FileSecurity" /> 对象，它封装特定文件的指定类型的访问控制列表 (ACL) 项。</summary>
         <returns>一个 <see cref="T:System.Security.AccessControl.FileSecurity" /> 对象，它封装由 <paramref name="path" /> 参数描述的文件的访问控制规则。</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
@@ -1480,7 +1650,16 @@
           <paramref name="path" /> 参数为 <see langword="null" />。</exception>
         <exception cref="T:System.SystemException">找不到文件。</exception>
         <exception cref="T:System.UnauthorizedAccessException">
-          <paramref name="path" /> 参数指定了一个只读文件。  - 或 -  当前平台不支持此操作。  - 或 -  <paramref name="path" /> 参数指定了一个目录。  - 或 -  调用方没有所需权限。</exception>
+          <paramref name="path" /> 参数指定了一个只读文件。  
+  
+- 或 - 
+当前平台不支持此操作。  
+  
+- 或 - 
+<paramref name="path" /> 参数指定了一个目录。  
+  
+- 或 - 
+调用方没有所要求的权限。</exception>
         <permission cref="T:System.Security.Permissions.FileIOPermission">若要读取的访问控制列表的权限。 安全操作： 需求。 关联枚举： <see cref="F:System.Security.Permissions.FileIOPermissionAccess.NoAccess" />， <see cref="F:System.Security.AccessControl.AccessControlActions.View" /></permission>
       </Docs>
     </Member>
@@ -1509,6 +1688,11 @@
         <AssemblyName>netstandard</AssemblyName>
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2">
+          <AttributeName>System.Security.SecuritySafeCritical</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.IO.FileAttributes</ReturnType>
       </ReturnValue>
@@ -1516,7 +1700,7 @@
         <Parameter Name="path" Type="System.String" />
       </Parameters>
       <Docs>
-        <param name="path">文件的路径。</param>
+        <param name="path">该文件的路径。</param>
         <summary>获取在此路径上的文件的 <see cref="T:System.IO.FileAttributes" />。</summary>
         <returns>路径上文件的 <see cref="T:System.IO.FileAttributes" />。</returns>
         <remarks>
@@ -1539,14 +1723,14 @@
  ]]></format>
         </remarks>
         <exception cref="T:System.ArgumentException">
-          <paramref name="path" /> 为空，仅包含空格，或包含无效字符。</exception>
-        <exception cref="T:System.IO.PathTooLongException">指定的路径和/或文件名超过了系统定义的最大长度。</exception>
+          <paramref name="path" /> 为空，仅包含空白，或包含无效字符。</exception>
+        <exception cref="T:System.IO.PathTooLongException">指定的路径、文件名或者两者都超出了系统定义的最大长度。</exception>
         <exception cref="T:System.NotSupportedException">
           <paramref name="path" /> 的格式无效。</exception>
         <exception cref="T:System.IO.FileNotFoundException">
-          <paramref name="path" /> 表示一个文件且它是无效的，例如，位于未映射的驱动器上或找不到该文件。</exception>
+          <paramref name="path" /> 表示一个文件且它是无效的，例如，位于未映射的驱动器上或无法找到文件。</exception>
         <exception cref="T:System.IO.DirectoryNotFoundException">
-          <paramref name="path" /> 表示一个目录且它是无效的，例如，位于未映射的驱动器上或找不到该目录。</exception>
+          <paramref name="path" /> 表示一个目录且它是无效的，例如，位于未映射的驱动器上或无法找到目录。</exception>
         <exception cref="T:System.IO.IOException">此文件正由另一个进程使用。</exception>
         <exception cref="T:System.UnauthorizedAccessException">调用方没有所要求的权限。</exception>
         <permission cref="T:System.Security.Permissions.FileIOPermission">用于读取文件。 关联的枚举： <see cref="F:System.Security.Permissions.FileIOPermissionAccess.Read" /></permission>
@@ -1577,6 +1761,11 @@
         <AssemblyName>netstandard</AssemblyName>
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2">
+          <AttributeName>System.Security.SecuritySafeCritical</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.DateTime</ReturnType>
       </ReturnValue>
@@ -1617,7 +1806,7 @@
           <paramref name="path" /> 是一个长度为零的字符串，仅包含空格，或包含一个或多个由 <see cref="F:System.IO.Path.InvalidPathChars" /> 定义的无效字符。</exception>
         <exception cref="T:System.ArgumentNullException">
           <paramref name="path" /> 为 <see langword="null" />。</exception>
-        <exception cref="T:System.IO.PathTooLongException">指定的路径和/或文件名超过了系统定义的最大长度。</exception>
+        <exception cref="T:System.IO.PathTooLongException">指定的路径、文件名或者两者都超出了系统定义的最大长度。</exception>
         <exception cref="T:System.NotSupportedException">
           <paramref name="path" /> 的格式无效。</exception>
         <permission cref="T:System.Security.Permissions.FileIOPermission">用于读取指定的文件。 关联的枚举： <see cref="F:System.Security.Permissions.FileIOPermissionAccess.Read" /></permission>
@@ -1649,6 +1838,11 @@
         <AssemblyName>netstandard</AssemblyName>
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2">
+          <AttributeName>System.Security.SecuritySafeCritical</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.DateTime</ReturnType>
       </ReturnValue>
@@ -1657,7 +1851,7 @@
       </Parameters>
       <Docs>
         <param name="path">要获取其创建日期和时间信息的文件或目录。</param>
-        <summary>返回指定的文件或目录的创建日期及时间，其格式为协调通用时 (UTC)。</summary>
+        <summary>返回指定的文件或目录的创建日期及时间，其格式为协调通用时间 (UTC)。</summary>
         <returns>一个 <see cref="T:System.DateTime" /> 结构，它被设置为指定文件或目录的创建日期和时间。 该值用 UTC 时间表示。</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
@@ -1687,7 +1881,7 @@
           <paramref name="path" /> 是一个长度为零的字符串，仅包含空格，或包含一个或多个由 <see cref="F:System.IO.Path.InvalidPathChars" /> 定义的无效字符。</exception>
         <exception cref="T:System.ArgumentNullException">
           <paramref name="path" /> 为 <see langword="null" />。</exception>
-        <exception cref="T:System.IO.PathTooLongException">指定的路径和/或文件名超过了系统定义的最大长度。</exception>
+        <exception cref="T:System.IO.PathTooLongException">指定的路径、文件名或者两者都超出了系统定义的最大长度。</exception>
         <exception cref="T:System.NotSupportedException">
           <paramref name="path" /> 的格式无效。</exception>
         <permission cref="T:System.Security.Permissions.FileIOPermission">用于读取指定的文件。 关联的枚举： <see cref="F:System.Security.Permissions.FileIOPermissionAccess.Read" /></permission>
@@ -1719,6 +1913,11 @@
         <AssemblyName>netstandard</AssemblyName>
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2">
+          <AttributeName>System.Security.SecuritySafeCritical</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.DateTime</ReturnType>
       </ReturnValue>
@@ -1759,7 +1958,7 @@
           <paramref name="path" /> 是一个长度为零的字符串，仅包含空格，或包含一个或多个由 <see cref="F:System.IO.Path.InvalidPathChars" /> 定义的无效字符。</exception>
         <exception cref="T:System.ArgumentNullException">
           <paramref name="path" /> 为 <see langword="null" />。</exception>
-        <exception cref="T:System.IO.PathTooLongException">指定的路径和/或文件名超过了系统定义的最大长度。</exception>
+        <exception cref="T:System.IO.PathTooLongException">指定的路径、文件名或者两者都超出了系统定义的最大长度。</exception>
         <exception cref="T:System.NotSupportedException">
           <paramref name="path" /> 的格式无效。</exception>
         <permission cref="T:System.Security.Permissions.FileIOPermission">用于读取指定的文件。 关联的枚举： <see cref="F:System.Security.Permissions.FileIOPermissionAccess.Read" /></permission>
@@ -1791,6 +1990,11 @@
         <AssemblyName>netstandard</AssemblyName>
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2">
+          <AttributeName>System.Security.SecuritySafeCritical</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.DateTime</ReturnType>
       </ReturnValue>
@@ -1799,7 +2003,7 @@
       </Parameters>
       <Docs>
         <param name="path">要获取其访问日期和时间信息的文件或目录。</param>
-        <summary>返回上次访问指定的文件或目录的日期及时间，其格式为协调通用时 (UTC)。</summary>
+        <summary>返回上次访问指定的文件或目录的日期及时间，其格式为协调通用时间 (UTC)。</summary>
         <returns>一个 <see cref="T:System.DateTime" /> 结构，它被设置为上次访问指定文件或目录的日期和时间。 该值用 UTC 时间表示。</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
@@ -1822,7 +2026,7 @@
           <paramref name="path" /> 是一个长度为零的字符串，仅包含空格，或包含一个或多个由 <see cref="F:System.IO.Path.InvalidPathChars" /> 定义的无效字符。</exception>
         <exception cref="T:System.ArgumentNullException">
           <paramref name="path" /> 为 <see langword="null" />。</exception>
-        <exception cref="T:System.IO.PathTooLongException">指定的路径和/或文件名超过了系统定义的最大长度。</exception>
+        <exception cref="T:System.IO.PathTooLongException">指定的路径、文件名或者两者都超出了系统定义的最大长度。</exception>
         <exception cref="T:System.NotSupportedException">
           <paramref name="path" /> 的格式无效。</exception>
         <permission cref="T:System.Security.Permissions.FileIOPermission">用于读取指定的文件。 关联的枚举： <see cref="F:System.Security.Permissions.FileIOPermissionAccess.Read" /></permission>
@@ -1854,6 +2058,11 @@
         <AssemblyName>netstandard</AssemblyName>
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2">
+          <AttributeName>System.Security.SecuritySafeCritical</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.DateTime</ReturnType>
       </ReturnValue>
@@ -1894,7 +2103,7 @@
           <paramref name="path" /> 是一个长度为零的字符串，仅包含空格，或包含一个或多个由 <see cref="F:System.IO.Path.InvalidPathChars" /> 定义的无效字符。</exception>
         <exception cref="T:System.ArgumentNullException">
           <paramref name="path" /> 为 <see langword="null" />。</exception>
-        <exception cref="T:System.IO.PathTooLongException">指定的路径和/或文件名超过了系统定义的最大长度。</exception>
+        <exception cref="T:System.IO.PathTooLongException">指定的路径、文件名或者两者都超出了系统定义的最大长度。</exception>
         <exception cref="T:System.NotSupportedException">
           <paramref name="path" /> 的格式无效。</exception>
         <permission cref="T:System.Security.Permissions.FileIOPermission">用于读取指定的文件。 关联的枚举： <see cref="F:System.Security.Permissions.FileIOPermissionAccess.Read" /></permission>
@@ -1926,6 +2135,11 @@
         <AssemblyName>netstandard</AssemblyName>
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2">
+          <AttributeName>System.Security.SecuritySafeCritical</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.DateTime</ReturnType>
       </ReturnValue>
@@ -1934,7 +2148,7 @@
       </Parameters>
       <Docs>
         <param name="path">要获取其写入日期和时间信息的文件或目录。</param>
-        <summary>返回上次写入指定的文件或目录的日期和时间，其格式为协调通用时 (UTC)。</summary>
+        <summary>返回上次写入指定的文件或目录的日期和时间，其格式为协调通用时间 (UTC)。</summary>
         <returns>一个 <see cref="T:System.DateTime" /> 结构，它被设置为上次写入指定文件或目录的日期和时间。 该值用 UTC 时间表示。</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
@@ -1957,7 +2171,7 @@
           <paramref name="path" /> 是一个长度为零的字符串，仅包含空格，或包含一个或多个由 <see cref="F:System.IO.Path.InvalidPathChars" /> 定义的无效字符。</exception>
         <exception cref="T:System.ArgumentNullException">
           <paramref name="path" /> 为 <see langword="null" />。</exception>
-        <exception cref="T:System.IO.PathTooLongException">指定的路径和/或文件名超过了系统定义的最大长度。</exception>
+        <exception cref="T:System.IO.PathTooLongException">指定的路径、文件名或者两者都超出了系统定义的最大长度。</exception>
         <exception cref="T:System.NotSupportedException">
           <paramref name="path" /> 的格式无效。</exception>
         <permission cref="T:System.Security.Permissions.FileIOPermission">用于读取指定的文件。 关联的枚举： <see cref="F:System.Security.Permissions.FileIOPermissionAccess.Read" /></permission>
@@ -1989,6 +2203,11 @@
         <AssemblyName>netstandard</AssemblyName>
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2">
+          <AttributeName>System.Security.SecuritySafeCritical</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.Void</ReturnType>
       </ReturnValue>
@@ -1999,7 +2218,7 @@
       <Docs>
         <param name="sourceFileName">要移动的文件的名称。 可以包括相对或绝对路径。</param>
         <param name="destFileName">文件的新路径和名称。</param>
-        <summary>将指定文件移到新位置，提供要指定新文件名的选项。</summary>
+        <summary>将指定文件移到新位置，并提供指定新文件名的选项。</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -2023,13 +2242,16 @@
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.IO.IOException">目标文件已存在。  - 或 -  未找到 <paramref name="sourceFileName" />。</exception>
+        <exception cref="T:System.IO.IOException">目标文件已经存在。  
+  
+- 或 - 
+ <paramref name="sourceFileName" />。</exception>
         <exception cref="T:System.ArgumentNullException">
           <paramref name="sourceFileName" /> 或 <paramref name="destFileName" /> 为 <see langword="null" />。</exception>
         <exception cref="T:System.ArgumentException">
-          <paramref name="sourceFileName" /> 或 <paramref name="destFileName" /> 是长度为零的字符串，仅包含空格，或包含在 <see cref="F:System.IO.Path.InvalidPathChars" /> 中定义的无效字符。</exception>
+          <paramref name="sourceFileName" /> 或 <paramref name="destFileName" /> 是零长度字符串、只包含空白或者包含在 <see cref="F:System.IO.Path.InvalidPathChars" /> 中定义的无效字符。</exception>
         <exception cref="T:System.UnauthorizedAccessException">调用方没有所要求的权限。</exception>
-        <exception cref="T:System.IO.PathTooLongException">指定的路径和/或文件名超过了系统定义的最大长度。</exception>
+        <exception cref="T:System.IO.PathTooLongException">指定的路径、文件名或者两者都超出了系统定义的最大长度。</exception>
         <exception cref="T:System.IO.DirectoryNotFoundException">
           <paramref name="sourceFileName" /> 或 <paramref name="destFileName" /> 中指定的路径无效（例如，它位于未映射的驱动器上）。</exception>
         <exception cref="T:System.NotSupportedException">
@@ -2072,6 +2294,11 @@
         <AssemblyName>netstandard</AssemblyName>
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0">
+          <AttributeName>System.Security.SecuritySafeCritical</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.IO.FileStream</ReturnType>
       </ReturnValue>
@@ -2084,7 +2311,7 @@
         <param name="mode">
           <see cref="T:System.IO.FileMode" /> 值，用于指定在文件不存在时是否创建该文件，并确定是保留还是覆盖现有文件的内容。</param>
         <summary>通过不共享的读/写访问权限打开指定路径上的 <see cref="T:System.IO.FileStream" />。</summary>
-        <returns>以读/写访问与不共享权限打开的指定模式和路径上的 <see cref="T:System.IO.FileStream" />。</returns>
+        <returns>以指定模式打开的指定路径上的 <see cref="T:System.IO.FileStream" />，具有读/写访问权限并且不共享。</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -2105,14 +2332,26 @@
  ]]></format>
         </remarks>
         <exception cref="T:System.ArgumentException">
-          <paramref name="path" /> 是一个长度为零的字符串，仅包含空格，或包含一个或多个由 <see cref="F:System.IO.Path.InvalidPathChars" /> 定义的无效字符。</exception>
+          <paramref name="path" /> 是一个零长度字符串，仅包含空白或者包含一个或多个由 <see cref="F:System.IO.Path.InvalidPathChars" /> 定义的无效字符。</exception>
         <exception cref="T:System.ArgumentNullException">
           <paramref name="path" /> 为 <see langword="null" />。</exception>
-        <exception cref="T:System.IO.PathTooLongException">指定的路径和/或文件名超过了系统定义的最大长度。</exception>
+        <exception cref="T:System.IO.PathTooLongException">指定的路径、文件名或者两者都超出了系统定义的最大长度。</exception>
         <exception cref="T:System.IO.DirectoryNotFoundException">指定的路径无效（例如，它位于未映射的驱动器上）。</exception>
         <exception cref="T:System.IO.IOException">打开文件时发生 I/O 错误。</exception>
         <exception cref="T:System.UnauthorizedAccessException">
-          <paramref name="path" /> 指定了一个只读文件。  - 或 -  当前平台不支持此操作。  - 或 -  <paramref name="path" /> 指定了一个目录。  - 或 -  调用方没有所要求的权限。  - 或 -  <paramref name="mode" /> 为 <see cref="F:System.IO.FileMode.Create" />，且指定文件为隐藏文件。</exception>
+          <paramref name="path" /> 指定了一个只读文件。  
+  
+- 或 - 
+当前平台不支持此操作。  
+  
+- 或 - 
+ <paramref name="path" /> 指定了一个目录。  
+  
+- 或 - 
+调用方没有所要求的权限。  
+  
+- 或 - 
+ <paramref name="mode" /> 为 <see cref="F:System.IO.FileMode.Create" />，指定文件为隐藏文件。</exception>
         <exception cref="T:System.ArgumentOutOfRangeException">
           <paramref name="mode" /> 指定了一个无效值。</exception>
         <exception cref="T:System.IO.FileNotFoundException">未找到 <paramref name="path" /> 中指定的文件。</exception>
@@ -2146,6 +2385,11 @@
         <AssemblyName>netstandard</AssemblyName>
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0">
+          <AttributeName>System.Security.SecuritySafeCritical</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.IO.FileStream</ReturnType>
       </ReturnValue>
@@ -2158,7 +2402,8 @@
         <param name="path">要打开的文件。</param>
         <param name="mode">
           <see cref="T:System.IO.FileMode" /> 值，用于指定在文件不存在时是否创建该文件，并确定是保留还是覆盖现有文件的内容。</param>
-        <param name="access">一个 <see cref="T:System.IO.FileAccess" /> 值，它指定可以对文件执行的操作。</param>
+        <param name="access">
+          <see cref="T:System.IO.FileAccess" /> 值，指定可以对文件执行的操作。</param>
         <summary>通过指定的模式和不共享的访问权限打开指定路径上的 <see cref="T:System.IO.FileStream" />。</summary>
         <returns>一个非共享的 <see cref="T:System.IO.FileStream" />，它提供对指定文件的访问，并且具有指定的模式和访问权限。</returns>
         <remarks>
@@ -2179,14 +2424,26 @@
  ]]></format>
         </remarks>
         <exception cref="T:System.ArgumentException">
-          <paramref name="path" /> 是一个长度为零的字符串，仅包含空格，或包含一个或多个由 <see cref="F:System.IO.Path.InvalidPathChars" /> 定义的无效字符。  - 或 -  <paramref name="access" /> 指定了 <see langword="Read" />，并且 <paramref name="mode" /> 指定了 <see langword="Create" />、<see langword="CreateNew" />、<see langword="Truncate" /> 或 <see langword="Append" />。</exception>
+          <paramref name="path" /> 是一个零长度字符串，仅包含空白或者包含一个或多个由 <see cref="F:System.IO.Path.InvalidPathChars" /> 定义的无效字符。  
+  
+- 或 - 
+ <paramref name="access" /> 指定了 <see langword="Read" />，而 <paramref name="mode" /> 指定了 <see langword="Create" />、<see langword="CreateNew" />、<see langword="Truncate" /> 或 <see langword="Append" />。</exception>
         <exception cref="T:System.ArgumentNullException">
           <paramref name="path" /> 为 <see langword="null" />。</exception>
-        <exception cref="T:System.IO.PathTooLongException">指定的路径和/或文件名超过了系统定义的最大长度。</exception>
+        <exception cref="T:System.IO.PathTooLongException">指定的路径、文件名或者两者都超出了系统定义的最大长度。</exception>
         <exception cref="T:System.IO.DirectoryNotFoundException">指定的路径无效（例如，它位于未映射的驱动器上）。</exception>
         <exception cref="T:System.IO.IOException">打开文件时发生 I/O 错误。</exception>
         <exception cref="T:System.UnauthorizedAccessException">
-          <paramref name="path" /> 指定了一个只读文件，并且 <paramref name="access" /> 不是 <see langword="Read" />。  - 或 -  <paramref name="path" /> 指定了一个目录。  - 或 -  调用方没有所要求的权限。  - 或 -  <paramref name="mode" /> 为 <see cref="F:System.IO.FileMode.Create" />，且指定文件为隐藏文件。</exception>
+          <paramref name="path" /> 指定了一个只读文件，而 <paramref name="access" /> 不为 <see langword="Read" />。  
+  
+- 或 - 
+ <paramref name="path" /> 指定了一个目录。  
+  
+- 或 - 
+调用方没有所要求的权限。  
+  
+- 或 - 
+ <paramref name="mode" /> 为 <see cref="F:System.IO.FileMode.Create" />，指定文件为隐藏文件。</exception>
         <exception cref="T:System.ArgumentOutOfRangeException">
           <paramref name="mode" /> 或 <paramref name="access" /> 指定了一个无效值。</exception>
         <exception cref="T:System.IO.FileNotFoundException">未找到 <paramref name="path" /> 中指定的文件。</exception>
@@ -2220,6 +2477,11 @@
         <AssemblyName>netstandard</AssemblyName>
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0">
+          <AttributeName>System.Security.SecuritySafeCritical</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.IO.FileStream</ReturnType>
       </ReturnValue>
@@ -2233,10 +2495,12 @@
         <param name="path">要打开的文件。</param>
         <param name="mode">
           <see cref="T:System.IO.FileMode" /> 值，用于指定在文件不存在时是否创建该文件，并确定是保留还是覆盖现有文件的内容。</param>
-        <param name="access">一个 <see cref="T:System.IO.FileAccess" /> 值，它指定可以对文件执行的操作。</param>
-        <param name="share">一个 <see cref="T:System.IO.FileShare" /> 值，它指定其他线程所具有的对该文件的访问类型。</param>
-        <summary>打开指定路径上的 <see cref="T:System.IO.FileStream" />，具有带读、写或读/写访问的指定模式和指定的共享选项。</summary>
-        <returns>指定路径上的 <see cref="T:System.IO.FileStream" />，具有带读、写或读/写访问的指定模式以及指定的共享选项。</returns>
+        <param name="access">
+          <see cref="T:System.IO.FileAccess" /> 值，指定可以对文件执行的操作。</param>
+        <param name="share">
+          <see cref="T:System.IO.FileShare" /> 值，它指定其他线程所具有的对该文件的访问类型。</param>
+        <summary>打开指定路径上的 <see cref="T:System.IO.FileStream" />，具有指定的读、写或读/写访问模式以及指定的共享选项。</summary>
+        <returns>指定路径上的 <see cref="T:System.IO.FileStream" />，具有指定的读、写或读/写访问模式以及指定的共享选项。</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -2257,14 +2521,26 @@
  ]]></format>
         </remarks>
         <exception cref="T:System.ArgumentException">
-          <paramref name="path" /> 是一个长度为零的字符串，仅包含空格，或包含一个或多个由 <see cref="F:System.IO.Path.InvalidPathChars" /> 定义的无效字符。  - 或 -  <paramref name="access" /> 指定了 <see langword="Read" />，并且 <paramref name="mode" /> 指定了 <see langword="Create" />、<see langword="CreateNew" />、<see langword="Truncate" /> 或 <see langword="Append" />。</exception>
+          <paramref name="path" /> 是一个零长度字符串，仅包含空白或者包含一个或多个由 <see cref="F:System.IO.Path.InvalidPathChars" /> 定义的无效字符。  
+  
+- 或 - 
+ <paramref name="access" /> 指定了 <see langword="Read" />，而 <paramref name="mode" /> 指定了 <see langword="Create" />、<see langword="CreateNew" />、<see langword="Truncate" /> 或 <see langword="Append" />。</exception>
         <exception cref="T:System.ArgumentNullException">
           <paramref name="path" /> 为 <see langword="null" />。</exception>
-        <exception cref="T:System.IO.PathTooLongException">指定的路径和/或文件名超过了系统定义的最大长度。</exception>
+        <exception cref="T:System.IO.PathTooLongException">指定的路径、文件名或者两者都超出了系统定义的最大长度。</exception>
         <exception cref="T:System.IO.DirectoryNotFoundException">指定的路径无效（例如，它位于未映射的驱动器上）。</exception>
         <exception cref="T:System.IO.IOException">打开文件时发生 I/O 错误。</exception>
         <exception cref="T:System.UnauthorizedAccessException">
-          <paramref name="path" /> 指定了一个只读文件，并且 <paramref name="access" /> 不是 <see langword="Read" />。  - 或 -  <paramref name="path" /> 指定了一个目录。  - 或 -  调用方没有所要求的权限。  - 或 -  <paramref name="mode" /> 为 <see cref="F:System.IO.FileMode.Create" />，且指定文件为隐藏文件。</exception>
+          <paramref name="path" /> 指定了一个只读文件，而 <paramref name="access" /> 不为 <see langword="Read" />。  
+  
+- 或 - 
+ <paramref name="path" /> 指定了一个目录。  
+  
+- 或 - 
+调用方没有所要求的权限。  
+  
+- 或 - 
+ <paramref name="mode" /> 为 <see cref="F:System.IO.FileMode.Create" />，指定文件为隐藏文件。</exception>
         <exception cref="T:System.ArgumentOutOfRangeException">
           <paramref name="mode" />、<paramref name="access" /> 或 <paramref name="share" /> 指定了一个无效值。</exception>
         <exception cref="T:System.IO.FileNotFoundException">未找到 <paramref name="path" /> 中指定的文件。</exception>
@@ -2298,6 +2574,11 @@
         <AssemblyName>netstandard</AssemblyName>
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0">
+          <AttributeName>System.Security.SecuritySafeCritical</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.IO.FileStream</ReturnType>
       </ReturnValue>
@@ -2330,13 +2611,16 @@
  ]]></format>
         </remarks>
         <exception cref="T:System.ArgumentException">
-          <paramref name="path" /> 是一个长度为零的字符串，仅包含空格，或包含一个或多个由 <see cref="F:System.IO.Path.InvalidPathChars" /> 定义的无效字符。</exception>
+          <paramref name="path" /> 是一个零长度字符串，仅包含空白或者包含一个或多个由 <see cref="F:System.IO.Path.InvalidPathChars" /> 定义的无效字符。</exception>
         <exception cref="T:System.ArgumentNullException">
           <paramref name="path" /> 为 <see langword="null" />。</exception>
-        <exception cref="T:System.IO.PathTooLongException">指定的路径和/或文件名超过了系统定义的最大长度。</exception>
+        <exception cref="T:System.IO.PathTooLongException">指定的路径、文件名或者两者都超出了系统定义的最大长度。</exception>
         <exception cref="T:System.IO.DirectoryNotFoundException">指定的路径无效（例如，它位于未映射的驱动器上）。</exception>
         <exception cref="T:System.UnauthorizedAccessException">
-          <paramref name="path" /> 指定了一个目录。  - 或 -  调用方没有所需权限。</exception>
+          <paramref name="path" /> 指定了一个目录。  
+  
+- 或 - 
+调用方没有所要求的权限。</exception>
         <exception cref="T:System.IO.FileNotFoundException">未找到 <paramref name="path" /> 中指定的文件。</exception>
         <exception cref="T:System.NotSupportedException">
           <paramref name="path" /> 的格式无效。</exception>
@@ -2369,6 +2653,11 @@
         <AssemblyName>netstandard</AssemblyName>
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0">
+          <AttributeName>System.Security.SecuritySafeCritical</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.IO.StreamReader</ReturnType>
       </ReturnValue>
@@ -2405,7 +2694,7 @@
           <paramref name="path" /> 是一个长度为零的字符串，仅包含空格，或包含一个或多个由 <see cref="F:System.IO.Path.InvalidPathChars" /> 定义的无效字符。</exception>
         <exception cref="T:System.ArgumentNullException">
           <paramref name="path" /> 为 <see langword="null" />。</exception>
-        <exception cref="T:System.IO.PathTooLongException">指定的路径和/或文件名超过了系统定义的最大长度。</exception>
+        <exception cref="T:System.IO.PathTooLongException">指定的路径、文件名或者两者都超出了系统定义的最大长度。</exception>
         <exception cref="T:System.IO.DirectoryNotFoundException">指定的路径无效（例如，它位于未映射的驱动器上）。</exception>
         <exception cref="T:System.IO.FileNotFoundException">未找到 <paramref name="path" /> 中指定的文件。</exception>
         <exception cref="T:System.NotSupportedException">
@@ -2438,6 +2727,11 @@
         <AssemblyName>netstandard</AssemblyName>
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0">
+          <AttributeName>System.Security.SecuritySafeCritical</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.IO.FileStream</ReturnType>
       </ReturnValue>
@@ -2447,7 +2741,7 @@
       <Docs>
         <param name="path">要打开以进行写入的文件。</param>
         <summary>打开一个现有文件或创建一个新文件以进行写入。</summary>
-        <returns>指定路径上具有 <see cref="T:System.IO.FileStream" /> 访问权限的非共享的 <see cref="F:System.IO.FileAccess.Write" /> 对象。</returns>
+        <returns>具有 <see cref="T:System.IO.FileStream" /> 访问权限的指定路径上的非共享 <see cref="F:System.IO.FileAccess.Write" /> 对象。</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -2473,12 +2767,15 @@
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.UnauthorizedAccessException">调用方没有所要求的权限。  - 或 -  <paramref name="path" /> 指定了一个只读文件或目录。</exception>
+        <exception cref="T:System.UnauthorizedAccessException">调用方没有所要求的权限。  
+  
+- 或 - 
+ <paramref name="path" /> 指定了只读文件或目录。</exception>
         <exception cref="T:System.ArgumentException">
-          <paramref name="path" /> 是一个长度为零的字符串，仅包含空格，或包含一个或多个由 <see cref="F:System.IO.Path.InvalidPathChars" /> 定义的无效字符。</exception>
+          <paramref name="path" /> 是一个零长度字符串，仅包含空白或者包含一个或多个由 <see cref="F:System.IO.Path.InvalidPathChars" /> 定义的无效字符。</exception>
         <exception cref="T:System.ArgumentNullException">
           <paramref name="path" /> 为 <see langword="null" />。</exception>
-        <exception cref="T:System.IO.PathTooLongException">指定的路径和/或文件名超过了系统定义的最大长度。</exception>
+        <exception cref="T:System.IO.PathTooLongException">指定的路径、文件名或者两者都超出了系统定义的最大长度。</exception>
         <exception cref="T:System.IO.DirectoryNotFoundException">指定的路径无效（例如，它位于未映射的驱动器上）。</exception>
         <exception cref="T:System.NotSupportedException">
           <paramref name="path" /> 的格式无效。</exception>
@@ -2509,6 +2806,11 @@
         <AssemblyName>netstandard</AssemblyName>
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2">
+          <AttributeName>System.Security.SecuritySafeCritical</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.Byte[]</ReturnType>
       </ReturnValue>
@@ -2517,7 +2819,7 @@
       </Parameters>
       <Docs>
         <param name="path">要打开以进行读取的文件。</param>
-        <summary>打开一个二进制文件，将文件的内容读入一个字节数组，然后关闭该文件。</summary>
+        <summary>打开一个文件，将文件的内容读入一个字符串，然后关闭该文件。</summary>
         <returns>包含文件内容的字节数组。</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
@@ -2528,13 +2830,19 @@
  ]]></format>
         </remarks>
         <exception cref="T:System.ArgumentException">
-          <paramref name="path" /> 是一个长度为零的字符串，仅包含空格，或包含一个或多个由 <see cref="F:System.IO.Path.InvalidPathChars" /> 定义的无效字符。</exception>
+          <paramref name="path" /> 是一个零长度字符串，仅包含空白或者包含一个或多个由 <see cref="F:System.IO.Path.InvalidPathChars" /> 定义的无效字符。</exception>
         <exception cref="T:System.ArgumentNullException">
           <paramref name="path" /> 为 <see langword="null" />。</exception>
-        <exception cref="T:System.IO.PathTooLongException">指定的路径和/或文件名超过了系统定义的最大长度。</exception>
+        <exception cref="T:System.IO.PathTooLongException">指定的路径、文件名或者两者都超出了系统定义的最大长度。</exception>
         <exception cref="T:System.IO.DirectoryNotFoundException">指定的路径无效（例如，它位于未映射的驱动器上）。</exception>
         <exception cref="T:System.IO.IOException">打开文件时发生 I/O 错误。</exception>
-        <exception cref="T:System.UnauthorizedAccessException">当前平台不支持此操作。  - 或 -  <paramref name="path" /> 指定了一个目录。  - 或 -  调用方没有所需权限。</exception>
+        <exception cref="T:System.UnauthorizedAccessException">在当前平台上不支持此操作。  
+  
+- 或 - 
+ <paramref name="path" /> 指定了一个目录。  
+  
+- 或 - 
+调用方没有所要求的权限。</exception>
         <exception cref="T:System.IO.FileNotFoundException">未找到 <paramref name="path" /> 中指定的文件。</exception>
         <exception cref="T:System.NotSupportedException">
           <paramref name="path" /> 的格式无效。</exception>
@@ -2575,7 +2883,7 @@
         <AssemblyVersion>4.1.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Docs>
-        <summary>打开一个文本文件，将文件的所有行读入一个字符串数组，然后关闭该文件。</summary>
+        <summary>打开一个文本文件，将文件的所有行都读入一个字符串数组，然后关闭该文件。</summary>
       </Docs>
     </MemberGroup>
     <Member MemberName="ReadAllLines">
@@ -2602,6 +2910,11 @@
         <AssemblyName>netstandard</AssemblyName>
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0">
+          <AttributeName>System.Security.SecuritySafeCritical</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.String[]</ReturnType>
       </ReturnValue>
@@ -2631,14 +2944,23 @@
  ]]></format>
         </remarks>
         <exception cref="T:System.ArgumentException">
-          <paramref name="path" /> 是一个长度为零的字符串，仅包含空格，或包含一个或多个由 <see cref="F:System.IO.Path.InvalidPathChars" /> 定义的无效字符。</exception>
+          <paramref name="path" /> 是一个零长度字符串，仅包含空白或者包含一个或多个由 <see cref="F:System.IO.Path.InvalidPathChars" /> 定义的无效字符。</exception>
         <exception cref="T:System.ArgumentNullException">
           <paramref name="path" /> 为 <see langword="null" />。</exception>
-        <exception cref="T:System.IO.PathTooLongException">指定的路径和/或文件名超过了系统定义的最大长度。</exception>
+        <exception cref="T:System.IO.PathTooLongException">指定的路径、文件名或者两者都超出了系统定义的最大长度。</exception>
         <exception cref="T:System.IO.DirectoryNotFoundException">指定的路径无效（例如，它位于未映射的驱动器上）。</exception>
         <exception cref="T:System.IO.IOException">打开文件时发生 I/O 错误。</exception>
         <exception cref="T:System.UnauthorizedAccessException">
-          <paramref name="path" /> 指定了一个只读文件。  - 或 -  当前平台不支持此操作。  - 或 -  <paramref name="path" /> 指定了一个目录。  - 或 -  调用方没有所需权限。</exception>
+          <paramref name="path" /> 指定了一个只读文件。  
+  
+- 或 - 
+当前平台不支持此操作。  
+  
+- 或 - 
+ <paramref name="path" /> 指定了一个目录。  
+  
+- 或 - 
+调用方没有所要求的权限。</exception>
         <exception cref="T:System.IO.FileNotFoundException">未找到 <paramref name="path" /> 中指定的文件。</exception>
         <exception cref="T:System.NotSupportedException">
           <paramref name="path" /> 的格式无效。</exception>
@@ -2669,6 +2991,11 @@
         <AssemblyName>netstandard</AssemblyName>
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0">
+          <AttributeName>System.Security.SecuritySafeCritical</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.String[]</ReturnType>
       </ReturnValue>
@@ -2700,14 +3027,23 @@
  ]]></format>
         </remarks>
         <exception cref="T:System.ArgumentException">
-          <paramref name="path" /> 是一个长度为零的字符串，仅包含空格，或包含一个或多个由 <see cref="F:System.IO.Path.InvalidPathChars" /> 定义的无效字符。</exception>
+          <paramref name="path" /> 是一个零长度字符串，仅包含空白或者包含一个或多个由 <see cref="F:System.IO.Path.InvalidPathChars" /> 定义的无效字符。</exception>
         <exception cref="T:System.ArgumentNullException">
           <paramref name="path" /> 为 <see langword="null" />。</exception>
-        <exception cref="T:System.IO.PathTooLongException">指定的路径和/或文件名超过了系统定义的最大长度。</exception>
+        <exception cref="T:System.IO.PathTooLongException">指定的路径、文件名或者两者都超出了系统定义的最大长度。</exception>
         <exception cref="T:System.IO.DirectoryNotFoundException">指定的路径无效（例如，它位于未映射的驱动器上）。</exception>
         <exception cref="T:System.IO.IOException">打开文件时发生 I/O 错误。</exception>
         <exception cref="T:System.UnauthorizedAccessException">
-          <paramref name="path" /> 指定了一个只读文件。  - 或 -  当前平台不支持此操作。  - 或 -  <paramref name="path" /> 指定了一个目录。  - 或 -  调用方没有所需权限。</exception>
+          <paramref name="path" /> 指定了一个只读文件。  
+  
+- 或 - 
+当前平台不支持此操作。  
+  
+- 或 - 
+ <paramref name="path" /> 指定了一个目录。  
+  
+- 或 - 
+调用方没有所要求的权限。</exception>
         <exception cref="T:System.IO.FileNotFoundException">未找到 <paramref name="path" /> 中指定的文件。</exception>
         <exception cref="T:System.NotSupportedException">
           <paramref name="path" /> 的格式无效。</exception>
@@ -2803,6 +3139,11 @@
         <AssemblyName>netstandard</AssemblyName>
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2">
+          <AttributeName>System.Security.SecuritySafeCritical</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.String</ReturnType>
       </ReturnValue>
@@ -2836,14 +3177,23 @@
  ]]></format>
         </remarks>
         <exception cref="T:System.ArgumentException">
-          <paramref name="path" /> 是一个长度为零的字符串，仅包含空格，或包含一个或多个由 <see cref="F:System.IO.Path.InvalidPathChars" /> 定义的无效字符。</exception>
+          <paramref name="path" /> 是一个零长度字符串，仅包含空白或者包含一个或多个由 <see cref="F:System.IO.Path.InvalidPathChars" /> 定义的无效字符。</exception>
         <exception cref="T:System.ArgumentNullException">
           <paramref name="path" /> 为 <see langword="null" />。</exception>
-        <exception cref="T:System.IO.PathTooLongException">指定的路径和/或文件名超过了系统定义的最大长度。</exception>
+        <exception cref="T:System.IO.PathTooLongException">指定的路径、文件名或者两者都超出了系统定义的最大长度。</exception>
         <exception cref="T:System.IO.DirectoryNotFoundException">指定的路径无效（例如，它位于未映射的驱动器上）。</exception>
         <exception cref="T:System.IO.IOException">打开文件时发生 I/O 错误。</exception>
         <exception cref="T:System.UnauthorizedAccessException">
-          <paramref name="path" /> 指定了一个只读文件。  - 或 -  当前平台不支持此操作。  - 或 -  <paramref name="path" /> 指定了一个目录。  - 或 -  调用方没有所需权限。</exception>
+          <paramref name="path" /> 指定了一个只读文件。  
+  
+- 或 - 
+当前平台不支持此操作。  
+  
+- 或 - 
+ <paramref name="path" /> 指定了一个目录。  
+  
+- 或 - 
+调用方没有所要求的权限。</exception>
         <exception cref="T:System.IO.FileNotFoundException">未找到 <paramref name="path" /> 中指定的文件。</exception>
         <exception cref="T:System.NotSupportedException">
           <paramref name="path" /> 的格式无效。</exception>
@@ -2874,6 +3224,11 @@
         <AssemblyName>netstandard</AssemblyName>
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2">
+          <AttributeName>System.Security.SecuritySafeCritical</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.String</ReturnType>
       </ReturnValue>
@@ -2909,14 +3264,23 @@
  ]]></format>
         </remarks>
         <exception cref="T:System.ArgumentException">
-          <paramref name="path" /> 是一个长度为零的字符串，仅包含空格，或包含一个或多个由 <see cref="F:System.IO.Path.InvalidPathChars" /> 定义的无效字符。</exception>
+          <paramref name="path" /> 是一个零长度字符串，仅包含空白或者包含一个或多个由 <see cref="F:System.IO.Path.InvalidPathChars" /> 定义的无效字符。</exception>
         <exception cref="T:System.ArgumentNullException">
           <paramref name="path" /> 为 <see langword="null" />。</exception>
-        <exception cref="T:System.IO.PathTooLongException">指定的路径和/或文件名超过了系统定义的最大长度。</exception>
+        <exception cref="T:System.IO.PathTooLongException">指定的路径、文件名或者两者都超出了系统定义的最大长度。</exception>
         <exception cref="T:System.IO.DirectoryNotFoundException">指定的路径无效（例如，它位于未映射的驱动器上）。</exception>
         <exception cref="T:System.IO.IOException">打开文件时发生 I/O 错误。</exception>
         <exception cref="T:System.UnauthorizedAccessException">
-          <paramref name="path" /> 指定了一个只读文件。  - 或 -  当前平台不支持此操作。  - 或 -  <paramref name="path" /> 指定了一个目录。  - 或 -  调用方没有所需权限。</exception>
+          <paramref name="path" /> 指定了一个只读文件。  
+  
+- 或 - 
+当前平台不支持此操作。  
+  
+- 或 - 
+ <paramref name="path" /> 指定了一个目录。  
+  
+- 或 - 
+调用方没有所要求的权限。</exception>
         <exception cref="T:System.IO.FileNotFoundException">未找到 <paramref name="path" /> 中指定的文件。</exception>
         <exception cref="T:System.NotSupportedException">
           <paramref name="path" /> 的格式无效。</exception>
@@ -2985,7 +3349,7 @@
         <AssemblyVersion>4.1.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Docs>
-        <summary>读取文件的行。</summary>
+        <summary>读取文件的文本行。</summary>
       </Docs>
     </MemberGroup>
     <Member MemberName="ReadLines">
@@ -3011,6 +3375,11 @@
         <AssemblyName>netstandard</AssemblyName>
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0">
+          <AttributeName>System.Security.SecuritySafeCritical</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.Collections.Generic.IEnumerable&lt;System.String&gt;</ReturnType>
       </ReturnValue>
@@ -3019,8 +3388,8 @@
       </Parameters>
       <Docs>
         <param name="path">要读取的文件。</param>
-        <summary>读取文件的行。</summary>
-        <returns>该文件的所有行或查询结果所示的行。</returns>
+        <summary>读取文件的文本行。</summary>
+        <returns>该文件的所有行或查询所示的行。</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -3057,14 +3426,23 @@
         <exception cref="T:System.ArgumentNullException">
           <paramref name="path" /> 为 <see langword="null" />。</exception>
         <exception cref="T:System.IO.DirectoryNotFoundException">
-          <paramref name="path" /> 无效（例如，它位于未映射的驱动器上）。</exception>
-        <exception cref="T:System.IO.FileNotFoundException">未找到 <paramref name="path" /> 指定的文件。</exception>
+          <paramref name="path" /> 无效（例如，在未映射的驱动器上）。</exception>
+        <exception cref="T:System.IO.FileNotFoundException">找不到 <paramref name="path" /> 指定的文件。</exception>
         <exception cref="T:System.IO.IOException">打开文件时发生 I/O 错误。</exception>
         <exception cref="T:System.IO.PathTooLongException">
-          <paramref name="path" /> 超出系统定义的最大长度。</exception>
+          <paramref name="path" /> 超过了系统定义的最大长度。</exception>
         <exception cref="T:System.Security.SecurityException">调用方没有所要求的权限。</exception>
         <exception cref="T:System.UnauthorizedAccessException">
-          <paramref name="path" /> 指定只读文件。  - 或 -  当前平台不支持此操作。  - 或 -  <paramref name="path" /> 是一个目录。  - 或 -  调用方没有所需权限。</exception>
+          <paramref name="path" /> 指定只读文件。  
+  
+- 或 - 
+当前平台不支持此操作。  
+  
+- 或 - 
+ <paramref name="path" /> 是一个目录。  
+  
+- 或 - 
+调用方没有所要求的权限。</exception>
       </Docs>
     </Member>
     <Member MemberName="ReadLines">
@@ -3089,6 +3467,11 @@
         <AssemblyName>netstandard</AssemblyName>
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0">
+          <AttributeName>System.Security.SecuritySafeCritical</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.Collections.Generic.IEnumerable&lt;System.String&gt;</ReturnType>
       </ReturnValue>
@@ -3099,8 +3482,8 @@
       <Docs>
         <param name="path">要读取的文件。</param>
         <param name="encoding">应用到文件内容的编码。</param>
-        <summary>读取具有指定编码的文件的行。</summary>
-        <returns>该文件的所有行或查询结果所示的行。</returns>
+        <summary>读取具有指定编码的文件的文本行。</summary>
+        <returns>该文件的所有行或查询所示的行。</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -3120,18 +3503,27 @@
  ]]></format>
         </remarks>
         <exception cref="T:System.ArgumentException">
-          <paramref name="path" /> 是长度为零的字符串，仅包含空格，或包含一个或多个由 <see cref="M:System.IO.Path.GetInvalidPathChars" /> 方法定义的无效字符。</exception>
+          <paramref name="path" /> 是一个零长度字符串，仅包含空白或者包含 <see cref="M:System.IO.Path.GetInvalidPathChars" /> 方法中定义的一个或多个无效字符。</exception>
         <exception cref="T:System.ArgumentNullException">
           <paramref name="path" /> 为 <see langword="null" />。</exception>
         <exception cref="T:System.IO.DirectoryNotFoundException">
-          <paramref name="path" /> 无效（例如，它位于未映射的驱动器上）。</exception>
-        <exception cref="T:System.IO.FileNotFoundException">未找到 <paramref name="path" /> 指定的文件。</exception>
+          <paramref name="path" /> 无效（例如，在未映射的驱动器上）。</exception>
+        <exception cref="T:System.IO.FileNotFoundException">找不到 <paramref name="path" /> 指定的文件。</exception>
         <exception cref="T:System.IO.IOException">打开文件时发生 I/O 错误。</exception>
         <exception cref="T:System.IO.PathTooLongException">
-          <paramref name="path" /> 超出系统定义的最大长度。</exception>
+          <paramref name="path" /> 超过了系统定义的最大长度。</exception>
         <exception cref="T:System.Security.SecurityException">调用方没有所要求的权限。</exception>
         <exception cref="T:System.UnauthorizedAccessException">
-          <paramref name="path" /> 指定只读文件。  - 或 -  当前平台不支持此操作。  - 或 -  <paramref name="path" /> 是一个目录。  - 或 -  调用方没有所需权限。</exception>
+          <paramref name="path" /> 指定只读文件。  
+  
+- 或 - 
+当前平台不支持此操作。  
+  
+- 或 - 
+ <paramref name="path" /> 是一个目录。  
+  
+- 或 - 
+调用方没有所要求的权限。</exception>
       </Docs>
     </Member>
     <MemberGroup MemberName="Replace">
@@ -3185,7 +3577,7 @@
       </Parameters>
       <Docs>
         <param name="sourceFileName">文件名，该文件替换由 <c>destinationFileName</c> 指定的文件。</param>
-        <param name="destinationFileName">被替换文件的名称。</param>
+        <param name="destinationFileName">替换文件的名称。</param>
         <param name="destinationBackupFileName">备份文件的名称。</param>
         <summary>使用其他文件的内容替换指定文件的内容，这一过程将删除原始文件，并创建被替换文件的备份。</summary>
         <remarks>
@@ -3212,16 +3604,34 @@
  ]]></format>
         </remarks>
         <exception cref="T:System.ArgumentException">
-          <paramref name="destinationFileName" /> 参数描述的路径格式不合法。  - 或 -  <paramref name="destinationBackupFileName" /> 参数描述的路径格式不合法。</exception>
+          <paramref name="destinationFileName" /> 参数描述的路径不是合法的格式。  
+  
+- 或 - 
+<paramref name="destinationBackupFileName" /> 参数描述的路径不是合法的格式。</exception>
         <exception cref="T:System.ArgumentNullException">
           <paramref name="destinationFileName" /> 参数为 <see langword="null" />。</exception>
         <exception cref="T:System.IO.DriveNotFoundException">指定了无效的驱动器。</exception>
-        <exception cref="T:System.IO.FileNotFoundException">找不到当前 <see cref="T:System.IO.FileInfo" /> 对象描述的文件。  - 或 -  找不到 <paramref name="destinationBackupFileName" /> 参数描述的文件。</exception>
-        <exception cref="T:System.IO.IOException">打开文件时发生 I/O 错误。  \- 或 -  <paramref name="sourceFileName" /> 和 <paramref name="destinationFileName" /> 参数指定相同的文件。</exception>
-        <exception cref="T:System.IO.PathTooLongException">指定的路径和/或文件名超过了系统定义的最大长度。</exception>
-        <exception cref="T:System.PlatformNotSupportedException">操作系统是 Windows 98 Second Edition 或更早版本，且文件系统不是 NTFS。</exception>
+        <exception cref="T:System.IO.FileNotFoundException">找不到当前 <see cref="T:System.IO.FileInfo" /> 对象所描述的文件。  
+  
+- 或 - 
+找不到 <paramref name="destinationBackupFileName" /> 参数所描述的文件。</exception>
+        <exception cref="T:System.IO.IOException">打开文件时发生 I/O 错误。  
+  
+\- 或 - 
+<paramref name="sourceFileName" /> 和 <paramref name="destinationFileName" /> 参数指定了相同的文件。</exception>
+        <exception cref="T:System.IO.PathTooLongException">指定的路径、文件名或者两者都超出了系统定义的最大长度。</exception>
+        <exception cref="T:System.PlatformNotSupportedException">操作系统是 Windows 98 Second Edition 或更低版本，且文件系统不是 NTFS。</exception>
         <exception cref="T:System.UnauthorizedAccessException">
-          <paramref name="sourceFileName" /> 或 <paramref name="destinationFileName" /> 参数指定只读的文件。  - 或 -  当前平台不支持此操作。  - 或 -  源参数或目标参数指定的是目录，而不是文件。  - 或 -  调用方没有所需权限。</exception>
+          <paramref name="sourceFileName" /> 或 <paramref name="destinationFileName" /> 参数指定了一个只读文件。  
+  
+- 或 - 
+当前平台不支持此操作。  
+  
+- 或 - 
+源参数或目标参数指定的是目录，而不是文件。  
+  
+- 或 - 
+调用方没有所要求的权限。</exception>
         <permission cref="T:System.Security.Permissions.FileIOPermission">用于写入的权限所描述的文件<paramref name="destinationBackupFileName" />如果指定的参数。 安全操作： 需求。 关联的枚举： <see cref="F:System.Security.Permissions.FileIOPermissionAccess.Write" /></permission>
       </Docs>
     </Member>
@@ -3248,6 +3658,11 @@
         <AssemblyVersion>4.1.0.0</AssemblyVersion>
         <AssemblyVersion>4.1.1.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0">
+          <AttributeName>System.Security.SecuritySafeCritical</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.Void</ReturnType>
       </ReturnValue>
@@ -3259,10 +3674,10 @@
       </Parameters>
       <Docs>
         <param name="sourceFileName">文件名，该文件替换由 <c>destinationFileName</c> 指定的文件。</param>
-        <param name="destinationFileName">被替换文件的名称。</param>
+        <param name="destinationFileName">替换文件的名称。</param>
         <param name="destinationBackupFileName">备份文件的名称。</param>
         <param name="ignoreMetadataErrors">如果忽略从被替换文件到替换文件的合并错误（如属性和访问控制列表 (ACL)），则为 <see langword="true" />，否则为 <see langword="false" />。</param>
-        <summary>用其他文件的内容替换指定文件的内容，这一过程将删除原始文件，并创建被替换文件的备份，还可以忽略合并错误。</summary>
+        <summary>用其他文件的内容替换指定文件的内容，删除原始文件，并创建被替换文件的备份和（可选）忽略合并错误。</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -3287,16 +3702,34 @@
  ]]></format>
         </remarks>
         <exception cref="T:System.ArgumentException">
-          <paramref name="destinationFileName" /> 参数描述的路径格式不合法。  - 或 -  <paramref name="destinationBackupFileName" /> 参数描述的路径格式不合法。</exception>
+          <paramref name="destinationFileName" /> 参数描述的路径不是合法的格式。  
+  
+- 或 - 
+<paramref name="destinationBackupFileName" /> 参数描述的路径不是合法的格式。</exception>
         <exception cref="T:System.ArgumentNullException">
           <paramref name="destinationFileName" /> 参数为 <see langword="null" />。</exception>
         <exception cref="T:System.IO.DriveNotFoundException">指定了无效的驱动器。</exception>
-        <exception cref="T:System.IO.FileNotFoundException">找不到当前 <see cref="T:System.IO.FileInfo" /> 对象描述的文件。  - 或 -  找不到 <paramref name="destinationBackupFileName" /> 参数描述的文件。</exception>
-        <exception cref="T:System.IO.IOException">打开文件时发生 I/O 错误。  \- 或 -  <paramref name="sourceFileName" /> 和 <paramref name="destinationFileName" /> 参数指定相同的文件。</exception>
-        <exception cref="T:System.IO.PathTooLongException">指定的路径和/或文件名超过了系统定义的最大长度。</exception>
-        <exception cref="T:System.PlatformNotSupportedException">操作系统是 Windows 98 Second Edition 或更早版本，且文件系统不是 NTFS。</exception>
+        <exception cref="T:System.IO.FileNotFoundException">找不到当前 <see cref="T:System.IO.FileInfo" /> 对象所描述的文件。  
+  
+- 或 - 
+找不到 <paramref name="destinationBackupFileName" /> 参数所描述的文件。</exception>
+        <exception cref="T:System.IO.IOException">打开文件时发生 I/O 错误。  
+  
+\- 或 - 
+<paramref name="sourceFileName" /> 和 <paramref name="destinationFileName" /> 参数指定了相同的文件。</exception>
+        <exception cref="T:System.IO.PathTooLongException">指定的路径、文件名或者两者都超出了系统定义的最大长度。</exception>
+        <exception cref="T:System.PlatformNotSupportedException">操作系统是 Windows 98 Second Edition 或更低版本，且文件系统不是 NTFS。</exception>
         <exception cref="T:System.UnauthorizedAccessException">
-          <paramref name="sourceFileName" /> 或 <paramref name="destinationFileName" /> 参数指定只读的文件。  - 或 -  当前平台不支持此操作。  - 或 -  源参数或目标参数指定的是目录，而不是文件。  - 或 -  调用方没有所需权限。</exception>
+          <paramref name="sourceFileName" /> 或 <paramref name="destinationFileName" /> 参数指定了一个只读文件。  
+  
+- 或 - 
+当前平台不支持此操作。  
+  
+- 或 - 
+源参数或目标参数指定的是目录，而不是文件。  
+  
+- 或 - 
+调用方没有所要求的权限。</exception>
         <permission cref="T:System.Security.Permissions.FileIOPermission">用于写入的权限所描述的文件<paramref name="destinationBackupFileName" />如果指定的参数。 安全操作： 需求。 关联的枚举： <see cref="F:System.Security.Permissions.FileIOPermissionAccess.Write" /></permission>
       </Docs>
     </Member>
@@ -3313,6 +3746,11 @@
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2">
+          <AttributeName>System.Security.SecuritySafeCritical</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.Void</ReturnType>
       </ReturnValue>
@@ -3321,9 +3759,9 @@
         <Parameter Name="fileSecurity" Type="System.Security.AccessControl.FileSecurity" />
       </Parameters>
       <Docs>
-        <param name="path">从其中添加或移除访问控制列表 (ACL) 项的文件。</param>
+        <param name="path">在其中添加或移除访问控制列表 (ACL) 项的文件。</param>
         <param name="fileSecurity">一个 <see cref="T:System.Security.AccessControl.FileSecurity" /> 对象，描述要应用于 <c>path</c> 参数所描述的文件的 ACL 项。</param>
-        <summary>将 <see cref="T:System.Security.AccessControl.FileSecurity" /> 对象描述的访问控制列表 (ACL) 项应用于指定的文件。</summary>
+        <summary>对指定的文件应用由 <see cref="T:System.Security.AccessControl.FileSecurity" /> 对象描述的访问控制列表 (ACL) 项。</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -3367,7 +3805,16 @@
           <paramref name="path" /> 参数为 <see langword="null" />。</exception>
         <exception cref="T:System.SystemException">找不到文件。</exception>
         <exception cref="T:System.UnauthorizedAccessException">
-          <paramref name="path" /> 参数指定了一个只读文件。  - 或 -  当前平台不支持此操作。  - 或 -  <paramref name="path" /> 参数指定了一个目录。  - 或 -  调用方没有所需权限。</exception>
+          <paramref name="path" /> 参数指定了一个只读文件。  
+  
+- 或 - 
+当前平台不支持此操作。  
+  
+- 或 - 
+<paramref name="path" /> 参数指定了一个目录。  
+  
+- 或 - 
+调用方没有所要求的权限。</exception>
         <exception cref="T:System.ArgumentNullException">
           <paramref name="fileSecurity" /> 参数为 <see langword="null" />。</exception>
         <permission cref="T:System.Security.Permissions.FileIOPermission">若要访问该文件的权限。 安全操作： 需求。 关联枚举： <see cref="F:System.Security.Permissions.FileIOPermissionAccess.NoAccess" />， <see cref="F:System.Security.AccessControl.AccessControlActions.Change" /></permission>
@@ -3398,6 +3845,11 @@
         <AssemblyName>netstandard</AssemblyName>
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2">
+          <AttributeName>System.Security.SecuritySafeCritical</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.Void</ReturnType>
       </ReturnValue>
@@ -3406,9 +3858,9 @@
         <Parameter Name="fileAttributes" Type="System.IO.FileAttributes" />
       </Parameters>
       <Docs>
-        <param name="path">文件的路径。</param>
+        <param name="path">该文件的路径。</param>
         <param name="fileAttributes">枚举值的按位组合。</param>
-        <summary>获取指定路径上的文件的指定 <see cref="T:System.IO.FileAttributes" />。</summary>
+        <summary>设置指定路径上文件的指定的 <see cref="T:System.IO.FileAttributes" />。</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -3433,14 +3885,23 @@
  ]]></format>
         </remarks>
         <exception cref="T:System.ArgumentException">
-          <paramref name="path" /> 为空，只包含空格，包含无效字符或文件属性无效。</exception>
-        <exception cref="T:System.IO.PathTooLongException">指定的路径和/或文件名超过了系统定义的最大长度。</exception>
+          <paramref name="path" /> 为空、只包含空白、包含无效字符或文件属性无效。</exception>
+        <exception cref="T:System.IO.PathTooLongException">指定的路径、文件名或者两者都超出了系统定义的最大长度。</exception>
         <exception cref="T:System.NotSupportedException">
           <paramref name="path" /> 的格式无效。</exception>
         <exception cref="T:System.IO.DirectoryNotFoundException">指定的路径无效（例如，它位于未映射的驱动器上）。</exception>
         <exception cref="T:System.IO.FileNotFoundException">无法找到该文件。</exception>
         <exception cref="T:System.UnauthorizedAccessException">
-          <paramref name="path" /> 指定了一个只读文件。  - 或 -  当前平台不支持此操作。  - 或 -  <paramref name="path" /> 指定了一个目录。  - 或 -  调用方没有所需权限。</exception>
+          <paramref name="path" /> 指定了一个只读文件。  
+  
+- 或 - 
+当前平台不支持此操作。  
+  
+- 或 - 
+ <paramref name="path" /> 指定了一个目录。  
+  
+- 或 - 
+调用方没有所要求的权限。</exception>
         <permission cref="T:System.Security.Permissions.FileIOPermission">用于读取和写入文件。 关联的枚举： <see cref="F:System.Security.Permissions.FileIOPermissionAccess.Write" /></permission>
         <altmember cref="T:System.IO.FileSystemWatcher" />
       </Docs>
@@ -3493,15 +3954,15 @@
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.IO.FileNotFoundException">未找到指定路径。</exception>
+        <exception cref="T:System.IO.FileNotFoundException">未找到指定的路径。</exception>
         <exception cref="T:System.ArgumentException">
-          <paramref name="path" /> 是一个长度为零的字符串，仅包含空格，或包含一个或多个由 <see cref="F:System.IO.Path.InvalidPathChars" /> 定义的无效字符。</exception>
+          <paramref name="path" /> 是一个零长度字符串，仅包含空白或者包含一个或多个由 <see cref="F:System.IO.Path.InvalidPathChars" /> 定义的无效字符。</exception>
         <exception cref="T:System.ArgumentNullException">
           <paramref name="path" /> 为 <see langword="null" />。</exception>
-        <exception cref="T:System.IO.PathTooLongException">指定的路径和/或文件名超过了系统定义的最大长度。</exception>
+        <exception cref="T:System.IO.PathTooLongException">指定的路径、文件名或者两者都超出了系统定义的最大长度。</exception>
         <exception cref="T:System.IO.IOException">执行操作时发生 I/O 错误。</exception>
         <exception cref="T:System.ArgumentOutOfRangeException">
-          <paramref name="creationTime" /> 指定一个超出该操作所允许的日期范围和/或时间范围的值。</exception>
+          <paramref name="creationTime" /> 指定的值超出了该操作所允许的日期范围或时间范围，或同时超出了日期范围和时间范围。</exception>
         <exception cref="T:System.UnauthorizedAccessException">调用方没有所要求的权限。</exception>
         <exception cref="T:System.NotSupportedException">
           <paramref name="path" /> 的格式无效。</exception>
@@ -3534,6 +3995,11 @@
         <AssemblyName>netstandard</AssemblyName>
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2">
+          <AttributeName>System.Security.SecuritySafeCritical</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.Void</ReturnType>
       </ReturnValue>
@@ -3544,7 +4010,7 @@
       <Docs>
         <param name="path">要设置其创建日期和时间信息的文件。</param>
         <param name="creationTimeUtc">一个 <see cref="T:System.DateTime" />，它包含要为 <c>path</c> 的创建日期和时间设置的值。 该值用 UTC 时间表示。</param>
-        <summary>设置文件创建的日期和时间，其格式为协调通用时 (UTC)。</summary>
+        <summary>设置文件创建的日期和时间，其格式为协调通用时间 (UTC)。</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -3557,15 +4023,15 @@
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.IO.FileNotFoundException">未找到指定路径。</exception>
+        <exception cref="T:System.IO.FileNotFoundException">未找到指定的路径。</exception>
         <exception cref="T:System.ArgumentException">
-          <paramref name="path" /> 是一个长度为零的字符串，仅包含空格，或包含一个或多个由 <see cref="F:System.IO.Path.InvalidPathChars" /> 定义的无效字符。</exception>
+          <paramref name="path" /> 是一个零长度字符串，仅包含空白或者包含一个或多个由 <see cref="F:System.IO.Path.InvalidPathChars" /> 定义的无效字符。</exception>
         <exception cref="T:System.ArgumentNullException">
           <paramref name="path" /> 为 <see langword="null" />。</exception>
-        <exception cref="T:System.IO.PathTooLongException">指定的路径和/或文件名超过了系统定义的最大长度。</exception>
+        <exception cref="T:System.IO.PathTooLongException">指定的路径、文件名或者两者都超出了系统定义的最大长度。</exception>
         <exception cref="T:System.IO.IOException">执行操作时发生 I/O 错误。</exception>
         <exception cref="T:System.ArgumentOutOfRangeException">
-          <paramref name="creationTime" /> 指定一个超出该操作所允许的日期范围和/或时间范围的值。</exception>
+          <paramref name="creationTime" /> 指定的值超出了该操作所允许的日期范围或时间范围，或同时超出了日期范围和时间范围。</exception>
         <exception cref="T:System.UnauthorizedAccessException">调用方没有所要求的权限。</exception>
         <exception cref="T:System.NotSupportedException">
           <paramref name="path" /> 的格式无效。</exception>
@@ -3629,16 +4095,16 @@
  ]]></format>
         </remarks>
         <exception cref="T:System.ArgumentException">
-          <paramref name="path" /> 是一个长度为零的字符串，仅包含空格，或包含一个或多个由 <see cref="F:System.IO.Path.InvalidPathChars" /> 定义的无效字符。</exception>
+          <paramref name="path" /> 是一个零长度字符串，仅包含空白或者包含一个或多个由 <see cref="F:System.IO.Path.InvalidPathChars" /> 定义的无效字符。</exception>
         <exception cref="T:System.ArgumentNullException">
           <paramref name="path" /> 为 <see langword="null" />。</exception>
-        <exception cref="T:System.IO.PathTooLongException">指定的路径和/或文件名超过了系统定义的最大长度。</exception>
-        <exception cref="T:System.IO.FileNotFoundException">未找到指定路径。</exception>
+        <exception cref="T:System.IO.PathTooLongException">指定的路径、文件名或者两者都超出了系统定义的最大长度。</exception>
+        <exception cref="T:System.IO.FileNotFoundException">未找到指定的路径。</exception>
         <exception cref="T:System.UnauthorizedAccessException">调用方没有所要求的权限。</exception>
         <exception cref="T:System.NotSupportedException">
           <paramref name="path" /> 的格式无效。</exception>
         <exception cref="T:System.ArgumentOutOfRangeException">
-          <paramref name="lastAccessTime" /> 指定一个超出该操作允许的日期或时间范围的值。</exception>
+          <paramref name="lastAccessTime" /> 指定超出该操作允许的日期或时间范围的值。</exception>
         <permission cref="T:System.Security.Permissions.FileIOPermission">用于写入到指定的文件。 关联的枚举： <see cref="F:System.Security.Permissions.FileIOPermissionAccess.Write" /></permission>
         <altmember cref="T:System.IO.FileSystemWatcher" />
       </Docs>
@@ -3668,6 +4134,11 @@
         <AssemblyName>netstandard</AssemblyName>
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2">
+          <AttributeName>System.Security.SecuritySafeCritical</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.Void</ReturnType>
       </ReturnValue>
@@ -3678,7 +4149,7 @@
       <Docs>
         <param name="path">要设置其访问日期和时间信息的文件。</param>
         <param name="lastAccessTimeUtc">一个 <see cref="T:System.DateTime" />，它包含要为 <c>path</c> 的上次访问日期和时间设置的值。 该值用 UTC 时间表示。</param>
-        <summary>设置上次访问指定的文件的日期和时间，其格式为协调通用时 (UTC)。</summary>
+        <summary>设置上次访问指定的文件的日期和时间，其格式为协调通用时间 (UTC)。</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -3690,16 +4161,16 @@
  ]]></format>
         </remarks>
         <exception cref="T:System.ArgumentException">
-          <paramref name="path" /> 是一个长度为零的字符串，仅包含空格，或包含一个或多个由 <see cref="F:System.IO.Path.InvalidPathChars" /> 定义的无效字符。</exception>
+          <paramref name="path" /> 是一个零长度字符串，仅包含空白或者包含一个或多个由 <see cref="F:System.IO.Path.InvalidPathChars" /> 定义的无效字符。</exception>
         <exception cref="T:System.ArgumentNullException">
           <paramref name="path" /> 为 <see langword="null" />。</exception>
-        <exception cref="T:System.IO.PathTooLongException">指定的路径和/或文件名超过了系统定义的最大长度。</exception>
-        <exception cref="T:System.IO.FileNotFoundException">未找到指定路径。</exception>
+        <exception cref="T:System.IO.PathTooLongException">指定的路径、文件名或者两者都超出了系统定义的最大长度。</exception>
+        <exception cref="T:System.IO.FileNotFoundException">未找到指定的路径。</exception>
         <exception cref="T:System.UnauthorizedAccessException">调用方没有所要求的权限。</exception>
         <exception cref="T:System.NotSupportedException">
           <paramref name="path" /> 的格式无效。</exception>
         <exception cref="T:System.ArgumentOutOfRangeException">
-          <paramref name="lastAccessTimeUtc" /> 指定一个超出该操作允许的日期或时间范围的值。</exception>
+          <paramref name="lastAccessTimeUtc" /> 指定超出该操作允许的日期或时间范围的值。</exception>
         <permission cref="T:System.Security.Permissions.FileIOPermission">用于写入到指定的文件。 关联的枚举： <see cref="F:System.Security.Permissions.FileIOPermissionAccess.Write" /></permission>
         <altmember cref="T:System.IO.FileSystemWatcher" />
       </Docs>
@@ -3760,16 +4231,16 @@
  ]]></format>
         </remarks>
         <exception cref="T:System.ArgumentException">
-          <paramref name="path" /> 是一个长度为零的字符串，仅包含空格，或包含一个或多个由 <see cref="F:System.IO.Path.InvalidPathChars" /> 定义的无效字符。</exception>
+          <paramref name="path" /> 是一个零长度字符串，仅包含空白或者包含一个或多个由 <see cref="F:System.IO.Path.InvalidPathChars" /> 定义的无效字符。</exception>
         <exception cref="T:System.ArgumentNullException">
           <paramref name="path" /> 为 <see langword="null" />。</exception>
-        <exception cref="T:System.IO.PathTooLongException">指定的路径和/或文件名超过了系统定义的最大长度。</exception>
-        <exception cref="T:System.IO.FileNotFoundException">未找到指定路径。</exception>
+        <exception cref="T:System.IO.PathTooLongException">指定的路径、文件名或者两者都超出了系统定义的最大长度。</exception>
+        <exception cref="T:System.IO.FileNotFoundException">未找到指定的路径。</exception>
         <exception cref="T:System.UnauthorizedAccessException">调用方没有所要求的权限。</exception>
         <exception cref="T:System.NotSupportedException">
           <paramref name="path" /> 的格式无效。</exception>
         <exception cref="T:System.ArgumentOutOfRangeException">
-          <paramref name="lastWriteTime" /> 指定一个超出该操作允许的日期或时间范围的值。</exception>
+          <paramref name="lastWriteTime" /> 指定超出该操作允许的日期或时间范围的值。</exception>
         <permission cref="T:System.Security.Permissions.FileIOPermission">用于写入到指定的文件。 关联的枚举： <see cref="F:System.Security.Permissions.FileIOPermissionAccess.Write" /></permission>
         <altmember cref="T:System.IO.FileSystemWatcher" />
       </Docs>
@@ -3799,6 +4270,11 @@
         <AssemblyName>netstandard</AssemblyName>
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2">
+          <AttributeName>System.Security.SecuritySafeCritical</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.Void</ReturnType>
       </ReturnValue>
@@ -3809,7 +4285,7 @@
       <Docs>
         <param name="path">要设置其日期和时间信息的文件。</param>
         <param name="lastWriteTimeUtc">一个 <see cref="T:System.DateTime" />，它包含要为 <c>path</c> 的上次写入日期和时间设置的值。 该值用 UTC 时间表示。</param>
-        <summary>设置上次写入指定的文件的日期和时间，其格式为协调通用时 (UTC)。</summary>
+        <summary>设置上次写入指定的文件的日期和时间，其格式为协调通用时间 (UTC)。</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -3821,16 +4297,16 @@
  ]]></format>
         </remarks>
         <exception cref="T:System.ArgumentException">
-          <paramref name="path" /> 是一个长度为零的字符串，仅包含空格，或包含一个或多个由 <see cref="F:System.IO.Path.InvalidPathChars" /> 定义的无效字符。</exception>
+          <paramref name="path" /> 是一个零长度字符串，仅包含空白或者包含一个或多个由 <see cref="F:System.IO.Path.InvalidPathChars" /> 定义的无效字符。</exception>
         <exception cref="T:System.ArgumentNullException">
           <paramref name="path" /> 为 <see langword="null" />。</exception>
-        <exception cref="T:System.IO.PathTooLongException">指定的路径和/或文件名超过了系统定义的最大长度。</exception>
-        <exception cref="T:System.IO.FileNotFoundException">未找到指定路径。</exception>
+        <exception cref="T:System.IO.PathTooLongException">指定的路径、文件名或者两者都超出了系统定义的最大长度。</exception>
+        <exception cref="T:System.IO.FileNotFoundException">未找到指定的路径。</exception>
         <exception cref="T:System.UnauthorizedAccessException">调用方没有所要求的权限。</exception>
         <exception cref="T:System.NotSupportedException">
           <paramref name="path" /> 的格式无效。</exception>
         <exception cref="T:System.ArgumentOutOfRangeException">
-          <paramref name="lastWriteTimeUtc" /> 指定一个超出该操作允许的日期或时间范围的值。</exception>
+          <paramref name="lastWriteTimeUtc" /> 指定超出该操作允许的日期或时间范围的值。</exception>
         <permission cref="T:System.Security.Permissions.FileIOPermission">用于写入到指定的文件。 关联的枚举： <see cref="F:System.Security.Permissions.FileIOPermissionAccess.Write" /></permission>
         <altmember cref="T:System.IO.FileSystemWatcher" />
       </Docs>
@@ -3859,6 +4335,11 @@
         <AssemblyName>netstandard</AssemblyName>
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2">
+          <AttributeName>System.Security.SecuritySafeCritical</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.Void</ReturnType>
       </ReturnValue>
@@ -3879,14 +4360,23 @@
  ]]></format>
         </remarks>
         <exception cref="T:System.ArgumentException">
-          <paramref name="path" /> 是一个长度为零的字符串，仅包含空格，或包含一个或多个由 <see cref="F:System.IO.Path.InvalidPathChars" /> 定义的无效字符。</exception>
+          <paramref name="path" /> 是一个零长度字符串，仅包含空白或者包含一个或多个由 <see cref="F:System.IO.Path.InvalidPathChars" /> 定义的无效字符。</exception>
         <exception cref="T:System.ArgumentNullException">
           <paramref name="path" /> 为 <see langword="null" /> 或字节数组为空。</exception>
-        <exception cref="T:System.IO.PathTooLongException">指定的路径和/或文件名超过了系统定义的最大长度。</exception>
+        <exception cref="T:System.IO.PathTooLongException">指定的路径、文件名或者两者都超出了系统定义的最大长度。</exception>
         <exception cref="T:System.IO.DirectoryNotFoundException">指定的路径无效（例如，它位于未映射的驱动器上）。</exception>
         <exception cref="T:System.IO.IOException">打开文件时发生 I/O 错误。</exception>
         <exception cref="T:System.UnauthorizedAccessException">
-          <paramref name="path" /> 指定了一个只读文件。  - 或 -  当前平台不支持此操作。  - 或 -  <paramref name="path" /> 指定了一个目录。  - 或 -  调用方没有所需权限。</exception>
+          <paramref name="path" /> 指定了一个只读文件。  
+  
+- 或 - 
+当前平台不支持此操作。  
+  
+- 或 - 
+ <paramref name="path" /> 指定了一个目录。  
+  
+- 或 - 
+调用方没有所要求的权限。</exception>
         <exception cref="T:System.NotSupportedException">
           <paramref name="path" /> 的格式无效。</exception>
         <exception cref="T:System.Security.SecurityException">调用方没有所要求的权限。</exception>
@@ -3954,6 +4444,11 @@
         <AssemblyName>netstandard</AssemblyName>
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0">
+          <AttributeName>System.Security.SecuritySafeCritical</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.Void</ReturnType>
       </ReturnValue>
@@ -3963,8 +4458,8 @@
       </Parameters>
       <Docs>
         <param name="path">要写入的文件。</param>
-        <param name="contents">要写入到文件中的行。</param>
-        <summary>创建一个新文件，向其中写入一个字符串集合，然后关闭该文件。</summary>
+        <param name="contents">要写入到文件中的文本行。</param>
+        <summary>创建一个新文件，在其中写入一组字符串，然后关闭该文件。</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -3990,15 +4485,24 @@
         <exception cref="T:System.ArgumentNullException">
           <paramref name="path" /> 或 <paramref name="contents" /> 为 <see langword="null" />。</exception>
         <exception cref="T:System.IO.DirectoryNotFoundException">
-          <paramref name="path" /> 无效（例如，它位于未映射的驱动器上）。</exception>
+          <paramref name="path" /> 无效（例如，在未映射的驱动器上）。</exception>
         <exception cref="T:System.IO.IOException">打开文件时发生 I/O 错误。</exception>
         <exception cref="T:System.IO.PathTooLongException">
-          <paramref name="path" /> 超出系统定义的最大长度。</exception>
+          <paramref name="path" /> 超过了系统定义的最大长度。</exception>
         <exception cref="T:System.NotSupportedException">
           <paramref name="path" /> 的格式无效。</exception>
         <exception cref="T:System.Security.SecurityException">调用方没有所要求的权限。</exception>
         <exception cref="T:System.UnauthorizedAccessException">
-          <paramref name="path" /> 指定只读文件。  - 或 -  当前平台不支持此操作。  - 或 -  <paramref name="path" /> 是一个目录。  - 或 -  调用方没有所需权限。</exception>
+          <paramref name="path" /> 指定只读文件。  
+  
+- 或 - 
+当前平台不支持此操作。  
+  
+- 或 - 
+ <paramref name="path" /> 是一个目录。  
+  
+- 或 - 
+调用方没有所要求的权限。</exception>
       </Docs>
     </Member>
     <Member MemberName="WriteAllLines">
@@ -4024,6 +4528,11 @@
         <AssemblyVersion>4.1.0.0</AssemblyVersion>
         <AssemblyVersion>4.1.1.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0">
+          <AttributeName>System.Security.SecuritySafeCritical</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.Void</ReturnType>
       </ReturnValue>
@@ -4034,7 +4543,7 @@
       <Docs>
         <param name="path">要写入的文件。</param>
         <param name="contents">要写入文件的字符串数组。</param>
-        <summary>创建一个新文件，在其中写入指定的字节数组，然后关闭该文件。</summary>
+        <summary>创建一个新文件，在其中写入指定的字符串数组，然后关闭该文件。</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -4056,14 +4565,23 @@
  ]]></format>
         </remarks>
         <exception cref="T:System.ArgumentException">
-          <paramref name="path" /> 是一个长度为零的字符串，仅包含空格，或包含一个或多个由 <see cref="F:System.IO.Path.InvalidPathChars" /> 定义的无效字符。</exception>
+          <paramref name="path" /> 是一个零长度字符串，仅包含空白或者包含一个或多个由 <see cref="F:System.IO.Path.InvalidPathChars" /> 定义的无效字符。</exception>
         <exception cref="T:System.ArgumentNullException">
           <paramref name="path" /> 或 <paramref name="contents" /> 为 <see langword="null" />。</exception>
-        <exception cref="T:System.IO.PathTooLongException">指定的路径和/或文件名超过了系统定义的最大长度。</exception>
+        <exception cref="T:System.IO.PathTooLongException">指定的路径、文件名或者两者都超出了系统定义的最大长度。</exception>
         <exception cref="T:System.IO.DirectoryNotFoundException">指定的路径无效（例如，它位于未映射的驱动器上）。</exception>
         <exception cref="T:System.IO.IOException">打开文件时发生 I/O 错误。</exception>
         <exception cref="T:System.UnauthorizedAccessException">
-          <paramref name="path" /> 指定了一个只读文件。  - 或 -  当前平台不支持此操作。  - 或 -  <paramref name="path" /> 指定了一个目录。  - 或 -  调用方没有所需权限。</exception>
+          <paramref name="path" /> 指定了一个只读文件。  
+  
+- 或 - 
+当前平台不支持此操作。  
+  
+- 或 - 
+ <paramref name="path" /> 指定了一个目录。  
+  
+- 或 - 
+调用方没有所要求的权限。</exception>
         <exception cref="T:System.NotSupportedException">
           <paramref name="path" /> 的格式无效。</exception>
         <exception cref="T:System.Security.SecurityException">调用方没有所要求的权限。</exception>
@@ -4092,6 +4610,11 @@
         <AssemblyName>netstandard</AssemblyName>
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0">
+          <AttributeName>System.Security.SecuritySafeCritical</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.Void</ReturnType>
       </ReturnValue>
@@ -4102,9 +4625,9 @@
       </Parameters>
       <Docs>
         <param name="path">要写入的文件。</param>
-        <param name="contents">要写入到文件中的行。</param>
+        <param name="contents">要写入到文件中的文本行。</param>
         <param name="encoding">要使用的字符编码。</param>
-        <summary>使用指定的编码创建一个新文件，向其中写入一个字符串集合，然后关闭该文件。</summary>
+        <summary>使用指定的编码创建一个新文件，在其中写入一组字符串，然后关闭该文件。</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -4124,15 +4647,24 @@
         <exception cref="T:System.ArgumentNullException">
           <paramref name="path" />、<paramref name="contents" /> 或 <paramref name="encoding" /> 为 <see langword="null" />。</exception>
         <exception cref="T:System.IO.DirectoryNotFoundException">
-          <paramref name="path" /> 无效（例如，它位于未映射的驱动器上）。</exception>
+          <paramref name="path" /> 无效（例如，在未映射的驱动器上）。</exception>
         <exception cref="T:System.IO.IOException">打开文件时发生 I/O 错误。</exception>
         <exception cref="T:System.IO.PathTooLongException">
-          <paramref name="path" /> 超出系统定义的最大长度。</exception>
+          <paramref name="path" /> 超过了系统定义的最大长度。</exception>
         <exception cref="T:System.NotSupportedException">
           <paramref name="path" /> 的格式无效。</exception>
         <exception cref="T:System.Security.SecurityException">调用方没有所要求的权限。</exception>
         <exception cref="T:System.UnauthorizedAccessException">
-          <paramref name="path" /> 指定只读文件。  - 或 -  当前平台不支持此操作。  - 或 -  <paramref name="path" /> 是一个目录。  - 或 -  调用方没有所需权限。</exception>
+          <paramref name="path" /> 指定只读文件。  
+  
+- 或 - 
+当前平台不支持此操作。  
+  
+- 或 - 
+ <paramref name="path" /> 是一个目录。  
+  
+- 或 - 
+调用方没有所要求的权限。</exception>
       </Docs>
     </Member>
     <Member MemberName="WriteAllLines">
@@ -4157,6 +4689,11 @@
         <AssemblyVersion>4.1.0.0</AssemblyVersion>
         <AssemblyVersion>4.1.1.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0">
+          <AttributeName>System.Security.SecuritySafeCritical</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.Void</ReturnType>
       </ReturnValue>
@@ -4168,8 +4705,8 @@
       <Docs>
         <param name="path">要写入的文件。</param>
         <param name="contents">要写入文件的字符串数组。</param>
-        <param name="encoding">一个 <see cref="T:System.Text.Encoding" /> 对象，它表示应用于字符串数组的字符编码。</param>
-        <summary>创建一个新文件，使用指定编码在其中写入指定的字符串数组，然后关闭该文件。</summary>
+        <param name="encoding">一个 <see cref="T:System.Text.Encoding" /> 对象，表示应用于字符串数组的字符编码。</param>
+        <summary>创建一个新文件，使用指定的编码在其中写入指定的字符串数组，然后关闭该文件。</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -4189,14 +4726,23 @@
  ]]></format>
         </remarks>
         <exception cref="T:System.ArgumentException">
-          <paramref name="path" /> 是一个长度为零的字符串，仅包含空格，或包含一个或多个由 <see cref="F:System.IO.Path.InvalidPathChars" /> 定义的无效字符。</exception>
+          <paramref name="path" /> 是一个零长度字符串，仅包含空白或者包含一个或多个由 <see cref="F:System.IO.Path.InvalidPathChars" /> 定义的无效字符。</exception>
         <exception cref="T:System.ArgumentNullException">
           <paramref name="path" /> 或 <paramref name="contents" /> 为 <see langword="null" />。</exception>
-        <exception cref="T:System.IO.PathTooLongException">指定的路径和/或文件名超过了系统定义的最大长度。</exception>
+        <exception cref="T:System.IO.PathTooLongException">指定的路径、文件名或者两者都超出了系统定义的最大长度。</exception>
         <exception cref="T:System.IO.DirectoryNotFoundException">指定的路径无效（例如，它位于未映射的驱动器上）。</exception>
         <exception cref="T:System.IO.IOException">打开文件时发生 I/O 错误。</exception>
         <exception cref="T:System.UnauthorizedAccessException">
-          <paramref name="path" /> 指定了一个只读文件。  - 或 -  当前平台不支持此操作。  - 或 -  <paramref name="path" /> 指定了一个目录。  - 或 -  调用方没有所需权限。</exception>
+          <paramref name="path" /> 指定了一个只读文件。  
+  
+- 或 - 
+当前平台不支持此操作。  
+  
+- 或 - 
+ <paramref name="path" /> 指定了一个目录。  
+  
+- 或 - 
+调用方没有所要求的权限。</exception>
         <exception cref="T:System.NotSupportedException">
           <paramref name="path" /> 的格式无效。</exception>
         <exception cref="T:System.Security.SecurityException">调用方没有所要求的权限。</exception>
@@ -4268,7 +4814,7 @@
         <AssemblyVersion>4.1.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Docs>
-        <summary>创建一个新文件，向其中写入内容，然后关闭文件。 如果目标文件已存在，则覆盖该文件。</summary>
+        <summary>创建一个新文件，在文件中写入内容，然后关闭文件。 如果目标文件已存在，则覆盖该文件。</summary>
       </Docs>
     </MemberGroup>
     <Member MemberName="WriteAllText">
@@ -4295,6 +4841,11 @@
         <AssemblyName>netstandard</AssemblyName>
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2">
+          <AttributeName>System.Security.SecuritySafeCritical</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.Void</ReturnType>
       </ReturnValue>
@@ -4305,7 +4856,7 @@
       <Docs>
         <param name="path">要写入的文件。</param>
         <param name="contents">要写入文件的字符串。</param>
-        <summary>创建一个新文件，向其中写入指定的字符串，然后关闭文件。 如果目标文件已存在，则覆盖该文件。</summary>
+        <summary>创建一个新文件，在其中写入指定的字符串，然后关闭文件。 如果目标文件已存在，则覆盖该文件。</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -4325,14 +4876,23 @@
  ]]></format>
         </remarks>
         <exception cref="T:System.ArgumentException">
-          <paramref name="path" /> 是一个长度为零的字符串，仅包含空格，或包含一个或多个由 <see cref="F:System.IO.Path.InvalidPathChars" /> 定义的无效字符。</exception>
+          <paramref name="path" /> 是一个零长度字符串，仅包含空白或者包含一个或多个由 <see cref="F:System.IO.Path.InvalidPathChars" /> 定义的无效字符。</exception>
         <exception cref="T:System.ArgumentNullException">
           <paramref name="path" /> 为 <see langword="null" /> 或 <paramref name="contents" /> 为空。</exception>
-        <exception cref="T:System.IO.PathTooLongException">指定的路径和/或文件名超过了系统定义的最大长度。</exception>
+        <exception cref="T:System.IO.PathTooLongException">指定的路径、文件名或者两者都超出了系统定义的最大长度。</exception>
         <exception cref="T:System.IO.DirectoryNotFoundException">指定的路径无效（例如，它位于未映射的驱动器上）。</exception>
         <exception cref="T:System.IO.IOException">打开文件时发生 I/O 错误。</exception>
         <exception cref="T:System.UnauthorizedAccessException">
-          <paramref name="path" /> 指定了一个只读文件。  - 或 -  当前平台不支持此操作。  - 或 -  <paramref name="path" /> 指定了一个目录。  - 或 -  调用方没有所需权限。</exception>
+          <paramref name="path" /> 指定了一个只读文件。  
+  
+- 或 - 
+当前平台不支持此操作。  
+  
+- 或 - 
+ <paramref name="path" /> 指定了一个目录。  
+  
+- 或 - 
+调用方没有所要求的权限。</exception>
         <exception cref="T:System.NotSupportedException">
           <paramref name="path" /> 的格式无效。</exception>
         <exception cref="T:System.Security.SecurityException">调用方没有所要求的权限。</exception>
@@ -4362,6 +4922,11 @@
         <AssemblyName>netstandard</AssemblyName>
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2">
+          <AttributeName>System.Security.SecuritySafeCritical</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.Void</ReturnType>
       </ReturnValue>
@@ -4374,7 +4939,7 @@
         <param name="path">要写入的文件。</param>
         <param name="contents">要写入文件的字符串。</param>
         <param name="encoding">应用于字符串的编码。</param>
-        <summary>创建一个新文件，使用指定编码向其中写入指定的字符串，然后关闭文件。 如果目标文件已存在，则覆盖该文件。</summary>
+        <summary>创建一个新文件，在其中写入指定的字符串，然后关闭文件。 如果目标文件已存在，则覆盖该文件。</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -4392,14 +4957,23 @@
  ]]></format>
         </remarks>
         <exception cref="T:System.ArgumentException">
-          <paramref name="path" /> 是一个长度为零的字符串，仅包含空格，或包含一个或多个由 <see cref="F:System.IO.Path.InvalidPathChars" /> 定义的无效字符。</exception>
+          <paramref name="path" /> 是一个零长度字符串，仅包含空白或者包含一个或多个由 <see cref="F:System.IO.Path.InvalidPathChars" /> 定义的无效字符。</exception>
         <exception cref="T:System.ArgumentNullException">
           <paramref name="path" /> 为 <see langword="null" /> 或 <paramref name="contents" /> 为空。</exception>
-        <exception cref="T:System.IO.PathTooLongException">指定的路径和/或文件名超过了系统定义的最大长度。</exception>
+        <exception cref="T:System.IO.PathTooLongException">指定的路径、文件名或者两者都超出了系统定义的最大长度。</exception>
         <exception cref="T:System.IO.DirectoryNotFoundException">指定的路径无效（例如，它位于未映射的驱动器上）。</exception>
         <exception cref="T:System.IO.IOException">打开文件时发生 I/O 错误。</exception>
         <exception cref="T:System.UnauthorizedAccessException">
-          <paramref name="path" /> 指定了一个只读文件。  - 或 -  当前平台不支持此操作。  - 或 -  <paramref name="path" /> 指定了一个目录。  - 或 -  调用方没有所需权限。</exception>
+          <paramref name="path" /> 指定了一个只读文件。  
+  
+- 或 - 
+当前平台不支持此操作。  
+  
+- 或 - 
+ <paramref name="path" /> 指定了一个目录。  
+  
+- 或 - 
+调用方没有所要求的权限。</exception>
         <exception cref="T:System.NotSupportedException">
           <paramref name="path" /> 的格式无效。</exception>
         <exception cref="T:System.Security.SecurityException">调用方没有所要求的权限。</exception>

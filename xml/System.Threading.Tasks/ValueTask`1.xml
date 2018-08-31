@@ -1,11 +1,11 @@
 <Type Name="ValueTask&lt;TResult&gt;" FullName="System.Threading.Tasks.ValueTask&lt;TResult&gt;">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="a87a03e250539c4f13f9c7f115f45efb6c3db9bf" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="c8672fa3529ccb52aa4fac0237bffff6dbd35876" />
+    <Meta Name="ms.sourcegitcommit" Value="434f60616a9793fa8436744549fc856e94f7a648" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="zh-CN" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36406929" />
+    <Meta Name="ms.lasthandoff" Value="08/25/2018" />
+    <Meta Name="ms.locfileid" Value="39961498" />
   </Metadata>
   <TypeSignature Language="C#" Value="public struct ValueTask&lt;TResult&gt; : IEquatable&lt;System.Threading.Tasks.ValueTask&lt;TResult&gt;&gt;" />
   <TypeSignature Language="ILAsm" Value=".class public sequential ansi sealed beforefieldinit ValueTask`1&lt;TResult&gt; extends System.ValueType implements class System.IEquatable`1&lt;valuetype System.Threading.Tasks.ValueTask`1&lt;!TResult&gt;&gt;" />
@@ -35,10 +35,10 @@
     </Interface>
   </Interfaces>
   <Attributes>
-    <Attribute>
+    <Attribute FrameworkAlternate="netcore-1.1;netcore-2.0;netcore-2.1">
       <AttributeName>System.Runtime.CompilerServices.AsyncMethodBuilder(typeof(System.Runtime.CompilerServices.AsyncValueTaskMethodBuilder`1))</AttributeName>
     </Attribute>
-    <Attribute>
+    <Attribute FrameworkAlternate="netcore-2.1">
       <AttributeName>System.Runtime.CompilerServices.IsReadOnly</AttributeName>
     </Attribute>
   </Attributes>
@@ -49,16 +49,16 @@
       <format type="text/markdown"><![CDATA[ 
 
 ## Remarks  
-一种方法可能会返回调用的实例时很可能其操作的结果将可同步，并且当它应该为此值类型相当频繁，因此，分配一个新的成本<xref:System.Threading.Tasks.Task%601>每个调用将在很高。   
+一种方法可能会返回时很可能其操作的结果将是可用以同步方式，并且当它应该能够将此值类型的实例调用相当频繁，因此，分配一个新的成本<xref:System.Threading.Tasks.Task%601>每次调用都将很高的磁盘。   
 
-需要进行一些权衡到使用<xref:System.Threading.Tasks.ValueTask%601>而不是<xref:System.Threading.Tasks.Task%601>。 例如，虽然<xref:System.Threading.Tasks.ValueTask%601>可以帮助避免在成功结果所在同步的情况下分配，它还包含两个字段，而<xref:System.Threading.Tasks.Task%601>作为引用类型是单个字段。 这意味着方法调用返回值得的两个字段的数据而不是一个，这是要复制的详细数据。 它还意味着，如果返回的方法<xref:System.Threading.Tasks.ValueTask%601>该异步方法将在更大，因为它必须存储包含两个字段，而不是单个引用的结构，在异步方法中，在状态机等待。   
+有几个使用缺点<xref:System.Threading.Tasks.ValueTask%601>而不是<xref:System.Threading.Tasks.Task%601>。 例如，虽然<xref:System.Threading.Tasks.ValueTask%601>可帮助避免分配成功的结果，以同步方式是可用的情况下，它还包含两个字段，而<xref:System.Threading.Tasks.Task%601>作为引用类型是单个字段。 这意味着方法调用返回两个值得数据字段的而不是一个，这是要复制的详细数据。 这也意味着，如果返回的一个方法<xref:System.Threading.Tasks.ValueTask%601>等待 async 方法，状态机中的异步方法将为更大，因为它必须存储结构包含两个字段，而不是单个引用。   
 
-有关等待使用以外使用的异步操作使用的结果，<xref:System.Threading.Tasks.ValueTask%601>可能会导致较为繁复的编程模型要求多个分配。 例如，考虑方法无法返回<xref:System.Threading.Tasks.Task%601>与作为常见结果缓存任务或<xref:System.Threading.Tasks.ValueTask%601>。 如果结果的使用者想要将其用作<xref:System.Threading.Tasks.Task%601>类似的方法中<xref:System.Threading.Tasks.Task.WhenAll%2A>或<xref:System.Threading.Tasks.Task.WhenAny%2A>、<xref:System.Threading.Tasks.ValueTask%601>必须首先将转换为<xref:System.Threading.Tasks.Task%601>使用<xref:System.Threading.Tasks.ValueTask%601.AsTask%2A>，从而导致将如果已避免分配缓存<xref:System.Threading.Tasks.Task%601>已使用第一个位置。   
+对于不使用异步操作使用的结果使用 await，<xref:System.Threading.Tasks.ValueTask%601>可能会导致更复杂的编程模型，需要更多分配。 例如，考虑一种方法，可以返回<xref:System.Threading.Tasks.Task%601>与常见的结果作为缓存的任务或<xref:System.Threading.Tasks.ValueTask%601>。 如果结果的使用者想要将其用作<xref:System.Threading.Tasks.Task%601>类似的方法中<xref:System.Threading.Tasks.Task.WhenAll%2A>或<xref:System.Threading.Tasks.Task.WhenAny%2A>，则<xref:System.Threading.Tasks.ValueTask%601>必须先转换为<xref:System.Threading.Tasks.Task%601>使用<xref:System.Threading.Tasks.ValueTask%601.AsTask%2A>，从而导致会如果可以避免的分配缓存<xref:System.Threading.Tasks.Task%601>第一个位置中已使用。   
 
-在这种情况下，任何异步方法的默认选择应返回<xref:System.Threading.Tasks.Task>或<xref:System.Threading.Tasks.Task%601>。 仅当性能分析证明值得应<xref:System.Threading.Tasks.ValueTask%601>而不是使用<xref:System.Threading.Tasks.Task%601>。 没有任何非泛型版本的<xref:System.Threading.Tasks.ValueTask%601>，作为<xref:System.Threading.Tasks.Task.CompletedTask>属性可用于在方法返回退回用例中的是已成功完成的 singleton<xref:System.Threading.Tasks.Task>完成同步并且成功。   
+在这种情况下，应为任何异步方法的默认选择以返回<xref:System.Threading.Tasks.Task>或<xref:System.Threading.Tasks.Task%601>。 仅当性能分析证明物有所值应<xref:System.Threading.Tasks.ValueTask%601>而不是使用<xref:System.Threading.Tasks.Task%601>。 没有非泛型版本的<xref:System.Threading.Tasks.ValueTask%601>，作为<xref:System.Threading.Tasks.Task.CompletedTask>属性可用于在方法返回退回这种情况中的已成功完成单一实例<xref:System.Threading.Tasks.Task>以同步方式并成功完成。   
 
 > [!NOTE]
->  使用<xref:System.Threading.Tasks.ValueTask%601>类型的 C# 7，开始支持和不受任何版本的 Visual Basic。
+>  使用<xref:System.Threading.Tasks.ValueTask%601>类型 C# 7 开始支持和不受任何版本的 Visual Basic。
  ]]></format>
     </remarks>
   </Docs>
@@ -219,7 +219,7 @@
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute>
+        <Attribute FrameworkAlternate="netcore-1.1;netcore-2.0">
           <AttributeName>System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)</AttributeName>
         </Attribute>
       </Attributes>
@@ -260,7 +260,7 @@
       <Docs>
         <param name="obj">要与当前对象进行比较的对象。</param>
         <summary>确定指定的对象是否等于当前对象。</summary>
-        <returns>如果指定的对象是等于当前对象，则为 <see langword="true" />；否则为 <see langword="false" />。</returns>
+        <returns>如果指定的对象等于当前对象，则为 <see langword="true" />；否则为 <see langword="false" />。</returns>
         <remarks></remarks>
       </Docs>
     </Member>
@@ -294,7 +294,7 @@
       <Docs>
         <param name="other">要与当前对象进行比较的对象。</param>
         <summary>确定指定的 <see cref="T:System.Threading.Tasks.ValueTask`1" /> 对象是否等同于当前的 <see cref="T:System.Threading.Tasks.ValueTask`1" />。</summary>
-        <returns>如果指定的对象是等于当前对象，则为 <see langword="true" />；否则为 <see langword="false" />。</returns>
+        <returns>如果指定的对象等于当前对象，则为 <see langword="true" />；否则为 <see langword="false" />。</returns>
         <remarks></remarks>
       </Docs>
     </Member>
@@ -322,7 +322,7 @@
       <Parameters />
       <Docs>
         <summary>为此值创建一个 awaiter。</summary>
-        <returns>Awaiter。</returns>
+        <returns>awaiter。</returns>
         <remarks></remarks>
       </Docs>
     </Member>
@@ -581,9 +581,9 @@
         <remarks>
           <format type="text/markdown"><![CDATA[  
 ## Remarks  
- 如果此<xref:System.Threading.Tasks.ValueTask%601>成功结果，此属性直接返回的包装。
+ 如果此<xref:System.Threading.Tasks.ValueTask%601>包装一个成功的结果，此属性直接返回。
 
- 如果它包装<xref:System.Threading.Tasks.Task%601>的行为<xref:System.Threading.Tasks.ValueTask%601.Result%2A>访问的行为类似<xref:System.Threading.Tasks.Task%601.Result%2A>包装任务上： 如果任务未完成，访问属性阻止调用线程，直到完成; 如果任务已完成已成功，该属性返回的结果;如果任务已出错，或者已 cancellecd，访问属性引发异常。 引发的异常不包装在<xref:System.AggregateException>，这是不同的行为<xref:System.Threading.Tasks.Task%601.Result%2A>在相同情况下。
+ 换行时<xref:System.Threading.Tasks.Task%601>的行为<xref:System.Threading.Tasks.ValueTask%601.Result%2A>类似于访问的行为<xref:System.Threading.Tasks.Task%601.Result%2A>已包装的任务： 如果任务尚未完成，访问属性阻止调用线程，直到它完成; 如果任务已完成已成功，该属性返回结果;如果该任务出现故障或 cancellecd，访问属性引发异常。 引发的异常不包装在<xref:System.AggregateException>，这是不同的行为<xref:System.Threading.Tasks.Task%601.Result%2A>在相同情况。
   
  ]]></format>
         </remarks>

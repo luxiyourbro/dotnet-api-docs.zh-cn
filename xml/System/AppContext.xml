@@ -1,11 +1,11 @@
 <Type Name="AppContext" FullName="System.AppContext">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="482d52e5b69288b9a8240a5a41deef259168aace" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="22baeef40fafd807844df877ee179199629f82f1" />
+    <Meta Name="ms.sourcegitcommit" Value="434f60616a9793fa8436744549fc856e94f7a648" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="zh-CN" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36433570" />
+    <Meta Name="ms.lasthandoff" Value="08/25/2018" />
+    <Meta Name="ms.locfileid" Value="39909625" />
   </Metadata>
   <TypeSignature Language="C#" Value="public static class AppContext" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract sealed beforefieldinit AppContext extends System.Object" />
@@ -45,51 +45,51 @@
  <xref:System.AppContext>类使库编写器可为其用户提供统一的新功能选择退出机制。 它在组件之间建立松耦合的协定，以便与选择退出请求进行通信。 对现有功能进行更改时，此功能通常很重要。 相反，已有新功能隐式选择加入。  
   
 ## <a name="appcontext-for-library-developers"></a>库开发人员的 AppContext  
- 库使用<xref:System.AppContext>类定义并公开兼容性切换，而库用户可以设置这些开关以影响库行为。 默认情况下，库提供新功能；如果设置了开关，则只更改新功能（即，它们提供以前的功能）。  这允许现有 API 的同时继续支持依赖于以前的行为的调用方提供新行为的库。  
+ 库使用<xref:System.AppContext>类来定义和公开兼容性切换，而库用户可以设置这些开关以影响库行为。 默认情况下，库提供新功能；如果设置了开关，则只更改新功能（即，它们提供以前的功能）。  这使得库以同时继续支持依赖于以前的行为的调用方提供的现有 API 的新行为。  
   
-### <a name="defining-the-switch-name"></a>定义交换机名称  
- 允许你的库的使用者来选择退出的更改的最常见方法是行为的定义命名的开关。  其`value`元素是名称/值对组成的交换机的名称并将其<xref:System.Boolean>值。  默认情况下，该交换机是否始终隐式`false`，后者提供新行为 （和参加使新的行为，默认情况下）。 此开关设置为`true`启用它，它提供的旧行为。 此开关显式设置为`false`还提供了新的行为。  
+### <a name="defining-the-switch-name"></a>定义的开关名称  
+ 允许您的使用者可以选择不使用的更改的最常见方法是行为的库的定义命名的开关。  其`value`元素都是名称/值对组成开关的名称并将其<xref:System.Boolean>值。  默认情况下，此开关它始终隐式`false`，它提供了新的行为 （和参加使得新行为，默认情况下）。 此开关设置为`true`启用它，它提供的旧行为。 此开关显式设置为`false`还提供了新行为。  
   
- 它非常有益交换机名称，因为它们由库公开的正式协定中使用采用一致格式。 以下是两种明显的格式。  
+ 最好交换机名称，因为它们是由库公开的正式协定中使用一致的格式。 以下是两种明显的格式。  
   
 -   *Switch*.*namespace*.*switchname*  
   
 -   *Switch*.*library*.*switchname*  
   
- 一旦你定义，并记录交换机，调用方可以使用它通过使用注册表中，通过添加[ \<AppContextSwitchOverrides >](~/docs/framework/configure-apps/file-schema/runtime/appcontextswitchoverrides-element.md)元素到其应用程序配置文件，或通过调用<xref:System.AppContext.SetSwitch%28System.String%2CSystem.Boolean%29?displayProperty=nameWithType>方法以编程方式。 请参阅[库使用者的 AppContext](#ForConsumers)有关调用方如何使用和设置的值的详细信息的部分<xref:System.AppContext>配置交换机。  
+ 一旦定义并记录该交换机，调用方可以使用它通过使用注册表中，通过添加[ \<AppContextSwitchOverrides >](~/docs/framework/configure-apps/file-schema/runtime/appcontextswitchoverrides-element.md)元素到其应用程序配置文件，或通过调用<xref:System.AppContext.SetSwitch%28System.String%2CSystem.Boolean%29?displayProperty=nameWithType>方法以编程方式。 请参阅[库的使用者的 AppContext](#ForConsumers)详细了解如何调用方使用和设置的值部分<xref:System.AppContext>配置切换。  
   
- 公共语言运行时运行时应用程序，它自动读取注册表的兼容性设置并加载应用程序配置文件以便填充应用程序的<xref:System.AppContext>实例。 因为<xref:System.AppContext>实例填充由调用方以编程方式或由运行时，无需采取任何措施，例如，调用<xref:System.AppContext.SetSwitch%2A>方法，来配置<xref:System.AppContext>实例。  
+ 当公共语言运行时运行的应用程序时，它会自动读取注册表的兼容性设置并加载应用程序配置文件以填充应用程序的<xref:System.AppContext>实例。 因为<xref:System.AppContext>实例已填充以编程方式调用方或运行时，不需要采取任何操作，例如，调用<xref:System.AppContext.SetSwitch%2A>方法，以配置<xref:System.AppContext>实例。  
   
 ### <a name="checking-the-setting"></a>检查设置  
- 然后，可以选中使用者已声明的值的交换机和通过调用适当的 act<xref:System.AppContext.TryGetSwitch%2A?displayProperty=nameWithType>方法。 该方法返回`true`如果`switchName`找到自变量，并且该方法返回时，将其`isEnabled`参数指示开关的值。  否则，该方法将返回 `false`。  
+ 然后，可以选中使用者已声明的值的交换机和通过调用适当的 act<xref:System.AppContext.TryGetSwitch%2A?displayProperty=nameWithType>方法。 该方法返回`true`如果`switchName`找到参数，并且该方法返回时，将其`isEnabled`参数指示开关的值。  否则，该方法将返回 `false`。  
   
 ### <a name="an-example"></a>示例  
- 下面的示例演示如何使用<xref:System.AppContext>类以允许客户在选择库方法的原始行为。   下面是一个名为库的版本 1.0 `StringLibrary`。 它定义`SubstringStartsAt`方法执行序号比较以确定较大字符串内的子字符串的起始索引。  
+ 下面的示例演示如何使用<xref:System.AppContext>类，以允许客户选择的库方法的原始行为。   下面是一个名为库的 1.0 版`StringLibrary`。 它定义`SubstringStartsAt`方法执行序号比较来确定更大的字符串中的子字符串的起始索引。  
   
  [!code-csharp[System.AppContext.Class#4](~/samples/snippets/csharp/VS_Snippets_CLR_System/System.AppContext.Class/cs/Example4.cs#4)]
  [!code-vb[System.AppContext.Class#4](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/System.AppContext.Class/vb/Example4.vb#4)]  
   
- 下面的示例然后使用库中"archaeologist"查找"archæ"的子字符串的起始索引。 方法执行序号比较，因为无法找到子字符串。  
+ 下面的示例然后使用库中"archaeologist"查找"archæ"的子字符串的起始索引。 由于该方法执行序号比较，因此不能找到子字符串。  
   
  [!code-csharp[System.AppContext.Class#5](~/samples/snippets/csharp/VS_Snippets_CLR_System/System.AppContext.Class/cs/Example4.cs#5)]
  [!code-vb[System.AppContext.Class#5](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/System.AppContext.Class/vb/Example4.vb#5)]  
   
- 版本 2 的库，但是，更改`SubstringStartsAt`要使用区分区域性的比较方法。  
+ 版本 2 的库，但是，当更改`SubstringStartsAt`要使用区分区域性的比较方法。  
   
  [!code-csharp[System.AppContext.Class#6](~/samples/snippets/csharp/VS_Snippets_CLR_System/System.AppContext.Class/cs/Example6.cs#6)]
  [!code-vb[System.AppContext.Class#6](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/System.AppContext.Class/vb/Example6.vb#6)]  
   
- 当新版本的库对运行在重新编译应用程序时，它现在将报告的子字符串"archæ"位于"archaeologist"中的索引 4。  
+ 时重新编译应用程序以针对库的新版本上运行，它现在将报告的子字符串"archæ""archaeologist"中的索引 4 处找到。  
   
  [!code-csharp[System.AppContext.Class#7](~/samples/snippets/csharp/VS_Snippets_CLR_System/System.AppContext.Class/cs/Example6.cs#7)]
  [!code-vb[System.AppContext.Class#7](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/System.AppContext.Class/vb/Example6.vb#7)]  
   
- 此更改可以防止重大的应用程序依赖于原始行为，通过定义[ \<AppContextSwitchOverrides >](~/docs/framework/configure-apps/file-schema/runtime/appcontextswitchoverrides-element.md)切换。 在这种情况下，名为交换机`StringLibrary.DoNotUseCultureSensitiveComparison`。 其默认值， `false`，指示库应执行其版本 2.0 区分区域性的比较。 `true` 指示库应执行其版本 1.0 序号比较。  稍作修改，前面的代码中允许的库使用者设置开关来确定该方法执行的比较的类型。  
+ 此更改可以防止通过定义取决于原始行为的应用程序的重大[ \<AppContextSwitchOverrides >](~/docs/framework/configure-apps/file-schema/runtime/appcontextswitchoverrides-element.md)切换。 在这种情况下，名为开关`StringLibrary.DoNotUseCultureSensitiveComparison`。 其默认值， `false`，指示库应执行其 2.0 版区分区域性的比较。 `true` 指示库应执行其版本 1.0 序号比较。  稍作修改，前面的代码允许设置开关，用于确定的方法不会执行的比较类型的库使用方。  
   
  [!code-csharp[System.AppContext.Class#8](~/samples/snippets/csharp/VS_Snippets_CLR_System/System.AppContext.Class/cs/Example8.cs#8)]
  [!code-vb[System.AppContext.Class#8](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/System.AppContext.Class/vb/Example8.vb#8)]  
   
- 如果应用程序可以使用下面的配置文件以还原 1.0 版的行为。  
+ 如果应用程序然后可以使用下面的配置文件来还原版本 1.0 的行为。  
   
 ```xml  
   
@@ -108,46 +108,46 @@
 ```  
   
 <a name="ForConsumers"></a>   
-## <a name="appcontext-for-library-consumers"></a>库使用者的 AppContext  
- 如果你是库中的使用者<xref:System.AppContext>类使您可以利用的库或库方法的新功能选择退出机制。   正在调用的类库的单个方法定义特定的开关启用或禁用新的行为。 开关的值是一个布尔值。 如果它是`false`，这通常是默认值，则新的行为已启用; 如果它是`true`、 新行为处于禁用状态，和成员的行为就像以前一样。  
+## <a name="appcontext-for-library-consumers"></a>库的使用者的 AppContext  
+ 如果您是一个库，使用者<xref:System.AppContext>类使您可以利用的库或库方法的新功能的选择退出机制。   正在调用的类库的单个方法定义特定的开关启用或禁用新行为。 开关的值是一个布尔值。 如果它是`false`，这通常是默认值、 启用新行为; 如果它是`true`、 禁用新行为，并且该成员的行为就像以前一样。  
   
- 你可以在三种方式之一设置开关的值：  
+ 可以通过三种方式之一设置开关的值：  
   
--   通过调用<xref:System.AppContext.SetSwitch%28System.String%2CSystem.Boolean%29?displayProperty=nameWithType>在代码中的方法。  `switchName`参数定义的交换机名称，与`isEnabled`属性定义的开关的值。 因为<xref:System.AppContext>是一个静态类，适用于每个应用程序域为基础的。  
+-   通过调用<xref:System.AppContext.SetSwitch%28System.String%2CSystem.Boolean%29?displayProperty=nameWithType>在代码中的方法。  `switchName`参数定义交换机名称和`isEnabled`属性定义开关的值。 因为<xref:System.AppContext>是一个静态类，它是可在每个应用程序域基础上。  
   
-     调用<xref:System.AppContext.SetSwitch%28System.String%2CSystem.Boolean%29?displayProperty=nameWithType>具有应用程序作用域; 也就是说，它会影响只有应用程序。  
+     调用<xref:System.AppContext.SetSwitch%28System.String%2CSystem.Boolean%29?displayProperty=nameWithType>具有应用程序的作用域; 也就是说，它会影响只有应用程序。  
   
--   通过添加`<AppContextSwitchOverrides>`元素[\<运行时 >](~/docs/framework/configure-apps/file-schema/runtime/runtime-element.md) app.config 文件的部分。 交换机具有单个属性， `value`，其值是一个字符串，表示包含交换机名称和其值的键/值对。  
+-   通过添加`<AppContextSwitchOverrides>`元素[\<运行时 >](~/docs/framework/configure-apps/file-schema/runtime/runtime-element.md) app.config 文件的部分。 交换机具有单个属性`value`，其值是一个字符串，表示包含开关的名称和值的键/值对。  
   
-     若要定义多个开关，分隔中的每个开关的键/值对[ \<AppContextSwitchOverrides >](~/docs/framework/configure-apps/file-schema/runtime/appcontextswitchoverrides-element.md)元素的`value`包含分号属性。 在这种情况下，`<AppContextSwitchOverrides>`元素具有以下格式：  
+     若要定义多个开关，单独的每个开关中的键/值对[ \<AppContextSwitchOverrides >](~/docs/framework/configure-apps/file-schema/runtime/appcontextswitchoverrides-element.md)元素的`value`以分号结尾的属性。 在这种情况下，`<AppContextSwitchOverrides>`元素具有以下格式：  
   
     ```xml  
     <AppContextSwitchOverrides value="switchName1=value1;switchName2=value2" />  
     ```  
   
-     使用`<AppContextSwitchOverrides>`元素可定义一些配置设置已应用程序作用域; 也就是说，它会影响只有应用程序。  
+     使用`<AppContextSwitchOverrides>`元素来定义配置设置应用程序作用域; 也就是说，它会影响只有应用程序。  
 
     > [!NOTE]    
-    > 有关.NET Framework 定义的开关的信息，请参阅[ \<AppContextSwitchOverrides > 元素](~/docs/framework/configure-apps/file-schema/runtime/appcontextswitchoverrides-element.md)。
+    > .NET Framework 定义的开关的信息，请参阅[ \<AppContextSwitchOverrides > 元素](~/docs/framework/configure-apps/file-schema/runtime/appcontextswitchoverrides-element.md)。
 
--   通过将其名称的交换机的名称字符串值添加到`HKLM\SOFTWARE\Microsoft\.NETFramework\AppContext`注册表中的键。 其值必须为字符串表示形式<xref:System.Boolean>，可以通过分析<xref:System.Boolean.Parse%2A?displayProperty=nameWithType>方法; 即，它必须为"True"，"true"，"False"或"false"。 如果运行时遇到任何其他值，它将忽略该交换机。  
+-   通过将其名称是交换机的名称的字符串值添加到`HKLM\SOFTWARE\Microsoft\.NETFramework\AppContext`密钥在注册表中。 其值必须为字符串表示形式<xref:System.Boolean>，则可以通过分析<xref:System.Boolean.Parse%2A?displayProperty=nameWithType>方法; 即，它必须为"True"，"true"，"False"或"false"。 如果运行时遇到任何其他值，它将忽略此开关。  
   
-     使用注册表来定义<xref:System.AppContext>交换机具有计算机范围; 也就是说，它会影响的计算机上运行每个应用程序。  
+     使用注册表来定义<xref:System.AppContext>交换机具有计算机范围; 即，它会影响计算机上运行每个应用程序。  
   
- 如果多个方法中的设置相同的交换机，用于确定哪个设置会重写其他的优先顺序的顺序是：  
+ 如果在多个方面中设置相同的开关，用于确定哪些设置会重写其他顺序是优先的：  
   
 1.  以编程方式设置。  
   
 2.  应用程序配置文件中的设置。  
   
-3.  注册表设置中。  
+3.  注册表设置。  
   
- 下面是一个简单的应用程序，将文件 URI 传递到<xref:System.IO.Path.GetDirectoryName%2A?displayProperty=nameWithType>方法。  当在.NET Framework 4.6 下运行，则它引发<xref:System.ArgumentException>因为`file://`不再有效的文件路径的一部分。  
+ 下面是简单的应用程序将文件 URI 传递到<xref:System.IO.Path.GetDirectoryName%2A?displayProperty=nameWithType>方法。  当.NET Framework 4.6 下运行，它将引发<xref:System.ArgumentException>因为`file://`不再是有效的部件的文件路径。  
   
  [!code-csharp[System.AppContext.Class#10](~/samples/snippets/csharp/VS_Snippets_CLR_System/System.AppContext.Class/cs/ForConsumers1.cs#10)]
  [!code-vb[System.AppContext.Class#10](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/System.AppContext.Class/vb/ForConsumers1.vb#10)]  
   
- 若要还原方法的以前的行为，并避免此异常，你可以添加`Switch.System.IO.UseLegacyPathHandling`切换到示例应用程序配置文件：  
+ 若要还原的方法的以前的行为，并避免此异常，可以添加`Switch.System.IO.UseLegacyPathHandling`切换到应用程序配置文件。 例如：  
   
 ```xml  
 <configuration>  
@@ -156,8 +156,8 @@
     </runtime>  
 </configuration>  
 ```  
-## <a name="see-also"></a>请参阅
-[AppContext 交换机](~/docs/framework/configure-apps/file-schema/runtime/appcontextswitchoverrides-element.md)
+## <a name="see-also"></a>另请参见
+[AppContext 开关](~/docs/framework/configure-apps/file-schema/runtime/appcontextswitchoverrides-element.md)
 
  ]]></format>
     </remarks>
@@ -200,7 +200,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 这是每个应用程序域属性。 其值对应于<xref:System.AppDomain.BaseDirectory%2A?displayProperty=nameWithType>当前的应用程序域属性。  
+ 这是每个应用程序域属性。 其值对应于<xref:System.AppDomain.BaseDirectory%2A?displayProperty=nameWithType>当前应用程序域的属性。  
   
  ]]></format>
         </remarks>
@@ -232,6 +232,11 @@
         <AssemblyVersion>4.2.0.0</AssemblyVersion>
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netstandard-2.0">
+          <AttributeName>System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.Object</ReturnType>
       </ReturnValue>
@@ -289,17 +294,17 @@
 ## Remarks  
  <xref:System.AppContext>类使库编写器可为其用户提供统一的新功能选择退出机制。 它在组件之间建立松耦合的协定，以便与选择退出请求进行通信。 对现有功能进行更改时，此功能通常很重要。 相反，已有新功能隐式选择加入。  
   
- <xref:System.AppContext.SetSwitch%2A>由应用程序 （或库） 来声明开关的值调用方法 (即始终<xref:System.Boolean>值) 的相关库定义。 该开关始终是隐式`false`，该属性提供新行为。 此开关设置为`true`启用它，它提供的旧行为。 此开关显式设置为`false`还提供了新的行为。 相关库可以然后检查开关的值，通过调用<xref:System.AppContext.TryGetSwitch%2A>方法。  
+ <xref:System.AppContext.SetSwitch%2A>应用程序 （或库） 来声明的开关值调用方法 (它始终是<xref:System.Boolean>值) 的相关库定义。 切换它始终隐式`false`，它提供新行为。 此开关设置为`true`启用它，它提供的旧行为。 此开关显式设置为`false`还提供了新行为。 依赖库然后可以检查该开关的值通过调用<xref:System.AppContext.TryGetSwitch%2A>方法。  
   
 > [!NOTE]
->  它非常有益交换机名称，因为它们由库公开的正式协定中使用采用一致格式。 以下是两种明显的格式。  
+>  最好交换机名称，因为它们是由库公开的正式协定中使用一致的格式。 以下是两种明显的格式。  
 >   
 >  -   *Switch*.*namespace*.*switchname*  
 > -   *Switch*.*library*.*switchname*  
   
- 在.NET Framework，除了以编程方式，设置开关的值上运行的应用程序它也可以设置：  
+ 在.NET Framework，除了以编程方式设置开关的值上运行的应用程序它也可以设置：  
   
--   通过添加交换机名称和值的[ \<AppContextSwitchOverrides >](~/docs/framework/configure-apps/file-schema/runtime/appcontextswitchoverrides-element.md)中的元素[\<运行时 >](~/docs/framework/configure-apps/file-schema/runtime/runtime-element.md)的应用程序配置文件的部分。 例如，以下定义名为的交换机`Libraries.FPLibrary.UseExactFloatingPointComparison`其值是`False`。  
+-   通过添加开关名称和值[ \<AppContextSwitchOverrides >](~/docs/framework/configure-apps/file-schema/runtime/appcontextswitchoverrides-element.md)中的元素[\<运行时 >](~/docs/framework/configure-apps/file-schema/runtime/runtime-element.md)部分中的应用程序配置文件。 例如，以下示例定义名为的交换机`Libraries.FPLibrary.UseExactFloatingPointComparison`其值是`False`。  
   
     ```xml  
   
@@ -311,20 +316,20 @@
   
     ```  
   
--   通过将其名称的交换机的名称字符串值添加到`HKLM\SOFTWARE\Microsoft\.NETFramework\AppContext`注册表中的键。 其值必须为字符串表示形式<xref:System.Boolean>，可以通过分析<xref:System.Boolean.Parse%2A?displayProperty=nameWithType>方法; 即，它必须为"True"，"true"，"False"或"false"。  
+-   通过将其名称是交换机的名称的字符串值添加到`HKLM\SOFTWARE\Microsoft\.NETFramework\AppContext`密钥在注册表中。 其值必须为字符串表示形式<xref:System.Boolean>，则可以通过分析<xref:System.Boolean.Parse%2A?displayProperty=nameWithType>方法; 即，它必须为"True"，"true"，"False"或"false"。  
   
- 如果`switchName`已存在，其值将被覆盖`isEnabled`自变量。  最近调用，即<xref:System.AppContext.SetSwitch%2A>方法重写在注册表中，在应用配置文件，或到以前的调用定义的值<xref:System.AppContext.SetSwitch%2A>方法。  
+ 如果`switchName`已存在，其值将被覆盖`isEnabled`参数。  在最近调用，即<xref:System.AppContext.SetSwitch%2A>方法重写在注册表中，在应用配置文件，或通过以前调用定义的值<xref:System.AppContext.SetSwitch%2A>方法。  
  
- ### <a name="appcontextsetswitch-and-net-core"></a>AppContext.SetSwitch 和.NET 核心
+ ### <a name="appcontextsetswitch-and-net-core"></a>AppContext.SetSwitch 和.NET Core
 
-.NET 核心支持具有以编程方式调用<xref:System.AppContext.SetSwitch%2A>仅限方法。 支持下列开关：
+.NET core 支持以编程方式调用<xref:System.AppContext.SetSwitch%2A>仅限方法。 支持下列开关：
 
 |开关|值|描述|
 |--|--|--|
-|`System.Net.Http.useSocketsHttpHandler` |`true`|`false`|确定是否高级如网络 Api<xref:System.Net.Http.HttpClient>使用<xref:System.Net.Http.SocketsHttpHandler?displayProperty=nameWithType>(`true`) 或<xref:System.Net.Http.HttpClientHandler?displayProperty=nameWithType>(`false`)。|   
+|`System.Net.Http.useSocketsHttpHandler` |`true`|`false`|确定是否高级网络 Api，例如<xref:System.Net.Http.HttpClient>使用<xref:System.Net.Http.SocketsHttpHandler?displayProperty=nameWithType>(`true`) 或<xref:System.Net.Http.HttpClientHandler?displayProperty=nameWithType>(`false`)。|   
   
 ## Examples  
- 下面的代码行将设置名为的交换机`Switch.AmazingLib.ThrowOnException`到`true`，从而使旧行为。 库，可以选中库使用者是否已将开关的值设置通过调用<xref:System.AppContext.TryGetSwitch%2A>方法。  
+ 以下代码行设置名为的交换机`Switch.AmazingLib.ThrowOnException`到`true`，使旧行为。 然后，库可以检查库使用者是否已将开关的值设置通过调用<xref:System.AppContext.TryGetSwitch%2A>方法。  
   
  [!code-csharp[System.AppContext.Class#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/System.AppContext.Class/cs/TestValue1.cs#1)]
  [!code-vb[System.AppContext.Class#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/System.AppContext.Class/vb/TestValue1.vb#1)]  
@@ -364,6 +369,11 @@
         <AssemblyVersion>4.2.0.0</AssemblyVersion>
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netstandard-2.0">
+          <AttributeName>System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.String</ReturnType>
       </ReturnValue>
@@ -374,7 +384,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 名称的目标框架版本对应的值<xref:System.Runtime.Versioning.TargetFrameworkAttribute.FrameworkName%2A?displayProperty=nameWithType>属性。 .NET Framework 的目标框架名称的列表，请参阅[ &lt;supportedRuntime&gt;元素](~/docs/framework/configure-apps/file-schema/startup/supportedruntime-element.md)元素。  
+ 目标框架版本的名称对应的值<xref:System.Runtime.Versioning.TargetFrameworkAttribute.FrameworkName%2A?displayProperty=nameWithType>属性。 .NET framework 的目标框架名称的列表，请参阅[ &lt;supportedRuntime&gt;元素](~/docs/framework/configure-apps/file-schema/startup/supportedruntime-element.md)元素。  
   
  ]]></format>
         </remarks>
@@ -414,11 +424,11 @@
       </ReturnValue>
       <Parameters>
         <Parameter Name="switchName" Type="System.String" />
-        <Parameter Name="isEnabled" Type="System.Boolean&amp;" RefType="out" />
+        <Parameter Name="isEnabled" Type="System.Boolean" RefType="out" />
       </Parameters>
       <Docs>
         <param name="switchName">开关的名称。</param>
-        <param name="isEnabled">此方法返回时，如果找到 <c>switchName</c>，则结果包含 <c>switchName</c> 的值；如果未找到 <c>switchName</c>，则为 <see langword="false" />。 此参数未经初始化即被传递。</param>
+        <param name="isEnabled">此方法返回时，如果找到 <c>switchName</c>，则结果包含 <c>switchName</c> 的值；如果未找到 <c>switchName</c>，则为 <see langword="false" />。 该参数未经初始化即被传递。</param>
         <summary>尝试获取开关的值。</summary>
         <returns>如果设置了 <paramref name="switchName" /> 且 <paramref name="isEnabled" /> 参数包含开关的值，则为 <see langword="true" />；否则为 <see langword="false" />。</returns>
         <remarks>
@@ -427,9 +437,9 @@
 ## Remarks  
  <xref:System.AppContext>类使库编写器可为其用户提供统一的新功能选择退出机制。 它在组件之间建立松耦合的协定，以便与选择退出请求进行通信。 对现有功能进行更改时，此功能通常很重要。 相反，已有新功能隐式选择加入。  
   
- 公共语言运行时将自动填充分配到的交换机<xref:System.AppContext>通过阅读注册表和应用程序的配置文件的实例。 然后可以重写这些开关的值，并添加新的开关，通过调用<xref:System.AppContext.SetSwitch%2A>方法。  
+ 公共语言运行时自动填充分配给的开关<xref:System.AppContext>通过读取注册表和应用程序的配置文件的实例。 然后可以重写这些开关的值，并添加新的开关，通过调用<xref:System.AppContext.SetSwitch%2A>方法。  
   
- 调用库<xref:System.AppContext.TryGetSwitch%2A>方法来检查其使用者是否已声明开关的值，然后相应地作用于它。  默认情况下，如果未定义交换机，新的功能处于启用状态... 如果定义了开关，其值为`false`，也可以启用新功能。 如果其值为`true`，启用旧行为。  
+ 一个库调用<xref:System.AppContext.TryGetSwitch%2A>方法来检查其使用者是否已声明该开关的值，然后对其进行适当地处理。  默认情况下，如果未定义该交换机，新功能被启用... 如果定义了开关，其值为`false`，也可以启用新功能。 如果其值为`true`，启用旧行为。  
   
    
   

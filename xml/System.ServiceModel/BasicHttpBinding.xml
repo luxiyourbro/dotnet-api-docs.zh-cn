@@ -1,11 +1,11 @@
 <Type Name="BasicHttpBinding" FullName="System.ServiceModel.BasicHttpBinding">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="18c9561ee11745c3ccc7acac7eca10498a986d94" />
-    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
+    <Meta Name="ms.openlocfilehash" Value="dd6693ac2436407a3ff9b77832161e8be640747a" />
+    <Meta Name="ms.sourcegitcommit" Value="434f60616a9793fa8436744549fc856e94f7a648" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="zh-CN" />
-    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
-    <Meta Name="ms.locfileid" Value="37613643" />
+    <Meta Name="ms.lasthandoff" Value="08/25/2018" />
+    <Meta Name="ms.locfileid" Value="40212280" />
   </Metadata>
   <TypeSignature Language="C#" Value="public class BasicHttpBinding : System.ServiceModel.HttpBindingBase" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit BasicHttpBinding extends System.ServiceModel.HttpBindingBase implements class System.ServiceModel.Channels.IBindingRuntimePreferences" />
@@ -85,6 +85,11 @@
         <AssemblyVersion>4.1.1.0</AssemblyVersion>
         <AssemblyVersion>4.1.2.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0">
+          <AttributeName>System.Runtime.TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")</AttributeName>
+        </Attribute>
+      </Attributes>
       <Parameters />
       <Docs>
         <summary>初始化 <see cref="T:System.ServiceModel.BasicHttpBinding" /> 类的新实例。</summary>
@@ -200,7 +205,7 @@
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute>
+        <Attribute FrameworkAlternate="netframework-4.0">
           <AttributeName>System.ComponentModel.DefaultValue(false)</AttributeName>
         </Attribute>
       </Attributes>
@@ -208,9 +213,28 @@
         <ReturnType>System.Boolean</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>获取或设置一个值，该值指示客户端是否接受 Cookie 并根据今后的请求传播 Cookie。</summary>
+        <returns>如果接受 Cookie，则为 <see langword="true" />；否则为 <see langword="false" />。 默认值为 <see langword="false" />。</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+
+提供此属性是为了便于与使用 Cookie 的 ASMX Web 服务进行交互。 如果客户端通过将属性设置为 `true` 接受 Cookie，则从服务器返回的 Cookie 会复制到今后对该服务发出的所有客户端请求。
+
+## Examples
+
+以下示例设置此属性以指示应将服务器中的所有 cookie 都复制到今后的客户端请求：
+
+```csharp
+BasicHttpBinding binding = new BasicHttpBinding();
+binding.AllowCookies = true;
+```
+
+也可以在配置文件中设置此属性的值。
+
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="BuildChannelFactory&lt;TChannel&gt;">
@@ -262,7 +286,7 @@
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute>
+        <Attribute FrameworkAlternate="netframework-4.0">
           <AttributeName>System.ComponentModel.DefaultValue(false)</AttributeName>
         </Attribute>
       </Attributes>
@@ -270,9 +294,51 @@
         <ReturnType>System.Boolean</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>获取或设置一个值，该值指示是否对本地地址不使用代理服务器。</summary>
+        <value>如果对本地地址不使用代理服务器，则为 <see langword="true" />；否则为 <see langword="false" />。 默认值为 <see langword="false" />。</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+
+如果 Internet 资源具有本地地址，则该资源是本地资源。 本地地址是指位于同一台计算机、 本地 LAN 或 intranet 上，在语法上标识，通过省略句点 (\.) 如下所示 Uri`http://webserver/`和`http://localhost/`。
+
+设置 BypassProxyOnLocal 属性确定终结点是否配置了<xref:System.ServiceModel.BasicHttpBinding>访问本地资源时使用代理服务器。
+
+如果 BypassProxyOnLocal `true`，对本地 Internet 资源请求不使用代理服务器。 当此属性设置为 `localhost` 时，如果希望客户端在与同一台计算机上的服务通信时使用代理，请使用主机名（而非 `true`）。
+
+BypassProxyOnLocal 时`false`，所有 Internet 请求对非 localhost 的 Uri 都通过代理服务器。 对 Uri 使用 localhost 的请求将不使用代理服务器而不考虑 BypassProxyOnLocal 设置。
+  
+## Examples
+
+下面的示例设置此属性以指示应对本地资源不使用代理。
+
+```csharp
+BasicHttpBinding binding = new BasicHttpBinding();
+binding.BypassProxyOnLocal = true;
+```
+
+也可以在配置文件中设置此属性的值。
+
+```xml
+<configuration>
+  <system.serviceModel>
+
+    <bindings>
+      <basicHttpBinding>
+        <binding name="Binding1" 
+                 bypassProxyOnLocal="true">
+          <security mode="None" />
+        </binding>
+      </basicHttpBinding>
+    </bindings>
+  </system.serviceModel>
+
+</configuration>
+```
+
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="CreateBindingElements">
@@ -332,10 +398,10 @@
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute>
+        <Attribute FrameworkAlternate="netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2">
           <AttributeName>System.ComponentModel.EditorBrowsable</AttributeName>
         </Attribute>
-        <Attribute>
+        <Attribute FrameworkAlternate="netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2">
           <AttributeName>System.Obsolete("This property is obsolete. To enable Http CookieContainer, use the AllowCookies property instead.", false)</AttributeName>
         </Attribute>
       </Attributes>
@@ -365,9 +431,17 @@
         <ReturnType>System.ServiceModel.EnvelopeVersion</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>获取此绑定处理的消息将要使用的 SOAP 版本。</summary>
+        <value>与此绑定一起使用的 <see cref="T:System.ServiceModel.EnvelopeVersion" /> 的值。 该值始终为 SOAP 1.1。</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+
+## Remarks  
+
+SOAP 1.1 是唯一可与此绑定一起使用的值。
+
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="HostNameComparisonMode">
@@ -384,7 +458,7 @@
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute>
+        <Attribute FrameworkAlternate="netframework-4.0">
           <AttributeName>System.ComponentModel.DefaultValue(Mono.Cecil.CustomAttributeArgument)</AttributeName>
         </Attribute>
       </Attributes>
@@ -392,9 +466,42 @@
         <ReturnType>System.ServiceModel.HostNameComparisonMode</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>获取或设置一个值，该值指示在对 URI 进行匹配时，是否使用主机名来访问服务。</summary>
+        <value>一个 <see cref="T:System.ServiceModel.HostNameComparisonMode" /> 值，该值指示在对 URI 进行匹配时，是否使用主机名来访问服务。 默认值为 <see cref="F:System.ServiceModel.HostNameComparisonMode.StrongWildcard" />，表示忽略匹配项中的主机名。</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples
+
+下面的示例设置此属性，以便指示需要精确匹配。
+
+```csharp
+BasicHttpBinding binding = new BasicHttpBinding();
+binding.HostNameComparisonMode = HostNameComparisonMode.Exact;
+```
+
+也可以在配置文件中设置此属性的值。
+
+```xml
+<configuration>
+  <system.serviceModel>
+
+    <bindings>
+      <basicHttpBinding>
+        <binding name="Binding1"
+                 hostNameComparisonMode ="Exact">
+          <security mode="None" />
+        </binding>
+      </basicHttpBinding>
+    </bindings>
+
+  </system.serviceModel>
+
+</configuration>
+```
+
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="MaxBufferPoolSize">
@@ -411,7 +518,7 @@
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute>
+        <Attribute FrameworkAlternate="netframework-4.0">
           <AttributeName>System.ComponentModel.DefaultValue(524288)</AttributeName>
         </Attribute>
       </Attributes>
@@ -419,9 +526,50 @@
         <ReturnType>System.Int64</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>获取或设置为从通道接收消息的消息缓冲区管理器分配并供其使用的最大内存量（以字节为单位）。</summary>
+        <value>可供消息缓冲区管理器使用的最大内存量（以字节为单位）。 默认值为 524288 (0x80000) 字节。</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+
+通过使用缓冲池，<xref:System.ServiceModel.Channels.BufferManager> 将使用缓冲区的成本降至最低。 当消息离开通道时，服务需要使用缓冲区来处理这些消息。 如果缓冲池中的内存不足，无法处理消息负载，则 <xref:System.ServiceModel.Channels.BufferManager> 必须从 CLR 堆分配更多内存，而这会增加垃圾回收的系统开销。 从 CLR 垃圾回收堆的广泛分配是的指示缓冲池大小是太小，并且通过增加 MaxBufferPoolSize 限制可以使用更大的分配可提高性能。
+
+## Examples
+
+下面的示例将此属性设置为默认值的二倍。
+
+```csharp
+BasicHttpBinding binding = new BasicHttpBinding();
+// Use double the default value
+binding.MaxBufferPoolSize = 0x80000 * 2;
+```
+
+也可以在配置文件中设置此属性的值。
+
+```xml
+<configuration>
+  <system.serviceModel>
+
+    <bindings>
+      <basicHttpBinding>
+        <binding name="Binding1">
+
+          <!-- set pool size to double default of 0x80000 -->
+          maxBufferPoolSize = 0x100000
+
+          <security mode="None" />
+        </binding>
+      </basicHttpBinding>
+    </bindings>
+
+  </system.serviceModel>
+
+</configuration>
+```
+
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="MaxBufferSize">
@@ -438,7 +586,7 @@
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute>
+        <Attribute FrameworkAlternate="netframework-4.0">
           <AttributeName>System.ComponentModel.DefaultValue(65536)</AttributeName>
         </Attribute>
       </Attributes>
@@ -446,9 +594,42 @@
         <ReturnType>System.Int32</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>获取或设置缓冲区的最大大小（以字节为单位），该缓冲区用于接收来自通道的消息。</summary>
+        <value>指定为采用此绑定配置的终结点处理消息时，存储消息的缓冲区的最大大小（以字节为单位）。 默认值为 65,536 字节。</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+
+如果缓冲区中的内存不足以在处理消息的同时对其进行存储，则必须从 CLR 堆分配更多内存，而这会增加垃圾回收的系统开销。 从 CLR 垃圾堆进行大量分配表明消息缓冲区太小，可以通过实现更大的内存分配来提高性能。
+
+MaxBufferSize 属性和其意义的值会不同，具体取决于是否对消息进行缓冲还是流上它们收到通过该通道：
+
+对于缓冲传输，（<xref:System.ServiceModel.BasicHttpBinding.TransferMode> 设置为 <xref:System.ServiceModel.TransferMode.Buffered>）。 该值始终等于由 <xref:System.ServiceModel.BasicHttpBinding.MaxReceivedMessageSize> 指定的值。
+
+对于流传输（<xref:System.ServiceModel.BasicHttpBinding.TransferMode> 设置为 <xref:System.ServiceModel.TransferMode.Streamed>），必须对 SOAP 标头进行缓冲才能生成消息。 可根据需要对正文进行流处理。 在这种情况下，MaxBufferSize 是否小于或等于<xref:System.ServiceModel.BasicHttpBinding.MaxReceivedMessageSize>，其中<xref:System.ServiceModel.BasicHttpBinding.MaxReceivedMessageSize>限制整个消息 （标头和正文） 的大小和 MaxBufferSize 限制仅对 SOAP 标头的大小。
+
+此处对缓冲区大小所设置的限制是为了优化消息交换的性能。 如果消息超过为缓冲区设置的最大值，则不会丢弃该消息。 相反，如果从 CLR 堆请求更多的内存，这将带来比使用缓冲区更多的垃圾回收系统开销。
+
+> [!NOTE]
+> MaxBufferSize 和 MaxReceivedMessageSize 的设置都是本地行为设置。 这表示它们不会传输到元数据中的其他终结点。 如果为元数据中一个最大消息大小为 2GB 的服务生成了一个代理，则该代理的最大消息大小仍为默认的 64K。 这样就使对消息和消息缓冲区大小进行适当限制的控制权处在本地管理员的管辖范围内。
+  
+## Examples
+
+
+下面的示例设置**MaxBufferSize**为 1,000,000 字节。
+
+```csharp
+BasicHttpBinding binding = new BasicHttpBinding();
+            
+// set to one million
+binding.MaxBufferSize = 1000000;
+```
+
+也可以在配置文件中设置此属性的值。
+
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="MaxReceivedMessageSize">
@@ -465,7 +646,7 @@
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute>
+        <Attribute FrameworkAlternate="netframework-4.0">
           <AttributeName>System.ComponentModel.DefaultValue(65536)</AttributeName>
         </Attribute>
       </Attributes>
@@ -473,9 +654,55 @@
         <ReturnType>System.Int64</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>获取或设置配置了此绑定配置的通道上可以接收的消息的最大大小（以字节为单位）。</summary>
+        <value>绑定可处理的最大消息大小（以字节为单位）。 默认值为 65,536 字节。</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+
+可以在网络接收由服务使用 BasicHttpBinding 的消息的大小受为每个消息分配的内存量。 对消息大小进行的此限制旨在降低遭受拒绝服务 (DoS) 攻击的可能性。
+
+在 <xref:System.ServiceModel.BasicHttpBinding.MaxBufferSize> 上还有 <xref:System.ServiceModel.BasicHttpBinding> 属性：
+
+对于缓冲传输，（<xref:System.ServiceModel.BasicHttpBinding.TransferMode> 设置为 <xref:System.ServiceModel.TransferMode.Buffered>）。 此值始终为等于指定的 MaxReceivedMessageSize。
+
+对于流传输（<xref:System.ServiceModel.BasicHttpBinding.TransferMode> 设置为 <xref:System.ServiceModel.TransferMode.Streamed>），必须对 SOAP 标头进行缓冲才能生成消息。 可根据需要对正文进行流处理。 在这种情况下，<xref:System.ServiceModel.BasicHttpBinding.MaxBufferSize>小于或等于 MaxReceivedMessageSize，MaxReceivedMessageSize 其中限制整个消息 （标头和正文） 的大小和<xref:System.ServiceModel.BasicHttpBinding.MaxBufferSize>限制 SOAP 标头的大小。
+
+## Examples
+
+下面的示例将 MaxReceivedMessageSize 设置为 1,000,000 字节。
+
+```csharp
+BasicHttpBinding binding = new BasicHttpBinding();
+
+// Use double the default value
+binding.MaxReceivedMessageSize = 65536 * 2;
+```
+
+也可以在配置文件中设置此属性的值。
+
+```xml
+<configuration>
+  <system.serviceModel>
+
+    <bindings>
+      <basicHttpBinding>
+        <binding name="Binding1"
+                 maxReceivedMessageSize = "1000000">
+          <security mode="None" />
+        </binding>
+      </basicHttpBinding>
+    </bindings>
+
+  </system.serviceModel>
+
+</configuration>
+```
+
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentOutOfRangeException">值小于零。</exception>
       </Docs>
     </Member>
     <Member MemberName="MessageEncoding">
@@ -492,6 +719,17 @@
         <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2">
+          <AttributeName>System.ComponentModel.DefaultValue(Mono.Cecil.CustomAttributeArgument)</AttributeName>
+        </Attribute>
+        <Attribute FrameworkAlternate="netframework-4.0">
+          <AttributeName>get: System.Runtime.TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")</AttributeName>
+        </Attribute>
+        <Attribute FrameworkAlternate="netframework-4.0">
+          <AttributeName>set: System.Runtime.TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.ServiceModel.WSMessageEncoding</ReturnType>
       </ReturnValue>
@@ -529,10 +767,10 @@
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute>
+        <Attribute FrameworkAlternate="netframework-4.0">
           <AttributeName>System.ComponentModel.DefaultValue(Mono.Cecil.CustomAttributeArgument)</AttributeName>
         </Attribute>
-        <Attribute>
+        <Attribute FrameworkAlternate="netframework-4.0">
           <AttributeName>System.ComponentModel.TypeConverter(typeof(System.UriTypeConverter))</AttributeName>
         </Attribute>
       </Attributes>
@@ -540,9 +778,50 @@
         <ReturnType>System.Uri</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>获取或设置 HTTP 代理的 URI 地址。</summary>
+        <value>一个充当 HTTP 代理地址的 <see cref="T:System.Uri" />。 默认值为 null。</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+
+如果<xref:System.ServiceModel.BasicHttpBinding.UseDefaultWebProxy>设置为`true`、 使用的默认地址和 ProxyAddress 集的值将被忽略。
+
+## Examples
+
+下面的示例设置 ProxyAddress 为应用程序设置。
+
+```csharp
+// Get base address from app settings in configuration
+Uri baseAddress = new Uri(ConfigurationManager.AppSettings["baseAddress"]);
+
+BasicHttpBinding binding = new BasicHttpBinding();
+
+binding.ProxyAddress = baseAddress;
+```
+
+也可以在配置文件中设置此属性的值。
+
+```xml
+<configuration>
+  <system.serviceModel>
+
+    <bindings>
+      <basicHttpBinding>
+        <binding name="Binding1"
+                 proxyAddress = "http://myProxy">
+          <security mode="None" />
+        </binding>
+      </basicHttpBinding>
+    </bindings>
+
+  </system.serviceModel>
+
+</configuration>
+```
+
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="ReaderQuotas">
@@ -562,9 +841,51 @@
         <ReturnType>System.Xml.XmlDictionaryReaderQuotas</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>获取或设置可由配置了此绑定的终结点处理的 SOAP 消息的复杂性约束。</summary>
+        <value>指定复杂性约束的 <see cref="T:System.Xml.XmlDictionaryReaderQuotas" />。</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+
+复杂性约束可以抵御拒绝服务 (DOS) 攻击，这些攻击试图利用消息复杂性来占用终结点处理资源。 其他复杂性约束包括多个项，例如最大元素深度和消息中的字符串内容的最大长度。
+
+## Examples
+
+下面的示例将 ReaderQuotas 设置为应用程序设置。
+
+```csharp
+BasicHttpBinding binding = new BasicHttpBinding();
+XmlDictionaryReaderQuotas readerQuotas = new XmlDictionaryReaderQuotas();
+readerQuotas.MaxArrayLength = 25 * 1024;
+        
+binding.ReaderQuotas = readerQuotas;
+```
+
+也可以在配置文件中设置此属性的值。
+
+```xml
+<configuration>
+  <system.serviceModel>
+
+    <bindings>
+      <basicHttpBinding>
+        <binding name="Binding1">
+          <readerQuotas maxBytesPerRead ="1000" 
+                        maxDepth="100"/>
+
+          <security mode="None" />
+        </binding>
+      </basicHttpBinding>
+    </bindings>
+
+  </system.serviceModel>
+
+</configuration>
+```
+
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Scheme">
@@ -585,9 +906,22 @@
         <ReturnType>System.String</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>获取用此绑定配置的通道和侦听器的 URI 传输方案。</summary>
+        <value>如果在传输绑定元素中将安全模式设置为 <see cref="F:System.ServiceModel.BasicHttpSecurityMode.Transport" /> 或 <see cref="F:System.ServiceModel.BasicHttpSecurityMode.TransportWithMessageCredential" />，则为“https”；否则为“http”。</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples
+
+下面的示例获取当前的方案。
+
+```csharp
+BasicHttpBinding binding = new BasicHttpBinding();
+string thisScheme = binding.Scheme;
+```
+
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Security">
@@ -610,6 +944,11 @@
         <AssemblyVersion>4.1.1.0</AssemblyVersion>
         <AssemblyVersion>4.1.2.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0">
+          <AttributeName>get: System.Runtime.TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.ServiceModel.BasicHttpSecurity</ReturnType>
       </ReturnValue>
@@ -646,7 +985,7 @@
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute>
+        <Attribute FrameworkAlternate="netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2">
           <AttributeName>System.ComponentModel.EditorBrowsable</AttributeName>
         </Attribute>
       </Attributes>
@@ -674,7 +1013,7 @@
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute>
+        <Attribute FrameworkAlternate="netframework-4.0">
           <AttributeName>System.ComponentModel.EditorBrowsable</AttributeName>
         </Attribute>
       </Attributes>
@@ -683,8 +1022,8 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <summary>返回是否应序列化对 SOAP 消息结构的复杂性施加的约束值。</summary>
+        <returns>如果应对读取器配额进行序列化，则为 <see langword="true" />；否则，为 <see langword="false" />。</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -701,7 +1040,7 @@
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute>
+        <Attribute FrameworkAlternate="netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2">
           <AttributeName>System.ComponentModel.EditorBrowsable</AttributeName>
         </Attribute>
       </Attributes>
@@ -728,7 +1067,7 @@
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute>
+        <Attribute FrameworkAlternate="netframework-4.0">
           <AttributeName>System.ComponentModel.EditorBrowsable</AttributeName>
         </Attribute>
       </Attributes>
@@ -737,8 +1076,8 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <summary>返回是否应对文本编码设置进行序列化。</summary>
+        <returns>如果应对文本编码进行序列化，则为 <see langword="true" />；否则为 <see langword="false" />。</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -747,8 +1086,8 @@
       <MemberSignature Language="ILAsm" Value=".property instance bool System.ServiceModel.Channels.IBindingRuntimePreferences.ReceiveSynchronously" />
       <MemberSignature Language="DocId" Value="P:System.ServiceModel.BasicHttpBinding.System#ServiceModel#Channels#IBindingRuntimePreferences#ReceiveSynchronously" />
       <MemberSignature Language="VB.NET" Value=" ReadOnly Property ReceiveSynchronously As Boolean Implements IBindingRuntimePreferences.ReceiveSynchronously" />
-      <MemberSignature Language="C++ CLI" Value="property bool System.ServiceModel.Channels.IBindingRuntimePreferences.ReceiveSynchronously { bool get(); };" />
-      <MemberSignature Language="F#" Usage="System.ServiceModel.BasicHttpBinding.System.ServiceModel.Channels.IBindingRuntimePreferences.ReceiveSynchronously" />
+      <MemberSignature Language="C++ CLI" Value="property bool System::ServiceModel::Channels::IBindingRuntimePreferences::ReceiveSynchronously { bool get(); };" />
+      <MemberSignature Language="F#" Usage="System.ServiceModel.Channels.IBindingRuntimePreferences.ReceiveSynchronously" />
       <MemberType>Property</MemberType>
       <Implements>
         <InterfaceMember>P:System.ServiceModel.Channels.IBindingRuntimePreferences.ReceiveSynchronously</InterfaceMember>
@@ -762,9 +1101,23 @@
         <ReturnType>System.Boolean</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>获取一个值，该值指示是同步处理传入请求还是异步处理传入请求。</summary>
+        <value>总是为 <see langword="false" />。</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples
+
+此示例获取 ReceiveSynchronously 值。
+
+```csharp
+BasicHttpBinding binding = new BasicHttpBinding();
+IBindingRuntimePreferences s = (binding as IBindingRuntimePreferences);
+bool receiveSynchronously = s.ReceiveSynchronously;
+```
+
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="TextEncoding">
@@ -781,7 +1134,7 @@
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute>
+        <Attribute FrameworkAlternate="netframework-4.0">
           <AttributeName>System.ComponentModel.TypeConverter(typeof(System.ServiceModel.Configuration.EncodingConverter))</AttributeName>
         </Attribute>
       </Attributes>
@@ -789,9 +1142,42 @@
         <ReturnType>System.Text.Encoding</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>获取或设置用于消息文本的字符编码。</summary>
+        <value>用于指示所使用的字符编码的 <see cref="T:System.Text.Encoding" />。 默认值为 <see cref="T:System.Text.UTF8Encoding" />。</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples
+
+下面的示例设置 TextEncoding <xref:System.Text.Encoding.Unicode?displayProperty=nameWithType>。
+
+```csharp
+BasicHttpBinding binding = new BasicHttpBinding();
+binding.TextEncoding = System.Text.Encoding.Unicode;
+```
+
+也可以在配置文件中设置此属性的值。
+
+```xml
+<configuration>
+  <system.serviceModel>
+
+    <bindings>
+      <basicHttpBinding>
+        <binding name="Binding1"
+          textEncoding = "UnicodeFffeTextEncoding">
+
+          <security mode="None" />
+        </binding>
+      </basicHttpBinding>
+    </bindings>
+  </system.serviceModel>
+
+</configuration>
+```
+
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="TransferMode">
@@ -808,7 +1194,7 @@
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute>
+        <Attribute FrameworkAlternate="netframework-4.0">
           <AttributeName>System.ComponentModel.DefaultValue(Mono.Cecil.CustomAttributeArgument)</AttributeName>
         </Attribute>
       </Attributes>
@@ -816,9 +1202,24 @@
         <ReturnType>System.ServiceModel.TransferMode</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>获取或设置一个值，该值指示是通过缓冲处理还是流处理来发送消息。</summary>
+        <value>用于指示是通过缓冲处理还是流处理来发送消息的 <see cref="T:System.ServiceModel.TransferMode" />。</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples
+
+以下示例将 TransferMode 设置为<xref:System.ServiceModel.TransferMode.Streamed>。
+
+```csharp
+BasicHttpBinding binding = new BasicHttpBinding();
+binding.TransferMode = TransferMode.Streamed;
+```
+
+也可以在配置文件中设置此属性的值。
+
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="UseDefaultWebProxy">
@@ -835,7 +1236,7 @@
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute>
+        <Attribute FrameworkAlternate="netframework-4.0">
           <AttributeName>System.ComponentModel.DefaultValue(true)</AttributeName>
         </Attribute>
       </Attributes>
@@ -843,9 +1244,28 @@
         <ReturnType>System.Boolean</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>获取或设置一个值，该值指示是否应使用系统的自动配置 HTTP 代理（如果可用）。</summary>
+        <value>如果应使用系统的自动配置 HTTP 代理（如果可用），则为 <see langword="true" />；否则为 <see langword="false" />。 默认值为 <see langword="true" />。</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+
+## Remarks
+
+将此属性为出错`true`和<xref:System.ServiceModel.BasicHttpBinding.ProxyAddress>为非空。
+
+## Examples
+
+此示例设置的值为 UseDefaultWebProxy `false`。
+
+```csharp
+BasicHttpBinding binding = new BasicHttpBinding();
+binding.UseDefaultWebProxy = false;
+```
+
+也可以在配置文件中设置此属性的值。
+
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
   </Members>

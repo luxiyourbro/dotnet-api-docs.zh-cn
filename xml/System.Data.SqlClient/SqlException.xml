@@ -1,17 +1,18 @@
 <Type Name="SqlException" FullName="System.Data.SqlClient.SqlException">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="982763b78dfe67e06f4b1f8f79fe8a34bb68d3a4" />
-    <Meta Name="ms.sourcegitcommit" Value="f9e3295b6cc303a611a73a84c4b27f9da792ad0d" />
+    <Meta Name="ms.openlocfilehash" Value="9e1297e6e923eb3f55c420ba1247c624a0177524" />
+    <Meta Name="ms.sourcegitcommit" Value="434f60616a9793fa8436744549fc856e94f7a648" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="zh-CN" />
-    <Meta Name="ms.lasthandoff" Value="04/26/2018" />
-    <Meta Name="ms.locfileid" Value="31911488" />
+    <Meta Name="ms.lasthandoff" Value="08/25/2018" />
+    <Meta Name="ms.locfileid" Value="40212117" />
   </Metadata>
   <TypeSignature Language="C#" Value="public sealed class SqlException : System.Data.Common.DbException" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi serializable sealed beforefieldinit SqlException extends System.Data.Common.DbException" />
   <TypeSignature Language="DocId" Value="T:System.Data.SqlClient.SqlException" />
   <TypeSignature Language="VB.NET" Value="Public NotInheritable Class SqlException&#xA;Inherits DbException" />
   <TypeSignature Language="C++ CLI" Value="public ref class SqlException sealed : System::Data::Common::DbException" />
+  <TypeSignature Language="F#" Value="type SqlException = class&#xA;    inherit DbException" />
   <AssemblyInfo>
     <AssemblyName>System.Data.SqlClient</AssemblyName>
     <AssemblyVersion>4.1.0.0</AssemblyVersion>
@@ -19,6 +20,8 @@
   </AssemblyInfo>
   <AssemblyInfo>
     <AssemblyName>System.Data</AssemblyName>
+    <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
     <AssemblyVersion>2.0.5.0</AssemblyVersion>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
   </AssemblyInfo>
@@ -28,6 +31,7 @@
   </AssemblyInfo>
   <Base>
     <BaseTypeName>System.Data.Common.DbException</BaseTypeName>
+    <BaseTypeName FrameworkAlternate="netframework-1.1">System.SystemException</BaseTypeName>
   </Base>
   <Interfaces />
   <Docs>
@@ -36,25 +40,25 @@
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 此类被创建 SQL Server.NET Framework 数据提供程序遇到错误时从服务器生成。 （客户端错误引发作为标准公共语言运行时异常。）<xref:System.Data.SqlClient.SqlException>始终包含至少一个实例<xref:System.Data.SqlClient.SqlError>。  
+ SQL Server 的.NET Framework 数据提供程序遇到服务器生成的错误时，会创建此类。 （客户端错误引发作为标准公共语言运行时异常。）<xref:System.Data.SqlClient.SqlException>始终包含至少一个实例的<xref:System.Data.SqlClient.SqlError>。  
   
- 严重性级别为 10 或以下的消息是信息性消息，并指示问题引起的用户输入的信息中的错误。 严重级别为 11 到 16 都由用户，并可以由用户纠正。 严重级别为 17 到 25 的消息指示存在软件或硬件错误。 当级别为 17 时、 18 或 19 的错误时，您可以继续工作，尽管你可能不能够执行特定语句。  
+ 严重性级别为 10 或更少的消息是信息性消息，并指示由用户输入的信息中的错误导致的问题。 严重级别为 11 到 16 生成的用户，并可以由用户纠正。 严重级别为 17 到 25 的消息指示存在软件或硬件错误。 当级别为 17 时、 18 或 19 的错误时，您可以继续工作，尽管您可能不能够执行特定语句。  
   
- 当严重级别为 19 或以下时，<xref:System.Data.SqlClient.SqlConnection> 将保持打开状态。 等于或大于 20 的严重性级别时，服务器通常会关闭<xref:System.Data.SqlClient.SqlConnection>。 但是，用户可以重新打开连接并继续操作。 最后两种情况下，执行该命令的方法将生成 <xref:System.Data.SqlClient.SqlException>。  
+ 当严重级别为 19 或以下时，<xref:System.Data.SqlClient.SqlConnection> 将保持打开状态。 20 或更高版本的严重级别时，服务器通常会关闭<xref:System.Data.SqlClient.SqlConnection>。 但是，用户可以重新打开连接并继续操作。 最后两种情况下，执行该命令的方法将生成 <xref:System.Data.SqlClient.SqlException>。  
   
- SQL Server 发送的警告和信息性消息有关的信息，请参阅 SQL Server 联机丛书的故障排除部分。 <xref:System.Data.SqlClient.SqlException>类映射到 SQL Server 严重性。  
+ 有关 SQL Server 发送的警告和信息性消息的信息，请参阅[数据库引擎错事件和错误](/sql/relational-databases/errors-events/database-engine-events-and-errors)。 <xref:System.Data.SqlClient.SqlException>类映射到 SQL Server 严重级别。  
   
- 下面是处理异常的一般信息。 你的代码应捕获异常防止应用程序中发生故障，并允许向用户显示一条相关的错误消息。  可以使用数据库事务来确保数据一致性，无论客户端应用程序 （包括崩溃） 中会发生什么情况。 System.Transaction.TransactionScope 或 BeginTransaction 方法 （在 System.Data.OleDb.OleDbConnection、 System.Data.ODBC.ODBCConnection 和 System.Data.SqlClient.SqlConnection） 等功能确保一致的数据，而不考虑异常引发由提供程序。 事务可以失败，因此捕获失败和重试该事务。  
+ 下面是处理异常的常规信息。 你的代码应捕获异常来阻止应用程序崩溃并允许向用户显示一条相关的错误消息。  可以使用数据库事务来确保数据的一致性，而不考虑客户端应用程序 （包括故障） 中会发生什么情况。 System.Transaction.TransactionScope 或 BeginTransaction 方法 （在 System.Data.OleDb.OleDbConnection、 System.Data.ODBC.ODBCConnection 和 System.Data.SqlClient.SqlConnection） 等功能确保一致的数据，而不考虑异常引发由提供程序。 事务可以失败，因此捕获失败和重试该事务。  
   
- 请注意该开头.NET Framework 4.5、<xref:System.Data.SqlClient.SqlException>可以返回内部<xref:System.ComponentModel.Win32Exception>。  
+ 请注意从.NET Framework 4.5<xref:System.Data.SqlClient.SqlException>可以返回一个内部<xref:System.ComponentModel.Win32Exception>。  
   
- 异常类的.Net Framework 数据提供程序报告提供程序特定的错误。 例如 System.Data.Odbc 具有 OdbcException、 System.Data.OleDb 具有 OleDbException，并且 System.Data.SqlClient SqlException。 错误详细信息的最佳级别，捕获这些异常并使用这些异常类的成员获取错误的详细信息。  
+ 异常类的.Net Framework 数据提供程序报告特定于提供程序的错误。 例如 System.Data.Odbc 具有 OdbcException、 和 System.Data.OleDb OleDbException，并 System.Data.SqlClient 具有 SqlException。 错误详细信息的最佳级别，捕获这些异常并使用这些异常类的成员获取错误的详细信息。  
   
- 除了特定于提供程序错误，.NET Framework 数据提供程序类型可以引发 System.Threading.ThreadAbortException System.OutOfMemoryException 等的.NET Framework 异常。 可能无法从这些异常中的恢复。  
+ 除了特定于提供程序的错误，.NET Framework 数据提供程序类型可以引发 System.OutOfMemoryException 和 System.Threading.ThreadAbortException 等的.NET Framework 异常。 可能无法从这些异常中的恢复。  
   
- 错误输入可能会导致引发异常，如 System.ArgumentException 或 System.IndexOutOfRangeException 的.NET Framework 数据提供程序类型。  在错误时调用的方法可以提高 System.InvalidOperationException。  
+ 输入错误可能会导致引发 System.ArgumentException 或 System.IndexOutOfRangeException 等异常在.NET Framework 数据提供程序类型。  在错误时调用的方法可以引发 System.InvalidOperationException。  
   
- 因此，一般情况下，编写异常处理程序捕获任何提供程序特定的异常，以及公共语言运行时中的异常。  这些都可以如下所示进行分层：  
+ 因此，一般情况下，编写异常处理程序捕获任何提供程序的特定异常，以及从公共语言运行时异常。  这些都可以按如下所示进行分层：  
   
 ```csharp  
 try {  
@@ -69,7 +73,7 @@ catch (Exception ex) {
   
 ```  
   
- 或者：  
+ 或：  
   
 ```csharp  
 try {  
@@ -86,7 +90,7 @@ catch (Exception ex) {
   
 ```  
   
- 还有可能为.NET Framework 数据提供程序的方法调用在有线程池线程上失败，在堆栈上没有用户代码。 在此情况下，以及使用异步方法调用时，你必须注册<xref:System.AppDomain.UnhandledException>事件来处理这些异常并避免应用程序崩溃。  
+ 还有可能无法在堆栈上没有用户代码使用线程池线程上的.NET Framework 数据提供程序方法调用的。 在这种情况下，并使用异步方法调用时，必须注册<xref:System.AppDomain.UnhandledException>要处理这些异常，并避免应用程序故障事件。  
   
    
   
@@ -108,6 +112,7 @@ catch (Exception ex) {
       <MemberSignature Language="DocId" Value="P:System.Data.SqlClient.SqlException.Class" />
       <MemberSignature Language="VB.NET" Value="Public ReadOnly Property Class As Byte" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::Byte Class { System::Byte get(); };" />
+      <MemberSignature Language="F#" Value="member this.Class : byte" Usage="System.Data.SqlClient.SqlException.Class" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Data.SqlClient</AssemblyName>
@@ -116,6 +121,8 @@ catch (Exception ex) {
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -133,18 +140,18 @@ catch (Exception ex) {
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 严重性级别为 10 或以下的消息是信息性消息，并指示问题引起的用户输入的信息中的错误。 严重级别为 11 到 16 都由用户，并可以由用户纠正。 严重级别为 17 到 25 的消息指示存在软件或硬件错误。 当级别为 17 时、 18 或 19 的错误时，您可以继续工作，尽管你可能不能够执行特定语句。  
+ 严重性级别为 10 或更少的消息是信息性消息，并指示由用户输入的信息中的错误导致的问题。 严重级别为 11 到 16 生成的用户，并可以由用户纠正。 严重级别为 17 到 25 的消息指示存在软件或硬件错误。 当级别为 17 时、 18 或 19 的错误时，您可以继续工作，尽管您可能不能够执行特定语句。  
   
- 当严重级别为 19 或以下时，<xref:System.Data.SqlClient.SqlConnection> 将保持打开状态。 等于或大于 20 的严重性级别时，服务器通常会关闭<xref:System.Data.SqlClient.SqlConnection>。 但是，用户可以重新打开连接并继续操作。 最后两种情况下，执行该命令的方法将生成 <xref:System.Data.SqlClient.SqlException>。  
+ 当严重级别为 19 或以下时，<xref:System.Data.SqlClient.SqlConnection> 将保持打开状态。 20 或更高版本的严重级别时，服务器通常会关闭<xref:System.Data.SqlClient.SqlConnection>。 但是，用户可以重新打开连接并继续操作。 最后两种情况下，执行该命令的方法将生成 <xref:System.Data.SqlClient.SqlException>。  
   
- SQL Server 发送的警告和信息性消息有关的信息，请参阅 SQL Server 文档的故障排除部分。  
+ 有关 SQL Server 发送的警告和信息性消息的信息，请参阅 SQL Server 文档中的故障排除部分。  
   
- 这是包装器<xref:System.Data.SqlClient.SqlError.Class%2A>属性的第一个<xref:System.Data.SqlClient.SqlError>中<xref:System.Data.SqlClient.SqlException.Errors%2A>属性。  
+ 这是包装<xref:System.Data.SqlClient.SqlError.Class%2A>属性的第一个<xref:System.Data.SqlClient.SqlError>中<xref:System.Data.SqlClient.SqlException.Errors%2A>属性。  
   
    
   
 ## Examples  
- 下面的示例显示各个<xref:System.Data.SqlClient.SqlError>内<xref:System.Data.SqlClient.SqlErrorCollection>集合。  
+ 下面的示例显示每个<xref:System.Data.SqlClient.SqlError>内<xref:System.Data.SqlClient.SqlErrorCollection>集合。  
   
  [!code-csharp[Classic WebData SqlException.State Example#1](~/samples/snippets/csharp/VS_Snippets_ADO.NET/Classic WebData SqlException.State Example/CS/source.cs#1)]
  [!code-vb[Classic WebData SqlException.State Example#1](~/samples/snippets/visualbasic/VS_Snippets_ADO.NET/Classic WebData SqlException.State Example/VB/source.vb#1)]  
@@ -165,6 +172,7 @@ catch (Exception ex) {
       <MemberSignature Language="DocId" Value="P:System.Data.SqlClient.SqlException.ClientConnectionId" />
       <MemberSignature Language="VB.NET" Value="Public ReadOnly Property ClientConnectionId As Guid" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; property Guid ClientConnectionId { Guid get(); };" />
+      <MemberSignature Language="F#" Value="member this.ClientConnectionId : Guid" Usage="System.Data.SqlClient.SqlException.ClientConnectionId" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Data.SqlClient</AssemblyName>
@@ -202,6 +210,7 @@ catch (Exception ex) {
       <MemberSignature Language="DocId" Value="P:System.Data.SqlClient.SqlException.Errors" />
       <MemberSignature Language="VB.NET" Value="Public ReadOnly Property Errors As SqlErrorCollection" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::Data::SqlClient::SqlErrorCollection ^ Errors { System::Data::SqlClient::SqlErrorCollection ^ get(); };" />
+      <MemberSignature Language="F#" Value="member this.Errors : System.Data.SqlClient.SqlErrorCollection" Usage="System.Data.SqlClient.SqlException.Errors" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Data.SqlClient</AssemblyName>
@@ -210,6 +219,8 @@ catch (Exception ex) {
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -218,8 +229,11 @@ catch (Exception ex) {
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute>
+        <Attribute FrameworkAlternate="netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;xamarinmac-3.0">
           <AttributeName>System.ComponentModel.DesignerSerializationVisibility</AttributeName>
+        </Attribute>
+        <Attribute FrameworkAlternate="netframework-1.1;netframework-2.0;netframework-3.0;netframework-3.5;xamarinandroid-7.1;xamarinios-10.8">
+          <AttributeName>System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Content)</AttributeName>
         </Attribute>
       </Attributes>
       <ReturnValue>
@@ -233,14 +247,14 @@ catch (Exception ex) {
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Data.SqlClient.SqlErrorCollection>类始终包含至少一个实例<xref:System.Data.SqlClient.SqlError>类。  
+ <xref:System.Data.SqlClient.SqlErrorCollection>类始终包含至少一个实例的<xref:System.Data.SqlClient.SqlError>类。  
   
- 这是包装器<xref:System.Data.SqlClient.SqlErrorCollection>。 有关 SQL Server 引擎错误的详细信息，请参阅 SQL Server 联机丛书。  
+ 这是包装<xref:System.Data.SqlClient.SqlErrorCollection>。 SQL Server 引擎错误的详细信息，请参阅[数据库引擎错事件和错误](/sql/relational-databases/errors-events/database-engine-events-and-errors)。  
   
    
   
 ## Examples  
- 下面的示例显示各个<xref:System.Data.SqlClient.SqlError>内<xref:System.Data.SqlClient.SqlErrorCollection>集合。  
+ 下面的示例显示每个<xref:System.Data.SqlClient.SqlError>内<xref:System.Data.SqlClient.SqlErrorCollection>集合。  
   
  [!code-csharp[Classic WebData SqlError Example#1](~/samples/snippets/csharp/VS_Snippets_ADO.NET/Classic WebData SqlError Example/CS/source.cs#1)]
  [!code-vb[Classic WebData SqlError Example#1](~/samples/snippets/visualbasic/VS_Snippets_ADO.NET/Classic WebData SqlError Example/VB/source.vb#1)]  
@@ -257,9 +271,12 @@ catch (Exception ex) {
       <MemberSignature Language="DocId" Value="M:System.Data.SqlClient.SqlException.GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)" />
       <MemberSignature Language="VB.NET" Value="Public Overrides Sub GetObjectData (si As SerializationInfo, context As StreamingContext)" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; override void GetObjectData(System::Runtime::Serialization::SerializationInfo ^ si, System::Runtime::Serialization::StreamingContext context);" />
+      <MemberSignature Language="F#" Value="override this.GetObjectData : System.Runtime.Serialization.SerializationInfo * System.Runtime.Serialization.StreamingContext -&gt; unit" Usage="sqlException.GetObjectData (si, context)" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -297,6 +314,7 @@ catch (Exception ex) {
       <MemberSignature Language="DocId" Value="P:System.Data.SqlClient.SqlException.LineNumber" />
       <MemberSignature Language="VB.NET" Value="Public ReadOnly Property LineNumber As Integer" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; property int LineNumber { int get(); };" />
+      <MemberSignature Language="F#" Value="member this.LineNumber : int" Usage="System.Data.SqlClient.SqlException.LineNumber" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Data.SqlClient</AssemblyName>
@@ -305,6 +323,8 @@ catch (Exception ex) {
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -322,14 +342,14 @@ catch (Exception ex) {
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 行号在 1; 的启动如果返回 0，则行号不适用。  
+ 设置行号 1; 在启动如果返回 0，则，不适用的行号。  
   
- 这是包装器<xref:System.Data.SqlClient.SqlError.LineNumber%2A>属性的第一个<xref:System.Data.SqlClient.SqlError>中<xref:System.Data.SqlClient.SqlException.Errors%2A>属性。  
+ 这是包装<xref:System.Data.SqlClient.SqlError.LineNumber%2A>属性的第一个<xref:System.Data.SqlClient.SqlError>中<xref:System.Data.SqlClient.SqlException.Errors%2A>属性。  
   
    
   
 ## Examples  
- 下面的示例显示各个<xref:System.Data.SqlClient.SqlError>内<xref:System.Data.SqlClient.SqlErrorCollection>集合。  
+ 下面的示例显示每个<xref:System.Data.SqlClient.SqlError>内<xref:System.Data.SqlClient.SqlErrorCollection>集合。  
   
  [!code-csharp[Classic WebData SqlException.State Example#1](~/samples/snippets/csharp/VS_Snippets_ADO.NET/Classic WebData SqlException.State Example/CS/source.cs#1)]
  [!code-vb[Classic WebData SqlException.State Example#1](~/samples/snippets/visualbasic/VS_Snippets_ADO.NET/Classic WebData SqlException.State Example/VB/source.vb#1)]  
@@ -350,9 +370,11 @@ catch (Exception ex) {
       <MemberSignature Language="DocId" Value="P:System.Data.SqlClient.SqlException.Message" />
       <MemberSignature Language="VB.NET" Value="Public Overrides ReadOnly Property Message As String" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual property System::String ^ Message { System::String ^ get(); };" />
+      <MemberSignature Language="F#" Value="member this.Message : string" Usage="System.Data.SqlClient.SqlException.Message" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -371,6 +393,7 @@ catch (Exception ex) {
       <MemberSignature Language="DocId" Value="P:System.Data.SqlClient.SqlException.Number" />
       <MemberSignature Language="VB.NET" Value="Public ReadOnly Property Number As Integer" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; property int Number { int get(); };" />
+      <MemberSignature Language="F#" Value="member this.Number : int" Usage="System.Data.SqlClient.SqlException.Number" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Data.SqlClient</AssemblyName>
@@ -379,6 +402,8 @@ catch (Exception ex) {
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -396,12 +421,12 @@ catch (Exception ex) {
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 这是包装器<xref:System.Data.SqlClient.SqlError.Number%2A>属性的第一个<xref:System.Data.SqlClient.SqlError>中<xref:System.Data.SqlClient.SqlException.Errors%2A>属性。 有关 SQL Server 引擎错误的详细信息，请参阅 SQL Server 联机丛书。  
+ 这是包装<xref:System.Data.SqlClient.SqlError.Number%2A>属性的第一个<xref:System.Data.SqlClient.SqlError>中<xref:System.Data.SqlClient.SqlException.Errors%2A>属性。 SQL Server 引擎错误的详细信息，请参阅[数据库引擎错事件和错误](/sql/relational-databases/errors-events/database-engine-events-and-errors)。  
   
    
   
 ## Examples  
- 下面的示例显示各个<xref:System.Data.SqlClient.SqlError>内<xref:System.Data.SqlClient.SqlErrorCollection>集合。  
+ 下面的示例显示每个<xref:System.Data.SqlClient.SqlError>内<xref:System.Data.SqlClient.SqlErrorCollection>集合。  
   
  [!code-csharp[Classic WebData SqlException.State Example#1](~/samples/snippets/csharp/VS_Snippets_ADO.NET/Classic WebData SqlException.State Example/CS/source.cs#1)]
  [!code-vb[Classic WebData SqlException.State Example#1](~/samples/snippets/visualbasic/VS_Snippets_ADO.NET/Classic WebData SqlException.State Example/VB/source.vb#1)]  
@@ -422,6 +447,7 @@ catch (Exception ex) {
       <MemberSignature Language="DocId" Value="P:System.Data.SqlClient.SqlException.Procedure" />
       <MemberSignature Language="VB.NET" Value="Public ReadOnly Property Procedure As String" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::String ^ Procedure { System::String ^ get(); };" />
+      <MemberSignature Language="F#" Value="member this.Procedure : string" Usage="System.Data.SqlClient.SqlException.Procedure" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Data.SqlClient</AssemblyName>
@@ -430,6 +456,8 @@ catch (Exception ex) {
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -447,12 +475,12 @@ catch (Exception ex) {
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 这是包装器<xref:System.Data.SqlClient.SqlError.Procedure%2A>属性的第一个<xref:System.Data.SqlClient.SqlError>中<xref:System.Data.SqlClient.SqlException.Errors%2A>属性。  
+ 这是包装<xref:System.Data.SqlClient.SqlError.Procedure%2A>属性的第一个<xref:System.Data.SqlClient.SqlError>中<xref:System.Data.SqlClient.SqlException.Errors%2A>属性。  
   
    
   
 ## Examples  
- 下面的示例显示各个<xref:System.Data.SqlClient.SqlError>内<xref:System.Data.SqlClient.SqlErrorCollection>集合。  
+ 下面的示例显示每个<xref:System.Data.SqlClient.SqlError>内<xref:System.Data.SqlClient.SqlErrorCollection>集合。  
   
  [!code-csharp[Classic WebData SqlException.State Example#1](~/samples/snippets/csharp/VS_Snippets_ADO.NET/Classic WebData SqlException.State Example/CS/source.cs#1)]
  [!code-vb[Classic WebData SqlException.State Example#1](~/samples/snippets/visualbasic/VS_Snippets_ADO.NET/Classic WebData SqlException.State Example/VB/source.vb#1)]  
@@ -473,6 +501,7 @@ catch (Exception ex) {
       <MemberSignature Language="DocId" Value="P:System.Data.SqlClient.SqlException.Server" />
       <MemberSignature Language="VB.NET" Value="Public ReadOnly Property Server As String" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::String ^ Server { System::String ^ get(); };" />
+      <MemberSignature Language="F#" Value="member this.Server : string" Usage="System.Data.SqlClient.SqlException.Server" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Data.SqlClient</AssemblyName>
@@ -481,6 +510,8 @@ catch (Exception ex) {
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -498,12 +529,12 @@ catch (Exception ex) {
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 这是包装器<xref:System.Data.SqlClient.SqlError.Server%2A>属性的第一个<xref:System.Data.SqlClient.SqlError>中<xref:System.Data.SqlClient.SqlException.Errors%2A>属性。  
+ 这是包装<xref:System.Data.SqlClient.SqlError.Server%2A>属性的第一个<xref:System.Data.SqlClient.SqlError>中<xref:System.Data.SqlClient.SqlException.Errors%2A>属性。  
   
    
   
 ## Examples  
- 下面的示例显示各个<xref:System.Data.SqlClient.SqlError>内<xref:System.Data.SqlClient.SqlErrorCollection>集合。  
+ 下面的示例显示每个<xref:System.Data.SqlClient.SqlError>内<xref:System.Data.SqlClient.SqlErrorCollection>集合。  
   
  [!code-csharp[Classic WebData SqlException.State Example#1](~/samples/snippets/csharp/VS_Snippets_ADO.NET/Classic WebData SqlException.State Example/CS/source.cs#1)]
  [!code-vb[Classic WebData SqlException.State Example#1](~/samples/snippets/visualbasic/VS_Snippets_ADO.NET/Classic WebData SqlException.State Example/VB/source.vb#1)]  
@@ -524,6 +555,7 @@ catch (Exception ex) {
       <MemberSignature Language="DocId" Value="P:System.Data.SqlClient.SqlException.Source" />
       <MemberSignature Language="VB.NET" Value="Public Overrides ReadOnly Property Source As String" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual property System::String ^ Source { System::String ^ get(); };" />
+      <MemberSignature Language="F#" Value="member this.Source : string" Usage="System.Data.SqlClient.SqlException.Source" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Data.SqlClient</AssemblyName>
@@ -532,6 +564,8 @@ catch (Exception ex) {
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -549,12 +583,12 @@ catch (Exception ex) {
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 这是包装器<xref:System.Data.SqlClient.SqlError.Source%2A>属性的第一个<xref:System.Data.SqlClient.SqlError>中<xref:System.Data.SqlClient.SqlException.Errors%2A>属性。  
+ 这是包装<xref:System.Data.SqlClient.SqlError.Source%2A>属性的第一个<xref:System.Data.SqlClient.SqlError>中<xref:System.Data.SqlClient.SqlException.Errors%2A>属性。  
   
    
   
 ## Examples  
- 下面的示例显示各个<xref:System.Data.SqlClient.SqlError>内<xref:System.Data.SqlClient.SqlErrorCollection>集合。  
+ 下面的示例显示每个<xref:System.Data.SqlClient.SqlError>内<xref:System.Data.SqlClient.SqlErrorCollection>集合。  
   
  [!code-csharp[Classic WebData SqlException.State Example#1](~/samples/snippets/csharp/VS_Snippets_ADO.NET/Classic WebData SqlException.State Example/CS/source.cs#1)]
  [!code-vb[Classic WebData SqlException.State Example#1](~/samples/snippets/visualbasic/VS_Snippets_ADO.NET/Classic WebData SqlException.State Example/VB/source.vb#1)]  
@@ -575,6 +609,7 @@ catch (Exception ex) {
       <MemberSignature Language="DocId" Value="P:System.Data.SqlClient.SqlException.State" />
       <MemberSignature Language="VB.NET" Value="Public ReadOnly Property State As Byte" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::Byte State { System::Byte get(); };" />
+      <MemberSignature Language="F#" Value="member this.State : byte" Usage="System.Data.SqlClient.SqlException.State" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Data.SqlClient</AssemblyName>
@@ -583,6 +618,8 @@ catch (Exception ex) {
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -594,18 +631,18 @@ catch (Exception ex) {
         <ReturnType>System.Byte</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>从 SQL Server 中获取一个数值错误代码，它表示错误、警告或“未找到数据”消息。 有关如何将这些值解码的更多信息，请参见“SQL Server 联机丛书”。</summary>
+        <summary>从 SQL Server 中获取一个数值错误代码，它表示错误、警告或“未找到数据”消息。 有关如何将这些值解码的更多信息，请参阅<see href="/sql/relational-databases/errors-events/database-engine-events-and-errors">数据库引擎事件和错误</see>。</summary>
         <value>表示错误代码的数字。</value>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 这是包装器<xref:System.Data.SqlClient.SqlError.State%2A>属性的第一个<xref:System.Data.SqlClient.SqlError>中<xref:System.Data.SqlClient.SqlException.Errors%2A>属性。  
+ 这是包装<xref:System.Data.SqlClient.SqlError.State%2A>属性的第一个<xref:System.Data.SqlClient.SqlError>中<xref:System.Data.SqlClient.SqlException.Errors%2A>属性。  
   
    
   
 ## Examples  
- 下面的示例显示各个<xref:System.Data.SqlClient.SqlError>内<xref:System.Data.SqlClient.SqlErrorCollection>集合。  
+ 下面的示例显示每个<xref:System.Data.SqlClient.SqlError>内<xref:System.Data.SqlClient.SqlErrorCollection>集合。  
   
  [!code-csharp[Classic WebData SqlException.State Example#1](~/samples/snippets/csharp/VS_Snippets_ADO.NET/Classic WebData SqlException.State Example/CS/source.cs#1)]
  [!code-vb[Classic WebData SqlException.State Example#1](~/samples/snippets/visualbasic/VS_Snippets_ADO.NET/Classic WebData SqlException.State Example/VB/source.vb#1)]  
@@ -626,6 +663,7 @@ catch (Exception ex) {
       <MemberSignature Language="DocId" Value="M:System.Data.SqlClient.SqlException.ToString" />
       <MemberSignature Language="VB.NET" Value="Public Overrides Function ToString () As String" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; override System::String ^ ToString();" />
+      <MemberSignature Language="F#" Value="override this.ToString : unit -&gt; string" Usage="sqlException.ToString " />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Data.SqlClient</AssemblyName>
@@ -651,9 +689,9 @@ catch (Exception ex) {
           <format type="text/markdown"><![CDATA[  
   
 ## Examples  
- 下面的 C# 示例显示如何将尝试连接到有效的服务器，但不存在数据库会导致<xref:System.Data.SqlClient.SqlException>，其中包括客户端连接 ID:  
+ 下面的 C# 示例说明如何对有效的服务器的连接尝试，但不存在的数据库会导致<xref:System.Data.SqlClient.SqlException>，其中包括客户端连接 ID:  
   
-```  
+```csharp  
 using System.Data.SqlClient;  
 using System;  
   
@@ -673,9 +711,9 @@ public class A {
 }  
 ```  
   
- 下面的 Visual Basic 示例在功能上等效于前面的 (C#) 示例：  
+ 下面的 Visual Basic 示例是功能上等效于以前的 (C#) 示例：  
   
-```  
+```vb  
 Imports System.Data.SqlClient  
 Imports System  
   

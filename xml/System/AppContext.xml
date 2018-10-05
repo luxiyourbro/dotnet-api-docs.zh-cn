@@ -1,11 +1,11 @@
 <Type Name="AppContext" FullName="System.AppContext">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="22baeef40fafd807844df877ee179199629f82f1" />
-    <Meta Name="ms.sourcegitcommit" Value="434f60616a9793fa8436744549fc856e94f7a648" />
+    <Meta Name="ms.openlocfilehash" Value="c2c4803637c97019a9a061ec4bca736535264ba3" />
+    <Meta Name="ms.sourcegitcommit" Value="9dda17222b9f7d3edf130133bfb1370d5b410a4b" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="zh-CN" />
-    <Meta Name="ms.lasthandoff" Value="08/25/2018" />
-    <Meta Name="ms.locfileid" Value="39909625" />
+    <Meta Name="ms.lasthandoff" Value="09/22/2018" />
+    <Meta Name="ms.locfileid" Value="46621004" />
   </Metadata>
   <TypeSignature Language="C#" Value="public static class AppContext" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract sealed beforefieldinit AppContext extends System.Object" />
@@ -111,7 +111,7 @@
 ## <a name="appcontext-for-library-consumers"></a>库的使用者的 AppContext  
  如果您是一个库，使用者<xref:System.AppContext>类使您可以利用的库或库方法的新功能的选择退出机制。   正在调用的类库的单个方法定义特定的开关启用或禁用新行为。 开关的值是一个布尔值。 如果它是`false`，这通常是默认值、 启用新行为; 如果它是`true`、 禁用新行为，并且该成员的行为就像以前一样。  
   
- 可以通过三种方式之一设置开关的值：  
+ 可以在四种方法之一来设置开关的值：  
   
 -   通过调用<xref:System.AppContext.SetSwitch%28System.String%2CSystem.Boolean%29?displayProperty=nameWithType>在代码中的方法。  `switchName`参数定义交换机名称和`isEnabled`属性定义开关的值。 因为<xref:System.AppContext>是一个静态类，它是可在每个应用程序域基础上。  
   
@@ -133,12 +133,21 @@
 -   通过将其名称是交换机的名称的字符串值添加到`HKLM\SOFTWARE\Microsoft\.NETFramework\AppContext`密钥在注册表中。 其值必须为字符串表示形式<xref:System.Boolean>，则可以通过分析<xref:System.Boolean.Parse%2A?displayProperty=nameWithType>方法; 即，它必须为"True"，"true"，"False"或"false"。 如果运行时遇到任何其他值，它将忽略此开关。  
   
      使用注册表来定义<xref:System.AppContext>交换机具有计算机范围; 即，它会影响计算机上运行每个应用程序。  
-  
+
+- 对于 ASP.NET 应用程序，您将添加[\<添加 >](~/docs/framework/configure-apps/file-schema/appsettings/add-element-for-appsettings.md)元素[ \<appSettings >](~/docs/framework/configure-apps/file-schema/appsettings/index.md) web.config 文件部分。 例如:
+
+   ```xml
+   <appSettings>
+      <add key="AppContext.SetSwitch:switchName1" value="switchValue1" />
+      <add key="AppContext.SetSwitch:switchName2" value="switchValue2" />
+   </appSettings>
+   ```
+   
  如果在多个方面中设置相同的开关，用于确定哪些设置会重写其他顺序是优先的：  
   
 1.  以编程方式设置。  
   
-2.  应用程序配置文件中的设置。  
+2.  应用程序配置文件或 web.config 文件中的设置。  
   
 3.  注册表设置。  
   
@@ -156,11 +165,13 @@
     </runtime>  
 </configuration>  
 ```  
-## <a name="see-also"></a>另请参见
+## <a name="see-also"></a>请参阅
 [AppContext 开关](~/docs/framework/configure-apps/file-schema/runtime/appcontextswitchoverrides-element.md)
 
  ]]></format>
     </remarks>
+    <related type="Article" href="http://msdn.microsoft.com/library/1eb2fae3-de4b-45b6-852f-517c39b751bd">&lt;运行时&gt;元素</related>
+    <related type="Article" href="http://msdn.microsoft.com/library/4ce07f47-7ddb-4d91-b067-501bd8b88752">&lt;AppContextSwitchOverrides&gt;元素</related>
   </Docs>
   <Members>
     <Member MemberName="BaseDirectory">
@@ -428,7 +439,7 @@
       </Parameters>
       <Docs>
         <param name="switchName">开关的名称。</param>
-        <param name="isEnabled">此方法返回时，如果找到 <c>switchName</c>，则结果包含 <c>switchName</c> 的值；如果未找到 <c>switchName</c>，则为 <see langword="false" />。 该参数未经初始化即被传递。</param>
+        <param name="isEnabled">此方法返回时，如果找到 <c>switchName</c>，则结果包含 <c>switchName</c> 的值；如果未找到 <c>switchName</c>，则为 <see langword="false" />。 此参数未经初始化即被传递。</param>
         <summary>尝试获取开关的值。</summary>
         <returns>如果设置了 <paramref name="switchName" /> 且 <paramref name="isEnabled" /> 参数包含开关的值，则为 <see langword="true" />；否则为 <see langword="false" />。</returns>
         <remarks>

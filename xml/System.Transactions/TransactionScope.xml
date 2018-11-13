@@ -1,11 +1,11 @@
 <Type Name="TransactionScope" FullName="System.Transactions.TransactionScope">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="a82d108607f3f18ca21c7c9b6212a340a2a97bc3" />
-    <Meta Name="ms.sourcegitcommit" Value="0ec122ee5f3681159b8460ab15b409fd6e3d3ae0" />
+    <Meta Name="ms.openlocfilehash" Value="45dd699021cf8a33b96b1b8974ed6335d84a9f52" />
+    <Meta Name="ms.sourcegitcommit" Value="610a413147ca5b230ff99a6df778612e165a6cdf" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="zh-CN" />
-    <Meta Name="ms.lasthandoff" Value="10/04/2018" />
-    <Meta Name="ms.locfileid" Value="48705969" />
+    <Meta Name="ms.lasthandoff" Value="11/10/2018" />
+    <Meta Name="ms.locfileid" Value="51506169" />
   </Metadata>
   <TypeSignature Language="C#" Value="public sealed class TransactionScope : IDisposable" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed beforefieldinit TransactionScope extends System.Object implements class System.IDisposable" />
@@ -784,11 +784,11 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 调用此方法将标记事务作用域结束。 如果<xref:System.Transactions.TransactionScope>对象创建了事务和<xref:System.Transactions.TransactionScope.Complete%2A>作用域，已调用<xref:System.Transactions.TransactionScope>对象尝试执行时调用此方法提交事务。  
+ 调用此方法将标记事务作用域结束。 如果<xref:System.Transactions.TransactionScope>对象创建了事务和<xref:System.Transactions.TransactionScope.Complete%2A>作用域，已调用<xref:System.Transactions.TransactionScope>对象尝试执行时调用此方法提交事务。 在这种情况下，此方法进行阻止，直到第一阶段的事务处理已完成。 第一阶段结束后所有资源管理器，并在事务中的登记具有事务结果投票和<xref:System.Transactions.TransactionManager>持久决定提交或中止事务。 在第二个阶段始终是处理的异步的。 因此，没有的只是已从给定的事务中提交的数据将立即可用之后使用另一个事务以查看此数据时能保证。  
   
  使用 C#`using`构造可确保即使发生异常，调用此方法。 在调用此方法之后所发生的异常不会影响事务。 此方法还将还原的环境事务到其原始状态。 一个<xref:System.Transactions.TransactionAbortedException>不真正提交事务时引发。  
   
- 此方法是同步的并阻止，直到提交或中止事务。 正因为如此，您应在 Windows 窗体 (WinForm) 应用程序中，使用此方法时请格外小心，或可能发生死锁。 如果内调用此方法一个 WinForm 控件事件 （例如，单击某个按钮），并使用同步<xref:System.Windows.Forms.Control.Invoke%2A>方法以指示要执行的中间处理事务，一些 UI 任务 （例如，更改颜色） 的控件会发生死锁。 这是因为<xref:System.Windows.Forms.Control.Invoke%2A>方法是同步的阻止辅助线程，直到用户界面线程完成其作业。 但是，在我们的方案，在 UI 线程正在还等待工作线程来提交事务。 结果是所有线程都无法继续，作用域将无限期等待完成的提交。 应使用<xref:System.Windows.Forms.Control.BeginInvoke%2A>而非<xref:System.Windows.Forms.Control.Invoke%2A>只要有可能，因为它是异步的因此不太容易发生死锁。  
+ 因为此方法将阻塞，直到事务处理的第一阶段完成，你必须非常谨慎使用此方法在 Windows 窗体 (WinForm) 应用程序或死锁时可能会发生。 如果内调用此方法一个 WinForm 控件事件 （例如，单击某个按钮），并使用同步<xref:System.Windows.Forms.Control.Invoke%2A>方法以指示要执行的中间处理事务，一些 UI 任务 （例如，更改颜色） 的控件会发生死锁。 这是因为<xref:System.Windows.Forms.Control.Invoke%2A>方法是同步的阻止辅助线程，直到用户界面线程完成其作业。 但是，在我们的方案，在 UI 线程正在还等待工作线程来提交事务。 结果是所有线程都无法继续，作用域将无限期等待完成的提交。 应使用<xref:System.Windows.Forms.Control.BeginInvoke%2A>而非<xref:System.Windows.Forms.Control.Invoke%2A>只要有可能，因为它是异步的因此不太容易发生死锁。  
   
  有关如何使用此方法的详细信息，请参阅[实现隐式 Transaction Using Transaction Scope](~/docs/framework/data/transactions/implementing-an-implicit-transaction-using-transaction-scope.md)主题。  
   

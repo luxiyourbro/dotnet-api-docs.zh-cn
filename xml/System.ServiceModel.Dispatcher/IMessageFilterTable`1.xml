@@ -1,11 +1,11 @@
 <Type Name="IMessageFilterTable&lt;TFilterData&gt;" FullName="System.ServiceModel.Dispatcher.IMessageFilterTable&lt;TFilterData&gt;">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="8c5653c0670f068d7d41e903ce84c126edfe4bdf" />
-    <Meta Name="ms.sourcegitcommit" Value="0ec122ee5f3681159b8460ab15b409fd6e3d3ae0" />
+    <Meta Name="ms.openlocfilehash" Value="e765c9378a1787906c0fc8845a0178763e56c09d" />
+    <Meta Name="ms.sourcegitcommit" Value="723b8a6d92667ba86fcda96190bad3b4a03283b3" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="zh-CN" />
-    <Meta Name="ms.lasthandoff" Value="10/04/2018" />
-    <Meta Name="ms.locfileid" Value="48674350" />
+    <Meta Name="ms.lasthandoff" Value="11/09/2018" />
+    <Meta Name="ms.locfileid" Value="51305852" />
   </Metadata>
   <TypeSignature Language="C#" Value="public interface IMessageFilterTable&lt;TFilterData&gt; : System.Collections.Generic.ICollection&lt;System.Collections.Generic.KeyValuePair&lt;System.ServiceModel.Dispatcher.MessageFilter,TFilterData&gt;&gt;, System.Collections.Generic.IDictionary&lt;System.ServiceModel.Dispatcher.MessageFilter,TFilterData&gt;, System.Collections.Generic.IEnumerable&lt;System.Collections.Generic.KeyValuePair&lt;System.ServiceModel.Dispatcher.MessageFilter,TFilterData&gt;&gt;" />
   <TypeSignature Language="ILAsm" Value=".class public interface auto ansi abstract IMessageFilterTable`1&lt;TFilterData&gt; implements class System.Collections.Generic.ICollection`1&lt;valuetype System.Collections.Generic.KeyValuePair`2&lt;class System.ServiceModel.Dispatcher.MessageFilter, !TFilterData&gt;&gt;, class System.Collections.Generic.IDictionary`2&lt;class System.ServiceModel.Dispatcher.MessageFilter, !TFilterData&gt;, class System.Collections.Generic.IEnumerable`1&lt;valuetype System.Collections.Generic.KeyValuePair`2&lt;class System.ServiceModel.Dispatcher.MessageFilter, !TFilterData&gt;&gt;, class System.Collections.IEnumerable" />
@@ -26,10 +26,22 @@
       <InterfaceName>System.Collections.Generic.ICollection&lt;System.Collections.Generic.KeyValuePair&lt;System.ServiceModel.Dispatcher.MessageFilter,TFilterData&gt;&gt;</InterfaceName>
     </Interface>
     <Interface>
+      <InterfaceName>System.Collections.Generic.ICollection&lt;System.Collections.Generic.KeyValuePair&lt;TKey,TValue&gt;&gt;</InterfaceName>
+    </Interface>
+    <Interface>
       <InterfaceName>System.Collections.Generic.IDictionary&lt;System.ServiceModel.Dispatcher.MessageFilter,TFilterData&gt;</InterfaceName>
     </Interface>
     <Interface>
       <InterfaceName>System.Collections.Generic.IEnumerable&lt;System.Collections.Generic.KeyValuePair&lt;System.ServiceModel.Dispatcher.MessageFilter,TFilterData&gt;&gt;</InterfaceName>
+    </Interface>
+    <Interface>
+      <InterfaceName>System.Collections.Generic.IEnumerable&lt;System.Collections.Generic.KeyValuePair&lt;TKey,TValue&gt;&gt;</InterfaceName>
+    </Interface>
+    <Interface>
+      <InterfaceName>System.Collections.Generic.IEnumerable&lt;T&gt;</InterfaceName>
+    </Interface>
+    <Interface>
+      <InterfaceName>System.Collections.IEnumerable</InterfaceName>
     </Interface>
   </Interfaces>
   <Docs>
@@ -53,8 +65,8 @@
 |-----------------|-------------|-------------------|  
 |<xref:System.ServiceModel.Dispatcher.IMessageFilterTable%601.GetMatchingValue%2A>|Single|`FilterData`|  
 |<xref:System.ServiceModel.Dispatcher.IMessageFilterTable%601.GetMatchingFilter%2A>|Single|<xref:System.ServiceModel.Dispatcher.MessageFilter>|  
-|<xref:System.ServiceModel.Dispatcher.IMessageFilterTable%601.GetMatchingValues%2A>|多页|`FilterData`|  
-|<xref:System.ServiceModel.Dispatcher.IMessageFilterTable%601.GetMatchingFilters%2A>|多页|<xref:System.ServiceModel.Dispatcher.MessageFilter> 对象|  
+|<xref:System.ServiceModel.Dispatcher.IMessageFilterTable%601.GetMatchingValues%2A>|多种|`FilterData`|  
+|<xref:System.ServiceModel.Dispatcher.IMessageFilterTable%601.GetMatchingFilters%2A>|多种|<xref:System.ServiceModel.Dispatcher.MessageFilter> 对象|  
   
  每个方法包含两个重载。 两个重载的区别是，一个重载使用 <xref:System.ServiceModel.Channels.Message> 参数，但不允许其检查正文的内容；另一个重载使用 <xref:System.ServiceModel.Channels.MessageBuffer> 参数，可以检查消息的任何部分。 如果使用消息参数来调用方法，并且筛选器表包含检查消息正文内容的筛选器，则将引发异常。 如果您对表中的筛选器不确定，请调用使用消息缓冲区的重载。  
   
@@ -125,7 +137,7 @@
         <param name="result">
           <see langword="out" /> 参数，该参数存储 <c>message</c> 符合的筛选器。 如果找不到筛选器，该参数将设置为默认值。</param>
         <summary>返回一个值，该值指示指定的消息是否正好满足表中的一个筛选器的匹配条件，然后在 <see langword="out" /> 参数中返回该筛选器。</summary>
-        <returns>如果 <paramref name="message" /> 满足表中至少一个筛选器的匹配条件，则为 <see langword="true" />；如果不满足任何筛选器，则为 <see langword="false" />。</returns>
+        <returns>如果 <see langword="true" /> 满足表中至少一个筛选器的匹配条件，则为 <paramref name="message" />；如果不满足任何筛选器，则为 <see langword="false" />。</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -176,7 +188,7 @@
         <param name="result">
           <see langword="out" /> 参数，该参数存储 <c>message</c> 符合的筛选器。 如果找不到筛选器，该参数将设置为默认值。</param>
         <summary>返回一个值，该值指示指定的消息或缓冲消息是否正好满足表中的一个筛选器的匹配条件，然后在 <see langword="out" /> 参数中返回该筛选器。</summary>
-        <returns>如果 <paramref name="messageBuffer" /> 满足表中至少一个筛选器的匹配条件，则为 <see langword="true" />；如果不满足任何筛选器，则为 <see langword="false" />。</returns>
+        <returns>如果 <see langword="true" /> 满足表中至少一个筛选器的匹配条件，则为 <paramref name="messageBuffer" />；如果不满足任何筛选器，则为 <see langword="false" />。</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -231,7 +243,7 @@
         <param name="message">要测试的 <see cref="T:System.ServiceModel.Channels.Message" />。</param>
         <param name="results">存储 <see cref="T:System.Collections.Generic.ICollection`1" />&lt;Filter&gt; 中匹配的 <see cref="T:System.ServiceModel.Dispatcher.MessageFilter" /> 对象的引用参数。</param>
         <summary>返回一个值，该值指示指定的消息是否满足表中筛选器的匹配条件，然后将匹配筛选器添加到集合。</summary>
-        <returns>如果 <paramref name="message" /> 满足表中至少一个筛选器的匹配条件，则为 <see langword="true" />；如果不满足任何筛选器，则为 <see langword="false" />。</returns>
+        <returns>如果 <see langword="true" /> 满足表中至少一个筛选器的匹配条件，则为 <paramref name="message" />；如果不满足任何筛选器，则为 <see langword="false" />。</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -274,7 +286,7 @@
         <param name="buffer">要测试的 <see cref="T:System.ServiceModel.Channels.MessageBuffer" />。</param>
         <param name="results">存储 <see cref="T:System.Collections.Generic.ICollection`1" />&lt;Filter&gt; 中匹配的 <see cref="T:System.ServiceModel.Dispatcher.MessageFilter" /> 对象的引用参数。</param>
         <summary>返回一个值，该值指示指定的缓冲消息是否满足表中筛选器的匹配条件，然后将匹配筛选器添加到集合。</summary>
-        <returns>如果 <paramref name="messageBuffer" /> 满足表中至少一个筛选器的匹配条件，则为 <see langword="true" />；如果不满足任何筛选器，则为 <see langword="false" />。</returns>
+        <returns>如果 <see langword="true" /> 满足表中至少一个筛选器的匹配条件，则为 <paramref name="messageBuffer" />；如果不满足任何筛选器，则为 <see langword="false" />。</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -338,7 +350,7 @@
           <see langword="out" /> 参数，存储与 <c>message</c> 匹配的 <c>FilterData</c>。</param>
         <param name="data">
           <see langword="out" /> 参数，存储与 <c>message</c> 匹配的 <c>FilterData</c>。</param>
-        <summary>返回一个值，该值指示指定的消息是否正好满足表中的一个筛选器的匹配条件，然后将匹配筛选数据添加到集合。</summary>
+        <summary>返回一个值，该值指示指定的消息是否正好满足表中的一个筛选器的匹配条件，然后将匹配筛选器数据添加到集合。</summary>
         <returns>如果消息正好满足表中一个筛选器的匹配条件，则为 <see langword="true" />；如果不满足任何筛选器，则为 <see langword="false" />。</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
@@ -391,7 +403,7 @@
           <see langword="out" /> 参数，存储与 <c>messageBuffer</c> 匹配的 <c>FilterData</c>。</param>
         <param name="data">
           <see langword="out" /> 参数，存储与 <c>buffer</c> 匹配的 <c>FilterData</c>。</param>
-        <summary>返回一个值，该值指示指定的缓冲消息是否正好满足表中的一个筛选器的匹配条件，然后将匹配筛选数据添加到集合。</summary>
+        <summary>返回一个值，该值指示指定的缓冲消息是否正好满足表中的一个筛选器的匹配条件，然后将匹配筛选器数据添加到集合。</summary>
         <returns>如果消息正好满足表中一个筛选器的匹配条件，则为 <see langword="true" />；如果不满足任何筛选器，则为 <see langword="false" />。</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
@@ -448,9 +460,9 @@
       </Parameters>
       <Docs>
         <param name="message">要测试的 <see cref="T:System.ServiceModel.Channels.Message" />。</param>
-        <param name="results">在通用集合中存储匹配筛选器的筛选数据的引用参数。</param>
+        <param name="results">在通用集合中存储匹配筛选器的数据的引用参数。</param>
         <summary>返回一个值，该值指示指定的消息是否满足表中至少一个筛选器的匹配条件，然后将匹配筛选器的 <paramref name="FilterData" /> 添加到集合。</summary>
-        <returns>如果 <paramref name="message" /> 满足表中至少一个筛选器的匹配条件，则为 <see langword="true" />；如果不满足任何筛选器，则为 <see langword="false" />。</returns>
+        <returns>如果 <see langword="true" /> 满足表中至少一个筛选器的匹配条件，则为 <paramref name="message" />；如果不满足任何筛选器，则为 <see langword="false" />。</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -494,7 +506,7 @@
         <param name="buffer">要测试的 <see cref="T:System.ServiceModel.Channels.MessageBuffer" />。</param>
         <param name="results">在泛型 <see cref="T:System.Collections.Generic.ICollection`1" />&lt;<c>FilterData</c>&gt; 中存储匹配筛选器的筛选数据的引用参数。</param>
         <summary>返回一个值，该值指示指定的缓冲消息是否满足表中至少一个筛选器的匹配条件，然后将匹配筛选器的 <paramref name="FilterData" /> 添加到集合。</summary>
-        <returns>如果 <paramref name="messageBuffer" /> 满足表中至少一个筛选器的匹配条件，则为 <see langword="true" />；如果不满足任何筛选器，则为 <see langword="false" />。</returns>
+        <returns>如果 <see langword="true" /> 满足表中至少一个筛选器的匹配条件，则为 <paramref name="messageBuffer" />；如果不满足任何筛选器，则为 <see langword="false" />。</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   

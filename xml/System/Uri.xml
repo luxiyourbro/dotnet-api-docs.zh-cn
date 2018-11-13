@@ -1,11 +1,11 @@
 <Type Name="Uri" FullName="System.Uri">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="bc748165070ca7c2fc35cc5a3d821923907161f7" />
-    <Meta Name="ms.sourcegitcommit" Value="41742a1055cefdeaf2f9d76364f4bad3c9f83126" />
+    <Meta Name="ms.openlocfilehash" Value="6a2e8da0423adb69adab3d2953a45d27b12eeb0c" />
+    <Meta Name="ms.sourcegitcommit" Value="dc6ea82452beeb642259a38f3c2fad756ebd3d9f" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="zh-CN" />
-    <Meta Name="ms.lasthandoff" Value="10/16/2018" />
-    <Meta Name="ms.locfileid" Value="48689794" />
+    <Meta Name="ms.lasthandoff" Value="11/07/2018" />
+    <Meta Name="ms.locfileid" Value="51264562" />
   </Metadata>
   <TypeSignature Language="C#" Value="public class Uri : System.Runtime.Serialization.ISerializable" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi serializable beforefieldinit Uri extends System.Object implements class System.Runtime.Serialization.ISerializable" />
@@ -71,7 +71,9 @@
 -   如果主机名是 IPv6 地址，则使用规范的 IPv6 地址。 删除 ScopeId 和其他可选的 IPv6 数据。  
   
 -   删除默认值和空的端口号。
-
+  
+-   将隐式文件路径，而无需 file:// 方案 (例如，"C:\my\file") 转换为显式文件路径的 file:// 方案。
+  
 -   没有保留的用途的转义的字符 （也称为百分比编码八位字节） 为解码状态 （也称为进行转义的情况）。 这些非保留的字符包括大写和小写字母 (%41-%5a 和 %61-%7a)、 小数位数 （%30-%39)、 连字符 (%2d)、 句点 (%2e) 下划线 (%5f) 和颚化符 (%7e)。
 
 -   Canonicalizes 路径的分层 Uri 由压缩序列如 /。 /.../，和 / / （是否转义序列）。 请注意，有不压缩这些序列的一些方案。
@@ -168,6 +170,14 @@ http://myUrl/
  <xref:System.GenericUriParser?displayProperty=nameWithType> 类已得到扩展，允许创建支持 IRI 和 IDN 的自定义分析。 通过将枚举中可用值的按位组合传递给 <xref:System.GenericUriParserOptions?displayProperty=nameWithType> 构造函数 <xref:System.GenericUriParser?displayProperty=nameWithType> 来指定 <xref:System.GenericUriParser?displayProperty=nameWithType> 对象的行为。 <xref:System.GenericUriParserOptions.IriParsing?displayProperty=nameWithType> 类型表示分析程序支持 RFC 3987 中为国际资源标识符 (IRI) 指定的分析规则。 是否使用 IRI 由前面讨论的配置值指定。  
   
  <xref:System.GenericUriParserOptions.Idn?displayProperty=nameWithType> 类型表示分析程序支持主机名的国际化域名 (IDN) 分析。 是否使用 IDN 由前面讨论的配置值指定。  
+  
+## <a name="implicit-file-path-support"></a>隐式文件路径支持
+ <xref:System.Uri> 此外可以用于表示本地文件系统路径。 这些路径可以表示*显式*file:// 方案开头的 Uri 中并*隐式*中没有的 file:// 方案的 Uri。 作为一个具体示例，以下两个 Uri 都是有效，并表示相同的文件路径：
+```csharp
+Uri uri1 = new Uri("C:/test/path/file.txt") // Implicit file path.
+Uri uri2 = new Uri("file:///C:/test/path/file.txt") // Explicit file path.
+```
+ 这些隐式文件路径不符合 URI 规范，因此应避免在可能的情况。 如果使用基于 Unix 的系统上的.NET Core，隐式文件路径尤其是有问题，由于可以隐式的绝对文件路径是*无法区分*从相对路径。 时就可能出现，这种多义性<xref:System.Uri>默认为解释为绝对 URI 的路径。
   
 ## <a name="performance-considerations"></a>性能注意事项  
  如果使用 *Web.config * 处理 Uri，如果其方案标识符使用了非标准所需的文件，其中包含 Uri 来初始化应用程序、 其他时间。 在这种情况下，当需要 Uri 时，不是在启动时初始化应用程序的受影响的部分。  

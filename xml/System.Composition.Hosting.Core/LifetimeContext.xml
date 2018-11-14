@@ -1,11 +1,11 @@
 <Type Name="LifetimeContext" FullName="System.Composition.Hosting.Core.LifetimeContext">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="4991b380146d99d422c00f743125823c1462045f" />
-    <Meta Name="ms.sourcegitcommit" Value="434f60616a9793fa8436744549fc856e94f7a648" />
+    <Meta Name="ms.openlocfilehash" Value="dd6cafc830b07f9b84eefa3cd9dca1fa777e3b41" />
+    <Meta Name="ms.sourcegitcommit" Value="0d6aa6694f157a08fe52cd25b4d9d3dcf913e812" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="zh-CN" />
-    <Meta Name="ms.lasthandoff" Value="08/25/2018" />
-    <Meta Name="ms.locfileid" Value="39817403" />
+    <Meta Name="ms.lasthandoff" Value="10/12/2018" />
+    <Meta Name="ms.locfileid" Value="49141984" />
   </Metadata>
   <TypeSignature Language="C#" Value="public sealed class LifetimeContext : System.Composition.CompositionContext, IDisposable" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed beforefieldinit LifetimeContext extends System.Composition.CompositionContext implements class System.IDisposable" />
@@ -17,6 +17,7 @@
     <AssemblyName>System.Composition.Hosting</AssemblyName>
     <AssemblyVersion>1.0.31.0</AssemblyVersion>
     <AssemblyVersion>1.0.32.0</AssemblyVersion>
+    <AssemblyVersion>1.0.33.0</AssemblyVersion>
   </AssemblyInfo>
   <Base>
     <BaseTypeName>System.Composition.CompositionContext</BaseTypeName>
@@ -28,18 +29,18 @@
   </Interfaces>
   <Docs>
     <summary>
-      <span data-ttu-id="ac613-101">表示生存期树中的节点。</span>
+      <span data-ttu-id="561fb-101">表示生存期树中的节点。</span>
       <span class="sxs-lookup">
-        <span data-stu-id="ac613-101">Represents a node in the lifetime tree.</span>
+        <span data-stu-id="561fb-101">Represents a node in the lifetime tree.</span>
       </span>
     </summary>
     <remarks>
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
-<span data-ttu-id="ac613-102"><xref:System.Composition.Hosting.Core.LifetimeContext>对象是共享的共享部件的单位。</span><span class="sxs-lookup"><span data-stu-id="ac613-102">The <xref:System.Composition.Hosting.Core.LifetimeContext> object is the unit of sharing for shared parts.</span></span> <span data-ttu-id="ac613-103">它控制的绑定部分可供使用，并可用于检索实例，作为现有的组合操作的一部分或作为新的组合操作的基础。</span><span class="sxs-lookup"><span data-stu-id="ac613-103">It controls the disposal of bound parts and can be used to retrieve instances, either as part of an existing composition operation or as the basis of a new composition operation.</span></span> <span data-ttu-id="ac613-104">单个的生存期上下文可以标记为包含受特定的共享边界的部件。</span><span class="sxs-lookup"><span data-stu-id="ac613-104">An individual lifetime context can be marked to contain parts that are constrained by particular sharing boundaries.</span></span>
+<span data-ttu-id="561fb-102"><xref:System.Composition.Hosting.Core.LifetimeContext>对象是共享的共享部件的单位。</span><span class="sxs-lookup"><span data-stu-id="561fb-102">The <xref:System.Composition.Hosting.Core.LifetimeContext> object is the unit of sharing for shared parts.</span></span> <span data-ttu-id="561fb-103">它控制的绑定部分可供使用，并可用于检索实例，作为现有的组合操作的一部分或作为新的组合操作的基础。</span><span class="sxs-lookup"><span data-stu-id="561fb-103">It controls the disposal of bound parts and can be used to retrieve instances, either as part of an existing composition operation or as the basis of a new composition operation.</span></span> <span data-ttu-id="561fb-104">单个的生存期上下文可以标记为包含受特定的共享边界的部件。</span><span class="sxs-lookup"><span data-stu-id="561fb-104">An individual lifetime context can be marked to contain parts that are constrained by particular sharing boundaries.</span></span>
 
-<span data-ttu-id="ac613-105">此对象包含两条单独受保护的共享状态： 共享部件实例和绑定部件实例。</span><span class="sxs-lookup"><span data-stu-id="ac613-105">This object contains two pieces of independently protected shared state: shared part instances and bound part instances.</span></span> <span data-ttu-id="ac613-106">共享的部件实例是无锁、 可读，并不会导致问题如果将其添加到过程可供使用。</span><span class="sxs-lookup"><span data-stu-id="ac613-106">A shared part instance is lock-free, readable, and does not result in issues if it is added to during disposal.</span></span> <span data-ttu-id="ac613-107">受本身中锁定。</span><span class="sxs-lookup"><span data-stu-id="ac613-107">It is protected by being locked itself.</span></span> <span data-ttu-id="ac613-108">在此锁不可避免地调用激活逻辑。</span><span class="sxs-lookup"><span data-stu-id="ac613-108">Activation logic is unavoidably called under this lock.</span></span> <span data-ttu-id="ac613-109">绑定的部件实例始终受锁定<see langword="this" />，并应永远不会写入后可供使用。</span><span class="sxs-lookup"><span data-stu-id="ac613-109">A bound part instance is always protected by locking <see langword="this" />, and should never be written to after disposal.</span></span> <span data-ttu-id="ac613-110">绑定的部件实例设置为<see langword="null" />中的锁定下<xref:System.Composition.Hosting.Core.LifetimeContext.Dispose>方法。</span><span class="sxs-lookup"><span data-stu-id="ac613-110">A bound part instance is set to <see langword="null" /> under a lock in the <xref:System.Composition.Hosting.Core.LifetimeContext.Dispose> method.</span></span> <span data-ttu-id="ac613-111">如果编写允许在绑定的部件实例的处理后，它会生成不释放可释放部件。</span><span class="sxs-lookup"><span data-stu-id="ac613-111">If writing were allowed after disposal for a bound part instance, it would result in disposable parts not being released.</span></span> <span data-ttu-id="ac613-112">锁之外调用绑定部分上的 dispose 方法。</span><span class="sxs-lookup"><span data-stu-id="ac613-112">The dispose method on a bound part is called outside of the lock.</span></span> 
+<span data-ttu-id="561fb-105">此对象包含两条单独受保护的共享状态： 共享部件实例和绑定部件实例。</span><span class="sxs-lookup"><span data-stu-id="561fb-105">This object contains two pieces of independently protected shared state: shared part instances and bound part instances.</span></span> <span data-ttu-id="561fb-106">共享的部件实例是无锁、 可读，并不会导致问题如果将其添加到过程可供使用。</span><span class="sxs-lookup"><span data-stu-id="561fb-106">A shared part instance is lock-free, readable, and does not result in issues if it is added to during disposal.</span></span> <span data-ttu-id="561fb-107">受本身中锁定。</span><span class="sxs-lookup"><span data-stu-id="561fb-107">It is protected by being locked itself.</span></span> <span data-ttu-id="561fb-108">在此锁不可避免地调用激活逻辑。</span><span class="sxs-lookup"><span data-stu-id="561fb-108">Activation logic is unavoidably called under this lock.</span></span> <span data-ttu-id="561fb-109">绑定的部件实例始终受锁定<see langword="this" />，并应永远不会写入后可供使用。</span><span class="sxs-lookup"><span data-stu-id="561fb-109">A bound part instance is always protected by locking <see langword="this" />, and should never be written to after disposal.</span></span> <span data-ttu-id="561fb-110">绑定的部件实例设置为<see langword="null" />中的锁定下<xref:System.Composition.Hosting.Core.LifetimeContext.Dispose>方法。</span><span class="sxs-lookup"><span data-stu-id="561fb-110">A bound part instance is set to <see langword="null" /> under a lock in the <xref:System.Composition.Hosting.Core.LifetimeContext.Dispose> method.</span></span> <span data-ttu-id="561fb-111">如果编写允许在绑定的部件实例的处理后，它会生成不释放可释放部件。</span><span class="sxs-lookup"><span data-stu-id="561fb-111">If writing were allowed after disposal for a bound part instance, it would result in disposable parts not being released.</span></span> <span data-ttu-id="561fb-112">锁之外调用绑定部分上的 dispose 方法。</span><span class="sxs-lookup"><span data-stu-id="561fb-112">The dispose method on a bound part is called outside of the lock.</span></span> 
   
  ]]></format>
     </remarks>
@@ -57,6 +58,7 @@
         <AssemblyName>System.Composition.Hosting</AssemblyName>
         <AssemblyVersion>1.0.31.0</AssemblyVersion>
         <AssemblyVersion>1.0.32.0</AssemblyVersion>
+        <AssemblyVersion>1.0.33.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Void</ReturnType>
@@ -66,22 +68,22 @@
       </Parameters>
       <Docs>
         <param name="instance">
-          <span data-ttu-id="ac613-113">部件。</span>
+          <span data-ttu-id="561fb-113">部件。</span>
           <span class="sxs-lookup">
-            <span data-stu-id="ac613-113">The part.</span>
+            <span data-stu-id="561fb-113">The part.</span>
           </span>
         </param>
         <summary>
-          <span data-ttu-id="ac613-114">将可释放部件的生存期绑定到此生存期上下文中。</span>
+          <span data-ttu-id="561fb-114">将可释放部件的生存期绑定到此生存期上下文中。</span>
           <span class="sxs-lookup">
-            <span data-stu-id="ac613-114">Binds the lifetime of a disposable part to this lifetime context.</span>
+            <span data-stu-id="561fb-114">Binds the lifetime of a disposable part to this lifetime context.</span>
           </span>
         </summary>
         <remarks></remarks>
         <exception cref="T:System.ObjectDisposedException">
-          <span data-ttu-id="ac613-115">该操作是对某个已释放对象执行的。</span>
+          <span data-ttu-id="561fb-115">该操作是对某个已释放对象执行的。</span>
           <span class="sxs-lookup">
-            <span data-stu-id="ac613-115">The operation was performed on a disposed object.</span>
+            <span data-stu-id="561fb-115">The operation was performed on a disposed object.</span>
           </span>
         </exception>
       </Docs>
@@ -98,6 +100,7 @@
         <AssemblyName>System.Composition.Hosting</AssemblyName>
         <AssemblyVersion>1.0.31.0</AssemblyVersion>
         <AssemblyVersion>1.0.32.0</AssemblyVersion>
+        <AssemblyVersion>1.0.33.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Int32</ReturnType>
@@ -105,15 +108,15 @@
       <Parameters />
       <Docs>
         <summary>
-          <span data-ttu-id="ac613-116">生成可用于查找共享部件实例的标识符。</span>
+          <span data-ttu-id="561fb-116">生成可用于查找共享部件实例的标识符。</span>
           <span class="sxs-lookup">
-            <span data-stu-id="ac613-116">Generates an identifier that can be used to locate shared part instances.</span>
+            <span data-stu-id="561fb-116">Generates an identifier that can be used to locate shared part instances.</span>
           </span>
         </summary>
         <returns>
-          <span data-ttu-id="ac613-117">新唯一标识符。</span>
+          <span data-ttu-id="561fb-117">新唯一标识符。</span>
           <span class="sxs-lookup">
-            <span data-stu-id="ac613-117">A new unique identifier.</span>
+            <span data-stu-id="561fb-117">A new unique identifier.</span>
           </span>
         </returns>
         <remarks></remarks>
@@ -134,6 +137,7 @@
         <AssemblyName>System.Composition.Hosting</AssemblyName>
         <AssemblyVersion>1.0.31.0</AssemblyVersion>
         <AssemblyVersion>1.0.32.0</AssemblyVersion>
+        <AssemblyVersion>1.0.33.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Void</ReturnType>
@@ -141,9 +145,9 @@
       <Parameters />
       <Docs>
         <summary>
-          <span data-ttu-id="ac613-118">释放生存期上下文和所有与之绑定的部件实例。</span>
+          <span data-ttu-id="561fb-118">释放生存期上下文和所有与之绑定的部件实例。</span>
           <span class="sxs-lookup">
-            <span data-stu-id="ac613-118">Releases the lifetime context and any part instances bound to it.</span>
+            <span data-stu-id="561fb-118">Releases the lifetime context and any part instances bound to it.</span>
           </span>
         </summary>
         <remarks></remarks>
@@ -161,6 +165,7 @@
         <AssemblyName>System.Composition.Hosting</AssemblyName>
         <AssemblyVersion>1.0.31.0</AssemblyVersion>
         <AssemblyVersion>1.0.32.0</AssemblyVersion>
+        <AssemblyVersion>1.0.33.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Composition.Hosting.Core.LifetimeContext</ReturnType>
@@ -170,28 +175,28 @@
       </Parameters>
       <Docs>
         <param name="sharingBoundary">
-          <span data-ttu-id="ac613-119">要在其中查找生存期上下文的共享边界。</span>
+          <span data-ttu-id="561fb-119">要在其中查找生存期上下文的共享边界。</span>
           <span class="sxs-lookup">
-            <span data-stu-id="ac613-119">The sharing boundary to find a lifetime context within.</span>
+            <span data-stu-id="561fb-119">The sharing boundary to find a lifetime context within.</span>
           </span>
         </param>
         <summary>
-          <span data-ttu-id="ac613-120">在所有指定的共享边界内查找范围最广的生存期上下文。</span>
+          <span data-ttu-id="561fb-120">在所有指定的共享边界内查找范围最广的生存期上下文。</span>
           <span class="sxs-lookup">
-            <span data-stu-id="ac613-120">Finds the broadest lifetime context within all of the specified sharing boundaries.</span>
+            <span data-stu-id="561fb-120">Finds the broadest lifetime context within all of the specified sharing boundaries.</span>
           </span>
         </summary>
         <returns>
-          <span data-ttu-id="ac613-121">所有指定的共享边界内范围最广的生存期上下文。</span>
+          <span data-ttu-id="561fb-121">所有指定的共享边界内范围最广的生存期上下文。</span>
           <span class="sxs-lookup">
-            <span data-stu-id="ac613-121">The broadest lifetime context within all of the specified sharing boundaries.</span>
+            <span data-stu-id="561fb-121">The broadest lifetime context within all of the specified sharing boundaries.</span>
           </span>
         </returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <span data-ttu-id="ac613-122">目前，根本不能为边界。</span><span class="sxs-lookup"><span data-stu-id="ac613-122">Currently, the root cannot be a boundary.</span></span>  
+ <span data-ttu-id="561fb-122">目前，根本不能为边界。</span><span class="sxs-lookup"><span data-stu-id="561fb-122">Currently, the root cannot be a boundary.</span></span>  
   
  ]]></format>
         </remarks>
@@ -209,6 +214,7 @@
         <AssemblyName>System.Composition.Hosting</AssemblyName>
         <AssemblyVersion>1.0.31.0</AssemblyVersion>
         <AssemblyVersion>1.0.32.0</AssemblyVersion>
+        <AssemblyVersion>1.0.33.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Object</ReturnType>
@@ -220,40 +226,40 @@
       </Parameters>
       <Docs>
         <param name="sharingId">
-          <span data-ttu-id="ac613-123">共享部件的 ID。</span>
+          <span data-ttu-id="561fb-123">共享部件的 ID。</span>
           <span class="sxs-lookup">
-            <span data-stu-id="ac613-123">The ID of the shared part.</span>
+            <span data-stu-id="561fb-123">The ID of the shared part.</span>
           </span>
         </param>
         <param name="operation">
-          <span data-ttu-id="ac613-124">要在其中创建部件的操作（如需）。</span>
+          <span data-ttu-id="561fb-124">要在其中创建部件的操作（如需）。</span>
           <span class="sxs-lookup">
-            <span data-stu-id="ac613-124">An operation in which to create a part, if necessary.</span>
+            <span data-stu-id="561fb-124">An operation in which to create a part, if necessary.</span>
           </span>
         </param>
         <param name="creator">
-          <span data-ttu-id="ac613-125">如果需要，可以激活新部件实例的激活器。</span>
+          <span data-ttu-id="561fb-125">如果需要，可以激活新部件实例的激活器。</span>
           <span class="sxs-lookup">
-            <span data-stu-id="ac613-125">An activator that can activate a new part instance, if necessary.</span>
+            <span data-stu-id="561fb-125">An activator that can activate a new part instance, if necessary.</span>
           </span>
         </param>
         <summary>
-          <span data-ttu-id="ac613-126">检索具有指定 ID 的共享部件实例，或如果找不到该部件实例，则在指定操作中使用指定创建器创建并共享一个部件实例。</span>
+          <span data-ttu-id="561fb-126">检索具有指定 ID 的共享部件实例，或如果找不到该部件实例，则在指定操作中使用指定创建器创建并共享一个部件实例。</span>
           <span class="sxs-lookup">
-            <span data-stu-id="ac613-126">Retrieves a shared part instance with the specified ID, or if the part instance can not be found, creates and shares a part instance using the specified creator within the specified operation.</span>
+            <span data-stu-id="561fb-126">Retrieves a shared part instance with the specified ID, or if the part instance can not be found, creates and shares a part instance using the specified creator within the specified operation.</span>
           </span>
         </summary>
         <returns>
-          <span data-ttu-id="ac613-127">新的或已检索的部件。</span>
+          <span data-ttu-id="561fb-127">新的或已检索的部件。</span>
           <span class="sxs-lookup">
-            <span data-stu-id="ac613-127">The new or retrieved part.</span>
+            <span data-stu-id="561fb-127">The new or retrieved part.</span>
           </span>
         </returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <span data-ttu-id="ac613-128">此方法是无锁如果部件实例已存在。</span><span class="sxs-lookup"><span data-stu-id="ac613-128">This method is lock-free if the part instance already exists.</span></span> <span data-ttu-id="ac613-129">如果必须创建部件实例，将会采用锁，将序列化其他使用此方法 （并发读取将继续用于安全和无锁） 的写入。</span><span class="sxs-lookup"><span data-stu-id="ac613-129">If the part instance must be created, a lock will be taken that will serialize other writes that use this method (concurrent reads will continue to be safe and lock-free).</span></span> <span data-ttu-id="ac613-130">非常重要的组合，因而锁获得是严格叶到根生存期树中。</span><span class="sxs-lookup"><span data-stu-id="ac613-130">It is important that the composition, and thus lock acquisition, is strictly leaf-to-root in the lifetime tree.</span></span>  
+ <span data-ttu-id="561fb-128">此方法是无锁如果部件实例已存在。</span><span class="sxs-lookup"><span data-stu-id="561fb-128">This method is lock-free if the part instance already exists.</span></span> <span data-ttu-id="561fb-129">如果必须创建部件实例，将会采用锁，将序列化其他使用此方法 （并发读取将继续用于安全和无锁） 的写入。</span><span class="sxs-lookup"><span data-stu-id="561fb-129">If the part instance must be created, a lock will be taken that will serialize other writes that use this method (concurrent reads will continue to be safe and lock-free).</span></span> <span data-ttu-id="561fb-130">非常重要的组合，因而锁获得是严格叶到根生存期树中。</span><span class="sxs-lookup"><span data-stu-id="561fb-130">It is important that the composition, and thus lock acquisition, is strictly leaf-to-root in the lifetime tree.</span></span>  
   
  ]]></format>
         </remarks>
@@ -271,6 +277,7 @@
         <AssemblyName>System.Composition.Hosting</AssemblyName>
         <AssemblyVersion>1.0.31.0</AssemblyVersion>
         <AssemblyVersion>1.0.32.0</AssemblyVersion>
+        <AssemblyVersion>1.0.33.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.String</ReturnType>
@@ -278,15 +285,15 @@
       <Parameters />
       <Docs>
         <summary>
-          <span data-ttu-id="ac613-131">返回此 <see cref="T:System.Composition.Hosting.Core.LifetimeContext" /> 对象的字符串表示形式。</span>
+          <span data-ttu-id="561fb-131">返回此 <see cref="T:System.Composition.Hosting.Core.LifetimeContext" /> 对象的字符串表示形式。</span>
           <span class="sxs-lookup">
-            <span data-stu-id="ac613-131">Returns the string representation of this <see cref="T:System.Composition.Hosting.Core.LifetimeContext" /> object.</span>
+            <span data-stu-id="561fb-131">Returns the string representation of this <see cref="T:System.Composition.Hosting.Core.LifetimeContext" /> object.</span>
           </span>
         </summary>
         <returns>
-          <span data-ttu-id="ac613-132">此 <see cref="T:System.Composition.Hosting.Core.LifetimeContext" /> 对象的字符串表示形式。</span>
+          <span data-ttu-id="561fb-132">此 <see cref="T:System.Composition.Hosting.Core.LifetimeContext" /> 对象的字符串表示形式。</span>
           <span class="sxs-lookup">
-            <span data-stu-id="ac613-132">The string representation of this <see cref="T:System.Composition.Hosting.Core.LifetimeContext" /> object.</span>
+            <span data-stu-id="561fb-132">The string representation of this <see cref="T:System.Composition.Hosting.Core.LifetimeContext" /> object.</span>
           </span>
         </returns>
         <remarks></remarks>
@@ -304,6 +311,7 @@
         <AssemblyName>System.Composition.Hosting</AssemblyName>
         <AssemblyVersion>1.0.31.0</AssemblyVersion>
         <AssemblyVersion>1.0.32.0</AssemblyVersion>
+        <AssemblyVersion>1.0.33.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Boolean</ReturnType>
@@ -314,27 +322,27 @@
       </Parameters>
       <Docs>
         <param name="contract">
-          <span data-ttu-id="ac613-133">协定。</span>
+          <span data-ttu-id="561fb-133">协定。</span>
           <span class="sxs-lookup">
-            <span data-stu-id="ac613-133">The contract.</span>
+            <span data-stu-id="561fb-133">The contract.</span>
           </span>
         </param>
         <param name="export">
-          <span data-ttu-id="ac613-134">此方法返回后，会包含协定实例（如果可用）；否则为 <see langword="null" />。</span>
+          <span data-ttu-id="561fb-134">此方法返回后，会包含协定实例（如果可用）；否则为 <see langword="null" />。</span>
           <span class="sxs-lookup">
-            <span data-stu-id="ac613-134">After this method returns, contains the contract instance if available; otherwise, <see langword="null" />.</span>
+            <span data-stu-id="561fb-134">After this method returns, contains the contract instance if available; otherwise, <see langword="null" />.</span>
           </span>
         </param>
         <summary>
-          <span data-ttu-id="ac613-135">从组合上下文中检索协定实例。</span>
+          <span data-ttu-id="561fb-135">从组合上下文中检索协定实例。</span>
           <span class="sxs-lookup">
-            <span data-stu-id="ac613-135">Retrieves a contract instance from the composition context.</span>
+            <span data-stu-id="561fb-135">Retrieves a contract instance from the composition context.</span>
           </span>
         </summary>
         <returns>
-          <span data-ttu-id="ac613-136">如果实例已检索，则为 <see langword="true" />；否则为 <see langword="false" />。</span>
+          <span data-ttu-id="561fb-136">如果实例已检索，则为 <see langword="true" />；否则为 <see langword="false" />。</span>
           <span class="sxs-lookup">
-            <span data-stu-id="ac613-136">
+            <span data-stu-id="561fb-136">
               <see langword="true" /> if the instance was retrieved; otherwise, <see langword="false" />.</span>
           </span>
         </returns>

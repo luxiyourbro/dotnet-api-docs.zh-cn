@@ -1,11 +1,11 @@
 <Type Name="Span&lt;T&gt;" FullName="System.Span&lt;T&gt;">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="ed04128e65524eee587eec2d84c3879e4073a91a" />
-    <Meta Name="ms.sourcegitcommit" Value="9dda17222b9f7d3edf130133bfb1370d5b410a4b" />
+    <Meta Name="ms.openlocfilehash" Value="882e05e21dfecfb02fbc683ac8abfa9b1e46c5c7" />
+    <Meta Name="ms.sourcegitcommit" Value="723b8a6d92667ba86fcda96190bad3b4a03283b3" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="zh-CN" />
-    <Meta Name="ms.lasthandoff" Value="09/22/2018" />
-    <Meta Name="ms.locfileid" Value="46640988" />
+    <Meta Name="ms.lasthandoff" Value="11/09/2018" />
+    <Meta Name="ms.locfileid" Value="51310906" />
   </Metadata>
   <TypeSignature Language="C#" Value="public struct Span&lt;T&gt;" />
   <TypeSignature Language="ILAsm" Value=".class public sequential ansi sealed beforefieldinit Span`1&lt;T&gt; extends System.ValueType" />
@@ -42,9 +42,51 @@
     <remarks>
       <format type="text/markdown"><![CDATA[  
 
-`Span<T>` 是[ref 结构](~/docs/csharp/reference-semantics-with-value-types.md#ref-struct-type)堆栈，而不是托管堆上分配。 Ref 结构类型有多种限制，以确保它们不能至托管堆，包括不能装箱和不能将它们分配到类型的变量提升<xref:System.Object>， `dynamic`，并为任何接口类型。
+`Span<T>` 是[ref 结构](~/docs/csharp/reference-semantics-with-value-types.md#ref-struct-type)堆栈，而不是托管堆上分配。 Ref 结构类型有多种限制，以确保它们不能至托管堆，包括不能装箱，它们不能分配给类型的变量提升<xref:System.Object>，`dynamic`为任何接口类型，也不能是中的字段引用类型，并且它们不能使用跨`await`和`yield`边界。 此外，对两个方法调用<xref:System.Span%601.Equals(System.Object)>并<xref:System.Span%601.GetHashCode%2A>，引发<xref:System.NotSupportedException>。 
 
-一个`Span<T>`实例通常用来保存数组的元素或数组的一部分。 一个数组，但是，与`Span<T>`实例可以指向托管内存，本机内存，或上管理的内存堆栈。
+> [!IMPORTANT]
+> 它是仅限堆栈的类型，因为`Span<T>`不合适，则需要将对缓冲区的引用存储在堆上的很多情况下。 这是如此，例如，进行 asynchrous 方法调用的例程。 对于此类 scenarious，可以使用免费赠送<xref:System.Memory%601?displayProperty=nameWithType>和<xref:System.ReadOnlyMemory%601?displayProperty=nameWithType>类型。
+
+表示不可变的或只读结构的范围，对于使用<xref:System.ReadOnlySpan%601?displayProperty=nameWithType>。
+
+## <a name="spant-and-memory"></a>跨度\<T > 和内存
+
+一个`Span<T>`表示任意内存的相邻区域。 一个`Span<T>`实例通常用来保存数组的元素或数组的一部分。 一个数组，但是，与`Span<T>`实例可以指向托管内存，本机内存，或上管理的内存堆栈。 下面的示例创建`Span<Byte>`从数组：
+
+[!code-csharp[Creating a Span\<Byte> from an array](~/samples/snippets/csharp/api/system/span/program.cs#1)]
+     
+下面的示例创建`Span<Byte>`从 100 个字节的本机内存：
+
+[!code-csharp[Creating a Span\<Byte> from native memory](~/samples/snippets/csharp/api/system/span/program.cs#2)]
+
+下面的示例使用C# [stackalloc](~/docs/csharp/language-reference/keywords/stackalloc.md)关键字来分配 100 个字节的堆栈上的内存：
+
+[!code-csharp[Creating a Span\<Byte> from stack-allocated memory](~/samples/snippets/csharp/api/system/span/program.cs#3)]
+
+因为`Span<T>`通过任意内存块，方法是一种抽象`Span<T>`类和方法与`Span<T>`参数对任何`Span<T>`而不考虑其要封装的内存的类型的对象。 例如，每个单独的代码部分进行初始化的跨度和计算其元素的总和可以更改到的单一初始化和计算方法，如下面的示例演示了：
+
+[!code-csharp[Creating a Span\<Byte> from stack-allocated memory](~/samples/snippets/csharp/api/system/span/program.cs#4)]
+
+## <a name="spant-and-arrays"></a>跨度\<T > 和数组
+
+时它将数组中，包装`Span<T>`像在中的示例中，可以包装整个数组[跨度\<T > 和内存](#spant-and-memory)部分。 因为它支持切片`Span<T>`也可以指向任何连续范围的数组中。  
+
+以下示例创建的 10 元素整数数组中间的五个元素的切片。 请注意代码加倍的切片中的每个整数的值。 如输出所示，跨度所做的更改会反映在数组的值。
+
+[!code-csharp[Creating a slice from a portion of a span](~/samples/snippets/csharp/api/system/span/slice/program.cs)]
+
+## <a name="spant-and-slices"></a>跨度\<T > 和切片
+
+`Span\<T>` 包括的两个重载<xref:System.Span%601.Slice%2A>超出当前指定的索引位置开始的范围形成一个切片的方法。 这样就可以将处理中的数据`Span\<T>`为一系列可以根据需要通过数据处理管道，其中包含最小性能影响的部分处理的逻辑块。 例如，由于基于文本的通常是新式服务器协议，字符串和子字符串的操作是尤为重要。 在中<xref:System.String>类，主要方法提取子字符串是<xref:System.String.Substring%2A>。 对于依赖于广泛的字符串操作的数据管道，其使用提供一些性能损失，因为它：
+
+1. 创建一个新的字符串来保存子字符串。
+
+2. 将字符的子集从原始字符串复制到新的字符串。
+
+此分配和复制操作可通过使用消除`Span\<T>`或<xref:System.ReadOnlySpan%601>，如下面的示例所示：
+
+[!code-csharp[Creating a slice from a substring](~/samples/snippets/csharp/api/system/span/slice2/program.cs)]
+
 
       ]]></format>
     </remarks>

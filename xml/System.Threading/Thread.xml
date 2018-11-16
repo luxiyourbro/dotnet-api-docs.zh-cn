@@ -1,11 +1,11 @@
 <Type Name="Thread" FullName="System.Threading.Thread">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="7c33ebbf7fda315ea7cdcd851f00c29b10d280bd" />
-    <Meta Name="ms.sourcegitcommit" Value="0ec122ee5f3681159b8460ab15b409fd6e3d3ae0" />
+    <Meta Name="ms.openlocfilehash" Value="38eda2875476a401d6a3442e5e40cebc592a4863" />
+    <Meta Name="ms.sourcegitcommit" Value="996ba67625b61917bcf75bfefe6dcb016019c2d8" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="zh-CN" />
-    <Meta Name="ms.lasthandoff" Value="10/04/2018" />
-    <Meta Name="ms.locfileid" Value="48741625" />
+    <Meta Name="ms.lasthandoff" Value="11/02/2018" />
+    <Meta Name="ms.locfileid" Value="50965469" />
   </Metadata>
   <TypeSignature Language="C#" Value="public sealed class Thread : System.Runtime.ConstrainedExecution.CriticalFinalizerObject, System.Runtime.InteropServices._Thread" />
   <TypeSignature Language="ILAsm" Value=".class public sequential ansi sealed beforefieldinit Thread extends System.Runtime.ConstrainedExecution.CriticalFinalizerObject implements class System.Runtime.InteropServices._Thread" />
@@ -142,7 +142,11 @@
 <a name="Culture"></a>   
 ## <a name="culture-and-threads"></a>区域性和线程  
  每个线程都具有一种文化，由此<xref:System.Threading.Thread.CurrentCulture%2A>属性和 UI 区域性，由表示<xref:System.Threading.Thread.CurrentUICulture%2A>属性。  当前区域性支持分析和格式设置、 字符串比较和排序，这种区分区域性的操作，还可以控制的书写体系和日历使用的线程。 当前 UI 区域性提供用于区分区域性检索资源文件中的资源。  
-  
+
+> [!IMPORTANT]
+> <xref:System.Threading.Thread.CurrentCulture>和<xref:System.Threading.Thread.CurrentUICulture>与当前线程以外的任何线程一起使用时，属性不可靠地工作。 .NET Framework 中，在读取这些属性是可靠的尽管不设置这些属性的当前线程以外的线程。 .NET Core 上<xref:System.InvalidOperationException>如果线程尝试读取或写入这些属性在不同线程上引发。
+> 我们建议你使用<xref:System.Globalization.CultureInfo.CurrentCulture?displayProperty=nameWithType>和<xref:System.Globalization.CultureInfo.CurrentUICulture?displayProperty=nameWithType>属性来检索和设置的当前区域性。
+
  实例化一个新线程时，其区域性和 UI 区域性定义的当前系统区域性和 UI 区域性，而不是区域性和 UI 区域性的从中创建新线程的线程。 这意味着，例如，如果当前系统区域性为英语 （美国） 和主应用程序线程的当前区域性为法语 （法国），通过调用创建一个新线程的区域性<xref:System.Threading.Thread.%23ctor%28System.Threading.ParameterizedThreadStart%29>从主线程的构造函数是英语 （美国），并不是法语 （法国）。 有关详细信息，请参阅的"区域性和线程"部分<xref:System.Globalization.CultureInfo>类主题。  
   
 > [!IMPORTANT]
@@ -153,9 +157,9 @@
 -   可以将传递<xref:System.Globalization.CultureInfo>对象，表示该区域性<xref:System.Threading.ParameterizedThreadStart>委托或<xref:System.Threading.ThreadPool.QueueUserWorkItem%28System.Threading.WaitCallback%2CSystem.Object%29?displayProperty=nameWithType>方法。  
   
 -   在上运行的应用程序[!INCLUDE[net_v45](~/includes/net-v45-md.md)]和更高版本，可以定义的区域性和 UI 区域性，则要分配给应用程序域中创建的值设置的所有线程<xref:System.Globalization.CultureInfo.DefaultThreadCurrentCulture%2A?displayProperty=nameWithType>和<xref:System.Globalization.CultureInfo.DefaultThreadCurrentUICulture%2A?displayProperty=nameWithType>属性。 请注意，这是每个应用程序域设置。  
-  
- 有关详细信息和示例，请参阅的"区域性和线程"部分<xref:System.Globalization.CultureInfo>类主题。  
-  
+
+ 有关详细信息和示例，请参阅的"区域性和线程"部分<xref:System.Globalization.CultureInfo>类主题。
+
 <a name="Properties"></a>   
 ## <a name="getting-information-about-and-controlling-threads"></a>获取相关信息和控制线程  
  您可以检索属性值提供有关线程的信息的的数目。 在某些情况下，还可以设置这些属性值来控制线程的操作。 这些线程属性包括：  
@@ -167,7 +171,7 @@
 -   线程 id。 只读的值<xref:System.Threading.Thread.ManagedThreadId%2A>属性由运行时分配，并唯一地标识在其进程内部的线程。  
   
     > [!NOTE]
-    >  因为非托管主机可以控制托管线程和非托管线程之间的关系，所以操作系统 [ThreadId](https://msdn.microsoft.com/library/windows/desktop/ms683233.aspx) 与托管线程之间没有固定的关系。 具体而言，可以使用复杂的宿主[CLR 宿主 API](https://msdn.microsoft.com/library/ms404385.aspx)调度多个托管的线程针对同一操作系统线程，或者在不同的操作系统线程之间移动托管的线程。  
+    >  因为非托管宿主可以控制托管线程和非托管线程之间的关系，所以操作系统 [ThreadId](https://msdn.microsoft.com/library/windows/desktop/ms683233.aspx) 与托管线程之间没有固定的关系。 具体而言，可以使用复杂的宿主[CLR 宿主 API](https://msdn.microsoft.com/library/ms404385.aspx)调度多个托管的线程针对同一操作系统线程，或者在不同的操作系统线程之间移动托管的线程。  
   
 -   线程的当前状态。 它的存在持续时间内，线程是始终在一个或多个定义的状态<xref:System.Threading.ThreadState>属性。  
   
@@ -1106,13 +1110,15 @@ Main thread: ThreadProc.Join has returned.  Press Enter to end program.
   
 ## Remarks  
  <xref:System.Globalization.CultureInfo>返回此属性，以及其关联的对象的对象确定的日期的默认格式、 时间、 数字、 货币值，排序顺序的文本、 大小写约定，和的字符串比较。 请参阅<xref:System.Globalization.CultureInfo>类若要了解有关区域性名称和标识符，不变、 中立和特定区域性之间的差异和区域性信息的方式会影响线程和应用程序域。 请参阅<xref:System.Globalization.CultureInfo.CurrentCulture%2A?displayProperty=nameWithType>属性，若要了解如何确定线程的默认区域性，以及用户如何设置为其计算机的区域性信息。  
-  
+
+> [!IMPORTANT]
+> <xref:System.Threading.Thread.CurrentCulture>属性并可靠地不适用于与当前线程以外的任何线程一起使用时。 在.NET Framework 中，读取该属性是可靠的虽然不是将其设置为当前线程以外的线程。 在.NET Core<xref:System.InvalidOperationException>如果线程尝试读取或写入，将引发<xref:System.Threading.Thread.CurrentCulture>不同线程上的属性。
+> 我们建议你使用<xref:System.Globalization.CultureInfo.CurrentCulture?displayProperty=nameWithType>属性来检索和设置的当前区域性。
+
  开头[!INCLUDE[net_v40_long](~/includes/net-v40-long-md.md)]，可以设置<xref:System.Threading.Thread.CurrentCulture%2A>属性设置为非特定区域性。 这是因为的行为<xref:System.Globalization.CultureInfo>类已更改： 如果它表示非特定区域性，其属性值 (具体而言， <xref:System.Globalization.CultureInfo.Calendar%2A>， <xref:System.Globalization.CultureInfo.CompareInfo%2A>， <xref:System.Globalization.CultureInfo.DateTimeFormat%2A>， <xref:System.Globalization.CultureInfo.NumberFormat%2A>，并<xref:System.Globalization.CultureInfo.TextInfo%2A>属性) 现在反映与非特定区域性关联的特定区域性。 在早期版本的.NET Framework<xref:System.Threading.Thread.CurrentCulture%2A>属性引发<xref:System.NotSupportedException>异常时分配一个非特定区域性。  
   
-   
-  
 ## Examples  
- 下面的代码示例显示了允许的用户界面的 Windows 窗体要显示在控制面板中设置的区域性中的线程处理语句。 需要额外的代码。  
+ 下面的示例显示允许 Windows 窗体应用程序显示在控制面板中设置的区域性中的用户界面的线程处理语句。 需要额外的代码。  
   
  [!code-cpp[System.Threading.Thread.Culture#1](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Threading.Thread.Culture/CPP/source.cpp#1)]
  [!code-csharp[System.Threading.Thread.Culture#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.Thread.Culture/CS/source.cs#1)]
@@ -1121,6 +1127,7 @@ Main thread: ThreadProc.Join has returned.  Press Enter to end program.
  ]]></format>
         </remarks>
         <exception cref="T:System.ArgumentNullException">属性设置为 <see langword="null" />。</exception>
+        <exception cref="T:System.InvalidOperationException">仅限 .NET Core：不支持从一个线程读取或写入另一个线程的区域性。</exception>
         <permission cref="T:System.Security.Permissions.SecurityPermission">用于设置该属性。 关联的枚举： <see cref="F:System.Security.Permissions.SecurityPermissionFlag.ControlThread" /></permission>
       </Docs>
     </Member>
@@ -1284,7 +1291,11 @@ Main thread: ThreadProc.Join has returned.  Press Enter to end program.
   
 ## Remarks  
  UI 区域性指定应用程序需要支持用户输入和输出，以及默认情况下与操作系统的系统区域性相同的资源。 请参阅<xref:System.Globalization.CultureInfo>类若要了解有关区域性名称和标识符，不变、 中立和特定区域性之间的差异和区域性信息的方式会影响线程和应用程序域。 请参阅<xref:System.Globalization.CultureInfo.CurrentUICulture%2A?displayProperty=nameWithType>属性，若要了解如何确定线程的默认 UI 区域性。  
-  
+
+> [!IMPORTANT]
+> <xref:System.Threading.Thread.CurrentUICulture>属性并可靠地不适用于与当前线程以外的任何线程一起使用时。 在.NET Framework 中，读取该属性是可靠的虽然不是将其设置为当前线程以外的线程。 在.NET Core<xref:System.InvalidOperationException>如果线程尝试读取或写入，将引发<xref:System.Threading.Thread.CurrentUICulture>不同线程上的属性。
+> 我们建议你使用<xref:System.Globalization.CultureInfo.CurrentUICulture?displayProperty=nameWithType>属性来检索和设置的当前区域性。
+
  <xref:System.Globalization.CultureInfo>返回此属性可以是一个非特定区域性。 非特定区域性不应使用等格式设置方法<xref:System.String.Format%28System.IFormatProvider%2CSystem.String%2CSystem.Object%5B%5D%29?displayProperty=nameWithType>， <xref:System.DateTime.ToString%28System.String%2CSystem.IFormatProvider%29?displayProperty=nameWithType>，和<xref:System.Convert.ToString%28System.Char%2CSystem.IFormatProvider%29?displayProperty=nameWithType>。 使用<xref:System.Globalization.CultureInfo.CreateSpecificCulture%2A?displayProperty=nameWithType>方法以获取特定区域性，或者使用<xref:System.Threading.Thread.CurrentCulture%2A>属性。  
   
 > [!NOTE]
@@ -1308,6 +1319,7 @@ Main thread: ThreadProc.Join has returned.  Press Enter to end program.
         </remarks>
         <exception cref="T:System.ArgumentNullException">属性设置为 <see langword="null" />。</exception>
         <exception cref="T:System.ArgumentException">该属性设置为不能用于定位资源文件的区域性名称。 资源文件名必须仅包含字母、数字、连字符或下划线。</exception>
+        <exception cref="T:System.InvalidOperationException">仅限 .NET Core：不支持从一个线程读取或写入另一个线程的区域性。</exception>
       </Docs>
     </Member>
     <Member MemberName="DisableComObjectEagerCleanup">
@@ -2738,8 +2750,8 @@ Main thread: ThreadProc.Join has returned.  Press Enter to end program.
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.Threading.ThreadStateException">线程已到达最终状态，例如 <see cref="F:System.Threading.ThreadState.Aborted" />。</exception>
-        <exception cref="T:System.ArgumentException">为设置操作指定的值不是有效的 <see cref="T:System.Threading.ThreadPriority" /> 值。</exception>
+        <exception cref="T:System.Threading.ThreadStateException">线程已到达最终状态，如 <see cref="F:System.Threading.ThreadState.Aborted" />。</exception>
+        <exception cref="T:System.ArgumentException">为集运算指定的值不是有效的 <see cref="T:System.Threading.ThreadPriority" /> 值。</exception>
         <altmember cref="T:System.Threading.ThreadPriority" />
         <related type="Article" href="~/docs/standard/threading/scheduling-threads.md">计划线程</related>
       </Docs>
@@ -2792,7 +2804,7 @@ Main thread: ThreadProc.Join has returned.  Press Enter to end program.
  ]]></format>
         </remarks>
         <exception cref="T:System.PlatformNotSupportedException">仅限 .NET Core：不支持此成员。</exception>
-        <exception cref="T:System.Threading.ThreadStateException">未对当前线程调用 <see langword="Abort" />。</exception>
+        <exception cref="T:System.Threading.ThreadStateException">未在当前线程上调用 <see langword="Abort" />。</exception>
         <exception cref="T:System.Security.SecurityException">调用方没有当前线程要求的安全权限。</exception>
         <permission cref="T:System.Security.Permissions.SecurityPermission">对于在线程上的高级操作。 关联枚举：<see cref="F:System.Security.Permissions.SecurityPermissionFlag.ControlThread" />。</permission>
         <related type="Article" href="~/docs/standard/threading/destroying-threads.md">销毁线程</related>

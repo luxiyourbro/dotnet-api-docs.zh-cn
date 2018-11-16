@@ -1,11 +1,11 @@
 <Type Name="Memory&lt;T&gt;" FullName="System.Memory&lt;T&gt;">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="00be17c21bc4fa5326d034206ecb27336d158aee" />
-    <Meta Name="ms.sourcegitcommit" Value="434f60616a9793fa8436744549fc856e94f7a648" />
+    <Meta Name="ms.openlocfilehash" Value="acdfc981d37b8a9354e73ed0e9c1c4fc8e87d12e" />
+    <Meta Name="ms.sourcegitcommit" Value="d71cc71109ed3cbcf3406a10a3cd7ac7e30f5e0c" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="zh-CN" />
-    <Meta Name="ms.lasthandoff" Value="08/25/2018" />
-    <Meta Name="ms.locfileid" Value="39776808" />
+    <Meta Name="ms.lasthandoff" Value="11/10/2018" />
+    <Meta Name="ms.locfileid" Value="51525733" />
   </Metadata>
   <TypeSignature Language="C#" Value="public struct Memory&lt;T&gt;" />
   <TypeSignature Language="ILAsm" Value=".class public sequential ansi sealed beforefieldinit Memory`1&lt;T&gt; extends System.ValueType" />
@@ -16,6 +16,9 @@
   <AssemblyInfo>
     <AssemblyName>System.Runtime</AssemblyName>
     <AssemblyVersion>4.2.1.0</AssemblyVersion>
+  </AssemblyInfo>
+  <AssemblyInfo>
+    <AssemblyName>System.Memory</AssemblyName>
   </AssemblyInfo>
   <TypeParameters>
     <TypeParameter Name="T" />
@@ -30,9 +33,23 @@
     </Attribute>
   </Attributes>
   <Docs>
-    <typeparam name="T">To be added.</typeparam>
-    <summary>To be added.</summary>
-    <remarks>To be added.</remarks>
+    <typeparam name="T">中的项的类型<see cref="T:System.Memory`1" />。</typeparam>
+    <summary>表示连续内存区域。</summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+  
+像<xref:System.Span%601>，`Memory<T>`表示连续内存区域。 与不同<xref:System.Span%601>，但`Memory<T>`不是[ref 结构](~/docs/csharp/reference-semantics-with-value-types.md?view=netcore-2.1.md#ref-struct-type)。 这意味着`Memory<T>`而可以放置在托管堆上<xref:System.Span%601>不能。 因此，`Memory<T>`结构，不能与相同的限制<xref:System.Span%601>实例。 具体而言：
+
+- 它可以用作在类中的字段。
+
+- 可跨`await`和`yield`边界。
+
+除了`Memory<T>`，可以使用<xref:System.ReadOnlyMemory%601?displayProperty=nameWithType>到不可变表示或只读内存。
+
+    ]]></format>
+    </remarks>
   </Docs>
   <Members>
     <Member MemberName=".ctor">
@@ -47,13 +64,28 @@
         <AssemblyName>System.Runtime</AssemblyName>
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Memory</AssemblyName>
+      </AssemblyInfo>
       <Parameters>
         <Parameter Name="array" Type="T[]" />
       </Parameters>
       <Docs>
-        <param name="array">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="array">用来从中创建 <see cref="T:System.Memory`1" /> 对象的数组。</param>
+        <summary>在整个指定数组上创建新的 <see cref="T:System.Memory`1" /> 对象。</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+
+如果`array`是`null`，此构造函数将返回<xref:System.Memory%601>对象`default<T>`值。
+
+      ]]></format>
+        </remarks>
+        <exception cref="T:System.ArrayTypeMismatchException">
+          <paramref name="T" /> 为引用类型，并且 <paramref name="array" /> 不是 <paramref name="T" /> 类型的数组。
+        
+或
+
+数组是<see href="~/docs/csharp/programming-guide/concepts/covariance-contravariance/index.md">协变</see>。</exception>
       </Docs>
     </Member>
     <Member MemberName=".ctor">
@@ -68,17 +100,32 @@
         <AssemblyName>System.Runtime</AssemblyName>
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Memory</AssemblyName>
+      </AssemblyInfo>
       <Parameters>
         <Parameter Name="array" Type="T[]" />
         <Parameter Name="start" Type="System.Int32" />
         <Parameter Name="length" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="array">To be added.</param>
-        <param name="start">To be added.</param>
-        <param name="length">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="array">源数组。</param>
+        <param name="start">要包括在新的 <see cref="T:System.Memory`1" /> 内的第一个元素的索引。</param>
+        <param name="length">要包括在新的 <see cref="T:System.Memory`1" /> 中的元素数。</param>
+        <summary>从指定索引开始，创建包含数组的指定元素数的新 <see cref="T:System.Memory`1" /> 对象。</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+
+如果`array`是`null`，此构造函数将返回<xref:System.Memory%601>对象`default<T>`值。
+
+       ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentOutOfRangeException">
+          <paramref name="array" /> 是 <see langword="null" />，但 <paramref name="start" /> 或 <paramref name="length" /> 不为零。<p />
+--或者--<p /><paramref name="start" /> 在数组的界限外。 <p />
+--或者--<p /><paramref name="start" /> 和 <paramref name="length" /> 超过数组中的元素数。</exception>
+        <exception cref="T:System.ArrayTypeMismatchException">
+          <paramref name="T" /> 为引用类型，并且 <paramref name="array" /> 不是 <paramref name="T" /> 类型的数组。</exception>
       </Docs>
     </Member>
     <Member MemberName="CopyTo">
@@ -93,6 +140,9 @@
         <AssemblyName>System.Runtime</AssemblyName>
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Memory</AssemblyName>
+      </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Void</ReturnType>
       </ReturnValue>
@@ -100,9 +150,17 @@
         <Parameter Name="destination" Type="System.Memory&lt;T&gt;" />
       </Parameters>
       <Docs>
-        <param name="destination">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="destination">目标。</param>
+        <summary>将 <see cref="T:System.Memory`1" /> 对象的内容复制到目标 <see cref="T:System.Memory`1" /> 对象。</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+
+此方法会复制所有的当前内容<xref:System.Memory%601>实例向`destination`即使当前实例的内容和`destination`重叠。
+
+         ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentException">
+          <paramref name="destination" /> 的长度小于当前实例的长度。</exception>
       </Docs>
     </Member>
     <Member MemberName="Empty">
@@ -117,12 +175,15 @@
         <AssemblyName>System.Runtime</AssemblyName>
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Memory</AssemblyName>
+      </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Memory&lt;T&gt;</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
+        <summary>返回空的 <see cref="T:System.Memory`1" /> 对象。</summary>
+        <value>一个空的对象。</value>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -138,6 +199,9 @@
         <AssemblyName>System.Runtime</AssemblyName>
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Memory</AssemblyName>
+      </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Boolean</ReturnType>
       </ReturnValue>
@@ -145,10 +209,22 @@
         <Parameter Name="other" Type="System.Memory&lt;T&gt;" />
       </Parameters>
       <Docs>
-        <param name="other">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="other">要与当前实例进行比较的对象。</param>
+        <summary>确定指定的 <see cref="T:System.Memory`1" /> 对象是否等于当前对象。</summary>
+        <returns>如果当前实例与 <paramref name="other" /> 相等，则为 <see langword="true" />；否则为 <see langword="false" />。</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+
+两个对象相等，如果：
+
+   - `other` 是<xref:System.Memory%601>或<xref:System.ReadOnlyMemory%601>对象。
+   
+   - 这两个对象指向同一数组，具有相同的长度。
+
+`Equals(Memory<T>)`方法执行引用相等性测试; 它不会比较的元素<xref:System.Memory%601>是否相等。
+
+         ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Equals">
@@ -163,6 +239,9 @@
         <AssemblyName>System.Runtime</AssemblyName>
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Memory</AssemblyName>
+      </AssemblyInfo>
       <Attributes>
         <Attribute FrameworkAlternate="netcore-2.1">
           <AttributeName>System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)</AttributeName>
@@ -175,10 +254,16 @@
         <Parameter Name="obj" Type="System.Object" />
       </Parameters>
       <Docs>
-        <param name="obj">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="obj">要与当前实例进行比较的对象。</param>
+        <summary>确定指定的对象是否等于当前对象。</summary>
+        <returns>如果当前实例与 <paramref name="obj" /> 相等，则为 <see langword="true" />；否则为 <see langword="false" />。</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+
+两个<xref:System.Memory%601>对象相等，如果这两个对象指向同一数组，并且具有相同的长度。 请注意为确定相等性测试不会检查内容是否相等。
+   
+         ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="GetHashCode">
@@ -193,6 +278,9 @@
         <AssemblyName>System.Runtime</AssemblyName>
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Memory</AssemblyName>
+      </AssemblyInfo>
       <Attributes>
         <Attribute FrameworkAlternate="netcore-2.1">
           <AttributeName>System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)</AttributeName>
@@ -203,8 +291,8 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <summary>返回此实例的哈希代码。</summary>
+        <returns>32 位有符号整数哈希代码。</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -220,13 +308,17 @@
         <AssemblyName>System.Runtime</AssemblyName>
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Memory</AssemblyName>
+      </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Boolean</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>指示当前实例是否为空。</summary>
+        <value>
+          <see langword="true" /> 如果当前实例为空;否则为<see langword="false" />。</value>
+        <remarks>一个<see cref="T:System.Memory`1" />对象为空，如果其长度为 0。</remarks>
       </Docs>
     </Member>
     <Member MemberName="Length">
@@ -241,12 +333,15 @@
         <AssemblyName>System.Runtime</AssemblyName>
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Memory</AssemblyName>
+      </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Int32</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
+        <summary>获取当前实例中的项数。</summary>
+        <value>当前实例中的项的数目。</value>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -262,6 +357,9 @@
         <AssemblyName>System.Runtime</AssemblyName>
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Memory</AssemblyName>
+      </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Memory&lt;T&gt;</ReturnType>
       </ReturnValue>
@@ -269,9 +367,9 @@
         <Parameter Name="segment" Type="System.ArraySegment&lt;T&gt;" />
       </Parameters>
       <Docs>
-        <param name="segment">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="segment">要转换的对象。</param>
+        <summary>定义从 <see cref="T:System.ArraySegment`1" /> 对象到 <see cref="T:System.Memory`1" /> 对象的隐式转换。</summary>
+        <returns>被转换的 <see cref="T:System.ArraySegment`1" /> 对象。</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -287,6 +385,9 @@
         <AssemblyName>System.Runtime</AssemblyName>
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Memory</AssemblyName>
+      </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.ReadOnlyMemory&lt;T&gt;</ReturnType>
       </ReturnValue>
@@ -294,9 +395,9 @@
         <Parameter Name="memory" Type="System.Memory&lt;T&gt;" />
       </Parameters>
       <Docs>
-        <param name="memory">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="memory">要转换的对象。</param>
+        <summary>定义从 <see cref="T:System.Memory`1" /> 对象到 <see cref="T:System.ReadOnlyMemory`1" /> 对象的隐式转换。</summary>
+        <returns>被转换的对象。</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -312,6 +413,9 @@
         <AssemblyName>System.Runtime</AssemblyName>
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Memory</AssemblyName>
+      </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Memory&lt;T&gt;</ReturnType>
       </ReturnValue>
@@ -319,9 +423,9 @@
         <Parameter Name="array" Type="T[]" />
       </Parameters>
       <Docs>
-        <param name="array">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="array">要转换的数组。</param>
+        <summary>定义从数组到 <see cref="T:System.Memory`1" /> 对象的隐式转换。</summary>
+        <returns>被转换的对象。</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -337,14 +441,31 @@
         <AssemblyName>System.Runtime</AssemblyName>
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Memory</AssemblyName>
+      </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Buffers.MemoryHandle</ReturnType>
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <summary>为 <see cref="T:System.Memory`1" /> 对象创建句柄。</summary>
+        <returns>
+          <see cref="T:System.Memory`1" /> 对象的句柄。</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+
+## Remarks
+
+## <a name="see-also"></a>请参阅
+
+垃圾回收器不会返回之前移动内存<xref:System.Buffers.MemoryHandle>释放对象。 这使您能够检索和使用的内存地址。
+
+<xref:System.Type.IsPrimitive> 
+
+         ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentException">具有非基元（非直接复制到本机结构中的）成员的实例不能被固定。</exception>
       </Docs>
     </Member>
     <Member MemberName="Slice">
@@ -359,6 +480,9 @@
         <AssemblyName>System.Runtime</AssemblyName>
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Memory</AssemblyName>
+      </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Memory&lt;T&gt;</ReturnType>
       </ReturnValue>
@@ -366,10 +490,12 @@
         <Parameter Name="start" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="start">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="start">开始切片处的索引。</param>
+        <summary>从指定索引处开始的当前内存外形成切片。</summary>
+        <returns>包含当前实例的所有元素（从 <paramref name="start" /> 到实例末尾）的对象。</returns>
         <remarks>To be added.</remarks>
+        <exception cref="T:System.ArgumentOutOfRangeExceptionException">
+          <paramref name="start" /> 小于零，或者大于或等于 <see cref="P:System.Memory`1.Length" />。</exception>
       </Docs>
     </Member>
     <Member MemberName="Slice">
@@ -384,6 +510,9 @@
         <AssemblyName>System.Runtime</AssemblyName>
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Memory</AssemblyName>
+      </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Memory&lt;T&gt;</ReturnType>
       </ReturnValue>
@@ -392,11 +521,17 @@
         <Parameter Name="length" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="start">To be added.</param>
-        <param name="length">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="start">开始切片处的索引。</param>
+        <param name="length">要包括在切片中的元素数。</param>
+        <summary>从指定长度的指定索引处开始，在当前内存外形成切片。</summary>
+        <returns>包含当前实例的 <paramref name="length" /> 元素（从 <paramref name="start" /> 开始）的对象。</returns>
         <remarks>To be added.</remarks>
+        <exception cref="T:System.ArgumentOutOfRangeExceptionException">
+          <paramref name="start" /> 小于零，或者大于或等于 <see cref="P:System.Memory`1.Length" />。
+
+或
+
+<paramref name="length" /> 大于 <see cref="P:System.Memory`1.Length" /> - <paramref name="start" /></exception>
       </Docs>
     </Member>
     <Member MemberName="Span">
@@ -411,12 +546,15 @@
         <AssemblyName>System.Runtime</AssemblyName>
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Memory</AssemblyName>
+      </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Span&lt;T&gt;</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
+        <summary>返回当前实例的范围。</summary>
+        <value>创建从当前范围<see cref="T:System.Memory`1" />对象。</value>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -432,14 +570,25 @@
         <AssemblyName>System.Runtime</AssemblyName>
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Memory</AssemblyName>
+      </AssemblyInfo>
       <ReturnValue>
         <ReturnType>T[]</ReturnType>
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <summary>将此内存的内容复制到新数组中。</summary>
+        <returns>包含当前内存中元素的数组。</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+
+由于对 < xref=System.Memory%601.ToArray%2A > 方法的调用中执行堆分配，它通常应当避免。 但是，它，有时需要利用的功能仅适用于数组的功能。
+
+每次调用`ToArray`方法返回一个新数组。 
+
+         ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="ToString">
@@ -454,14 +603,23 @@
         <AssemblyName>System.Runtime</AssemblyName>
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Memory</AssemblyName>
+      </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.String</ReturnType>
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <summary>返回此 <see cref="T:System.Memory`1" /> 对象的字符串表示形式。</summary>
+        <returns>此 <see cref="T:System.Memory`1" /> 对象的字符串表示形式。</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+
+有关`Memory<Char>`，则`ToString`方法将返回<xref:System.String>，其中包含指向字符<xref:System.Memory%601>。 否则，它将返回<xref:System.String>的类型和数量的元素名称的<xref:System.Memory%601>包含。
+
+         ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="TryCopyTo">
@@ -476,6 +634,9 @@
         <AssemblyName>System.Runtime</AssemblyName>
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Memory</AssemblyName>
+      </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Boolean</ReturnType>
       </ReturnValue>
@@ -484,9 +645,15 @@
       </Parameters>
       <Docs>
         <param name="destination">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <summary>将此内存的内容复制到目标 <see cref="T:System.Memory`1" /> 实例。</summary>
+        <returns>如果复制操作成功，则为 <see langword="true" />；否则为 <see langword="false" />。</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+
+此方法会复制所有的当前内容<xref:System.Memory%601>实例向`destination`即使当前实例的内容和`destination`重叠。
+
+         ]]></format>
+        </remarks>
       </Docs>
     </Member>
   </Members>

@@ -1,11 +1,11 @@
 <Type Name="ThreadState" FullName="System.Threading.ThreadState">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="5caa2caa6d22a6bccdc3cfc010bb3f89f6737e58" />
-    <Meta Name="ms.sourcegitcommit" Value="0ec122ee5f3681159b8460ab15b409fd6e3d3ae0" />
+    <Meta Name="ms.openlocfilehash" Value="b0f3e8d9dab97678b690e340db3f71242cb82e32" />
+    <Meta Name="ms.sourcegitcommit" Value="723b8a6d92667ba86fcda96190bad3b4a03283b3" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="zh-CN" />
-    <Meta Name="ms.lasthandoff" Value="10/04/2018" />
-    <Meta Name="ms.locfileid" Value="48595327" />
+    <Meta Name="ms.lasthandoff" Value="11/09/2018" />
+    <Meta Name="ms.locfileid" Value="51314872" />
   </Metadata>
   <TypeSignature Language="C#" Value="public enum ThreadState" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi serializable sealed ThreadState extends System.Enum" />
@@ -55,30 +55,38 @@
  <xref:System.Threading.ThreadState> 定义一组线程的所有可能的执行状态。 一旦创建一个线程，就至少一个状态中直到其终止。 公共语言运行时内创建的线程最初都处于`Unstarted`状态，而进入运行时的外部线程已在`Running`状态。 `Unstarted`线程转换到`Running`通过调用状态<xref:System.Threading.Thread.Start%2A>。 并非所有组合`ThreadState`值是有效的; 例如，一个线程不能在这种`Aborted`和`Unstarted`状态。  
   
 > [!IMPORTANT]
->  有两个线程状态枚举<xref:System.Threading.ThreadState?displayProperty=nameWithType>和<xref:System.Diagnostics.ThreadState?displayProperty=nameWithType>。  
+>  有两个线程状态枚举：<xref:System.Threading.ThreadState?displayProperty=nameWithType>和<xref:System.Diagnostics.ThreadState?displayProperty=nameWithType>。  
   
  下表显示了导致状态更改的操作。  
   
 |操作|ThreadState|  
 |------------|-----------------|  
-|在公共语言运行时内创建一个线程。|未开始|  
-|另一个线程调用<xref:System.Threading.Thread.Start%2A?displayProperty=nameWithType>上，在新线程和调用的方法返回。<br /><br /> <xref:System.Threading.Thread.Start%2A>方法不返回直到新的线程已开始运行。 没有办法知道在哪个点的新线程将开始运行，在调用<xref:System.Threading.Thread.Start%2A>。|正在运行|  
-|该线程在调用 <xref:System.Threading.Thread.Sleep%2A>|WaitSleepJoin|  
-|线程对另一个对象调用 <xref:System.Threading.Monitor.Wait%2A>。|WaitSleepJoin|  
-|线程对另一个线程调用 <xref:System.Threading.Thread.Join%2A>。|WaitSleepJoin|  
-|另一个线程调用 <xref:System.Threading.Thread.Interrupt%2A>|正在运行|  
-|另一个线程调用 <xref:System.Threading.Thread.Suspend%2A>|SuspendRequested|  
-|线程响应 <xref:System.Threading.Thread.Suspend%2A> 请求。|挂起|  
-|另一个线程调用 <xref:System.Threading.Thread.Resume%2A>|正在运行|  
-|另一个线程调用 <xref:System.Threading.Thread.Abort%2A>|AbortRequested|  
-|线程响应 <xref:System.Threading.Thread.Abort%2A> 请求。|已停止|  
+|在公共语言运行时内创建一个线程。|<xref:System.Threading.ThreadState.Unstarted>|  
+|另一个线程调用<xref:System.Threading.Thread.Start%2A?displayProperty=nameWithType>上，在新线程和调用的方法返回。<br /><br /> <xref:System.Threading.Thread.Start%2A>方法不返回直到新的线程已开始运行。 没有办法知道在哪个点的新线程将开始运行，在调用<xref:System.Threading.Thread.Start%2A>。|<xref:System.Threading.ThreadState.Running>|  
+|该线程在调用 <xref:System.Threading.Thread.Sleep%2A>|<xref:System.Threading.ThreadState.WaitSleepJoin>|  
+|线程对另一个对象调用 <xref:System.Threading.Monitor.Wait%2A>。|<xref:System.Threading.ThreadState.WaitSleepJoin>|  
+|线程对另一个线程调用 <xref:System.Threading.Thread.Join%2A>。|<xref:System.Threading.ThreadState.WaitSleepJoin>|  
+|另一个线程调用 <xref:System.Threading.Thread.Interrupt%2A>|<xref:System.Threading.ThreadState.Running>|  
+|另一个线程调用 <xref:System.Threading.Thread.Suspend%2A>|<xref:System.Threading.ThreadState.SuspendRequested>|  
+|线程响应 <xref:System.Threading.Thread.Suspend%2A> 请求。|<xref:System.Threading.ThreadState.Suspended>|  
+|另一个线程调用 <xref:System.Threading.Thread.Resume%2A>|<xref:System.Threading.ThreadState.Running>|  
+|另一个线程调用 <xref:System.Threading.Thread.Abort%2A>|<xref:System.Threading.ThreadState.AbortRequested>|  
+|线程响应 <xref:System.Threading.Thread.Abort%2A> 请求。|<xref:System.Threading.ThreadState.Stopped>|  
 |终止线程。|已停止|  
   
- 除了上面记下的状态，还有`Background`状态，它指示线程是否正在运行的背景或前景中。  
+ 除了上面记下的状态，还有<xref:System.Threading.ThreadState.Background>状态，它指示线程是否正在运行的背景或前景中。  
   
- 一个线程可以在多个状态在给定的时间。 例如，如果线程阻塞调用<xref:System.Threading.Monitor.Wait%2A>，和另一个线程调用<xref:System.Threading.Thread.Abort%2A>，在被阻止的线程上被阻塞的线程将在这种`WaitSleepJoin`和`AbortRequested`在同一时间的状态。 在此情况下，线程从调用返回时，就立即<xref:System.Threading.Monitor.Wait%2A>或已中断，它将接收<xref:System.Threading.ThreadAbortException>开始正在中止。  
+ 一个线程可以在多个状态在给定的时间。 例如，如果线程阻塞调用<xref:System.Threading.Monitor.Wait%2A>，和另一个线程调用<xref:System.Threading.Thread.Abort%2A>，在被阻止的线程上被阻塞的线程将在这种<xref:System.Threading.ThreadState.WaitSleepJoin>和<xref:System.Threading.ThreadState.AbortRequested>在同一时间的状态。 在此情况下，线程从调用返回时，就立即<xref:System.Threading.Monitor.Wait%2A>或已中断，它将接收<xref:System.Threading.ThreadAbortException>开始正在中止。  
   
- <xref:System.Threading.Thread.ThreadState%2A?displayProperty=nameWithType>线程的属性提供一个线程的当前状态。 应用程序必须使用一个位掩码确定线程是否正在运行。 由于的值`Running`是零 (0)，测试是否通过使用 C# 代码，如运行一个线程`(myThread.ThreadState & (ThreadState.Stopped | ThreadState.Unstarted)) == 0`或 Visual Basic 代码如`(myThread.ThreadState And (ThreadState.Stopped Or ThreadState.Unstarted)) = 0`。  
+ <xref:System.Threading.Thread.ThreadState%2A?displayProperty=nameWithType>线程的属性提供一个线程的当前状态。 应用程序必须使用一个位掩码确定线程是否正在运行。 由于值<xref:System.Threading.ThreadState.Running>是零 (0)，测试是否在一个线程运行下面的代码：
+
+```csharp
+(myThread.ThreadState & (ThreadState.Stopped | ThreadState.Unstarted)) == 0
+```
+
+```vb
+(myThread.ThreadState And (ThreadState.Stopped Or ThreadState.Unstarted)) = 0
+```
   
  ]]></format>
     </remarks>
@@ -215,7 +223,7 @@
       </ReturnValue>
       <MemberValue>0</MemberValue>
       <Docs>
-        <summary>线程已启动，它未被阻塞，并且没有挂起的 <see cref="T:System.Threading.ThreadAbortException" />。</summary>
+        <summary>线程已启动且尚未停止。</summary>
       </Docs>
     </Member>
     <Member MemberName="Stopped">

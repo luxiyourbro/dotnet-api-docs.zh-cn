@@ -1,11 +1,11 @@
 <Type Name="TimeSpan" FullName="System.TimeSpan">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="90a076d03307ceac618c45b2b9f5a52db113fadd" />
-    <Meta Name="ms.sourcegitcommit" Value="0ec122ee5f3681159b8460ab15b409fd6e3d3ae0" />
+    <Meta Name="ms.openlocfilehash" Value="84cbed7b99c808b0e1b16712f8bb2584f53675f7" />
+    <Meta Name="ms.sourcegitcommit" Value="16d2d159872fd213cae4b8f371d7ae9c8b027c89" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="zh-CN" />
-    <Meta Name="ms.lasthandoff" Value="10/04/2018" />
-    <Meta Name="ms.locfileid" Value="48649751" />
+    <Meta Name="ms.lasthandoff" Value="11/17/2018" />
+    <Meta Name="ms.locfileid" Value="51939351" />
   </Metadata>
   <TypeSignature Language="C#" Value="public struct TimeSpan : IComparable, IComparable&lt;TimeSpan&gt;, IEquatable&lt;TimeSpan&gt;, IFormattable" />
   <TypeSignature Language="ILAsm" Value=".class public sequential ansi serializable sealed beforefieldinit TimeSpan extends System.ValueType implements class System.IComparable, class System.IComparable`1&lt;valuetype System.TimeSpan&gt;, class System.IEquatable`1&lt;valuetype System.TimeSpan&gt;, class System.IFormattable" />
@@ -278,7 +278,7 @@
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.ArgumentOutOfRangeException">该参数指定一个小于 <see cref="T:System.TimeSpan" /> 或大于 <see cref="F:System.TimeSpan.MinValue" /> 的 <see cref="F:System.TimeSpan.MaxValue" /> 值。</exception>
+        <exception cref="T:System.ArgumentOutOfRangeException">参数指定一个小于 <see cref="F:System.TimeSpan.MinValue" /> 或大于 <see cref="F:System.TimeSpan.MaxValue" /> 的 <see cref="T:System.TimeSpan" /> 值。</exception>
         <altmember cref="T:System.Int64" />
       </Docs>
     </Member>
@@ -339,7 +339,7 @@
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.ArgumentOutOfRangeException">该参数指定一个小于 <see cref="T:System.TimeSpan" /> 或大于 <see cref="F:System.TimeSpan.MinValue" /> 的 <see cref="F:System.TimeSpan.MaxValue" /> 值。</exception>
+        <exception cref="T:System.ArgumentOutOfRangeException">参数指定一个小于 <see cref="F:System.TimeSpan.MinValue" /> 或大于 <see cref="F:System.TimeSpan.MaxValue" /> 的 <see cref="T:System.TimeSpan" /> 值。</exception>
         <altmember cref="T:System.Int64" />
       </Docs>
     </Member>
@@ -402,7 +402,7 @@
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.ArgumentOutOfRangeException">该参数指定一个小于 <see cref="T:System.TimeSpan" /> 或大于 <see cref="F:System.TimeSpan.MinValue" /> 的 <see cref="F:System.TimeSpan.MaxValue" /> 值。</exception>
+        <exception cref="T:System.ArgumentOutOfRangeException">参数指定一个小于 <see cref="F:System.TimeSpan.MinValue" /> 或大于 <see cref="F:System.TimeSpan.MaxValue" /> 的 <see cref="T:System.TimeSpan" /> 值。</exception>
         <altmember cref="T:System.Int64" />
       </Docs>
     </Member>
@@ -1943,7 +1943,7 @@
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.OverflowException">此实例的求反值不能用 <see cref="T:System.TimeSpan" /> 表示，即此实例的值为 <see cref="F:System.TimeSpan.MinValue" />。</exception>
+        <exception cref="T:System.OverflowException">不能通过 <see cref="T:System.TimeSpan" /> 表示此实例的相反值；即：此实例的值为 <see cref="F:System.TimeSpan.MinValue" />。</exception>
       </Docs>
     </Member>
     <Member MemberName="op_Addition">
@@ -2612,7 +2612,7 @@
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.OverflowException">此实例的求反值不能用 <see cref="T:System.TimeSpan" /> 表示，即此实例的值为 <see cref="F:System.TimeSpan.MinValue" />。</exception>
+        <exception cref="T:System.OverflowException">不能通过 <see cref="T:System.TimeSpan" /> 表示此实例的相反值；即：此实例的值为 <see cref="F:System.TimeSpan.MinValue" />。</exception>
       </Docs>
     </Member>
     <Member MemberName="op_UnaryPlus">
@@ -2748,9 +2748,14 @@
  组件`s`共同必须指定一个时间间隔，大于或等于<xref:System.TimeSpan.MinValue?displayProperty=nameWithType>且小于或等于<xref:System.TimeSpan.MaxValue?displayProperty=nameWithType>。  
   
  <xref:System.TimeSpan.Parse%28System.String%29>方法会尝试分析`s`使用上述每种特定于区域性的格式为当前区域性。  
-  
+
+## <a name="notes-to-callers"></a>调用方说明  
    
+时要分析的字符串中的时间间隔组件包含多个七位数字，.NET Framework 3.5 及更早版本中的分析操作的行为可能不同的.NET Framework 4 和更高版本中执行分析操作。 在某些情况下，分析在.NET Framework 3.5 及更早版本中成功的操作可能失败并引发<see cref="T:System.OverflowException" />在.NET Framework 4 及更高版本。 在其他情况下，分析引发的操作<see cref="T:System.FormatException" />版本中.NET Framework 3.5 及更早版本可能会失败并引发<see cref="T:System.OverflowException" />在.NET Framework 4 及更高版本。 下面的示例说明了这两种方案。  
   
+[!code-csharp[System.TimeSpan.Parse#3](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.timespan.parse/cs/parsefailure1.cs#3)]
+[!code-vb[System.TimeSpan.Parse#3](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.timespan.parse/vb/parsefailure1.vb#3)]
+ 
 ## Examples  
  下面的示例使用<xref:System.TimeSpan.Parse%2A>方法将转换为字符串数组中的每个元素<xref:System.TimeSpan>值。 它更改当前系统区域性为克罗地亚语-克罗地亚 ("hr-HR") 和英语-美国状态 ("EN-US")，以说明如何在当前系统区域性影响分析操作。  
   
@@ -2762,17 +2767,12 @@
         <exception cref="T:System.ArgumentNullException">
           <paramref name="s" /> 为 <see langword="null" />。</exception>
         <exception cref="T:System.FormatException">
-          <paramref name="s" /> 具有无效的格式。</exception>
+          <paramref name="s" /> 的格式无效。</exception>
         <exception cref="T:System.OverflowException">
           <paramref name="s" /> 表示一个小于 <see cref="F:System.TimeSpan.MinValue" /> 或大于 <see cref="F:System.TimeSpan.MaxValue" /> 的数字。  
   
 或 
 天、小时、分钟和秒成分中至少有一个超出了其有效范围。</exception>
-        <block subset="none" type="usage">
-          <para>当要分析的字符串中的时间间隔组件包含多个七位数字时，在[!INCLUDE[net_v35_short](~/includes/net-v35-short-md.md)]和早期版本的行为可能不同的分析操作中的[!INCLUDE[net_v40_short](~/includes/net-v40-short-md.md)]。 在某些情况下，分析操作中的成功[!INCLUDE[net_v35_short](~/includes/net-v35-short-md.md)]和早期版本可能会失败并引发<see cref="T:System.OverflowException" />中[!INCLUDE[net_v40_short](~/includes/net-v40-short-md.md)]。 在其他情况下，分析引发的操作<see cref="T:System.FormatException" />中[!INCLUDE[net_v35_short](~/includes/net-v35-short-md.md)]和更早版本可能会失败并引发<see cref="T:System.OverflowException" />中[!INCLUDE[net_v40_short](~/includes/net-v40-short-md.md)]。 下面的示例说明了这两种方案。  
-  
-[！ 代码 csharp[System.TimeSpan.Parse#3](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.timespan.parse/cs/parsefailure1.cs#3)] [！ 代码 vb[System.TimeSpan.Parse#3](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.timespan.parse/vb/parsefailure1.vb#3)]</para>
-        </block>
       </Docs>
     </Member>
     <Member MemberName="Parse">
@@ -2884,8 +2884,13 @@
   
  如果`formatProvider`是`null`，则<xref:System.Globalization.DateTimeFormatInfo>使用当前区域性关联的对象。  
   
+## <a name="notes-to-callers"></a>调用方说明  
    
-  
+时要分析的字符串中的时间间隔组件包含多个七位数字，.NET Framework 3.5 及更早版本中的分析操作的行为可能不同的.NET Framework 4 和更高版本中执行分析操作。 在某些情况下，分析在.NET Framework 3.5 及更早版本中成功的操作可能失败并引发<see cref="T:System.OverflowException" />在.NET Framework 4 及更高版本。 在其他情况下，分析引发的操作<see cref="T:System.FormatException" />版本中.NET Framework 3.5 及更早版本可能会失败并引发<see cref="T:System.OverflowException" />在.NET Framework 4 及更高版本。 下面的示例说明了这两种方案。  
+   
+[!code-csharp[System.TimeSpan.Parse#3](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.timespan.parse/cs/parsefailure1.cs#3)]
+[!code-vb[System.TimeSpan.Parse#3](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.timespan.parse/vb/parsefailure1.vb#3)]
+
 ## Examples  
  下面的示例定义一个数组<xref:System.Globalization.CultureInfo>对象，并对的调用中使用的每个对象<xref:System.TimeSpan.Parse%28System.String%2CSystem.IFormatProvider%29>方法来分析字符串数组中的元素。 该示例阐释了特定区域性的约定如何影响格式设置操作。  
   
@@ -2897,17 +2902,12 @@
         <exception cref="T:System.ArgumentNullException">
           <paramref name="input" /> 为 <see langword="null" />。</exception>
         <exception cref="T:System.FormatException">
-          <paramref name="input" /> 具有无效的格式。</exception>
+          <paramref name="input" /> 的格式无效。</exception>
         <exception cref="T:System.OverflowException">
           <paramref name="input" /> 表示一个小于 <see cref="F:System.TimeSpan.MinValue" /> 或大于 <see cref="F:System.TimeSpan.MaxValue" /> 的数字。  
   
 或 
-<paramref name="input" /> 中的天、小时、分钟或秒中至少有一个分量超出其有效范围。</exception>
-        <block subset="none" type="usage">
-          <para>当要分析的字符串中的时间间隔组件包含多个七位数字时，在[!INCLUDE[net_v35_short](~/includes/net-v35-short-md.md)]和早期版本的行为可能不同的分析操作中的[!INCLUDE[net_v40_short](~/includes/net-v40-short-md.md)]。 在某些情况下，分析操作中的成功[!INCLUDE[net_v35_short](~/includes/net-v35-short-md.md)]和早期版本可能会失败并引发<see cref="T:System.OverflowException" />中[!INCLUDE[net_v40_short](~/includes/net-v40-short-md.md)]。 在其他情况下，分析引发的操作<see cref="T:System.FormatException" />中[!INCLUDE[net_v35_short](~/includes/net-v35-short-md.md)]和更早版本可能会失败并引发<see cref="T:System.OverflowException" />中[!INCLUDE[net_v40_short](~/includes/net-v40-short-md.md)]。 下面的示例说明了这两种方案。  
-  
-[！ 代码 csharp[System.TimeSpan.Parse#3](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.timespan.parse/cs/parsefailure1.cs#3)] [！ 代码 vb[System.TimeSpan.Parse#3](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.timespan.parse/vb/parsefailure1.vb#3)]</para>
-        </block>
+<paramref name="input" /> 中天数、小时、分钟和秒数四个成分中至少一个超出了其有效范围。</exception>
       </Docs>
     </Member>
     <MemberGroup MemberName="ParseExact">
@@ -2998,12 +2998,12 @@
         <exception cref="T:System.ArgumentNullException">
           <paramref name="input" /> 为 <see langword="null" />。</exception>
         <exception cref="T:System.FormatException">
-          <paramref name="input" /> 具有无效的格式。</exception>
+          <paramref name="input" /> 的格式无效。</exception>
         <exception cref="T:System.OverflowException">
           <paramref name="input" /> 表示一个小于 <see cref="F:System.TimeSpan.MinValue" /> 或大于 <see cref="F:System.TimeSpan.MaxValue" /> 的数字。  
   
 或 
-<paramref name="input" /> 中的天、小时、分钟或秒中至少有一个分量超出其有效范围。</exception>
+<paramref name="input" /> 中天数、小时、分钟和秒数四个成分中至少一个超出了其有效范围。</exception>
         <related type="Article" href="~/docs/standard/base-types/standard-timespan-format-strings.md">标准 TimeSpan 格式字符串</related>
         <related type="Article" href="~/docs/standard/base-types/custom-timespan-format-strings.md">自定义的 TimeSpan 格式字符串</related>
       </Docs>
@@ -3084,12 +3084,12 @@
         <exception cref="T:System.ArgumentNullException">
           <paramref name="input" /> 为 <see langword="null" />。</exception>
         <exception cref="T:System.FormatException">
-          <paramref name="input" /> 具有无效的格式。</exception>
+          <paramref name="input" /> 的格式无效。</exception>
         <exception cref="T:System.OverflowException">
           <paramref name="input" /> 表示一个小于 <see cref="F:System.TimeSpan.MinValue" /> 或大于 <see cref="F:System.TimeSpan.MaxValue" /> 的数字。  
   
 或 
-<paramref name="input" /> 中的天、小时、分钟或秒中至少有一个分量超出其有效范围。</exception>
+<paramref name="input" /> 中天数、小时、分钟和秒数四个成分中至少一个超出了其有效范围。</exception>
         <altmember cref="M:System.TimeSpan.TryParseExact(System.String,System.String[],System.IFormatProvider,System.TimeSpan@)" />
         <related type="Article" href="~/docs/standard/base-types/standard-timespan-format-strings.md">标准 TimeSpan 格式字符串</related>
         <related type="Article" href="~/docs/standard/base-types/custom-timespan-format-strings.md">自定义的 TimeSpan 格式字符串</related>
@@ -3243,16 +3243,16 @@
  ]]></format>
         </remarks>
         <exception cref="T:System.ArgumentException">
-          <paramref name="styles" />是无效的 <see cref="T:System.Globalization.TimeSpanStyles" /> 值。</exception>
+          <paramref name="styles" /> 不是有效的 <see cref="T:System.Globalization.TimeSpanStyles" /> 值。</exception>
         <exception cref="T:System.ArgumentNullException">
           <paramref name="input" /> 为 <see langword="null" />。</exception>
         <exception cref="T:System.FormatException">
-          <paramref name="input" /> 具有无效的格式。</exception>
+          <paramref name="input" /> 的格式无效。</exception>
         <exception cref="T:System.OverflowException">
           <paramref name="input" /> 表示一个小于 <see cref="F:System.TimeSpan.MinValue" /> 或大于 <see cref="F:System.TimeSpan.MaxValue" /> 的数字。  
   
 或 
-<paramref name="input" /> 中的天、小时、分钟或秒中至少有一个分量超出其有效范围。</exception>
+<paramref name="input" /> 中天数、小时、分钟和秒数四个成分中至少一个超出了其有效范围。</exception>
         <related type="Article" href="~/docs/standard/base-types/standard-timespan-format-strings.md">标准 TimeSpan 格式字符串</related>
         <related type="Article" href="~/docs/standard/base-types/custom-timespan-format-strings.md">自定义的 TimeSpan 格式字符串</related>
       </Docs>
@@ -3335,16 +3335,16 @@
  ]]></format>
         </remarks>
         <exception cref="T:System.ArgumentException">
-          <paramref name="styles" />是无效的 <see cref="T:System.Globalization.TimeSpanStyles" /> 值。</exception>
+          <paramref name="styles" /> 不是有效的 <see cref="T:System.Globalization.TimeSpanStyles" /> 值。</exception>
         <exception cref="T:System.ArgumentNullException">
           <paramref name="input" /> 为 <see langword="null" />。</exception>
         <exception cref="T:System.FormatException">
-          <paramref name="input" /> 具有无效的格式。</exception>
+          <paramref name="input" /> 的格式无效。</exception>
         <exception cref="T:System.OverflowException">
           <paramref name="input" /> 表示一个小于 <see cref="F:System.TimeSpan.MinValue" /> 或大于 <see cref="F:System.TimeSpan.MaxValue" /> 的数字。  
   
 或 
-<paramref name="input" /> 中的天、小时、分钟或秒中至少有一个分量超出其有效范围。</exception>
+<paramref name="input" /> 中天数、小时、分钟和秒数四个成分中至少一个超出了其有效范围。</exception>
         <related type="Article" href="~/docs/standard/base-types/standard-timespan-format-strings.md">标准 TimeSpan 格式字符串</related>
         <related type="Article" href="~/docs/standard/base-types/custom-timespan-format-strings.md">自定义的 TimeSpan 格式字符串</related>
       </Docs>
@@ -3922,7 +3922,7 @@
 |"*fffffff*"|时间间隔中秒的小数部分。 如果时间间隔不包含秒的小数部分，则忽略此元素。 如果存在，则始终使用七个十进制数字表示秒的小数部分。|  
   
 > [!NOTE]
->  有关比较的字符串表示形式<xref:System.TimeSpan>和 Oracle 数据类型，请参阅知识库文章[324577： 为第二个数据类型的 system.timespan 值不会不匹配项是 Oracle 9i INTERVAL DAY](http://go.microsoft.com/fwlink/?LinkId=161146)。  
+>  有关比较的字符串表示形式<xref:System.TimeSpan>和 Oracle 数据类型，请参阅知识库文章[324577： 为第二个数据类型的 system.timespan 值不会不匹配项是 Oracle 9i INTERVAL DAY](https://go.microsoft.com/fwlink/?LinkId=161146)。  
   
    
   
@@ -4541,8 +4541,12 @@
  组件`s`共同必须指定一个时间间隔，大于或等于<xref:System.TimeSpan.MinValue?displayProperty=nameWithType>且小于或等于<xref:System.TimeSpan.MaxValue?displayProperty=nameWithType>。  
   
  <xref:System.TimeSpan.Parse%28System.String%29>方法会尝试分析`s`使用上述每种特定于区域性的格式为当前区域性。  
-  
-   
+
+## <a name="notes-to-callers"></a>调用方说明
+
+在某些情况下，如果要分析的字符串中的时间间隔组件包含多个 7 位数字，分析在.NET Framework 3.5 及更早版本中成功的操作可能失败并引发<see cref="T:System.OverflowException" />在.NET Framework 4 和更高版本。 下面的示例演示了此方案。  
+[!code-csharp[System.TimeSpan.TryParse#3](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.TimeSpan.TryParse/cs/tryparsefailure1.cs#3)]
+[!code-vb[System.TimeSpan.TryParse#3](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.TimeSpan.TryParse/vb/tryparsefailure1.vb#3)]
   
 ## Examples  
  下面的示例使用<xref:System.TimeSpan.TryParse%2A>方法来创建<xref:System.TimeSpan>对象从有效<xref:System.TimeSpan>字符串，还可以指示当失败分析操作，因为时间跨度字符串无效。  
@@ -4552,11 +4556,6 @@
   
  ]]></format>
         </remarks>
-        <block subset="none" type="usage">
-          <para>在某些情况下，如果要分析的字符串中的时间间隔组件包含超过七位数字，分析操作中的成功[!INCLUDE[net_v35_short](~/includes/net-v35-short-md.md)]和早期版本可能会失败并引发<see cref="T:System.OverflowException" />中[!INCLUDE[net_v40_short](~/includes/net-v40-short-md.md)]，下面的示例演示了此方案。  
-  
-[！ 代码 csharp[System.TimeSpan.TryParse#3](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.TimeSpan.TryParse/cs/tryparsefailure1.cs#3)] [！ 代码 vb[System.TimeSpan.TryParse#3](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.TimeSpan.TryParse/vb/tryparsefailure1.vb#3)]</para>
-        </block>
       </Docs>
     </Member>
     <Member MemberName="TryParse">
@@ -4673,7 +4672,12 @@
   
  如果`formatProvider`是`null`，则<xref:System.Globalization.DateTimeFormatInfo>使用当前区域性关联的对象。  
   
-   
+## <a name="notes-to-callers"></a>调用方说明
+ 
+在某些情况下，如果要分析的字符串中的时间间隔组件包含超过七位数字，分析操作的成功并返回<see langword="true" />版本中.NET Framework 3.5 及更早版本可能会失败并返回<see langword="false" />.net Framework 中4 和更高版本中，下面的示例演示了此方案。  
+  
+ [!code-csharp[System.TimeSpan.TryParse#3](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.TimeSpan.TryParse/cs/tryparsefailure1.cs#3)]
+ [!code-vb[System.TimeSpan.TryParse#3](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.TimeSpan.TryParse/vb/tryparsefailure1.vb#3)]
   
 ## Examples  
  下面的示例定义一个数组<xref:System.Globalization.CultureInfo>对象，并对的调用中使用的每个对象<xref:System.TimeSpan.TryParse%28System.String%2CSystem.IFormatProvider%2CSystem.TimeSpan%40%29>方法来分析字符串数组中的元素。 该示例阐释了特定区域性的约定如何影响格式设置操作。  
@@ -4683,11 +4687,6 @@
   
  ]]></format>
         </remarks>
-        <block subset="none" type="usage">
-          <para>在某些情况下，如果要分析的字符串中的时间间隔组件包含超过七位数字，分析操作的成功并返回<see langword="true" />中[!INCLUDE[net_v35_short](~/includes/net-v35-short-md.md)]和更早版本可能会失败并返回<see langword="false" />中[!INCLUDE[net_v40_short](~/includes/net-v40-short-md.md)]，下面的示例演示了此方案。  
-  
-[！ 代码 csharp[System.TimeSpan.TryParse#3](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.TimeSpan.TryParse/cs/tryparsefailure1.cs#3)] [！ 代码 vb[System.TimeSpan.TryParse#3](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.TimeSpan.TryParse/vb/tryparsefailure1.vb#3)]</para>
-        </block>
       </Docs>
     </Member>
     <MemberGroup MemberName="TryParseExact">

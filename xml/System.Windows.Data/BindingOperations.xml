@@ -1,11 +1,11 @@
 <Type Name="BindingOperations" FullName="System.Windows.Data.BindingOperations">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="51eef6572002081a616a5d4355aca43a61a9c451" />
-    <Meta Name="ms.sourcegitcommit" Value="434f60616a9793fa8436744549fc856e94f7a648" />
+    <Meta Name="ms.openlocfilehash" Value="4601fcaf8f086826132c17425f722a0180d270b0" />
+    <Meta Name="ms.sourcegitcommit" Value="9e06b87bcfa4347dbbaaa4b3cc36b43b93b5badb" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="zh-CN" />
-    <Meta Name="ms.lasthandoff" Value="08/24/2018" />
-    <Meta Name="ms.locfileid" Value="37579250" />
+    <Meta Name="ms.lasthandoff" Value="11/20/2018" />
+    <Meta Name="ms.locfileid" Value="52236434" />
   </Metadata>
   <TypeSignature Language="C#" Value="public static class BindingOperations" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract sealed beforefieldinit BindingOperations extends System.Object" />
@@ -57,7 +57,7 @@
       <Docs>
         <param name="collection">要访问的集合。</param>
         <param name="accessMethod">集合中要执行的操作。</param>
-        <param name="writeAccess">如果 <c>accessMethod</c> 将写入集合，则为 <see langword="true" />；否则，为 <see langword="false" />。</param>
+        <param name="writeAccess">如果 <paramref name="accessMethod" /> 将写入收集，则为<see langword="true" />；否则，为 <see langword="false" />。</param>
         <summary>提供对集合的访问权限，方法是使用异步机制，该机制在应用程序调用 EnableCollectionSynchronization 时指定。</summary>
         <remarks>To be added.</remarks>
       </Docs>
@@ -237,12 +237,10 @@
   
 ## Remarks  
 
-WPF 应用程序可以显示的数据使用集合<xref:System.Windows.Controls.ItemsControl>或其子类之一 (<xref:System.Windows.Controls.ListBox>， <xref:System.Windows.Controls.DataGrid>， <xref:System.Windows.Controls.TreeView>， <xref:System.Windows.Controls.ListView>，等等。)。 WPF 通道对通过子类的集合的所有其访问<xref:System.Windows.Data.CollectionView>。 同时<xref:System.Windows.Controls.ItemsControl>并<xref:System.Windows.Data.CollectionView>在其上具有线程关联<xref:System.Windows.Controls.ItemsControl>创建的这意味着，使用不同的线程上禁止的将引发异常。 实际上，此限制适用于集合。
- 
-您可能想要在多个线程上使用的集合。   例如，你想要更新集合 （添加或删除项目），"数据收集"线程上时，"用户界面"线程上显示结果，以便 UI 保持响应时数据收集发生的情况。 在这种情况下，您有责任确保对集合的同步 （"线程安全的"） 访问。   这通常是使用简单的锁定机制或更复杂的同步机制如信号灯，重置事件，等等。 
- 
-而必须同步对集合的应用程序的访问，还必须从 WPF 保证该访问权限 (特别是<xref:System.Windows.Data.CollectionView>) 参与相同的同步机制。  为此，可调用 <xref:System.Windows.Data.BindingOperations.EnableCollectionSynchronization%2A> 方法。
- 
+WPF 应用程序可以显示的数据使用集合<xref:System.Windows.Controls.ItemsControl>或其子类之一 (<xref:System.Windows.Controls.ListBox>， <xref:System.Windows.Controls.DataGrid>， <xref:System.Windows.Controls.TreeView>， <xref:System.Windows.Controls.ListView>，等等。)。 WPF 通道对通过子类的集合的所有其访问<xref:System.Windows.Data.CollectionView>。 同时<xref:System.Windows.Controls.ItemsControl>并<xref:System.Windows.Data.CollectionView>在其上具有线程关联<xref:System.Windows.Controls.ItemsControl>创建的这意味着，使用不同的线程上禁止的将引发异常。 实际上，此限制适用于集合。
+ 
+您可能想要在多个线程上使用的集合。   例如，你想要更新集合 （添加或删除项目），"数据收集"线程上时，"用户界面"线程上显示结果，以便 UI 保持响应时数据收集发生的情况。 在这种情况下，您有责任确保对集合的同步 （"线程安全的"） 访问。   这通常是使用简单的锁定机制或更复杂的同步机制如信号灯，重置事件，等等。  而必须同步对集合的应用程序的访问，还必须从 WPF 保证该访问权限 (特别是<xref:System.Windows.Data.CollectionView>) 参与相同的同步机制。  为此，可调用 <xref:System.Windows.Data.BindingOperations.EnableCollectionSynchronization%2A> 方法。
+ 
 若要使用多个线程上的集合，其中之一是 UI 线程拥有<xref:System.Windows.Controls.ItemsControl>，应用程序具有下列职责：
 
 1. 选择同步机制。
@@ -257,13 +255,13 @@ WPF 应用程序可以显示的数据使用集合<xref:System.Windows.Controls.I
 
    - 调用<xref:System.Windows.Data.BindingOperations.EnableCollectionSynchronization(System.Collections.IEnumerable,System.Object)>重载，如果使用简单的锁定机制; 调用<xref:System.Windows.Data.BindingOperations.EnableCollectionSynchronization(System.Collections.IEnumerable,System.Object,System.Windows.Data.CollectionSynchronizationCallback)>重载如果使用更复杂的机制。
 
-1. 确保对集合和通知所做的更改的更改 (通过<xref:System.Collections.Specialized.INotifyCollectionChanged>) 是原子; 不能从其他线程访问可以人工干预。  （这通常是免费。 For instance，<xref:System.Collections.ObjectModel.ObservableCollection%601>保证此操作，前提是同步受保护的所有更改。)
+1. 确保对集合和通知所做的更改的更改 (通过<xref:System.Collections.Specialized.INotifyCollectionChanged>) 是原子; 不能从其他线程访问可以人工干预。  （这通常是免费。 For instance，<xref:System.Collections.ObjectModel.ObservableCollection%601>保证此操作，前提是同步受保护的所有更改。)
 
-1. 如果调用<xref:System.Windows.Data.BindingOperations.DisableCollectionSynchronization%2A>，调用也必须在 UI 线程上发生。
+1. 如果调用 <xref:System.Windows.Data.BindingOperations.DisableCollectionSynchronization%2A>，调用也必须在 UI 线程上发生。
 
 1. 如果你想要在多个 UI 线程上使用同一个集合，则必须调用<xref:System.Windows.Data.BindingOperations.EnableCollectionSynchronization%2A>(和<xref:System.Windows.Data.BindingOperations.DisableCollectionSynchronization%2A>，如果需要) 单独在每个 UI 线程上。
 
-1. 避免死锁。  这是已应用程序的责任后它选择使用同步，但它还必须考虑到帐户 WPF 参与同步，如下一段中所述。
+1. 避免死锁。  这是已应用程序的责任后它选择使用同步，但它还必须考虑到帐户 WPF 参与同步，如下一段中所述。
 
 反过来，WPF 提供以下行为：
 
@@ -275,9 +273,9 @@ WPF 应用程序可以显示的数据使用集合<xref:System.Windows.Controls.I
 
 - 挂起的事件应用于以异步方式在 UI 线程上的卷影副本时能够执行此操作。
 
-- <xref:System.Windows.Data.CollectionView>不会直接使用任何其他同步机制对应用程序可见。 这是 WPF 的方法帮助避免发生死锁 （请参阅上一项 7）。   
+- <xref:System.Windows.Data.CollectionView>不会直接使用任何其他同步机制对应用程序可见。 这是 WPF 的方法帮助避免发生死锁 （请参阅上一项 7）。   
 
-净效果是，可以更改任何线程上的集合，这些更改最终显示在<xref:System.Windows.Controls.ItemsControl>时在 UI 线程有时间"赶上"。  实现已被优化以从饱和 UI 线程并在耗尽对普通用户输入的响应线程更改流动到 UI 线程保持背景的速率限制。
+净效果是，可以更改任何线程上的集合，这些更改最终显示在<xref:System.Windows.Controls.ItemsControl>时在 UI 线程有时间"赶上"。  实现已被优化以从饱和 UI 线程并在耗尽对普通用户输入的响应线程更改流动到 UI 线程保持背景的速率限制。
 
  ]]></format>
         </remarks>
@@ -311,10 +309,10 @@ WPF 应用程序可以显示的数据使用集合<xref:System.Windows.Controls.I
 
 ## Remarks
 
-WPF 应用程序可以显示的数据使用集合<xref:System.Windows.Controls.ItemsControl>或其子类之一 (<xref:System.Windows.Controls.ListBox>， <xref:System.Windows.Controls.DataGrid>， <xref:System.Windows.Controls.TreeView>， <xref:System.Windows.Controls.ListView>，等等。)。 WPF 通道对通过子类的集合的所有其访问<xref:System.Windows.Data.CollectionView>。 同时<xref:System.Windows.Controls.ItemsControl>并<xref:System.Windows.Data.CollectionView>在其上具有线程关联<xref:System.Windows.Controls.ItemsControl>创建的这意味着，使用不同的线程上禁止的将引发异常。 实际上，此限制适用于集合。
- 
-您可能想要在多个线程上使用的集合。   例如，你想要更新集合 （添加或删除项目），"数据收集"线程上时，"用户界面"线程上显示结果，以便 UI 保持响应时数据收集发生的情况。 在这种情况下，你有责任确保同步对集合和从 WPF 保证该访问权限访问设置 （"线程安全的"） (特别是<xref:System.Windows.Data.CollectionView>) 参与相同的同步机制。 通过调用<xref:System.Windows.Data.BindingOperations.EnableCollectionSynchronization(System.Collections.IEnumerable,System.Object)>方法，您可以执行此操作通过使用简单的锁定机制。 
- 
+WPF 应用程序可以显示的数据使用集合<xref:System.Windows.Controls.ItemsControl>或其子类之一 (<xref:System.Windows.Controls.ListBox>， <xref:System.Windows.Controls.DataGrid>， <xref:System.Windows.Controls.TreeView>， <xref:System.Windows.Controls.ListView>，等等。)。 WPF 通道对通过子类的集合的所有其访问<xref:System.Windows.Data.CollectionView>。 同时<xref:System.Windows.Controls.ItemsControl>并<xref:System.Windows.Data.CollectionView>在其上具有线程关联<xref:System.Windows.Controls.ItemsControl>创建的这意味着，使用不同的线程上禁止的将引发异常。 实际上，此限制适用于集合。
+ 
+您可能想要在多个线程上使用的集合。   例如，你想要更新集合 （添加或删除项目），"数据收集"线程上时，"用户界面"线程上显示结果，以便 UI 保持响应时数据收集发生的情况。 在这种情况下，你有责任确保同步对集合和从 WPF 保证该访问权限访问设置 （"线程安全的"） (特别是<xref:System.Windows.Data.CollectionView>) 参与相同的同步机制。 通过调用<xref:System.Windows.Data.BindingOperations.EnableCollectionSynchronization(System.Collections.IEnumerable,System.Object)>方法，您可以执行此操作通过使用简单的锁定机制。 
+ 
 若要使用多个线程上的集合，其中之一是 UI 线程拥有<xref:System.Windows.Controls.ItemsControl>，必须执行以下操作：
 
 1. 实例化要锁定时访问该集合的对象。
@@ -327,13 +325,13 @@ WPF 应用程序可以显示的数据使用集合<xref:System.Windows.Controls.I
 
    - 在调用之前使用不同的线程上的集合或附加到的集合前必须出现<xref:System.Windows.Controls.ItemsControl>，取二者中较更高版本。
 
-1. 确保对集合和通知所做的更改的更改 (通过<xref:System.Collections.Specialized.INotifyCollectionChanged>) 是原子; 不能从其他线程访问可以人工干预。  （这通常是免费。 For instance，<xref:System.Collections.ObjectModel.ObservableCollection%601>保证此操作，前提是同步受保护的所有更改。)
+1. 确保对集合和通知所做的更改的更改 (通过<xref:System.Collections.Specialized.INotifyCollectionChanged>) 是原子; 不能从其他线程访问可以人工干预。  （这通常是免费。 For instance，<xref:System.Collections.ObjectModel.ObservableCollection%601>保证此操作，前提是同步受保护的所有更改。)
 
-1. 如果调用<xref:System.Windows.Data.BindingOperations.DisableCollectionSynchronization%2A>，调用也必须在 UI 线程上发生。
+1. 如果调用 <xref:System.Windows.Data.BindingOperations.DisableCollectionSynchronization%2A>，调用也必须在 UI 线程上发生。
 
 1. 如果你想要在多个 UI 线程上使用同一个集合，则必须调用<xref:System.Windows.Data.BindingOperations.EnableCollectionSynchronization%2A>(和<xref:System.Windows.Data.BindingOperations.DisableCollectionSynchronization%2A>，如果需要) 单独在每个 UI 线程上。
 
-1. 避免死锁。  这是已应用程序的责任，一旦它选择使用同步，但它还必须考虑到帐户在同步过程中的 WPF 的参与。 （请参阅详细信息，下面。）
+1. 避免死锁。  这是已应用程序的责任，一旦它选择使用同步，但它还必须考虑到帐户在同步过程中的 WPF 的参与。 （请参阅详细信息，下面。）
 
 反过来，WPF 提供以下行为：
 
@@ -345,9 +343,9 @@ WPF 应用程序可以显示的数据使用集合<xref:System.Windows.Controls.I
 
 - 挂起的事件应用于以异步方式在 UI 线程上的卷影副本时能够执行此操作。
 
-- <xref:System.Windows.Data.CollectionView>将不能直接使用任何其他同步机制对应用程序可见。 这是 WPF 的方法帮助避免发生死锁 （请参阅上一项 7）。   
+- <xref:System.Windows.Data.CollectionView>将不能直接使用任何其他同步机制对应用程序可见。 这是 WPF 的方法帮助避免发生死锁 （请参阅上一项 7）。   
 
-净效果是，可以更改任何线程上的集合，这些更改最终显示在<xref:System.Windows.Controls.ItemsControl>时在 UI 线程有时间"赶上"。  实现已被优化以从饱和 UI 线程并在耗尽对普通用户输入的响应线程更改流动到 UI 线程保持背景的速率限制。
+净效果是，可以更改任何线程上的集合，这些更改最终显示在<xref:System.Windows.Controls.ItemsControl>时在 UI 线程有时间"赶上"。  实现已被优化以从饱和 UI 线程并在耗尽对普通用户输入的响应线程更改流动到 UI 线程保持背景的速率限制。
   
  ]]></format>
         </remarks>
@@ -383,11 +381,9 @@ WPF 应用程序可以显示的数据使用集合<xref:System.Windows.Controls.I
   
 ## Remarks  
 
-WPF 应用程序可以显示的数据使用集合<xref:System.Windows.Controls.ItemsControl>或其子类之一 (<xref:System.Windows.Controls.ListBox>， <xref:System.Windows.Controls.DataGrid>， <xref:System.Windows.Controls.TreeView>， <xref:System.Windows.Controls.ListView>，等等。)。 WPF 通道对通过子类的集合的所有其访问<xref:System.Windows.Data.CollectionView>。 同时<xref:System.Windows.Controls.ItemsControl>并<xref:System.Windows.Data.CollectionView>在其上具有线程关联<xref:System.Windows.Controls.ItemsControl>创建的这意味着，使用不同的线程上禁止的将引发异常。 实际上，此限制适用于集合。
- 
-您可能想要在多个线程上使用的集合。   例如，你想要更新集合 （添加或删除项目），"数据收集"线程上时，"用户界面"线程上显示结果，以便 UI 保持响应时数据收集发生的情况。 在这种情况下，你有责任确保同步对集合和从 WPF 保证该访问权限访问设置 （"线程安全的"） (特别是<xref:System.Windows.Data.CollectionView>) 参与相同的同步机制。 通过调用<xref:System.Windows.Data.BindingOperations.EnableCollectionSynchronization(System.Collections.IEnumerable,System.Object,System.Windows.Data.CollectionSynchronizationCallback)>方法，您可以执行此操作通过使用同步机制，例如信号量、 重置事件，等等。 
- 
-若要使用多个线程上的集合，其中之一是 UI 线程拥有<xref:System.Windows.Controls.ItemsControl>，必须执行以下操作：
+WPF 应用程序可以显示的数据使用集合<xref:System.Windows.Controls.ItemsControl>或其子类之一 (<xref:System.Windows.Controls.ListBox>， <xref:System.Windows.Controls.DataGrid>， <xref:System.Windows.Controls.TreeView>， <xref:System.Windows.Controls.ListView>，等等。)。 WPF 通道对通过子类的集合的所有其访问<xref:System.Windows.Data.CollectionView>。 同时<xref:System.Windows.Controls.ItemsControl>并<xref:System.Windows.Data.CollectionView>在其上具有线程关联<xref:System.Windows.Controls.ItemsControl>创建的这意味着，使用不同的线程上禁止的将引发异常。 实际上，此限制适用于集合。
+ 
+您可能想要在多个线程上使用的集合。   例如，你想要更新集合 （添加或删除项目），"数据收集"线程上时，"用户界面"线程上显示结果，以便 UI 保持响应时数据收集发生的情况。 在这种情况下，你有责任确保同步对集合和从 WPF 保证该访问权限访问设置 （"线程安全的"） (特别是<xref:System.Windows.Data.CollectionView>) 参与相同的同步机制。 通过调用<xref:System.Windows.Data.BindingOperations.EnableCollectionSynchronization(System.Collections.IEnumerable,System.Object,System.Windows.Data.CollectionSynchronizationCallback)>方法，您可以执行此操作通过使用同步机制，例如信号量、 重置事件，等等。  若要使用多个线程上的集合，其中之一是 UI 线程拥有<xref:System.Windows.Controls.ItemsControl>，必须执行以下操作：
 
 1. 选择同步机制。
 
@@ -399,13 +395,13 @@ WPF 应用程序可以显示的数据使用集合<xref:System.Windows.Controls.I
 
    - 在调用之前使用不同的线程上的集合或附加到的集合前必须出现<xref:System.Windows.Controls.ItemsControl>，取二者中较更高版本。
 
-1. 确保对集合和通知所做的更改的更改 (通过<xref:System.Collections.Specialized.INotifyCollectionChanged>) 是原子; 不能从其他线程访问可以人工干预。  （这通常是免费。 For instance，<xref:System.Collections.ObjectModel.ObservableCollection%601>保证此操作，前提是同步受保护的所有更改。)
+1. 确保对集合和通知所做的更改的更改 (通过<xref:System.Collections.Specialized.INotifyCollectionChanged>) 是原子; 不能从其他线程访问可以人工干预。  （这通常是免费。 For instance，<xref:System.Collections.ObjectModel.ObservableCollection%601>保证此操作，前提是同步受保护的所有更改。)
 
-1. 如果调用<xref:System.Windows.Data.BindingOperations.DisableCollectionSynchronization%2A>，调用也必须在 UI 线程上发生。
+1. 如果调用 <xref:System.Windows.Data.BindingOperations.DisableCollectionSynchronization%2A>，调用也必须在 UI 线程上发生。
 
 1. 如果你想要在多个 UI 线程上使用同一个集合，则必须调用<xref:System.Windows.Data.BindingOperations.EnableCollectionSynchronization%2A>(和<xref:System.Windows.Data.BindingOperations.DisableCollectionSynchronization%2A>，如果需要) 单独在每个 UI 线程上。
 
-1. 避免死锁。  这是已应用程序的责任，一旦它选择使用同步，但它还必须考虑到帐户在同步过程中的 WPF 的参与。 （请参阅详细信息，下面。）
+1. 避免死锁。  这是已应用程序的责任，一旦它选择使用同步，但它还必须考虑到帐户在同步过程中的 WPF 的参与。 （请参阅详细信息，下面。）
 
 反过来，WPF 提供以下行为：
 
@@ -424,9 +420,9 @@ WPF 应用程序可以显示的数据使用集合<xref:System.Windows.Controls.I
 
 - 挂起的事件应用于以异步方式在 UI 线程上的卷影副本时能够执行此操作。
 
-- <xref:System.Windows.Data.CollectionView>将不能直接使用任何其他同步机制对应用程序可见。 这是 WPF 的方法帮助避免发生死锁 （请参阅上一项 7）。   
+- <xref:System.Windows.Data.CollectionView>将不能直接使用任何其他同步机制对应用程序可见。 这是 WPF 的方法帮助避免发生死锁 （请参阅上一项 7）。   
 
-净效果是，可以更改任何线程上的集合，这些更改最终显示在<xref:System.Windows.Controls.ItemsControl>时在 UI 线程有时间"赶上"。  实现已被优化以从饱和 UI 线程并在耗尽对普通用户输入的响应线程更改流动到 UI 线程保持背景的速率限制。
+净效果是，可以更改任何线程上的集合，这些更改最终显示在<xref:System.Windows.Controls.ItemsControl>时在 UI 线程有时间"赶上"。  实现已被优化以从饱和 UI 线程并在耗尽对普通用户输入的响应线程更改流动到 UI 线程保持背景的速率限制。
 
  `context`参数是任意对象传递给`callback`。 可以使用它来确定用于控制对访问的同步机制`collection`。 `Context` 可以是`null`。  
  
@@ -456,7 +452,7 @@ WPF 应用程序可以显示的数据使用集合<xref:System.Windows.Controls.I
       </Parameters>
       <Docs>
         <param name="target">
-          <c>dp</c> 所在的对象。</param>
+          <paramref name="dp" /> 所在的对象。</param>
         <param name="dp">从中检索绑定的绑定目标属性。</param>
         <summary>检索在指定属性上设置的 <see cref="T:System.Windows.Data.Binding" /> 对象。</summary>
         <returns>给定属性上设置的 <see cref="T:System.Windows.Data.Binding" /> 对象，或 <see langword="null" />（如果尚未设置 <see cref="T:System.Windows.Data.Binding" /> 对象）。</returns>
@@ -491,8 +487,8 @@ WPF 应用程序可以显示的数据使用集合<xref:System.Windows.Controls.I
       </Parameters>
       <Docs>
         <param name="target">
-          <c>dp</c> 所在的对象。</param>
-        <param name="dp">从中检索 <see cref="T:System.Windows.Data.BindingBase" /> 对象的绑定目标属性。</param>
+          <paramref name="dp" /> 所在的对象。</param>
+        <param name="dp">要从中检索 <see cref="T:System.Windows.Data.BindingBase" /> 对象的绑定目标属性。</param>
         <summary>检索在指定属性上设置的 <see cref="T:System.Windows.Data.BindingBase" /> 对象。</summary>
         <returns>给定属性上设置的 <see cref="T:System.Windows.Data.BindingBase" /> 对象，或 <see langword="null" />（如果尚未设置绑定对象）。</returns>
         <remarks>
@@ -530,10 +526,10 @@ WPF 应用程序可以显示的数据使用集合<xref:System.Windows.Controls.I
       </Parameters>
       <Docs>
         <param name="target">
-          <c>dp</c> 所在的绑定目标对象。</param>
-        <param name="dp">从中检索 <see cref="T:System.Windows.Data.BindingExpression" /> 对象的绑定目标属性。</param>
-        <summary>返回与指定对象上的指定的绑定目标关联的 <see cref="T:System.Windows.Data.BindingExpression" /> 对象。</summary>
-        <returns>与给定属性关联的 <see cref="T:System.Windows.Data.BindingExpression" /> 对象，或为 <see langword="null" />（如果不存在此类对象）。 如果 <see cref="T:System.Windows.Data.PriorityBindingExpression" /> 对象是在该属性上设置的，则会返回 <see cref="P:System.Windows.Data.PriorityBindingExpression.ActiveBindingExpression" />。</returns>
+          <paramref name="dp" /> 所在的绑定目标对象。</param>
+        <param name="dp">要从中检索 <see cref="T:System.Windows.Data.BindingExpression" /> 对象的绑定目标属性。</param>
+        <summary>返回 <see cref="T:System.Windows.Data.BindingExpression" /> 对象，该对象与指定对象的指定绑定目标属性相关联。</summary>
+        <returns>与给定属性相关联的 <see cref="T:System.Windows.Data.BindingExpression" /> 对象；如果不存在，则为 <see langword="null" />。 如果在属性上设置了 <see cref="T:System.Windows.Data.PriorityBindingExpression" /> 对象，则返回 <see cref="P:System.Windows.Data.PriorityBindingExpression.ActiveBindingExpression" />。</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -581,8 +577,8 @@ WPF 应用程序可以显示的数据使用集合<xref:System.Windows.Controls.I
       </Parameters>
       <Docs>
         <param name="target">
-          <c>dp</c> 所在的对象。</param>
-        <param name="dp">从中检索 <see cref="T:System.Windows.Data.BindingExpressionBase" /> 对象的绑定目标属性。</param>
+          <paramref name="dp" /> 所在的对象。</param>
+        <param name="dp">要从中检索 <see cref="T:System.Windows.Data.BindingExpressionBase" /> 对象的绑定目标属性。</param>
         <summary>检索在指定属性上设置的 <see cref="T:System.Windows.Data.BindingExpressionBase" /> 对象。</summary>
         <returns>给定属性上设置的 <see cref="T:System.Windows.Data.BindingExpressionBase" /> 对象，或 <see langword="null" />（如果尚未设置绑定对象）。</returns>
         <remarks>
@@ -620,7 +616,7 @@ WPF 应用程序可以显示的数据使用集合<xref:System.Windows.Controls.I
       </Parameters>
       <Docs>
         <param name="target">
-          <c>dp</c> 所在的对象。</param>
+          <paramref name="dp" /> 所在的对象。</param>
         <param name="dp">从中检索绑定的绑定目标属性。</param>
         <summary>检索在指定属性上设置的 <see cref="T:System.Windows.Data.MultiBinding" /> 对象。</summary>
         <returns>给定属性上设置的 <see cref="T:System.Windows.Data.MultiBinding" /> 对象，或 <see langword="null" />（如果尚未设置 <see cref="T:System.Windows.Data.MultiBinding" /> 对象）。</returns>
@@ -653,15 +649,15 @@ WPF 应用程序可以显示的数据使用集合<xref:System.Windows.Controls.I
       </Parameters>
       <Docs>
         <param name="target">
-          <c>dp</c> 所在的绑定目标对象。</param>
-        <param name="dp">从中检索 <see cref="T:System.Windows.Data.MultiBindingExpression" /> 对象的绑定目标属性。</param>
-        <summary>返回与指定对象上的指定的绑定目标关联的 <see cref="T:System.Windows.Data.MultiBindingExpression" /> 对象。</summary>
-        <returns>与给定属性关联的 <see cref="T:System.Windows.Data.MultiBindingExpression" /> 对象，或为 <see langword="null" />（如果不存在此类对象）。</returns>
+          <paramref name="dp" /> 所在的绑定目标对象。</param>
+        <param name="dp">要从中检索 <see cref="T:System.Windows.Data.MultiBindingExpression" /> 对象的绑定目标属性。</param>
+        <summary>返回 <see cref="T:System.Windows.Data.MultiBindingExpression" /> 对象，该对象与指定对象的指定绑定目标属性相关联。</summary>
+        <returns>与给定属性相关联的 <see cref="T:System.Windows.Data.MultiBindingExpression" /> 对象；如果不存在，则为 <see langword="null" />。</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- 与给定属性关联的 <xref:System.Windows.Data.MultiBindingExpression> 对象，或为 `null`（如果不存在此类对象）。  
+ 与给定属性相关联的 <xref:System.Windows.Data.MultiBindingExpression> 对象；如果不存在，则为 `null`。  
   
  ]]></format>
         </remarks>
@@ -694,7 +690,7 @@ WPF 应用程序可以显示的数据使用集合<xref:System.Windows.Controls.I
       </Parameters>
       <Docs>
         <param name="target">
-          <c>dp</c> 所在的对象。</param>
+          <paramref name="dp" /> 所在的对象。</param>
         <param name="dp">从中检索绑定的绑定目标属性。</param>
         <summary>检索在指定属性上设置的 <see cref="T:System.Windows.Data.PriorityBinding" /> 对象。</summary>
         <returns>给定属性上设置的 <see cref="T:System.Windows.Data.PriorityBinding" /> 对象，或 <see langword="null" />（如果尚未设置 <see cref="T:System.Windows.Data.PriorityBinding" /> 对象）。</returns>
@@ -727,10 +723,10 @@ WPF 应用程序可以显示的数据使用集合<xref:System.Windows.Controls.I
       </Parameters>
       <Docs>
         <param name="target">
-          <c>dp</c> 所在的绑定目标对象。</param>
-        <param name="dp">从中检索 <see cref="T:System.Windows.Data.PriorityBindingExpression" /> 对象的绑定目标属性。</param>
-        <summary>返回与指定对象上的指定的绑定目标关联的 <see cref="T:System.Windows.Data.PriorityBindingExpression" /> 对象。</summary>
-        <returns>与给定属性关联的 <see cref="T:System.Windows.Data.PriorityBindingExpression" /> 对象，或为 <see langword="null" />（如果不存在此类对象）。</returns>
+          <paramref name="dp" /> 所在的绑定目标对象。</param>
+        <param name="dp">要从中检索 <see cref="T:System.Windows.Data.PriorityBindingExpression" /> 对象的绑定目标属性。</param>
+        <summary>返回 <see cref="T:System.Windows.Data.PriorityBindingExpression" /> 对象，该对象与指定对象的指定绑定目标属性相关联。</summary>
+        <returns>与给定属性相关联的 <see cref="T:System.Windows.Data.PriorityBindingExpression" /> 对象；如果不存在，则为 <see langword="null" />。</returns>
         <remarks>To be added.</remarks>
         <exception cref="T:System.ArgumentNullException">
           <paramref name="target" /> 和 <paramref name="dp" /> 参数不能为 <see langword="null" />。</exception>
@@ -827,7 +823,7 @@ WPF 应用程序可以显示的数据使用集合<xref:System.Windows.Controls.I
       </Parameters>
       <Docs>
         <param name="target">
-          <c>dp</c> 所在的对象。</param>
+          <paramref name="dp" /> 所在的对象。</param>
         <param name="dp">要检查的依赖项属性。</param>
         <summary>返回一个值，该值指示指定的属性当前是否是数据绑定的。</summary>
         <returns>如果指定的属性为数据绑定的，则为 <see langword="true" />；否则为 <see langword="false" />。</returns>
@@ -861,7 +857,7 @@ WPF 应用程序可以显示的数据使用集合<xref:System.Windows.Controls.I
         <param name="dp">绑定的目标属性。</param>
         <param name="binding">描述绑定的 <see cref="T:System.Windows.Data.BindingBase" /> 对象。</param>
         <summary>创建 <see cref="T:System.Windows.Data.BindingExpressionBase" /> 的新实例，并将其与指定的绑定目标属性关联。</summary>
-        <returns>为指定的属性创建并与之相关联的 <see cref="T:System.Windows.Data.BindingExpressionBase" /> 的实例。 <see cref="T:System.Windows.Data.BindingExpressionBase" /> 类是 <see cref="T:System.Windows.Data.BindingExpression" />、<see cref="T:System.Windows.Data.MultiBindingExpression" /> 和 <see cref="T:System.Windows.Data.PriorityBindingExpression" /> 的基类。</returns>
+        <returns>为指定的属性创建且与之相关联的 <see cref="T:System.Windows.Data.BindingExpressionBase" /> 的实例。 <see cref="T:System.Windows.Data.BindingExpressionBase" /> 类是 <see cref="T:System.Windows.Data.BindingExpression" />、<see cref="T:System.Windows.Data.MultiBindingExpression" /> 和 <see cref="T:System.Windows.Data.PriorityBindingExpression" /> 的基类。</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
